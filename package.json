@@ -1,0 +1,43 @@
+{
+	"name": "@vergil/monorepo",
+	"version": "0.1.0",
+	"license": "UNLICENSED",
+	"private": true,
+	"author": {
+		"name": "8ctavio Araiza",
+		"url": "https://github.com/8ctavio"
+	},
+	"homepage": "https://github.com/8ctavio/vergil",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/8ctavio/vergil"
+	},
+	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite",
+		"build": "run-p type-check build-only",
+		"preview": "vite preview",
+		"test:unit": "vitest",
+		"build-only": "vite build",
+		"type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+		"docs:dev": "vitepress dev apps/docs",
+		"docs:build": "vitepress build apps/docs",
+		"docs:preview": "vitepress preview apps/docs"
+	},
+	"devDependencies": {
+		"@types/jsdom": "^21.1.1",
+		"@types/node": "^18.15.10",
+		"@vitejs/plugin-vue": "^4.1.0",
+		"@vue/test-utils": "^2.3.2",
+		"@vue/tsconfig": "^0.1.3",
+		"jsdom": "^21.1.1",
+		"npm-run-all": "^4.1.5",
+		"pinia": "^2.0.33",
+		"vite": "^4.2.1",
+		"vitepress": "1.0.0-alpha.63",
+		"vitest": "^0.29.8",
+		"vue": "^3.2.47",
+		"vue-tsc": "^1.2.0"
+	}
+}

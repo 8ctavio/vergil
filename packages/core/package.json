@@ -1,0 +1,28 @@
+{
+    "name": "vergil",
+    "version": "0.1.0",
+    "license": "UNLICENSED",
+    "private": true,
+    "author": {
+        "name": "8ctavio Araiza",
+        "url": "https://github.com/8ctavio"
+    },
+    "homepage": "https://github.com/8ctavio/vergil",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/8ctavio/vergil",
+        "directory": "packages/core"
+    },
+    "bugs": "https://github.com/8ctavio/vergil/issues",
+    "main": "index.js",
+    "dependencies": {
+        
+    },
+    "peerDependencies": {
+        "pinia": "^2.0.32",
+        "vue": "^3.2.47"
+    },
+    "devDependencies": {
+        
+    }
+}
