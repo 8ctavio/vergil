@@ -1,0 +1,344 @@
+/*--------------------------------------------------
+--------------------- Variables ---------------------
+--------------------------------------------------*/
+:root{
+    /*---------- Theme colors ----------*/
+    --brand-c-lightest: #AFC5A2;
+    --brand-c-lighter: #8CAC7B;
+    --brand-c-light: #759B61;
+    --brand-c: #628251;
+    --brand-c-dark: #557344;
+    --brand-c-darker: #2C3925;
+    --brand-c-darker: #000;
+
+    --brand-gradient-c-1: var(--brand-c);
+    --brand-gradient-c-1: #70e000;
+
+    /*---------- Font style ----------*/
+    --mainFont: default;
+    --font1: default;
+    --font2: default;
+    --font3: default;
+    --font4: default;
+    --darkText: #252525;
+    --lightText: #F8FDFF;
+
+    /*---------- RGBY ----------*/
+    --red: #C13232;
+	--green: #26AA31;
+	--blue: #1970B3;
+	--yellow: #E39B00;
+
+    --darkRed: #861010;
+
+    --redBg: #F3D2D2;
+    --greenTxt: #16611C;
+    --greenBg: #B9EFBD;
+    --blueTxt: #004084;
+    --blueBg: #D3E9FF;
+    --yellowTxt: #8A6301;
+    --yellowBg: #FFE5A5;
+
+    /*---------- Grays ----------*/
+    --gray0: #F8F9FA;
+    --gray1: #EFF1F3;
+    --gray2: #DEE2E6;
+    --gray3: #CED4DA;
+    --gray4: #ADB5BD;
+    --gray5: #6C757D;
+    --gray6: #495057;
+    --gray7: #343A40;
+    --gray8: #212529;
+
+    /*---------- Border radius ----------*/
+    --borderRadius1: 2px;
+    --borderRadius2: 5px;
+    --borderRadius3: 8px;
+    --borderRadius4: 12px;
+    --borderRadius5: 3px;
+
+    /*---------- Box shadows ----------*/
+    --shadow1: #343A4045;
+    --shadow2: #343A4020;
+    --shadow3: #343A4038;
+    --boxShadow1: 5px 5px 4px var(--shadow1);
+    --boxShadow2: 1px 2px 5px 4px var(--shadow1);
+    --boxShadow3: 4px 4px 4px var(--shadow1);
+    --boxShadow4: 0px 4px 10px 4px var(--shadow1);
+    --boxShadow5: 0 0 4px 4px var(--shadow1);
+    --boxShadow6: 0 0 2px 2px var(--shadow1);
+    --boxShadow7: 0 0 4px 3px var(--shadow2);
+
+    --blockBackColor: #00000030;
+
+    --bw: 0px;             /*border width*/
+    --bbw: 2px;            /*border bottom width*/
+
+    --tableIconWidth: 40px;
+}
+
+html{ font-size: 10px; }
+body{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+body.blockOverflow{ overflow-y: hidden; }
+
+p{
+    margin: 0;
+}
+button{
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+.btnBox{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    justify-content: end;
+    grid-gap: 20px;
+}
+
+/*****************************************************************************************************
+******************************************************************************************************
+**                                                                                                  **
+**_________________________________ RADIO AND CHECKBOX INPUTS ______________________________________**
+**                                                                                                  **
+******************************************************************************************************
+*****************************************************************************************************/
+.rad, .chBox{ display: none; }
+
+.rad + label, .chBox + label{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    border-radius: var(--borderRadius1);
+    color: var(--darkText);
+    transition: box-shadow 300ms, color 300ms;
+    cursor: pointer;
+}
+.rad + label:focus, .chBox + label:focus{ outline: none; }
+
+.rad + label i, .chBox + label i{
+    box-sizing: border-box;
+    border: 2px solid var(--brand-c);
+    border-radius: var(--borderRadius1);
+    transition: box-shadow 300ms, margin 400ms;
+}
+
+.rad:checked + label, .chBox:checked + label{ color: var(--lightText); }
+.rad:checked + label i, .chBox:checked + label i{
+    width: 0 !important;
+    margin: 0 !important;
+    border-width: 0;
+    margin: 0;
+}
+
+.rad:disabled + label, .chBox:disabled + label{
+	background-color: var(--gray2);
+	color: var(--gray5);
+    cursor: default;
+    box-shadow: none !important;
+}
+.rad:disabled + label i, .chBox:disabled + label i{
+	border-color: var(--gray5);
+}
+.rad:disabled + label:hover i, .chBox:disabled + label:hover i{
+	box-shadow: none !important;
+}
+
+/*****************************************************************************************************
+******************************************************************************************************
+**                                                                                                  **
+**_________________________________________ SCROLL TABLE ___________________________________________**
+**                                                                                                  **
+******************************************************************************************************
+*****************************************************************************************************/
+
+/*_____________________________________________________________________________________________________
+______________________________________ IN TABLE BUTTON [.btnTab] ______________________________________
+_____________________________________________________________________________________________________*/
+.btnTab{
+    background-color: var(--gray2);
+    border: none;
+    border-radius: var(--borderRadius1);
+    transition: box-shadow 300ms;
+    cursor: pointer;
+}
+.btnTab:focus{outline: none;}
+.btnTab span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--gray1);
+    transition: color 300ms;
+}
+.btnTab:hover span{ color: var(--lightText); }
+
+/*_________________________________________________________________________________________________________
+______________________________________ IN TABLE TEXT FIELD [.txtTab] ______________________________________
+_________________________________________________________________________________________________________*/
+.txtTab{
+    background-color: var(--gray2);
+    border: none;
+    border-bottom: 2px solid var(--brand-c);
+    border-radius: var(--borderRadius1);
+}
+
+input.txtTab{
+    height: 30px;
+    padding: 0 10px;
+    font-weight: 500;
+    font-family: var(--mainFont);
+    color: var(--darkText);
+}
+input.txtTab:focus{outline: 1px dotted var(--darkText);}
+
+div.txtTab{
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+}
+div.txtTab i{
+    position: absolute;
+    top:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-style: normal;
+    font-weight: 500;
+    font-family: var(--mainFont);
+    color: var(--darkText);
+}
+
+div.txtTab > input{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    font-weight: 500;
+    font-family: var(--mainFont);
+}
+div.txtTab input:focus{outline: none;}
+
+/*_________________________________________________________________________________________________________________
+______________________________________ IN TABLE INTEGER FIELD [.intTabField] ______________________________________
+_________________________________________________________________________________________________________________*/
+.intTabField{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intTabField .btnTab{
+    background-color: var(--brand-c-light);
+    transition: background-color 250ms, box-shadow 250ms;
+}
+
+.intTabField .btnTab:disabled{ background-color: var(--gray4); }
+.intTabField .btnTab:disabled:hover{ box-shadow: none !important; }
+.intTabField .btnTab:disabled i{ color: var(--gray5); }
+
+.intTabField input.txtTab{
+    width: 40px;
+    height: 30px;
+    margin: 0 10px;
+    padding: 0 5px;
+    text-align: center;
+}
+
+/*****************************************************************************************************
+******************************************************************************************************
+**                                                                                                  **
+**___________________________________________ TOOL TIP _____________________________________________**
+**                                                                                                  **
+******************************************************************************************************
+*****************************************************************************************************/
+
+.tooltip{ position: relative; }
+.tooltip > span{
+    display: none;
+    align-items: center;
+    position: absolute;
+    width: max-content;
+    padding: 4px 15px;
+    border-radius: var(--borderRadius1);
+    background-color: var(--brand-c) !important;
+    color: var(--lightText);
+    font-size: 1.3rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+
+    right: -10px;
+    bottom: -42px;          /* - (Altura de span) - (10px de separación) */
+    height: 20px;
+}
+.tooltip > span::after{
+    content: "";
+    display: block;
+    position: absolute;
+    
+    /* Show triangle at the bottom */
+    /*bottom: -7px;
+    border-top: 7px solid var(--brand-c);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;*/
+
+    /* Show triangle at the top */
+    top: -7px;
+    border-bottom: 7px solid var(--brand-c);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    right: calc(20px + 3.5px);
+}
+.tooltip:hover > span{ display: flex }
+
+/*****************************************************************************************************
+******************************************************************************************************
+**                                                                                                  **
+**_____________________________________ PARAGRAPH CUTSOM STYLES ____________________________________**
+**                                                                                                  **
+******************************************************************************************************
+*****************************************************************************************************/
+p:where(.ok, .error, .warn, .info){
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border-radius: var(--borderRadius2);
+    font-weight: 500;
+    font-family: var(--mainFont);
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+p:where(.ok, .error, .warn, .info).md{
+    font-size: 1.4rem;
+}
+p:where(.ok, .error, .warn, .info) > b.inlineBlock{
+    display: inline-block;
+}
+p.ok{
+    background-color: var(--greenBg);
+    color: var(--greenTxt);
+}
+p.error{
+    background-color: var(--redBg);
+    color: var(--red);
+}
+p.warn{
+    background-color: var(--yellowBg);
+    color: var(--yellowTxt);
+}
+p.info{
+    background-color: var(--blueBg);
+    color: var(--blueTxt);
+}
+p.theme{
+    background-color: var(--brand-c-lighter);
+    color: var(--brand-c-dark);
+}
+p.pill{ padding: 5px 15px !important; }
