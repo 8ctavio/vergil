@@ -1,6 +1,6 @@
 <script setup>
 import Theme from 'vitepress/theme'
-import { AlertFeed } from 'vergil'
+import { AlertFeed, Toaster } from 'vergil'
 
 const { Layout } = Theme
 </script>
@@ -8,6 +8,7 @@ const { Layout } = Theme
 <template>
     <Layout/>
     <AlertFeed :style="{'z-index': 100}"/>
+    <Toaster :style="{'z-index': 100}"/>
 </template>
 
 <style>

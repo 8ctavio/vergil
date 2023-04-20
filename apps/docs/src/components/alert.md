@@ -133,7 +133,7 @@ If invoked while one or more alerts are being shown, those alerts are scrolled d
                 <span class="material-icons-round">cancel</span>
             </button>
         </div>
-        <div class="row">
+        <div class="row" :style="{'padding-top': '30px'}">
             <button class="vp-btn" @click="previewAlertType = 'ok'">Ok</button>
             <button class="vp-btn" @click="previewAlertType = 'error'">Error</button>
             <button class="vp-btn" @click="previewAlertType = 'warn'">Warn</button>

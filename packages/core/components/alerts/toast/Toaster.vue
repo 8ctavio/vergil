@@ -27,7 +27,7 @@
 	cursor: default;
     transition: bottom 500ms, opacity 400ms;
     animation-duration: 700ms;
-    animation-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    animation-timing-function: cubic-bezier(0.50, -0.30, 0.50, 1.30);
 
 	font-size: 1rem;
 }

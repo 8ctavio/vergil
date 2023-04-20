@@ -3,7 +3,6 @@ import Theme from 'vitepress/theme'
 import Demo from './components/Demo.vue'
 import AppLayout from './components/AppLayout.vue'
 import './styles/overrides.css'
-import 'vergil/assets/main.css'
 import './styles/custom.css'
 
 export default {

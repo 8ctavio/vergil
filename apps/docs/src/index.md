@@ -13,7 +13,7 @@ hero:
       link: components/alert
     - theme: alt
       text: Firebase
-      link: /alert
+      link: components/alert
 
 features:
   - title: Global stores

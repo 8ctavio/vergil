@@ -16,7 +16,7 @@
 .demo :is(.row, .col){
     display: grid;
     width: 100%;
-    gap: 30px;
+    gap: 15px;
     padding: 30px;
 }
 .demo :is(.row, .col) > :is(.row, .col){

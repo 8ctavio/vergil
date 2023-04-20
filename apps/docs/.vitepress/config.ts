@@ -34,9 +34,9 @@ export default defineConfig({
 			{
 				text: 'UI Components',
 				items: [
-					{ text: 'Alert', link: 'components/alert' },
-					{ text: 'Toast', link: '/toast' },
-					{ text: 'Confirm', link: '/confirm' },
+					{ text: 'Alert', link: '/components/alert' },
+					{ text: 'Toast', link: '/components/toast' },
+					{ text: 'Confirm', link: '/components/confirm' },
 				]
 			}
 		],
