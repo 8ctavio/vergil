@@ -29,7 +29,7 @@ export function alert(type, message, duration = 6){
     newAlert.append(icon, msg, closeBtn)
     alertFeed.appendChild(newAlert)
 
-    newAlert.style['top'] = '20px'
+    newAlert.style['top'] = `${gap}px`
     for(let i=0; i<alerts.length-1; i++){
         let currentTop = Number(alerts[i].style['top'].split('px')[0])
         alerts[i].style['top'] = `${currentTop + gap + newAlert.offsetHeight}px`
@@ -49,7 +49,7 @@ export function alert(type, message, duration = 6){
         else{
             let currentTop = Number(newAlert.style['top'].split('px')[0])
             newAlert.style['opacity'] = `0`
-            if(newAlert == alertFeed.firstChild) newAlert.style['top'] = `${currentTop + 20}px`
+            if(newAlert == alertFeed.firstChild) newAlert.style['top'] = `${currentTop + gap}px`
         }
         // If the alert leaving is not the one at the bottom of the stack, adjust top property for the alerts below.
         if(newAlert != alertFeed.firstChild){

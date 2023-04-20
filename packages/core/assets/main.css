@@ -15,11 +15,11 @@
     --brand-gradient-c-1: #70e000;
 
     /*---------- Font style ----------*/
-    --mainFont: default;
-    --font1: default;
-    --font2: default;
-    --font3: default;
-    --font4: default;
+    --mainFont: "initial";
+    --font1: "initial";
+    --font2: "initial";
+    --font3: "initial";
+    --font4: "initial";
     --darkText: #252525;
     --lightText: #F8FDFF;
 

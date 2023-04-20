@@ -1,16 +1,15 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
 import Theme from 'vitepress/theme'
-import './style.css'
+import Demo from './components/Demo.vue'
+import AppLayout from './components/AppLayout.vue'
+import './styles/overrides.css'
+import 'vergil/assets/main.css'
+import './styles/custom.css'
 
 export default {
-  ...Theme,
-  Layout: () => {
-    return h(Theme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
-  },
-  enhanceApp({ app, router, siteData }) {
-    // ...
-  }
+	...Theme,
+	Layout: AppLayout,
+	enhanceApp({ app, router, siteData }) {
+		app.component('Demo', Demo)
+	}
 }

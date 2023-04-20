@@ -6,11 +6,11 @@ hero:
   name: "Vergil"
   text: "Blazing Fast Web Development"
   tagline: "A Vue Web Application Development Framework"
-  image: /assets/vergil_noBK.png
+  image: /assets/vergil_noBg.png
   actions:
     - theme: brand
       text: UI Components
-      link: /alert
+      link: components/alert
     - theme: alt
       text: Firebase
       link: /alert
@@ -25,9 +25,3 @@ features:
   - title: Firebase
     details: Interact seamlessly with firebase firestore, authentication and cloud functions.
 ---
-
-<script setup>
-    import { vergilLog } from 'vergil'
-
-    vergilLog()
-</script>

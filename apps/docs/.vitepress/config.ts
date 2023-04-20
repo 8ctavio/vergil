@@ -18,7 +18,8 @@ export default defineConfig({
 		}]
 	],
 	markdown: {
-		theme: 'poimandres' //'vitesse-dark'
+		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+		theme: 'dark-plus'
 	},
 	themeConfig: {
 		// https://vitepress.vuejs.org/reference/default-theme-config
@@ -26,14 +27,14 @@ export default defineConfig({
 		logo: "/assets/vergil_glasses.png",
 
 		nav: [
-			{ text: 'Docs', link: '/alert' }
+			{ text: 'Docs', link: '/components/alert' }
 		],
 
 		sidebar: [
 			{
 				text: 'UI Components',
 				items: [
-					{ text: 'Alert', link: '/alert' },
+					{ text: 'Alert', link: 'components/alert' },
 					{ text: 'Toast', link: '/toast' },
 					{ text: 'Confirm', link: '/confirm' },
 				]
