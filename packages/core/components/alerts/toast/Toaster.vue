@@ -20,7 +20,7 @@
 	min-width: 200px;
 	max-width: 600px;
 	min-height: 40px;
-	padding: 0 10px;
+	padding: 0 20px 0 10px;
 	background-color: var(--gray1);
 	border-radius: var(--borderRadius3);
 	box-shadow: var(--boxShadow3);

@@ -30,6 +30,37 @@ const toastIcons = {
     </div>
 </Demo>
 
+### Preview
+
+<br>
+
+<Demo>
+    <div class="col">
+        <div :class="['toast', previewToastType]">
+            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <p>Lorem ipsum</p>
+        </div>
+        <div :class="['toast', previewToastType]">
+            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
+        </div>
+        <div :class="['toast', previewToastType]">
+            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
+        </div>
+        <div :class="['toast', previewToastType]">
+            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
+        </div>
+        <div class="row" :style="{'padding-top': '30px'}">
+            <button class="vp-btn" @click="previewToastType = 'ok'">Ok</button>
+            <button class="vp-btn" @click="previewToastType = 'error'">Error</button>
+            <button class="vp-btn" @click="previewToastType = 'warn'">Warn</button>
+            <button class="vp-btn" @click="previewToastType = 'info'">Info</button>
+        </div>
+    </div>
+</Demo>
+
 ## Description
 
 When an toast shows up, it is added to the **toaster** (a.k.a. the toast feed), by the means of which multiple toasts can be toasted simultaneously.
@@ -49,7 +80,7 @@ Toasts are meant to communicate **non**-critical messages to the user.
 
 ## Usage
 
-First, it is required to add the `Toaster` component somewhere in the app's template. Its recommended to place it as a direct child of the application's container.
+First, it is required to add the `Toaster` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
 
 ```vue
 <script setup>
@@ -63,7 +94,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 ```
 
 :::tip
-Toaster backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
+`Toaster`'s backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
 
 ```vue
 <Toaster :style="{'z-index': zIndex}"/>
@@ -100,35 +131,6 @@ If invoked while one or more toasts are being shown, those toasts are scrolled u
     - `"info"`: Blue theme.
 - `message`: A string containing the message to display in the toast.
 - `duration`: The number of seconds toast's time-out lasts.
-
-## Preview
-
-<Demo>
-    <div class="col">
-        <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
-        </div>
-        <div class="row" :style="{'padding-top': '30px'}">
-            <button class="vp-btn" @click="previewToastType = 'ok'">Ok</button>
-            <button class="vp-btn" @click="previewToastType = 'error'">Error</button>
-            <button class="vp-btn" @click="previewToastType = 'warn'">Warn</button>
-            <button class="vp-btn" @click="previewToastType = 'info'">Info</button>
-        </div>
-    </div>
-</Demo>
 
 <style>
 .demo .col{

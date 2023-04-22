@@ -1,9 +1,14 @@
 @import 'vergil/assets/main.css';
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
 :root{
     --mainFont: Montserrat;
+    --font1: Montserrat Alternates;
+    --font2: 'Roboto';
 }
 
 .vp-btn{

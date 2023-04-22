@@ -30,78 +30,9 @@ const alertIcons = {
     </div>
 </Demo>
 
-## Description
+### Preview
 
-When an alert shows up, it is added to the **alert feed**, by the means of which multiple alerts can be shown simultaneously.
-
-After a developer-defined time-out, an alert is removed from the feed automatically, which hides it. However, each alert also contains an `x` button that allows the user to immediately remove the alert from the feed.
-
-There are four alert types which properly theme the alert for different types of messages:
-
-- `ok`: for successful execution of tasks,
-- `error`: for errors,
-- `warn`: for warnings, and
-- `info`: for general purpose information.
-
-:::tip
-Alerts are meant to communicate messages that are important/critical for the user to see.
-:::
-
-## Usage
-
-First, it is required to add the `AlertFeed` component somewhere in the app's template. Its recommended to place it as a direct child of the application's container.
-
-```vue
-<script setup>
-    import { AlertFeed } from 'vergil'
-</script>
-
-<template>
-    <AppLayout/>
-    <AlertFeed/>
-</template>
-```
-
-:::tip
-Alerts backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
-
-```vue
-<AlertFeed :style="{'z-index': zIndex}"/>
-```
-:::
-
-```js
-import { alert } from 'vergil'
-
-alert('ok', 'Keep it clean!')
-```
-
-### Function
-
-```js
-function alert(type: string, message: string, duration: number = 6): void
-```
-
-#### Description
-
-Renders an alert at the top of the viewport, which
-- is themed according to `type`, 
-- displays `message` to the user, and
-- after a time-out of `duration` seconds elapses, it is hidden automatically.
-
-If invoked while one or more alerts are being shown, those alerts are scrolled down to free up space for the new alert to show up.
-
-#### Parameters
-
-- `type`: A string containing the alert type. Each type themes the alert differently. Possible values are:
-    - `"ok"`: Green theme.
-    - `"error"`: Red theme.
-    - `"warn"`: Yellow theme.
-    - `"info"`: Blue theme.
-- `message`: A string containing the message to display in the alert.
-- `duration`: The number of seconds alert's time-out lasts.
-
-## Preview
+<br>
 
 <Demo>
     <div class="col">
@@ -141,6 +72,77 @@ If invoked while one or more alerts are being shown, those alerts are scrolled d
         </div>
     </div>
 </Demo>
+
+## Description
+
+When an alert shows up, it is added to the **alert feed**, by the means of which multiple alerts can be shown simultaneously.
+
+After a developer-defined time-out, an alert is removed from the feed automatically, which hides it. However, each alert also contains an `x` button that allows the user to immediately remove the alert from the feed.
+
+There are four alert types which properly theme the alert for different types of messages:
+
+- `ok`: for successful execution of tasks,
+- `error`: for errors,
+- `warn`: for warnings, and
+- `info`: for general purpose information.
+
+:::tip
+Alerts are meant to communicate messages that are important/critical for the user to see.
+:::
+
+## Usage
+
+First, it is required to add the `AlertFeed` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+
+```vue
+<script setup>
+    import { AlertFeed } from 'vergil'
+</script>
+
+<template>
+    <AppLayout/>
+    <AlertFeed/>
+</template>
+```
+
+:::tip
+`Alert`'s backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
+
+```vue
+<AlertFeed :style="{'z-index': zIndex}"/>
+```
+:::
+
+```js
+import { alert } from 'vergil'
+
+alert('ok', 'Keep it clean!')
+```
+
+### Function
+
+```js
+function alert(type: string, message: string, duration: number = 6): void
+```
+
+#### Description
+
+Renders an alert at the top of the viewport, which
+- is themed according to `type`, 
+- displays `message` to the user, and
+- after a time-out of `duration` seconds elapses, it is hidden automatically.
+
+If invoked while one or more alerts are being shown, those alerts are scrolled down to free up space for the new alert to show up.
+
+#### Parameters
+
+- `type`: A string containing the alert type. Each type themes the alert differently. Possible values are:
+    - `"ok"`: Green theme.
+    - `"error"`: Red theme.
+    - `"warn"`: Yellow theme.
+    - `"info"`: Blue theme.
+- `message`: A string containing the message to display in the alert.
+- `duration`: The number of seconds alert's time-out lasts.
 
 <style>
 .demo .alert{

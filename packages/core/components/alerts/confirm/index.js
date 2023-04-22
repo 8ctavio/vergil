@@ -1,58 +1,47 @@
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
-export const confirmContent = ref({})
+const body = ref(null)
+const backdrop = ref(null)
+
+const confirmContent = ref({})
+
+const waitingConfirmation = ref(false)
+const resolveConfirm = ref(() => {})
+
 const icons = {
-    ok: 'check_circle',
-    error: 'cancel',
-    warn: 'warning',
-    info: 'info'
+    danger: 'cancel',
+    caution: 'warning',
+    ack: 'info',
+    check: 'check_circle'
 }
-export function confirm(style, {header, body, priBtnTxt = 'Aceptar', secBtnTxt = 'Cancelar'}, accept, decline){
-    const background = document.querySelector('#confirm')
-    if(background.hasAttribute('style')) clearTimeout(timeout)
-    const confirm = document.querySelector('#confirm > div')
-    const acceptBtn = document.getElementById('acceptBtn')
-    const declineBtn = document.getElementById('declineBtn')
 
+export async function confirm(type, {header, content, confirmLabel = 'Aceptar', declineLabel = 'Cancelar'}){
+    if(!waitingConfirmation.value){
+        confirmContent.value = {
+            type,
+            icon: icons[type],
+            header,
+            content,
+            confirmLabel,
+            declineLabel
+        }
+        await nextTick()
+    }
     
-    confirmContent.value = {
-        style,
-        icon: icons[style],
-        header,
-        body,
-        priBtnTxt,
-        secBtnTxt
-    }
+    // body.value?.classList.add('prevent-overflow')
+    backdrop.value?.classList.add('open')
 
-    background.style['display'] = 'flex'
-    setTimeout(() => {
-        background.style['opacity'] = '1'
-        confirm.classList.add('animation')
-    }, 50)
+    if(waitingConfirmation.value) return null
 
-    const onAccept = async () => {
-        hideConfirm()
-        removeListeners()
-        await accept()
-    }
-    const onDecline = async () => {
-        hideConfirm()
-        removeListeners()
-        await decline?.()
-    }
-    const removeListeners = () => {
-        acceptBtn.removeEventListener('click', onAccept)
-        declineBtn.removeEventListener('click', onDecline)
-    }
-    acceptBtn.addEventListener('click', onAccept)
-    declineBtn.addEventListener('click', onDecline)
-    
-    const hideConfirm = () => {
-        confirm.classList.remove('animation')
-        background.style['opacity'] = '0'
-        setTimeout(() => {
-            background.removeAttribute('style')
-            confirmContent.value = {}
-        }, 500)
-    }	
+    return new Promise(resolve => {
+        waitingConfirmation.value = true
+        resolveConfirm.value = resolve
+    })
+}
+
+export{
+    body, backdrop,
+    confirmContent,
+    resolveConfirm,
+    waitingConfirmation
 }

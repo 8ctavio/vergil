@@ -69,7 +69,7 @@
     --boxShadow6: 0 0 2px 2px var(--shadow1);
     --boxShadow7: 0 0 4px 3px var(--shadow2);
 
-    --blockBackColor: #00000030;
+    --backdrop-c: #00000030;
 
     --bw: 0px;             /*border width*/
     --bbw: 2px;            /*border bottom width*/
@@ -83,7 +83,7 @@ body{
     padding: 0;
     overflow-x: hidden;
 }
-body.blockOverflow{ overflow-y: hidden; }
+body.prevent-overflow{ overflow-y: hidden; }
 
 p{
     margin: 0;
