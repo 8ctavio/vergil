@@ -84,7 +84,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 
 ```vue
 <script setup>
-    import { Toaster } from 'vergil'
+    import { Toaster } from 'vergil/components'
 </script>
 
 <template>

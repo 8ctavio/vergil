@@ -96,7 +96,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 
 ```vue
 <script setup>
-    import { AlertFeed } from 'vergil'
+    import { AlertFeed } from 'vergil/components'
 </script>
 
 <template>

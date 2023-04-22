@@ -1,6 +1,6 @@
 <script setup>
 import Theme from 'vitepress/theme'
-import { Confirm, AlertFeed, Toaster } from 'vergil'
+import { Confirm, AlertFeed, Toaster } from 'vergil/components'
 
 const { Layout } = Theme
 </script>

@@ -9,7 +9,7 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Confirm } from 'vergil'
+import { Confirm } from 'vergil/components'
 import { confirm, toast } from 'vergil'
 
 const requests = {
@@ -75,7 +75,7 @@ First, it is required to add the `Confirm` component somewhere in the app's temp
 
 ```vue
 <script setup>
-    import { Confirm } from 'vergil'
+    import { Confirm } from 'vergil/components'
 </script>
 
 <template>
