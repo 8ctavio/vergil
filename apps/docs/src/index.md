@@ -9,6 +9,9 @@ hero:
   image: /assets/vergil_noBg.png
   actions:
     - theme: brand
+      text: Get Started
+      link: get-started
+    - theme: alt
       text: UI Components
       link: components/alert
     - theme: alt

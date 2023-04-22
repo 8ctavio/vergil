@@ -27,12 +27,17 @@ export default defineConfig({
 		logo: "/assets/vergil_glasses.png",
 
 		nav: [
-			{ text: 'Docs', link: '/components/alert' }
+			{ text: 'Docs', link: '/get-started' }
 		],
 
 		sidebar: [
 			{
+				text: 'Get Started',
+				link: '/get-started'
+			},
+			{
 				text: 'UI Components',
+				collapsed: false,
 				items: [
 					{ text: 'Alert', link: '/components/alert' },
 					{ text: 'Toast', link: '/components/toast' },
