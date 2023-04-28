@@ -28,7 +28,7 @@ function watchUntil(sources, condition, { fulfill = true, timeout }){
     return Promise.race(promises)
 }
 
-function methodsGenerator(source, options = { fulfill: true }){
+function methodsGenerator(source, options){
     const sources = Array.isArray(source) ? source : [source]
 
     let srcCase
@@ -94,6 +94,6 @@ function methodsGenerator(source, options = { fulfill: true }){
 }
   
 export function waitFor(source, options){
-    return methodsGenerator(source, options)
+    return methodsGenerator(source, { ...options, fulfill: true })
 }
 export { waitFor as syncFor }
