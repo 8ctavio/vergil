@@ -2,23 +2,15 @@
 import Icon from "../../Icon.vue"
 
 import { onMounted } from 'vue'
-import { body, backdrop, confirmContent, waitingConfirmation, resolveConfirm } from "."
+import { body, confirmContent, waitingConfirmation, resolveConfirm, open } from "."
 
 onMounted(() => {
 	body.value = document.querySelector('body')
 })
 
-const hideConfirm = () => {
-    backdrop.value?.classList.add('closing')
-    setTimeout(() => {
-        backdrop.value?.classList.remove('open')
-        backdrop.value?.classList.remove('closing')
-        // body.value.classList.remove('prevent-overflow')
-    }, 550)
-}
-
 const handleResolveConfirm = response => {
-	hideConfirm()
+	open.value = false
+	// body.value.classList.remove('prevent-overflow')
 	resolveConfirm.value(response)
 	resolveConfirm.value = () => {}
 	waitingConfirmation.value = false
@@ -26,37 +18,39 @@ const handleResolveConfirm = response => {
 </script>
 
 <template>
-    <div id="confirmBackdrop" ref="backdrop">
-		<main id="confirmDialog" :class="confirmContent.type">
-			<header>
-				<Icon :code="confirmContent.icon ? confirmContent.icon : 'help'"/>
-				<h1>
-					{{ confirmContent.header }}
-				</h1>
-			</header>
-			<div v-if="confirmContent.content" id='confirmContent'>
-				{{ confirmContent.content }}
-			</div>
-			<div id='confirmBtns'>
-				<button id='declineBtn' @click="handleResolveConfirm(false)" autofocus>{{ confirmContent.declineLabel }}</button>
-				<button id='confirmBtn' @click="handleResolveConfirm(true)">{{ confirmContent.confirmLabel }}</button>
-			</div>
-		</main>
-    </div>
+	<Transition name="backdrop" :duration="{enter: 700}">
+		<div v-if="open" id="confirmBackdrop">
+			<main id="confirmDialog" :class="confirmContent.type" >
+				<header>
+					<Icon :code="confirmContent.icon ? confirmContent.icon : 'help'"/>
+					<h1>
+						{{ confirmContent.header }}
+					</h1>
+				</header>
+				<div v-if="confirmContent.content" id='confirmContent'>
+					{{ confirmContent.content }}
+				</div>
+				<div id='confirmBtns'>
+					<button id='declineBtn' @click="handleResolveConfirm(false)" autofocus>{{ confirmContent.declineLabel }}</button>
+					<button id='confirmBtn' @click="handleResolveConfirm(true)">{{ confirmContent.confirmLabel }}</button>
+				</div>
+			</main>
+		</div>
+	</Transition>
 </template>
 
 <style scoped>
 #confirmBackdrop{
-	display: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
 	background-color: var(--backdrop-c);
-	z-index: 9;
-	
-	opacity: 0;
+	z-index: 9;	
 }
 @supports (backdrop-filter: none) or (-webkit-backdrop-filter: none) {
     #confirmBackdrop{
@@ -64,22 +58,14 @@ const handleResolveConfirm = response => {
         -webkit-backdrop-filter: blur(2px);
     }
 }
-#confirmBackdrop.open{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	animation: backdrop-enter 500ms ease forwards;
+
+.backdrop-enter-from,
+.backdrop-leave-to{
+	opacity: 0;
 }
-#confirmBackdrop.closing{
-	animation: backdrop-leave 500ms ease forwards;
-}
-@keyframes backdrop-enter{
-	from{ opacity: 0; }
-	to{ opacity: 1; }
-}
-@keyframes backdrop-leave{
-	from{ opacity: 1; }
-	to{ opacity: 0; }
+.backdrop-enter-active,
+.backdrop-leave-active{
+	transition: opacity 500ms ease;
 }
 
 #confirmDialog{
@@ -95,41 +81,27 @@ const handleResolveConfirm = response => {
 	word-wrap: break-word;
 	z-index: 9;
 
-	opacity: 0;
-	transform: translateY(calc(-50%));
-
 	font-size: 1rem;
 }
+
+.backdrop-enter-from #confirmDialog,
+.backdrop-leave-to #confirmDialog{
+	opacity: 0;
+	transform: translateY(calc(-50%));
+}
+
+.backdrop-enter-active #confirmDialog,
+.backdrop-leave-active #confirmDialog{
+	transition: opacity 500ms ease, transform 500ms ease;
+}
+.backdrop-enter-active #confirmDialog{
+	transition-delay: 200ms;
+}
+
 #confirmDialog.danger{ border-left-color: var(--red); }
 #confirmDialog.caution{ border-left-color: var(--yellow); }
 #confirmDialog.ack{ border-left-color: var(--blue); }
 #confirmDialog.check{ border-left-color: var(--green); }
-#confirmBackdrop.open #confirmDialog{
-	animation: confirm-enter 500ms ease forwards;
-}
-#confirmBackdrop.closing #confirmDialog{
-	animation: confirm-leave 500ms ease forwards;
-}
-@keyframes confirm-enter{
-	from{ 
-		opacity: 0;
-		transform: translateY(calc(-50%));
-	}
-	to{
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-@keyframes confirm-leave{
-	from{
-		opacity: 1;
-		transform: translateY(0);
-	}
-	to{ 
-		opacity: 0;
-		transform: translateY(calc(-50%));
-	}
-}
 
 #confirmDialog header{
 	display: grid;
