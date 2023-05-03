@@ -69,6 +69,21 @@
     --boxShadow6: 0 0 2px 2px var(--shadow1);
     --boxShadow7: 0 0 4px 3px var(--shadow2);
 
+    /*---------- Z-indexes ----------*/
+    --z-index-input: 1;
+    --z-index-tooltip: 2;
+    --z-index-select-dropdown: 2;
+    --z-index-navbar: 3;
+    --z-index-loader: 4;
+    --z-index-pop-up: 5;
+    --z-index-backdrop-input: 6;
+    --z-index-backdrop-tooltop: 7;
+    --z-index-backdrop-select-dropdown: 7;
+    --z-index-backdrop-loader: 8;
+    --z-index-confirm: 9;
+    --z-index-alert: 10;
+    --z-index-toast: 10;
+
     --backdrop-c: #00000030;
 
     --bw: 0px;             /*border width*/

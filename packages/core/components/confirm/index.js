@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue'
+import { body } from '../../utils/shared'
 
 const open = ref(false)
-const body = ref(null)
 
 const confirmContent = ref({})
 
@@ -28,8 +28,8 @@ export async function confirm(type, {header, content, confirmLabel = 'Aceptar', 
         await nextTick()
     }
     
-    open.value = true
     // body.value?.classList.add('prevent-overflow')
+    open.value = true
 
     if(waitingConfirmation.value) return null
 
@@ -40,7 +40,7 @@ export async function confirm(type, {header, content, confirmLabel = 'Aceptar', 
 }
 
 export{
-    open, body,
+    open,
     confirmContent,
     resolveConfirm,
     waitingConfirmation

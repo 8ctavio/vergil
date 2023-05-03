@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Alert
 
->Alerts display messages at the top of the viewport drawing user's attention to communicate important information.
+> Alerts display messages at the top of the viewport drawing user's attention to communicate important information.
 
 ## Demo
 
@@ -106,11 +106,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 ```
 
 :::tip
-`Alert`'s backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
-
-```vue
-<AlertFeed :style="{'z-index': zIndex}"/>
-```
+`Alert`'s backdrop `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ```js

@@ -9,6 +9,11 @@
     --mainFont: Montserrat;
     --font1: Montserrat Alternates;
     --font2: 'Roboto';
+
+    --z-index-pop-up: 95;
+    --z-index-confirm: 99;
+    --z-index-alert: 100;
+    --z-index-toast: 100;
 }
 
 .vp-btn{

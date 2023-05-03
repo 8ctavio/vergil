@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { fileURLToPath, URL } from 'node:url'
 
 // https://vitepress.vuejs.org/reference/site-config
 export default defineConfig({
@@ -6,6 +7,11 @@ export default defineConfig({
 		server: {
 			port: 3000
 		},
+		resolve: {
+			alias: {
+				'@@': fileURLToPath(new URL('./theme/components', import.meta.url))
+			}
+		}
 	},
 	srcDir: "./src",
 	title: "Vergil",
@@ -42,6 +48,7 @@ export default defineConfig({
 					{ text: 'Alert', link: '/components/alert' },
 					{ text: 'Toast', link: '/components/toast' },
 					{ text: 'Confirm', link: '/components/confirm' },
+					{ text: 'Pop-up', link: '/components/pop-up' },
 				]
 			}
 		],

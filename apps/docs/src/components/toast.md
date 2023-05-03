@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Toast
 
->Toasts display messages at the bottom-right corner of the viewport to communicate information to the user.
+> Toasts display messages at the bottom-right corner of the viewport to communicate information to the user.
 
 ## Demo
 
@@ -94,11 +94,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 ```
 
 :::tip
-`Toaster`'s backdrop `z-index` default value is `10`. If required, it can be modified inline in the component's tag:
-
-```vue
-<Toaster :style="{'z-index': zIndex}"/>
-```
+`Toaster`'s backdrop `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ```js

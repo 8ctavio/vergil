@@ -84,11 +84,7 @@ First, it is required to add the `Confirm` component somewhere in the app's temp
 </template>
 ```
 :::tip
-`Confirm`'s backdrop `z-index` default value is `9`. If required, it can be modified inline in the component's tag:
-
-```vue
-<Confirm :style="{'z-index': zIndex}"/>
-```
+`Confirm`'s backdrop `z-index` value is by default set to `9` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ```js

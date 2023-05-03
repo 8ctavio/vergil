@@ -25,4 +25,7 @@
 .demo :slotted(.row){
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+.demo :slotted(.row.center){
+    justify-items: center;
+}
 </style>

@@ -6,7 +6,7 @@
 <style>
 #alertFeed{
     position: fixed;
-    z-index: 10;
+    z-index: var(--z-index-alert);
 }
 
 .alert{
