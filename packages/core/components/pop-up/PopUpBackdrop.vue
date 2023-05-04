@@ -5,7 +5,7 @@ import { popUp } from '.'
 
 <template>
     <Backdrop v-show="popUp !== null" z-index="var(--z-index-pop-up)">
-        <Transition name="pop-up" mode="out-in" :duration="{enter: 1000}">
+        <Transition name="pop-up" mode="out-in">
             <component :is="popUp"></component>
         </Transition>
     </Backdrop>

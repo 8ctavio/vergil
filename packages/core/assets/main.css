@@ -80,6 +80,7 @@
     --z-index-backdrop-tooltop: 7;
     --z-index-backdrop-select-dropdown: 7;
     --z-index-backdrop-loader: 8;
+    --z-index-screen-loader: 8;
     --z-index-confirm: 9;
     --z-index-alert: 10;
     --z-index-toast: 10;

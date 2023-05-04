@@ -62,7 +62,7 @@ defineExpose({ elm: popUp })
     transition-delay: 200ms;
 }
 
-.pop-up :where(.btnClose, .btnBack){
+.pop-up :deep(:where(.btnClose, .btnBack)){
     position: absolute;
     top: 7px;
     right: 7px;
@@ -70,11 +70,12 @@ defineExpose({ elm: popUp })
     height: 32px;
     border: none;
     background-color: transparent;
+    cursor: pointer;
     user-select: none;
 }
-.pop-up > .btnBack{ left: 7px; }
+.pop-up > :deep(.btnBack){ left: 7px; }
 
-.pop-up :where(.btnClose, .btnBack) span{
+.pop-up :deep(:where(.btnClose, .btnBack)) span{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,7 +85,7 @@ defineExpose({ elm: popUp })
     transition: color 300ms;
     font-size: 32px;
 }
-.pop-up :where(.btnClose, .btnBack):where(:hover, :focus) span{
+.pop-up :deep(:where(.btnClose, .btnBack)):where(:hover, :focus) span{
     color: white;
 }
 
@@ -95,49 +96,35 @@ defineExpose({ elm: popUp })
     background-color: var(--brand-c);
     border-top-left-radius: var(--borderRadius3);
     border-top-right-radius: var(--borderRadius3);
-
-    font-size: 500 1em var(--mainFont);
 }
 .pop-up header h1{
     margin: 0;
     margin-top: 20px;
     padding: 0;
-    font: 600 3em var(--font1);
+    font: 600 3em var(--mainFont);
     color: var(--lightText);
     letter-spacing: 1.5px;
 }
-.pop-up-enter-from > header > h1,
-.pop-up-leave-to > header > h1 {
-    opacity: 0;
-    transform: translateY(-70%)
-}
-.pop-up-enter-active > header > h1,
-.pop-up-leave-active > header > h1 {
-    transition: opacity 400ms, transform 400ms ease-out;
-}
-.pop-up-enter-active > header > h1{
-    transition-delay: 600ms;
-}
 
-.pop-up .scrollWrapper{
+.scrollWrapper{
     overflow: auto;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
     padding: 25px;
 }
-.pop-up .content {
+.content {
     position: relative;
     width: 100%;
     font-size: 1em;
 }
 
-.pop-up .content > h2{
+.content > :deep(h2){
     margin: 0;
     padding: 0;
-    font: 600 1.8em var(--mainFont);
+    font: 600 1.7em var(--mainFont);
     color: var(--darkText);
     letter-spacing: 1px;
 }
-.pop-up .content > h2:not(:first-of-type){ margin-top: 10px; }
+.content > :deep(h2):not(:first-of-type){ margin-top: 10px; }
 </style>
