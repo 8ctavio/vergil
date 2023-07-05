@@ -1,7 +1,6 @@
-import { watch, isRef, unref } from 'vue'
+import { watch, isRef, toValue } from 'vue'
 
 const isWatchSource = maybeWatchSource => isRef(maybeWatchSource) || (typeof maybeWatchSource === 'function')
-const resolveWatchSource = watchSource => typeof watchSource === 'function' ? watchSource() : unref(watchSource)
 
 function watchUntil(sources, condition, { fulfill = true, timeout }){
     let stop = null
@@ -32,7 +31,7 @@ function methodsGenerator(source, options){
     const sources = Array.isArray(source) ? source : [source]
 
     let srcCase
-    if(sources.length === 1) srcCase = Array.isArray(resolveWatchSource(sources[0])) ? 2 : 1
+    if(sources.length === 1) srcCase = Array.isArray(toValue(sources[0])) ? 2 : 1
     else srcCase = 3
 
     function toMatch(condition){
@@ -44,7 +43,7 @@ function methodsGenerator(source, options){
     if(options.fulfill) methods.toChange = (times = 1) => {
         let cont = 0
         if(isWatchSource(times)){
-            let t = resolveWatchSource(times)
+            let t = toValue(times)
             return watchUntil([
                 , ...sources], v => {
                 if(t === v) return ++cont > v

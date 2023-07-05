@@ -17,6 +17,6 @@
     "main": "index.js",
     "peerDependencies": {
         "pinia": "^2.0.32",
-        "vue": "^3.2.47"
+        "vue": "^3.3.4"
     }
 }
