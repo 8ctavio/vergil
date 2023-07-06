@@ -58,7 +58,7 @@ const testConfirm = async (type) => {
 
 ## Description
 
-`Confirm` is a modal window where a request is displayed in the form of a message, which itself consists of header and content. The header might represent, for example, the request's subject or the request itself, concisely written. The content, in the other hand, m be a more detailed request's description, the implications of request's responses, etc.
+`Confirm` is a modal window where a request is displayed in the form of a message, which itself consists of header and content. The header might represent, for example, the request's subject or the request itself, concisely written. The content, in the other hand, may be a more detailed request's description, the implications of request's responses, etc.
 
 The presented request must be either confirmed or declined by the user. For this purpose, the component comes with a pair of buttons: a *confirm* button and a *decline* button. The buttons' labels can be modified to make it clearer for the user what each button does. Once either button is pressed, `Confirm` is hidden, and the developer may proceed according to the user's response.
 

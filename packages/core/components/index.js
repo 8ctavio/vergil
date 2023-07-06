@@ -6,3 +6,6 @@ export { default as PopUp } from './pop-up/PopUp.vue'
 export { default as PopUpBackdrop } from './pop-up/PopUpBackdrop.vue'
 export { default as Icon } from './Icon.vue'
 export { default as Backdrop } from './Backdrop.vue'
+
+//---------- Form Components ----------
+export { default as Slider } from './form-components/slider.vue'

@@ -50,6 +50,13 @@ export default defineConfig({
 					{ text: 'Confirm', link: '/components/confirm' },
 					{ text: 'Pop-up', link: '/components/pop-up' },
 				]
+			},
+			{
+				text: 'Form Components',
+				collapsed: false,
+				items: [
+					{ text: 'Slider', link: '/form-components/slider' },
+				]
 			}
 		],
 
