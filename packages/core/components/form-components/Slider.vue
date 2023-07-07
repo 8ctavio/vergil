@@ -78,7 +78,6 @@ const sliderWidth = computed(() => `${sliderProgress.value}% + ${7*(50-sliderPro
     height: 14px;
     border-radius: 50%;
     background-color: var(--brand-c);
-    box-shadow: 3px 3px 2px 0 var(--gray4);
     transition: box-shadow 300ms, transform 300ms;
 }
 .slider::-webkit-slider-thumb:hover{
@@ -89,11 +88,11 @@ const sliderWidth = computed(() => `${sliderProgress.value}% + ${7*(50-sliderPro
 }
 .slider::-moz-range-thumb{
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     border: none;
-    background-color: var(--brand-c-dark);
+    background-color: var(--brand-c);
     transition: box-shadow 300ms, transform 300ms;
 }
 .slider::-moz-range-thumb:hover{

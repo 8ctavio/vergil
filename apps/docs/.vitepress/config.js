@@ -55,6 +55,7 @@ export default defineConfig({
 				text: 'Form Components',
 				collapsed: false,
 				items: [
+					{ text: 'Switch', link: '/form-components/switch' },
 					{ text: 'Slider', link: '/form-components/slider' },
 				]
 			}
