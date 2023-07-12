@@ -1,104 +1,150 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed, toRef } from 'vue'
 
 const props = defineProps({
-    modelValue:{
-        type: Number,
-        default: 50
-    },
-    min:{
+    modelValue: {
         type: Number,
         default: 0
     },
-    max:{
+    min: {
+        type: Number,
+        default: 0
+    },
+    max: {
         type: Number,
         default: 100
     },
-    step:{
+    step: {
         type: Number,
         default: 1
-    }
+    },
+    staticProgress: Boolean
 })
-const emit = defineEmits('update:modelValue')
+const modelValue = toRef(props, 'modelValue')
 
-const sliderProgress = ref(100*(props.modelValue - props.min)/(props.max - props.min))
-const handleInput = e => {
-    sliderProgress.value = 100*(e.target.value - props.min)/(props.max - props.min)
-    emit('update:modelValue', e.target.value)
-}
+defineEmits(['update:modelValue'])
+
+const sliderProgress = computed(() => 100*(modelValue.value - props.min)/(props.max - props.min))
 const sliderWidth = computed(() => `${sliderProgress.value}% + ${7*(50-sliderProgress.value)/50}px`)
 </script>
 
 <template>
-    <div class="sliderWrapper">
-        <span class="track"></span>
-        <span class="progress"></span>
-        <input class="slider" type="range" :value="modelValue" @input="handleInput" :min="min" :max="max" :step="step"/>
+    <div class="slider">
+        <label>
+            <slot name="label"></slot>
+        </label>
+        <p>
+            <slot name="value"></slot>
+        </p>
+        <div :class="[{ staticProgress }, 'sliderWrapper' ]">
+            <span class="track"></span>
+            <span class="progress"></span>
+            <input 
+                type="range"    
+                class="slider"
+                :value="modelValue"
+                @input="$emit('update:modelValue', $event.target.valueAsNumber)"
+                :min="min"
+                :max="max"
+                :step="step"
+            />
+        </div>
     </div>
 </template>
 
 <style scoped>
+div.slider{
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 15px;
+
+    font: 500 1rem var(--mainFont);
+}
+div.slider > label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.slider > p{
+    grid-row: span 2;
+    justify-self: center;
+    align-self: center;
+    font: 700 1.8em var(--font1);
+    color: var(--brand-c-darker)
+}
+
 .sliderWrapper{
     position: relative;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     padding: 0;
+
+    --track-height: 3px;
+    --thumb-rad: 6px;
+    --static-progress: 30px;
 }
 .track{
     position: absolute;
     left: 0;
-    height: 4px;
-    border-radius: 3px;
+    height: var(--track-height);
+    border-radius: var(--track-height);
     width: 100%;
     background-color: var(--gray2);
 }
 .progress{
     position: absolute;
     left: 0;
-    height: 4px;
-    border-radius: 4px;
+    height: var(--track-height);
+    border-radius: var(--track-height);
     width: calc(v-bind(sliderWidth));
     background-color: var(--brand-c-light);
 }
+.sliderWrapper.staticProgress{ margin-left: var(--static-progress); }
+.sliderWrapper.staticProgress > .progress{
+    left: calc(var(--static-progress) * -1);
+    width: calc(v-bind(sliderWidth) + var(--static-progress));
+}
 
-.slider{
+input.slider{
     appearance: none;
     width: 100%;
-    height: 4px;
+    height: var(--track-height);
     margin: 0;
     padding: 0;
-    border-radius: 4px;
+    border-radius: var(--track-height);
     background-color: transparent;
     cursor: pointer;
     z-index: 1;
 }
-.slider::-webkit-slider-thumb{
+input.slider::-webkit-slider-thumb{
     appearance: none;
-    width: 14px;
-    height: 14px;
+    width: calc(var(--thumb-rad) * 2);
+    height: calc(var(--thumb-rad) * 2);
     border-radius: 50%;
     background-color: var(--brand-c);
-    transition: box-shadow 300ms, transform 300ms;
+    transition: box-shadow 300ms;
 }
-.slider::-webkit-slider-thumb:hover{
-    box-shadow: 3px 3px 2px 0 var(--gray4), 0 0 0 6px #759B6145;
+input.slider::-webkit-slider-thumb:hover{
+    box-shadow: 0 0 0 6px rgba(var(--brand-c-rgb-light), 0.3);
 }
-.slider::-webkit-slider-thumb:active{
-    box-shadow: 3px 3px 2px 0 var(--gray4), 0 0 0 8px #759B6145;
+input.slider::-webkit-slider-thumb:active{
+    box-shadow: 0 0 0 10px rgba(var(--brand-c-rgb-light), 0.3);
 }
-.slider::-moz-range-thumb{
+input.slider::-moz-range-thumb{
     appearance: none;
-    width: 14px;
-    height: 14px;
+    width: calc(var(--thumb-rad) * 2);
+    height: calc(var(--thumb-rad) * 2);
     border-radius: 50%;
     border: none;
     background-color: var(--brand-c);
-    transition: box-shadow 300ms, transform 300ms;
+    transition: box-shadow 300ms;
 }
-.slider::-moz-range-thumb:hover{
-    box-shadow: 3px 3px 2px 0 var(--gray4), 0 0 0 6px #759B6145;
+input.slider::-moz-range-thumb:hover{
+    box-shadow: 0 0 0 6px rgba(var(--brand-c-rgb-light), 0.3);
 }
-.slider::-moz-range-thumb:active{
-    box-shadow: 3px 3px 2px 0 var(--gray4), 0 0 0 8px #759B6145;
+input.slider::-moz-range-thumb:active{
+    box-shadow: 0 0 0 10px rgba(var(--brand-c-rgb-light), 0.3);
 }
 </style>

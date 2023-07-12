@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { toRef } from 'vue'
 
 const props = defineProps({
     modelValue: Boolean,
@@ -17,20 +17,16 @@ const props = defineProps({
         default: true
     }
 })
-const emit = defineEmits('update:modelValue')
+const modelValue = toRef(props, 'modelValue')
+defineEmits(['update:modelValue'])
 
-let on = ref(props.modelValue)
-const handleClick = () => {
-    emit('update:modelValue', on.value = !on.value)
-}
 </script>
 
 <template>
-    <button :class="[{on, toggleBg}, 'switch']" @click="handleClick">
+    <button :class="[{on: modelValue, toggleBg}, 'switch']" @click="$emit('update:modelValue', !modelValue)">
         <label v-if="showLabels" class="label off">{{ labelOff }}</label>
         <span></span>
         <label v-if="showLabels" class="label on">{{ labelOn }}</label>
-
     </button>
 </template>
 
@@ -41,12 +37,14 @@ const handleClick = () => {
     align-items: center;
     width: 45px;
     height: 20px;
+    border: none;
     border-radius: 25px;
-    background-color: var(--brand-c-lighter);
+    background-color: var(--brand-c);
+    cursor: pointer;
     transition: background-color 200ms;
 }
 .switch.toggleBg:not(.on){
-    background-color: var(--gray2);
+    background-color: var(--brand-c-lighter);
 }
 
 .switch :deep(span){

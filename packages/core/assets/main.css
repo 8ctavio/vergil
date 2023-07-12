@@ -11,6 +11,8 @@
     --brand-c-darker: #2C3925;
     --brand-c-darker: #000;
 
+    --brand-c-rgb-light: 117, 155, 97;
+
     --brand-gradient-c-1: var(--brand-c);
     --brand-gradient-c-1: #70e000;
 
