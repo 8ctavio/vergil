@@ -55,8 +55,9 @@ export default defineConfig({
 				text: 'Form Components',
 				collapsed: false,
 				items: [
-					{ text: 'Switch', link: '/form-components/switch' },
+					{ text: 'Checkbox', link: '/form-components/checkbox' },
 					{ text: 'Slider', link: '/form-components/slider' },
+					{ text: 'Switch', link: '/form-components/switch' },
 				]
 			}
 		],

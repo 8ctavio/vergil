@@ -8,5 +8,6 @@ export { default as Icon } from './Icon.vue'
 export { default as Backdrop } from './Backdrop.vue'
 
 //---------- Form Components ----------
-export { default as Switch } from './form-components/Switch.vue'
+export { default as Checkbox } from './form-components/Checkbox.vue'
 export { default as Slider } from './form-components/Slider.vue'
+export { default as Switch } from './form-components/Switch.vue'
