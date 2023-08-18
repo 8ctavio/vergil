@@ -1,24 +1,77 @@
 <script setup>
 import Icon from '../Icon.vue'
+import { ref, toRef } from 'vue'
+import { globalDisabler } from '../../composables/globalDisabler'
 
-defineProps({
-    modelValue: Boolean,
+const props = defineProps({
+    modelValue: {
+        validator(v){
+            return typeof v === 'boolean' || Array.isArray(v) || (typeof v === 'object' && v !== null)
+        }
+    },
+    name: String,
+    value: {
+        type: String,
+        default: ""
+    },
+    disabled: Boolean,
     label: {
         type: String,
         default: "Checkbox"
     }
 })
+const emit = defineEmits(['update:modelValue'])
 
-defineEmits(['update:modelValue'])
+const modelValue = toRef(props, 'modelValue')
+
+const isBool = typeof modelValue.value === 'boolean'
+const isArray = Array.isArray(modelValue.value)
+const isObject = !isArray && typeof modelValue.value === 'object' && modelValue.value !== null
+
+const checked = isBool ? modelValue : ref(false)
+const initialChecked = isBool ? modelValue.value : isArray ? modelValue.value.includes(props.value) : isObject ? modelValue.value[props.value] : false
+if(!isBool && initialChecked) checked.value = initialChecked
+
+if(isObject && !(props.value in modelValue.value)){
+    const values = modelValue.value
+    values[props.value] = false
+    emit("update:modelValue", values)
+}
+
+const handleChange = e => {
+    if(isBool) emit("update:modelValue", e.target.checked)
+    else if(isArray){
+        checked.value = e.target.checked
+        const values = modelValue.value
+        if(e.target.checked){
+            values.push(e.target.value)
+            emit("update:modelValue", values)
+        }
+        else emit("update:modelValue", values.filter(v => v !== e.target.value))
+    }
+    else if(isObject){
+        if(props.maxChecked && modelValue.value.keys().length === props.maxChecked) return
+        checked.value = e.target.checked
+        const values = modelValue.value
+        values[e.target.value] = e.target.checked
+        emit("update:modelValue", values)
+    }
+}
 </script>
 
 <template>
-    <label class="checkbox">
-        <input type="checkbox" :value="modelValue" @change="$emit('update:modelValue', $event.target.checked)"/>
+    <label :class="['checkbox', { disabled: globalDisabler || disabled }]">
+        <input
+            type="checkbox"
+            :name="name"
+            :value="value"
+            :checked="initialChecked"
+            :disabled="globalDisabler || disabled"
+            @change="handleChange"/>
         <span>
             <Icon code="check_box_outline_blank"/>
             <Transition>
-                <Icon v-if="modelValue" code="check_box"/>
+                <Icon v-if="checked" code="check_box"/>
             </Transition>
         </span>
         <p><slot>{{ label }}</slot></p>
@@ -27,24 +80,31 @@ defineEmits(['update:modelValue'])
 
 <style scoped>
 .checkbox{
-    font-size: 1rem;
+    font-size: 1.5rem;
 
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
 }
+.checkbox.disabled{
+    cursor: not-allowed;
+}
+
 .checkbox > input{
     display: none;
 }
+
 .checkbox > span{
     position: relative;
     display: flex;
     align-items: center;
 }
-
 .checkbox > span > .icon{
-    font-size: 2.2em;
+    font-size: 22px;
+}
+.checkbox > input:disabled + span > .icon{
+    color: var(--gray4);
 }
 .checkbox > span > .icon:nth-of-type(1){
     color: var(--brand-c-light);
@@ -55,9 +115,13 @@ defineEmits(['update:modelValue'])
 }
 
 .checkbox > p{
-    font: 600 1.5em var(--mainFont);
+    font: 600 1em var(--mainFont);
     margin: 0;
     color: var(--darkText);
+    letter-spacing: 0.5px;
+}
+.checkbox > input:disabled ~ p{
+    color: var(--gray4);
 }
 .checkbox > p::selection{
     background: transparent;
