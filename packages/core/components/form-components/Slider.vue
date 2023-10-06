@@ -1,5 +1,6 @@
 <script setup>
 import { computed, toRef } from 'vue'
+import { globalDisabler } from '../../composables/globalDisabler'
 
 const props = defineProps({
     modelValue: {
@@ -14,62 +15,87 @@ const props = defineProps({
         type: Number,
         default: 100
     },
+    virtualMin: {
+        type: Number,
+        default(rawProps){ return rawProps.min }
+    },
+    virtualMax: {
+        type: Number,
+        default(rawProps){ return rawProps.max }
+    },
     step: {
         type: Number,
         default: 1
     },
+    disabled: Boolean,
     staticProgress: Boolean
 })
 const modelValue = toRef(props, 'modelValue')
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
 const sliderProgress = computed(() => 100*(modelValue.value - props.min)/(props.max - props.min))
 const sliderWidth = computed(() => `${sliderProgress.value}% + ${7*(50-sliderProgress.value)/50}px`)
+
+const handleInput = e => {
+    emit('update:modelValue', e.target.valueAsNumber)
+}
+const handleChange = e => {
+    if(props.virtualMin !== props.min && props.virtualMin > props.min && e.target.valueAsNumber < props.virtualMin) emit('update:modelValue', props.virtualMin)
+    if(props.virtualMax !== props.max && props.virtualMax < props.max && e.target.valueAsNumber > props.virtualMax) emit('update:modelValue', props.virtualMax)
+}
 </script>
 
 <template>
     <div class="slider">
-        <label>
-            <slot name="label"></slot>
-        </label>
+        <div>
+            <label v-if="'label' in $slots">
+                <slot name="label"></slot>
+            </label>
+            <div :class="[{ staticProgress, disabled: globalDisabler || disabled}, 'sliderWrapper']">
+                <span class="track"></span>
+                <span class="progress"></span>
+                <input 
+                    type="range"    
+                    :value="modelValue"
+                    @input="handleInput"
+                    @change="handleChange"
+                    ref="input"
+                    :min="min"
+                    :max="max"
+                    :step="step"
+                    :disabled="globalDisabler || disabled"
+                />
+            </div>
+        </div>
         <p>
             <slot name="value"></slot>
         </p>
-        <div :class="[{ staticProgress }, 'sliderWrapper' ]">
-            <span class="track"></span>
-            <span class="progress"></span>
-            <input 
-                type="range"    
-                class="slider"
-                :value="modelValue"
-                @input="$emit('update:modelValue', $event.target.valueAsNumber)"
-                :min="min"
-                :max="max"
-                :step="step"
-            />
-        </div>
     </div>
 </template>
 
 <style scoped>
-div.slider{
-    display: grid;
-    grid-template-columns: max-content auto;
+.slider{
+    display: flex;
+    align-items: center;
     gap: 15px;
 
     font: 500 1rem var(--mainFont);
 }
-div.slider > label{
+
+.slider > div{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.slider > div label{
+    font-size: max(1em, 9.5px);
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-div.slider > p{
-    grid-row: span 2;
-    justify-self: center;
-    align-self: center;
+.slider > p{
     font: 700 1.8em var(--font1);
     color: var(--brand-c-darker)
 }
@@ -80,10 +106,11 @@ div.slider > p{
     flex-direction: column;
     justify-content: center;
     padding: 0;
+    width: 1em;
 
     --track-height: 3px;
     --thumb-rad: 6px;
-    --static-progress: 30px;
+    --static-progress: 0.15em;
 }
 .track{
     position: absolute;
@@ -101,13 +128,16 @@ div.slider > p{
     width: calc(v-bind(sliderWidth));
     background-color: var(--brand-c-light);
 }
+.sliderWrapper.disabled .progress{
+    background-color: var(--gray4);
+}
 .sliderWrapper.staticProgress{ margin-left: var(--static-progress); }
 .sliderWrapper.staticProgress > .progress{
     left: calc(var(--static-progress) * -1);
     width: calc(v-bind(sliderWidth) + var(--static-progress));
 }
 
-input.slider{
+.sliderWrapper > input{
     appearance: none;
     width: 100%;
     height: var(--track-height);
@@ -118,7 +148,10 @@ input.slider{
     cursor: pointer;
     z-index: 1;
 }
-input.slider::-webkit-slider-thumb{
+.sliderWrapper.disabled > input{
+    cursor: initial;
+}
+.sliderWrapper > input::-webkit-slider-thumb{
     appearance: none;
     width: calc(var(--thumb-rad) * 2);
     height: calc(var(--thumb-rad) * 2);
@@ -126,13 +159,16 @@ input.slider::-webkit-slider-thumb{
     background-color: var(--brand-c);
     transition: box-shadow 300ms;
 }
-input.slider::-webkit-slider-thumb:hover{
+.sliderWrapper.disabled > input::-webkit-slider-thumb{
+    background-color: var(--gray4);
+}
+.sliderWrapper:not(.disabled) > input::-webkit-slider-thumb:hover{
     box-shadow: 0 0 0 6px rgba(var(--brand-c-rgb-light), 0.3);
 }
-input.slider::-webkit-slider-thumb:active{
+.sliderWrapper:not(.disabled) > input::-webkit-slider-thumb:active{
     box-shadow: 0 0 0 10px rgba(var(--brand-c-rgb-light), 0.3);
 }
-input.slider::-moz-range-thumb{
+.sliderWrapper > input::-moz-range-thumb{
     appearance: none;
     width: calc(var(--thumb-rad) * 2);
     height: calc(var(--thumb-rad) * 2);
@@ -141,10 +177,10 @@ input.slider::-moz-range-thumb{
     background-color: var(--brand-c);
     transition: box-shadow 300ms;
 }
-input.slider::-moz-range-thumb:hover{
+.sliderWrapper > input::-moz-range-thumb:hover{
     box-shadow: 0 0 0 6px rgba(var(--brand-c-rgb-light), 0.3);
 }
-input.slider::-moz-range-thumb:active{
+.sliderWrapper > input::-moz-range-thumb:active{
     box-shadow: 0 0 0 10px rgba(var(--brand-c-rgb-light), 0.3);
 }
 </style>

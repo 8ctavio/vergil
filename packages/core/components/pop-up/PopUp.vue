@@ -122,9 +122,9 @@ defineExpose({ elm: popUp })
 .content > :deep(h2){
     margin: 0;
     padding: 0;
-    font: 600 1.7em var(--mainFont);
-    color: var(--darkText);
-    letter-spacing: 1px;
+    font: 600 1.8em var(--mainFont);
+    color: var(--brand-c-darkest);
+    letter-spacing: 0.5px;
 }
 .content > :deep(h2):not(:first-of-type){ margin-top: 10px; }
 </style>

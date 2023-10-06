@@ -32,16 +32,19 @@ defineEmits(['update:modelValue'])
 
 <style scoped>
 .switch{
+    --size: 2em;
+
     position: relative;
     display: flex;
     align-items: center;
-    width: 45px;
-    height: 20px;
+    width: calc(var(--size) * 2.25);
+    height: var(--size);
     border: none;
-    border-radius: 25px;
+    border-radius: var(--size);
     background-color: var(--brand-c);
     cursor: pointer;
     transition: background-color 200ms;
+    font-size: 1rem;
 }
 .switch.toggleBg:not(.on){
     background-color: var(--brand-c-lighter);
@@ -50,19 +53,19 @@ defineEmits(['update:modelValue'])
 .switch :deep(span){
     position: absolute;
     left: 4px;
-    width: 15px;
-    height: 15px;
+    width: calc(var(--size) - 5px);
+    height: calc(var(--size) - 5px);
     border-radius: 50%;
     background-color: var(--gray0);
     transition: left 300ms;
 }
 .switch.on :deep(span){
-    left: calc(100% - 15px - 4px);
+    left: calc(100% - var(--size) + 5px - 4px);
 }
 
 .label{
     position: absolute;
-    font: 600 1.4rem var(--mainFont);
+    font: 600 max(1.4em, 12.6px) var(--mainFont);
     color: var(--gray3);
     cursor: pointer;
     transition: color 200ms;

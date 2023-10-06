@@ -10,6 +10,11 @@ defineProps({
     </span>
 </template>
 
-<style>
-span.material-icons-round::selection{ background-color: transparent; }
+<style scoped>
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon::selection{ background-color: transparent; }
 </style>

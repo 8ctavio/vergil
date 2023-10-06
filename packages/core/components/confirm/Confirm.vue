@@ -26,12 +26,12 @@ const handleResolveConfirm = response => {
 				<Icon :code="confirmContent.icon ? confirmContent.icon : 'help'"/>
 				<h1>{{ confirmContent.header }}</h1>
 			</header>
-			<div v-if="confirmContent.content" id='confirmContent'>
+			<div v-if="confirmContent.content" class='confirmContent'>
 				{{ confirmContent.content }}
 			</div>
-			<div id='confirmBtns'>
-				<button id='declineBtn' @click="handleResolveConfirm(false)" autofocus>{{ confirmContent.declineLabel }}</button>
-				<button id='confirmBtn' @click="handleResolveConfirm(true)">{{ confirmContent.confirmLabel }}</button>
+			<div class='confirmBtns'>
+				<button class='declineBtn' @click="handleResolveConfirm(false)" autofocus>{{ confirmContent.declineLabel }}</button>
+				<button class='confirmBtn' @click="handleResolveConfirm(true)">{{ confirmContent.confirmLabel }}</button>
 			</div>
 		</div>
 	</Backdrop>
@@ -98,7 +98,7 @@ const handleResolveConfirm = response => {
 #vergil-confirm.ack header span{ color: var(--blue); }
 #vergil-confirm.check header span{ color: var(--green); }
 
-#confirmContent{
+.confirmContent{
 	font: 400 1.6em var(--mainFont);
 	text-align: start;
     cursor: default;
@@ -107,7 +107,7 @@ const handleResolveConfirm = response => {
 	color: var(--darkText);
 }
 
-#confirmBtns{
+.confirmBtns{
     font-size: 1em;
 	display: grid;
 	grid-auto-flow: column;
@@ -115,7 +115,7 @@ const handleResolveConfirm = response => {
 	gap: 20px;
 	margin-top: 5px;
 }
-#confirmBtn, #declineBtn{
+.confirmBtn, .declineBtn{
 	display: flex;
 	align-items: center;
 	padding: 5px 20px;
@@ -129,20 +129,20 @@ const handleResolveConfirm = response => {
 	outline: none;
 }
 
-#confirmBtn{
+.confirmBtn{
 	background-color: var(--gray5);
 	color: var(--lightText);
 }
-#vergil-confirm.danger #confirmBtn{ background-color: var(--red); }
-#vergil-confirm.caution #confirmBtn{ background-color: var(--yellow); }
-#vergil-confirm.ack #confirmBtn{ background-color: var(--blue); }
-#vergil-confirm.check #confirmBtn{ background-color: var(--green); }
+#vergil-confirm.danger .confirmBtn{ background-color: var(--red); }
+#vergil-confirm.caution .confirmBtn{ background-color: var(--yellow); }
+#vergil-confirm.ack .confirmBtn{ background-color: var(--blue); }
+#vergil-confirm.check .confirmBtn{ background-color: var(--green); }
 
-#declineBtn{
+.declineBtn{
 	border: 1.5px solid var(--gray4);
 	color: var(--darkText);
 }
 
-#confirmBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow3) }
-#declineBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow2) }
+.confirmBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow3) }
+.declineBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow2) }
 </style>

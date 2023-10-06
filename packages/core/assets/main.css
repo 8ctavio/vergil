@@ -359,4 +359,7 @@ p.theme{
     background-color: var(--brand-c-lighter);
     color: var(--brand-c-dark);
 }
-p.pill{ padding: 5px 15px !important; }
+p.pill{
+    padding: 5px 15px;
+    border-radius: 50px;
+}
