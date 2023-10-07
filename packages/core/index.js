@@ -7,4 +7,5 @@ export * from './components/confirm'
 export * from './components/pop-up'
 
 //---------- COMPOSABLES ----------
+export * from './composables/extRef'
 export * from './composables/globalDisabler'
