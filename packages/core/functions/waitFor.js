@@ -1,6 +1,5 @@
-import { watch, isRef, toValue } from 'vue'
-
-const isWatchSource = maybeWatchSource => isRef(maybeWatchSource) || (typeof maybeWatchSource === 'function')
+import { watch, toValue } from 'vue'
+import { isWatchSource } from '.'
 
 function watchUntil(sources, condition, { fulfill = true, timeout }){
     let stop = null

@@ -1,4 +1,5 @@
 //---------- FUNCTIONS ----------
+export *  from './functions'
 export *  from './functions/waitFor'
 
 export * from './components/alert'
