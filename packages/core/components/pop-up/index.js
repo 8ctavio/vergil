@@ -1,17 +1,18 @@
-import { ref, readonly, markRaw } from 'vue'
+import { ref, markRaw } from 'vue'
 import { body } from '../../utils/shared'
 
-const popUp = ref(null)
-const popUpCopy = readonly(popUp)
-
-const popUpContent = ref(null)
-const popUpContentCopy = readonly(popUpContent)
+const popUp = ref({
+    component: null,
+    props: {}
+})
 
 let popUpOnClose = () => {}
-export function showPopUp(popUpComponent, content = null){
+function showPopUp(component, props){
     // body.value?.classList.add('prevent-overflow')
-    popUp.value = markRaw(popUpComponent)
-    popUpContent.value = content
+    popUp.value = {
+        component: markRaw(component),
+        props
+    }
     popUpOnClose = () => {}
     return {
         onClose(callback){
@@ -20,15 +21,18 @@ export function showPopUp(popUpComponent, content = null){
     }
 }
 
-export function closePopUp(){
-    popUp.value = null
+function closePopUp(){
+    popUp.value = {
+        component: null,
+        props: {}
+    }
     // body.value?.classList.remove('prevent-overflow')
-    popUpContent.value = null
     popUpOnClose?.()
     popUpOnClose = () => {}
 }
 
 export {
-    popUpCopy as popUp,
-    popUpContentCopy as popUpContent
+    popUp,
+    showPopUp,
+    closePopUp
 }
