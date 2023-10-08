@@ -11,6 +11,9 @@ class ExtendedRef{
     get ref(){ return this.#value }
 
     #reference
+    get reference(){ return toValue(this.#reference) }
+    set reference(r){ this.#reference = r }
+    
     constructor(reference, hooks = {}){
         this.#reference = reference
         this.reset()
