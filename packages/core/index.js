@@ -1,7 +1,6 @@
 //---------- FUNCTIONS ----------
 export *  from './functions'
 export *  from './functions/regex'
-export *  from './functions/waitFor'
 
 export * from './components/alert'
 export * from './components/toast'
@@ -10,4 +9,5 @@ export { showPopUp, closePopUp } from './components/pop-up'
 
 //---------- COMPOSABLES ----------
 export * from './composables/extRef'
-export * from './composables/globalDisabler'
+export * from './composables/useLoaders'
+export * from './composables/waitFor'

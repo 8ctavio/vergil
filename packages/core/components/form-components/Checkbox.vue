@@ -1,7 +1,7 @@
 <script setup>
 import Icon from '../Icon.vue'
 import { ref, toRef } from 'vue'
-import { globalDisabler } from '../../composables/globalDisabler'
+import { globalDisabler } from '../../composables/useLoaders'
 
 const props = defineProps({
     modelValue: {

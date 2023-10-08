@@ -1,5 +1,5 @@
 import { watch, toValue } from 'vue'
-import { isWatchSource } from '.'
+import { isWatchSource } from '../functions'
 
 function watchUntil(sources, condition, { fulfill = true, timeout }){
     let stop = null

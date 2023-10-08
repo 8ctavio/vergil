@@ -1,6 +1,6 @@
 <script setup>
 import { computed, toRef } from 'vue'
-import { globalDisabler } from '../../composables/globalDisabler'
+import { globalDisabler } from '../../composables/useLoaders'
 
 const props = defineProps({
     modelValue: {
