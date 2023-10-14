@@ -45,14 +45,24 @@ function formatPhone(phone){
 //----------------------------------------------
 //-------------------- DATE --------------------
 //----------------------------------------------
+function getTimestamp({ units = 'ms', from = Date.now(), offset = {} } = {}){
+    if(typeof units !== 'string' || !['s', 'ms'].includes(units)) throw new TypeError("Invalid string for 'units'")
+
+    const { s = 0, m = 0, h = 0, d = 0 } = offset
+    const delta = (s + (m + (h + d*24)*60)*60)*1000
+    return Math.floor((from + delta)/({s: 1000, ms: 1}[units]))
+}
+
 const weekdays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Sábado']
 const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-const formatDate = (timestamp, format = 'short') => {
-    const date = new Date(timestamp*1000)
-    let weekday = weekdays[date.getDay()]
-    let day = date.getDate().toString().padStart(2, '0')
-    let month = date.getMonth() + 1
-    let year = date.getFullYear()
+const formatDate = (timestamp, { units = 'ms', format = 'short' } = {}) => {
+    if(typeof units !== 'string' || !['s', 'ms'].includes(units)) throw new TypeError("Invalid string for 'units'")
+    
+    const date = new Date(timestamp*(units === 'ms' ? 1 : 1000))
+    const weekday = weekdays[date.getDay()]
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
     switch(format){
         case 'short':
             return `${day}/${month.toString().padStart(2, '0')}/${year}`
@@ -75,6 +85,7 @@ export{
     kebabCase,
     separateThousands,
     formatPhone,
+    getTimestamp,
     formatDate,
     isWatchSource
 }
