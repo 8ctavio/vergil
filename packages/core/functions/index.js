@@ -71,6 +71,25 @@ const formatDate = (timestamp, { units = 'ms', format = 'short' } = {}) => {
     }
 }
 
+//-----------------------------------------------
+//-------------------- ERROR --------------------
+//-----------------------------------------------
+class AppError extends Error{
+    constructor({
+        type,
+        code = '',
+        details,
+        log,
+        message
+    }){
+        super(message)
+        this.type = type
+        this.code = code
+        this.details = details
+        console.error(`∮ ${log}`)
+    }
+}
+
 //---------------------------------------------
 //-------------------- REF --------------------
 //---------------------------------------------
@@ -87,5 +106,6 @@ export{
     formatPhone,
     getTimestamp,
     formatDate,
+    AppError,
     isWatchSource
 }

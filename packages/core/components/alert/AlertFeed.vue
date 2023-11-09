@@ -73,7 +73,7 @@
     padding: 12px 0;
     font: 500 1.6em var(--mainFont);
     color: var(--darkText);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     line-height: 22px;
 	cursor: default;
 }

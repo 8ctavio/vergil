@@ -64,6 +64,6 @@
 	padding: 8px 0;
 	font: 500 1.4em var(--mainFont);
 	color: var(--darkText);
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 }
 </style>
