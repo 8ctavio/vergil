@@ -52,6 +52,8 @@
     --gray7: #343A40;
     --gray8: #212529;
 
+    --gray0-rgb: 248, 249, 250;
+
     /*---------- Border radius ----------*/
     --borderRadius1: 2px;
     --borderRadius2: 5px;
@@ -117,7 +119,7 @@ button{
     grid-auto-flow: column;
     grid-auto-columns: max-content;
     justify-content: end;
-    grid-gap: 20px;
+    grid-gap: 15px;
 }
 
 /*****************************************************************************************************
