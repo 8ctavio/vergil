@@ -8,6 +8,7 @@ export * from './components/confirm'
 export { showPopUp, closePopUp } from './components/pop-up'
 
 //---------- COMPOSABLES ----------
-export * from './composables/extRef'
+export { extRef } from './composables/extRef'
+export * from './composables/inputFields'
 export * from './composables/useLoaders'
 export * from './composables/waitFor'
