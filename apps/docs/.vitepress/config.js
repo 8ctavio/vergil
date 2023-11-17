@@ -1,8 +1,7 @@
-import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
 
 // https://vitepress.vuejs.org/reference/site-config
-export default defineConfig({
+export default {
 	vite: {
 		server: {
 			port: 3000
@@ -25,7 +24,10 @@ export default defineConfig({
 	],
 	markdown: {
 		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-		theme: 'dark-plus'
+		theme: {
+			light: 'github-light',
+			dark: 'dark-plus'
+		}
 	},
 	themeConfig: {
 		// https://vitepress.vuejs.org/reference/default-theme-config
@@ -66,4 +68,4 @@ export default defineConfig({
 			{ icon: 'github', link: 'https://github.com/8ctavio/vergil' }
 		]
 	}
-})
+}
