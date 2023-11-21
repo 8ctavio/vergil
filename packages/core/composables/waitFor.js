@@ -1,23 +1,15 @@
-import { watch, toValue } from 'vue'
+import { watch, toValue, nextTick } from 'vue'
 import { isWatchSource } from '../functions'
 
 function watchUntil(sources, condition, { fulfill = true, timeout }){
-    let stop = null
+    let stop = () => {}
     const watcher = new Promise(resolve => {
-        let flag = false
         stop = watch(sources, (newValues, oldValues) => {
             if(condition(newValues, oldValues) === fulfill){
-                if(typeof stop === 'function'){
-                    stop()
-                    resolve()
-                }
-                else flag = true
+                nextTick(() => stop())
+                resolve()
             }
         }, { immediate: true })
-        if(flag){
-            stop()
-            resolve()
-        }
     })
 
     const promises = [watcher]
@@ -25,7 +17,7 @@ function watchUntil(sources, condition, { fulfill = true, timeout }){
     if(Number.isInteger(timeout)){
         promises.push(new Promise(resolve => {
             setTimeout(() => {
-                stop?.()
+                stop()
                 resolve()
             }, timeout)
         }))
