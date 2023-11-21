@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-    <span class="material-icons-round icon">
+    <span class="material-symbols-rounded icon">
         <slot>{{ code }}</slot>
     </span>
 </template>

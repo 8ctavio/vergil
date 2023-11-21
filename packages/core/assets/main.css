@@ -105,7 +105,7 @@ body{
 }
 body.prevent-overflow{ overflow-y: hidden; }
 
-p{
+p, h1{
     margin: 0;
 }
 button{

@@ -37,19 +37,19 @@ const toastIcons = {
 <Demo>
     <div class="col">
         <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
             <p>Lorem ipsum</p>
         </div>
         <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
         </div>
         <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
         </div>
         <div :class="['toast', previewToastType]">
-            <span class="material-icons-round">{{ toastIcons[previewToastType] }}</span>
+            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
         </div>
         <div class="row" :style="{'padding-top': '30px'}">

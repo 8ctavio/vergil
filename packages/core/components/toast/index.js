@@ -13,7 +13,7 @@ export function toast(type, message, duration = 6){
     newToast.classList.add("toast", type)
 
     const icon = document.createElement("span")
-    icon.classList.add("material-icons-round")
+    icon.classList.add("material-symbols-rounded")
     icon.textContent = icons[type] ? icons[type] : 'help'
 
     const msg = document.createElement("p")

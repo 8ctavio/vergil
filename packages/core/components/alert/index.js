@@ -13,7 +13,7 @@ export function alert(type, message, duration = 6){
     newAlert.classList.add("alert", type)
     
     const icon = document.createElement("span")
-    icon.classList.add("material-icons-round")
+    icon.classList.add("material-symbols-rounded")
     icon.textContent = icons[type] ? icons[type] : 'help_outline'
 
     const msg = document.createElement("p")
@@ -23,7 +23,7 @@ export function alert(type, message, duration = 6){
     closeBtn.addEventListener('click', hideAlert)
     
     const closeX = closeBtn.appendChild(document.createElement('span'))
-    closeX.classList.add("material-icons-round")
+    closeX.classList.add("material-symbols-rounded")
     closeX.textContent = "cancel"
 
     newAlert.append(icon, msg, closeBtn)

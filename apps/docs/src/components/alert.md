@@ -37,31 +37,31 @@ const alertIcons = {
 <Demo>
     <div class="col">
         <div :class="['alert', previewAlertType]">
-            <span class="material-icons-round">{{ alertIcons[previewAlertType] }}</span>
+            <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum</p>
             <button>
-                <span class="material-icons-round">cancel</span>
+                <span class="material-symbols-rounded">cancel</span>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
-            <span class="material-icons-round">{{ alertIcons[previewAlertType] }}</span>
+            <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
             <button>
-                <span class="material-icons-round">cancel</span>
+                <span class="material-symbols-rounded">cancel</span>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
-            <span class="material-icons-round">{{ alertIcons[previewAlertType] }}</span>
+            <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
             <button>
-                <span class="material-icons-round">cancel</span>
+                <span class="material-symbols-rounded">cancel</span>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
-            <span class="material-icons-round">{{ alertIcons[previewAlertType] }}</span>
+            <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
             <button>
-                <span class="material-icons-round">cancel</span>
+                <span class="material-symbols-rounded">cancel</span>
             </button>
         </div>
         <div class="row" :style="{'padding-top': '30px'}">
