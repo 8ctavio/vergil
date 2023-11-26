@@ -16,6 +16,6 @@
     "bugs": "https://github.com/8ctavio/vergil/issues",
     "main": "index.js",
     "peerDependencies": {
-        "vue": "^3.3.8"
+        "vue": "^3.3.9"
     }
 }
