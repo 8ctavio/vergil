@@ -19,3 +19,9 @@ const v = ref(20)
         <Slider v-model="v"/>
     </div>
 </Demo>
+
+<style scoped>
+    .slider :deep(.sliderWrapper){
+        width: 200px;
+    }
+</style>

@@ -13,13 +13,13 @@
     background-color: var(--vp-c-bg-alt);
 }
 
-.demo :is(.row, .col){
+.demo :slotted(:is(.row, .col)){
     display: grid;
     width: 100%;
     gap: 15px;
     padding: 30px;
 }
-.demo :is(.row, .col) > :is(.row, .col){
+.demo :slotted(:is(.row, .col)) > :is(.row, .col){
     padding: 0;
 }
 .demo :slotted(.row){

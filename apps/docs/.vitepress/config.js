@@ -8,7 +8,7 @@ export default {
 		},
 		resolve: {
 			alias: {
-				'@@': fileURLToPath(new URL('./theme/components', import.meta.url))
+				'@': fileURLToPath(new URL('./theme/components', import.meta.url))
 			}
 		}
 	},

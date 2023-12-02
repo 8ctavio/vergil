@@ -1,5 +1,5 @@
 @import 'vergil/assets/main.css';
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@1");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600&display=swap');
@@ -18,11 +18,11 @@
 
 .vp-btn{
     padding: 3px 20px;
-    border: 1.5px solid var(--vp-c-bg-soft-mute);
     border-radius: 4px;
-    background-color: var(--vp-c-bg-soft-mute);
-    transition: border-color 300ms;
+    background-color: var(--vp-c-brand-3);
+    color: var(--vp-c-white);
+    transition: background-color 300ms;
 }
 .vp-btn:hover{
-    border-color: var(--vp-c-divider);
+    background-color: var(--vp-c-brand-2);
 }
