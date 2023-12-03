@@ -58,6 +58,7 @@ export default {
 				collapsed: false,
 				items: [
 					{ text: 'Checkbox', link: '/form-components/checkbox' },
+					{ text: 'Radio Button', link: '/form-components/radio' },
 					{ text: 'Slider', link: '/form-components/slider' },
 					{ text: 'Switch', link: '/form-components/switch' },
 				]
