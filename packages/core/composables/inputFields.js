@@ -47,14 +47,14 @@ class FormFields{
         const { id, ...fields } = toValue(source)
         this.#id = id
         this.#fields = Object.keys(fields)
-        this.#fields.forEach(field => { 
-            this[field] = new InputField(fields[field])
+        this.#fields.forEach(field => {
+            this[field] = (fields[field] instanceof FormFields) ? fields[field] : new InputField(fields[field])
         })
         if(isWatchSource(source)){
             watch(source, ({newId, ...newFields}) => {
                 this.#id = newId
                 this.#fields.forEach(field => {
-                    this[field].reference = newFields[field]
+                    if(field instanceof InputField) this[field].reference = newFields[field]
                 })
             })
         }
@@ -63,17 +63,21 @@ class FormFields{
     get payload(){
         const payload = {}
         if(this.#id) payload.id = this.#id
-        this.#fields.forEach(field => { payload[field] = this[field].value })
+        this.#fields.forEach(field => {
+            payload[field] = (this[field] instanceof FormFields) ? this[field].payload : this[field].value 
+        })
         return payload
     }
 
     get changed(){
         return this.#fields.some(field => {
-            if(['string', 'boolean'].includes(typeof this[field].value)) return this[field].value !== this[field].reference
-            else if(Array.isArray(this[field].value)){
-                if(this[field].value.length !== this[field].reference.length) return true
-                else return this[field].value.some(v => this[field].reference.includes?.(v) === false)
-            }
+            if(this[field] instanceof FormFields)
+                return this[field].changed
+            if(['string', 'boolean'].includes(typeof this[field].value))
+                return this[field].value !== this[field].reference
+            if(Array.isArray(this[field].value))
+                return this[field].value.length !== this[field].reference.length
+                    || this[field].value.some(v => this[field].reference.includes?.(v) === false)
         })
     }
 
