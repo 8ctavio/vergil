@@ -1,33 +1,12 @@
-import { watch, toValue, nextTick } from 'vue'
 import { isWatchSource } from '../functions'
+import { watchUntil } from './watchUntil'
 
-function watchUntil(sources, condition, { fulfill = true, timeout }){
-    let stop = () => {}
-    const watcher = new Promise(resolve => {
-        stop = watch(sources, (newValues, oldValues) => {
-            if(condition(newValues, oldValues) === fulfill){
-                nextTick(() => stop())
-                resolve()
-            }
-        }, { immediate: true })
-    })
-
-    const promises = [watcher]
-
-    if(Number.isInteger(timeout)){
-        promises.push(new Promise(resolve => {
-            setTimeout(() => {
-                stop()
-                resolve()
-            }, timeout)
-        }))
-    }
-
-    return Promise.race(promises)
+function waitFor(source, options){
+    return methodsGenerator(source, { ...options, fulfill: true })
 }
 
 function methodsGenerator(source, options){
-    const srcCase = Array.isArray(source) ? 3 : Array.isArray(toValue(source)) ? 2 : 1
+    const srcCase = Array.isArray(source) ? 2 : 1
 
     function toMatch(condition){
         return watchUntil(source, condition, options)
@@ -48,7 +27,7 @@ function methodsGenerator(source, options){
     }
 
     switch(srcCase){
-        // One non-array watch source
+        // One watch source
         case 1:
             function toBe(value){
                 if(isWatchSource(value)) return watchUntil([source, value], ([src,v]) => src === v, options)
@@ -56,23 +35,20 @@ function methodsGenerator(source, options){
             }
             methods.toBe = toBe
             methods.toBeIn = value => {
-                if(isWatchSource(value)) return watchUntil([source, value], ([src,v]) => v.includes(src), options)
+                if(isWatchSource(value)) return watchUntil([source, value], ([src,v]) => Array.isArray(v) && v.includes(src), options)
                 else return toMatch(src => value.includes(src))
             }
             methods.toBeNull = () => toBe(null)
             methods.toBeUndefined = () => toBe(undefined)
             methods.toBeTruthy = () => toMatch(Boolean)
-            methods.toBeNaN = () => toMatch(Number.isNaN)
-        break
-        // One array watch source
-        case 2:
+            methods.toBeNaN = () => toMatch(Number.isNaN)   
             methods.toContain = value => {
-                if(isWatchSource(value)) return watchUntil([source, value], ([src,v]) => src.includes(v), options)
+                if(isWatchSource(value)) return watchUntil([source, value], ([src,v]) => Array.isArray(src) && src.includes(v), options)
                 else return toMatch(src => src.includes(value))
             }
         break
         // Two or more watch sources
-        case 3:
+        case 2:
             methods.toBeEqual = () => watchUntil(source, ([v1,...v2]) => v2.every(v => v === v1), options)
         break
     }
@@ -85,8 +61,8 @@ function methodsGenerator(source, options){
 
     return methods
 }
-  
-export function waitFor(source, options){
-    return methodsGenerator(source, { ...options, fulfill: true })
+   
+export {
+    waitFor,
+    waitFor as syncFor
 }
-export { waitFor as syncFor }
