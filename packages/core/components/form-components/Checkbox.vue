@@ -2,12 +2,13 @@
 import Icon from '../Icon.vue'
 import { ref, toRef } from 'vue'
 import { globalDisabler } from '../../composables/useLoaders'
+import { InputField } from '../../composables/inputFields'
 
+const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
-        validator(v){
-            return ['boolean', 'string'].includes(typeof v) || Array.isArray(v) || (typeof v === 'object' && v !== null)
-        }
+        type: [Boolean, String, Array, Object, InputField],
+        default: false
     },
     value: {
         type: String,
@@ -19,9 +20,8 @@ const props = defineProps({
         default: "Checkbox"
     }
 })
-const emit = defineEmits(['update:modelValue'])
 
-const modelValue = toRef(props, 'modelValue')
+const modelValue = (props.modelValue instanceof InputField) ? props.modelValue : toRef(props, 'modelValue')
 
 const isBool = typeof modelValue.value === 'boolean'
 const isString = typeof modelValue.value === 'string'
@@ -34,39 +34,44 @@ const initialChecked =  isBool ? modelValue.value :
                         isObject ? modelValue.value[props.value] : false
 const checked = ref(initialChecked)
 
+function updateModelValue(v){
+    if(modelValue instanceof InputField) modelValue.value = v
+    else emit("update:modelValue", v)
+}
+
 if(isObject && !(props.value in modelValue.value)){
     const values = modelValue.value
     values[props.value] = false
-    emit("update:modelValue", values)
+    updateModelValue(values)
 }
 
 const handleChange = e => {
     checked.value = e.target.checked
-    if(isBool) emit("update:modelValue", e.target.checked)
-    else if(isString) emit("update:modelValue", checked.value ? e.target.value : '')
+    if(isBool) updateModelValue(e.target.checked)
+    else if(isString) updateModelValue(checked.value ? e.target.value : '')
     else if(isArray){
         const values = modelValue.value
         if(e.target.checked){
             values.push(e.target.value)
-            emit("update:modelValue", values)
+            updateModelValue(values)
         }
-        else emit("update:modelValue", values.filter(v => v !== e.target.value))
+        else updateModelValue(values.filter(v => v !== e.target.value))
     }
     else if(isObject){
         const values = modelValue.value
         values[e.target.value] = e.target.checked
-        emit("update:modelValue", values)
+        updateModelValue(values)
     }
 }
 </script>
 
 <template>
-    <label :class="['checkbox', { disabled: globalDisabler || disabled }]">
+    <label :class="['checkbox', { disabled: globalDisabler || disabled || (modelValue.disabled ?? false) }]">
         <input
             type="checkbox"
             :value="value"
             :checked="initialChecked"
-            :disabled="globalDisabler || disabled"
+            :disabled="globalDisabler || disabled || (modelValue.disabled ?? false)"
             @change="handleChange"/>
         <span>
             <Icon code="check_box_outline_blank"/>
@@ -115,6 +120,9 @@ const handleChange = e => {
     color: var(--gray4);
 }
 .checkbox > span > .icon:nth-of-type(1){
+    color: var(--gray4);
+}
+.checkbox:hover > span > .icon:nth-of-type(1){
     color: var(--brand-c-light);
 }
 .checkbox > span > .icon:nth-of-type(2){

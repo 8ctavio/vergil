@@ -26,7 +26,6 @@ const handleChange = e => {
     else
         emit('update:modelValue', e.target.value)
 }
-const initialChecked = value === ((modelValue instanceof InputField) ? modelValue.value : modelValue)
 </script>
 
 <template>
@@ -36,7 +35,7 @@ const initialChecked = value === ((modelValue instanceof InputField) ? modelValu
                 type="radio"
                 :name="name"
                 :value="value"
-                :checked="initialChecked"
+                :checked="value === modelValue.value"
                 :disabled="globalDisabler || disabled || modelValue.disabled"
                 @change="handleChange"/>
             <span class="icon">
@@ -55,7 +54,7 @@ const initialChecked = value === ((modelValue instanceof InputField) ? modelValu
                 type="radio"
                 :name="name"
                 :value="value"
-                :checked="initialChecked"
+                :checked="value === modelValue"
                 :disabled="globalDisabler || disabled"
                 @change="handleChange"/>
             <span class="icon">
@@ -88,12 +87,13 @@ const initialChecked = value === ((modelValue instanceof InputField) ? modelValu
 }
 
 .icon{
+    box-sizing: border-box;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: 2px solid var(--gray4);
     transition: border 200ms;
@@ -107,13 +107,13 @@ const initialChecked = value === ((modelValue instanceof InputField) ? modelValu
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background-color: var(--brand-c);
 }
 .radio > input:disabled + .icon .icon-outer{
-    background-color: var(--gray5);
+    background-color: var(--gray4);
 }
 
 .icon-inner{   
