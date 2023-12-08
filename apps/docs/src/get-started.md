@@ -10,7 +10,7 @@ Vergil has its own styles sheet that style custom components and the user interf
 
 ```css
 @import 'vergil/assets/main.css';
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@1");
 ```
 
 The second import is required for icons to display properly.
@@ -20,15 +20,11 @@ The theme defined in the imported css file defaults to Vergil's color theme. To 
 In order to avoid importing fonts that may ultimately not be used, Vergil's font-family css variables value is `initial`. Thus, these variables should always be overwritten with fonts of choice. An example of this is shown next.
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Montserrat');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates');
-@import url('https://fonts.googleapis.com/css2?family=Roboto');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root{
     /* Overwrite css variables */
-    --mainFont: 'Montserrat';
-    --font1: 'Montserrat Alternates';
-    --font2: 'Roboto';
+    --font-main: 'Inter', sans-serif;
 }
 ```
 

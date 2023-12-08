@@ -1,7 +1,21 @@
 /*--------------------------------------------------
---------------------- Variables ---------------------
+--------------------- Variables --------------------
 --------------------------------------------------*/
 :root{
+    /*--------------------------
+    ---------- COLORS ----------
+    --------------------------*/
+    
+    /*---------- GRAY ----------*/
+    --c-gray: #fff;
+    --c-gray-dimmed: #fff;
+    --c-gray-darkest: #fff;
+    --c-gray-darker: #fff;
+    --c-gray-dark: #fff;
+    --c-gray-light: #fff;
+    --c-gray-lighter: #fff;
+    --c-gray-lightest: #fff;
+
     /*---------- Theme colors ----------*/
     --brand-c-lightest: #AFC5A2;
     --brand-c-lighter: #8CAC7B;
@@ -16,12 +30,12 @@
     --brand-gradient-c-1: var(--brand-c);
     --brand-gradient-c-1: #70e000;
 
+    /*-------------------------
+    ---------- FONTS ----------
+    -------------------------*/
+
     /*---------- Font style ----------*/
-    --mainFont: "initial";
-    --font1: "initial";
-    --font2: "initial";
-    --font3: "initial";
-    --font4: "initial";
+    --font-main: 'initial';
     --darkText: #252525;
     --lightText: #F8FDFF;
 
@@ -97,7 +111,11 @@
     --tableIconWidth: 40px;
 }
 
-html{ font-size: 10px; }
+:root{
+    font-size: 10px;
+    font-family: var(--font-main);
+    font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
 body{
     margin: 0;
     padding: 0;
