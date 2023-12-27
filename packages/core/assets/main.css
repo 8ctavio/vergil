@@ -1,22 +1,214 @@
-/*--------------------------------------------------
---------------------- Variables --------------------
---------------------------------------------------*/
-:root{
-    /*--------------------------
-    ---------- COLORS ----------
-    --------------------------*/
-    
-    /*---------- GRAY ----------*/
-    --c-gray: #fff;
-    --c-gray-dimmed: #fff;
-    --c-gray-darkest: #fff;
-    --c-gray-darker: #fff;
-    --c-gray-dark: #fff;
-    --c-gray-light: #fff;
-    --c-gray-lighter: #fff;
-    --c-gray-lightest: #fff;
+/*----------------------------------------------------------------------------------------.
+---------------------------------------- VARIABLES ----------------------------------------
+----------------------------------------------------------------------------------------.*/
 
-    /*---------- Theme colors ----------*/
+/*----------------------------------------------
+-------------------- COLORS --------------------
+----------------------------------------------*/
+/*
+    Contrast check:
+        1) bg = var(--c-[name]-x), text = white | var(--c-text)
+        2) bg = var(--c-bg-alt), text = var(--c-[name]-text-1)
+        3) bg = var(--c-[name]-soft-x), text = var(--c-[name]-text-2)
+*/
+
+/*-------- BRAND --------*/
+:root{
+    --c-brand-1: #587848;
+    --c-brand-2: #476737;
+    --c-brand-3: #3C5A2C;
+
+    --rgb-brand: 88 120 72;
+
+    --c-brand-soft-1: #DAE6D5;
+    --c-brand-soft-2: #CCD8C7;
+    --c-brand-soft-3: #BECAB9;
+
+    --rgb-brand-soft: 218 230 213;
+
+    --c-brand-text-1: var(--c-brand-1);
+    --c-brand-text-2: var(--c-brand-3);
+
+    --rgb-brand-dimmed: 136 186 109;
+
+    --c-brand-dimmed-10: rgba(var(--rgb-brand-dimmed) / 0.10);
+    --c-brand-dimmed-15: rgba(var(--rgb-brand-dimmed) / 0.15);
+    --c-brand-dimmed-20: rgba(var(--rgb-brand-dimmed) / 0.20);
+}
+
+/*-------- OK --------*/
+:root{
+    --c-ok-1: #18794E;
+    --c-ok-2: #006D43;
+    --c-ok-3: #006037;
+
+    --rgb-ok: 24 121 78;
+
+    --c-ok-soft-1: #B9F0BD;
+    --c-ok-soft-2: #ABE2AF;
+    --c-ok-soft-3: #9ED3A2;
+
+    --rgb-ok-soft: 185 240 189;
+
+    --c-ok-text-1: var(--c-ok-1);
+    --c-ok-text-2: var(--c-ok-3);
+
+    --rgb-green-dimmed: 16 185 129;
+
+    --c-ok-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
+    --c-ok-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
+    --c-ok-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
+}
+
+/*-------- INFO --------*/
+:root{
+    --c-info-1: #3a5ccc;
+    --c-info-2: #3451b2;
+    --c-info-3: #0046B2;
+
+    --rgb-info: 58 92 204;
+
+    --c-info-soft-1: #DCE6FF;
+    --c-info-soft-2: #CCD8FF;
+    --c-info-soft-3: #BDCAFF;
+
+    --rgb-info-soft: 220 230 255;
+
+    --c-info-text-1: var(--c-info-1);
+    --c-info-text-2: var(--c-info-3);
+
+    --rgb-blue-dimmed: 100 108 255;
+    
+    --c-info-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
+    --c-info-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
+    --c-info-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
+}
+
+/*-------- WARN --------*/
+:root{
+    --c-warn-1: #FFDD6A;
+    --c-warn-2: #FCCF5D;
+    --c-warn-3: #EDC150;
+
+    --rgb-warn: 255 221 106;
+
+    --c-warn-soft-1: #FFEEAD;
+    --c-warn-soft-2: #FAE09F;
+    --c-warn-soft-3: #F1D897;
+
+    --rgb-warn-soft: 255 238 173;
+
+    --c-warn-text-1: #7F6900;
+    --c-warn-text-2: #755400;
+
+    --rgb-yellow-dimmed: 249 204 90;
+
+    --c-warn-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
+    --c-warn-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
+    --c-warn-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
+}
+
+/*-------- DANGER --------*/
+:root{
+    --c-danger-1: #C92D36;
+    --c-danger-2: #B91B2B;
+    --c-danger-3: #A90020;
+
+    --rgb-danger: 201 45 54;
+
+    --c-danger-soft-1: #FFDCD1;
+    --c-danger-soft-2: #FFCEC3;
+    --c-danger-soft-3: #FFC0B6;
+
+    --rgb-danger-soft: 255 220 209;
+
+    --c-danger-text-1: var(--c-danger-1);
+    --c-danger-text-2: var(--c-danger-3);
+
+    --rgb-red-dimmed: 255 105 101;
+
+    --c-danger-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
+    --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
+    --c-danger-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
+}
+
+/*-------- DEFAULT --------*/
+:root{
+    --c-gray-1: #5E5E5E;
+    --c-gray-2: #525252;
+    --c-gray-3: #474747;
+
+    --rgb-gray: 94 94 94;
+
+    --c-gray-soft-1: #C5C5C5;
+    --c-gray-soft-2: #B9B9B9;
+    --c-gray-soft-3: #ABABAB;
+
+    --rgb-default-soft: 197 197 197;
+
+    --c-gray-text-1: var(--c-gray-1);
+    --c-gray-text-2: var(--c-gray-3);
+
+    --rgb-gray-dimmed: 150 150 150;
+    
+    --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
+    --c-gray-dimmed-15: rgba(var(--rgb-gray-dimmed) / 0.15);
+    --c-gray-dimmed-20: rgba(var(--rgb-gray-dimmed) / 0.20);
+}
+
+/*---------- DISABLED STATE ----------*/
+:root{
+    --c-disabled-1: #D5D5D5;
+    --c-disabled-2: #777777;
+    --c-disabled-text: #5F5F5F;
+}
+
+/*---------- Background ----------*/
+:root{
+    --c-bg: #FCFCFC;
+    --c-bg-alt: #F5F5F5;
+}
+
+/*---------- Text ----------*/
+:root{
+    --c-text: #252525;
+}
+
+/*-------------------------------------------------
+-------------------- FONT-SIZE --------------------
+-------------------------------------------------*/
+:root{
+    --font-size-sm: 1.2rem;
+    --font-size-std: 1.4rem;
+    --font-size-lg: 1.6rem;
+}
+
+/*---------------------------------
+---------- BORDER RADIUS ----------
+---------------------------------*/
+:root{
+    --border-radius-base: 4px;
+}
+
+/*------------------------------
+---------- COMPONENTS ----------
+------------------------------*/
+
+/*---------- Background ----------*/
+:root{
+    --elm-bg-c: #50505015;
+    --elm-bg-c-2: #5050502A;
+    /* --elm-bg-c: var(--vp-c-brand-soft); */
+}
+
+/*---------- Borders ----------*/
+:root{
+    --elm-border-width: 0px;
+    --elm-border-bottom-width: 2px;
+}
+
+
+:root{
     --brand-c-lightest: #AFC5A2;
     --brand-c-lighter: #8CAC7B;
     --brand-c-light: #759B61;
@@ -38,6 +230,7 @@
     --font-main: 'initial';
     --darkText: #252525;
     --lightText: #F8FDFF;
+    
 
     /*---------- RGBY ----------*/
     --red: #C13232;
@@ -68,7 +261,10 @@
 
     --gray0-rgb: 248, 249, 250;
 
-    /*---------- Border radius ----------*/
+    /*---------------------------------
+    ---------- Border Radius ----------
+    ---------------------------------*/
+
     --borderRadius1: 2px;
     --borderRadius2: 5px;
     --borderRadius3: 8px;
@@ -105,6 +301,9 @@
 
     --backdrop-c: #00000030;
 
+
+
+
     --bw: 0px;             /*border width*/
     --bbw: 2px;            /*border bottom width*/
 
@@ -117,19 +316,13 @@
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
 }
 body{
+    background-color: var(--c-bg);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
-body.prevent-overflow{ overflow-y: hidden; }
-
 p, h1, h2, h3{
     margin: 0;
-}
-button{
-    margin: 0;
-    padding: 0;
-    outline: none;
 }
 
 .btnBox{

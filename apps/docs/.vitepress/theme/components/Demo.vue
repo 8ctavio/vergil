@@ -1,31 +1,42 @@
 <template>
-    <div class="demo">
+    <div class="demo center">
         <slot/>
     </div>
 </template>
 
 <style scoped>
 .demo{
-    display: flex;
-    align-items: center;
-    min-height: 100px;
+    justify-content: center;
+    font-size: 1rem;
+    font-family: var(--font-main);
+
+    min-height: 80px;
+    margin: 16px 0;
+    padding: 20px;
+
+    background-color: var(--c-bg-alt);
+    /* background-color: var(--c-bg); */
+    
     border-radius: 8px;
-    background-color: var(--vp-c-bg-alt);
 }
 
-.demo :slotted(:is(.row, .col)){
-    display: grid;
-    width: 100%;
+.demo, :slotted(.row){
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 15px;
-    padding: 30px;
+    width: 100%;
 }
-.demo :slotted(:is(.row, .col)) > :is(.row, .col){
-    padding: 0;
+:slotted(.row).center{
+    justify-content: center;
 }
-.demo :slotted(.row){
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+:slotted(.col){
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
 }
-.demo :slotted(:is(.row, .col).center){
-    justify-items: center;
+:slotted(.col).center{
+    align-items: center;
 }
 </style>

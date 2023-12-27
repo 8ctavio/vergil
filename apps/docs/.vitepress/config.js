@@ -44,6 +44,18 @@ export default {
 				link: '/get-started'
 			},
 			{
+				text: 'Components',
+				collapsed: false,
+				items: [
+					{
+						text: 'Buttons',
+						items: [
+							{ text: 'Btn', link: '/components/buttons/btn' }
+						]
+					}
+				]
+			},
+			{
 				text: 'UI Components',
 				collapsed: false,
 				items: [

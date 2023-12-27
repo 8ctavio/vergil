@@ -11,6 +11,30 @@
     --z-index-toast: 100;
 }
 
+.dark body{
+    background-color: var(--vp-c-bg);
+}
+
+.vp-doc h4{
+    margin-top: 24px;
+    text-indent: 10px;
+}
+.vp-doc :is(h1, h2, h3) .VPBadge{
+    font-size: 0.6em;
+    font-weight: 600;
+    text-indent: 0;
+}
+.vp-doc :is(h4) .VPBadge{
+    font-size: 0.7em;
+    font-weight: 600;
+    text-indent: 0;
+}
+
+.VPBadge > pre{
+    display: inline-block;
+    margin: 0;
+}
+
 .vp-btn{
     padding: 3px 20px;
     border-radius: 4px;
