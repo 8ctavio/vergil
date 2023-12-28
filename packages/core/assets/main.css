@@ -7,9 +7,9 @@
 ----------------------------------------------*/
 /*
     Contrast check:
-        1) bg = var(--c-[name]-x), text = white | var(--c-text)
-        2) bg = var(--c-bg-alt), text = var(--c-[name]-text-1)
-        3) bg = var(--c-[name]-soft-x), text = var(--c-[name]-text-2)
+        1) text = var(--c-[name]-text-1), bg = var(--c-[name]-x)
+        2) text = var(--c-[name]-text-2), bg = var(--c-[name]-soft-x)
+        3) text = var(--c-[name]-text-3), bg = var(--c-bg-alt)
 */
 
 /*-------- BRAND --------*/
@@ -17,20 +17,36 @@
     --c-brand-1: #587848;
     --c-brand-2: #476737;
     --c-brand-3: #3C5A2C;
-
     --rgb-brand: 88 120 72;
 
     --c-brand-soft-1: #DAE6D5;
     --c-brand-soft-2: #CCD8C7;
     --c-brand-soft-3: #BECAB9;
-
     --rgb-brand-soft: 218 230 213;
 
-    --c-brand-text-1: var(--c-brand-1);
+    --c-brand-text-1: white;
     --c-brand-text-2: var(--c-brand-3);
+    --c-brand-text-3: var(--c-brand-1);
 
     --rgb-brand-dimmed: 136 186 109;
+    --c-brand-dimmed-10: rgba(var(--rgb-brand-dimmed) / 0.10);
+    --c-brand-dimmed-15: rgba(var(--rgb-brand-dimmed) / 0.15);
+    --c-brand-dimmed-20: rgba(var(--rgb-brand-dimmed) / 0.20);
+}
+.dark{
+    --c-brand-1: #94B484;
+    --c-brand-2: #A1C291;
+    --c-brand-3: #AFD09F;
+    --rgb-brand: 148 180 132;
+    
+    --c-brand-soft-1: #353E2F;
+    --c-brand-soft-2: #40493A;
+    --c-brand-soft-3: #4C5545;
+    --rgb-brand-soft: 53 62 47;
 
+    --c-brand-text-1: #082100;
+
+    --rgb-brand-dimmed: 136 186 109;
     --c-brand-dimmed-10: rgba(var(--rgb-brand-dimmed) / 0.10);
     --c-brand-dimmed-15: rgba(var(--rgb-brand-dimmed) / 0.15);
     --c-brand-dimmed-20: rgba(var(--rgb-brand-dimmed) / 0.20);
@@ -41,20 +57,37 @@
     --c-ok-1: #18794E;
     --c-ok-2: #006D43;
     --c-ok-3: #006037;
-
     --rgb-ok: 24 121 78;
 
     --c-ok-soft-1: #B9F0BD;
     --c-ok-soft-2: #ABE2AF;
     --c-ok-soft-3: #9ED3A2;
-
     --rgb-ok-soft: 185 240 189;
 
-    --c-ok-text-1: var(--c-ok-1);
+    --c-ok-text-1: white;
     --c-ok-text-2: var(--c-ok-3);
+    --c-ok-text-3: var(--c-ok-1);
 
     --rgb-green-dimmed: 16 185 129;
+    --c-ok-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
+    --c-ok-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
+    --c-ok-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
+}
+.dark{
+    --c-ok-1: #006037;
+    --c-ok-2: #196C41;
+    --c-ok-3: #29784D;
+    --rgb-ok: 0 96 55;
 
+    --c-ok-soft-1: #1B352C;
+    --c-ok-soft-2: #264136;
+    --c-ok-soft-3: #314C42;
+    --rgb-ok-soft: 27 53 44;
+
+    --c-ok-text-2: #A3F4C1;
+    --c-ok-text-3: #6DBB8B;
+
+    --rgb-green-dimmed: 16 185 129;
     --c-ok-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
     --c-ok-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
     --c-ok-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
@@ -65,20 +98,37 @@
     --c-info-1: #3a5ccc;
     --c-info-2: #3451b2;
     --c-info-3: #0046B2;
-
     --rgb-info: 58 92 204;
 
     --c-info-soft-1: #DCE6FF;
     --c-info-soft-2: #CCD8FF;
     --c-info-soft-3: #BDCAFF;
-
     --rgb-info-soft: 220 230 255;
 
-    --c-info-text-1: var(--c-info-1);
+    --c-info-text-1: white;
     --c-info-text-2: var(--c-info-3);
+    --c-info-text-3: var(--c-info-1);
 
     --rgb-blue-dimmed: 100 108 255;
-    
+    --c-info-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
+    --c-info-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
+    --c-info-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
+}
+.dark{
+    --c-info-1: #134AB7;
+    --c-info-2: #2E56C5;
+    --c-info-3: #4262D3;
+    --rgb-info: 19 74 183;
+
+    --c-info-soft-1: #212845;
+    --c-info-soft-2: #2C3351;
+    --c-info-soft-3: #383E5D;
+    --rgb-info-soft: 33 40 69;
+
+    --c-info-text-2: #BECFFF;
+    --c-info-text-3: #91A4FF;
+
+    --rgb-blue-dimmed: 100 108 255;
     --c-info-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
     --c-info-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
     --c-info-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
@@ -89,20 +139,38 @@
     --c-warn-1: #FFDD6A;
     --c-warn-2: #FCCF5D;
     --c-warn-3: #EDC150;
-
     --rgb-warn: 255 221 106;
 
     --c-warn-soft-1: #FFEEAD;
     --c-warn-soft-2: #FAE09F;
     --c-warn-soft-3: #F1D897;
-
     --rgb-warn-soft: 255 238 173;
 
-    --c-warn-text-1: #7F6900;
+    --c-warn-text-1: #5F4100;
     --c-warn-text-2: #755400;
+    --c-warn-text-3: #7F6900;
 
     --rgb-yellow-dimmed: 249 204 90;
+    --c-warn-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
+    --c-warn-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
+    --c-warn-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
+}
+.dark{
+    --c-warn-1: #E2C463;
+    --c-warn-2: #F1D270;
+    --c-warn-3: #FFE07D;
+    --rgb-warn: 226 196 99;
 
+    --c-warn-soft-1: #35301F;
+    --c-warn-soft-2: #413B29;
+    --c-warn-soft-3: #4C4734;
+    --rgb-warn-soft: 53 48 31;
+
+    --c-warn-text-1: #472B00;
+    --c-warn-text-2: var(--c-warn-3);
+    --c-warn-text-3: var(--c-warn-3);
+
+    --rgb-yellow-dimmed: 249 204 90;
     --c-warn-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
     --c-warn-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
     --c-warn-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
@@ -113,44 +181,77 @@
     --c-danger-1: #C92D36;
     --c-danger-2: #B91B2B;
     --c-danger-3: #A90020;
-
     --rgb-danger: 201 45 54;
 
     --c-danger-soft-1: #FFDCD1;
     --c-danger-soft-2: #FFCEC3;
     --c-danger-soft-3: #FFC0B6;
-
     --rgb-danger-soft: 255 220 209;
 
-    --c-danger-text-1: var(--c-danger-1);
+    --c-danger-text-1: white;
     --c-danger-text-2: var(--c-danger-3);
+    --c-danger-text-3: var(--c-danger-1);
 
     --rgb-red-dimmed: 255 105 101;
+    --c-danger-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
+    --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
+    --c-danger-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
+}
+.dark{
+    --c-danger-1: #AD1F35;
+    --c-danger-2: #BC3040;
+    --c-danger-3: #CB3F4B;
+    --rgb-danger: 173 31 53;
 
+    --c-danger-soft-1: #3B181D;
+    --c-danger-soft-2: #4A252A;
+    --c-danger-soft-3: #573034;
+    --rgb-danger-soft: 54 24 29;
+
+    --c-danger-text-2: #FFB5B6;
+    --c-danger-text-3: var(--c-danger-3);
+
+    --rgb-red-dimmed: 255 105 101;
     --c-danger-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
     --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
     --c-danger-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
 }
 
-/*-------- DEFAULT --------*/
+/*-------- GRAY --------*/
 :root{
     --c-gray-1: #5E5E5E;
     --c-gray-2: #525252;
     --c-gray-3: #474747;
-
     --rgb-gray: 94 94 94;
 
     --c-gray-soft-1: #C5C5C5;
     --c-gray-soft-2: #B9B9B9;
     --c-gray-soft-3: #ABABAB;
-
     --rgb-default-soft: 197 197 197;
 
-    --c-gray-text-1: var(--c-gray-1);
+    --c-gray-text-1: white;
     --c-gray-text-2: var(--c-gray-3);
+    --c-gray-text-3: var(--c-gray-1);
 
     --rgb-gray-dimmed: 150 150 150;
-    
+    --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
+    --c-gray-dimmed-15: rgba(var(--rgb-gray-dimmed) / 0.15);
+    --c-gray-dimmed-20: rgba(var(--rgb-gray-dimmed) / 0.20);
+}
+.dark{
+    --c-gray-1: #C6C6C6;
+    --c-gray-2: #D4D4D4;
+    --c-gray-3: #E2E2E2;
+    --rgb-gray: 198 198 198;
+
+    --c-gray-soft-1: #303030;
+    --c-gray-soft-2: #3B3B3B;
+    --c-gray-soft-3: #474747;
+    --rgb-default-soft: 48 48 48;
+
+    --c-gray-text-1: #101010;
+
+    --rgb-gray-dimmed: 150 150 150;
     --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
     --c-gray-dimmed-15: rgba(var(--rgb-gray-dimmed) / 0.15);
     --c-gray-dimmed-20: rgba(var(--rgb-gray-dimmed) / 0.20);
@@ -162,16 +263,43 @@
     --c-disabled-2: #777777;
     --c-disabled-text: #5F5F5F;
 }
+.dark{
+    --c-disabled-1: #252525;
+    --c-disabled-2: #5A5A5A;
+    --c-disabled-text: #808080;
+}
 
 /*---------- Background ----------*/
 :root{
     --c-bg: #FCFCFC;
     --c-bg-alt: #F5F5F5;
 }
+.dark{
+    --c-bg: #1B1B1B;
+    --c-bg-alt: #151515;
+}
+
+/*------------------ COMPONENTS ------------------*/
+/*
+    --elm-c-bg-1: Should look good on top of --c-bg & --c-bg-alt
+    --elm-c-bg-2: Hover state of --elm-c-bg-1
+    --elm-c-text: Should have good constrast with --elm-c-bg-x as backround
+*/
+:root{
+    --elm-c-bg-1: #50505015;
+    --elm-c-bg-2: #50505020;
+    --elm-c-text: #252525;
+}
+.dark{
+    --elm-c-bg-1: #DADADA15;
+    --elm-c-bg-2: #DADADA20;
+    --elm-c-text: #FFFFFF;
+}
 
 /*---------- Text ----------*/
 :root{
-    --c-text: #252525;
+    --c-text-light: #FFFFFF;
+    --c-text-dark: #252525;
 }
 
 /*-------------------------------------------------
@@ -190,23 +318,11 @@
     --border-radius-base: 4px;
 }
 
-/*------------------------------
----------- COMPONENTS ----------
-------------------------------*/
-
-/*---------- Background ----------*/
-:root{
-    --elm-bg-c: #50505015;
-    --elm-bg-c-2: #5050502A;
-    /* --elm-bg-c: var(--vp-c-brand-soft); */
-}
-
 /*---------- Borders ----------*/
 :root{
     --elm-border-width: 0px;
     --elm-border-bottom-width: 2px;
 }
-
 
 :root{
     --brand-c-lightest: #AFC5A2;

@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Vergil"
-  text: "Blazing Fast Web Development"
+  text: "Blazingly Fast Web Development"
   tagline: "A Vue Web Application Development Framework"
   image: /assets/vergil_noBg.png
   actions:

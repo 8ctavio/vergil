@@ -61,6 +61,101 @@ if(btnClasses.includes('fill')){
 </template>
 
 <style>
+/*----------------------------------------------
+-------------------- THEMES --------------------
+----------------------------------------------*/
+.btn{
+    --c-btn-1: var(--c-brand-1);
+    --c-btn-2: var(--c-brand-2);
+    --c-btn-3: var(--c-brand-3);
+
+    --c-btn-soft-1: var(--c-brand-soft-1);
+    --c-btn-soft-2: var(--c-brand-soft-2);
+    --c-btn-soft-3: var(--c-brand-soft-3);
+    --rgb-btn-soft: var(--rgb-brand-soft);
+
+    --c-btn-text-1: var(--c-brand-text-1);
+    --c-btn-text-2: var(--c-brand-text-2);
+    --c-btn-text-3: var(--c-brand-text-3);
+
+    --c-btn-outline: 3px solid var(--c-btn-soft-3);
+    --c-btn-outline-offset: 2px;
+}
+.dark .btn{
+    --c-btn-outline: 2px solid var(--c-btn-1);
+    --c-btn-outline-offset: 3px;
+}
+.btn.ok{
+    --c-btn-1: var(--c-ok-1);
+    --c-btn-2: var(--c-ok-2);
+    --c-btn-3: var(--c-ok-3);
+
+    --c-btn-soft-1: var(--c-ok-soft-1);
+    --c-btn-soft-2: var(--c-ok-soft-2);
+    --c-btn-soft-3: var(--c-ok-soft-3);
+    --rgb-btn-soft: var(--rgb-ok-soft);
+    
+    --c-btn-text-1: var(--c-ok-text-1);
+    --c-btn-text-2: var(--c-ok-text-2);
+    --c-btn-text-3: var(--c-ok-text-3);
+}
+.btn.info{
+    --c-btn-1: var(--c-info-1);
+    --c-btn-2: var(--c-info-2);
+    --c-btn-3: var(--c-info-3);
+
+    --c-btn-soft-1: var(--c-info-soft-1);
+    --c-btn-soft-2: var(--c-info-soft-2);
+    --c-btn-soft-3: var(--c-info-soft-3);
+    --rgb-btn-soft: var(--rgb-info-soft);
+
+    --c-btn-text-1: var(--c-info-text-1);
+    --c-btn-text-2: var(--c-info-text-2);
+    --c-btn-text-3: var(--c-info-text-3);
+}
+.btn.warn{
+    --c-btn-1: var(--c-warn-1);
+    --c-btn-2: var(--c-warn-2);
+    --c-btn-3: var(--c-warn-3);
+
+    --c-btn-soft-1: var(--c-warn-soft-1);
+    --c-btn-soft-2: var(--c-warn-soft-2);
+    --c-btn-soft-3: var(--c-warn-soft-3);
+    --rgb-btn-soft: var(--rgb-warn-soft);
+
+    --c-btn-text-1: var(--c-warn-text-1);
+    --c-btn-text-2: var(--c-warn-text-2);
+    --c-btn-text-3: var(--c-warn-text-3);
+}
+.btn.danger{
+    --c-btn-1: var(--c-danger-1);
+    --c-btn-2: var(--c-danger-2);
+    --c-btn-3: var(--c-danger-3);
+
+    --c-btn-soft-1: var(--c-danger-soft-1);
+    --c-btn-soft-2: var(--c-danger-soft-2);
+    --c-btn-soft-3: var(--c-danger-soft-3);
+    --rgb-btn-soft: var(--rgb-danger-soft);
+
+    --c-btn-text-1: var(--c-danger-text-1);
+    --c-btn-text-2: var(--c-danger-text-2);
+    --c-btn-text-3: var(--c-danger-text-3);
+}
+.btn.gray{
+    --c-btn-1: var(--c-gray-1);
+    --c-btn-2: var(--c-gray-2);
+    --c-btn-3: var(--c-gray-3);
+
+    --c-btn-soft-1: var(--c-gray-soft-1);
+    --c-btn-soft-2: var(--c-gray-soft-2);
+    --c-btn-soft-3: var(--c-gray-soft-3);
+    --rgb-btn-soft: var(--rgb-default-soft);
+
+    --c-btn-text-1: var(--c-gray-text-1);
+    --c-btn-text-2: var(--c-gray-text-2);
+    --c-btn-text-3: var(--c-gray-text-3);
+}
+
 .btn{
     font-size: var(--font-size-std);
     font-weight: 500;
@@ -74,113 +169,13 @@ if(btnClasses.includes('fill')){
     border-radius: var(--border-radius-base);
     outline: 0 solid transparent;
 
-    background-color: var(--elm-bg-c);
-    color: var(--c-text);
+    background-color: var(--elm-c-bg-1);
+    color: var(--elm-c-text);
 
     cursor: pointer;
     transition: background-color 300ms, color 300ms, border 300ms, box-shadow 300ms, outline 100ms;
 }
 .btn::selection{ background-color: transparent; }
-
-/*----------------------------------------------
--------------------- THEMES --------------------
-----------------------------------------------*/
-.btn{
-    --c-btn-1: var(--c-brand-1);
-    --c-btn-2: var(--c-brand-2);
-    --c-btn-3: var(--c-brand-3);
-
-    --c-btn-soft-1: var(--c-brand-soft-1);
-    --c-btn-soft-2: var(--c-brand-soft-2);
-    --c-btn-soft-3: var(--c-brand-soft-3);
-
-    --rgb-btn-soft: var(--rgb-brand-soft);
-
-    --c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-brand-text-1);
-    --c-btn-text-2: var(--c-brand-text-2);
-}
-.btn.ok{
-    --c-btn-1: var(--c-ok-1);
-    --c-btn-2: var(--c-ok-2);
-    --c-btn-3: var(--c-ok-3);
-
-    --c-btn-soft-1: var(--c-ok-soft-1);
-    --c-btn-soft-2: var(--c-ok-soft-2);
-    --c-btn-soft-3: var(--c-ok-soft-3);
-
-    --rgb-btn-soft: var(--rgb-ok-soft);
-
-    ---c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-ok-text-1);
-    --c-btn-text-2: var(--c-ok-text-2);
-}
-.btn.info{
-    --c-btn-1: var(--c-info-1);
-    --c-btn-2: var(--c-info-2);
-    --c-btn-3: var(--c-info-3);
-
-    --c-btn-soft-1: var(--c-info-soft-1);
-    --c-btn-soft-2: var(--c-info-soft-2);
-    --c-btn-soft-3: var(--c-info-soft-3);
-
-    --rgb-btn-soft: var(--rgb-info-soft);
-
-    --c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-info-text-1);
-    --c-btn-text-2: var(--c-info-text-2);
-}
-.btn.warn{
-    --c-btn-1: var(--c-warn-1);
-    --c-btn-2: var(--c-warn-2);
-    --c-btn-3: var(--c-warn-3);
-
-    --c-btn-soft-1: var(--c-warn-soft-1);
-    --c-btn-soft-2: var(--c-warn-soft-2);
-    --c-btn-soft-3: var(--c-warn-soft-3);
-
-    --rgb-btn-soft: var(--rgb-warn-soft);
-
-    --c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-warn-text-1);
-    --c-btn-text-2: var(--c-warn-text-2);
-}
-.btn.danger{
-    --c-btn-1: var(--c-danger-1);
-    --c-btn-2: var(--c-danger-2);
-    --c-btn-3: var(--c-danger-3);
-
-    --c-btn-soft-1: var(--c-danger-soft-1);
-    --c-btn-soft-2: var(--c-danger-soft-2);
-    --c-btn-soft-3: var(--c-danger-soft-3);
-
-    --rgb-btn-soft: var(--rgb-danger-soft);
-
-    --c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-danger-text-1);
-    --c-btn-text-2: var(--c-danger-text-2);
-}
-.btn.gray{
-    --c-btn-1: var(--c-gray-1);
-    --c-btn-2: var(--c-gray-2);
-    --c-btn-3: var(--c-gray-3);
-
-    --c-btn-soft-1: var(--c-gray-soft-1);
-    --c-btn-soft-2: var(--c-gray-soft-2);
-    --c-btn-soft-3: var(--c-gray-soft-3);
-
-    --rgb-btn-soft: var(--rgb-default-soft);
-
-    --c-btn-outline: var(--c-btn-soft-3);
-
-    --c-btn-text-1: var(--c-gray-text-1);
-    --c-btn-text-2: var(--c-gray-text-2);
-}
 
 /*---------------------------------------------
 -------------------- TYPES --------------------
@@ -193,12 +188,12 @@ if(btnClasses.includes('fill')){
 .btn:is(:hover, :focus-visible){
     background-color: var(--c-btn-1);
 }
-.btn:where(:not(.warn)):is(:hover, :active, :focus-visible){
-    color: white;
+.btn:is(:hover, :active, :focus-visible){
+    color: var(--c-btn-text-1);
 }
 .btn:focus-visible{
-    outline: 3px solid var(--c-btn-outline);
-    outline-offset: 2px;
+    outline: var(--c-btn-outline);
+    outline-offset: var(--c-btn-outline-offset);
 }
 .btn:active:not(.loading){
     border-color: var(--c-btn-2);
@@ -237,8 +232,8 @@ if(btnClasses.includes('fill')){
     border: none;
     background-color: var(--c-btn-1);
 }
-.btn.primary:not(:disabled):not(.warn){
-    color: white;
+.btn.primary:not(:disabled){
+    color: var(--c-btn-text-1);
 }
 .btn.primary:not(:disabled, .loading):is(:hover, :focus-visible){
     background-color: var(--c-btn-2);
@@ -264,24 +259,25 @@ if(btnClasses.includes('fill')){
 .btn.outlined{
     border: 1px solid var(--c-btn-1);
     background-color: transparent;
-    color: var(--c-text);
+    color: var(--elm-c-text);
 }
 .btn.outlined:where(.warn){
     border-color: var(--c-btn-3);
 }
 .btn.outlined:not(:disabled):is(:hover, :focus-visible){
-    background-color: var(--elm-bg-c);
+    background-color: var(--elm-c-bg-1);
 }
 .btn.outlined:not(:disabled):active{
-    background-color: var(--elm-bg-c-2);
+    background-color: var(--elm-c-bg-2);
 }
 
 /*------------------ TEXT ------------------*/
 .btn.text{
     border: none;
     background-color: transparent;
-    color: var(--c-btn-text-1);
+    color: var(--c-btn-text-3);
 }
+
 .btn.text:not(:disabled, .loading):is(:hover, :focus-visible){
     color: var(--c-btn-text-2);
     background-color: rgb(var(--rgb-btn-soft) / 0.3);
@@ -296,6 +292,22 @@ if(btnClasses.includes('fill')){
 }
 .btn.text.warn:not(:disabled):active{
     background-color: rgb(var(--rgb-btn-soft) / 0.6);
+}
+
+.dark .btn.text:not(:disabled, .loading):is(:hover, :focus-visible){
+    background-color: rgb(var(--rgb-btn-soft) / 0.6);
+}
+.dark .btn.text:not(:disabled):active{
+    background-color: rgb(var(--rgb-btn-soft) / 0.8);
+}
+
+.dark .btn.text.info:not(:disabled, .loading):is(:hover, :focus-visible){
+    color: var(--c-btn-text-2);
+    background-color: rgb(var(--rgb-btn-soft) / 0.7);
+}
+.dark .btn.text.info:not(:disabled):active{
+    color: var(--c-btn-text-2);
+    background-color: rgb(var(--rgb-btn-soft) / 0.9);
 }
 
 /*--------------------------------------------
@@ -346,27 +358,35 @@ if(btnClasses.includes('fill')){
     transition: color 300ms;
 }
 
-.btn:is(.default, .outlined):not(:disabled) > .icon{
-    color: var(--c-btn-2);
+.btn:is(.default, .outlined, .text):not(:disabled) > .icon{
+    color: var(--c-btn-text-3);
 }
-.btn.default:not(.warn):is(:hover, :active, :focus-visible):not(:disabled) > .icon{
+
+.btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
     color: var(--c-btn-soft-1);
+}
+.dark .btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
+    color: var(--c-btn-text-1);
 }
 
 .btn.primary:not(:disabled) > .icon{
     color: var(--c-btn-soft-1);
 }
-.btn.text > .icon{
+.dark .btn.primary:not(:disabled) > .icon{
     color: var(--c-btn-text-1);
 }
 
-.btn.warn:not(:disabled) > .icon{
+.btn.warn:is(.default, .primary):not(:disabled) > .icon{
     color: var(--c-btn-text-2);
 }
-.btn.warn.outlined:not(:disabled) > .icon{
+.dark .btn.warn.primary:not(:disabled) > .icon{
+    color: var(--c-btn-text-1);
+}
+
+.btn.warn:is(.outlined, .text):not(:disabled) > .icon{
     color: var(--c-btn-3);
 }
-.btn.warn.outlined:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
+.btn.warn:is(.outlined, .text):is(:hover, :active, :focus-visible):not(:disabled) > .icon{
     color: var(--c-btn-text-2);
 }
 

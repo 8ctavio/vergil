@@ -214,6 +214,10 @@ _______________________________________________________*/
 	border-color: var(--c-warn-2);
 	border-top-color: var(--c-warn-text-2);
 }
+.dark .loader.warn.secondary > .spinner{
+	border-color: var(--c-warn-soft-3);
+	border-top-color: var(--c-warn-text-2);
+}
 
 /*-------- DANGER --------*/
 .loader.danger.primary{
