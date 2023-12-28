@@ -78,6 +78,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-2: var(--c-brand-text-2);
     --c-btn-text-3: var(--c-brand-text-3);
 
+    --c-btn-icon-1: var(--c-brand-icon-1);
+    --c-btn-icon-2: var(--c-brand-icon-2);
+    --c-btn-icon-3: var(--c-brand-icon-3);
+    --c-btn-icon-4: var(--c-brand-icon-4);
+
     --c-btn-outline: 3px solid var(--c-btn-soft-3);
     --c-btn-outline-offset: 2px;
 }
@@ -98,6 +103,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-1: var(--c-ok-text-1);
     --c-btn-text-2: var(--c-ok-text-2);
     --c-btn-text-3: var(--c-ok-text-3);
+
+    --c-btn-icon-1: var(--c-ok-icon-1);
+    --c-btn-icon-2: var(--c-ok-icon-2);
+    --c-btn-icon-3: var(--c-ok-icon-3);
+    --c-btn-icon-4: var(--c-ok-icon-4);
 }
 .btn.info{
     --c-btn-1: var(--c-info-1);
@@ -112,6 +122,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-1: var(--c-info-text-1);
     --c-btn-text-2: var(--c-info-text-2);
     --c-btn-text-3: var(--c-info-text-3);
+
+    --c-btn-icon-1: var(--c-info-icon-1);
+    --c-btn-icon-2: var(--c-info-icon-2);
+    --c-btn-icon-3: var(--c-info-icon-3);
+    --c-btn-icon-4: var(--c-info-icon-4);
 }
 .btn.warn{
     --c-btn-1: var(--c-warn-1);
@@ -126,6 +141,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-1: var(--c-warn-text-1);
     --c-btn-text-2: var(--c-warn-text-2);
     --c-btn-text-3: var(--c-warn-text-3);
+
+    --c-btn-icon-1: var(--c-warn-icon-1);
+    --c-btn-icon-2: var(--c-warn-icon-2);
+    --c-btn-icon-3: var(--c-warn-icon-3);
+    --c-btn-icon-4: var(--c-warn-icon-4);
 }
 .btn.danger{
     --c-btn-1: var(--c-danger-1);
@@ -140,6 +160,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-1: var(--c-danger-text-1);
     --c-btn-text-2: var(--c-danger-text-2);
     --c-btn-text-3: var(--c-danger-text-3);
+
+    --c-btn-icon-1: var(--c-danger-icon-1);
+    --c-btn-icon-2: var(--c-danger-icon-2);
+    --c-btn-icon-3: var(--c-danger-icon-3);
+    --c-btn-icon-4: var(--c-danger-icon-4);
 }
 .btn.gray{
     --c-btn-1: var(--c-gray-1);
@@ -154,6 +179,11 @@ if(btnClasses.includes('fill')){
     --c-btn-text-1: var(--c-gray-text-1);
     --c-btn-text-2: var(--c-gray-text-2);
     --c-btn-text-3: var(--c-gray-text-3);
+
+    --c-btn-icon-1: var(--c-gray-icon-1);
+    --c-btn-icon-2: var(--c-gray-icon-2);
+    --c-btn-icon-3: var(--c-gray-icon-3);
+    --c-btn-icon-4: var(--c-gray-icon-4);
 }
 
 .btn{
@@ -358,36 +388,25 @@ if(btnClasses.includes('fill')){
     transition: color 300ms;
 }
 
-.btn:is(.default, .outlined, .text):not(:disabled) > .icon{
-    color: var(--c-btn-text-3);
-}
-
-.btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
-    color: var(--c-btn-soft-1);
-}
-.dark .btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
-    color: var(--c-btn-text-1);
-}
-
+.btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon,
 .btn.primary:not(:disabled) > .icon{
-    color: var(--c-btn-soft-1);
-}
-.dark .btn.primary:not(:disabled) > .icon{
-    color: var(--c-btn-text-1);
+    color: var(--c-btn-icon-1);
 }
 
-.btn.warn:is(.default, .primary):not(:disabled) > .icon{
-    color: var(--c-btn-text-2);
+.btn.secondary:not(:disabled) > .icon{
+    color: var(--c-btn-icon-2);
 }
-.dark .btn.warn.primary:not(:disabled) > .icon{
-    color: var(--c-btn-text-1);
+.btn.text.warn:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
+    color: var(--c-btn-icon-2);
 }
 
-.btn.warn:is(.outlined, .text):not(:disabled) > .icon{
-    color: var(--c-btn-3);
+.btn:is(.outlined, .text):not(:disabled) > .icon{
+    color: var(--c-btn-icon-3);
 }
-.btn.warn:is(.outlined, .text):is(:hover, :active, :focus-visible):not(:disabled) > .icon{
-    color: var(--c-btn-text-2);
+
+.btn.default:not(:disabled) > .icon,
+.btn.outlined:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
+    color: var(--c-btn-icon-4);
 }
 
 /*------------------ SQUARED ------------------*/

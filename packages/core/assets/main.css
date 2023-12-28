@@ -10,6 +10,11 @@
         1) text = var(--c-[name]-text-1), bg = var(--c-[name]-x)
         2) text = var(--c-[name]-text-2), bg = var(--c-[name]-soft-x)
         3) text = var(--c-[name]-text-3), bg = var(--c-bg-alt)
+
+        4) icon = var(--c-[name]-icon-1), bg = var(--c-[name]-x)
+        5) icon = var(--c-[name]-icon-2), bg = var(--c-[name]-soft-x)
+        6) icon = var(--c-[name]-icon-3), bg = var(--c-bg-alt)
+        7) icon = var(--c-[name]-icon-3), bg = var(--elm-c-bg-x)
 */
 
 /*-------- BRAND --------*/
@@ -27,6 +32,11 @@
     --c-brand-text-1: white;
     --c-brand-text-2: var(--c-brand-3);
     --c-brand-text-3: var(--c-brand-1);
+
+    --c-brand-icon-1: var(--c-brand-soft-1);
+    --c-brand-icon-2: var(--c-brand-text-2);
+    --c-brand-icon-3: var(--c-brand-text-3);
+    --c-brand-icon-4: var(--c-brand-text-3);
 
     --rgb-brand-dimmed: 136 186 109;
     --c-brand-dimmed-10: rgba(var(--rgb-brand-dimmed) / 0.10);
@@ -68,6 +78,11 @@
     --c-ok-text-2: var(--c-ok-3);
     --c-ok-text-3: var(--c-ok-1);
 
+    --c-ok-icon-1: var(--c-ok-soft-1);
+    --c-ok-icon-2: var(--c-ok-text-2);
+    --c-ok-icon-3: var(--c-ok-text-2);
+    --c-ok-icon-4: var(--c-ok-text-3);
+
     --rgb-green-dimmed: 16 185 129;
     --c-ok-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
     --c-ok-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
@@ -86,6 +101,8 @@
 
     --c-ok-text-2: #A3F4C1;
     --c-ok-text-3: #6DBB8B;
+
+    --c-ok-icon-1: var(--c-ok-text-2);
 
     --rgb-green-dimmed: 16 185 129;
     --c-ok-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
@@ -109,6 +126,11 @@
     --c-info-text-2: var(--c-info-3);
     --c-info-text-3: var(--c-info-1);
 
+    --c-info-icon-1: var(--c-info-soft-1);
+    --c-info-icon-2: var(--c-info-text-2);
+    --c-info-icon-3: var(--c-info-text-3);
+    --c-info-icon-4: var(--c-info-text-3);
+
     --rgb-blue-dimmed: 100 108 255;
     --c-info-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
     --c-info-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
@@ -127,6 +149,8 @@
 
     --c-info-text-2: #BECFFF;
     --c-info-text-3: #91A4FF;
+
+    --c-info-icon-1: var(--c-info-text-2);
 
     --rgb-blue-dimmed: 100 108 255;
     --c-info-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
@@ -150,6 +174,11 @@
     --c-warn-text-2: #755400;
     --c-warn-text-3: #7F6900;
 
+    --c-warn-icon-1: var(--c-warn-text-2);
+    --c-warn-icon-2: var(--c-warn-text-3);
+    --c-warn-icon-3: var(--c-warn-3);
+    --c-warn-icon-4: var(--c-warn-text-3);
+
     --rgb-yellow-dimmed: 249 204 90;
     --c-warn-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
     --c-warn-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
@@ -169,6 +198,8 @@
     --c-warn-text-1: #472B00;
     --c-warn-text-2: var(--c-warn-3);
     --c-warn-text-3: var(--c-warn-3);
+
+    --c-warn-icon-1: var(--c-warn-text-1);
 
     --rgb-yellow-dimmed: 249 204 90;
     --c-warn-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
@@ -192,6 +223,11 @@
     --c-danger-text-2: var(--c-danger-3);
     --c-danger-text-3: var(--c-danger-1);
 
+    --c-danger-icon-1: var(--c-danger-soft-1);
+    --c-danger-icon-2: var(--c-danger-text-2);
+    --c-danger-icon-3: var(--c-danger-text-3);
+    --c-danger-icon-4: var(--c-danger-text-2);
+
     --rgb-red-dimmed: 255 105 101;
     --c-danger-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
     --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
@@ -211,6 +247,8 @@
     --c-danger-text-2: #FFB5B6;
     --c-danger-text-3: var(--c-danger-3);
 
+    --c-danger-icon-1: var(--c-danger-text-1);
+
     --rgb-red-dimmed: 255 105 101;
     --c-danger-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
     --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
@@ -224,14 +262,19 @@
     --c-gray-3: #474747;
     --rgb-gray: 94 94 94;
 
-    --c-gray-soft-1: #C5C5C5;
-    --c-gray-soft-2: #B9B9B9;
-    --c-gray-soft-3: #ABABAB;
+    --c-gray-soft-1: #D4D4D4;
+    --c-gray-soft-2: #C6C6C6;
+    --c-gray-soft-3: #B9B9B9;
     --rgb-default-soft: 197 197 197;
 
     --c-gray-text-1: white;
     --c-gray-text-2: var(--c-gray-3);
     --c-gray-text-3: var(--c-gray-1);
+
+    --c-gray-icon-1: var(--c-gray-soft-1);
+    --c-gray-icon-2: var(--c-gray-text-2);
+    --c-gray-icon-3: var(--c-gray-text-3);
+    --c-gray-icon-4: var(--c-gray-text-3);
 
     --rgb-gray-dimmed: 150 150 150;
     --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
@@ -250,6 +293,8 @@
     --rgb-default-soft: 48 48 48;
 
     --c-gray-text-1: #101010;
+
+    --c-gray-icon-1: var(--c-gray-text-1);
 
     --rgb-gray-dimmed: 150 150 150;
     --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
