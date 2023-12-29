@@ -1,5 +1,6 @@
 //---------- Buttons ----------
 export { default as Btn } from './buttons/Btn.vue'
+export { default as Btn3D } from './buttons/Btn3D.vue'
 
 //---------- COMPONENTS ----------
 export { default as AlertFeed } from './alert/AlertFeed.vue'

@@ -7,7 +7,7 @@ outline: [2,3]
 > Button element to handle click events
 
 <script setup>
-    import { Btn, Loader } from 'vergil/components'
+    import { Btn } from 'vergil/components'
 </script>
 
 ## Basic Usage
@@ -256,7 +256,7 @@ Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing
 
 <Demo>
     <Btn disabled label="Disabled"/>
-    <Btn class="primary btn3d btn-3d" disabled label="Disabled"/>
+    <Btn class="primary" disabled label="Disabled"/>
     <Btn class="secondary" disabled label="Disabled"/>
     <Btn class="outlined" disabled label="Disabled"/>
     <Btn class="text" disabled label="Disabled"/>

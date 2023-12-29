@@ -50,7 +50,8 @@ export default {
 					{
 						text: 'Buttons',
 						items: [
-							{ text: 'Btn', link: '/components/buttons/btn' }
+							{ text: 'Btn', link: '/components/buttons/btn' },
+							{ text: 'Btn3D', link: '/components/buttons/btn3d' }
 						]
 					}
 				]
