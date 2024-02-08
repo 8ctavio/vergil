@@ -77,10 +77,6 @@ If none of this classes is explicitly specified, the `default` class is automati
     <Btn class="fill" label="Hover me!"/>
 </Demo>
 
-::: tip
-Use this prop sparingly.
-:::
-
 #### Borderless <Badge type="info"><pre>borderless</pre> class</Badge>
 
 ```vue

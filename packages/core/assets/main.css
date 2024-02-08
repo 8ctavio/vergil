@@ -366,7 +366,7 @@
 /*---------- Borders ----------*/
 :root{
     --elm-border-width: 0px;
-    --elm-border-bottom-width: 2px;
+    --elm-border-bottom-width: 2.5px;
 }
 
 :root{

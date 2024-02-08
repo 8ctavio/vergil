@@ -3,7 +3,6 @@ import Loader from '../Loader.vue'
 import Icon from '../Icon.vue'
 import { globalDisabler } from '../../composables/useLoaders'
 import { ref, useAttrs } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
 
 const attrs = useAttrs()
 
@@ -16,37 +15,28 @@ defineProps({
     iconRight: String
 })
 
-const btn = ref(null)
-const btnHeight = ref('0px')
-
 const btnClasses = attrs.class?.split(' ') ?? []
 
 const type = btnClasses.find(c => ['default', 'primary', 'secondary', 'outlined', 'text'].includes(c))
 const theme = btnClasses.find(c => ['brand', 'ok', 'info', 'warn', 'danger', 'gray'].includes(c))
-
-if(btnClasses.includes('fill')){
-    useResizeObserver(btn, entries => {
-        const entry = entries[0]
-        const { blockSize } = entry.borderBoxSize[0]
-        btnHeight.value = `-${blockSize}px`
-    })
-}
 </script>
 
 <template>
-    <button ref="btn" 
+    <button
         :class="[
             'btn', 
             {
                 loading,
                 default: typeof type === 'undefined',
                 brand: typeof theme === 'undefined',
+                test: fill
             }
         ]"
         :disabled="globalDisabler || disabled || loading"
     >
+        <span v-if="typeof type === 'undefined' || type === 'default'" class="btn-fill"></span>
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
-        <slot>{{ label }}</slot>
+        <span class="btn-label"><slot>{{ label }}</slot></span>
         <Icon v-if="iconRight" :code="iconRight"/>
         <Loader v-if="loading" 
             :class="[
@@ -213,7 +203,7 @@ if(btnClasses.includes('fill')){
 /*-------- DEFAULT --------*/
 .btn{
     border: var(--elm-border-width) solid var(--c-btn-1);
-    border-bottom: var(--elm-border-bottom-width) solid var(--c-btn-1);
+    overflow: hidden;
 }
 .btn:is(:hover, :focus-visible){
     background-color: var(--c-btn-1);
@@ -239,22 +229,37 @@ if(btnClasses.includes('fill')){
     cursor: default;
 }
 
+.btn-fill{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--elm-border-bottom-width);
+    background-color: var(--c-btn-1);
+    transition: height 200ms, background-color 300ms;
+}
+.btn:active:not(.loading) > .btn-fill{
+    background-color: var(--c-btn-2);
+}
+
+.btn > :is(.icon, .btn-label){
+    position: relative;
+}
+
 /*-------- DEFAULT: BORDERLESS --------*/
 .btn.borderless{
     border: none;
 }
+.btn.borderless > .btn-fill{
+    height: 0;
+}
 
 /*-------- DEFAULT: FILL --------*/
-.btn.default.fill:not(:disabled):hover{
-    background-color: var(--elm-bg-c);
-    box-shadow: 0 v-bind(btnHeight) var(--c-btn-1) inset;
+.btn.default.fill:not(:disabled):is(:hover, :focus-visible){
+background-color: var(--elm-bg-c);  
 }
-.btn.default.fill:not(:disabled):focus-visible{
-    background-color: var(--elm-bg-c);
-    box-shadow: 0 v-bind(btnHeight) var(--c-btn-1) inset;
-}
-.btn.default.fill:not(:disabled):active{
-    box-shadow: 0 v-bind(btnHeight) var(--c-btn-2) inset;
+.btn.default.fill:not(:disabled):is(:hover, :focus-visible) > .btn-fill{
+    height: 100%;
 }
 
 /*------------------ PRIMARY ------------------*/
