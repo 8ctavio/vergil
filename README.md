@@ -1,6 +1,6 @@
 # Vergil 💚🪠
 
-Vergil is a Vue Web Application Development Framework that provides vue applications with reusable components and composables that enrich both DX and UX when building web applications. In addition to building modern sites and managing application state, Vergil is designed to seamlessly integrate with firebase projects, making authentication, firestore interaction and cloud functions usage easy to implement.
+Vergil is a Vue Web Application Development Framework that provides components, composables and utility functions aimed to simplify and hasten application development while improving DX and UX.
  
 This `@vergil/monorepo` contains the core Vergil package and its documentation:
 

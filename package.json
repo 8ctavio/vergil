@@ -13,19 +13,15 @@
 		"url": "https://github.com/8ctavio/vergil"
 	},
 	"bugs": "https://github.com/8ctavio/vergil/issues",
-	"main": "index.js",
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"preview": "vite preview",
 		"docs:dev": "vitepress dev apps/docs",
 		"docs:build": "vitepress build apps/docs",
 		"docs:preview": "vitepress preview apps/docs"
 	},
 	"devDependencies": {
-		"@vitejs/plugin-vue": "^4.5.0",
-		"vite": "^5.0.10",
-		"vitepress": "1.0.0-rc.31",
-		"vue": "^3.3.13"
+		"@vitejs/plugin-vue": "^5.0.4",
+		"vite": "^5.2.9",
+		"vitepress": "1.1.0",
+		"vue": "^3.4.23"
 	}
 }
