@@ -1,59 +1,85 @@
 <script setup>
-import Loader from '../Loader.vue'
 import Icon from '../Icon.vue'
-import { globalDisabler } from '../../composables/useLoaders'
-import { ref, useAttrs } from 'vue'
-
-const attrs = useAttrs()
+import { isValidTheme, inferTheme } from '../../utils'
 
 defineProps({
     label: String,
-    disabled: Boolean,
-    loading: Boolean,
+    variant: {
+        type: String,
+        default: 'default',
+        validator(value, props){
+            return ['default', 'solid', 'soft', 'ghost', 'text', 'outline'].includes(value)
+        }
+    },
+    fill: Boolean,
+    borderless: Boolean,
+    theme: {
+        type: String,
+        default: 'brand',
+        validator(value, props){
+            return isValidTheme(value)
+        }
+    },
+    size: {
+        type: String,
+        default: 'md',
+        validator(value, props){
+            return ['sm', 'md', 'lg', 'xl'].includes(value)
+        }
+    },
+    spacing: {
+        type: String,
+        default: '',
+        validator(value, props){
+            return ['', 'compact', 'expanded'].includes(value)
+        }
+    },
+    squared: {
+        type: Boolean,
+        default(props){
+            return Boolean(!props.label && props.icon)
+        }
+    },
     icon: String,
     iconLeft: String,
-    iconRight: String
+    iconRight: String,
+    disabled: Boolean,
+    loading: Boolean
 })
 
-const btnClasses = attrs.class?.split(' ') ?? []
-
-const type = btnClasses.find(c => ['default', 'primary', 'secondary', 'outlined', 'text'].includes(c))
-const theme = btnClasses.find(c => ['brand', 'ok', 'info', 'warn', 'danger', 'gray'].includes(c))
 </script>
 
 <template>
     <button
         :class="[
-            'btn', 
+            'btn',
+            variant,
+            inferTheme(theme),
+            size,,
+            spacing,
             {
+                fill,
+                borderless,
+                squared,
                 loading,
-                default: typeof type === 'undefined',
-                brand: typeof theme === 'undefined',
-                test: fill
             }
         ]"
-        :disabled="globalDisabler || disabled || loading"
+        :disabled="disabled || loading"
     >
-        <span v-if="typeof type === 'undefined' || type === 'default'" class="btn-fill"></span>
-        <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
-        <span class="btn-label"><slot>{{ label }}</slot></span>
-        <Icon v-if="iconRight" :code="iconRight"/>
-        <Loader v-if="loading" 
-            :class="[
-                theme ?? 'brand',
-                {
-                    primary: [undefined, 'default', 'primary'].includes(type),
-                    secondary: ['secondary', 'outlined', 'text'].includes(type)
-                }
-            ]"
-        />
+        <span v-if="variant === 'default'" class="btn-underline"></span>
+        <div class="btn-content">
+            <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
+            <slot>{{ label }}</slot>
+            <Icon v-if="iconRight" :code="iconRight"/>
+            <div v-if="loading" class="btn-loader">
+                <span class="btn-spinner"></span>
+            </div>
+        </div>
     </button>
 </template>
 
 <style>
-/*----------------------------------------------
--------------------- THEMES --------------------
-----------------------------------------------*/
+/* #region themes */
 .btn{
     --c-btn-1: var(--c-brand-1);
     --c-btn-2: var(--c-brand-2);
@@ -156,304 +182,367 @@ const theme = btnClasses.find(c => ['brand', 'ok', 'info', 'warn', 'danger', 'gr
     --c-btn-icon-3: var(--c-danger-icon-3);
     --c-btn-icon-4: var(--c-danger-icon-4);
 }
-.btn.gray{
-    --c-btn-1: var(--c-gray-1);
-    --c-btn-2: var(--c-gray-2);
-    --c-btn-3: var(--c-gray-3);
+.btn.neutral{
+    --c-btn-1: var(--c-neutral-1);
+    --c-btn-2: var(--c-neutral-2);
+    --c-btn-3: var(--c-neutral-3);
 
-    --c-btn-soft-1: var(--c-gray-soft-1);
-    --c-btn-soft-2: var(--c-gray-soft-2);
-    --c-btn-soft-3: var(--c-gray-soft-3);
-    --rgb-btn-soft: var(--rgb-default-soft);
+    --c-btn-soft-1: var(--c-neutral-soft-1);
+    --c-btn-soft-2: var(--c-neutral-soft-2);
+    --c-btn-soft-3: var(--c-neutral-soft-3);
+    --rgb-btn-soft: var(--rgb-neutral-soft);
 
-    --c-btn-text-1: var(--c-gray-text-1);
-    --c-btn-text-2: var(--c-gray-text-2);
-    --c-btn-text-3: var(--c-gray-text-3);
+    --c-btn-text-1: var(--c-neutral-text-1);
+    --c-btn-text-2: var(--c-neutral-text-2);
+    --c-btn-text-3: var(--c-neutral-text-3);
 
-    --c-btn-icon-1: var(--c-gray-icon-1);
-    --c-btn-icon-2: var(--c-gray-icon-2);
-    --c-btn-icon-3: var(--c-gray-icon-3);
-    --c-btn-icon-4: var(--c-gray-icon-4);
+    --c-btn-icon-1: var(--c-neutral-icon-1);
+    --c-btn-icon-2: var(--c-neutral-icon-2);
+    --c-btn-icon-3: var(--c-neutral-icon-3);
+    --c-btn-icon-4: var(--c-neutral-icon-4);
 }
+/* #endregion themes */
 
 .btn{
-    font-size: var(--font-size-std);
     font-weight: 500;
-
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     line-height: normal;
 
-    border-radius: var(--border-radius-base);
+    position: relative;
+    border-radius: var(--border-radius-md);
+    border: none;
     outline: 0 solid transparent;
 
-    background-color: var(--elm-c-bg-1);
-    color: var(--elm-c-text);
-
     cursor: pointer;
-    transition: background-color 300ms, color 300ms, border 300ms, box-shadow 300ms, outline 100ms;
-}
-.btn::selection{ background-color: transparent; }
+    transition: background-color 150ms, color 150ms, border 150ms, box-shadow 150ms, outline 150ms;
 
-/*---------------------------------------------
--------------------- TYPES --------------------
----------------------------------------------*/
+    &:focus-visible{
+        outline: var(--c-btn-outline);
+        outline-offset: var(--c-btn-outline-offset);
+    }
+
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-1);
+        border-color: var(--c-disabled-2);
+        color: var(--c-disabled-text);
+        cursor: not-allowed;
+    }
+
+    &.loading{
+        cursor: progress;
+        & > .btn-content{
+            background-color: inherit;
+            & > .btn-loader{
+                background-color: inherit;
+            }
+        }
+    }
+
+    & > .btn-content{
+        font-size: 1em;
+        position: relative;
+        display: grid;
+        grid-auto-flow: column;
+        line-height: inherit;
+
+        &::selection{
+            background-color: transparent;
+        }
+
+        & > .icon{
+            font-size: 1em;
+            line-height: inherit;
+            transition: color 150ms;
+        }
+
+        & > .btn-loader{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+
+            & > .btn-spinner{
+                aspect-ratio: 1 / 1;
+                box-sizing: border-box;
+                border-width: 3px;
+                border-style: solid;
+                border-top-width: 3px;
+                border-top-style: solid;
+                border-radius: 50%;
+                animation: spin 1000ms linear infinite;
+            }
+        }
+    }
+
+    &:where(.default, .solid) .btn-spinner{
+        border-color: white;
+        border-top-color: rgb(0 0 0 / 0.4)
+    }
+    &:where(.soft, .ghost, .text, .outline) .btn-spinner{
+        border-color: var(--c-btn-soft-3);
+        border-top-color: var(--c-btn-text-3);
+    }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*------------------------------------------------
+-------------------- VARIANTS --------------------
+------------------------------------------------*/
 /*-------- DEFAULT --------*/
-.btn{
-    border: var(--elm-border-width) solid var(--c-btn-1);
+.btn.default{
+    background-color: var(--c-neutral-soft-1);
+    color: var(--c-neutral-text-2);
     overflow: hidden;
+
+    &:is(:hover, :focus-visible, .loading){
+        background-color: var(--c-btn-1);
+    }
+    &:is(:hover, :active, :focus-visible){
+        color: var(--c-btn-text-1);
+
+        &:not(:disabled) > .btn-content > .icon{
+            color: var(--c-btn-icon-1);
+        }
+    }
+    &:active:not(.loading){
+        border-color: var(--c-btn-2);
+        background-color: var(--c-btn-2);
+
+        & > .btn-underline{
+            background-color: var(--c-btn-2);
+        }
+    }
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-1);
+        color: var(--c-disabled-text);
+
+        & > .btn-underline{
+            background-color: var(--c-disabled-2);
+        }
+    }
+
+    &:not(:disabled) > .btn-content > .icon{
+        color: var(--c-btn-icon-4);
+    }
+
+    /*-------- UNDERLINE --------*/
+    & > .btn-underline{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: var(--component-border-bottom-width);
+        background-color: var(--c-btn-1);
+        transition: height 150ms, background-color 150ms;
+    }
+    &:where(.lg, .xl) > .btn-underline{
+        height: calc(var(--component-border-bottom-width) + 0.5px);
+    }
+
+    /*-------- FILL --------*/
+    &.fill:not(:disabled){
+        background-color: var(--c-neutral-soft-1); 
+
+        &:is(:hover, :focus-visible){
+            background-color: var(--c-neutral-soft-1);  
+            
+            & > .btn-underline{
+                height: 100%;
+            }
+        }
+    }
+
+    /*-------- BORDERLESS --------*/
+    &.borderless > .btn-underline{
+        height: 0;
+    }
 }
-.btn:is(:hover, :focus-visible){
+
+/*-------- SOLID --------*/
+.btn.solid{
     background-color: var(--c-btn-1);
-}
-.btn:is(:hover, :active, :focus-visible){
-    color: var(--c-btn-text-1);
-}
-.btn:focus-visible{
-    outline: var(--c-btn-outline);
-    outline-offset: var(--c-btn-outline-offset);
-}
-.btn:active:not(.loading){
-    border-color: var(--c-btn-2);
-    background-color: var(--c-btn-2);
-}
-.btn:disabled:not(.loading){
-    border-color: var(--c-disabled-2);
-    background-color: var(--c-disabled-1);
-    color: var(--c-disabled-text);
-    cursor: default;
-}
-.btn.loading{
-    cursor: default;
+
+    &:not(:disabled){
+        color: var(--c-btn-text-1);
+
+        &:is(:hover, :focus-visible){
+            background-color: var(--c-btn-2);
+        }
+        &:active{
+            background-color: var(--c-btn-3);
+        }
+
+        & > .btn-content > .icon{
+            color: var(--c-btn-icon-1);
+        }
+    }
 }
 
-.btn-fill{
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: var(--elm-border-bottom-width);
-    background-color: var(--c-btn-1);
-    transition: height 200ms, background-color 300ms;
-}
-.btn:active:not(.loading) > .btn-fill{
-    background-color: var(--c-btn-2);
-}
-
-.btn > :is(.icon, .btn-label){
-    position: relative;
-}
-
-/*-------- DEFAULT: BORDERLESS --------*/
-.btn.borderless{
-    border: none;
-}
-.btn.borderless > .btn-fill{
-    height: 0;
-}
-
-/*-------- DEFAULT: FILL --------*/
-.btn.default.fill:not(:disabled):is(:hover, :focus-visible){
-background-color: var(--elm-bg-c);  
-}
-.btn.default.fill:not(:disabled):is(:hover, :focus-visible) > .btn-fill{
-    height: 100%;
-}
-
-/*------------------ PRIMARY ------------------*/
-.btn.primary{
-    border: none;
-    background-color: var(--c-btn-1);
-}
-.btn.primary:not(:disabled){
-    color: var(--c-btn-text-1);
-}
-.btn.primary:not(:disabled, .loading):is(:hover, :focus-visible){
-    background-color: var(--c-btn-2);
-}
-.btn.primary:not(:disabled):active{
-    background-color: var(--c-btn-3);
-}
-
-/*------------------ SECONDARY ------------------*/
-.btn.secondary{
-    border: none;
+/*-------- SOFT --------*/
+.btn.soft{
     background-color: var(--c-btn-soft-1);
     color: var(--c-btn-text-2);
-}
-.btn.secondary:not(:disabled, .loading):is(:hover, :focus-visible){
-    background-color: var(--c-btn-soft-2);
-}
-.btn.secondary:not(:disabled):active{
-    background-color: var(--c-btn-soft-3);
+
+    &:not(:disabled){
+        &:is(:hover, :focus-visible){
+            background-color: var(--c-btn-soft-2);
+        }
+        &:active{
+            background-color: var(--c-btn-soft-3);
+        }
+        & > .btn-content > .icon{
+            color: var(--c-btn-icon-2);
+        }
+    }
 }
 
-/*------------------ OUTLINED ------------------*/
-.btn.outlined{
-    border: 1px solid var(--c-btn-1);
-    background-color: transparent;
-    color: var(--elm-c-text);
-}
-.btn.outlined:where(.warn){
-    border-color: var(--c-btn-3);
-}
-.btn.outlined:not(:disabled):is(:hover, :focus-visible){
-    background-color: var(--elm-c-bg-1);
-}
-.btn.outlined:not(:disabled):active{
-    background-color: var(--elm-c-bg-2);
-}
-
-/*------------------ TEXT ------------------*/
-.btn.text{
-    border: none;
+/*-------- GHOST --------*/
+.btn.ghost{
     background-color: transparent;
     color: var(--c-btn-text-3);
+
+    &:not(:disabled){
+        &:is(:hover, :focus-visible){
+            background-color: var(--c-btn-soft-1);
+            color: var(--c-btn-text-2)
+        }
+        &:active{
+            background-color: var(--c-btn-soft-2);
+            color: var(--c-btn-text-2)
+        }
+    }
+    &.loading{
+        background-color: var(--c-btn-soft-1);
+    }
 }
 
-.btn.text:not(:disabled, .loading):is(:hover, :focus-visible){
-    color: var(--c-btn-text-2);
-    background-color: rgb(var(--rgb-btn-soft) / 0.3);
-}
-.btn.text:not(:disabled):active{
-    color: var(--c-btn-text-2);
-    background-color: rgb(var(--rgb-btn-soft) / 0.5);
+/*-------- TEXT --------*/
+.btn.text{
+    background-color: transparent;
+    color: var(--c-btn-text-3);
+
+    &:not(:disabled){
+        &:is(:hover, :focus-visible){
+            color: var(--c-btn-text-2);
+            text-decoration: underline 1.5px;
+            text-underline-offset: 3px;
+        }
+        & > .btn-content > .icon{
+            color: var(--c-btn-icon-2);
+        }
+    }
+    &.loading{
+        background-color: var(--c-btn-soft-1);
+    }
 }
 
-.btn.text.warn:not(:disabled, .loading):is(:hover, :focus-visible){
-    background-color: rgb(var(--rgb-btn-soft) / 0.4);
-}
-.btn.text.warn:not(:disabled):active{
-    background-color: rgb(var(--rgb-btn-soft) / 0.6);
-}
+/*-------- OUTLINE --------*/
+.btn.outline{
+    background-color: transparent;
+    color: var(--c-btn-text-3);
+    box-shadow: inset 0 0 0 1px var(--c-btn-1);
 
-.dark .btn.text:not(:disabled, .loading):is(:hover, :focus-visible){
-    background-color: rgb(var(--rgb-btn-soft) / 0.6);
-}
-.dark .btn.text:not(:disabled):active{
-    background-color: rgb(var(--rgb-btn-soft) / 0.8);
-}
-
-.dark .btn.text.info:not(:disabled, .loading):is(:hover, :focus-visible){
-    color: var(--c-btn-text-2);
-    background-color: rgb(var(--rgb-btn-soft) / 0.7);
-}
-.dark .btn.text.info:not(:disabled):active{
-    color: var(--c-btn-text-2);
-    background-color: rgb(var(--rgb-btn-soft) / 0.9);
+    &:where(.warn){
+        border-color: var(--c-btn-3);
+    }
+    &:not(:disabled) {
+        &:is(:hover, :focus-visible){
+            background-color: rgb(var(--rgb-btn-soft) / 0.4);
+            box-shadow: inset 0 0 0 1px var(--c-btn-2);
+        }
+        &:active{
+            background-color: var(--c-btn-soft-1);
+            color: var(--c-btn-text-2);
+        }
+        & > .btn-content > .icon{
+            color: var(--c-btn-icon-2);
+        }
+    }
+    &:disabled:not(.loading){
+        box-shadow: inset 0 0 0 1px var(--c-disabled-2);
+    }
+    &.loading{
+        background-color: var(--c-btn-soft-1);
+    }
 }
 
 /*--------------------------------------------
 -------------------- SIZE --------------------
 --------------------------------------------*/
-/*-------- SMALL --------*/
-.btn.sm.compact{
-    padding: 2px 8px;
-}
+/*-------- SM --------*/
 .btn.sm{
     font-size: var(--font-size-sm);
-    padding: 4px 12px;
-}
-.btn.sm.expanded{
-    padding: 8px 16px;
-}
-
-/*-------- DEFAULT --------*/
-.btn.compact{
-    padding: 3px 10px;
-    gap: 5px;
-}
-.btn{
-    padding: 5px 15px;
-    gap: 10px;
-}
-.btn.expanded{
-    padding: 10px 20px;
+    padding: 4px 8px;
+    &.squared{ padding: 4px }
+    & > .btn-content{ column-gap: 6px; }
+    &.compact{
+        padding: 2px 4px;
+        &.squared{ padding: 2px }
+        & > .btn-content{ column-gap: 2px; }
+    }
+    &.expanded{
+        padding: 6px 12px;
+        &.squared{ padding: 6px }
+        & > .btn-content{ column-gap: 8px; }
+    }
 }
 
-/*-------- LARGE --------*/
-.btn.lg.compact{
-    padding: 4px 12px;
+/*-------- MD --------*/
+.btn.md{
+    font-size: var(--font-size-md);
+    padding: 6px 12px;
+    &.squared{ padding: 6px }
+    & > .btn-content{ column-gap: 8px; }
+    &.compact{
+        padding: 4px 8px;
+        &.squared{ padding: 4px }
+        & > .btn-content{ column-gap: 4px; }
+    }
+    &.expanded{
+        padding: 8px 16px;
+        &.squared{ padding: 8px }
+        & > .btn-content{ column-gap: 10px; }
+    }
 }
+
+/*-------- LG --------*/
 .btn.lg{
     font-size: var(--font-size-lg);
-    padding: 6px 18px;
-}
-.btn.lg.expanded{
-    padding: 12px 24px;
-}
-
-/*---------------------------------------------
--------------------- ICONS --------------------
----------------------------------------------*/
-.btn > .icon{
-    font-size: 1.214em;
-    transition: color 300ms;
-}
-
-.btn.default:is(:hover, :active, :focus-visible):not(:disabled) > .icon,
-.btn.primary:not(:disabled) > .icon{
-    color: var(--c-btn-icon-1);
+    padding: 8px 16px;
+    &.squared{ padding: 8px }
+    & > .btn-content{ column-gap: 10px; }
+    &.compact{
+        padding: 6px 12px;
+        &.squared{ padding: 6px }
+        & > .btn-content{ column-gap: 6px; }
+    }
+    &.expanded{
+        padding: 10px 20px;
+        &.squared{ padding: 10px }
+        & > .btn-content{ column-gap: 12px; }
+    }
 }
 
-.btn.secondary:not(:disabled) > .icon{
-    color: var(--c-btn-icon-2);
-}
-.btn.text.warn:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
-    color: var(--c-btn-icon-2);
-}
-
-.btn:is(.outlined, .text):not(:disabled) > .icon{
-    color: var(--c-btn-icon-3);
-}
-
-.btn.default:not(:disabled) > .icon,
-.btn.outlined:is(:hover, :active, :focus-visible):not(:disabled) > .icon{
-    color: var(--c-btn-icon-4);
-}
-
-/*------------------ SQUARED ------------------*/
-/*-------- SMALL --------*/
-.btn.squared.sm.compact{
-    padding: 4px;
-}
-.btn.squared.sm{
-    padding: 6px;
-}
-.btn.squared.sm > .icon{
-    font-size: 1.3em;
-}
-.btn.squared.sm.expanded{
-    padding: 8px;
-}
-
-/*-------- DEFAULT --------*/
-.btn.squared.compact{
-    padding: 5px;
-}
-.btn.squared{
-    padding: 7px;
-}
-.btn.squared > .icon{
-    font-size: 1.5em;
-}
-.btn.squared.expanded{
-    padding: 9px;
-}
-
-/*-------- LARGE --------*/
-.btn.squared.lg.compact{
-    padding: 6px;
-}
-.btn.squared.lg{
-    padding: 8px;
-}
-.btn.squared.lg > .icon{
-    font-size: 1.7em;
-}
-.btn.squared.lg.expanded{
-    padding: 10px;
+/*-------- XL --------*/
+.btn.xl{
+    font-size: var(--font-size-xl);
+    padding: 10px 20px;
+    &.squared{ padding: 10px }
+    & > .btn-content{ column-gap: 12px; }
+    &.compact{
+        padding: 8px 16px;
+        &.squared{ padding: 8px }
+        & > .btn-content{ column-gap: 8px; }
+    }
+    &.expanded{
+        padding: 12px 24px;
+        &.squared{ padding: 12px }
+        & > .btn-content{ column-gap: 14px; }
+    }
 }
 </style>

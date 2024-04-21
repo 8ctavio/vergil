@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Btn
+# Btn <Badge type="tip"><pre>.btn</pre></Badge>
 
 > Button element to handle click events
 
@@ -25,468 +25,399 @@ outline: [2,3]
     <Btn>Keep it Clean!</Btn>
 </Demo>
 
-::: tip
-Use the `.btn` css selector to target a `Btn` component.
-:::
+## Props
 
-### Label <Badge type="info"><pre>label</pre> prop</Badge>
+### Label <Badge type="tip"><pre>label: string = ''</pre></Badge>
 
-The `Btn` label can be specified through the default slot or via a `label` prop. The slot content overrides the `label` prop.
+Simple `Btn` text content can be specified through the default slot or the `label` prop. The slot content overrides the `label` prop.
 
 ```vue
 <Btn label="Click"/>
 ```
 
-## Types <Badge type="info">class</Badge>
-
-The type of a `Btn` refers to the overall design of the button. It can be specified through a class. Possible class values for types are
-
-- `default`
-- `primary`
-- `secondary`
-- `outlined`
-- `text`
-
-::: tip
-If none of this classes is explicitly specified, the `default` class is automatically appended.
-:::
-
-```vue
-<Btn class="default" label="Default"/>
-<Btn class="primary" label="Primary"/>
-<Btn class="secondary" label="Secondary"/>
-<Btn class="outlined" label="Outlined"/>
-<Btn class="text" label="Text"/>
-```
-<Demo>
-    <Btn class="default brand" label="Default"/>
-    <Btn class="primary" label="Primary"/>
-    <Btn class="secondary" label="Secondary"/>
-    <Btn class="outlined" label="Outlined"/>
-    <Btn class="text" label="text"/>
-</Demo>
-
-### Default
-
-#### Fill Hover Mode <Badge type="info"><pre>fill</pre> class</Badge>
-
-```vue
-<Btn class="fill" label="Hover me!"/>
-```
-<Demo>
-    <Btn class="fill" label="Hover me!"/>
-</Demo>
-
-#### Borderless <Badge type="info"><pre>borderless</pre> class</Badge>
-
-```vue
-<Btn class="borderless" label="Borderless"/>
-```
-<Demo>
-    <Btn class="borderless" label="Borderless"/>
-</Demo>
-
-## Themes <Badge type="info">class</Badge>
-
-A `Btn` theme refers to the color theme applied to any button type. It can be specified through a class. Possible class values for themes are
-
-- `brand`
-- `ok`
-- `info`
-- `warn`
-- `danger`
-- `gray`
-
-::: tip
-If none of this classes is explicitly specified, the `brand` class is automatically appended.
-:::
-
-```vue
-<Btn class="brand" label="Brand"/>
-<Btn class="ok" label="Ok"/>
-<Btn class="info" label="Info"/>
-<Btn class="warn" label="Warn"/>
-<Btn class="danger" label="Danger"/>
-<Btn class="gray" label="Gray"/>
-```
+### Variant <Badge type="tip"><pre>variant: ('default' | 'solid' | 'soft' | 'ghost' | 'text' | 'outline') = 'default'</pre></Badge>
 
 <Demo>
-    <Btn class="brand" label="Brand"/>
-    <Btn class="ok" label="Ok"/>
-    <Btn class="info" label="Info"/>
-    <Btn class="warn" label="Warn"/>
-    <Btn class="danger" label="Danger"/>
-    <Btn class="gray" label="Gray"/>
+    <Btn variant="default" label="Default"/>
+    <Btn variant="solid" label="Solid"/>
+    <Btn variant="soft" label="Soft"/>
+    <Btn variant="ghost" label="Ghost"/>
+    <Btn variant="text" label="Text"/>
+    <Btn variant="outline" label="Outline"/>
 </Demo>
 
+### Fill  <Badge type="tip"><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "default"</pre></Badge>
 
 ```vue
-<Btn class="primary" label="Brand"/>
-<Btn class="primary ok" label="Ok"/>
-<Btn class="primary info" label="Info"/>
-<Btn class="primary warn" label="Warn"/>
-<Btn class="primary danger" label="Danger"/>
-<Btn class="primary gray" label="Gray"/>
-
-<Btn class="secondary" label="Brand"/>
-<Btn class="secondary ok" label="Ok"/>
-<Btn class="secondary info" label="Info"/>
-<Btn class="secondary warn" label="Warn"/>
-<Btn class="secondary danger" label="Danger"/>
-<Btn class="secondary gray" label="Gray"/>
-
-<Btn class="outlined" label="Brand"/>
-<Btn class="outlined ok" label="Ok"/>
-<Btn class="outlined info" label="Info"/>
-<Btn class="outlined warn" label="Warn"/>
-<Btn class="outlined danger" label="Danger"/>
-<Btn class="outlined gray" label="Gray"/>
-
-<Btn class="text" label="Brand"/>
-<Btn class="text ok" label="Ok"/>
-<Btn class="text info" label="Info"/>
-<Btn class="text warn" label="Warn"/>
-<Btn class="text danger" label="Danger"/>
-<Btn class="text gray" label="Gray"/>
+<Btn fill label="Hover me!"/>
 ```
+<Demo>
+    <Btn fill label="Hover me!"/>
+</Demo>
+
+### Borderless <Badge type="tip"><pre>borderless: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "default"</pre></Badge>
+
+```vue
+<Btn borderless label="Borderless"/>
+```
+<Demo>
+    <Btn borderless label="Borderless"/>
+</Demo>
+
+### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
+
+There are aliases available for some `theme` prop values:
+
+| Value      | Aliases |
+| ---------- | ------- |
+| `'ok'`     | `'success', 'check'` |
+| `'info'`   | `'tip'` |
+| `'warn'`   | `'warning', 'caution'` |
+| `'danger'` | `'error'` |
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <Btn class="primary" label="Brand"/>
-            <Btn class="primary ok" label="Ok"/>
-            <Btn class="primary info" label="Info"/>
-            <Btn class="primary warn" label="Warn"/>
-            <Btn class="primary danger" label="Danger"/>
-            <Btn class="primary gray" label="Gray"/>
+            <Btn variant="default" theme="brand" label="Brand"/>
+            <Btn variant="default" theme="ok" label="Ok"/>
+            <Btn variant="default" theme="info" label="Info"/>
+            <Btn variant="default" theme="warn" label="Warn"/>
+            <Btn variant="default" theme="danger" label="Danger"/>
+            <Btn variant="default" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn class="secondary" label="Brand"/>
-            <Btn class="secondary ok" label="Ok"/>
-            <Btn class="secondary info" label="Info"/>
-            <Btn class="secondary warn" label="Warn"/>
-            <Btn class="secondary danger" label="Danger"/>
-            <Btn class="secondary gray" label="Gray"/>
+            <Btn variant="solid" theme="brand" label="Brand"/>
+            <Btn variant="solid" theme="ok" label="Ok"/>
+            <Btn variant="solid" theme="info" label="Info"/>
+            <Btn variant="solid" theme="warn" label="Warn"/>
+            <Btn variant="solid" theme="danger" label="Danger"/>
+            <Btn variant="solid" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn class="outlined" label="Brand"/>
-            <Btn class="outlined ok" label="Ok"/>
-            <Btn class="outlined info" label="Info"/>
-            <Btn class="outlined warn" label="Warn"/>
-            <Btn class="outlined danger" label="Danger"/>
-            <Btn class="outlined gray" label="Gray"/>
+            <Btn variant="soft" theme="brand" label="Brand"/>
+            <Btn variant="soft" theme="ok" label="Ok"/>
+            <Btn variant="soft" theme="info" label="Info"/>
+            <Btn variant="soft" theme="warn" label="Warn"/>
+            <Btn variant="soft" theme="danger" label="Danger"/>
+            <Btn variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn class="text" label="Brand"/>
-            <Btn class="text ok" label="Ok"/>
-            <Btn class="text info" label="Info"/>
-            <Btn class="text warn" label="Warn"/>
-            <Btn class="text danger" label="Danger"/>
-            <Btn class="text gray" label="Gray"/>
+            <Btn variant="ghost" theme="brand" label="Brand"/>
+            <Btn variant="ghost" theme="ok" label="Ok"/>
+            <Btn variant="ghost" theme="info" label="Info"/>
+            <Btn variant="ghost" theme="warn" label="Warn"/>
+            <Btn variant="ghost" theme="danger" label="Danger"/>
+            <Btn variant="ghost" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="text" theme="brand" label="Brand"/>
+            <Btn variant="text" theme="ok" label="Ok"/>
+            <Btn variant="text" theme="info" label="Info"/>
+            <Btn variant="text" theme="warn" label="Warn"/>
+            <Btn variant="text" theme="danger" label="Danger"/>
+            <Btn variant="text" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="outline" theme="brand" label="Brand"/>
+            <Btn variant="outline" theme="ok" label="Ok"/>
+            <Btn variant="outline" theme="info" label="Info"/>
+            <Btn variant="outline" theme="warn" label="Warn"/>
+            <Btn variant="outline" theme="danger" label="Danger"/>
+            <Btn variant="outline" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
 
-## Size <Badge type="info">class</Badge>
+### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg') = 'md'</pre></Badge>
 
-Changing the size mainly changes the font-size and adjusts padding accordingly. It can be specified through a class. Possible class values for sizes are
+Changing the size mainly changes the font-size and adjusts padding accordingly.
 
-- `sm`
-- `lg`
-
-```vue
-<Btn class="sm" label="Small"/>
-<Btn label="Default"/>
-<Btn class="lg" label="Large"/>
-```
 <Demo>
-    <Btn class="sm" label="Small"/>
-    <Btn label="Default"/>
-    <Btn class="lg" label="Large"/>
+    <Btn size="sm" label="Small"/>
+    <Btn size="md" label="Medium"/>
+    <Btn size="lg" label="Large"/>
+    <Btn size="xl" label="Extra Large"/>
 </Demo>
 
-### Spacing <Badge type="info">class</Badge>
+### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
-Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing spacing to give a more compact or more spacious look can be achieved through one of the following classes:
-
-- `compact`
-- `expanded`
-
-```vue
-<Btn class="sm compact" label="Compact"/>
-<Btn class="sm" label="Default"/>
-<Btn class="sm expanded" label="Expanded"/>
-
-<Btn class="compact" label="Compact"/>
-<Btn label="Default"/>
-<Btn class="expanded" label="Expanded"/>
-
-<Btn class="lg compact" label="Compact"/>
-<Btn class="lg" label="Default"/>
-<Btn class="lg expanded" label="Expanded"/>
-```
+Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing spacing gives either a more compact or spacious look.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn class="sm compact" label="Compact"/>
-            <Btn class="sm" label="Default"/>
-            <Btn class="sm expanded" label="Expanded"/>
+            <Btn size="sm" spacing="compact" label="Compact"/>
+            <Btn size="sm" label="Default"/>
+            <Btn size="sm" spacing="expanded" label="Expanded"/>
         </div>
         <div class="row center">
-            <Btn class="compact" label="Compact"/>
-            <Btn label="Default"/>
-            <Btn class="expanded" label="Expanded"/>
+            <Btn size="md" spacing="compact" label="Compact"/>
+            <Btn size="md" label="Default"/>
+            <Btn size="md" spacing="expanded" label="Expanded"/>
         </div>
         <div class="row center">
-            <Btn class="lg compact" label="Compact"/>
-            <Btn class="lg" label="Default"/>
-            <Btn class="lg expanded" label="Expanded"/>
+            <Btn size="lg" spacing="compact" label="Compact"/>
+            <Btn size="lg" label="Default"/>
+            <Btn size="lg" spacing="expanded" label="Expanded"/>
+        </div>
+        <div class="row center">
+            <Btn size="xl" spacing="compact" label="Compact"/>
+            <Btn size="xl" label="Default"/>
+            <Btn size="xl" spacing="expanded" label="Expanded"/>
         </div>
     </div>
 </Demo>
 
-## States
+### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
 
-### Disabled <Badge type="info"><pre>disabled</pre> attribute</Badge>
+Adding `squared` sets padding to the same value on all sides.
 
 <Demo>
-    <Btn disabled label="Disabled"/>
-    <Btn class="primary" disabled label="Disabled"/>
-    <Btn class="secondary" disabled label="Disabled"/>
-    <Btn class="outlined" disabled label="Disabled"/>
-    <Btn class="text" disabled label="Disabled"/>
+    <Btn size="sm" squared label="Small"/>
+    <Btn size="md" squared label="Medium"/>
+    <Btn size="lg" squared label="Large"/>
+    <Btn size="xl" squared label="Extra Large"/>
 </Demo>
 
-### Loading <Badge type="info"><pre>loading</pre> prop</Badge>
 
-```vue
-<Btn loading label="Loading..."/>
-```
+### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Btn label="Loading" loading/>
-    <Btn label="Loading" class="primary" loading/>
-    <Btn label="Loading" class="secondary" loading/>
-    <Btn label="Loading" class="outlined" loading/>
-    <Btn label="Loading" class="text" loading/>
+    <Btn disabled variant="default" label="Disabled"/>
+    <Btn disabled variant="solid" label="Disabled"/>
+    <Btn disabled variant="soft" label="Disabled"/>
+    <Btn disabled variant="ghost" label="Disabled"/>
+    <Btn disabled variant="text" label="Disabled"/>
+    <Btn disabled variant="outline" label="Disabled"/>
+</Demo>
+
+### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
+
+<Demo>
+    <Btn label="Loading" loading variant="default"/>
+    <Btn label="Loading" loading variant="solid"/>
+    <Btn label="Loading" loading variant="soft"/>
+    <Btn label="Loading" loading variant="ghost"/>
+    <Btn label="Loading" loading variant="text"/>
+    <Btn label="Loading" loading variant="outline"/>
 </Demo>
 
 <Demo>
     <div class="row center">
-        <Btn label="Loading" class="ok" loading/>
-        <Btn label="Loading" class="ok primary" loading/>
-        <Btn label="Loading" class="ok secondary" loading/>
-        <Btn label="Loading" class="ok outlined" loading/>
-        <Btn label="Loading" class="ok text" loading/>
+        <Btn label="Loading" loading theme="ok" variant="default"/>
+        <Btn label="Loading" loading theme="ok" variant="solid"/>
+        <Btn label="Loading" loading theme="ok" variant="soft"/>
+        <Btn label="Loading" loading theme="ok" variant="ghost"/>
+        <Btn label="Loading" loading theme="ok" variant="text"/>
+        <Btn label="Loading" loading theme="ok" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn label="Loading" class="info" loading/>
-        <Btn label="Loading" class="info primary" loading/>
-        <Btn label="Loading" class="info secondary" loading/>
-        <Btn label="Loading" class="info outlined" loading/>
-        <Btn label="Loading" class="info text" loading/>
+        <Btn label="Loading" loading theme="info" variant="default"/>
+        <Btn label="Loading" loading theme="info" variant="solid"/>
+        <Btn label="Loading" loading theme="info" variant="soft"/>
+        <Btn label="Loading" loading theme="info" variant="ghost"/>
+        <Btn label="Loading" loading theme="info" variant="text"/>
+        <Btn label="Loading" loading theme="info" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn label="Loading" class="warn" loading/>
-        <Btn label="Loading" class="warn primary" loading/>
-        <Btn label="Loading" class="warn secondary" loading/>
-        <Btn label="Loading" class="warn outlined" loading/>
-        <Btn label="Loading" class="warn text" loading/>
+        <Btn label="Loading" loading theme="warn" variant="default"/>
+        <Btn label="Loading" loading theme="warn" variant="solid"/>
+        <Btn label="Loading" loading theme="warn" variant="soft"/>
+        <Btn label="Loading" loading theme="warn" variant="ghost"/>
+        <Btn label="Loading" loading theme="warn" variant="text"/>
+        <Btn label="Loading" loading theme="warn" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn label="Loading" class="danger" loading/>
-        <Btn label="Loading" class="danger primary" loading/>
-        <Btn label="Loading" class="danger secondary" loading/>
-        <Btn label="Loading" class="danger outlined" loading/>
-        <Btn label="Loading" class="danger text" loading/>
+        <Btn label="Loading" loading theme="danger" variant="default"/>
+        <Btn label="Loading" loading theme="danger" variant="solid"/>
+        <Btn label="Loading" loading theme="danger" variant="soft"/>
+        <Btn label="Loading" loading theme="danger" variant="ghost"/>
+        <Btn label="Loading" loading theme="danger" variant="text"/>
+        <Btn label="Loading" loading theme="danger" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn label="Loading" class="gray" loading/>
-        <Btn label="Loading" class="gray primary" loading/>
-        <Btn label="Loading" class="gray secondary" loading/>
-        <Btn label="Loading" class="gray outlined" loading/>
-        <Btn label="Loading" class="gray text" loading/>
+        <Btn label="Loading" loading theme="neutral" variant="default"/>
+        <Btn label="Loading" loading theme="neutral" variant="solid"/>
+        <Btn label="Loading" loading theme="neutral" variant="soft"/>
+        <Btn label="Loading" loading theme="neutral" variant="ghost"/>
+        <Btn label="Loading" loading theme="neutral" variant="text"/>
+        <Btn label="Loading" loading theme="neutral" variant="outline"/>
     </div>
 </Demo>
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn label="Loading" loading class="sm compact"/>
-            <Btn label="Loading" loading class="sm"/>
-            <Btn label="Loading" loading class="sm expanded"/>
+            <Btn label="Loading" loading size="sm" spacing="compact"/>
+            <Btn label="Loading" loading size="sm"/>
+            <Btn label="Loading" loading size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn label="Loading" loading class="compact"/>
-            <Btn label="Loading" loading/>
-            <Btn label="Loading" loading class="expanded"/>
+            <Btn label="Loading" loading size="md" spacing="compact"/>
+            <Btn label="Loading" loading size="md"/>
+            <Btn label="Loading" loading size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn label="Loading" loading class="lg compact"/>
-            <Btn label="Loading" loading class="lg"/>
-            <Btn label="Loading" loading class="lg expanded"/>
+            <Btn label="Loading" loading size="lg" spacing="compact"/>
+            <Btn label="Loading" loading size="lg"/>
+            <Btn label="Loading" loading size="lg" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn label="Loading" loading size="xl" spacing="compact"/>
+            <Btn label="Loading" loading size="xl"/>
+            <Btn label="Loading" loading size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
 
-## Icons
-
-### Icon Only <Badge type="info"><pre>icon</pre> prop</Badge>
+### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
 
 ```vue
 <Btn icon="rocket_launch"/>
 ```
 
 <Demo>
-    <Btn icon="rocket_launch"/>
-    <Btn icon="rocket_launch" class="primary"/>
-    <Btn icon="rocket_launch" class="secondary"/>
-    <Btn icon="rocket_launch" class="outlined"/>
-    <Btn icon="rocket_launch" class="text"/>
-</Demo>
-
-<Demo>
     <div class="row center">
-        <Btn icon="rocket_launch" class="ok"/>
-        <Btn icon="rocket_launch" class="ok primary"/>
-        <Btn icon="rocket_launch" class="ok secondary"/>
-        <Btn icon="rocket_launch" class="ok outlined"/>
-        <Btn icon="rocket_launch" class="ok text"/>
+        <Btn icon="rocket_launch" theme="brand" variant="default"/>
+        <Btn icon="rocket_launch" theme="brand" variant="solid"/>
+        <Btn icon="rocket_launch" theme="brand" variant="soft"/>
+        <Btn icon="rocket_launch" theme="brand" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="brand" variant="text"/>
+        <Btn icon="rocket_launch" theme="brand" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn icon="rocket_launch" class="info"/>
-        <Btn icon="rocket_launch" class="info primary"/>
-        <Btn icon="rocket_launch" class="info secondary"/>
-        <Btn icon="rocket_launch" class="info outlined"/>
-        <Btn icon="rocket_launch" class="info text"/>
+        <Btn icon="rocket_launch" theme="ok" variant="default"/>
+        <Btn icon="rocket_launch" theme="ok" variant="solid"/>
+        <Btn icon="rocket_launch" theme="ok" variant="soft"/>
+        <Btn icon="rocket_launch" theme="ok" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="ok" variant="text"/>
+        <Btn icon="rocket_launch" theme="ok" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn icon="rocket_launch" class="warn"/>
-        <Btn icon="rocket_launch" class="warn primary"/>
-        <Btn icon="rocket_launch" class="warn secondary"/>
-        <Btn icon="rocket_launch" class="warn outlined"/>
-        <Btn icon="rocket_launch" class="warn text"/>
+        <Btn icon="rocket_launch" theme="info" variant="default"/>
+        <Btn icon="rocket_launch" theme="info" variant="solid"/>
+        <Btn icon="rocket_launch" theme="info" variant="soft"/>
+        <Btn icon="rocket_launch" theme="info" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="info" variant="text"/>
+        <Btn icon="rocket_launch" theme="info" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn icon="rocket_launch" class="danger"/>
-        <Btn icon="rocket_launch" class="danger primary"/>
-        <Btn icon="rocket_launch" class="danger secondary"/>
-        <Btn icon="rocket_launch" class="danger outlined"/>
-        <Btn icon="rocket_launch" class="danger text"/>
+        <Btn icon="rocket_launch" theme="warn" variant="default"/>
+        <Btn icon="rocket_launch" theme="warn" variant="solid"/>
+        <Btn icon="rocket_launch" theme="warn" variant="soft"/>
+        <Btn icon="rocket_launch" theme="warn" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="warn" variant="text"/>
+        <Btn icon="rocket_launch" theme="warn" variant="outline"/>
     </div>
     <div class="row center">
-        <Btn icon="rocket_launch" class="gray"/>
-        <Btn icon="rocket_launch" class="gray primary"/>
-        <Btn icon="rocket_launch" class="gray secondary"/>
-        <Btn icon="rocket_launch" class="gray outlined"/>
-        <Btn icon="rocket_launch" class="gray text"/>
+        <Btn icon="rocket_launch" theme="danger" variant="default"/>
+        <Btn icon="rocket_launch" theme="danger" variant="solid"/>
+        <Btn icon="rocket_launch" theme="danger" variant="soft"/>
+        <Btn icon="rocket_launch" theme="danger" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="danger" variant="text"/>
+        <Btn icon="rocket_launch" theme="danger" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn icon="rocket_launch" theme="neutral" variant="default"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="solid"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="soft"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="text"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="outline"/>
     </div>
 </Demo>
 
-#### Squared <Badge type="info"><pre>squared</pre> class</Badge>
-
-The `squared` class sets a single padding for all `Btn` sides, giving it a squared aspect when used with only an icon.
-
-```vue
-<Btn icon="rocket" class="squared"/>
-```
-
-<Demo>
-    <Btn icon="rocket" class="squared"/>
-    <Btn icon="rocket" class="squared primary"/>
-    <Btn icon="rocket" class="squared secondary"/>
-    <Btn icon="rocket" class="squared outlined"/>
-    <Btn icon="rocket" class="squared text"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn icon="rocket" class="outlined squared sm compact"/>
-            <Btn icon="rocket" class="outlined squared sm"/>
-            <Btn icon="rocket" class="outlined squared sm expanded"/>
-        </div>
-        <div class="row center">
-            <Btn icon="rocket" class="text squared compact"/>
-            <Btn icon="rocket" class="text squared"/>
-            <Btn icon="rocket" class="text squared expanded"/>
-        </div>
-        <div class="row center">
-            <Btn icon="rocket" class="secondary squared lg compact"/>
-            <Btn icon="rocket" class="secondary squared lg"/>
-            <Btn icon="rocket" class="secondary squared lg expanded"/>
-        </div>
-    </div>
-</Demo>
-
-
-### Icon Left <Badge type="info"><pre>icon-left</pre> prop</Badge>
-
-```vue
-<Btn label="Function" icon-left="function"/>
-// or
-<Btn label="Function" icon="function"/>
-```
-
-<Demo>
-    <Btn label="Function" icon-left="function"/>
-    <Btn label="Function" icon-left="function" class="primary"/>
-    <Btn label="Function" icon-left="function" class="secondary"/>
-    <Btn label="Function" icon-left="function" class="outlined"/>
-    <Btn label="Function" icon-left="function" class="text"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn label="Function" icon-left="function" class="sm compact"/>
-            <Btn label="Function" icon-left="function" class="sm"/>
-            <Btn label="Function" icon-left="function" class="sm expanded"/>
-        </div>
-        <div class="row center">
-            <Btn label="Function" icon-left="function" class="compact"/>
-            <Btn label="Function" icon-left="function"/>
-            <Btn label="Function" icon-left="function" class="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn label="Function" icon-left="function" class="lg compact"/>
-            <Btn label="Function" icon-left="function" class="lg"/>
-            <Btn label="Function" icon-left="function" class="lg expanded"/>
-        </div>
-    </div>
-</Demo>
-
-### Icon Right <Badge type="info"><pre>icon-right</pre> prop</Badge>
+### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
 
 ```vue
 <Btn label="Omega" icon-right="special_character"/>
 ```
 
 <Demo>
-    <Btn label="Omega" icon-right="special_character"/>
-    <Btn label="Omega" icon-right="special_character" class="primary"/>
-    <Btn label="Omega" icon-right="special_character" class="secondary"/>
-    <Btn label="Omega" icon-right="special_character" class="outlined"/>
-    <Btn label="Omega" icon-right="special_character" class="text"/>
+    <Btn label="Omega" icon-right="special_character" variant="default"/>
+    <Btn label="Omega" icon-right="special_character" variant="solid"/>
+    <Btn label="Omega" icon-right="special_character" variant="soft"/>
+    <Btn label="Omega" icon-right="special_character" variant="ghost"/>
+    <Btn label="Omega" icon-right="special_character" variant="text"/>
+    <Btn label="Omega" icon-right="special_character" variant="outline"/>
 </Demo>
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn label="Omega" icon-right="special_character" class="sm compact"/>
-            <Btn label="Omega" icon-right="special_character" class="sm"/>
-            <Btn label="Omega" icon-right="special_character" class="sm expanded"/>
+            <Btn label="Omega" icon-right="special_character" size="sm" spacing="compact"/>
+            <Btn label="Omega" icon-right="special_character" size="sm"/>
+            <Btn label="Omega" icon-right="special_character" size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn label="Omega" icon-right="special_character" class="compact"/>
-            <Btn label="Omega" icon-right="special_character"/>
-            <Btn label="Omega" icon-right="special_character" class="expanded"/>
+            <Btn label="Omega" icon-right="special_character" size="md" spacing="compact"/>
+            <Btn label="Omega" icon-right="special_character" size="md"/>
+            <Btn label="Omega" icon-right="special_character" size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn label="Omega" icon-right="special_character" class="lg compact"/>
-            <Btn label="Omega" icon-right="special_character" class="lg"/>
-            <Btn label="Omega" icon-right="special_character" class="lg expanded"/>
+            <Btn label="Omega" icon-right="special_character" size="lg" spacing="compact"/>
+            <Btn label="Omega" icon-right="special_character" size="lg"/>
+            <Btn label="Omega" icon-right="special_character" size="lg" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn label="Omega" icon-right="special_character" size="xl" spacing="compact"/>
+            <Btn label="Omega" icon-right="special_character" size="xl"/>
+            <Btn label="Omega" icon-right="special_character" size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
+
+## Styling
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn label="States" icon="bug_report" variant="default" />
+            <Btn label="States" icon="bug_report" variant="solid" />
+            <Btn label="States" icon="bug_report" variant="soft" />
+            <Btn label="States" icon="bug_report" variant="ghost"/>
+            <Btn label="States" icon="bug_report" variant="text" />
+            <Btn label="States" icon="bug_report" variant="outline" />
+        </div>
+        <div class="row center">
+            <Btn disabled label="States" icon="bug_report" variant="default"/>
+            <Btn disabled label="States" icon="bug_report" variant="solid"/>
+            <Btn disabled label="States" icon="bug_report" variant="soft"/>
+            <Btn disabled label="States" icon="bug_report" variant="ghost"/>
+            <Btn disabled label="States" icon="bug_report" variant="text"/>
+            <Btn disabled label="States" icon="bug_report" variant="outline"/>
+        </div>
+        <div class="row center">
+            <Btn loading label="States" icon="bug_report" variant="default"/>
+            <Btn loading label="States" icon="bug_report" variant="solid"/>
+            <Btn loading label="States" icon="bug_report" variant="soft"/>
+            <Btn loading label="States" icon="bug_report" variant="ghost"/>
+            <Btn loading label="States" icon="bug_report" variant="text"/>
+            <Btn loading label="States" icon="bug_report" variant="outline"/>
+        </div>
+    </div>
+</Demo>
+
+::: tip
+Use the `.btn` css selector to target a `Btn` component.
+:::
+
+### Anatomy
+
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `label` | `string` | `''` |
+| `variant` | `'default' \| 'solid' \| 'soft' \| 'ghost' \| 'text' \| 'outline'` | `'default'` |
+| `fill` | `boolean` | `false` |
+| `borderless` | `boolean` | `false` |
+| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `squared` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+| `loading` | `boolean` | `false` |
+| `icon` | `string` | `''` |
+| `icon-left` | `string` | `''` |
+| `icon-right` | `string` | `''` |

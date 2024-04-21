@@ -5,6 +5,23 @@
 /*----------------------------------------------
 -------------------- COLORS --------------------
 ----------------------------------------------*/
+/* #region colors */
+
+/*---------- Background ----------*/
+:root{
+    --c-bg: #fbfbfb;
+    --c-bg-alt: #f5f5f5;
+}
+.dark{
+    --c-bg: #1b1b1b;
+    --c-bg-alt: #151515;
+}
+/*---------- Text ----------*/
+:root{
+    --c-text-light: #FFFFFF;
+    --c-text-dark: #252525;
+}
+
 /*
     Contrast check:
         1) text = var(--c-[name]-text-1), bg = var(--c-[name]-x)
@@ -14,10 +31,60 @@
         4) icon = var(--c-[name]-icon-1), bg = var(--c-[name]-x)
         5) icon = var(--c-[name]-icon-2), bg = var(--c-[name]-soft-x)
         6) icon = var(--c-[name]-icon-3), bg = var(--c-bg-alt)
-        7) icon = var(--c-[name]-icon-3), bg = var(--elm-c-bg-x)
+        7) icon = var(--c-[name]-icon-3), bg = var(--c-gray-soft-x)
 */
 
+/*-------- NEUTRAL --------*/
+/* #region */
+:root{
+    --c-neutral-1: #707070;
+    --c-neutral-2: #606060;
+    --c-neutral-3: #505050;
+    --rgb-neutral: 235 235 235;
+
+    --c-neutral-soft-1: #e8e8e8;
+    --c-neutral-soft-2: #dcdcdc;
+    --c-neutral-soft-3: #d4d4d4;
+    --rgb-neutral-soft: 232 232 232;
+
+    --c-neutral-text-1: white;
+    --c-neutral-text-2: #4a4a4a;
+    --c-neutral-text-3: #353535;
+
+    --c-neutral-icon-1: var(--c-neutral-soft-1);
+    --c-neutral-icon-2: var(--c-neutral-text-2);
+    --c-neutral-icon-3: var(--c-neutral-text-3);
+    --c-neutral-icon-4: var(--c-neutral-text-3);
+
+    --rgb-neutral-dimmed: 150 150 150;
+    --c-neutral-dimmed-10: rgba(var(--rgb-neutral-dimmed) / 0.10);
+    --c-neutral-dimmed-15: rgba(var(--rgb-neutral-dimmed) / 0.15);
+    --c-neutral-dimmed-20: rgba(var(--rgb-neutral-dimmed) / 0.20);
+}
+.dark{
+    --c-neutral-1: #C6C6C6;
+    --c-neutral-2: #D4D4D4;
+    --c-neutral-3: #E2E2E2;
+    --rgb-neutral: 198 198 198;
+
+    --c-neutral-soft-1: #303030;
+    --c-neutral-soft-2: #3B3B3B;
+    --c-neutral-soft-3: #474747;
+    --rgb-neutral-soft: 48 48 48;
+
+    --c-neutral-text-1: #101010;
+
+    --c-neutral-icon-1: var(--c-neutral-text-1);
+
+    --rgb-neutral-dimmed: 150 150 150;
+    --c-neutral-dimmed-10: rgba(var(--rgb-neutral-dimmed) / 0.10);
+    --c-neutral-dimmed-15: rgba(var(--rgb-neutral-dimmed) / 0.15);
+    --c-neutral-dimmed-20: rgba(var(--rgb-neutral-dimmed) / 0.20);
+}
+/* #endregion */
+
 /*-------- BRAND --------*/
+/* #region */
 :root{
     --c-brand-1: #587848;
     --c-brand-2: #476737;
@@ -61,8 +128,10 @@
     --c-brand-dimmed-15: rgba(var(--rgb-brand-dimmed) / 0.15);
     --c-brand-dimmed-20: rgba(var(--rgb-brand-dimmed) / 0.20);
 }
+/* #endregion */
 
 /*-------- OK --------*/
+/* #region */
 :root{
     --c-ok-1: #18794E;
     --c-ok-2: #006D43;
@@ -109,8 +178,10 @@
     --c-ok-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
     --c-ok-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
 }
+/* #endregion */
 
 /*-------- INFO --------*/
+/* #region */
 :root{
     --c-info-1: #3a5ccc;
     --c-info-2: #3451b2;
@@ -157,8 +228,10 @@
     --c-info-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
     --c-info-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
 }
+/* #endregion */
 
 /*-------- WARN --------*/
+/* #region */
 :root{
     --c-warn-1: #FFDD6A;
     --c-warn-2: #FCCF5D;
@@ -206,8 +279,10 @@
     --c-warn-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
     --c-warn-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
 }
+/* #endregion */
 
 /*-------- DANGER --------*/
+/* #region */
 :root{
     --c-danger-1: #C92D36;
     --c-danger-2: #B91B2B;
@@ -254,53 +329,7 @@
     --c-danger-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
     --c-danger-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
 }
-
-/*-------- GRAY --------*/
-:root{
-    --c-gray-1: #5E5E5E;
-    --c-gray-2: #525252;
-    --c-gray-3: #474747;
-    --rgb-gray: 94 94 94;
-
-    --c-gray-soft-1: #D4D4D4;
-    --c-gray-soft-2: #C6C6C6;
-    --c-gray-soft-3: #B9B9B9;
-    --rgb-default-soft: 197 197 197;
-
-    --c-gray-text-1: white;
-    --c-gray-text-2: var(--c-gray-3);
-    --c-gray-text-3: var(--c-gray-1);
-
-    --c-gray-icon-1: var(--c-gray-soft-1);
-    --c-gray-icon-2: var(--c-gray-text-2);
-    --c-gray-icon-3: var(--c-gray-text-3);
-    --c-gray-icon-4: var(--c-gray-text-3);
-
-    --rgb-gray-dimmed: 150 150 150;
-    --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
-    --c-gray-dimmed-15: rgba(var(--rgb-gray-dimmed) / 0.15);
-    --c-gray-dimmed-20: rgba(var(--rgb-gray-dimmed) / 0.20);
-}
-.dark{
-    --c-gray-1: #C6C6C6;
-    --c-gray-2: #D4D4D4;
-    --c-gray-3: #E2E2E2;
-    --rgb-gray: 198 198 198;
-
-    --c-gray-soft-1: #303030;
-    --c-gray-soft-2: #3B3B3B;
-    --c-gray-soft-3: #474747;
-    --rgb-default-soft: 48 48 48;
-
-    --c-gray-text-1: #101010;
-
-    --c-gray-icon-1: var(--c-gray-text-1);
-
-    --rgb-gray-dimmed: 150 150 150;
-    --c-gray-dimmed-10: rgba(var(--rgb-gray-dimmed) / 0.10);
-    --c-gray-dimmed-15: rgba(var(--rgb-gray-dimmed) / 0.15);
-    --c-gray-dimmed-20: rgba(var(--rgb-gray-dimmed) / 0.20);
-}
+/* #endregion */
 
 /*---------- DISABLED STATE ----------*/
 :root{
@@ -314,59 +343,31 @@
     --c-disabled-text: #808080;
 }
 
-/*---------- Background ----------*/
-:root{
-    --c-bg: #FCFCFC;
-    --c-bg-alt: #F5F5F5;
-}
-.dark{
-    --c-bg: #1B1B1B;
-    --c-bg-alt: #151515;
-}
-
-/*------------------ COMPONENTS ------------------*/
-/*
-    --elm-c-bg-1: Should look good on top of --c-bg & --c-bg-alt
-    --elm-c-bg-2: Hover state of --elm-c-bg-1
-    --elm-c-text: Should have good constrast with --elm-c-bg-x as backround
-*/
-:root{
-    --elm-c-bg-1: #50505015;
-    --elm-c-bg-2: #50505020;
-    --elm-c-text: #252525;
-}
-.dark{
-    --elm-c-bg-1: #DADADA15;
-    --elm-c-bg-2: #DADADA20;
-    --elm-c-text: #FFFFFF;
-}
-
-/*---------- Text ----------*/
-:root{
-    --c-text-light: #FFFFFF;
-    --c-text-dark: #252525;
-}
+/* #endregion colors */
 
 /*-------------------------------------------------
 -------------------- FONT-SIZE --------------------
 -------------------------------------------------*/
 :root{
     --font-size-sm: 1.2rem;
-    --font-size-std: 1.4rem;
+    --font-size-md: 1.4rem;
     --font-size-lg: 1.6rem;
+    --font-size-xl: 1.8rem;
 }
 
 /*---------------------------------
 ---------- BORDER RADIUS ----------
 ---------------------------------*/
 :root{
-    --border-radius-base: 4px;
+    --border-radius-none: 0px;
+    --border-radius-sm: 3px;
+    --border-radius-md: 4px;
+    --border-radius-full: 9999px;
 }
 
 /*---------- Borders ----------*/
 :root{
-    --elm-border-width: 0px;
-    --elm-border-bottom-width: 2.5px;
+    --component-border-bottom-width: 2px;
 }
 
 :root{

@@ -1,5 +1,4 @@
 <script setup>
-import Loader from '../Loader.vue'
 import Icon from '../Icon.vue'
 import { globalDisabler } from '../../composables/useLoaders'
 
@@ -28,7 +27,6 @@ defineProps({
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
         <slot>{{ label }}</slot>
         <Icon v-if="iconRight" :code="iconRight"/>
-        <Loader v-if="loading" class="brand primary"/>
     </button>
 </template>
 

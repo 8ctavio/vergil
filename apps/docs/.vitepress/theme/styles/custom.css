@@ -1,9 +1,11 @@
-@import 'vergil/assets/main.css';
+@import 'vergil/styles/main.css';
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@1");
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100...900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root{
     --font-main: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace
 
     --z-index-pop-up: 95;
     --z-index-confirm: 99;
@@ -19,15 +21,14 @@
     margin-top: 24px;
     text-indent: 10px;
 }
-.vp-doc :is(h1, h2, h3) .VPBadge{
-    font-size: 0.6em;
-    font-weight: 600;
-    text-indent: 0;
+.vp-doc :is(h2, h3, h4){
+    display: flex;
+    align-items: baseline;
+    column-gap: 10px;
 }
-.vp-doc :is(h4) .VPBadge{
-    font-size: 0.7em;
+.vp-doc :is(h1, h2, h3, h4) .VPBadge{
+    margin: 0;
     font-weight: 600;
-    text-indent: 0;
 }
 
 .VPBadge > pre{
