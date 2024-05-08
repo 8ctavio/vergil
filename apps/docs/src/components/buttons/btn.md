@@ -71,7 +71,7 @@ There are aliases available for some `theme` prop values:
 | Value      | Aliases |
 | ---------- | ------- |
 | `'ok'`     | `'success', 'check'` |
-| `'info'`   | `'tip'` |
+| `'info'`   | `'help', 'tip'` |
 | `'warn'`   | `'warning', 'caution'` |
 | `'danger'` | `'error'` |
 
@@ -369,40 +369,9 @@ Adding `squared` sets padding to the same value on all sides.
 
 ## Styling
 
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn label="States" icon="bug_report" variant="default" />
-            <Btn label="States" icon="bug_report" variant="solid" />
-            <Btn label="States" icon="bug_report" variant="soft" />
-            <Btn label="States" icon="bug_report" variant="ghost"/>
-            <Btn label="States" icon="bug_report" variant="text" />
-            <Btn label="States" icon="bug_report" variant="outline" />
-        </div>
-        <div class="row center">
-            <Btn disabled label="States" icon="bug_report" variant="default"/>
-            <Btn disabled label="States" icon="bug_report" variant="solid"/>
-            <Btn disabled label="States" icon="bug_report" variant="soft"/>
-            <Btn disabled label="States" icon="bug_report" variant="ghost"/>
-            <Btn disabled label="States" icon="bug_report" variant="text"/>
-            <Btn disabled label="States" icon="bug_report" variant="outline"/>
-        </div>
-        <div class="row center">
-            <Btn loading label="States" icon="bug_report" variant="default"/>
-            <Btn loading label="States" icon="bug_report" variant="solid"/>
-            <Btn loading label="States" icon="bug_report" variant="soft"/>
-            <Btn loading label="States" icon="bug_report" variant="ghost"/>
-            <Btn loading label="States" icon="bug_report" variant="text"/>
-            <Btn loading label="States" icon="bug_report" variant="outline"/>
-        </div>
-    </div>
-</Demo>
-
-::: tip
-Use the `.btn` css selector to target a `Btn` component.
-:::
-
 ### Anatomy
+
+![Btn Anatomy](../../assets/btn-anatomy.png)
 
 ## API Reference
 

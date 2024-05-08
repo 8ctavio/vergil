@@ -9,7 +9,7 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import DemoPopUp from '@/DemoPopUp.vue'
+import DemoPopUp from '@components/DemoPopUp.vue'
 import { showPopUp } from 'vergil'
 
 const demoPopUp = () => {

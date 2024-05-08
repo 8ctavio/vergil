@@ -1,0 +1,351 @@
+/*
+    Contrast check:
+        1) text = var(--c-[name]-text-1), bg = var(--c-[name]-x)
+        2) text = var(--c-[name]-text-2), bg = var(--c-[name]-soft-x)
+        3) text = var(--c-[name]-text-3), bg = var(--c-bg-alt)
+
+    Use:
+        4) icon = var(--c-[name]-icon-1), bg = var(--c-[name]-x)
+        5) icon = var(--c-[name]-icon-2), bg = var(--c-[name]-soft-x)
+        5) icon = var(--c-[name]-icon-3), bg = var(--c-gray-soft-x)
+        7) icon = var(--c-[name]-icon-4), bg = var(--c-bg-alt)
+*/
+
+/*-------- GREY --------*/
+/* #region */
+:root{
+    --c-grey-1: #707070;
+    --c-grey-2: #606060;
+    --c-grey-3: #505050;
+    --rgb-grey: 235 235 235;
+
+    --c-grey-soft-1: #eeeeee;
+    --c-grey-soft-2: #e8e8e8;
+    --c-grey-soft-3: #dcdcdc;
+    --c-grey-soft-4: #d4d4d4;
+    --rgb-grey-soft: 232 232 232;
+
+    --c-grey-text-1: white;
+    --c-grey-text-2: #4a4a4a;
+    --c-grey-text-3: #535353;
+
+    --c-grey-border-1: #cdcdcd;
+    --c-grey-border-2: #c5c5c5;
+    --c-grey-outline: #c0c0c0;
+
+    --c-grey-icon-1: var(--c-grey-soft-1);
+    --c-grey-icon-2: var(--c-grey-text-3);
+    --c-grey-icon-3: var(--c-grey-text-3);
+    --c-grey-icon-4: #656565;
+
+    --rgb-grey-dimmed: 150 150 150;
+    --c-grey-dimmed-10: rgba(var(--rgb-grey-dimmed) / 0.10);
+    --c-grey-dimmed-15: rgba(var(--rgb-grey-dimmed) / 0.15);
+    --c-grey-dimmed-20: rgba(var(--rgb-grey-dimmed) / 0.20);
+}
+.dark{
+    --c-grey-1: #C6C6C6;
+    --c-grey-2: #D4D4D4;
+    --c-grey-3: #E2E2E2;
+    --rgb-grey: 198 198 198;
+
+    --c-grey-soft-1: #252525;
+    --c-grey-soft-2: #303030;
+    --c-grey-soft-3: #3B3B3B;
+    --c-grey-soft-4: #474747;
+    --rgb-grey-soft: 48 48 48;
+
+    --c-grey-text-1: #101010;
+    --c-grey-text-2: #c8c8c8;
+    --c-grey-text-3: #b8b8b8;
+
+    --c-grey-border-1: #808080;
+    --c-grey-border-2: #8a8a8a;
+
+    --c-grey-icon-1: var(--c-grey-text-1);
+    --c-grey-icon-4: var(--c-grey-text-3);;
+
+    --rgb-grey-dimmed: 150 150 150;
+    --c-grey-dimmed-10: rgba(var(--rgb-grey-dimmed) / 0.10);
+    --c-grey-dimmed-15: rgba(var(--rgb-grey-dimmed) / 0.15);
+    --c-grey-dimmed-20: rgba(var(--rgb-grey-dimmed) / 0.20);
+}
+/* #endregion */
+
+/*-------- MOSS --------*/
+/* #region */
+:root{
+    --c-moss-1: #587848;
+    --c-moss-2: #476737;
+    --c-moss-3: #3C5A2C;
+    --rgb-moss: 88 120 72;
+
+    --c-moss-soft-1: #EAEFE8;
+    --c-moss-soft-2: #DAE6D5;
+    --c-moss-soft-3: #CCD8C7;
+    --c-moss-soft-4: #BECAB9;
+    --rgb-moss-soft: 218 230 213;
+
+    --c-moss-text-1: white;
+    --c-moss-text-2: var(--c-moss-3);
+    --c-moss-text-3: var(--c-moss-1);
+
+    --c-moss-border-1: #658952;
+    --c-moss-border-2: #70995C;
+    --c-moss-outline: #B1BCAC;
+
+    --c-moss-icon-1: var(--c-moss-soft-1);
+    --c-moss-icon-2: var(--c-moss-text-2);
+    --c-moss-icon-3: var(--c-moss-text-3);
+    --c-moss-icon-4: var(--c-moss-text-3);
+
+    --rgb-moss-dimmed: 136 186 109;
+    --c-moss-dimmed-10: rgba(var(--rgb-moss-dimmed) / 0.10);
+    --c-moss-dimmed-15: rgba(var(--rgb-moss-dimmed) / 0.15);
+    --c-moss-dimmed-20: rgba(var(--rgb-moss-dimmed) / 0.20);
+}
+.dark{
+    --c-moss-1: #94B484;
+    --c-moss-2: #A1C291;
+    --c-moss-3: #AFD09F;
+    --rgb-moss: 148 180 132;
+    
+    --c-moss-soft-1: #2A3324;
+    --c-moss-soft-2: #353E2F;
+    --c-moss-soft-3: #40493A;
+    --c-moss-soft-4: #4C5545;
+    --rgb-moss-soft: 53 62 47;
+
+    --c-moss-text-1: #122B0F;
+
+    --rgb-moss-dimmed: 136 186 109;
+    --c-moss-dimmed-10: rgba(var(--rgb-moss-dimmed) / 0.10);
+    --c-moss-dimmed-15: rgba(var(--rgb-moss-dimmed) / 0.15);
+    --c-moss-dimmed-20: rgba(var(--rgb-moss-dimmed) / 0.20);
+}
+/* #endregion */
+
+/*-------- DARTMOUTH --------*/
+/* #region */
+:root{
+    --c-dartmouth-1: #18794E;
+    --c-dartmouth-2: #006D43;
+    --c-dartmouth-3: #006037;
+    --rgb-dartmouth: 24 121 78;
+
+    --c-dartmouth-soft-1: #DDF3DF;
+    --c-dartmouth-soft-2: #B9F0BD;
+    --c-dartmouth-soft-3: #ABE2AF;
+    --c-dartmouth-soft-4: #9ED3A2;
+    --rgb-dartmouth-soft: 185 240 189;
+
+    --c-dartmouth-text-1: white;
+    --c-dartmouth-text-2: var(--c-dartmouth-3);
+    --c-dartmouth-text-3: var(--c-dartmouth-1);
+
+    --c-dartmouth-border-1: #1C8D5A;
+    --c-dartmouth-border-2: #18794E;
+    --c-dartmouth-outline: #83B888;
+
+    --c-dartmouth-icon-1: var(--c-dartmouth-soft-1);
+    --c-dartmouth-icon-2: var(--c-dartmouth-text-2);
+    --c-dartmouth-icon-3: var(--c-dartmouth-text-2);
+    --c-dartmouth-icon-4: var(--c-dartmouth-text-3);
+
+    --rgb-green-dimmed: 16 185 129;
+    --c-dartmouth-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
+    --c-dartmouth-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
+    --c-dartmouth-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
+}
+.dark{
+    --c-dartmouth-1: #006037;
+    --c-dartmouth-2: #196C41;
+    --c-dartmouth-3: #29784D;
+    --rgb-dartmouth: 0 96 55;
+
+    --c-dartmouth-soft-1: #1B352C;
+    --c-dartmouth-soft-2: #264136;
+    --c-dartmouth-soft-3: #314C42;
+    --c-dartmouth-soft-4: #3C584D;
+    --rgb-dartmouth-soft: 27 53 44;
+
+    --c-dartmouth-text-2: #A3F4C1;
+    --c-dartmouth-text-3: #6DBB8B;
+
+    --c-dartmouth-icon-1: var(--c-dartmouth-text-2);
+
+    --rgb-green-dimmed: 16 185 129;
+    --c-dartmouth-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
+    --c-dartmouth-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
+    --c-dartmouth-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
+}
+/* #endregion */
+
+/*-------- COBALT --------*/
+/* #region */
+:root{
+    --c-cobalt-1: #3a5ccc;
+    --c-cobalt-2: #3451b2;
+    --c-cobalt-3: #0046B2;
+    --rgb-cobalt: 58 92 204;
+
+    --c-cobalt-soft-1: #EBEFF9;
+    --c-cobalt-soft-2: #DCE6FF;
+    --c-cobalt-soft-3: #CCD8FF;
+    --c-cobalt-soft-4: #BDCAFF;
+    --rgb-cobalt-soft: 220 230 255;
+
+    --c-cobalt-text-1: white;
+    --c-cobalt-text-2: var(--c-cobalt-3);
+    --c-cobalt-text-3: var(--c-cobalt-1);
+
+    --c-cobalt-border-1: #637AF0;
+    --c-cobalt-border-2: #536EE1;
+    --c-cobalt-outline: #A2AFE1;
+
+    --c-cobalt-icon-1: var(--c-cobalt-soft-1);
+    --c-cobalt-icon-2: var(--c-cobalt-text-2);
+    --c-cobalt-icon-3: var(--c-cobalt-text-3);
+    --c-cobalt-icon-4: var(--c-cobalt-text-3);
+
+    --rgb-blue-dimmed: 100 108 255;
+    --c-cobalt-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
+    --c-cobalt-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
+    --c-cobalt-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
+}
+.dark{
+    --c-cobalt-1: #134AB7;
+    --c-cobalt-2: #2E56C5;
+    --c-cobalt-3: #4262D3;
+    --rgb-cobalt: 19 74 183;
+
+    --c-cobalt-soft-1: #212845;
+    --c-cobalt-soft-2: #2C3351;
+    --c-cobalt-soft-3: #383E5D;
+    --c-cobalt-soft-4: #444A69;
+    --rgb-cobalt-soft: 33 40 69;
+
+    --c-cobalt-text-2: #BECFFF;
+    --c-cobalt-text-3: #91A4FF;
+
+    --c-cobalt-icon-1: var(--c-cobalt-text-2);
+
+    --rgb-blue-dimmed: 100 108 255;
+    --c-cobalt-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
+    --c-cobalt-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
+    --c-cobalt-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
+}
+/* #endregion */
+
+/*-------- YELLOW --------*/
+/* #region */
+:root{
+    --c-yellow-1: #FFDD6A;
+    --c-yellow-2: #FCCF5D;
+    --c-yellow-3: #EDC150;
+    --rgb-yellow: 255 221 106;
+
+    --c-yellow-soft-1: #F9F2D8;
+    --c-yellow-soft-2: #FFEEAD;
+    --c-yellow-soft-3: #FAE09F;
+    --c-yellow-soft-4: #F1D897;
+    --rgb-yellow-soft: 255 238 173;
+
+    --c-yellow-text-1: #5F4100;
+    --c-yellow-text-2: #755400;
+    --c-yellow-text-3: #7F6900;
+
+    --c-yellow-border-1: var(--c-yellow-3);
+    --c-yellow-border-2: #DEB342;
+    --c-yellow-outline: #E6CD8D;
+
+    --c-yellow-icon-1: var(--c-yellow-text-2);
+    --c-yellow-icon-2: var(--c-yellow-text-3);
+    --c-yellow-icon-3: var(--c-yellow-text-3);
+    --c-yellow-icon-4: var(--c-yellow-text-3);
+
+    --rgb-yellow-dimmed: 249 204 90;
+    --c-yellow-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
+    --c-yellow-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
+    --c-yellow-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
+}
+.dark{
+    --c-yellow-1: #E2C463;
+    --c-yellow-2: #F1D270;
+    --c-yellow-3: #FFE07D;
+    --rgb-yellow: 226 196 99;
+
+    --c-yellow-soft-1: #35301F;
+    --c-yellow-soft-2: #413B29;
+    --c-yellow-soft-3: #4C4734;
+    --c-yellow-soft-4: #58523F;
+    --rgb-yellow-soft: 53 48 31;
+
+    --c-yellow-text-1: #472B00;
+    --c-yellow-text-2: var(--c-yellow-3);
+    --c-yellow-text-3: var(--c-yellow-3);
+
+    --c-yellow-icon-1: var(--c-yellow-text-1);
+
+    --rgb-yellow-dimmed: 249 204 90;
+    --c-yellow-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
+    --c-yellow-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
+    --c-yellow-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
+}
+/* #endregion */
+
+/*-------- RED --------*/
+/* #region */
+:root{
+    --c-red-1: #C92D36;
+    --c-red-2: #B91B2B;
+    --c-red-3: #A90020;
+    --rgb-red: 201 45 54;
+
+    --c-red-soft-1: #F9EBE7;
+    --c-red-soft-2: #FFDCD1;
+    --c-red-soft-3: #FFCEC3;
+    --c-red-soft-4: #FFC0B6;
+    --rgb-red-soft: 255 220 209;
+
+    --c-red-text-1: white;
+    --c-red-text-2: var(--c-red-3);
+    --c-red-text-3: var(--c-red-1);
+
+    --c-red-border-1: #D75057;
+    --c-red-border-2: #D33C43;
+    --c-red-outline: #E1A59B;
+
+    --c-red-icon-1: var(--c-red-soft-1);
+    --c-red-icon-2: var(--c-red-text-2);
+    --c-red-icon-3: var(--c-red-text-2);
+    --c-red-icon-4: var(--c-red-text-3);
+
+    --rgb-red-dimmed: 255 105 101;
+    --c-red-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
+    --c-red-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
+    --c-red-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
+}
+.dark{
+    --c-red-1: #AD1F35;
+    --c-red-2: #BC3040;
+    --c-red-3: #CB3F4B;
+    --rgb-red: 173 31 53;
+
+    --c-red-soft-1: #3B181D;
+    --c-red-soft-2: #4A252A;
+    --c-red-soft-3: #573034;
+    --c-red-soft-4: #633C40;
+    --rgb-red-soft: 54 24 29;
+
+    --c-red-text-2: #FFB5B6;
+    --c-red-text-3: var(--c-red-text-2);
+
+    --c-red-icon-1: var(--c-red-text-1);
+
+    --rgb-red-dimmed: 255 105 101;
+    --c-red-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
+    --c-red-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
+    --c-red-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
+}
+/* #endregion */

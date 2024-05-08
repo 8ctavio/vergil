@@ -30,6 +30,9 @@
 :slotted(.row).center{
     justify-content: center;
 }
+:slotted(.row).right{
+    justify-content: end;
+}
 :slotted(.col){
     display: flex;
     flex-direction: column;

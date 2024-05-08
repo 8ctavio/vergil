@@ -33,8 +33,8 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-	--vp-font-family-base: 'Inter', sans-serif;
-	--vp-font-family-mono: 'JetBrains Mono', monospace;
+	--vp-font-family-base: var(--font-sans);
+	--vp-font-family-mono: var(--font-mono);
 	font-optical-sizing: auto;
 }
 
@@ -83,7 +83,7 @@
  * -------------------------------------------------------------------------- */
 
 .dark {
-	--vp-button-brand-text: var(--c-brand-text-1);
-	--vp-button-brand-hover-text: var(--c-brand-text-1);
-	--vp-button-brand-active-text: var(--c-brand-text-1);
+	--vp-button-brand-text: var(--c-moss-text-1);
+	--vp-button-brand-hover-text: var(--c-moss-text-1);
+	--vp-button-brand-active-text: var(--c-moss-text-1);
 }
