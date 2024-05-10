@@ -1,20 +1,23 @@
 {
-    "name": "vergil",
+    "name": "@vergil/core",
     "version": "0.1.0",
     "license": "UNLICENSED",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/8ctavio/vergil.git",
+        "directory": "packages/core"
+    },
+    "homepage": "https://github.com/8ctavio/vergil",
+    "bugs": "https://github.com/8ctavio/vergil/issues",
     "author": {
         "name": "8ctavio Araiza",
         "url": "https://github.com/8ctavio"
     },
-    "homepage": "https://github.com/8ctavio/vergil",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/8ctavio/vergil",
-        "directory": "packages/core"
-    },
-    "bugs": "https://github.com/8ctavio/vergil/issues",
     "main": "index.js",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
     "peerDependencies": {
         "vue": "^3.3.13"
     }
