@@ -6,7 +6,22 @@ outline: [2,3]
 
 ## Installation
 
-Currently, to use Vergil its repository must be added as a submodule to a monorepo. Then, with pnpm's workspace feature, Vergil can be regarded and used as a package inside the monorepo.
+1. [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages)
+
+2. In the same directory as the project's package.json file, create or edit an `.npmrc` file to include a line specifying GitHub Packages URL and the namespace where the package is hosted:
+
+```cmd
+@8ctavio:registry = https://npm.pkg.github.com
+```
+
+3. Install dependency:
+
+```cmd
+pnpm add @8ctavio/vergil
+```
+:::tip
+See [Installing a Package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
+:::
 
 ## Styles
 
@@ -37,10 +52,11 @@ Icon codes required by Vergil components are the ones used by Material Symbols.
 In order to avoid importing fonts that may ultimately not be used, Vergil's font-family css variables value is `initial`. Thus, these variables should always be overwritten with fonts of choice. An example of this is shown next.
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10;0,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root{
     /* Overwrite css variables */
-    --font-main: 'Inter', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 ```

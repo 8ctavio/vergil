@@ -1,8 +1,8 @@
 {
     "name": "@8ctavio/vergil",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": "UNLICENSED",
-    "private": true,
+    "private": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/8ctavio/vergil.git",
@@ -19,6 +19,6 @@
         "registry": "https://npm.pkg.github.com"
     },
     "peerDependencies": {
-        "vue": "^3.3.13"
+        "vue": "^3.4.27"
     }
 }

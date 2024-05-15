@@ -9,6 +9,6 @@ This `@vergil/monorepo` contains the core Vergil package and its documentation:
 
 ## 🖥️ Run Docs Locally
 
-```console
+```cmd
 pnpm run docs:dev
 ```
