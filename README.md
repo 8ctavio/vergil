@@ -4,8 +4,8 @@ Vergil is a Vue Web Application Development Framework that provides components, 
  
 This `@vergil/monorepo` contains the core Vergil package and its documentation:
 
-- Vergil package: `vergil`.
-- Docs: `@vergil/docs`.
+- Vergil package: `@8ctavio/vergil`
+- Docs: `@vergil/docs`
 
 ## 🖥️ Run Docs Locally
 
