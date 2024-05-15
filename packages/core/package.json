@@ -1,11 +1,11 @@
 {
-    "name": "@vergil/core",
+    "name": "@8ctavio/vergil",
     "version": "0.1.0",
     "license": "UNLICENSED",
     "private": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/8ctavio/vergil.git",
+        "url": "git+https://github.com/8ctavio/vergil.git",
         "directory": "packages/core"
     },
     "homepage": "https://github.com/8ctavio/vergil",
