@@ -12,19 +12,17 @@ hero:
       text: Get Started
       link: get-started
     - theme: alt
-      text: UI Components
-      link: components/alert
-    - theme: alt
-      text: Firebase
-      link: components/alert
+      text: Components
+      link: components/buttons/btn
 
 features:
-  - title: Global stores
-    details: Manage different context application states.
   - title: Components
-    details: Styled ready to use buttons, icons, tables, alerts, pop-ups...
+    details: Styled ready to use UI components
+  - title: Composables
+    details: Harness Vue's composition and reactivity APIs with refined composables
+  - title: Utilities
+    details: Comprehensive set of utility functions and constants
   - title: Forms
-    details: API for reactive text inputs, search fields, select dropdowns...
-  - title: Firebase
-    details: Interact seamlessly with firebase firestore, authentication and cloud functions.
+    details: Intuitive and powerful reactive form components API
+  # Features to add later: Theme (css variables), Server-specific utilities
 ---
