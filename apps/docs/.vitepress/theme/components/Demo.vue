@@ -24,7 +24,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     width: 100%;
 }
 :slotted(.row).center{
@@ -36,7 +36,7 @@
 :slotted(.col){
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     width: 100%;
 }
 :slotted(.col).center{

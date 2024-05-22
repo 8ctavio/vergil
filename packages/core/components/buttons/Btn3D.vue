@@ -3,6 +3,14 @@ import Icon from '../Icon.vue'
 
 defineProps({
     label: String,
+    variant: {
+        type: String,
+        default: 'solid',
+        validator(value, props){
+            return ['solid', 'soft', 'outline'].includes(value)
+        }
+    },
+    borderless: Boolean,
     size: {
         type: String,
         default: 'md',
@@ -35,9 +43,11 @@ defineProps({
     <button
         :class="[
             'btn3D',
+            variant,
             size,,
             spacing,
             {
+                borderless,
                 squared,
                 loading,
             }
@@ -54,13 +64,10 @@ defineProps({
 </template>
 
 <style>
-/*--------------------------------------------------
--------------------- BOX-SHADOW --------------------
---------------------------------------------------*/
 .btn3D{
-    --btn3D-c-border: var(--c-theme-3);
     --btn3D-c-shadow: rgb(0 0 0 / 0.15);
 
+    /*-------- BOX-SHADOW --------*/
     --btn3D-elv: 5px;
     --btn3D-elv-hover: 3px;
     --btn3D-elv-dif: calc(var(--btn3D-elv) - var(--btn3D-elv-hover));
@@ -79,18 +86,6 @@ defineProps({
                             0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
 
-    &:is(:hover, :focus-visible){
-        --btn3D-border: var(--btn3D-elv-hover);
-        --btn3D-shadow-x: 3px;
-    }
-}
-.dark .btn3D{
-    --btn3D-c-border: #476737;
-    --btn3D-c-shadow: rgb(255 255 255 / 0.05);
-}
-
-.btn3D{
-    font-size: var(--font-size-std);
     font-weight: 500;
     line-height: normal;
 
@@ -99,10 +94,7 @@ defineProps({
     grid-auto-flow: column;
 
     border: none;
-    border-radius: var(--border-radius-sm);
-
-    background-color: var(--c-theme-1);
-    color: var(--c-theme-text-1);
+    border-radius: var(--border-radius-md);
 
     box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
 
@@ -110,6 +102,8 @@ defineProps({
     transition: box-shadow 150ms, transform 150ms;
 
     &:is(:hover, :focus-visible){
+        --btn3D-border: var(--btn3D-elv-hover);
+        --btn3D-shadow-x: 3px;
         transform: translateY(var(--btn3D-elv-dif));
     }
     &:focus-visible{
@@ -123,6 +117,7 @@ defineProps({
     }
 
     &:disabled:not(.loading){
+        border-color: var(--c-disabled-border);
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
         box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border);
@@ -165,10 +160,67 @@ defineProps({
             border-style: solid;
             border-top-width: 3px;
             border-top-style: solid;
-            border-color: white;
-            border-top-color: rgb(0 0 0 / 0.4);
             animation: spin 1000ms linear infinite;
         }
+    }
+    &:where(.solid) .btn-spinner{
+        border-color: white;
+        border-top-color: rgb(0 0 0 / 0.4)
+    }
+    &:where(.soft, .outline) .btn-spinner{
+        border-color: var(--c-theme-soft-4);
+        border-top-color: var(--c-theme-text-3);
+    }
+}
+.dark .btn3D{
+    --btn3D-c-shadow: rgb(255 255 255 / 0.05);
+
+    &:where(.soft, .outline) .btn-spinner{
+        border-color: var(--c-theme-outline);
+        border-top-color: var(--c-theme-soft-4)
+    }
+}
+
+/*------------------------------------------------
+-------------------- VARIANTS --------------------
+------------------------------------------------*/
+/*-------- SOLID --------*/
+.btn3D.solid{
+    --btn3D-c-border: var(--c-theme-3);
+    background-color: var(--c-theme-1);
+    color: var(--c-theme-text-1);
+}
+.dark .btn3D.solid{
+    --btn3D-c-border: #476737;
+}
+
+/*-------- SOFT --------*/
+.btn3D.soft{
+    --btn3D-c-border: var(--c-theme-1);
+    background-color: var(--c-theme-soft-2);
+    color: var(--c-theme-text-2);
+
+    &:not(:disabled) > .icon{
+        color: var(--c-theme-icon-2);
+    }
+}
+
+/*-------- OUTLINE --------*/
+.btn3D.outline{
+    --btn3D-c-border: var(--c-theme-border-1);
+    background-color: var(--c-grey-soft-2);
+    color: var(--c-grey-text-2);
+    &:where(:not(.borderless)){
+        border: 1px solid var(--c-theme-border-1);
+    }
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-2);
+    }
+    &.loading{
+        background-color: var(--c-theme-soft-1);
+    }
+    &:not(:disabled) > .icon{
+        color: var(--c-theme-icon-4);
     }
 }
 

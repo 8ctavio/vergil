@@ -35,6 +35,23 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
 <Btn3D label="Click"/>
 ```
 
+### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'outline') = 'solid'</pre></Badge>
+
+<Demo>
+    <Btn3D variant="solid" label="Solid"/>
+    <Btn3D variant="soft" label="Soft"/>
+    <Btn3D variant="outline" label="Outline"/>
+</Demo>
+
+### Borderless <Badge type="tip"><pre>borderless: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "outline"</pre></Badge>
+
+```vue
+<Btn3D variant="outline" borderless label="Borderless"/>
+```
+<Demo>
+    <Btn3D variant="outline" borderless label="Borderless"/>
+</Demo>
+
 ### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 Changing the size mainly changes the font-size and adjusts padding accordingly.
@@ -89,13 +106,17 @@ Adding `squared` sets padding to the same value on all sides.
 ### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Btn3D disabled label="Disabled"/>
+    <Btn3D disabled label="Disabled" variant="solid"/>
+    <Btn3D disabled label="Disabled" variant="soft"/>
+    <Btn3D disabled label="Disabled" variant="outline"/>
 </Demo>
 
 ### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
 
 <Demo>
-    <Btn3D label="Loading" loading/>
+    <Btn3D label="Loading" loading variant="solid"/>
+    <Btn3D label="Loading" loading variant="soft"/>
+    <Btn3D label="Loading" loading variant="outline"/>
 </Demo>
 
 <Demo>
@@ -130,7 +151,9 @@ Adding `squared` sets padding to the same value on all sides.
 ```
 
 <Demo>
-    <Btn3D icon="rocket_launch" variant="default"/>
+    <Btn3D icon="rocket_launch" variant="solid"/>
+    <Btn3D icon="rocket_launch" variant="soft"/>
+    <Btn3D icon="rocket_launch" variant="outline"/>
 </Demo>
 
 ### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
@@ -140,7 +163,9 @@ Adding `squared` sets padding to the same value on all sides.
 ```
 
 <Demo>
-    <Btn3D label="Omega" icon-right="special_character"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="solid"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="soft"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="outline"/>
 </Demo>
 
 <Demo>
@@ -179,6 +204,8 @@ Adding `squared` sets padding to the same value on all sides.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
+| `variant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` |
+| `borderless` | `boolean` | `false` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `squared` | `boolean` | `false` |
