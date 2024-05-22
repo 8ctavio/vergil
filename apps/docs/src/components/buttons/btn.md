@@ -128,7 +128,7 @@ There are aliases available for some `theme` prop values:
     </div>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg') = 'md'</pre></Badge>
+### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 Changing the size mainly changes the font-size and adjusts padding accordingly.
 
@@ -178,7 +178,6 @@ Adding `squared` sets padding to the same value on all sides.
     <Btn size="lg" squared label="Large"/>
     <Btn size="xl" squared label="Extra Large"/>
 </Demo>
-
 
 ### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 

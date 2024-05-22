@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Btn3D
+# Btn3D <Badge type="tip"><pre>.btn3D</pre></Badge>
 
 > Button with 3D effect
 
@@ -25,173 +25,115 @@ outline: [2,3]
     <Btn3D>Keep it Clean!</Btn3D>
 </Demo>
 
-::: tip
-Use the `.btn3d` css selector to target a `Btn3D` component.
-:::
+## Props
 
-### Label <Badge type="info"><pre>label</pre> prop</Badge>
+### Label <Badge type="tip"><pre>label: string = ''</pre></Badge>
 
-The `Btn3D` label can be specified through the default slot or via a `label` prop. The slot content overrides the `label` prop.
+Simple `Btn3D` text content can be specified through the default slot or the `label` prop. The slot content overrides the `label` prop.
 
 ```vue
-<Btn3D label="3D Button"/>
+<Btn3D label="Click"/>
 ```
 
-## Size <Badge type="info">class</Badge>
+### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
-Changing the size mainly changes the font-size and adjusts padding accordingly. It can be specified through a class. Possible class values for sizes are
+Changing the size mainly changes the font-size and adjusts padding accordingly.
 
-- `sm`
-- `lg`
-
-```vue
-<Btn3D class="sm" label="Small"/>
-<Btn3D label="Default"/>
-<Btn3D class="lg" label="Large"/>
-```
 <Demo>
-    <Btn3D class="sm" label="Small"/>
-    <Btn3D label="Default"/>
-    <Btn3D class="lg" label="Large"/>
+    <Btn3D size="sm" label="Small"/>
+    <Btn3D size="md" label="Medium"/>
+    <Btn3D size="lg" label="Large"/>
+    <Btn3D size="xl" label="Extra Large"/>
 </Demo>
 
-### Spacing <Badge type="info">class</Badge>
+### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
-Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changing spacing to give a more compact or more spacious look can be achieved through one of the following classes:
-
-- `compact`
-- `expanded`
-
-```vue
-<Btn3D class="sm compact" label="Compact"/>
-<Btn3D class="sm" label="Default"/>
-<Btn3D class="sm expanded" label="Expanded"/>
-
-<Btn3D class="compact" label="Compact"/>
-<Btn3D label="Default"/>
-<Btn3D class="expanded" label="Expanded"/>
-
-<Btn3D class="lg compact" label="Compact"/>
-<Btn3D class="lg" label="Default"/>
-<Btn3D class="lg expanded" label="Expanded"/>
-```
+Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changing spacing gives either a more compact or spacious look.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn3D class="sm compact" label="Compact"/>
-            <Btn3D class="sm" label="Default"/>
-            <Btn3D class="sm expanded" label="Expanded"/>
+            <Btn3D size="sm" spacing="compact" label="Compact"/>
+            <Btn3D size="sm" label="Default"/>
+            <Btn3D size="sm" spacing="expanded" label="Expanded"/>
         </div>
         <div class="row center">
-            <Btn3D class="compact" label="Compact"/>
-            <Btn3D label="Default"/>
-            <Btn3D class="expanded" label="Expanded"/>
+            <Btn3D size="md" spacing="compact" label="Compact"/>
+            <Btn3D size="md" label="Default"/>
+            <Btn3D size="md" spacing="expanded" label="Expanded"/>
         </div>
         <div class="row center">
-            <Btn3D class="lg compact" label="Compact"/>
-            <Btn3D class="lg" label="Default"/>
-            <Btn3D class="lg expanded" label="Expanded"/>
+            <Btn3D size="lg" spacing="compact" label="Compact"/>
+            <Btn3D size="lg" label="Default"/>
+            <Btn3D size="lg" spacing="expanded" label="Expanded"/>
+        </div>
+        <div class="row center">
+            <Btn3D size="xl" spacing="compact" label="Compact"/>
+            <Btn3D size="xl" label="Default"/>
+            <Btn3D size="xl" spacing="expanded" label="Expanded"/>
         </div>
     </div>
 </Demo>
 
-## States
+### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
 
-### Disabled <Badge type="info"><pre>disabled</pre> attribute</Badge>
+Adding `squared` sets padding to the same value on all sides.
+
+<Demo>
+    <Btn3D size="sm" squared label="Small"/>
+    <Btn3D size="md" squared label="Medium"/>
+    <Btn3D size="lg" squared label="Large"/>
+    <Btn3D size="xl" squared label="Extra Large"/>
+</Demo>
+
+### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 
 <Demo>
     <Btn3D disabled label="Disabled"/>
 </Demo>
 
-### Loading <Badge type="info"><pre>loading</pre> prop</Badge>
-
-```vue
-<Btn3D loading label="Loading..."/>
-```
+### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
 
 <Demo>
-    <Btn3D label="Loading..." loading/>
+    <Btn3D label="Loading" loading/>
 </Demo>
 
-## Icons
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn3D label="Loading" loading size="sm" spacing="compact"/>
+            <Btn3D label="Loading" loading size="sm"/>
+            <Btn3D label="Loading" loading size="sm" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Loading" loading size="md" spacing="compact"/>
+            <Btn3D label="Loading" loading size="md"/>
+            <Btn3D label="Loading" loading size="md" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Loading" loading size="lg" spacing="compact"/>
+            <Btn3D label="Loading" loading size="lg"/>
+            <Btn3D label="Loading" loading size="lg" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Loading" loading size="xl" spacing="compact"/>
+            <Btn3D label="Loading" loading size="xl"/>
+            <Btn3D label="Loading" loading size="xl" spacing="expanded"/>
+        </div>
+    </div>
+</Demo>
 
-### Icon Only <Badge type="info"><pre>icon</pre> prop</Badge>
+### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
 
 ```vue
 <Btn3D icon="rocket_launch"/>
 ```
 
 <Demo>
-    <Btn3D icon="rocket_launch"/>
+    <Btn3D icon="rocket_launch" variant="default"/>
 </Demo>
 
-#### Squared <Badge type="info"><pre>squared</pre> class</Badge>
-
-The `squared` class sets a single padding for all `Btn3D` sides, giving it a squared aspect when used with only an icon.
-
-```vue
-<Btn3D icon="rocket" class="squared"/>
-```
-
-<Demo>
-    <Btn3D icon="rocket" class="squared"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn3D icon="rocket" class="squared sm compact"/>
-            <Btn3D icon="rocket" class="squared sm"/>
-            <Btn3D icon="rocket" class="squared sm expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D icon="rocket" class="squared compact"/>
-            <Btn3D icon="rocket" class="squared"/>
-            <Btn3D icon="rocket" class="squared expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D icon="rocket" class="squared lg compact"/>
-            <Btn3D icon="rocket" class="squared lg"/>
-            <Btn3D icon="rocket" class="squared lg expanded"/>
-        </div>
-    </div>
-</Demo>
-
-
-### Icon Left <Badge type="info"><pre>icon-left</pre> prop</Badge>
-
-```vue
-<Btn3D label="Function" icon-left="function"/>
-// or
-<Btn3D label="Function" icon="function"/>
-```
-
-<Demo>
-    <Btn3D label="Function" icon-left="function"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn3D label="Function" icon-left="function" class="sm compact"/>
-            <Btn3D label="Function" icon-left="function" class="sm"/>
-            <Btn3D label="Function" icon-left="function" class="sm expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D label="Function" icon-left="function" class="compact"/>
-            <Btn3D label="Function" icon-left="function"/>
-            <Btn3D label="Function" icon-left="function" class="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D label="Function" icon-left="function" class="lg compact"/>
-            <Btn3D label="Function" icon-left="function" class="lg"/>
-            <Btn3D label="Function" icon-left="function" class="lg expanded"/>
-        </div>
-    </div>
-</Demo>
-
-### Icon Right <Badge type="info"><pre>icon-right</pre> prop</Badge>
+### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
 
 ```vue
 <Btn3D label="Omega" icon-right="special_character"/>
@@ -204,19 +146,44 @@ The `squared` class sets a single padding for all `Btn3D` sides, giving it a squ
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" class="sm compact"/>
-            <Btn3D label="Omega" icon-right="special_character" class="sm"/>
-            <Btn3D label="Omega" icon-right="special_character" class="sm expanded"/>
+            <Btn3D label="Omega" icon-right="special_character" size="sm" spacing="compact"/>
+            <Btn3D label="Omega" icon-right="special_character" size="sm"/>
+            <Btn3D label="Omega" icon-right="special_character" size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" class="compact"/>
-            <Btn3D label="Omega" icon-right="special_character"/>
-            <Btn3D label="Omega" icon-right="special_character" class="expanded"/>
+            <Btn3D label="Omega" icon-right="special_character" size="md" spacing="compact"/>
+            <Btn3D label="Omega" icon-right="special_character" size="md"/>
+            <Btn3D label="Omega" icon-right="special_character" size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" class="lg compact"/>
-            <Btn3D label="Omega" icon-right="special_character" class="lg"/>
-            <Btn3D label="Omega" icon-right="special_character" class="lg expanded"/>
+            <Btn3D label="Omega" icon-right="special_character" size="lg" spacing="compact"/>
+            <Btn3D label="Omega" icon-right="special_character" size="lg"/>
+            <Btn3D label="Omega" icon-right="special_character" size="lg" spacing="expanded"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Omega" icon-right="special_character" size="xl" spacing="compact"/>
+            <Btn3D label="Omega" icon-right="special_character" size="xl"/>
+            <Btn3D label="Omega" icon-right="special_character" size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
+
+## Styling
+
+### Anatomy
+
+![Btn Anatomy](../../assets/btn3D-anatomy.png)
+
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `label` | `string` | `''` |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `squared` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+| `loading` | `boolean` | `false` |
+| `icon` | `string` | `''` |
+| `icon-left` | `string` | `''` |
+| `icon-right` | `string` | `''` |

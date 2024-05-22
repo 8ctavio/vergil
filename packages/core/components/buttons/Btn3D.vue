@@ -1,251 +1,256 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { globalDisabler } from '../../composables/useLoaders'
 
 defineProps({
     label: String,
-    disabled: Boolean,
-    loading: Boolean,
+    size: {
+        type: String,
+        default: 'md',
+        validator(value, props){
+            return ['sm', 'md', 'lg', 'xl'].includes(value)
+        }
+    },
+    spacing: {
+        type: String,
+        default: '',
+        validator(value, props){
+            return ['', 'compact', 'expanded'].includes(value)
+        }
+    },
+    squared: {
+        type: Boolean,
+        default(props){
+            return Boolean(!props.label && props.icon)
+        }
+    },
     icon: String,
     iconLeft: String,
-    iconRight: String
+    iconRight: String,
+    disabled: Boolean,
+    loading: Boolean
 })
 </script>
 
 <template>
     <button
         :class="[
-            'btn3d', 
+            'btn3D',
+            size,,
+            spacing,
             {
+                squared,
                 loading,
-                default: typeof type === 'undefined',
-                brand: typeof theme === 'undefined',
             }
         ]"
-        :disabled="globalDisabler || disabled || loading"
+        :disabled="disabled || loading"
     >
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
         <slot>{{ label }}</slot>
         <Icon v-if="iconRight" :code="iconRight"/>
+        <div v-if="loading" class="btn-loader">
+            <span class="btn-spinner"></span>
+        </div>
     </button>
 </template>
 
 <style>
-/*-------------------------------------------------------
--------------------- BOX-SHADOW SIZE --------------------
--------------------------------------------------------*/
-.btn3d{
-    --btn3d-elv: 5px;
-    --btn3d-elv-hover: 3px;
-    --btn3d-elv-dif: calc(var(--btn3d-elv) - var(--btn3d-elv-hover));
+/*--------------------------------------------------
+-------------------- BOX-SHADOW --------------------
+--------------------------------------------------*/
+.btn3D{
+    --btn3D-elv: 5px;
+    --btn3D-elv-hover: 3px;
+    --btn3D-elv-dif: calc(var(--btn3D-elv) - var(--btn3D-elv-hover));
+    --btn3D-border: var(--btn3D-elv);
 
-    --btn3d-shadow-x: 5px;
-    --btn3d-shadow-y: 10px;
-    --btn3d-outline-offset: 8px;
+    --btn3D-shadow-x: 5px;
+    --btn3D-shadow-y: calc(var(--btn3D-border) + var(--btn3D-shadow-x));
+    --btn3D-outline-width: 2px;
+    --btn3D-outline-offset: 3px;
+    --btn3D-outline-span: calc(var(--btn3D-outline-width) + var(--btn3D-outline-offset));
 
-    --btn3d-border-width: var(--btn3d-elv);
+    --btn3D-shadow-1: 0 var(--btn3D-border) var(--c-theme-3);
+    --btn3D-shadow-2: var(--btn3D-shadow-x) var(--btn3D-shadow-y) 1px rgb(0 0 0 / 0.15);
+    --btn3D-shadow-outline: 0px 0px 0px var(--btn3D-outline-offset) var(--c-bg-alt),
+                            0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-offset) var(--c-bg-alt),
+                            0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
+                            0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
 
-    --btn3d-c-bg: var(--c-brand-1);
-    --btn3d-c-border: var(--c-brand-3);
-    --btn3d-c-text: var(--c-brand-text-1);
-    --btn3d-c-icon: var(--c-brand-icon-1);
-    --btn3d-c-outline: var(--c-brand-soft-1);
-}
-.dark .btn3d{
-    --btn3d-c-bg: var(--c-brand-soft-3);
-    --btn3d-c-border: var(--c-brand-soft-1);
-    --btn3d-c-text: white;
-    --btn3d-c-icon: var(--c-brand-icon-2);
-    --btn3d-c-outline: var(--c-brand-1);
-    --btn3d-outline-offset: 6px;
-}
-.btn3d:is(:hover, :focus-visible){
-    --btn3d-shadow-x: 3px;
-    --btn3d-shadow-y: 6px;
-
-    --btn3d-border-width: var(--btn3d-elv-hover);
+    &:is(:hover, :focus-visible){
+        --btn3D-border: var(--btn3D-elv-hover);
+        --btn3D-shadow-x: 3px;
+    }
 }
 
-.btn3d:where(.sm){
-    --btn3d-elv: 4px;
-    --btn3d-elv-hover: 3px;
-    --btn3d-shadow-x: 4px;
-    --btn3d-shadow-y: 8px;
-    --btn3d-outline-offset: 7px;
-}
-.btn3d.sm.compact{
-    --btn3d-elv: 3px;
-    --btn3d-elv-hover: 2px;
-    --btn3d-shadow-x: 3px;
-    --btn3d-shadow-y: 7px;
-}
-.btn3d.sm.compact:is(:hover, :focus-visible){
-    --btn3d-shadow-x: 2px;
-    --btn3d-shadow-y: 5px;
-}
-
-.btn3d.lg.expanded{
-    --btn3d-elv: 6px;
-    --btn3d-elv-hover: 4px;
-    --btn3d-shadow-x: 6px;
-    --btn3d-shadow-y: 12px;
-}
-.btn3d.lg.expanded:is(:hover, :focus-visible){
-    --btn3d-shadow-x: 3px;
-    --btn3d-shadow-y: 7px;
-}
-
-.btn3d{
-    --btn3d-shadow-1: 0 var(--btn3d-border-width) var(--btn3d-c-border);
-    --btn3d-shadow-2: var(--btn3d-shadow-x) var(--btn3d-shadow-y) 1px rgb(0 0 0 / 0.15);
-    --btn3d-shadow-outline: 0px var(--btn3d-elv-dif) 0px var(--btn3d-outline-offset) var(--btn3d-c-outline);
-}
-.dark .btn3d{
-    --btn3d-shadow-2: 0 0;
-}
-
-.btn3d{
+.btn3D{
     font-size: var(--font-size-std);
-    font-weight: 600;
-
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-weight: 500;
     line-height: normal;
 
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+
     border: none;
-    border-radius: var(--border-radius-base);
-    outline: 0 solid transparent;
+    border-radius: var(--border-radius-sm);
 
-    background-color: var(--btn3d-c-bg);
-    color: var(--btn3d-c-text);
+    background-color: var(--c-theme-1);
+    color: var(--c-theme-text-1);
 
-    box-shadow: var(--btn3d-shadow-1), var(--btn3d-shadow-2);
+    box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
 
     cursor: pointer;
-    transition: box-shadow 200ms, transform 200ms, outline 100ms;
-}
-.btn3d::selection{ background-color: transparent; }
+    transition: box-shadow 150ms, transform 150ms;
 
-.btn3d:is(:hover, :focus-visible){
-    outline: none;
-    transform: translateY(var(--btn3d-elv-dif));
-}
-.btn3d:focus-visible{
-    box-shadow: var(--btn3d-shadow-1), var(--btn3d-shadow-2), var(--btn3d-shadow-outline);
-}
-.btn3d:active{
-    transition: box-shadow 100ms, transform 100ms, outline 100ms;
-    transform: translateY(var(--btn3d-elv));
-    box-shadow: none;
+    &:is(:hover, :focus-visible){
+        transform: translateY(var(--btn3D-elv-dif));
+    }
+    &:focus-visible{
+        outline: none;
+        box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
+    }
+    &:active{
+        box-shadow: none;
+        transform: translateY(var(--btn3D-elv));
+        transition: box-shadow 100ms, transform 100ms;
+    }
+
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-1);
+        color: var(--c-disabled-text);
+        box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border);
+        cursor: not-allowed;
+        transform: translateY(0);
+    }
+    &.loading{
+        box-shadow: 0 var(--btn3D-elv) var(--c-theme-3);
+        cursor: progress;
+        transform: translateY(0);
+    }
+
+    &::selection{
+        background-color: transparent;
+    }
+
+    & > .icon{
+        font-size: 1em;
+        line-height: inherit;
+        transition: color 150ms;
+    }
+
+    & > .btn-loader{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: inherit;
+        border-radius: inherit;
+        background-color: inherit;
+
+        & > .btn-spinner{
+            aspect-ratio: 1 / 1;
+            box-sizing: border-box;
+            border-radius: 50%;
+            border-width: 3px;
+            border-style: solid;
+            border-top-width: 3px;
+            border-top-style: solid;
+            border-color: white;
+            border-top-color: rgb(0 0 0 / 0.4);
+            animation: spin 1000ms linear infinite;
+        }
+    }
 }
 
-.btn3d:disabled:not(.loading){
-    background-color: var(--c-disabled-1);
-    color: var(--c-disabled-text);
-    box-shadow: 0 5px var(--c-disabled-2);
-    transform: translateY(0);
-    cursor: default;
-}
-.btn3d.loading:not(.disabled){
-    box-shadow: 0 5px var(--btn3d-c-border);
-    transform: translateY(0);
-    cursor: default;
-}
-.dark .btn3d.loading:not(.disabled) > .loader{
-    background-color: var(--btn3d-c-bg);
-}
-
-/*-------- SMALL --------*/
-.btn3d.sm.compact{
-    padding: 2px 8px;
-}
-.btn3d.sm{
+/*--------------------------------------------
+-------------------- SIZE --------------------
+--------------------------------------------*/
+/*-------- SM --------*/
+.btn3D.sm{
     font-size: var(--font-size-sm);
-    padding: 4px 12px;
-}
-.btn3d.sm.expanded{
-    padding: 8px 16px;
+    column-gap: 4px;
+    padding: 4px 8px;
+    &.squared{ padding: 4px }
+    &.compact{
+        --btn3D-elv: 4px;
+        --btn3D-elv-hover: 3px;
+        --btn3D-shadow-x: 4px;
+        &:is(:hover, :focus-visible){
+            --btn3D-shadow-x: 2px;
+        }
+
+        column-gap: 2px;
+        padding: 2px 4px;
+        &.squared{ padding: 2px }
+    }
+    &.expanded{
+        column-gap: 6px;
+        padding: 6px 12px;
+        &.squared{ padding: 6px }
+    }
 }
 
-/*-------- DEFAULT --------*/
-.btn3d.compact{
-    padding: 3px 10px;
-    gap: 5px;
-}
-.btn3d{
-    padding: 5px 15px;
-    gap: 10px;
-}
-.btn3d.expanded{
-    padding: 10px 20px;
+/*-------- MD --------*/
+.btn3D.md{
+    font-size: var(--font-size-md);
+    column-gap: 6px;
+    padding: 6px 12px;
+    &.squared{ padding: 6px }
+    &.compact{
+        column-gap: 4px;
+        padding: 4px 8px;
+        &.squared{ padding: 4px }
+    }
+    &.expanded{
+        column-gap: 8px;
+        padding: 8px 16px;
+        &.squared{ padding: 8px }
+    }
 }
 
-/*-------- LARGE --------*/
-.btn3d.lg.compact{
-    padding: 4px 12px;
-}
-.btn3d.lg{
+/*-------- LG --------*/
+.btn3D.lg{
     font-size: var(--font-size-lg);
-    padding: 6px 18px;
-}
-.btn3d.lg.expanded{
-    padding: 12px 24px;
-}
-
-/*---------------------------------------------
--------------------- ICONS --------------------
----------------------------------------------*/
-.btn3d > .icon{
-    font-size: 1.214em;
-    font-weight: 400;
-    transition: color 300ms;
-}
-.btn3d:not(:disabled) > .icon{
-    color: var(--btn3d-c-icon);
+    column-gap: 8px;
+    padding: 8px 16px;
+    &.squared{ padding: 8px }
+    &.compact{
+        column-gap: 6px;
+        padding: 6px 12px;
+        &.squared{ padding: 6px }
+    }
+    &.expanded{
+        column-gap: 10px;
+        padding: 10px 20px;
+        &.squared{ padding: 10px }
+    }
 }
 
-/*------------------ SQUARED ------------------*/
-/*-------- SMALL --------*/
-.btn3d.squared.sm.compact{
-    padding: 4px;
-}
-.btn3d.squared.sm{
-    padding: 6px;
-}
-.btn3d.squared.sm > .icon{
-    font-size: 1.3em;
-}
-.btn3d.squared.sm.expanded{
-    padding: 8px;
-}
+/*-------- XL --------*/
+.btn3D.xl{
+    --btn3D-elv: 6px;
+    --btn3D-elv-hover: 4px;
+    --btn3D-shadow-x: 6px;
+    &:is(:hover, :focus-visible){
+        --btn3D-shadow-x: 4px;
+    }
 
-/*-------- DEFAULT --------*/
-.btn3d.squared.compact{
-    padding: 5px;
-}
-.btn3d.squared{
-    padding: 7px;
-}
-.btn3d.squared > .icon{
-    font-size: 1.5em;
-}
-.btn3d.squared.expanded{
-    padding: 9px;
-}
-
-/*-------- LARGE --------*/
-.btn3d.squared.lg.compact{
-    padding: 6px;
-}
-.btn3d.squared.lg{
-    padding: 8px;
-}
-.btn3d.squared.lg > .icon{
-    font-size: 1.7em;
-}
-.btn3d.squared.lg.expanded{
-    padding: 10px;
+    font-size: var(--font-size-xl);
+    column-gap: 10px;
+    padding: 10px 20px;
+    &.squared{ padding: 10px }
+    &.compact{
+        column-gap: 8px;
+        padding: 8px 16px;
+        &.squared{ padding: 8px }
+    }
+    &.expanded{
+        column-gap: 12px;
+        padding: 12px 24px;
+        &.squared{ padding: 12px }
+    }
 }
 </style>
