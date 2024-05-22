@@ -58,6 +58,9 @@ defineProps({
 -------------------- BOX-SHADOW --------------------
 --------------------------------------------------*/
 .btn3D{
+    --btn3D-c-border: var(--c-theme-3);
+    --btn3D-c-shadow: rgb(0 0 0 / 0.15);
+
     --btn3D-elv: 5px;
     --btn3D-elv-hover: 3px;
     --btn3D-elv-dif: calc(var(--btn3D-elv) - var(--btn3D-elv-hover));
@@ -69,8 +72,8 @@ defineProps({
     --btn3D-outline-offset: 3px;
     --btn3D-outline-span: calc(var(--btn3D-outline-width) + var(--btn3D-outline-offset));
 
-    --btn3D-shadow-1: 0 var(--btn3D-border) var(--c-theme-3);
-    --btn3D-shadow-2: var(--btn3D-shadow-x) var(--btn3D-shadow-y) 1px rgb(0 0 0 / 0.15);
+    --btn3D-shadow-1: 0 var(--btn3D-border) var(--btn3D-c-border);
+    --btn3D-shadow-2: var(--btn3D-shadow-x) var(--btn3D-shadow-y) 1px var(--btn3D-c-shadow);
     --btn3D-shadow-outline: 0px 0px 0px var(--btn3D-outline-offset) var(--c-bg-alt),
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-offset) var(--c-bg-alt),
                             0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
@@ -80,6 +83,10 @@ defineProps({
         --btn3D-border: var(--btn3D-elv-hover);
         --btn3D-shadow-x: 3px;
     }
+}
+.dark .btn3D{
+    --btn3D-c-border: #476737;
+    --btn3D-c-shadow: rgb(255 255 255 / 0.05);
 }
 
 .btn3D{
@@ -123,7 +130,7 @@ defineProps({
         transform: translateY(0);
     }
     &.loading{
-        box-shadow: 0 var(--btn3D-elv) var(--c-theme-3);
+        box-shadow: 0 var(--btn3D-elv) var(--btn3D-c-border);
         cursor: progress;
         transform: translateY(0);
     }
