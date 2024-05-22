@@ -96,7 +96,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 
 ```vue
 <script setup>
-    import { AlertFeed } from 'vergil/components'
+    import { AlertFeed } from '@8ctavio/vergil/components'
 </script>
 
 <template>
@@ -110,7 +110,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 :::
 
 ```js
-import { alert } from 'vergil'
+import { alert } from '@8ctavio/vergil'
 
 alert('ok', 'Keep it clean!')
 ```

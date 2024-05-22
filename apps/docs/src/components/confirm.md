@@ -9,8 +9,8 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Confirm } from 'vergil/components'
-import { confirm, toast } from 'vergil'
+import { Confirm } from '@8ctavio/vergil/components'
+import { confirm, toast } from '@8ctavio/vergil'
 
 const requests = {
     danger: {

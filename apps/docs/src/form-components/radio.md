@@ -7,7 +7,7 @@ outline: [2,3]
 > ...
 
 <script setup>
-import { Radio } from 'vergil/components'
+import { Radio } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 import { InputField } from 'vergil'
 const selected = ref('scorpion')

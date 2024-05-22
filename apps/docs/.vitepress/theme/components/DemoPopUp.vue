@@ -1,5 +1,5 @@
 <script setup>
-import { PopUp } from 'vergil/components'
+import { PopUp } from '@8ctavio/vergil/components'
 </script>
 
 <template>

@@ -84,7 +84,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 
 ```vue
 <script setup>
-    import { Toaster } from 'vergil/components'
+    import { Toaster } from '@8ctavio/vergil/components'
 </script>
 
 <template>
@@ -98,7 +98,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 :::
 
 ```js
-import { toast } from 'vergil'
+import { toast } from '@8ctavio/vergil'
 
 toast('warn', 'Icy conditions.')
 ```

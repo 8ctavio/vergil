@@ -7,14 +7,14 @@ outline: [2,3]
 > Button element to handle click events
 
 <script setup>
-    import { Btn } from 'vergil/components'
+    import { Btn } from '@8ctavio/vergil/components'
 </script>
 
 ## Basic Usage
 
 ```vue
 <script setup>
-    import { Btn } from 'vergil/components'
+    import { Btn } from '@8ctavio/vergil/components'
 </script>
 
 <template>

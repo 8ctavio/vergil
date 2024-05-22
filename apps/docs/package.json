@@ -16,12 +16,6 @@
     "bugs": "https://github.com/8ctavio/vergil/issues",
     "main": "index.js",
     "dependencies": {
-        "vergil": "workspace:*"
-    },
-    "peerDependencies": {
-        
-    },
-    "devDependencies": {
-        
+        "@8ctavio/vergil": "workspace:*"
     }
 }

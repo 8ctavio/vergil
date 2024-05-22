@@ -9,7 +9,7 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Switch } from 'vergil/components'
+import { Switch } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 const s1 = ref(false)
 const s2 = ref(false)

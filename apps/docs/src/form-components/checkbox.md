@@ -7,7 +7,7 @@ outline: [2,3]
 > ...
 
 <script setup>
-import { Checkbox } from 'vergil/components'
+import { Checkbox } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 const flag = ref(false)
 const planets = ref(["Harvest"])

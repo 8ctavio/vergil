@@ -9,7 +9,7 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Slider } from 'vergil/components'
+import { Slider } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 const v = ref(20)
 </script>

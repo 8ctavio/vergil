@@ -7,14 +7,14 @@ outline: [2,3]
 > Button with 3D effect
 
 <script setup>
-    import { Btn3D } from 'vergil/components'
+    import { Btn3D } from '@8ctavio/vergil/components'
 </script>
 
 ## Basic Usage
 
 ```vue
 <script setup>
-    import { Btn3D } from 'vergil/components'
+    import { Btn3D } from '@8ctavio/vergil/components'
 </script>
 
 <template>
