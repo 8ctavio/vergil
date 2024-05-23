@@ -27,6 +27,13 @@ defineProps({
             return ['sm', 'md', 'lg', 'xl'].includes(value)
         }
     },
+    radius: {
+        type: String,
+        default: 'md',
+        validator(value, props){
+            return ['none', 'sm', 'md', 'lg', 'full'].includes(value)
+        }
+    },
     spacing: {
         type: String,
         default: '',
@@ -56,6 +63,7 @@ defineProps({
             variant,
             inferTheme(theme),
             size,
+            `radius-${radius}`,
             spacing,
             {
                 fill,
@@ -84,7 +92,6 @@ defineProps({
     line-height: normal;
 
     position: relative;
-    border-radius: var(--border-radius-md);
     border: none;
     outline: 0 solid transparent;
 
@@ -112,6 +119,9 @@ defineProps({
             }
         }
     }
+
+    &.radius-none{ border-radius: var(--border-radius-none); }
+    &.radius-full{ border-radius: var(--border-radius-full); }
 
     & > .btn-content{
         font-size: 1em;
@@ -365,6 +375,9 @@ defineProps({
 .btn.sm{
     font-size: var(--font-size-sm);
     padding: 4px 8px;
+    &.radius-sm{ border-radius: calc(0.8 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(0.8 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(0.8 * var(--border-radius-lg)); }
     &.squared{ padding: 4px }
     & > .btn-content{ column-gap: 4px; }
     &.compact{
@@ -383,6 +396,9 @@ defineProps({
 .btn.md{
     font-size: var(--font-size-md);
     padding: 6px 12px;
+    &.radius-sm{ border-radius: var(--border-radius-sm); }
+    &.radius-md{ border-radius: var(--border-radius-md); }
+    &.radius-lg{ border-radius: var(--border-radius-lg); }
     &.squared{ padding: 6px }
     & > .btn-content{ column-gap: 6px; }
     &.compact{
@@ -401,6 +417,9 @@ defineProps({
 .btn.lg{
     font-size: var(--font-size-lg);
     padding: 8px 16px;
+    &.radius-sm{ border-radius: calc(1.2 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(1.2 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(1.2 * var(--border-radius-lg)); }
     &.squared{ padding: 8px }
     & > .btn-content{ column-gap: 8px; }
     &.compact{
@@ -419,6 +438,9 @@ defineProps({
 .btn.xl{
     font-size: var(--font-size-xl);
     padding: 10px 20px;
+    &.radius-sm{ border-radius: calc(1.4 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(1.4 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(1.4 * var(--border-radius-lg)); }
     &.squared{ padding: 10px }
     & > .btn-content{ column-gap: 10px; }
     &.compact{

@@ -139,6 +139,43 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
     <Btn size="xl" label="Extra Large"/>
 </Demo>
 
+### Radius <Badge type="tip"><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'md'</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn label="Radius" size="sm" radius="none"/>
+            <Btn label="Radius" size="md" radius="none"/>
+            <Btn label="Radius" size="lg" radius="none"/>
+            <Btn label="Radius" size="xl" radius="none"/>
+        </div>
+        <div class="row center">
+            <Btn label="Radius" size="sm" radius="sm"/>
+            <Btn label="Radius" size="md" radius="sm"/>
+            <Btn label="Radius" size="lg" radius="sm"/>
+            <Btn label="Radius" size="xl" radius="sm"/>
+        </div>
+        <div class="row center">
+            <Btn label="Radius" size="sm" radius="md"/>
+            <Btn label="Radius" size="md" radius="md"/>
+            <Btn label="Radius" size="lg" radius="md"/>
+            <Btn label="Radius" size="xl" radius="md"/>
+        </div>
+        <div class="row center">
+            <Btn label="Radius" size="sm" radius="lg"/>
+            <Btn label="Radius" size="md" radius="lg"/>
+            <Btn label="Radius" size="lg" radius="lg"/>
+            <Btn label="Radius" size="xl" radius="lg"/>
+        </div>
+        <div class="row center">
+            <Btn label="Radius" size="sm" radius="full"/>
+            <Btn label="Radius" size="md" radius="full"/>
+            <Btn label="Radius" size="lg" radius="full"/>
+            <Btn label="Radius" size="xl" radius="full"/>
+        </div>
+    </div>
+</Demo>
+
 ### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
 Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing spacing gives either a more compact or spacious look.
@@ -382,6 +419,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `borderless` | `boolean` | `false` |
 | `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `squared` | `boolean` | `false` |
 | `disabled` | `boolean` | `false` |

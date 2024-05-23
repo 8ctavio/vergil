@@ -103,6 +103,43 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
     <Btn3D size="xl" label="Extra Large"/>
 </Demo>
 
+### Radius <Badge type="tip"><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'md'</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn3D label="Radius" size="sm" radius="none"/>
+            <Btn3D label="Radius" size="md" radius="none"/>
+            <Btn3D label="Radius" size="lg" radius="none"/>
+            <Btn3D label="Radius" size="xl" radius="none"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Radius" size="sm" radius="sm"/>
+            <Btn3D label="Radius" size="md" radius="sm"/>
+            <Btn3D label="Radius" size="lg" radius="sm"/>
+            <Btn3D label="Radius" size="xl" radius="sm"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Radius" size="sm" radius="md"/>
+            <Btn3D label="Radius" size="md" radius="md"/>
+            <Btn3D label="Radius" size="lg" radius="md"/>
+            <Btn3D label="Radius" size="xl" radius="md"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Radius" size="sm" radius="lg"/>
+            <Btn3D label="Radius" size="md" radius="lg"/>
+            <Btn3D label="Radius" size="lg" radius="lg"/>
+            <Btn3D label="Radius" size="xl" radius="lg"/>
+        </div>
+        <div class="row center">
+            <Btn3D label="Radius" size="sm" radius="full"/>
+            <Btn3D label="Radius" size="md" radius="full"/>
+            <Btn3D label="Radius" size="lg" radius="full"/>
+            <Btn3D label="Radius" size="xl" radius="full"/>
+        </div>
+    </div>
+</Demo>
+
 ### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
 Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changing spacing gives either a more compact or spacious look.
@@ -303,6 +340,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `borderless` | `boolean` | `false` |
 | `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `squared` | `boolean` | `false` |
 | `disabled` | `boolean` | `false` |

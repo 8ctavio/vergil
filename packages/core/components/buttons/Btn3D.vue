@@ -26,6 +26,13 @@ defineProps({
             return ['sm', 'md', 'lg', 'xl'].includes(value)
         }
     },
+    radius: {
+        type: String,
+        default: 'md',
+        validator(value, props){
+            return ['none', 'sm', 'md', 'lg', 'full'].includes(value)
+        }
+    },
     spacing: {
         type: String,
         default: '',
@@ -54,6 +61,7 @@ defineProps({
             variant,
             inferTheme(theme),
             size,
+            `radius-${radius}`,
             spacing,
             {
                 borderless,
@@ -103,7 +111,6 @@ defineProps({
     grid-auto-flow: column;
 
     border: none;
-    border-radius: var(--border-radius-md);
 
     box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
 
@@ -142,6 +149,9 @@ defineProps({
     &::selection{
         background-color: transparent;
     }
+
+    &.radius-none{ border-radius: var(--border-radius-none); }
+    &.radius-full{ border-radius: var(--border-radius-full); }
 
     & > .icon{
         font-size: 1em;
@@ -243,6 +253,9 @@ defineProps({
     font-size: var(--font-size-sm);
     column-gap: 4px;
     padding: 4px 8px;
+    &.radius-sm{ border-radius: calc(0.8 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(0.8 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(0.8 * var(--border-radius-lg)); }
     &.squared{ padding: 4px }
     &.compact{
         --btn3D-elv: 4px;
@@ -268,6 +281,9 @@ defineProps({
     font-size: var(--font-size-md);
     column-gap: 6px;
     padding: 6px 12px;
+    &.radius-sm{ border-radius: var(--border-radius-sm); }
+    &.radius-md{ border-radius: var(--border-radius-md); }
+    &.radius-lg{ border-radius: var(--border-radius-lg); }
     &.squared{ padding: 6px }
     &.compact{
         column-gap: 4px;
@@ -286,6 +302,9 @@ defineProps({
     font-size: var(--font-size-lg);
     column-gap: 8px;
     padding: 8px 16px;
+    &.radius-sm{ border-radius: calc(1.2 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(1.2 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(1.2 * var(--border-radius-lg)); }
     &.squared{ padding: 8px }
     &.compact{
         column-gap: 6px;
@@ -311,6 +330,9 @@ defineProps({
     font-size: var(--font-size-xl);
     column-gap: 10px;
     padding: 10px 20px;
+    &.radius-sm{ border-radius: calc(1.4 * var(--border-radius-sm)); }
+    &.radius-md{ border-radius: calc(1.4 * var(--border-radius-md)); }
+    &.radius-lg{ border-radius: calc(1.4 * var(--border-radius-lg)); }
     &.squared{ padding: 10px }
     &.compact{
         column-gap: 8px;
