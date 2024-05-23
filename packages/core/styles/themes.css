@@ -17,14 +17,14 @@
     --c-theme-text-2: var(--c-moss-text-2);
     --c-theme-text-3: var(--c-moss-text-3);
 
-    --c-theme-border-1: var(--c-moss-border-1);
-    --c-theme-border-2: var(--c-moss-border-2);
-    --c-theme-outline: var(--c-moss-outline);
-
     --c-theme-icon-1: var(--c-moss-icon-1);
     --c-theme-icon-2: var(--c-moss-icon-2);
     --c-theme-icon-3: var(--c-moss-icon-3);
-    --c-theme-icon-4: var(--c-moss-icon-4);
+
+    --c-theme-border-1: var(--c-moss-border-1);
+    --c-theme-border-2: var(--c-moss-border-2);
+    --c-theme-border-3: var(--c-moss-border-3);
+    --c-theme-outline: var(--c-moss-outline);
 
     --rgb-theme-dimmed: var(--rgb-moss-dimmed);
     --c-theme-dimmed-10: var(--rgb-moss-dimmed-10);
@@ -49,14 +49,14 @@
     --c-theme-text-2: var(--c-grey-text-2);
     --c-theme-text-3: var(--c-grey-text-3);
 
-    --c-theme-border-1: var(--c-grey-border-1);
-    --c-theme-border-2: var(--c-grey-border-2);
-    --c-theme-outline: var(--c-grey-outline);
-
     --c-theme-icon-1: var(--c-grey-icon-1);
     --c-theme-icon-2: var(--c-grey-icon-2);
     --c-theme-icon-3: var(--c-grey-icon-3);
-    --c-theme-icon-4: var(--c-grey-icon-4);
+
+    --c-theme-border-1: var(--c-grey-border-1);
+    --c-theme-border-2: var(--c-grey-border-2);
+    --c-theme-border-3: var(--c-grey-border-3);
+    --c-theme-outline: var(--c-grey-outline);
 
     --rgb-theme-dimmed: var(--rgb-grey-dimmed);
     --c-theme-dimmed-10: var(--rgb-grey-dimmed-10);
@@ -81,14 +81,14 @@
     --c-theme-text-2: var(--c-dartmouth-text-2);
     --c-theme-text-3: var(--c-dartmouth-text-3);
 
-    --c-theme-border-1: var(--c-dartmouth-border-1);
-    --c-theme-border-2: var(--c-dartmouth-border-2);
-    --c-theme-outline: var(--c-dartmouth-outline);
-
     --c-theme-icon-1: var(--c-dartmouth-icon-1);
     --c-theme-icon-2: var(--c-dartmouth-icon-2);
     --c-theme-icon-3: var(--c-dartmouth-icon-3);
-    --c-theme-icon-4: var(--c-dartmouth-icon-4);
+
+    --c-theme-border-1: var(--c-dartmouth-border-1);
+    --c-theme-border-2: var(--c-dartmouth-border-2);
+    --c-theme-border-3: var(--c-dartmouth-border-3);
+    --c-theme-outline: var(--c-dartmouth-outline);    
 
     --rgb-theme-dimmed: var(--rgb-dartmouth-dimmed);
     --c-theme-dimmed-10: var(--rgb-dartmouth-dimmed-10);
@@ -113,14 +113,14 @@
     --c-theme-text-2: var(--c-cobalt-text-2);
     --c-theme-text-3: var(--c-cobalt-text-3);
 
-    --c-theme-border-1: var(--c-cobalt-border-1);
-    --c-theme-border-2: var(--c-cobalt-border-2);
-    --c-theme-outline: var(--c-cobalt-outline);
-
     --c-theme-icon-1: var(--c-cobalt-icon-1);
     --c-theme-icon-2: var(--c-cobalt-icon-2);
     --c-theme-icon-3: var(--c-cobalt-icon-3);
-    --c-theme-icon-4: var(--c-cobalt-icon-4);
+
+    --c-theme-border-1: var(--c-cobalt-border-1);
+    --c-theme-border-2: var(--c-cobalt-border-2);
+    --c-theme-border-3: var(--c-cobalt-border-3);
+    --c-theme-outline: var(--c-cobalt-outline);
 
     --rgb-theme-dimmed: var(--rgb-cobalt-dimmed);
     --c-theme-dimmed-10: var(--rgb-cobalt-dimmed-10);
@@ -145,14 +145,14 @@
     --c-theme-text-2: var(--c-yellow-text-2);
     --c-theme-text-3: var(--c-yellow-text-3);
 
-    --c-theme-border-1: var(--c-yellow-border-1);
-    --c-theme-border-2: var(--c-yellow-border-2);
-    --c-theme-outline: var(--c-yellow-outline);
-
     --c-theme-icon-1: var(--c-yellow-icon-1);
     --c-theme-icon-2: var(--c-yellow-icon-2);
     --c-theme-icon-3: var(--c-yellow-icon-3);
-    --c-theme-icon-4: var(--c-yellow-icon-4);
+
+    --c-theme-border-1: var(--c-yellow-border-1);
+    --c-theme-border-2: var(--c-yellow-border-2);
+    --c-theme-border-3: var(--c-yellow-border-3);
+    --c-theme-outline: var(--c-yellow-outline);
 
     --rgb-theme-dimmed: var(--rgb-yellow-dimmed);
     --c-theme-dimmed-10: var(--rgb-yellow-dimmed-10);
@@ -177,14 +177,14 @@
     --c-theme-text-2: var(--c-red-text-2);
     --c-theme-text-3: var(--c-red-text-3);
 
-    --c-theme-border-1: var(--c-red-border-1);
-    --c-theme-border-2: var(--c-red-border-2);
-    --c-theme-outline: var(--c-red-outline);
-
     --c-theme-icon-1: var(--c-red-icon-1);
     --c-theme-icon-2: var(--c-red-icon-2);
     --c-theme-icon-3: var(--c-red-icon-3);
-    --c-theme-icon-4: var(--c-red-icon-4);
+
+    --c-theme-border-1: var(--c-red-border-1);
+    --c-theme-border-2: var(--c-red-border-2);
+    --c-theme-border-3: var(--c-red-border-3);
+    --c-theme-outline: var(--c-red-outline);
 
     --rgb-theme-dimmed: var(--rgb-red-dimmed);
     --c-theme-dimmed-10: var(--rgb-red-dimmed-10);

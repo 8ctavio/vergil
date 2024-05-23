@@ -52,6 +52,46 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
     <Btn3D variant="outline" borderless label="Borderless"/>
 </Demo>
 
+### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
+
+There are aliases available for some `theme` prop values:
+
+| Value      | Aliases |
+| ---------- | ------- |
+| `'ok'`     | `'success', 'check'` |
+| `'info'`   | `'help', 'tip'` |
+| `'warn'`   | `'warning', 'caution'` |
+| `'danger'` | `'error'` |
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <Btn3D variant="solid" theme="brand" label="Brand"/>
+            <Btn3D variant="solid" theme="ok" label="Ok"/>
+            <Btn3D variant="solid" theme="info" label="Info"/>
+            <Btn3D variant="solid" theme="warn" label="Warn"/>
+            <Btn3D variant="solid" theme="danger" label="Danger"/>
+            <Btn3D variant="solid" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn3D variant="soft" theme="brand" label="Brand"/>
+            <Btn3D variant="soft" theme="ok" label="Ok"/>
+            <Btn3D variant="soft" theme="info" label="Info"/>
+            <Btn3D variant="soft" theme="warn" label="Warn"/>
+            <Btn3D variant="soft" theme="danger" label="Danger"/>
+            <Btn3D variant="soft" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn3D variant="outline" theme="brand" label="Brand"/>
+            <Btn3D variant="outline" theme="ok" label="Ok"/>
+            <Btn3D variant="outline" theme="info" label="Info"/>
+            <Btn3D variant="outline" theme="warn" label="Warn"/>
+            <Btn3D variant="outline" theme="danger" label="Danger"/>
+            <Btn3D variant="outline" theme="neutral" label="Neutral"/>
+        </div>
+    </div>
+</Demo>
+
 ### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 Changing the size mainly changes the font-size and adjusts padding accordingly.
@@ -120,6 +160,34 @@ Adding `squared` sets padding to the same value on all sides.
 </Demo>
 
 <Demo>
+    <div class="row center">
+        <Btn3D label="Loading" loading theme="ok" variant="solid"/>
+        <Btn3D label="Loading" loading theme="ok" variant="soft"/>
+        <Btn3D label="Loading" loading theme="ok" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D label="Loading" loading theme="info" variant="solid"/>
+        <Btn3D label="Loading" loading theme="info" variant="soft"/>
+        <Btn3D label="Loading" loading theme="info" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D label="Loading" loading theme="warn" variant="solid"/>
+        <Btn3D label="Loading" loading theme="warn" variant="soft"/>
+        <Btn3D label="Loading" loading theme="warn" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D label="Loading" loading theme="danger" variant="solid"/>
+        <Btn3D label="Loading" loading theme="danger" variant="soft"/>
+        <Btn3D label="Loading" loading theme="danger" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D label="Loading" loading theme="neutral" variant="solid"/>
+        <Btn3D label="Loading" loading theme="neutral" variant="soft"/>
+        <Btn3D label="Loading" loading theme="neutral" variant="outline"/>
+    </div>
+</Demo>
+
+<Demo>
     <div class="col center">
         <div class="row center">
             <Btn3D label="Loading" loading size="sm" spacing="compact"/>
@@ -147,13 +215,40 @@ Adding `squared` sets padding to the same value on all sides.
 ### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
 
 ```vue
-<Btn3D icon="rocket_launch"/>
+<Btn3D label="Rocket" icon="rocket_launch"/>
 ```
 
 <Demo>
-    <Btn3D icon="rocket_launch" variant="solid"/>
-    <Btn3D icon="rocket_launch" variant="soft"/>
-    <Btn3D icon="rocket_launch" variant="outline"/>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="outline"/>
+    </div>
 </Demo>
 
 ### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
@@ -206,6 +301,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `label` | `string` | `''` |
 | `variant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` |
 | `borderless` | `boolean` | `false` |
+| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `squared` | `boolean` | `false` |

@@ -1,5 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
+import { isValidTheme, inferTheme } from '../../utils'
 
 defineProps({
     label: String,
@@ -11,6 +12,13 @@ defineProps({
         }
     },
     borderless: Boolean,
+    theme: {
+        type: String,
+        default: 'brand',
+        validator(value, props){
+            return isValidTheme(value)
+        }
+    },
     size: {
         type: String,
         default: 'md',
@@ -44,7 +52,8 @@ defineProps({
         :class="[
             'btn3D',
             variant,
-            size,,
+            inferTheme(theme),
+            size,
             spacing,
             {
                 borderless,
@@ -173,7 +182,7 @@ defineProps({
     }
 }
 .dark .btn3D{
-    --btn3D-c-shadow: rgb(255 255 255 / 0.05);
+    --btn3D-c-shadow: rgb(0 0 0 / 0.4);
 
     &:where(.soft, .outline) .btn-spinner{
         border-color: var(--c-theme-outline);
@@ -186,17 +195,18 @@ defineProps({
 ------------------------------------------------*/
 /*-------- SOLID --------*/
 .btn3D.solid{
-    --btn3D-c-border: var(--c-theme-3);
+    --btn3D-c-border: var(--c-theme-border-3);
     background-color: var(--c-theme-1);
     color: var(--c-theme-text-1);
-}
-.dark .btn3D.solid{
-    --btn3D-c-border: #476737;
+
+    &:not(:disabled) > .icon{
+        color: var(--c-theme-icon-1);
+    }
 }
 
 /*-------- SOFT --------*/
 .btn3D.soft{
-    --btn3D-c-border: var(--c-theme-1);
+    --btn3D-c-border: var(--c-theme-border-2);
     background-color: var(--c-theme-soft-2);
     color: var(--c-theme-text-2);
 
@@ -207,11 +217,12 @@ defineProps({
 
 /*-------- OUTLINE --------*/
 .btn3D.outline{
-    --btn3D-c-border: var(--c-theme-border-1);
-    background-color: var(--c-grey-soft-2);
+    --btn3D-c-border: var(--c-theme-border-2);
+    background-color: var(--c-grey-soft-1);
     color: var(--c-grey-text-2);
+
     &:where(:not(.borderless)){
-        border: 1px solid var(--c-theme-border-1);
+        border: 1px solid var(--c-theme-border-2);
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
@@ -220,7 +231,7 @@ defineProps({
         background-color: var(--c-theme-soft-1);
     }
     &:not(:disabled) > .icon{
-        color: var(--c-theme-icon-4);
+        color: var(--c-theme-icon-3);
     }
 }
 

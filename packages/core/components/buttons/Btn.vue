@@ -55,7 +55,7 @@ defineProps({
             'btn',
             variant,
             inferTheme(theme),
-            size,,
+            size,
             spacing,
             {
                 fill,
@@ -292,6 +292,12 @@ defineProps({
             background-color: var(--c-theme-soft-3);
             color: var(--c-theme-text-2)
         }
+        & > .btn-content > .icon{
+            color: var(--c-theme-icon-3);
+        }
+        &:is(:hover, :focus-visible, :active) > .btn-content > .icon{
+            color: var(--c-theme-icon-2);
+        }
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
@@ -313,7 +319,7 @@ defineProps({
             text-underline-offset: 3px;
         }
         & > .btn-content > .icon{
-            color: var(--c-theme-icon-4);
+            color: var(--c-theme-icon-3);
         }
     }
     &:disabled:not(.loading){
@@ -340,7 +346,7 @@ defineProps({
             background-color: var(--c-theme-soft-2);
         }
         & > .btn-content > .icon{
-            color: var(--c-theme-icon-4);
+            color: var(--c-theme-icon-3);
         }
     }
     &:disabled:not(.loading){
