@@ -54,7 +54,8 @@ export default {
 							{ text: 'Btn', link: '/components/buttons/btn' },
 							{ text: 'Btn3D', link: '/components/buttons/btn3d' }
 						]
-					}
+					},
+					{ text: 'Icon', link: '/components/icon' }
 				]
 			},
 			{

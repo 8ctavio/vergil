@@ -16,6 +16,7 @@ defineProps({
     justify-content: center;
     align-items: center;
     aspect-ratio: 1 / 1;
+    cursor: default;
 }
 .icon::selection{ background-color: transparent; }
 </style>
