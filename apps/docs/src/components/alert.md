@@ -9,24 +9,25 @@ outline: [2,3]
 ## Demo
 
 <script setup>
+import { Btn, Icon } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
-import { alert } from 'vergil'
+import { alert } from '@8ctavio/vergil'
 
 const previewAlertType = ref('ok')
 const alertIcons = {
     ok: 'check_circle',
-    error: 'cancel',
+    info: 'info',
     warn: 'warning',
-    info: 'info'
+    danger: 'cancel'
 }
 </script>
 
 <Demo>
-    <div class="row">
-        <button class="vp-btn" @click="alert('ok', 'Success! Green Alert.')">Ok</button>
-        <button class="vp-btn" @click="alert('error', 'Error! Red Alert.')">Error</button>
-        <button class="vp-btn" @click="alert('warn', 'Warning! Yellow Alert.')">Warning</button>
-        <button class="vp-btn" @click="alert('info', 'Info. Blue Alert.')">Info</button>
+    <div class="row center">
+        <Btn variant="solid" label="Ok" @click="alert('ok', 'Success! Green Alert.')"/>
+        <Btn variant="solid" label="Info" @click="alert('error', 'Error! Red Alert.')"/>
+        <Btn variant="solid" label="Warning" @click="alert('warn', 'Warning! Yellow Alert.')"/>
+        <Btn variant="solid" label="Error" @click="alert('info', 'Info. Blue Alert.')"/>
     </div>
 </Demo>
 
@@ -36,39 +37,39 @@ const alertIcons = {
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Btn variant="solid" label="Ok" @click="previewAlertType = 'ok'"/>
+            <Btn variant="solid" label="Info" @click="previewAlertType = 'info'"/>
+            <Btn variant="solid" label="Warning" @click="previewAlertType = 'warn'"/>
+            <Btn variant="solid" label="Error" @click="previewAlertType = 'danger'"/>
+        </div>
         <div :class="['alert', previewAlertType]">
             <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum</p>
             <button>
-                <span class="material-symbols-rounded">cancel</span>
+                <Icon code="close"/>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
             <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
             <button>
-                <span class="material-symbols-rounded">cancel</span>
+                <Icon code="close"/>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
             <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
             <button>
-                <span class="material-symbols-rounded">cancel</span>
+                <Icon code="close"/>
             </button>
         </div>
         <div :class="['alert', previewAlertType]">
             <span class="material-symbols-rounded">{{ alertIcons[previewAlertType] }}</span>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
             <button>
-                <span class="material-symbols-rounded">cancel</span>
+                <Icon code="close"/>
             </button>
-        </div>
-        <div class="row" :style="{'padding-top': '30px'}">
-            <button class="vp-btn" @click="previewAlertType = 'ok'">Ok</button>
-            <button class="vp-btn" @click="previewAlertType = 'error'">Error</button>
-            <button class="vp-btn" @click="previewAlertType = 'warn'">Warn</button>
-            <button class="vp-btn" @click="previewAlertType = 'info'">Info</button>
         </div>
     </div>
 </Demo>
@@ -79,12 +80,7 @@ When an alert shows up, it is added to the **alert feed**, by the means of which
 
 After a developer-defined time-out, an alert is removed from the feed automatically, which hides it. However, each alert also contains an `x` button that allows the user to immediately remove the alert from the feed.
 
-There are four alert types which properly theme the alert for different types of messages:
-
-- `ok`: for successful execution of tasks,
-- `error`: for errors,
-- `warn`: for warnings, and
-- `info`: for general purpose information.
+Alerts can be themed according to the message's severity.
 
 :::tip
 Alerts are meant to communicate messages that are important/critical for the user to see.
@@ -106,7 +102,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 ```
 
 :::tip
-`Alert`'s backdrop `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+`AlertFeed` backdrop `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ```js
@@ -118,13 +114,13 @@ alert('ok', 'Keep it clean!')
 ### Function
 
 ```js
-function alert(type: string, message: string, duration: number = 6): void
+function alert(theme: string, message: string, duration: number = 6): void
 ```
 
 #### Description
 
 Renders an alert at the top of the viewport, which
-- is themed according to `type`, 
+- is themed according to `theme`, 
 - displays `message` to the user, and
 - after a time-out of `duration` seconds elapses, it is hidden automatically.
 
@@ -132,11 +128,15 @@ If invoked while one or more alerts are being shown, those alerts are scrolled d
 
 #### Parameters
 
-- `type`: A string containing the alert type. Each type themes the alert differently. Possible values are:
-    - `"ok"`: Green theme.
-    - `"error"`: Red theme.
-    - `"warn"`: Yellow theme.
-    - `"info"`: Blue theme.
+- `theme`: A string containing the alert theme. Possible `theme` values along with available aliases are summarized in the following table.
+
+| Value      | Aliases |
+| ---------- | ------- |
+| `'ok'`     | `'success', 'check'` |
+| `'info'`   | `'help', 'tip'` |
+| `'warn'`   | `'warning', 'caution'` |
+| `'danger'` | `'error'` |
+
 - `message`: A string containing the message to display in the alert.
 - `duration`: The number of seconds alert's time-out lasts.
 

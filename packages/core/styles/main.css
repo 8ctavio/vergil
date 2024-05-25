@@ -36,65 +36,36 @@
     --c-disabled-border: #707070;
 }
 
-/*-------------------------------------------------
--------------------- FONT-SIZE --------------------
--------------------------------------------------*/
 :root{
+    /*---------- Font size ----------*/
     --font-size-xs: 1rem;
     --font-size-sm: 1.2rem;
     --font-size-md: 1.4rem;
     --font-size-lg: 1.6rem;
     --font-size-xl: 1.8rem;
-}
 
-/*---------------------------------
----------- BORDER RADIUS ----------
----------------------------------*/
-:root{
+    /*---------- Font style ----------*/
+    --font-sans: 'initial';
+    --font-mono: 'initial';
+
+    /*---------- Border radius ----------*/
     --border-radius-none: 0px;
     --border-radius-sm: 3px;
     --border-radius-md: 4px;
     --border-radius-lg: 6px;
     --border-radius-full: 9999px;
-}
 
-/*---------- Borders ----------*/
-:root{
+    /*---------- Border ----------*/
     --component-border-bottom-width: 2px;
-}
 
-:root{
-    /*---------- Font style ----------*/
-    --font-sans: 'initial';
-    --font-mono: 'initial';
-
-    /*---------- Box shadows ----------*/
-    --shadow1: #343A4045;
-    --shadow2: #343A4020;
-    --shadow3: #343A4038;
-    --boxShadow1: 5px 5px 4px var(--shadow1);
-    --boxShadow2: 1px 2px 5px 4px var(--shadow1);
-    --boxShadow3: 4px 4px 4px var(--shadow1);
-    --boxShadow4: 0px 4px 10px 4px var(--shadow1);
-    --boxShadow5: 0 0 4px 4px var(--shadow1);
-    --boxShadow6: 0 0 2px 2px var(--shadow1);
-    --boxShadow7: 0 0 4px 3px var(--shadow2);
-
-    /*---------- Z-indexes ----------*/
-    --z-index-input: 1;
-    --z-index-tooltip: 2;
-    --z-index-select-dropdown: 2;
-    --z-index-navbar: 3;
-    --z-index-loader: 4;
-    --z-index-pop-up: 5;
-    --z-index-backdrop-input: 6;
-    --z-index-backdrop-tooltop: 7;
-    --z-index-backdrop-select-dropdown: 7;
-    --z-index-backdrop-loader: 8;
-    --z-index-screen-loader: 8;
-    --z-index-confirm: 9;
-    --z-index-alert: 10;
-    --z-index-toast: 10;
+    /*---------- Z-index ----------*/
+    --z-index-input: 10;
+    --z-index-tooltip: 20;
+    --z-index-select-dropdown: 30;
+    --z-index-pop-up: 40;
+    --z-index-confirm: 50;
+    --z-index-alert: 60;
+    --z-index-toast: 60;
 
     --backdrop-c: #00000030;
 }
@@ -111,14 +82,6 @@ body{
 }
 p, h1, h2, h3{
     margin: 0;
-}
-
-.btnBox{
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    justify-content: end;
-    grid-gap: 15px;
 }
 
 /*------------------------------------------------------------------------------------------

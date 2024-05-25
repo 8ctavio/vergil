@@ -35,14 +35,3 @@
     display: inline-block;
     margin: 0;
 }
-
-.vp-btn{
-    padding: 3px 20px;
-    border-radius: 4px;
-    background-color: var(--vp-c-brand-3);
-    color: var(--vp-c-white);
-    transition: background-color 300ms;
-}
-.vp-btn:hover{
-    background-color: var(--vp-c-brand-2);
-}

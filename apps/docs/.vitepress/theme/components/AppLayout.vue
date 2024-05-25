@@ -12,7 +12,3 @@ const { Layout } = Theme
     <AlertFeed/>
     <Toaster/>
 </template>
-
-<style>
-
-</style>

@@ -48,6 +48,7 @@ export default {
 				text: 'Components',
 				collapsed: false,
 				items: [
+					{ text: 'Alert', link: '/components/alert' },
 					{
 						text: 'Buttons',
 						items: [
@@ -56,16 +57,6 @@ export default {
 						]
 					},
 					{ text: 'Icon', link: '/components/icon' }
-				]
-			},
-			{
-				text: 'UI Components',
-				collapsed: false,
-				items: [
-					{ text: 'Alert', link: '/components/alert' },
-					{ text: 'Toast', link: '/components/toast' },
-					{ text: 'Confirm', link: '/components/confirm' },
-					{ text: 'Pop-up', link: '/components/pop-up' },
 				]
 			},
 			{

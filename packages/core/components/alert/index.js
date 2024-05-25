@@ -1,20 +1,23 @@
+import { inferTheme } from "../../utils"
+
 const gap = 15
 const icons = {
     ok: 'check_circle',
-    error: 'cancel',
+    info: 'info',
     warn: 'warning',
-    info: 'info'
+    danger: 'cancel'
 }
-export function alert(type, message, duration = 6){
-    const alertFeed = document.getElementById("alertFeed")
+export function alert(theme, message, duration = 6){
+    const alertFeed = document.getElementById("alert-feed")
     const alerts = alertFeed.getElementsByClassName("alert")
+    const inferredTheme = inferTheme(theme)
     
     const newAlert = document.createElement("div")
-    newAlert.classList.add("alert", type)
+    newAlert.classList.add("alert", inferredTheme)
     
     const icon = document.createElement("span")
     icon.classList.add("material-symbols-rounded")
-    icon.textContent = icons[type] ? icons[type] : 'help_outline'
+    icon.textContent = icons[inferredTheme] ? icons[inferredTheme] : 'help_outline'
 
     const msg = document.createElement("p")
     msg.textContent = message
@@ -24,7 +27,7 @@ export function alert(type, message, duration = 6){
     
     const closeX = closeBtn.appendChild(document.createElement('span'))
     closeX.classList.add("material-symbols-rounded")
-    closeX.textContent = "cancel"
+    closeX.textContent = "close"
 
     newAlert.append(icon, msg, closeBtn)
     alertFeed.appendChild(newAlert)
