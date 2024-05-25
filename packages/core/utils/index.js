@@ -10,15 +10,17 @@ function isValidTheme(theme){
 }
 
 function inferTheme(theme){
-    if(['success', 'check'].includes(theme))
+    if(['brand'].includes(theme))
+        return 'brand'
+    if(['ok', 'success', 'check'].includes(theme))
         return 'ok'    
-    if(['help', 'tip'].includes(theme))
+    if(['info', 'help', 'tip'].includes(theme))
         return 'info'
-    if(['warning', 'caution'].includes(theme))
+    if(['warn', 'warning', 'caution'].includes(theme))
         return 'warn'
-    if(['error'].includes(theme))  
-        return 'danger'  
-    return theme
+    if(['danger', 'error'].includes(theme))  
+        return 'danger'
+    return 'neutral'
 }
 
 export {

@@ -15,9 +15,7 @@ defineProps({
     theme: {
         type: String,
         default: 'brand',
-        validator(value, props){
-            return isValidTheme(value)
-        }
+        validator: isValidTheme
     },
     size: {
         type: String,
@@ -156,6 +154,7 @@ defineProps({
     & > .icon{
         font-size: 1em;
         line-height: inherit;
+        aspect-ratio: 1 / 1;
         transition: color 150ms;
     }
 

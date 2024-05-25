@@ -42,4 +42,8 @@
 :slotted(.col).center{
     align-items: center;
 }
+
+.demo :where(:deep(p)){
+    line-height: normal;
+}
 </style>
