@@ -58,6 +58,17 @@
     /*---------- Border ----------*/
     --component-border-bottom-width: 2px;
 
+    /*---------- Bezier curves ----------*/
+    --bezier-sine-in: cubic-bezier(0.47, 0, 0.745, 0.715);
+    --bezier-sine-out: cubic-bezier(0.39, 0.575, 0.565, 1);
+    --bezier-sine-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    --bezier-back-in: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    --bezier-back-out: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --bezier-back-in-out: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --bezier-bounce-in: cubic-bezier(0.55, -0.45, 0.70, 0.80);
+    --bezier-bounce-out: cubic-bezier(0.30, 0.20, 0.45, 1.45);
+    --bezier-bounce-in-out: cubic-bezier(0.55, -0.45, 0.45, 1.45);
+
     /*---------- Z-index ----------*/
     --z-index-input: 10;
     --z-index-tooltip: 20;

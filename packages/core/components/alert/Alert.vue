@@ -71,9 +71,6 @@ const theme = inferTheme(props.theme)
     border-left: var(--border-radius-md) solid var(--c-theme-1);
     background-color: white;
     box-shadow: 3px 3px 3px #50505050;
-    overflow: hidden;
-    transition: bottom 600ms cubic-bezier(0.50, -0.40, 0.50, 1.40),
-                top 500ms, opacity 400ms;
 
     &:has(.alert-details){
         padding-top: 12px;
