@@ -113,7 +113,7 @@ const playState = ref('running')
     }
 }
 .dark .alert{
-    background-color: var(--c-bg-alt);
+    background-color: #131313;
     border: 1px solid var(--c-grey-soft-1);
     box-shadow: 3px 3px 3px #00000070;
     & > .alert-close {

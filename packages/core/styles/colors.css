@@ -132,11 +132,6 @@
     --c-moss-border-2: var(--c-moss-1);
     --c-moss-border-3: var(--c-moss-3);
     --c-moss-outline: #B1BCAC;
-
-    --rgb-moss-dimmed: 136 186 109;
-    --c-moss-dimmed-10: rgba(var(--rgb-moss-dimmed) / 0.10);
-    --c-moss-dimmed-15: rgba(var(--rgb-moss-dimmed) / 0.15);
-    --c-moss-dimmed-20: rgba(var(--rgb-moss-dimmed) / 0.20);
 }
 .dark{
     --c-moss-1: #94B484;
@@ -156,11 +151,6 @@
 
     --c-moss-border-1: #87A777;
     --c-moss-border-3: #476737;
-
-    --rgb-moss-dimmed: 136 186 109;
-    --c-moss-dimmed-10: rgba(var(--rgb-moss-dimmed) / 0.10);
-    --c-moss-dimmed-15: rgba(var(--rgb-moss-dimmed) / 0.15);
-    --c-moss-dimmed-20: rgba(var(--rgb-moss-dimmed) / 0.20);
 }
 /* #endregion */
 
@@ -190,11 +180,6 @@
     --c-dartmouth-border-2: var(--c-dartmouth-1);
     --c-dartmouth-border-3: var(--c-dartmouth-3);
     --c-dartmouth-outline: #83B888;
-
-    --rgb-green-dimmed: 16 185 129;
-    --c-dartmouth-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
-    --c-dartmouth-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
-    --c-dartmouth-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
 }
 .dark{
     --c-dartmouth-1: #006037;
@@ -216,11 +201,6 @@
     --c-dartmouth-border-1: #5FAE7E;
     --c-dartmouth-border-2: var(--c-dartmouth-text-3);
     --c-dartmouth-border-3: #004720;
-
-    --rgb-green-dimmed: 16 185 129;
-    --c-dartmouth-dimmed-10: rgba(var(--rgb-green-dimmed) / 0.10);
-    --c-dartmouth-dimmed-15: rgba(var(--rgb-green-dimmed) / 0.15);
-    --c-dartmouth-dimmed-20: rgba(var(--rgb-green-dimmed) / 0.20);
 }
 /* #endregion */
 
@@ -250,11 +230,6 @@
     --c-cobalt-border-2: var(--c-cobalt-1);
     --c-cobalt-border-3: var(--c-cobalt-3);
     --c-cobalt-outline: #A2AFE1;
-
-    --rgb-blue-dimmed: 100 108 255;
-    --c-cobalt-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
-    --c-cobalt-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
-    --c-cobalt-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
 }
 .dark{
     --c-cobalt-1: #134AB7;
@@ -276,20 +251,15 @@
     --c-cobalt-border-1: #8599F2;
     --c-cobalt-border-2: var(--c-cobalt-text-3);
     --c-cobalt-border-3: #002A8E;
-
-    --rgb-blue-dimmed: 100 108 255;
-    --c-cobalt-dimmed-10: rgba(var(--rgb-blue-dimmed) / 0.10);
-    --c-cobalt-dimmed-15: rgba(var(--rgb-blue-dimmed) / 0.15);
-    --c-cobalt-dimmed-20: rgba(var(--rgb-blue-dimmed) / 0.20);
 }
 /* #endregion */
 
 /*-------- YELLOW --------*/
 /* #region */
 :root{
-    --c-yellow-1: #FFDD6A;
+    --c-yellow-1: #FFD462;
     --c-yellow-2: #FCCF5D;
-    --c-yellow-3: #EDC150;
+    --c-yellow-3: #F6C958;
     --rgb-yellow: 255 221 106;
 
     --c-yellow-soft-1: #F9F2D8;
@@ -304,17 +274,12 @@
 
     --c-yellow-icon-1: var(--c-yellow-text-3);
     --c-yellow-icon-2: var(--c-yellow-text-3);
-    --c-yellow-icon-3: #9A8221;
+    --c-yellow-icon-3: #DEB342;
 
     --c-yellow-border-1: var(--c-yellow-3);
     --c-yellow-border-2: #DEB342;
     --c-yellow-border-3: #CFA634;
     --c-yellow-outline: #E6CD8D;
-
-    --rgb-yellow-dimmed: 249 204 90;
-    --c-yellow-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
-    --c-yellow-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
-    --c-yellow-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
 }
 .dark{
     --c-yellow-1: #E2C463;
@@ -338,11 +303,6 @@
     --c-yellow-border-1: var(--c-yellow-1);
     --c-yellow-border-2: var(--c-yellow-3);
     --c-yellow-border-3: #9A8221;
-
-    --rgb-yellow-dimmed: 249 204 90;
-    --c-yellow-dimmed-10: rgba(var(--rgb-yellow-dimmed) / 0.10);
-    --c-yellow-dimmed-15: rgba(var(--rgb-yellow-dimmed) / 0.15);
-    --c-yellow-dimmed-20: rgba(var(--rgb-yellow-dimmed) / 0.20);
 }
 /* #endregion */
 
@@ -372,11 +332,6 @@
     --c-red-border-2: var(--c-red-1);
     --c-red-border-3: var(--c-red-3);
     --c-red-outline: #E1A59B;
-
-    --rgb-red-dimmed: 255 105 101;
-    --c-red-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
-    --c-red-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
-    --c-red-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
 }
 .dark{
     --c-red-1: #AD1F35;
@@ -398,10 +353,5 @@
     --c-red-border-1: #F47977;
     --c-red-border-2: #CB3F4B;
     --c-red-border-3: #7F0016;
-
-    --rgb-red-dimmed: 255 105 101;
-    --c-red-dimmed-10: rgba(var(--rgb-red-dimmed) / 0.10);
-    --c-red-dimmed-15: rgba(var(--rgb-red-dimmed) / 0.15);
-    --c-red-dimmed-20: rgba(var(--rgb-red-dimmed) / 0.20);
 }
 /* #endregion */
