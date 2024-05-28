@@ -138,7 +138,7 @@ function alert(theme: string, msg_opt: string | object, duration: number = 6): v
 
 #### Description
 
-Displays an `Alert` at the top of the viewport that can be hidden automaticaaly after a time-out or manually by user interaction.
+Displays an `Alert` at the top of the viewport that can be hidden automatically after a time-out or manually by user interaction.
 
 If invoked while one or more alerts are being shown, those alerts are scrolled down to free up space for the new alert to show up.
 
@@ -154,7 +154,7 @@ If invoked while one or more alerts are being shown, those alerts are scrolled d
         duration: number
     }
     ```
-- `duration`: Number of seconds to elapse before `Alert` is automatically hiddens.
+- `duration`: Number of seconds to elapse before `Alert` is automatically hidden.
 
 ### Examples
 

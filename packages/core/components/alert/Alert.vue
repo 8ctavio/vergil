@@ -1,6 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { isValidTheme, inferTheme } from '../../utils'
 import { alertIcons } from '.'
 
@@ -23,38 +23,28 @@ const props = defineProps({
         }
     }
 })
-
-const emit = defineEmits(['close', 'mounted'])
-
-let timeout
-function handleClose(){
-    clearTimeout(timeout)
-    emit('close')
-}
-const alert = ref(null)
-onMounted(() => {
-    if(props.duration){
-        timeout = setTimeout(handleClose, props.duration*1000);
-    }
-    emit('mounted', alert.value)
-})
-
+defineEmits(['close'])
 const theme = inferTheme(props.theme)
+const playState = ref('running')
 </script>
 
 <template>
-    <div ref="alert" :class="['alert', theme]">
+    <div :class="['alert', theme]" @mouseenter="playState = 'paused'" @mouseleave="playState = 'running'">
         <Icon :code="icon || alertIcons[theme]"/>
         <p class="alert-message" :class="{ title: details }">{{ message }}</p>
-        <button class="alert-close" @click="handleClose">
+        <button class="alert-close" @click="$emit('close')">
             <Icon code="close"/>
         </button>
         <p v-if="message && details" class="alert-details">{{ details }}</p>
+        <span v-if="duration" class="alert-progress">
+            <div @animationend="$emit('close')"></div>
+        </span>
     </div>
 </template>
 
 <style>
 .alert{
+    position: relative;
     font-size: var(--font-size-md);
     display: grid;
     grid-template-columns: min-content auto min-content;
@@ -63,18 +53,15 @@ const theme = inferTheme(props.theme)
     width: max-content;
     min-width: 300px;
     max-width: 500px;
-    padding-left: 10px;
-    padding-right: calc(10px - var(--border-radius-md));
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     border-radius: var(--border-radius-md);
-    border-left: var(--border-radius-md) solid var(--c-theme-1);
     background-color: white;
     box-shadow: 3px 3px 3px #50505050;
+    overflow: hidden;
+    cursor: default;
 
     &:has(.alert-details){
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding: 12px 10px;
     }
     & > .alert-message{
         align-self: center;
@@ -106,11 +93,28 @@ const theme = inferTheme(props.theme)
             font-size: 1.2em;
         }
     }
+    & > .alert-progress{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: var(--border-radius-md);
+        background-color: var(--c-theme-soft-2);
+        & > div{
+            width: 100%;
+            height: 100%;
+            background-color: var(--c-theme-1);
+            animation-name: move-left;
+            animation-duration: v-bind('`${duration}s`');
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+            animation-play-state: v-bind(playState);
+        }
+    }
 }
 .dark .alert{
     background-color: var(--c-bg-alt);
     border: 1px solid var(--c-grey-soft-1);
-    border-left: var(--border-radius-md) solid var(--c-theme-1);
     box-shadow: 3px 3px 3px #00000070;
     & > .alert-close {
         color: rgb(255 255 255 / 0.6);
