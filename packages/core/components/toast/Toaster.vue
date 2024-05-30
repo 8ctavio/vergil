@@ -1,69 +1,107 @@
+<script setup>
+import Toast from './Toast.vue'
+import { ref, onMounted } from 'vue'
+import { toaster } from '.'
+
+function closeToast(toast){
+    const index = toaster.value.findIndex(t => t.id === toast.id)
+    if(index > -1) toaster.value.splice(index, 1)
+}
+
+const toasterEl = ref(null)
+onMounted(() => {
+    toasterEl.value = document.getElementById('toaster')
+})
+
+function onBeforeLeave(toast){
+    if(toasterEl.value.firstChild === toast){
+        toast.classList.add('first-leave')
+    }
+    else{
+        const { bottom: toasterBottom } = toasterEl.value.getBoundingClientRect()
+        const { bottom: toastBottom } = toast.getBoundingClientRect()
+        toast.style.bottom = `${toasterBottom - toastBottom}px`
+        toast.classList.add('not-first-leave')
+    }
+}
+</script>
+
 <template>
-    <div id="toaster">
-    </div>
+    <TransitionGroup tag="div" id="toaster" name="toast"
+        @before-enter="() => toasterEl.classList.add('enter')"
+        @after-enter="() => toasterEl.classList.remove('enter')"
+        @before-leave="onBeforeLeave"
+        >
+        <Toast v-for="toast in toaster" :key="toast.id"
+            :message="toast.message"
+            :details="toast.details"
+            :theme="toast.theme"
+            :icon="toast.icon"
+            :duration="toast.duration"
+            @close="closeToast(toast)"
+            />
+    </TransitionGroup>
 </template>
 
 <style>
 #toaster{
+    --toast-gap: 15px;
     position: fixed;
+    bottom: 0;
+    right: calc(var(--toast-gap) * 1.5);
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: end;
+    row-gap: var(--toast-gap);
+    height: 0;
+    overflow-y: visible;
     z-index: var(--z-index-toast);
-}
 
-.toast{
-	position: fixed;
-    right: 40px;
-	box-sizing: border-box;
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 10px;
-	width: max-content;
-	min-width: 200px;
-	max-width: 600px;
-	min-height: 40px;
-	padding: 0 20px 0 10px;
-	background-color: var(--gray1);
-	border-radius: var(--borderRadius3);
-	box-shadow: var(--boxShadow3);
-	cursor: default;
-    transition: bottom 500ms, opacity 400ms;
-    animation-duration: 700ms;
-    animation-timing-function: cubic-bezier(0.50, -0.30, 0.50, 1.30);
+    & > .toast{
+        flex-shrink: 0;
 
-	font-size: 1rem;
-}
-.toast.enter{ animation-name: toastEnter; }
-.toast.leave{
-    animation-name: toastLeave;
-    animation-fill-mode: forwards;    
-}
+        /*-------- toast that is entering --------*/
+        &:first-of-type{
+            margin-bottom: var(--toast-gap);
+            &.toast-enter-active{
+                transition: transform 500ms var(--bezier-bounce-out);
+            }
+            &.toast-enter-from{
+                transform: translateY(calc((var(--toast-gap) + 100% + 4px) * 1));
+            }
+        }
 
-@keyframes toastEnter{
-    from{ bottom: -80px; }
-    to{ bottom: 40px; }
-}
-@keyframes toastLeave{
-    from{ bottom: 40px; }
-    to{ bottom: -80px; }
-}
+        /*-------- toast that is leaving --------*/
+        &.first-leave{
+            &:is(.toast-move, .toast-leave-active){
+                transition: transform 500ms var(--bezier-bounce-in);
+            }
+            &.toast-leave-active{
+                position: absolute;
+                right: 0;
+                transform: translateY(calc((var(--toast-gap) + 100% + 4px) * 1));
+            }
+        }
+        &.not-first-leave{
+            &:is(.toast-move, .toast-leave-active){
+                transition: transform 400ms var(--bezier-sine-in-out), opacity 350ms var(--bezier-sine-in-out);
+            }
+            &.toast-leave-active{
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                transform: translateY(calc(var(--toast-gap) * 0.7));
+            }
+        }
 
-.toast > span{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 25px;
-	color: var(--darkText);	
-}
-.toast.ok > span{ color: var(--green); }
-.toast.error > span{ color: var(--red); }
-.toast.warn > span{ color: #DEA82C; }
-.toast.info > span{ color: var(--blue); }
-.toast > p{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 8px 0;
-	font: 500 1.4em var(--mainFont);
-	color: var(--darkText);
-	letter-spacing: 0.5px;
+        /*-------- toasts that move while an toast is leaving --------*/
+        &:not(.first-leave, .not-first-leave).toast-move{
+            transition: transform 500ms var(--bezier-bounce-in);
+        }
+    }
+    /*-------- toasts that move while an alert is entering --------*/
+    &.enter > .toast:not(:first-of-type).toast-move{
+        transition: transform 500ms var(--bezier-bounce-out);
+    }
 }
 </style>

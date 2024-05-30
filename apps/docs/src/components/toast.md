@@ -9,76 +9,101 @@ outline: [2,3]
 ## Demo
 
 <script setup>
+import { Toast, Btn, Icon } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
-import { toast } from 'vergil'
+import { toast } from '@8ctavio/vergil'
 
-const previewToastType = ref('ok')
-const toastIcons = {
-    ok: 'check_circle',
-    error: 'cancel',
-    warn: 'warning',
-    info: 'info'
-}
+const theme = ref('brand')
+console.time('duration')
 </script>
 
 <Demo>
-    <div class="row">
-        <button class="vp-btn" @click="toast('ok', 'Success! Green Toast.')">Ok</button>
-        <button class="vp-btn" @click="toast('error', 'Error! Red Toast.')">Error</button>
-        <button class="vp-btn" @click="toast('warn', 'Warning! Yellow Toast.')">Warning</button>
-        <button class="vp-btn" @click="toast('info', 'Info. Blue Toast.')">Info</button>
-    </div>
+    <Btn variant="solid" label="Toast" @click="toast('brand', 'Please remain calm!')"/>
 </Demo>
-
-### Preview
-
-<br>
 
 <Demo>
-    <div class="col">
-        <div :class="['toast', previewToastType]">
-            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur elit.</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis dignissim ante vel iaculis.</p>
-        </div>
-        <div :class="['toast', previewToastType]">
-            <span class="material-symbols-rounded">{{ toastIcons[previewToastType] }}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat non lorem at egestas. Integer et rutrum felis. Integer suscipit sapien nec neque finibus, sit amet mollis velit commodo.</p>
-        </div>
-        <div class="row" :style="{'padding-top': '30px'}">
-            <button class="vp-btn" @click="previewToastType = 'ok'">Ok</button>
-            <button class="vp-btn" @click="previewToastType = 'error'">Error</button>
-            <button class="vp-btn" @click="previewToastType = 'warn'">Warn</button>
-            <button class="vp-btn" @click="previewToastType = 'info'">Info</button>
-        </div>
-    </div>
+    <Toast message="Attention traveler!" details="Lost item can be claimed on lower levels"/>
 </Demo>
 
-## Description
+## Props
 
-When an toast shows up, it is added to the **toaster** (a.k.a. the toast feed), by the means of which multiple toasts can be toasted simultaneously.
+### Message <Badge type="tip"><pre>message: string = ''</pre></Badge>
 
-After a developer-defined time-out, a toast is taken out of the toaster automatically, hiding it.
+```vue
+<Toast message="Some message"/>
+```
 
-There are four toast types which properly theme the toast for different types of messages:
+<Demo>
+    <Toast message="Some message"/>
+</Demo>
 
-- `ok`: for successful execution of tasks,
-- `error`: for errors,
-- `warn`: for warnings, and
-- `info`: for general purpose information.
+### Details <Badge type="tip"><pre>details: string = ''</pre></Badge>
 
 :::tip
-Toasts are meant to communicate **non**-critical messages to the user.
+Message details are displayed only if the `message` prop is specified.
 :::
 
-## Usage
+When passing `details`, the `message` will be displayed as a header for the toast.
+
+```vue
+<Toast message="Message Header" details="Message details..."/>
+```
+
+<Demo>
+    <Toast message="Message Header" details="Message details..."/>
+</Demo>
+
+### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
+
+There are aliases available for some `theme` prop values:
+
+| Value      | Aliases |
+| ---------- | ------- |
+| `'ok'`     | `'success', 'check'` |
+| `'info'`   | `'help', 'tip'` |
+| `'warn'`   | `'warning', 'caution'` |
+| `'danger'` | `'error'` |
+
+```vue
+<Toast message="Toast message" :theme/>
+```
+
+<Demo>
+    <Toast message="Toast message" theme="brand"/>
+    <Toast message="Toast message" theme="ok"/>
+    <Toast message="Toast message" theme="info"/>
+    <Toast message="Toast message" theme="warn"/>
+    <Toast message="Toast message" theme="danger"/>
+    <Toast message="Toast message" theme="neutral"/>
+</Demo>
+
+### Icon <Badge type="tip"><pre>icon: string</pre></Badge>
+
+```vue
+<Toast message="A walk in the woods" icon="forest"/>
+```
+
+<Demo>
+    <Toast message="A walk in the woods" icon="forest"/>
+</Demo>
+
+### Duration <Badge type="tip"><pre>duration: number</pre></Badge>
+
+The `duration` prop specifies the number of **seconds** elapsed since `Toast` is mounted, before it emmits a `close` event. If no duration is specified, the event won't be emmited on a time-out basis.
+
+```vue
+<Toast message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
+```
+
+<Demo>
+    <Toast message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
+</Demo>
+
+## Toaster &#8203;
+
+Multiple toasts can be displayed simultaneously by adding them to the **toaster** (i.e., toast feed). After a toast is mounted, it can be removed from the toaster automatically after a developer defined time-out or manually through user interaction.
+
+### Usage
 
 First, it is required to add the `Toaster` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
 
@@ -94,48 +119,59 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 ```
 
 :::tip
-`Toaster`'s backdrop `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+`Toaster`'s backdrop `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
+
+Then, toasts can be displayed programatically with the `toast` function
 
 ```js
 import { toast } from '@8ctavio/vergil'
 
-toast('warn', 'Icy conditions.')
+toast('warn', 'Icy conditions')
 ```
 
-### Function
+### API
 
 ```js
-function toast(type: string, message: string, duration: number = 6): void
+function toast(theme: string, msg_opt: string | object, duration: number = 6): void
 ```
 
 #### Description
 
-Renders a toast at the bottom-right corner of the viewport, which
-- is themed according to `type`, 
-- displays `message` to the user, and
-- after a time-out of `duration` seconds elapses, it is hidden automatically.
+Displays a `Toast` at the bottom-right corner of the viewport that can be hidden automatically after a time-out or manually by user interaction.
 
-If invoked while one or more toasts are being shown, those toasts are scrolled up to free up space for the new toast to show up.
+When invoked, already displayed toasts are scrolled up to free up space for the new toast to show up.
 
 #### Parameters
 
-- `type`: A string containing the toast type. Each type themes the toast differently. Possible values are:
-    - `"ok"`: Green theme.
-    - `"error"`: Red theme.
-    - `"warn"`: Yellow theme.
-    - `"info"`: Blue theme.
-- `message`: A string containing the message to display in the toast.
-- `duration`: The number of seconds toast's time-out lasts.
+- `theme`: `Toast` theme.
+- `msg_opt`: As a `string` it is the `Toast`'s message. As an `object` it may contain values for some `Toast` props:
+    ```js
+    {
+        message: string,
+        details: string,
+        icon: string,
+        duration: number
+    }
+    ```
+- `duration`: Number of seconds to elapse before `Toast` is automatically hidden.
+
+### Examples
+
+```js
+toast(theme, message[theme])
+```
+
+<Demo>
+    <Btn variant="solid" label="Brand" @click="toast('brand', 'Welcome!')"/>
+    <Btn variant="solid" label="Ok" @click="toast('ok', 'Success!')"/>
+    <Btn variant="solid" label="Info" @click="toast('info', 'Attention!')"/>
+    <Btn variant="solid" label="Warn" @click="toast('warn', 'Warning!')"/>
+    <Btn variant="solid" label="Danger" @click="toast('danger', 'Error!')"/>
+    <Btn variant="solid" label="Neutral" @click="toast('neutral', 'Notification')"/>
+</Demo>
 
 <style>
-.demo .col{
-    justify-items: right;
-}
-.demo .toast{
-    position: initial;
-    width: initial;
-}
 .demo .toast p{
     margin: 0;
 }
