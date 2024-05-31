@@ -1,47 +1,42 @@
-import { ref, nextTick } from 'vue'
-import { body } from '../../utils/shared'
+import { shallowReactive } from 'vue'
+import { inferTheme, themeIcons } from "../../utils"
 
-const open = ref(false)
+const confirmModel = shallowReactive({
+    show: false,
+    content: {},
+    waitingConfirmation: false,
+    resolve: () => {}
+})
 
-const confirmContent = ref({})
-
-const waitingConfirmation = ref(false)
-const resolveConfirm = ref(() => {})
-
-const icons = {
-    danger: 'cancel',
-    caution: 'warning',
-    ack: 'info',
-    check: 'check_circle'
-}
-
-export async function confirm(type, {header, content, confirmLabel = 'Aceptar', declineLabel = 'Cancelar'}){
-    if(!waitingConfirmation.value){
-        confirmContent.value = {
-            type,
-            icon: icons[type],
-            header,
-            content,
+async function confirm(theme, {
+    title,
+    description,
+    confirmLabel = 'Aceptar',
+    declineLabel = 'Cancelar',
+    icon
+}){
+    theme = inferTheme(theme)
+    if(!confirmModel.waitingConfirmation){
+        confirmModel.content = {
+            theme,
+            icon: icon ?? themeIcons[theme],
+            title,
+            description,
             confirmLabel,
             declineLabel
         }
-        await nextTick()
     }
-    
-    // body.value?.classList.add('prevent-overflow')
-    open.value = true
+    confirmModel.show = true
 
-    if(waitingConfirmation.value) return null
+    if(confirmModel.waitingConfirmation) return null
 
     return new Promise(resolve => {
-        waitingConfirmation.value = true
-        resolveConfirm.value = resolve
+        confirmModel.waitingConfirmation = true
+        confirmModel.resolve = resolve
     })
 }
 
 export{
-    open,
-    confirmContent,
-    resolveConfirm,
-    waitingConfirmation
+    confirmModel,
+    confirm
 }

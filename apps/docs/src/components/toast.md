@@ -99,6 +99,16 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
     <Toast message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
 </Demo>
 
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `message` | `string` | `''` |
+| `details` | `string` | `''` |
+| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `icon` | `string` | `''` |
+| `duration` | `number` | `undefined` |
+
 ## Toaster &#8203;
 
 Multiple toasts can be displayed simultaneously by adding them to the **toaster** (i.e., toast feed). After a toast is mounted, it can be removed from the toaster automatically after a developer defined time-out or manually through user interaction.
@@ -154,7 +164,7 @@ When invoked, already displayed toasts are scrolled up to free up space for the 
         duration: number
     }
     ```
-- `duration`: Number of seconds to elapse before `Toast` is automatically hidden.
+- `duration`: Number of seconds to elapse before `Toast` is automatically hidden. Defaults to `6`.
 
 ### Examples
 

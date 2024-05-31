@@ -99,6 +99,16 @@ The `duration` prop specifies the number of **seconds** elapsed since `Alert` is
     <Alert message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
 </Demo>
 
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `message` | `string` | `''` |
+| `details` | `string` | `''` |
+| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `icon` | `string` | `''` |
+| `duration` | `number` | `undefined` |
+
 ## Alert Feed &#8203;
 
 Multiple alerts can be displayed simultaneously at the top of the viewport by adding them to the **alert feed**. After an alert is mounted, it can be removed from the feed automatically after a developer defined time-out or manually through user interaction.
@@ -154,7 +164,7 @@ If invoked while one or more alerts are being shown, those alerts are scrolled d
         duration: number
     }
     ```
-- `duration`: Number of seconds to elapse before `Alert` is automatically hidden.
+- `duration`: Number of seconds to elapse before `Alert` is automatically hidden. Defaults to `6`.
 
 ### Examples
 

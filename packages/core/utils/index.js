@@ -23,7 +23,17 @@ function inferTheme(theme){
     return 'neutral'
 }
 
+const themeIcons = {
+    brand: 'verified',
+    ok: 'check_circle',
+    info: 'info',
+    warn: 'warning',
+    danger: 'cancel',
+    neutral: 'info'
+}
+
 export {
     isValidTheme,
-    inferTheme
+    inferTheme,
+    themeIcons
 }

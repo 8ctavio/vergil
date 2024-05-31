@@ -1,14 +1,5 @@
 import { ref } from 'vue'
-import { inferTheme } from "../../utils"
-
-const alertIcons = {
-    brand: 'verified',
-    ok: 'check_circle',
-    info: 'info',
-    warn: 'warning',
-    danger: 'cancel',
-    neutral: 'info'
-}
+import { inferTheme, themeIcons } from "../../utils"
 
 const alertFeed = ref([])
 function alert(theme, msg_opt, duration = 6){
@@ -18,13 +9,12 @@ function alert(theme, msg_opt, duration = 6){
         message: typeof msg_opt === 'string' ? msg_opt : msg_opt.message,
         details: msg_opt.details ?? '',
         theme,
-        icon: msg_opt.icon ?? alertIcons[theme],
+        icon: msg_opt.icon ?? themeIcons[theme],
         duration: msg_opt.duration ?? duration
     })
 }
 
 export {
-    alertIcons,
     alertFeed,
     alert
 }

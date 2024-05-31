@@ -2,15 +2,10 @@
 import Icon from '../Icon.vue'
 import { ref, onMounted } from 'vue'
 import { closePopUp } from '.'
-import { body } from '../../utils/shared'
 import { globalDisabler } from '../../composables/useLoaders'
 
 defineProps({
     title: String
-})
-
-onMounted(() => {
-    if(body.value === null) body.value = document.querySelector('body')
 })
 
 const popUp = ref(null)

@@ -56,6 +56,7 @@ export default {
 							{ text: 'Btn3D', link: '/components/buttons/btn3d' }
 						]
 					},
+					{ text: 'Confirm', link: '/components/confirm' },
 					{ text: 'Icon', link: '/components/icon' },
 					{ text: 'Toast', link: '/components/toast' },
 				]

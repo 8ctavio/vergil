@@ -1,5 +1,4 @@
 import { ref, markRaw } from 'vue'
-import { body } from '../../utils/shared'
 
 const popUp = ref({
     component: null,

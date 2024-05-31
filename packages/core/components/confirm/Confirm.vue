@@ -1,148 +1,112 @@
 <script setup>
-import Backdrop from '../Backdrop.vue'
 import Icon from "../Icon.vue"
+import Btn from '../buttons/Btn.vue'
+import { confirmModel } from "."
 
-import { onMounted } from 'vue'
-import { body } from '../../utils/shared'
-import { confirmContent, waitingConfirmation, resolveConfirm, open } from "."
-
-onMounted(() => {
-	if(body.value === null) body.value = document.querySelector('body')
-})
-
-const handleResolveConfirm = response => {
-	open.value = false
-	// body.value.classList.remove('prevent-overflow')
-	resolveConfirm.value(response)
-	resolveConfirm.value = () => {}
-	waitingConfirmation.value = false
+const resolveConfirm = response => {
+	confirmModel.show = false
+	confirmModel.resolve(response)
+	confirmModel.resolve = () => {}
+	confirmModel.waitingConfirmation = false
 }
 </script>
 
 <template>
-	<Backdrop v-show="open" z-index="var(--z-index-confirm)" :transition-duration="{enter: 700}">
-		<div id="vergil-confirm" :class="confirmContent.type" >
-			<header>
-				<Icon :code="confirmContent.icon ? confirmContent.icon : 'help'"/>
-				<h1>{{ confirmContent.header }}</h1>
-			</header>
-			<div v-if="confirmContent.content" class='confirmContent'>
-				{{ confirmContent.content }}
-			</div>
-			<div class='confirmBtns'>
-				<button class='declineBtn' @click="handleResolveConfirm(false)" autofocus>{{ confirmContent.declineLabel }}</button>
-				<button class='confirmBtn' @click="handleResolveConfirm(true)">{{ confirmContent.confirmLabel }}</button>
+	<Transition name="backdrop" appear :duration="700">
+		<div v-show="confirmModel.show" id="confirm-backdrop">
+			<div id="confirm-modal" :class="confirmModel.content.theme">
+				<Icon :code="confirmModel.content.icon"/>
+				<h1>{{ confirmModel.content.title }}</h1>
+				<p v-if="confirmModel.content.description">
+					{{ confirmModel.content.description }}
+				</p>
+				<div>
+					<Btn variant="outline" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
+					<Btn variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
+				</div>
 			</div>
 		</div>
-	</Backdrop>
+	</Transition>
 </template>
 
-<style scoped>
-#vergil-confirm{
-	display: grid;
-	grid-template-columns: 100%;
-	gap: 20px;
-	width: clamp(550px, 35%, 750px);
-	padding: 20px;
-	border-radius: var(--borderRadius2);
-	border-left: 5px solid var(--gray5);
-	background-color: var(--gray1);
-	box-shadow: var(--boxShadow4);
-	word-wrap: break-word;
-
-	font-size: 1rem;
-}
-
-.backdrop-enter-from > #vergil-confirm,
-.backdrop-leave-to > #vergil-confirm{
-	opacity: 0;
-	transform: translateY(calc(-50%));
-}
-.backdrop-enter-active > #vergil-confirm,
-.backdrop-leave-active > #vergil-confirm{
-	transition: opacity 500ms ease, transform 500ms ease;
-}
-.backdrop-enter-active > #vergil-confirm{
-	transition-delay: 200ms;
-}
-
-#vergil-confirm.danger{ border-left-color: var(--red); }
-#vergil-confirm.caution{ border-left-color: var(--yellow); }
-#vergil-confirm.ack{ border-left-color: var(--blue); }
-#vergil-confirm.check{ border-left-color: var(--green); }
-
-#vergil-confirm header{
-	display: grid;
-	grid-auto-flow: column;
-	justify-content: start;
-	align-items: center;
-	gap: 20px;
-	box-sizing: border-box;
-}
-#vergil-confirm header h1{
-	margin: 0;
-	font: 700 2.5em var(--font2);
-	color: var(--darkText);
-	letter-spacing: 1px;
-}
-#vergil-confirm header span{
+<style>
+#confirm-backdrop{
+	position: fixed;
+	top: 0;
+	left: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
-	font-size: 3.5em;	
-	color: var(--gray5)
-}
-#vergil-confirm.danger header span{ color: var(--red); }
-#vergil-confirm.caution header span{ color: var(--yellow); }
-#vergil-confirm.ack header span{ color: var(--blue); }
-#vergil-confirm.check header span{ color: var(--green); }
+	width: 100vw;
+	height: 100vh;
+	background-color: var(--c-backdrop);
+    backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	z-index: var(--z-index-confirm);
 
-.confirmContent{
-	font: 400 1.6em var(--mainFont);
-	text-align: start;
-    cursor: default;
-	line-height: 22px;
-	letter-spacing: 1px;
-	color: var(--darkText);
+	&.backdrop-enter-active{
+		transition: opacity 200ms var(--bezier-sine-out);
+		& > #confirm-modal{
+			transition: opacity 300ms 200ms var(--bezier-sine-out), transform 500ms 200ms var(--bezier-bounce-out);
+		}
+	}
+	&.backdrop-leave-active{
+		transition: opacity 200ms 500ms var(--bezier-sine-in);
+		& > #confirm-modal{
+			transition: opacity 300ms 200ms var(--bezier-sine-in), transform 500ms var(--bezier-bounce-in);
+		}
+	}
+	&:is(.backdrop-enter-from, .backdrop-leave-to){
+		opacity: 0;
+		& > #confirm-modal{
+			opacity: 0;
+			transform: translateY(-20%);
+		}
+	}
 }
 
-.confirmBtns{
-    font-size: 1em;
+#confirm-modal{
+	font-size: var(--font-size-md);
 	display: grid;
-	grid-auto-flow: column;
-	justify-content: end;
-	gap: 20px;
-	margin-top: 5px;
-}
-.confirmBtn, .declineBtn{
-	display: flex;
-	align-items: center;
-	padding: 5px 20px;
-    background-color: var(--gray1);
-	border-style: none;
-	border-radius: var(--borderRadius2);
-	font: 400 1.5em var(--font2);
-    letter-spacing: 1px;
-	cursor: pointer;
-	transition: box-shadow 300ms;
-	outline: none;
-}
+	grid-template-columns: min-content auto;
+	column-gap: 10px;
+    row-gap: 15px;
+	width: clamp(300px, 35%, 500px);
+	padding: 15px 20px;
+	padding-left: calc(20px - var(--border-radius-lg));
+	border-radius: var(--border-radius-lg);
+	border-left: var(--border-radius-lg) solid var(--c-theme-1);
+	background-color: var(--c-bg);
+	box-shadow: 4px 4px 4px #50505050;
 
-.confirmBtn{
-	background-color: var(--gray5);
-	color: var(--lightText);
+	& > .icon{
+		font-size: 1.4em;
+		line-height: normal;
+        font-size: 1.5em;
+        color: var(--c-theme-icon-3);
+        cursor: default;
+        aspect-ratio: initial;
+	}
+	& > h1{
+		font-size: 1.4em;
+        align-self: center;
+        font-weight: 600;
+    }
+	& > p{
+		grid-column-start: 2;
+        line-height: 1.5;
+		word-wrap: break-word;
+    }
+	& > div{
+		grid-column-start: 2;
+		display: flex;
+		justify-content: end;
+		column-gap: 10px;
+    }
 }
-#vergil-confirm.danger .confirmBtn{ background-color: var(--red); }
-#vergil-confirm.caution .confirmBtn{ background-color: var(--yellow); }
-#vergil-confirm.ack .confirmBtn{ background-color: var(--blue); }
-#vergil-confirm.check .confirmBtn{ background-color: var(--green); }
-
-.declineBtn{
-	border: 1.5px solid var(--gray4);
-	color: var(--darkText);
+.dark #confirm-modal{
+    border: 1px solid var(--c-grey-soft-2);
+	border-left: var(--border-radius-lg) solid var(--c-theme-1);
+    box-shadow: 4px 4px 4px #00000070;
 }
-
-.confirmBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow3) }
-.declineBtn:hover{ box-shadow: 0 2px 8px 3px var(--shadow2) }
 </style>

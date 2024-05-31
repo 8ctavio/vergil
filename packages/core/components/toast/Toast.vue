@@ -1,8 +1,7 @@
 <script setup>
 import Icon from '../Icon.vue'
 import { ref } from 'vue'
-import { isValidTheme, inferTheme } from '../../utils'
-import { toastIcons } from '.'
+import { isValidTheme, inferTheme, themeIcons } from '../../utils'
 
 const props = defineProps({
     message: {
@@ -30,7 +29,7 @@ const playState = ref('running')
 
 <template>
     <div :class="['toast', theme]" @mouseenter="playState = 'paused'" @mouseleave="playState = 'running'">
-        <Icon :code="icon || toastIcons[theme]"/>
+        <Icon :code="icon || themeIcons[theme]"/>
         <p class="toast-message" :class="{ title: details }">{{ message }}</p>
         <button class="toast-close" @click="$emit('close')">
             <Icon code="close"/>

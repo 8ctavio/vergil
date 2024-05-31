@@ -12,6 +12,7 @@
 :root{
     --c-bg: #f8f8f8;
     --c-bg-alt: #f3f3f3;
+    --c-backdrop: #00000030;
 }
 .dark{
     --c-bg: #1b1b1b;
@@ -77,8 +78,6 @@
     --z-index-confirm: 50;
     --z-index-alert: 60;
     --z-index-toast: 60;
-
-    --backdrop-c: #00000030;
 }
 
 :root{
