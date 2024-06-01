@@ -32,6 +32,21 @@ const testConfirm = async theme => {
     else if(confirmed === false) toast('error', 'Declined')
     else toast('warn', "Crime doesn't pay")
 }
+
+function example1(){
+    confirm('brand', {
+        title: 'Mayday, mayday',
+        description: `
+            This is //UNSC [[FFG-201]] Forward Unto Dawn.//
+            Requesting immediate evac. Survivors aboard.
+
+            Prioritization code: **Victor [[05-3-Sierra0117]]**
+        `,
+        confirmLabel: 'Respond',
+        declineLabel: 'Dismiss',
+        icon: 'sensors'
+    })
+}
 </script>
 
 <Demo>
@@ -104,7 +119,7 @@ async function confirm(theme: string, request: {
 
 #### Parameters
 
-- `theme`: Theme to style `Confirm` with. Different themes help transmit a request level of concern to the user. Possible `theme` values with available aliases are summarized in the following table.
+- `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values with available aliases are summarized in the following table.
     | `theme`     | Aliases |
     | ----------- | ------- |
     | `'brand'`   | none |
@@ -114,7 +129,12 @@ async function confirm(theme: string, request: {
     | `'danger'`  | `'error'` |
     | `'neutral'` | none |
 - `title`: The request's title.
-- `description`: The request's description.
+- `description`: The request's description. Vergil is able to parse `description` for a minimal set of Markdown-like tags, as well as line breaks inside template strings (see examples below). Available tags syntax is shown in the next table.
+    | Syntax      | Effect |
+    | ----------- | ------ |
+    | `**<str>**` | `str` is displayed with bold font |
+    | `//<str>//` | `str` is displayed in italics |
+    | `[[<str>]]` | `str` is displayed inside an inline block |
 - `confirmLabel`: Confirm button's label.
 - `declineLabel`: Decline button's label.
 - `icon`: Icon code.
@@ -131,3 +151,24 @@ A `Promise` that resolves to:
 
 Thus, if important operations are performed when the user declines a request, strict equality should be verified for the `false` return value.
 :::
+
+## Examples
+
+```js
+await confirm('brand', {
+    title: 'Mayday, mayday',
+    description: `
+        This is //UNSC [[FFG-201]] Forward Unto Dawn.//
+        Requesting immediate evac. Survivors aboard.
+
+        Prioritization code: **Victor [[05-3-Sierra0117]]**
+    `,
+    confirmLabel: 'Respond',
+    declineLabel: 'Dismiss',
+    icon: 'sensors'
+})
+```
+
+<Demo>
+    <Btn variant="solid" label="Mayday" @click="example1"/>
+</Demo>

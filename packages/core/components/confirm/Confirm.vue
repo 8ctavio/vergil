@@ -1,9 +1,10 @@
 <script setup>
 import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
+import MiniMarkup from "../MiniMarkup.vue"
 import { confirmModel } from "."
 
-const resolveConfirm = response => {
+function resolveConfirm(response){
 	confirmModel.show = false
 	confirmModel.resolve(response)
 	confirmModel.resolve = () => {}
@@ -18,7 +19,7 @@ const resolveConfirm = response => {
 				<Icon :code="confirmModel.content.icon"/>
 				<h1>{{ confirmModel.content.title }}</h1>
 				<p v-if="confirmModel.content.description">
-					{{ confirmModel.content.description }}
+					<MiniMarkup :str="confirmModel.content.description"/>
 				</p>
 				<div>
 					<Btn variant="outline" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
@@ -44,16 +45,22 @@ const resolveConfirm = response => {
 	-webkit-backdrop-filter: blur(2px);
 	z-index: var(--z-index-confirm);
 
+	--duration-backdrop-opacity: 100ms;
+	--duration-confirm-opacity: 150ms;
+	--duration-confirm-tranform: 400ms;
+
 	&.backdrop-enter-active{
-		transition: opacity 200ms var(--bezier-sine-out);
+		transition: opacity var(--duration-backdrop-opacity) var(--bezier-sine-out);
 		& > #confirm-modal{
-			transition: opacity 300ms 200ms var(--bezier-sine-out), transform 500ms 200ms var(--bezier-bounce-out);
+			transition: opacity var(--duration-confirm-opacity) var(--duration-backdrop-opacity) var(--bezier-sine-out),
+						transform var(--duration-confirm-tranform) var(--duration-backdrop-opacity) var(--bezier-bounce-out);
 		}
 	}
 	&.backdrop-leave-active{
-		transition: opacity 200ms 500ms var(--bezier-sine-in);
+		transition: opacity var(--duration-backdrop-opacity) var(--duration-confirm-tranform) var(--bezier-sine-in);
 		& > #confirm-modal{
-			transition: opacity 300ms 200ms var(--bezier-sine-in), transform 500ms var(--bezier-bounce-in);
+			transition: opacity var(--duration-confirm-opacity) calc(var(--duration-confirm-tranform) - var(--duration-confirm-opacity)) var(--bezier-sine-in),
+						transform var(--duration-confirm-tranform) var(--bezier-bounce-in);
 		}
 	}
 	&:is(.backdrop-enter-from, .backdrop-leave-to){
@@ -72,7 +79,7 @@ const resolveConfirm = response => {
 	column-gap: 10px;
     row-gap: 15px;
 	width: clamp(300px, 35%, 500px);
-	padding: 15px 20px;
+	padding: 20px;
 	padding-left: calc(20px - var(--border-radius-lg));
 	border-radius: var(--border-radius-lg);
 	border-left: var(--border-radius-lg) solid var(--c-theme-1);
@@ -80,15 +87,14 @@ const resolveConfirm = response => {
 	box-shadow: 4px 4px 4px #50505050;
 
 	& > .icon{
-		font-size: 1.4em;
+		font-size: 1.5em;
 		line-height: normal;
-        font-size: 1.5em;
         color: var(--c-theme-icon-3);
         cursor: default;
         aspect-ratio: initial;
 	}
 	& > h1{
-		font-size: 1.4em;
+		font-size: 1.2em;
         align-self: center;
         font-weight: 600;
     }
