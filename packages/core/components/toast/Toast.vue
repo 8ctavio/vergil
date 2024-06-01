@@ -1,5 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
+import MiniMarkup from "../MiniMarkup.vue"
 import { ref } from 'vue'
 import { isValidTheme, inferTheme, themeIcons } from '../../utils'
 
@@ -30,11 +31,18 @@ const playState = ref('running')
 <template>
     <div :class="['toast', theme]" @mouseenter="playState = 'paused'" @mouseleave="playState = 'running'">
         <Icon :code="icon || themeIcons[theme]"/>
-        <p class="toast-message" :class="{ title: details }">{{ message }}</p>
+        <p class="toast-message" :class="{ title: details }">
+            <template v-if="details">{{ message }}</template>
+            <template v-else>
+                <MiniMarkup :str="message"/>
+            </template>
+        </p>
         <button class="toast-close" @click="$emit('close')">
             <Icon code="close"/>
         </button>
-        <p v-if="message && details" class="toast-details">{{ details }}</p>
+        <p v-if="message && details" class="toast-details">
+            <MiniMarkup :str="details"/>
+        </p>
         <span v-if="duration" class="toast-progress">
             <div @animationend="$emit('close')"></div>
         </span>

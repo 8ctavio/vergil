@@ -37,6 +37,21 @@ console.time('duration')
     <Alert message="Some message"/>
 </Demo>
 
+Vergil is able to parse `message` for a minimal set of Markdown-like tags, as well as line breaks inside template strings. Available tags syntax is shown in the next table.
+
+| Syntax      | Effect |
+| ----------- | ------ |
+| `**<str>**` | `str` is displayed with bold font |
+| `//<str>//` | `str` is displayed in italics |
+| `[[<str>]]` | `str` is displayed inside an inline block |
+
+```vue
+<Alert message="Service Number **[[01928-19912-JK]]**" icon="coronavirus"/>
+```
+<Demo>
+    <Alert message="Service Number **[[01928-19912-JK]]**" icon="coronavirus"/>
+</Demo>
+
 ### Details <Badge type="tip"><pre>details: string = ''</pre></Badge>
 
 :::tip
@@ -52,6 +67,8 @@ When passing `details`, the `message` will be displayed as a header for the aler
 <Demo>
     <Alert message="Message Header" details="Message details..."/>
 </Demo>
+
+When providing `details`, Vergil only parses Markdown-like tags in the `details` prop.
 
 ### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
 
