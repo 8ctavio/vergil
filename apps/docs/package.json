@@ -1,21 +1,21 @@
 {
-    "name": "@vergil/docs",
-    "version": "0.3.0",
-    "license": "UNLICENSED",
-    "private": true,
-    "author": {
-        "name": "8ctavio Araiza",
-        "url": "https://github.com/8ctavio"
-    },
-    "homepage": "https://github.com/8ctavio/vergil",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/8ctavio/vergil",
-        "directory": "apps/docs"
-    },
-    "bugs": "https://github.com/8ctavio/vergil/issues",
-    "main": "index.js",
-    "dependencies": {
-        "@8ctavio/vergil": "workspace:*"
-    }
+	"name": "@vergil/docs",
+	"version": "0.4.0",
+	"license": "UNLICENSED",
+	"private": true,
+	"author": {
+		"name": "8ctavio Araiza",
+		"url": "https://github.com/8ctavio"
+	},
+	"homepage": "https://github.com/8ctavio/vergil",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/8ctavio/vergil",
+		"directory": "apps/docs"
+	},
+	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"main": "index.js",
+	"dependencies": {
+		"@8ctavio/vergil": "workspace:*"
+	}
 }
