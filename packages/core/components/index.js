@@ -10,8 +10,6 @@ export { default as PopupBackdrop } from './popup/PopupBackdrop.vue'
 export { default as Toast } from './toast/Toast.vue'
 export { default as Toaster } from './toast/Toaster.vue'
 
-export { default as Backdrop } from './Backdrop.vue'
-
 //---------- Form Components ----------
 export { default as Checkbox } from './form-components/Checkbox.vue'
 export { default as Radio } from './form-components/Radio.vue'

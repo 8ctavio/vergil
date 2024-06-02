@@ -101,17 +101,15 @@ defineProps({
                             0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
 
-    font-weight: 500;
-    line-height: normal;
-
     position: relative;
     display: grid;
+    box-sizing: border-box;
     grid-auto-flow: column;
-
+    
     border: none;
-
     box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
-
+    font-weight: 500;
+    line-height: normal;
     cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
 
@@ -154,6 +152,7 @@ defineProps({
     & > .icon{
         font-size: 1em;
         line-height: inherit;
+        align-self: stretch;
         aspect-ratio: 1 / 1;
         transition: color 150ms;
     }

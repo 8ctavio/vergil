@@ -34,7 +34,7 @@ defineProps({
     max-height: 95vh;
     border-radius: var(--border-radius-lg);
     background-color: var(--c-bg);
-	box-shadow: 4px 4px 4px #50505050;
+	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
     & > .popup-head{
         display: grid;
@@ -71,6 +71,5 @@ defineProps({
 }
 .dark .popup{
     border: 1px solid var(--c-grey-soft-2);
-    box-shadow: 4px 4px 4px #00000070;
 }
 </style>

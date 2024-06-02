@@ -86,14 +86,12 @@ defineProps({
 
 <style>
 .btn{
-    font-weight: 500;
-    line-height: normal;
-
     position: relative;
     border: none;
-    outline: 0 solid transparent;
-
+    font-weight: 500;
+    line-height: normal;
     cursor: pointer;
+    outline: 0 solid transparent;
     transition: background-color 150ms, color 150ms, border 150ms, box-shadow 150ms;
 
     &:focus-visible{

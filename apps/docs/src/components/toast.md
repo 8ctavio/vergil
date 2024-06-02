@@ -14,7 +14,7 @@ import { ref } from 'vue'
 import { toast } from '@8ctavio/vergil'
 
 const theme = ref('brand')
-console.time('duration')
+console.time('toast-duration')
 </script>
 
 <Demo>
@@ -109,11 +109,11 @@ There are aliases available for some `theme` prop values:
 The `duration` prop specifies the number of **seconds** elapsed since `Toast` is mounted, before it emmits a `close` event. If no duration is specified, the event won't be emmited on a time-out basis.
 
 ```vue
-<Toast message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
+<Toast message="Check the console!" :duration="5" @close="console.timeEnd('toast-duration')"/>
 ```
 
 <Demo>
-    <Toast message="Check the console!" :duration="5" @close="console.timeEnd('duration')"/>
+    <Toast message="Check the console!" :duration="5" @close="console.timeEnd('toast-duration')"/>
 </Demo>
 
 ## API Reference

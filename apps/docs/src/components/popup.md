@@ -11,6 +11,7 @@ outline: [2,3]
 <script setup>
 import { Popup, Btn, Btn3D } from '@8ctavio/vergil/components'
 import PopupDemo from '@components/popups/PopupDemo.vue'
+import PopupSwap1 from '@components/popups/PopupSwap1.vue'
 import { showPopup } from '@8ctavio/vergil'
 </script>
 
@@ -69,6 +70,16 @@ import { showPopup } from '@8ctavio/vergil'
 
 showPopup(PopupComponent)
 ```
+
+#### Change Popup
+
+The `showPopup` function can be called inside a popup component. This results in the open popup component being replaced with the one specified in `showPopup`.
+
+In the following demo, two popup components have a button to change between components.
+
+<Demo>
+    <Btn variant="solid" label="Show Popup" @click="showPopup(PopupSwap1)"/>
+</Demo>
 
 ### Popup props and events
 

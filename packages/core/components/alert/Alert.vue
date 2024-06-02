@@ -1,6 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
-import MiniMarkup from "../MiniMarkup.vue"
+import MiniMarkup from "../utils/MiniMarkup.vue"
 import { ref } from 'vue'
 import { isValidTheme, inferTheme, themeIcons } from '../../utils'
 
@@ -63,7 +63,7 @@ const playState = ref('running')
     padding: 10px;
     border-radius: var(--border-radius-md);
     background-color: white;
-    box-shadow: 3px 3px 3px #50505050;
+    box-shadow: 3px 3px 3px var(--c-box-shadow);
     overflow: hidden;
     cursor: default;
 
@@ -122,7 +122,6 @@ const playState = ref('running')
 .dark .alert{
     background-color: #131313;
     border: 1px solid var(--c-grey-soft-1);
-    box-shadow: 3px 3px 3px #00000070;
     & > .alert-close {
         color: rgb(255 255 255 / 0.6);
         &:hover{
