@@ -82,7 +82,7 @@ First, it is required to add the `Confirm` component somewhere in the app's temp
 `Confirm`'s backdrop `z-index` value is by default set to `50` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, a confirm request can be raised programatically with the `confirm` function
+Then, a confirm request can be raised programmatically with the `confirm` function
 
 ```js
 import { confirm } from '@8ctavio/vergil'

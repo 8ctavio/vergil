@@ -1,13 +1,12 @@
 //---------- Components API ----------
 export { alert } from './components/alert'
 export { confirm } from './components/confirm'
+export { showPopup } from './components/popup'
 export { toast } from './components/toast'
 
 //---------- FUNCTIONS ----------
 export *  from './functions'
 export *  from './functions/regex'
-
-export { showPopUp, closePopUp } from './components/pop-up'
 
 //---------- COMPOSABLES ----------
 export { extRef } from './composables/extRef'

@@ -149,7 +149,7 @@ First, it is required to add the `Toaster` component somewhere in the app's temp
 `Toaster`'s backdrop `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, toasts can be displayed programatically with the `toast` function
+Then, toasts can be displayed programmatically with the `toast` function
 
 ```js
 import { toast } from '@8ctavio/vergil'

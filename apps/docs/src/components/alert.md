@@ -149,7 +149,7 @@ First, it is required to add the `AlertFeed` component somewhere in the app's te
 `AlertFeed` backdrop `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, alerts can be displayed programatically with the `alert` function
+Then, alerts can be displayed programmatically with the `alert` function
 
 ```js
 import { alert } from '@8ctavio/vergil'

@@ -58,6 +58,7 @@ export default {
 					},
 					{ text: 'Confirm', link: '/components/confirm' },
 					{ text: 'Icon', link: '/components/icon' },
+					{ text: 'Popup', link: '/components/popup' },
 					{ text: 'Toast', link: '/components/toast' },
 				]
 			},
