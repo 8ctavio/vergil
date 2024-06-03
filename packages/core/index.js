@@ -1,5 +1,4 @@
 //---------- Components API ----------
-export { alert } from './components/alert'
 export { confirm } from './components/confirm'
 export { showPopup } from './components/popup'
 export { toast } from './components/toast'

@@ -1,0 +1,169 @@
+<script setup>
+import Toast from './Toast.vue'
+import { reactive, onMounted } from 'vue'
+import { toasters, toasterPositions } from '.'
+
+const containers = reactive({})
+toasterPositions.forEach(position => {
+    containers[position] = []
+})
+onMounted(() => {
+    toasterPositions.forEach(position => {
+        containers[position] = document.getElementById(`toaster-${position}`)
+    })
+})
+
+function closeToast(position, toast){
+    const index = toasters[position].findIndex(t => t.id === toast.id)
+    if(index > -1) toasters[position].splice(index, 1)
+}
+
+function onBeforeLeave(position, toast){
+    if(containers[position].firstChild === toast){
+        toast.classList.add('first-leave')
+    }
+    else{
+        if(position.split('-')[0] === 'top'){
+            const { top } = toast.getBoundingClientRect()
+            toast.style.top = `${top}px`
+        }
+        else{
+            const { bottom: toasterBottom } = containers[position].getBoundingClientRect()
+            const { bottom: toastBottom } = toast.getBoundingClientRect()
+            toast.style.bottom = `${toasterBottom - toastBottom}px`
+        }
+        toast.classList.add('not-first-leave')
+    }
+}
+</script>
+
+<template>
+    <div class="toasters">
+        <TransitionGroup v-for="(toaster, position) in toasters" name="toast" tag="div" :id="`toaster-${position}`" :class="['toaster', ...position.split('-')]"
+            @before-enter="() => containers[position].classList.add('enter')"
+            @after-enter="() => containers[position].classList.remove('enter')"
+            @before-leave="toast => onBeforeLeave(position, toast)"
+            >
+            <Toast v-for="toast in toaster" :key="toast.id"
+                :message="toast.message"
+                :details="toast.details"
+                :theme="toast.theme"
+                :icon="toast.icon"
+                :duration="toast.duration"
+                @close="() => closeToast(position, toast)"
+                />
+        </TransitionGroup>
+    </div>
+</template>
+
+<style>
+.toaster{
+    --toast-gap: 15px;
+    position: fixed;
+    display: flex;
+    row-gap: var(--toast-gap);
+    height: 0;
+    overflow-y: visible;
+    z-index: var(--z-index-toast);
+
+    &.top{
+        --dir: -1;
+        top: 0;
+        flex-direction: column;
+        & > .toast:first-of-type{
+            margin-top: var(--toast-gap);
+        }
+    }
+    &.bottom{
+        --dir: 1;
+        bottom: 0;
+        flex-direction: column-reverse;
+        & > .toast:first-of-type{
+            margin-bottom: var(--toast-gap);
+        }
+    }
+    &.start{
+        left: calc(var(--toast-gap) * 1.5);
+        align-items: start;
+        & > .toast.toast-leave-active{
+            left: 0;
+        }
+    }
+    &.end{
+        right: calc(var(--toast-gap) * 1.5);
+        align-items: end;
+        & > .toast.toast-leave-active{
+            right: 0;
+        }
+    }
+    &:is(.start, .end) > .toast.toast-leave-active{
+        &.first-leave{
+            transform: translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
+        }
+        &.not-first-leave{
+            transform: translateY(calc(var(--toast-gap) * 0.7 * var(--dir)));
+        }
+    }
+    &:not(.start, .end){
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+        & > .toast{
+            min-width: 300px;
+            max-width: 450px;
+
+            &.toast-leave-active{
+                left: 50%;
+                &.first-leave{
+                    transform: translateX(-50%) translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
+                }
+                &.not-first-leave{
+                    transform: translateX(-50%) translateY(calc(var(--toast-gap) * 0.7 * var(--dir)));
+                }
+            }
+        }
+    }
+
+    & > .toast{
+        flex-shrink: 0;
+
+        /*-------- toast that is entering --------*/
+        &:first-of-type{
+            &.toast-enter-active{
+                transition: transform 500ms var(--bezier-bounce-out);
+            }
+            &.toast-enter-from{
+                transform: translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
+            }
+        }
+
+        /*-------- toast that is leaving --------*/
+        &.first-leave{
+            &:is(.toast-move, .toast-leave-active){
+                transition: transform 500ms var(--bezier-bounce-in);
+            }
+            &.toast-leave-active{
+                position: absolute;
+            }
+        }
+        &.not-first-leave{
+            &:is(.toast-move, .toast-leave-active){
+                transition: transform 400ms var(--bezier-sine-in-out), opacity 350ms var(--bezier-sine-in-out);
+            }
+            &.toast-leave-active{
+                opacity: 0;
+                position: absolute;
+            }
+        }
+
+        /*-------- toasts that move while a toast is leaving --------*/
+        &:not(.first-leave, .not-first-leave).toast-move{
+            transition: transform 500ms var(--bezier-bounce-in);
+        }
+    }
+    /*-------- toasts that move while a toast is entering --------*/
+    &.enter > .toast:not(:first-of-type).toast-move{
+        transition: transform 500ms var(--bezier-bounce-out);
+    }
+}
+</style>

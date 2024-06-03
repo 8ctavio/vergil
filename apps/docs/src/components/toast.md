@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Toast
 
-> Toasts display messages at the bottom-right corner of the viewport to communicate information to the user.
+> Toasts display messages to communicate information to the user.
 
 ## Demo
 
@@ -18,7 +18,7 @@ console.time('toast-duration')
 </script>
 
 <Demo>
-    <Btn variant="solid" label="Toast" @click="toast('brand', 'Please remain calm!')"/>
+    <Btn variant="solid" label="Toast" @click="toast('Please remain calm!')"/>
 </Demo>
 
 <Demo>
@@ -128,62 +128,89 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 
 ## Toaster &#8203;
 
-Multiple toasts can be displayed simultaneously by adding them to the **toaster** (i.e., toast feed). After a toast is mounted, it can be removed from the toaster automatically after a developer defined time-out or manually through user interaction.
+Multiple `Toast`s can be displayed simultaneously by adding them to a **toaster** (i.e., toast feed).
 
-### Usage
+After a `Toast` is mounted, it can be removed from a toaster automatically after a developer defined time-out or manually through user interaction.
 
-First, it is required to add the `Toaster` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+When a `Toast` is added to a toaster, already mounted `Toast`s are displaced to free up space for the recently added `Toast`.
+
+
+### Mount toasters
+
+First, it is required to add the `Toasters` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
 
 ```vue
 <script setup>
-    import { Toaster } from '@8ctavio/vergil/components'
+import { Toasters } from '@8ctavio/vergil/components'
 </script>
 
 <template>
     <AppLayout/>
-    <Toaster/>
+    <Toasters/>
 </template>
 ```
 
 :::tip
-`Toaster`'s backdrop `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+Toasters `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, toasts can be displayed programmatically with the `toast` function
+### Programmatic use
+
+Toasts can be displayed programmatically through the `toast` function.
 
 ```js
 import { toast } from '@8ctavio/vergil'
-
-toast('warn', 'Icy conditions')
 ```
 
-### API
+It receives an `options` object, which has default values for options not specified.
 
 ```js
-function toast(theme: string, msg_opt: string | object, duration: number = 6): void
+function toast(options: {
+    position: string = 'bottom-end',
+    message: string = '',
+    details: string = '',
+    theme: string = 'brand',
+    icon: string,
+    duration: number = 6
+}): void
 ```
 
-#### Description
+- `position`: The position of the toaster the `Toast` is going to be mounted on. Possible values are:
+```js
+position: 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
+```
+- `duration`: The number of seconds a `Toast` lasts mounted.
+- `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are shown in the following table.
 
-Displays a `Toast` at the bottom-right corner of the viewport that can be hidden automatically after a time-out or manually by user interaction.
+| `theme` | default `icon` |
+| ----- | ------------ |
+| `'brand'` | `'verified'` |
+| `'ok'` | `'check_circle'` |
+| `'info'` | `'info'` |
+| `'warn'` | `'warning'` |
+| `'danger'` | `'cancel'` |
+| `'neutral'` | `'info'` |
 
-When invoked, already displayed toasts are scrolled up to free up space for the new toast to show up.
+The remaining options are the same as the `Toast`'s props.
 
-#### Parameters
+In order to reduce syntax for frequently used options, there are two additional ways to use `toast`.
 
-- `theme`: `Toast` theme.
-- `msg_opt`: As a `string` it is the `Toast`'s message. As an `object` it may contain values for some `Toast` props:
-    ```js
-    {
-        message: string,
-        details: string,
-        icon: string,
-        duration: number
-    }
-    ```
-- `duration`: Number of seconds to elapse before `Toast` is automatically hidden. Defaults to `6`.
+```js
+function toast(message: string): void
+function toast(theme: string, message: string): void
+```
+
+For instance, the following calls of `toast` result in the same `Toast` being displayed thrice.
+
+```js
+toast('Please remain calm!')
+toast('brand', 'Please remain calm!')
+toast({ message: 'Please remain calm!' })
+```
 
 ### Examples
+
+#### Different themes
 
 ```js
 toast(theme, message[theme])
@@ -198,8 +225,38 @@ toast(theme, message[theme])
     <Btn variant="solid" label="Neutral" @click="toast('neutral', 'Notification')"/>
 </Demo>
 
+
+#### Different positions
+
+```js
+toast({
+    position,
+    message: position
+})
+```
+
+<Demo>
+    <div class="positions">
+        <Btn variant="solid" label="Top-Start" @click="toast({ position: 'top-start', message: 'top-start' })"/>
+        <Btn variant="solid" label="Top" @click="toast({ position: 'top', message: 'top' })"/>
+        <Btn variant="solid" label="Top-End" @click="toast({ position: 'top-end', message: 'top-end' })"/>
+        <Btn variant="solid" label="Bottom-Start" @click="toast({ position: 'bottom-start', message: 'bottom-start' })"/>
+        <Btn variant="solid" label="Bottom" @click="toast({ position: 'bottom', message: 'bottom' })"/>
+        <Btn variant="solid" label="Bottom-End" @click="toast({ position: 'bottom-end', message: 'bottom-end' })"/>
+    </div>
+</Demo>
+
 <style>
 .demo .toast p{
     margin: 0;
+}
+.positions{
+    display: grid;
+    grid-template-columns: repeat(3,auto);    
+    justify-content: space-between;
+    align-content: space-between;
+    gap: 10px;
+    height: 150px;
+    width: 100%;
 }
 </style>

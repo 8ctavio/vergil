@@ -1,6 +1,6 @@
 <script setup>
 import Theme from 'vitepress/theme'
-import { PopupBackdrop, Confirm, AlertFeed, Toaster } from '@8ctavio/vergil/components'
+import { PopupBackdrop, Confirm, Toasters } from '@8ctavio/vergil/components'
 
 const { Layout } = Theme
 </script>
@@ -9,6 +9,5 @@ const { Layout } = Theme
     <Layout/>
     <PopupBackdrop/>
     <Confirm/>
-    <AlertFeed/>
-    <Toaster/>
+    <Toasters/>
 </template>

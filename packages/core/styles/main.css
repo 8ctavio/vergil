@@ -83,7 +83,6 @@
     --z-index-select-dropdown: 30;
     --z-index-popup: 40;
     --z-index-confirm: 50;
-    --z-index-alert: 60;
     --z-index-toast: 60;
 }
 
@@ -110,7 +109,7 @@ p, h1, h2, h3{
 }
 @keyframes move-left {
     from { transform: translateX(0); }
-    to{ transform: translateX(-100%); }
+    to{ transform: translateX(calc(-100% - 1px)); }
 }
 
 /*****************************************************************************************************

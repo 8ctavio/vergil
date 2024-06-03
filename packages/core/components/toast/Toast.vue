@@ -59,7 +59,7 @@ const playState = ref('running')
     row-gap: 5px;
     width: max-content;
     min-width: 250px;
-    max-width: 500px;
+    max-width: 350px;
     padding: 10px;
     border-radius: var(--border-radius-md);
     background-color: white;

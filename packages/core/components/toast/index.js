@@ -1,20 +1,45 @@
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { inferTheme, themeIcons } from "../../utils"
 
-const toaster = ref([])
-function toast(theme, msg_opt, duration = 6){
-    theme = inferTheme(theme)
-    toaster.value.unshift({
+const toasterPositions = [
+    'top-start',
+    'top',
+    'top-end',
+    'bottom-start',
+    'bottom',
+    'bottom-end'
+]
+const toasters = reactive({})
+toasterPositions.forEach(position => {
+    toasters[position] = []
+})
+function toast(){
+    let theme = 'brand'
+    let args = {}
+    if(arguments.length > 1){
+        theme = inferTheme(arguments[0])
+        args.message = arguments[1]
+    }
+    else if(typeof arguments[0] === 'string'){
+        args.message = arguments[0]
+    }
+    else{
+        if(arguments[0]?.theme) theme = inferTheme(arguments[0].theme)
+        args = arguments[0]
+    }
+    const position = toasterPositions.includes(args?.position) ? args.position : 'bottom-end'
+    toasters[position].unshift({
         id: Date.now().toString(),
-        message: typeof msg_opt === 'string' ? msg_opt : msg_opt.message,
-        details: msg_opt.details ?? '',
+        message: args?.message ?? '',
+        details: args?.details ?? '',
         theme,
-        icon: msg_opt.icon ?? themeIcons[theme],
-        duration: msg_opt.duration ?? duration
+        icon: args?.icon ?? themeIcons[theme],
+        duration: args?.duration ?? 6
     })
 }
 
 export {
-    toaster,
+    toasters,
+    toasterPositions,
     toast
 }

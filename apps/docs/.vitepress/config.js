@@ -48,7 +48,6 @@ export default {
 				text: 'Components',
 				collapsed: false,
 				items: [
-					{ text: 'Alert', link: '/components/alert' },
 					{
 						text: 'Buttons',
 						items: [
