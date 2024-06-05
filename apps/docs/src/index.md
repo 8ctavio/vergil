@@ -24,5 +24,5 @@ features:
     details: Comprehensive set of utility functions and constants
   - title: Forms
     details: Intuitive and powerful reactive form components API
-  # Features to add later: Theme (css variables), Server-specific utilities
+  # Features to add later: Theme (css variables), Server-specific utilities, Error handling
 ---

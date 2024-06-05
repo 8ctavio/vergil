@@ -2,7 +2,7 @@
 import Icon from '../Icon.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
 import { ref } from 'vue'
-import { isValidTheme, inferTheme, themeIcons } from '../../utils'
+import { isValidTheme, inferTheme, themeIcons } from '../../functions/utils'
 
 const props = defineProps({
     message: {

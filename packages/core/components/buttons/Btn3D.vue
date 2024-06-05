@@ -1,6 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { isValidTheme, inferTheme } from '../../utils'
+import { isValidTheme, inferTheme } from '../../functions/utils'
 
 defineProps({
     label: String,

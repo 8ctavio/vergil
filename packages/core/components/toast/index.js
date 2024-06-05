@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { inferTheme, themeIcons } from "../../utils"
+import { inferTheme, themeIcons } from "../../functions/utils"
 
 const toasterPositions = [
     'top-start',

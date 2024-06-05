@@ -1,11 +1,10 @@
+//---------- Functions ----------
+export * from './functions'
+
 //---------- Components API ----------
 export { confirm } from './components/confirm'
 export { showPopup } from './components/popup'
 export { toast } from './components/toast'
-
-//---------- FUNCTIONS ----------
-export *  from './functions'
-export *  from './functions/regex'
 
 //---------- COMPOSABLES ----------
 export { extRef } from './composables/extRef'

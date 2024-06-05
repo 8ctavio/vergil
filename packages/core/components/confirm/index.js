@@ -1,5 +1,5 @@
 import { shallowReactive } from 'vue'
-import { inferTheme, themeIcons } from "../../utils"
+import { inferTheme, themeIcons } from "../../functions/utils"
 
 const confirmModel = shallowReactive({
     show: false,
