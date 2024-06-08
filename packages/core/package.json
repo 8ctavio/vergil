@@ -18,6 +18,13 @@
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"main": "index.js",
+	"exports": {
+		".": "./index.js",
+		"./components": "./components/index.js",
+		"./regex": "./regex/index.js",
+		"./server": "./server/index.js",
+		"./styles": "./styles/main.css"
+	},
 	"peerDependencies": {
 		"vue": "^3.4.27"
 	}
