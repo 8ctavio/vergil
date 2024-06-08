@@ -2,17 +2,17 @@
 	"name": "@vergil/docs",
 	"version": "0.5.0",
 	"license": "UNLICENSED",
-	"private": true,
 	"author": {
 		"name": "8ctavio Araiza",
 		"url": "https://github.com/8ctavio"
 	},
-	"homepage": "https://github.com/8ctavio/vergil",
+	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/8ctavio/vergil",
 		"directory": "apps/docs"
 	},
+	"homepage": "https://github.com/8ctavio/vergil",	
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"main": "index.js",
 	"dependencies": {

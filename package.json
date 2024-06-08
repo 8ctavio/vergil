@@ -2,16 +2,16 @@
 	"name": "@vergil/monorepo",
 	"version": "0.5.0",
 	"license": "UNLICENSED",
-	"private": true,
 	"author": {
 		"name": "8ctavio Araiza",
 		"url": "https://github.com/8ctavio"
 	},
-	"homepage": "https://github.com/8ctavio/vergil",
+	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/8ctavio/vergil"
 	},
+	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"scripts": {
 		"docs:dev": "vitepress dev apps/docs",
@@ -20,8 +20,10 @@
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^5.0.5",
-		"vite": "^5.2.12",
+		"typescript": "^5.4.5",
+		"vite": "^5.2.13",
 		"vitepress": "1.2.3",
-		"vue": "^3.4.27"
+		"vue": "^3.4.27",
+		"vue-tsc": "^2.0.19"
 	}
 }
