@@ -21,8 +21,8 @@
 	"exports": {
 		".": "./index.js",
 		"./components": "./components/index.js",
+		"./server": "./functions/server/index.js",
 		"./regex": "./regex/index.js",
-		"./server": "./server/index.js",
 		"./styles": "./styles/main.css"
 	},
 	"peerDependencies": {

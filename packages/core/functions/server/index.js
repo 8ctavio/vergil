@@ -1,4 +1,4 @@
-import { getTimestamp } from '../functions'
+import { getTimestamp } from './..'
 
 //----------------------------------------------
 //-------------------- DATE --------------------
