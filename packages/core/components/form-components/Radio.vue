@@ -1,11 +1,9 @@
 <script setup>
-import { globalDisabler } from '../../composables/useLoaders'
-import { InputField } from '../../composables/inputFields'
 
 const emit = defineEmits(['update:modelValue'])
 const { modelValue, value } = defineProps({
     modelValue: {
-        type: [String, InputField],
+        type: [String],
         default: ''
     },
     name: String,
@@ -21,52 +19,28 @@ const { modelValue, value } = defineProps({
 })
 
 const handleChange = e => {
-    if(modelValue instanceof InputField)
-        modelValue.value = e.target.value
-    else
-        emit('update:modelValue', e.target.value)
+    emit('update:modelValue', e.target.value)
 }
 </script>
 
 <template>
-    <template v-if="(modelValue instanceof InputField)">
-        <label :class="['radio', { disabled: globalDisabler || disabled || modelValue.disabled }]">
-            <input
-                type="radio"
-                :name="name"
-                :value="value"
-                :checked="value === modelValue.value"
-                :disabled="globalDisabler || disabled || modelValue.disabled"
-                @change="handleChange"/>
-            <span class="icon">
-                <Transition :duration="150">
-                    <span v-if="value === modelValue.value" class="icon-outer">
-                        <span class="icon-inner"></span>
-                    </span>
-                </Transition>
-            </span>
-            <p><slot>{{ label }}</slot></p>
-        </label>
-    </template>
-    <template v-else>
-        <label :class="['radio', { disabled: globalDisabler || disabled }]">
-            <input
-                type="radio"
-                :name="name"
-                :value="value"
-                :checked="value === modelValue"
-                :disabled="globalDisabler || disabled"
-                @change="handleChange"/>
-            <span class="icon">
-                <Transition :duration="150">
-                    <span v-if="value === modelValue" class="icon-outer">
-                        <span class="icon-inner"></span>
-                    </span>
-                </Transition>
-            </span>
-            <p><slot>{{ label }}</slot></p>
-        </label>
-    </template>
+    <label :class="['radio', { disabled: globalDisabler || disabled }]">
+        <input
+            type="radio"
+            :name="name"
+            :value="value"
+            :checked="value === modelValue"
+            :disabled="globalDisabler || disabled"
+            @change="handleChange"/>
+        <span class="icon">
+            <Transition :duration="150">
+                <span v-if="value === modelValue" class="icon-outer">
+                    <span class="icon-inner"></span>
+                </span>
+            </Transition>
+        </span>
+        <p><slot>{{ label }}</slot></p>
+    </label>
 </template>
 
 <style scoped>

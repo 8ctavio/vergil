@@ -61,6 +61,14 @@ export default {
 				]
 			},
 			{
+				text: 'Composables',
+				collapsed: true,
+				items: [
+					{ text: 'waitFor', link: '/composables/waitFor' },
+					{ text: 'watchUntil', link: '/composables/watchUntil' },
+				]
+			},
+			{
 				text: 'Utilities',
 				collapsed: true,
 				items: [

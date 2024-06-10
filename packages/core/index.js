@@ -6,9 +6,6 @@ export { confirm } from './components/confirm'
 export { showPopup } from './components/popup'
 export { toast } from './components/toast'
 
-//---------- COMPOSABLES ----------
-export { extRef } from './composables/extRef'
-export * from './composables/inputFields'
-export * from './composables/useLoaders'
+//---------- Composables ----------
 export * from './composables/waitFor'
 export * from './composables/watchUntil'

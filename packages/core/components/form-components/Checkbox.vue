@@ -1,13 +1,11 @@
 <script setup>
 import Icon from '../Icon.vue'
 import { ref, toRef } from 'vue'
-import { globalDisabler } from '../../composables/useLoaders'
-import { InputField } from '../../composables/inputFields'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
-        type: [Boolean, String, Array, Object, InputField],
+        type: [Boolean, String, Array, Object],
         default: false
     },
     value: {
@@ -21,7 +19,7 @@ const props = defineProps({
     }
 })
 
-const modelValue = (props.modelValue instanceof InputField) ? props.modelValue : toRef(props, 'modelValue')
+const modelValue = toRef(props, 'modelValue')
 
 const isBool = typeof modelValue.value === 'boolean'
 const isString = typeof modelValue.value === 'string'
@@ -35,8 +33,7 @@ const initialChecked =  isBool ? modelValue.value :
 const checked = ref(initialChecked)
 
 function updateModelValue(v){
-    if(modelValue instanceof InputField) modelValue.value = v
-    else emit("update:modelValue", v)
+    emit("update:modelValue", v)
 }
 
 if(isObject && !(props.value in modelValue.value)){

@@ -15,6 +15,9 @@ hero:
       text: Components
       link: components/buttons/btn
     - theme: alt
+      text: Composables
+      link: composables/waitFor 
+    - theme: alt
       text: Utilities
       link: utilities/functions
 
