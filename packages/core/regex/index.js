@@ -1,31 +1,17 @@
-const reAlphabetic = /^[\p{L}\s]+$/u
-const reNotAlphabetic = /[^\p{L}\s]/u
+export const reAlphabetic = /^[\p{L}\s]+$/u
+export const reNotAlphabetic = /[^\p{L}\s]/u
 
-const reAlphanumeric = /^[\p{L}\d\s-]+$/u
-const reNotAlphanumeric = /[^\p{L}\d\s-]/u
+export const reAlphanumeric = /^[\p{L}\d-\s]+$/u
+export const reNotAlphanumeric = /[^\p{L}\d-\s]/u
 
-const reSentence = /^[\p{L}\d\s,.'-]*$/u
-const reNotSentence = /[^\p{L}\d\s,.'-]/u
+export const reDigits = /^\d+$/
+export const reNotDigit = /\D/
 
-const reNumber = /^-?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/
-const reNumeric = /^[\d\s]+$/
-const reNotNumeric = /[^\d\s]/
-const reDigits = /^\d+$/
-const reNotDigit = /\D/
+export const reEmail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
 
-const reEmail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+export const reNumber = /^-?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/
+export const reNumeric = /^[\d\.-\s]+$/
+export const reNotNumeric = /[^\d\.-\s]/
 
-export {
-    reAlphabetic,
-    reNotAlphabetic,
-    reAlphanumeric,
-    reNotAlphanumeric,
-    reSentence,
-    reNotSentence,
-    reNumber,
-    reNumeric,
-    reNotNumeric,
-    reDigits,
-    reNotDigit,
-    reEmail
-}
+export const reSentence = /^[\p{L}\d\s,.'-]*$/u
+export const reNotSentence = /[^\p{L}\d\s,.'-]/u

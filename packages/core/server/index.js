@@ -4,7 +4,7 @@ import { getTimestamp } from '../functions'
 //-------------------- DATE --------------------
 //----------------------------------------------
 /**
- * Gets a start of day timestamp (00:00:00.000) of a timestamps' date in a given timezone.
+ * Gets a start of day timestamp (00:00:00.000) of another timestamps' date in a given timezone.
  * 
  * @param { number } tzo - Timezone offset in minutes 
  * @param { number } timestamp - Reference timestamp in milliseconds. Defaults to `Date.now()`

@@ -45,7 +45,7 @@ export default {
 			},
 			{
 				text: 'Components',
-				collapsed: false,
+				collapsed: true,
 				items: [
 					{
 						text: 'Buttons',
@@ -61,8 +61,22 @@ export default {
 				]
 			},
 			{
+				text: 'Utilities',
+				collapsed: true,
+				items: [
+					{
+						text: 'Functions',
+						link: '/utilities/functions',
+						items: [
+							{ text: 'Server', link: '/utilities/server' },
+						]
+					},
+					{ text: 'Regex', link: '/utilities/regex' }
+				]
+			},
+			{
 				text: 'Form Components',
-				collapsed: false,
+				collapsed: true,
 				items: [
 					{ text: 'Checkbox', link: '/form-components/checkbox' },
 					{ text: 'Radio Button', link: '/form-components/radio' },

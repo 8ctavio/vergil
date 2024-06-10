@@ -14,6 +14,9 @@ hero:
     - theme: alt
       text: Components
       link: components/buttons/btn
+    - theme: alt
+      text: Utilities
+      link: utilities/functions
 
 features:
   - title: Components

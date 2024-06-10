@@ -5,33 +5,6 @@ import { isRef } from 'vue'
 //------------------------------------------------
 // #region
 /**
- * Capitalizes first character of a string.
- * 
- * @param { string } str
- * @returns { string } `str` with its first character capitalized
- */
-export function ucFirst(str){
-    return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
-/**
- * Trims a string and replaces consecutive white space characters (`/\s+/`) with a single space character (`" "`) or a custom separator string.
- * 
- * @param { string } str
- * @param { string } separator - String to replace white space characters with. Defaults to `" "`.
- * @returns { string } The evenly spaced (separated) string
- * 
- * @example
- * ```js
- * spaceEvenly('  Jane    Doe     ')        // 'Jane Doe'
- * spaceEvenly(' 123   456  789  ', '-')    // '123-456-789'
- * ```
- */
-export function spaceEvenly(str, separator = " "){
-    return str.trim().replace(/\s+/g, separator)
-}
-
-/**
  * Removes diacritics from a string.
  * 
  * @param { string } str 
@@ -39,11 +12,53 @@ export function spaceEvenly(str, separator = " "){
  * 
  * @example
  * ```js
- * deburr('México')  //'Mexico'
+ * deburr('México')  // 'Mexico'
  * ```
  */
 export function deburr(str){
     return str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+}
+
+/**
+ * Formats numeric string as a 10-digit phone number.
+ * 
+ * @param { string } phone
+ * @returns 10-digit phone number formatted string
+ * 
+ * @example
+ * ```js
+ * formatPhone('1234567890')  // '123 456 7890'
+ * ```
+ */
+export function formatPhone(phone){
+    return phone.length === 10 ? `${phone.slice(0,3)} ${phone.slice(3,6)} ${phone.slice(6)}` : phone
+}
+
+/**
+ * Formats a string by applying a *formatter* function to its words and joins them with a `separator` string. A **word** is considered as a sequence of alphanumerical characters (including diacritics).
+ * 
+ * @param { string } str
+ * @param { function } formatter - Formatter function to apply to every `str` words
+ * @param { string } separator - String to join formatted words with. Defaults to `" "`
+ * @returns { string } Formatted string
+ */
+export function formatWords(str, formatter, separator = " "){
+    return words(str).reduce((formatedString, word, i) => formatedString + (i?separator:"") + formatter(word, i), "")
+}
+
+/**
+ * Converts a string to kebab case. Only alphanumeric characters are considered. Diacritics are removed.
+ * 
+ * @param { string } str 
+ * @returns Kebab cased string
+ * 
+ * @example
+ * ```js
+ * kebabCase('El Cartógrafo Silencioso')  // 'el-cartografo-silencioso'
+ * ```
+ */
+export function kebabCase(str){
+    return formatWords(str, word => deburr(word).toLowerCase(), "-")
 }
 
 /**
@@ -62,33 +77,6 @@ export function prune(str){
 }
 
 /**
- * Splits a string into an array of its words. A **word** is considered as a sequence of alphanumerical characters (including diacritics).
- * 
- * @param { string } str
- * @returns { string[] } Array of words
- * 
- * @example
- * ```js
- * words('Zacatecas, Zacatecas, México')  // ['Zacatecas', 'Zacatecas', 'México]
- * ```
- */
-function words(str){
-    return str.match(/[\d\p{L}]+/gu) || []
-}
-
-/**
- * Formats a string by applying a *formatter* function to its words and joins them with a `separator` string. A **word** is considered as a sequence of alphanumerical characters (including diacritics).
- * 
- * @param { string } str
- * @param { function } formatWord - Formatter function to apply to every `str` words
- * @param { string } separator - String to join formatted words with. Defaults to `" "`
- * @returns { string } Formatted string
- */
-function formatString(str, formatWord, separator = " "){
-    return words(str).reduce((formatedString, word, i) => formatedString + (i?separator:"") + formatWord(word, i), "")
-}
-
-/**
  * Converts a string to sentence case. Only alphanumeric characters (including diacritics) are considered.
  * 
  * @param { string } str 
@@ -100,7 +88,40 @@ function formatString(str, formatWord, separator = " "){
  * ```
  */
 export function sentenceCase(str){
-    return formatString(str, (word, i) => i ? word.toLowerCase() : ucFirst(word.toLowerCase()))
+    return formatWords(str, (word, i) => i ? word.toLowerCase() : ucFirst(word.toLowerCase()))
+}
+
+/**
+ * Formats a number string by adding a `separator` string between thousands groups of the number's integer part.
+ * 
+ * @param { string | number } num
+ * @param { string } separator - String to place between thousands groups. Defaults to `','`
+ * @returns Thousands separated number string
+ * 
+ * @example
+ * ```js
+ * separateThousands(123456789)  // '123,456,789'
+ * ```
+ */
+export function separateThousands(num, separator = ','){
+    return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+?(?!\d))/g, separator)
+}
+
+/**
+ * Trims a string and replaces consecutive white space characters (`/\s+/`) with a single space character (`" "`) or a custom separator string.
+ * 
+ * @param { string } str
+ * @param { string } separator - String to replace white space characters with. Defaults to `" "`.
+ * @returns { string } Evenly spaced (separated) string
+ * 
+ * @example
+ * ```js
+ * spaceEvenly('  Jane    Doe     ')        // 'Jane Doe'
+ * spaceEvenly(' 123   456  789  ', '-')    // '123-456-789'
+ * ```
+ */
+export function spaceEvenly(str, separator = " "){
+    return str.trim().replace(/\s+/g, separator)
 }
 
 /**
@@ -115,53 +136,32 @@ export function sentenceCase(str){
  * ```
  */
 export function startCase(str){
-    return formatString(str, word => ucFirst(word.toLowerCase()))
+    return formatWords(str, word => ucFirst(word.toLowerCase()))
 }
 
 /**
- * Converts a string to kebab case. Only alphanumeric characters are considered. Diacritics are removed.
+ * Capitalizes first character of a string.
  * 
- * @param { string } str 
- * @returns Kebab cased string
- * 
- * @example
- * ```js
- * kebabCase('El Cartógrafo Silencioso')  // 'el-cartografo-silencioso'
- * ```
+ * @param { string } str
+ * @returns { string } `str` with its first character capitalized
  */
-export function kebabCase(str){
-    return formatString(str, word => deburr(word).toLowerCase(), "-")
+export function ucFirst(str){
+    return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 /**
- * Formats a number string by adding a `separator` string between thousands groups of the number's integer part.
+ * Splits a string into an array of its words. A **word** is considered as a sequence of alphanumerical characters (including diacritics).
  * 
- * @param { number | string } num
- * @param { string } separator - The string to place between thousands groups. Defaults to `','`
- * @returns Thousands separated number string
- * 
- * @example
- * ```js
- * separateThousands(123456789)  // '123,456,789'
- * ```
- */
-export function separateThousands(num, separator = ','){
-    return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+?(?!\d))/g, separator)
-}
-
-/**
- * Formats numeric string as a 10-digit phone number.
- * 
- * @param { string } phone
- * @returns 10-digit phone number formatted string
+ * @param { string } str
+ * @returns { string[] } Array of words
  * 
  * @example
  * ```js
- * formatPhone('1234567890')  // '123 456 7890'
+ * words('Zacatecas, Zacatecas, México')  // ['Zacatecas', 'Zacatecas', 'México]
  * ```
  */
-export function formatPhone(phone){
-    return phone.length === 10 ? `${phone.slice(0,3)} ${phone.slice(3,6)} ${phone.slice(6)}` : phone
+export function words(str){
+    return str.match(/[\d\p{L}]+/gu) || []
 }
 // #endregion
 
@@ -170,7 +170,7 @@ export function formatPhone(phone){
 //------------------------------------------------
 // #region
 /**
- * Verifies all provided keys are present in a given object
+ * Verifies all provided keys are present in a given object.
  * 
  * @param { object } obj - Object to perform key verification on
  * @param { string[] } required - Array of keys required to be present in `obj`
@@ -202,17 +202,17 @@ export function everyKeyInObject(obj, required, strict = true){
 //----------------------------------------------
 // #region
 /**
- * Offset a timestamp and/or convert its unit.
+ * Offset a timestamp and/or convert its time unit.
  * 
  * @param { {
- *  from: number
- *  unit: 's' | 'ms'
+ *  from: number;
+ *  unit: 's' | 'ms';
  *  offset: {
- *      s: number
- *      m: number
- *      h: number
- *      d: number
- *  }
+ *      s: number;
+ *      m: number;
+ *      h: number;
+ *      d: number;
+ *  };
  * } } options -
  *  - `from`: Reference timestamp in milliseconds to get new timestamp from. Defaults to `Date.now()`
  *  - `unit`: Time unit to convert reference timestamp to. Defaults to `'ms'`
@@ -265,7 +265,7 @@ export class AppError{
      * - `log`: Message to be logged in the console
      * - `message`: User friendly message. As an object, `message` is separated in a `title` and `details`
      */
-    constructor({ type, code = '', details, log, message }){
+    constructor({ type, log, message, code = '', details }){
         this.type = type
         this.message = message
         this.code = code
@@ -289,12 +289,12 @@ export class AppError{
 //---------------------------------------------
 // #region
 /**
- * Assesses whether a value is a valid watch source
+ * Assesses whether a value is a valid watch source.
  * 
- * @param { any } maybeWatchSource 
+ * @param { any } mayBeWatchSource 
  * @returns { boolean } `true` if `mayBeWatchSource` is a valid watch source
  */
-export function isWatchSource(maybeWatchSource){
-    return isRef(maybeWatchSource) || (typeof maybeWatchSource === 'function')
+export function isWatchSource(mayBeWatchSource){
+    return isRef(mayBeWatchSource) || (typeof mayBeWatchSource === 'function')
 }
 // #endregion
