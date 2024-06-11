@@ -24,32 +24,33 @@ export class ServerErrorFactory{
      * Throws a `ServerError` with a custom message of the form `"[ServerError] <Message title>: <Message details>"`.
      * 
      * @param { string } code - [FunctionsErrorCode](https://firebase.google.com/docs/reference/node/firebase.functions#functionserrorcode)
-     * @param { string | Error } [cause] - What causes the error
-     * @param { string } [reason] - Why was the error caused
+     * @param { (string | Error)[] } [causes] - Deductively ordered error causes
      */
-    throw(code, cause, reason){
+    throw(code, ...causes){
         let message = "[ServerError] " + {
             '<operation>': "<Message title>"
         }[this.#operation] + ": "
 
         if(code === 'unknown'){
+            const error = causes[0]
             /**
              * @TODO Log unknown errors somewhere for further revision
              */
-            console.error(cause)
-            message += `[${cause.name ?? 'UnknownError'}] ${cause.message}`
+            console.error(error)
+            message += `[${error.name ?? 'UnknownError'}] ${error.message}`
         }
         else{
-            message += [code, cause, reason].reduce((obj, key) => typeof obj === 'object' ? obj[key ?? 'default'] : obj, {
+            message += [code, ...causes].reduce((obj, key) => typeof obj === 'object' ? obj[key ?? 'default'] : obj, {
                 '<code>': {
+                    '<cause>': "<Message details>",
                     '<cause>': {
-                        '<reason>': "<Message details>",
+                        '<cause>': "<Message details>",
                         default: "<Message details>"
                     },
                     default: "<Message details>"
                 }
-            })
+            }) + '.'
         }
-        throw new ServerError(code, message, { operation, cause, reason })
+        throw new ServerError(message, this.#operation, code, causes)
     }
 }
