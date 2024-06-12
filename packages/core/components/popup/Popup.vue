@@ -1,6 +1,6 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
-import { closePopup } from '.'
+import { closePopup, popupLeaving } from '.'
 
 defineProps({
     title: String,
@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <div ref="popUp" class='popup brand'>
+    <div class='popup brand'>
         <header class="popup-head">
             <div class="controls left">
                 <slot name="controls-left"></slot>
@@ -23,12 +23,14 @@ defineProps({
         <div class="popup-wrapper">
             <slot></slot>
         </div>
+        <span v-show="popupLeaving" class="popup-overlay"></span>
     </div>
 </template>
 
 <style scoped>
 .popup{
 	font-size: var(--font-size-md);
+    position: relative;
     display: flex;
     flex-direction: column;
     max-height: 95vh;
@@ -67,6 +69,11 @@ defineProps({
             border-bottom-left-radius: var(--border-radius-lg);
             border-bottom-right-radius: var(--border-radius-lg);
         }
+    }
+    & > .popup-overlay{
+        position: absolute;
+        inset: 0;
+        background-color: transparent;
     }
 }
 .dark .popup{

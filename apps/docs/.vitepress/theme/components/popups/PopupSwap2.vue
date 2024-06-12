@@ -4,7 +4,6 @@ import PopupSwap1 from './PopupSwap1.vue'
 import { showPopup } from '@8ctavio/vergil'
 
 const emit = defineEmits(['close', 'error'])
-
 </script>
 
 <template>

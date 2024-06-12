@@ -18,7 +18,7 @@ async function doSomething(){
         <main class="popup-content">
             <p>Use the close button in the top-right corner to close the Popup.</p>
             <p>Otherwise, click the following button to close the Popup after three seconds.</p>
-            <Btn3D label="Continue" spacing="expanded" @click="doSomething" :loading="loader" :disabled="loader"/>
+            <Btn3D label="Continue" spacing="expanded" @click="doSomething" :loading="loader"/>
         </main>
     </Popup>
 </template>

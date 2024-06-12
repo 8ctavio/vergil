@@ -97,6 +97,16 @@ defineEmits([/* Define events to be handled by the API */])
 </script>
 ```
 
+:::tip
+An `isLeaving` prop is always sent to a popup component. It may be used to disable components during the popup closing animation.
+
+```js
+defineProps({
+    isLeaving: Boolean
+})
+```
+:::
+
 The keys of the object sent through `showPopup` should be
 - for props: the prop key as defined in the `defineProps` directive.
 - for events: the Pascal-case version of the event name as defined in the `defineEmits` directive, prefixed with `on`.

@@ -1,14 +1,24 @@
 <script setup>
+import { ref } from 'vue'
+
 const props = defineProps({
 	show: Boolean,
 	zIndex: String
 })
+
+const modalAnimation = ref(false)
+defineExpose({ modalAnimation })
 </script>
 
 <template>
 	<Transition v-show="show" name="modal-backdrop" appear :duration="500">
 		<div class="modal-backdrop">
-			<Transition v-show="show" name="modal-window" appear mode="out-in">
+			<Transition v-show="show" name="modal-window" appear mode="out-in"
+				@before-enter="modalAnimation = true"
+				@after-enter="modalAnimation = false"
+				@before-leave="modalAnimation = true"
+				@after-leave="modalAnimation = false"
+				>
 				<slot></slot>
 			</Transition>
 		</div>

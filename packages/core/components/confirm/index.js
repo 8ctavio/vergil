@@ -28,9 +28,7 @@ async function confirm(theme, {
     }
     confirmModel.show = true
 
-    if(confirmModel.waitingConfirmation) return null
-
-    return new Promise(resolve => {
+    return confirmModel.waitingConfirmation ? null : new Promise(resolve => {
         confirmModel.waitingConfirmation = true
         confirmModel.resolve = resolve
     })
