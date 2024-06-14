@@ -214,7 +214,7 @@ defineProps({
 
 /*-------- SOFT --------*/
 .btn3D.soft{
-    --btn3D-c-border: var(--c-theme-border-2);
+    --btn3D-c-border: var(--c-theme-border-4);
     background-color: var(--c-theme-soft-2);
     color: var(--c-theme-text-2);
 
@@ -225,12 +225,12 @@ defineProps({
 
 /*-------- OUTLINE --------*/
 .btn3D.outline{
-    --btn3D-c-border: var(--c-theme-border-2);
+    --btn3D-c-border: var(--c-theme-1);
     background-color: var(--c-grey-soft-1);
     color: var(--c-grey-text-2);
 
     &:where(:not(.borderless)){
-        border: 1px solid var(--c-theme-border-2);
+        border: 1px solid var(--c-theme-1);
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
@@ -240,6 +240,12 @@ defineProps({
     }
     &:not(:disabled) > .icon{
         color: var(--c-theme-icon-3);
+    }
+}
+.dark .btn3D.outline{
+    --btn3D-c-border: var(--c-theme-3);
+    &:where(:not(.borderless)){
+        border: 1px solid var(--c-theme-3);
     }
 }
 
