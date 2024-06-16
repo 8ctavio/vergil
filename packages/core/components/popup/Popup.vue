@@ -1,15 +1,21 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
 import { closePopup, popupLeaving } from '.'
+import { isValidTheme, inferTheme } from '../../functions/utils'
 
 defineProps({
     title: String,
+    theme: {
+        type: String,
+        default: 'brand',
+        validator: isValidTheme
+    },
     disabled: Boolean
 })
 </script>
 
 <template>
-    <div class='popup brand'>
+    <div :class="['popup', inferTheme(theme)]">
         <header class="popup-head">
             <div class="controls left">
                 <slot name="controls-left"></slot>

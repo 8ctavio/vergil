@@ -192,6 +192,54 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
     </Popup>
 </Demo>
 
+### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
+
+```vue-html
+<Popup title="Theme" :theme>
+    <main class="popup-content">
+        Content    
+    </main>
+</Popup>
+```
+
+<Demo>
+    <Popup title="Theme" theme="brand">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="user">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="ok">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="info">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="warn">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="danger">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+    <Popup title="Theme" theme="neutral">
+        <main class="popup-content">
+            Content    
+        </main>
+    </Popup>
+</Demo>
+
 ### Disabled <Badge type="tip"><pre>disabled: boolean = false</pre></Badge>
 
 The `disable` prop disables the `Popup`'s close button.
