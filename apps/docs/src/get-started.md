@@ -25,17 +25,14 @@ See [Installing a Package](https://docs.github.com/en/packages/working-with-a-gi
 
 ## Styles
 
-Vergil has its own styles sheet that style custom components and the user interface overall look. To import Vergil's styles to the project being worked on, add the following at the beginning of the project's main css file.
+To import Vergil's default theme in the project being worked on, add the following lines at the beginning of the project's main css file.
 
 ```css
 @import '@8ctavio/vergil/styles';
+@import '@8ctavio/vergil/colors/default';
 ```
 
-The theme defined in the imported css file defaults to Vergil's color theme. To customize theme, overwrite [existing css variables](https://github.com/8ctavio/vergil/blob/main/packages/core/styles/main.css).
-
-:::tip
-Use Vergil's css variables to style the underlying project Vergil is being used on.
-:::
+For more information about Vergil's theme see [Theme](/theme.md).
 
 ### Icons
 

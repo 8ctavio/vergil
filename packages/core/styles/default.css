@@ -1,4 +1,14 @@
-@import './colors.css';
+@import './colors/cobalt.css';
+@import './colors/dartmouth.css';
+@import './colors/denim.css';
+@import './colors/grey.css';
+@import './colors/indigo.css';
+@import './colors/moss.css';
+@import './colors/red.css';
+@import './colors/sky.css';
+@import './colors/teal.css';
+@import './colors/wine.css';
+@import './colors/yellow.css';
 
 /*-------- BRAND --------*/
 :root{
@@ -27,6 +37,35 @@
     --c-theme-border-4: var(--c-moss-border-4);
 
     --c-theme-outline: var(--c-moss-outline);
+}
+
+/*-------- USER --------*/
+.user{
+    --c-theme-1: var(--c-user-1);
+    --c-theme-2: var(--c-user-2);
+    --c-theme-3: var(--c-user-3);
+    --rgb-theme: var(--rgb-user);
+
+    --c-theme-soft-1: var(--c-user-soft-1);
+    --c-theme-soft-2: var(--c-user-soft-2);
+    --c-theme-soft-3: var(--c-user-soft-3);
+    --c-theme-soft-4: var(--c-user-soft-4);
+    --rgb-theme-soft: var(--rgb-user-soft);
+
+    --c-theme-text-1: var(--c-user-text-1);
+    --c-theme-text-2: var(--c-user-text-2);
+    --c-theme-text-3: var(--c-user-text-3);
+
+    --c-theme-icon-1: var(--c-user-icon-1);
+    --c-theme-icon-2: var(--c-user-icon-2);
+    --c-theme-icon-3: var(--c-user-icon-3);
+
+    --c-theme-border-1: var(--c-user-border-1);
+    --c-theme-border-2: var(--c-user-border-2);
+    --c-theme-border-3: var(--c-user-border-3);
+    --c-theme-border-4: var(--c-user-border-4);
+
+    --c-theme-outline: var(--c-user-outline);
 }
 
 /*-------- NEUTRAL --------*/

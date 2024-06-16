@@ -14,11 +14,12 @@ import { confirm, toast } from '@8ctavio/vergil'
 
 const titles = {
     brand: 'Query',
+    user: 'Query',
     ok: 'Check',
     info: 'Acknowledge',
     warn: 'Caution!',
     danger: 'Danger!',
-    neutral: 'Query',
+    neutral: 'Query'
 }
 
 const testConfirm = async theme => {
@@ -51,6 +52,7 @@ function example1(){
 
 <Demo>
     <Btn variant="solid" @click="testConfirm('brand')" label="Brand"/>
+    <Btn variant="solid" @click="testConfirm('user')" label="User"/>
     <Btn variant="solid" @click="testConfirm('ok')" label="Ok"/>
     <Btn variant="solid" @click="testConfirm('info')" label="Info"/>
     <Btn variant="solid" @click="testConfirm('warn')" label="Warn"/>
@@ -70,7 +72,7 @@ First, it is required to add the `Confirm` component somewhere in the app's temp
 
 ```vue
 <script setup>
-    import { Confirm } from '@8ctavio/vergil/components'
+import { Confirm } from '@8ctavio/vergil/components'
 </script>
 
 <template>
@@ -119,15 +121,7 @@ async function confirm(theme: string, request: {
 
 #### Parameters
 
-- `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values with available aliases are summarized in the following table.
-    | `theme`     | Aliases |
-    | ----------- | ------- |
-    | `'brand'`   | none |
-    | `'ok'`      | `'success', 'check'` |
-    | `'info'`    | `'help', 'tip'` |
-    | `'warn'`    | `'warning', 'caution'` |
-    | `'danger'`  | `'error'` |
-    | `'neutral'` | none |
+- `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values are those of the [`theme`](/theme.md#the-theme-prop) prop.
 - `title`: The request's title.
 - `description`: The request's description. Vergil is able to parse `description` for a minimal set of Markdown-like tags, as well as line breaks inside template strings (see examples below). Available tags syntax is shown in the next table.
     | Syntax      | Effect |

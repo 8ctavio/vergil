@@ -7,14 +7,14 @@ outline: [2,3]
 > Button element to handle click events
 
 <script setup>
-    import { Btn } from '@8ctavio/vergil/components'
+import { Btn } from '@8ctavio/vergil/components'
 </script>
 
 ## Basic Usage
 
 ```vue
 <script setup>
-    import { Btn } from '@8ctavio/vergil/components'
+import { Btn } from '@8ctavio/vergil/components'
 </script>
 
 <template>
@@ -64,21 +64,13 @@ Simple `Btn` text content can be specified through the default slot or the `labe
     <Btn borderless label="Borderless"/>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
-
-There are aliases available for some `theme` prop values:
-
-| Value      | Aliases |
-| ---------- | ------- |
-| `'ok'`     | `'success', 'check'` |
-| `'info'`   | `'help', 'tip'` |
-| `'warn'`   | `'warning', 'caution'` |
-| `'danger'` | `'error'` |
+### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
         <div class="row center">
             <Btn variant="default" theme="brand" label="Brand"/>
+            <Btn variant="default" theme="user" label="User"/>
             <Btn variant="default" theme="ok" label="Ok"/>
             <Btn variant="default" theme="info" label="Info"/>
             <Btn variant="default" theme="warn" label="Warn"/>
@@ -87,6 +79,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn variant="solid" theme="brand" label="Brand"/>
+            <Btn variant="solid" theme="user" label="User"/>
             <Btn variant="solid" theme="ok" label="Ok"/>
             <Btn variant="solid" theme="info" label="Info"/>
             <Btn variant="solid" theme="warn" label="Warn"/>
@@ -95,6 +88,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn variant="soft" theme="brand" label="Brand"/>
+            <Btn variant="soft" theme="user" label="User"/>
             <Btn variant="soft" theme="ok" label="Ok"/>
             <Btn variant="soft" theme="info" label="Info"/>
             <Btn variant="soft" theme="warn" label="Warn"/>
@@ -103,6 +97,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn variant="ghost" theme="brand" label="Brand"/>
+            <Btn variant="ghost" theme="user" label="User"/>
             <Btn variant="ghost" theme="ok" label="Ok"/>
             <Btn variant="ghost" theme="info" label="Info"/>
             <Btn variant="ghost" theme="warn" label="Warn"/>
@@ -111,6 +106,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn variant="text" theme="brand" label="Brand"/>
+            <Btn variant="text" theme="user" label="User"/>
             <Btn variant="text" theme="ok" label="Ok"/>
             <Btn variant="text" theme="info" label="Info"/>
             <Btn variant="text" theme="warn" label="Warn"/>
@@ -119,6 +115,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn variant="outline" theme="brand" label="Brand"/>
+            <Btn variant="outline" theme="user" label="User"/>
             <Btn variant="outline" theme="ok" label="Ok"/>
             <Btn variant="outline" theme="info" label="Info"/>
             <Btn variant="outline" theme="warn" label="Warn"/>
@@ -240,6 +237,14 @@ Adding `squared` sets padding to the same value on all sides.
 
 <Demo>
     <div class="row center">
+        <Btn label="Loading" loading theme="user" variant="default"/>
+        <Btn label="Loading" loading theme="user" variant="solid"/>
+        <Btn label="Loading" loading theme="user" variant="soft"/>
+        <Btn label="Loading" loading theme="user" variant="ghost"/>
+        <Btn label="Loading" loading theme="user" variant="text"/>
+        <Btn label="Loading" loading theme="user" variant="outline"/>
+    </div>
+    <div class="row center">
         <Btn label="Loading" loading theme="ok" variant="default"/>
         <Btn label="Loading" loading theme="ok" variant="solid"/>
         <Btn label="Loading" loading theme="ok" variant="soft"/>
@@ -320,6 +325,14 @@ Adding `squared` sets padding to the same value on all sides.
         <Btn icon="rocket_launch" theme="brand" variant="ghost"/>
         <Btn icon="rocket_launch" theme="brand" variant="text"/>
         <Btn icon="rocket_launch" theme="brand" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn icon="rocket_launch" theme="user" variant="default"/>
+        <Btn icon="rocket_launch" theme="user" variant="solid"/>
+        <Btn icon="rocket_launch" theme="user" variant="soft"/>
+        <Btn icon="rocket_launch" theme="user" variant="ghost"/>
+        <Btn icon="rocket_launch" theme="user" variant="text"/>
+        <Btn icon="rocket_launch" theme="user" variant="outline"/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="ok" variant="default"/>
@@ -417,7 +430,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `variant` | `'default' \| 'solid' \| 'soft' \| 'ghost' \| 'text' \| 'outline'` | `'default'` |
 | `fill` | `boolean` | `false` |
 | `borderless` | `boolean` | `false` |
-| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |

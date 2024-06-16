@@ -12,10 +12,11 @@
 		"url": "https://github.com/8ctavio/vergil",
 		"directory": "apps/docs"
 	},
-	"homepage": "https://github.com/8ctavio/vergil",	
+	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"main": "index.js",
 	"dependencies": {
-		"@8ctavio/vergil": "workspace:*"
+		"@8ctavio/vergil": "workspace:*",
+		"@headlessui/vue": "^1.7.22"
 	}
 }

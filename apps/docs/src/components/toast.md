@@ -70,16 +70,7 @@ When passing `details`, the `message` will be displayed as a header for the toas
 
 When providing `details`, Vergil only parses Markdown-like tags in the `details` prop.
 
-### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
-
-There are aliases available for some `theme` prop values:
-
-| Value      | Aliases |
-| ---------- | ------- |
-| `'ok'`     | `'success', 'check'` |
-| `'info'`   | `'help', 'tip'` |
-| `'warn'`   | `'warning', 'caution'` |
-| `'danger'` | `'error'` |
+### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
 
 ```vue
 <Toast message="Toast message" :theme/>
@@ -87,6 +78,7 @@ There are aliases available for some `theme` prop values:
 
 <Demo>
     <Toast message="Toast message" theme="brand"/>
+    <Toast message="Toast message" theme="user"/>
     <Toast message="Toast message" theme="ok"/>
     <Toast message="Toast message" theme="info"/>
     <Toast message="Toast message" theme="warn"/>
@@ -122,7 +114,7 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 | ---- | ---- | ------- |
 | `message` | `string` | `''` |
 | `details` | `string` | `''` |
-| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `icon` | `string` | `''` |
 | `duration` | `number` | `undefined` |
 
@@ -185,6 +177,7 @@ position: 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-
 | `theme` | default `icon` |
 | ----- | ------------ |
 | `'brand'` | `'verified'` |
+| `'user'` | `'verified'` |
 | `'ok'` | `'check_circle'` |
 | `'info'` | `'info'` |
 | `'warn'` | `'warning'` |
@@ -218,6 +211,7 @@ toast(theme, message[theme])
 
 <Demo>
     <Btn variant="solid" label="Brand" @click="toast('brand', 'Welcome!')"/>
+    <Btn variant="solid" label="User" @click="toast('user', 'Welcome!')"/>
     <Btn variant="solid" label="Ok" @click="toast('ok', 'Success!')"/>
     <Btn variant="solid" label="Info" @click="toast('info', 'Attention!')"/>
     <Btn variant="solid" label="Warn" @click="toast('warn', 'Warning!')"/>

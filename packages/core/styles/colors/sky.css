@@ -1,0 +1,49 @@
+:root{
+    --c-sky-1: #0070AB;
+    --c-sky-2: #00639C;
+    --c-sky-3: #00578F;
+    --rgb-sky: 0 112 171;
+
+    --c-sky-soft-1: #F5FBFF;
+    --c-sky-soft-2: #D9F0FF;
+    --c-sky-soft-3: #CCEBFF;
+    --c-sky-soft-4: #BDE4FF;
+    --rgb-sky-soft: 217 240 255;
+
+    --c-sky-text-1: white;
+    --c-sky-text-2: var(--c-sky-3);
+    --c-sky-text-3: var(--c-sky-1);
+
+    --c-sky-icon-1: var(--c-sky-soft-1);
+    --c-sky-icon-2: var(--c-sky-2);
+    --c-sky-icon-3: var(--c-sky-text-3);
+
+    --c-sky-border-1: #3989C7;
+    --c-sky-border-2: var(--c-sky-1);
+    --c-sky-border-3: var(--c-sky-3);
+    --c-sky-border-4: #99D6FF;
+
+    --c-sky-outline: #B8CCD9;
+}
+.dark{
+    --c-sky-1: #00578F;
+    --c-sky-2: #00639C;
+    --c-sky-3: #0070AB;
+    --rgb-sky: 148 180 132;
+    
+    --c-sky-soft-1: #002945;
+    --c-sky-soft-2: #003450;
+    --c-sky-soft-3: #103F5C;
+    --c-sky-soft-4: #204A69;
+    --rgb-sky-soft: 53 62 47;
+
+    --c-sky-text-2: #CCEBFF;
+    --c-sky-text-3: #BDE4FF;
+
+    --c-sky-icon-1: var(--c-sky-text-2);
+
+    --c-sky-border-1: #8FD0FF;
+    --c-sky-border-2: var(--c-sky-text-3);
+    --c-sky-border-3: #003f66;
+    --c-sky-border-4: var(--c-sky-soft-1);
+}

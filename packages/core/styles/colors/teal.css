@@ -1,0 +1,49 @@
+:root{
+    --c-teal-1: #007877;
+    --c-teal-2: #006D6D;
+    --c-teal-3: #006363;
+    --rgb-teal: 0 120 119;
+
+    --c-teal-soft-1: #ECF9F9;
+    --c-teal-soft-2: #D9F2F2;
+    --c-teal-soft-3: #C6ECEC;
+    --c-teal-soft-4: #B3E5E6;
+    --rgb-teal-soft: 217 242 242;
+
+    --c-teal-text-1: white;
+    --c-teal-text-2: var(--c-teal-3);
+    --c-teal-text-3: var(--c-teal-1);
+
+    --c-teal-icon-1: var(--c-teal-soft-1);
+    --c-teal-icon-2: var(--c-teal-2);
+    --c-teal-icon-3: var(--c-teal-text-3);
+
+    --c-teal-border-1: #009999;
+    --c-teal-border-2: var(--c-teal-1);
+    --c-teal-border-3: var(--c-teal-3);
+    --c-teal-border-4: var(--c-teal-soft-4);
+
+    --c-teal-outline: #90C2C3;
+}
+.dark{
+    --c-teal-1: #006363;
+    --c-teal-2: #006D6D;
+    --c-teal-3: #007877;
+    --rgb-teal: 148 180 132;
+    
+    --c-teal-soft-1: #002929;
+    --c-teal-soft-2: #003333;
+    --c-teal-soft-3: #004040;
+    --c-teal-soft-4: #004D4D;
+    --rgb-teal-soft: 53 62 47;
+
+    --c-teal-text-2: #B3E5E6;
+    --c-teal-text-3: var(--c-teal-text-2);
+
+    --c-teal-icon-1: var(--c-teal-text-2);
+
+    --c-teal-border-1: #79D1D2;
+    --c-teal-border-2: var(--c-teal-text-3);
+    --c-teal-border-3: #004747;
+    --c-teal-border-4: var(--c-teal-soft-1);
+}

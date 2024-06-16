@@ -39,10 +39,8 @@ export default {
 		],
 
 		sidebar: [
-			{
-				text: 'Get Started',
-				link: '/get-started'
-			},
+			{ text: 'Get Started', link: '/get-started' },
+			{ text: 'Theme', link: '/theme' },
 			{
 				text: 'Components',
 				collapsed: true,

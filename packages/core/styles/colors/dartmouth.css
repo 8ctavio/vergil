@@ -1,0 +1,49 @@
+:root{
+    --c-dartmouth-1: #177A4E;
+    --c-dartmouth-2: #006D43;
+    --c-dartmouth-3: #006037;
+    --rgb-dartmouth: 24 121 78;
+
+    --c-dartmouth-soft-1: #DDF3DF;
+    --c-dartmouth-soft-2: #B9F0BD;
+    --c-dartmouth-soft-3: #ABE2AF;
+    --c-dartmouth-soft-4: #9ED3A2;
+    --rgb-dartmouth-soft: 185 240 189;
+
+    --c-dartmouth-text-1: white;
+    --c-dartmouth-text-2: var(--c-dartmouth-3);
+    --c-dartmouth-text-3: var(--c-dartmouth-1);
+
+    --c-dartmouth-icon-1: var(--c-dartmouth-soft-1);
+    --c-dartmouth-icon-2: var(--c-dartmouth-text-2);
+    --c-dartmouth-icon-3: var(--c-dartmouth-text-3);
+
+    --c-dartmouth-border-1: #399467;
+    --c-dartmouth-border-2: var(--c-dartmouth-1);
+    --c-dartmouth-border-3: var(--c-dartmouth-3);
+    --c-dartmouth-border-4: #84C889;
+    
+    --c-dartmouth-outline: #83B888;
+}
+.dark{
+    --c-dartmouth-1: #006037;
+    --c-dartmouth-2: #196C41;
+    --c-dartmouth-3: #29784D;
+    --rgb-dartmouth: 0 96 55;
+
+    --c-dartmouth-soft-1: #1B352C;
+    --c-dartmouth-soft-2: #264136;
+    --c-dartmouth-soft-3: #314C42;
+    --c-dartmouth-soft-4: #3C584D;
+    --rgb-dartmouth-soft: 27 53 44;
+
+    --c-dartmouth-text-2: #A3F4C1;
+    --c-dartmouth-text-3: #6DBB8B;
+
+    --c-dartmouth-icon-1: var(--c-dartmouth-text-2);
+
+    --c-dartmouth-border-1: #5FAE7E;
+    --c-dartmouth-border-2: var(--c-dartmouth-text-3);
+    --c-dartmouth-border-3: #004728;
+    --c-dartmouth-border-4: #1C3028;
+}

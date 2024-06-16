@@ -26,6 +26,7 @@
 :root {
 	--vp-c-bg: var(--c-bg);
 	--vp-c-bg-alt: var(--c-bg-alt);
+	--vp-c-bg-soft: var(--c-bg-alt);
 }
 
 /**

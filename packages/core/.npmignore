@@ -6,3 +6,5 @@ node_modules
 
 .npmrc
 functions/templates
+
+styles/color-palette.md

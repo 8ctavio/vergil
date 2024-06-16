@@ -1,6 +1,7 @@
 function isValidTheme(theme){
     return [
         'brand',
+        'user',
         'ok', 'success', 'check',
         'info', 'help', 'tip',
         'warn', 'warning', 'caution',
@@ -12,6 +13,8 @@ function isValidTheme(theme){
 function inferTheme(theme){
     if(['brand'].includes(theme))
         return 'brand'
+    if(['user'].includes(theme))
+        return 'user'
     if(['ok', 'success', 'check'].includes(theme))
         return 'ok'    
     if(['info', 'help', 'tip'].includes(theme))
@@ -25,6 +28,7 @@ function inferTheme(theme){
 
 const themeIcons = {
     brand: 'verified',
+    user: 'verified',
     ok: 'check_circle',
     info: 'info',
     warn: 'warning',

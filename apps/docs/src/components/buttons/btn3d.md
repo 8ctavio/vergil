@@ -7,14 +7,14 @@ outline: [2,3]
 > Button with 3D effect
 
 <script setup>
-    import { Btn3D } from '@8ctavio/vergil/components'
+import { Btn3D } from '@8ctavio/vergil/components'
 </script>
 
 ## Basic Usage
 
 ```vue
 <script setup>
-    import { Btn3D } from '@8ctavio/vergil/components'
+import { Btn3D } from '@8ctavio/vergil/components'
 </script>
 
 <template>
@@ -52,21 +52,13 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
     <Btn3D variant="outline" borderless label="Borderless"/>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: ('brand' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral') = 'brand'</pre></Badge>
-
-There are aliases available for some `theme` prop values:
-
-| Value      | Aliases |
-| ---------- | ------- |
-| `'ok'`     | `'success', 'check'` |
-| `'info'`   | `'help', 'tip'` |
-| `'warn'`   | `'warning', 'caution'` |
-| `'danger'` | `'error'` |
+### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
         <div class="row center">
             <Btn3D variant="solid" theme="brand" label="Brand"/>
+            <Btn3D variant="solid" theme="user" label="User"/>
             <Btn3D variant="solid" theme="ok" label="Ok"/>
             <Btn3D variant="solid" theme="info" label="Info"/>
             <Btn3D variant="solid" theme="warn" label="Warn"/>
@@ -75,6 +67,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn3D variant="soft" theme="brand" label="Brand"/>
+            <Btn3D variant="soft" theme="user" label="User"/>
             <Btn3D variant="soft" theme="ok" label="Ok"/>
             <Btn3D variant="soft" theme="info" label="Info"/>
             <Btn3D variant="soft" theme="warn" label="Warn"/>
@@ -83,6 +76,7 @@ There are aliases available for some `theme` prop values:
         </div>
         <div class="row center">
             <Btn3D variant="outline" theme="brand" label="Brand"/>
+            <Btn3D variant="outline" theme="user" label="User"/>
             <Btn3D variant="outline" theme="ok" label="Ok"/>
             <Btn3D variant="outline" theme="info" label="Info"/>
             <Btn3D variant="outline" theme="warn" label="Warn"/>
@@ -198,6 +192,11 @@ Adding `squared` sets padding to the same value on all sides.
 
 <Demo>
     <div class="row center">
+        <Btn3D label="Loading" loading theme="user" variant="solid"/>
+        <Btn3D label="Loading" loading theme="user" variant="soft"/>
+        <Btn3D label="Loading" loading theme="user" variant="outline"/>
+    </div>
+    <div class="row center">
         <Btn3D label="Loading" loading theme="ok" variant="solid"/>
         <Btn3D label="Loading" loading theme="ok" variant="soft"/>
         <Btn3D label="Loading" loading theme="ok" variant="outline"/>
@@ -260,6 +259,11 @@ Adding `squared` sets padding to the same value on all sides.
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="outline"/>
+    </div>
+    <div class="row center">
+        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="solid"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="soft"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="outline"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="solid"/>
@@ -338,7 +342,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `label` | `string` | `''` |
 | `variant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` |
 | `borderless` | `boolean` | `false` |
-| `theme` | `'brand' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
