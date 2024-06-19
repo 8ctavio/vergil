@@ -21,14 +21,17 @@
 	"exports": {
 		".": "./index.js",
 		"./components": "./components/index.js",
-		"./regex": "./regex/index.js",
 		"./server": "./functions/server/index.js",
+		"./*": "./lib/*.js",
+		"./plugins": "./plugins/index.js",
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
-		"./colors/default": "./styles/default.css",
-		"./userTheme": "./plugins/userTheme.js"
+		"./colors/default": "./styles/default.css"
 	},
 	"peerDependencies": {
 		"vue": "^3.4.27"
+	},
+	"dependencies": {
+		"is-plain-obj": "^4.1.0"
 	}
 }

@@ -2,7 +2,9 @@
 import Icon from '../Icon.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
 import { ref } from 'vue'
-import { isValidTheme, inferTheme, themeIcons } from '../../functions/utils'
+import { vergil } from '../../vergil'
+import { inferTheme } from '../../functions/utils'
+import { isValidTheme } from '../../functions/utils/validators'
 
 const props = defineProps({
     message: {
@@ -12,15 +14,13 @@ const props = defineProps({
     details: String,
     theme: {
         type: String,
-        default: 'brand',
+        default: () => vergil.config.toast.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     icon: String,
     duration: {
         type: Number,
-        validator(value, props){
-            return value > 0
-        }
+        validator: v => v > 0
     }
 })
 defineEmits(['close'])
@@ -30,7 +30,7 @@ const playState = ref('running')
 
 <template>
     <div :class="['toast', theme]" @mouseenter="playState = 'paused'" @mouseleave="playState = 'running'">
-        <Icon :code="icon || themeIcons[theme]"/>
+        <Icon :code="icon || vergil.config.toast.icon[theme] || vergil.config.global.icon[theme]"/>
         <p class="toast-message" :class="{ title: details }">
             <template v-if="details">{{ message }}</template>
             <template v-else>

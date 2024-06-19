@@ -1,49 +1,47 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { isValidTheme, inferTheme } from '../../functions/utils'
+import { vergil } from '../../vergil';
+import { inferTheme } from '../../functions/utils'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant, } from '../../functions/utils/validators'
 
 defineProps({
     label: String,
     variant: {
         type: String,
-        default: 'default',
-        validator(value, props){
-            return ['default', 'solid', 'soft', 'ghost', 'text', 'outline'].includes(value)
-        }
+        default: () => vergil.config.btn.variant,
+        validator: v => isValidVariant('Btn', v)
     },
-    fill: Boolean,
-    borderless: Boolean,
+    fill: {
+        type: Boolean,
+        default: () => vergil.config.btn.fill
+    },
+    borderless: {
+        type: Boolean,
+        default: () => vergil.config.btn.borderless
+    },
     theme: {
         type: String,
-        default: 'brand',
+        default: () => vergil.config.btn.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: 'md',
-        validator(value, props){
-            return ['sm', 'md', 'lg', 'xl'].includes(value)
-        }
+        default: () => vergil.config.btn.size ?? vergil.config.global.size,
+        validator: isValidSize
     },
     radius: {
         type: String,
-        default: 'md',
-        validator(value, props){
-            return ['none', 'sm', 'md', 'lg', 'full'].includes(value)
-        }
+        default: () => vergil.config.btn.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: '',
-        validator(value, props){
-            return ['', 'compact', 'expanded'].includes(value)
-        }
+        default: () => vergil.config.btn.spacing ?? vergil.config.global.spacing,
+        validator: isValidSpacing
     },
     squared: {
         type: Boolean,
-        default(props){
-            return Boolean(!props.label && props.icon)
-        }
+        default: props => vergil.config.btn.squared || Boolean(!props.label && props.icon)
     },
     icon: String,
     iconLeft: String,

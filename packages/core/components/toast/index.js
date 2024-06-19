@@ -1,20 +1,10 @@
 import { reactive } from 'vue'
-import { inferTheme, themeIcons } from "../../functions/utils"
+import { vergil } from '../../vergil'
+import { inferTheme } from "../../functions/utils"
 
-const toasterPositions = [
-    'top-start',
-    'top',
-    'top-end',
-    'bottom-start',
-    'bottom',
-    'bottom-end'
-]
 const toasters = reactive({})
-toasterPositions.forEach(position => {
-    toasters[position] = []
-})
 function toast(){
-    let theme = 'brand'
+    let theme
     let args = {}
     if(arguments.length > 1){
         theme = inferTheme(arguments[0])
@@ -27,19 +17,21 @@ function toast(){
         if(arguments[0]?.theme) theme = inferTheme(arguments[0].theme)
         args = arguments[0]
     }
-    const position = toasterPositions.includes(args?.position) ? args.position : 'bottom-end'
-    toasters[position].unshift({
+    const position = 
+        vergil.config.toaster.positions.includes(args?.position) ? args.position
+        : vergil.config.toaster.positions.includes(vergil.config.toaster.default) ? vergil.config.toaster.default
+        : vergil.config.toaster.positions[0]
+    toasters[position]?.unshift({
         id: Date.now().toString(),
         message: args?.message ?? '',
         details: args?.details ?? '',
         theme,
-        icon: args?.icon ?? themeIcons[theme],
-        duration: args?.duration ?? 6
+        icon: args?.icon,
+        duration: args?.duration ?? vergil.config.toaster.duration
     })
 }
 
 export {
     toasters,
-    toasterPositions,
     toast
 }

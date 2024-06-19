@@ -25,9 +25,7 @@ const titles = {
 const testConfirm = async theme => {
     const confirmed = await confirm(theme, {
         title: titles[theme],
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue molestie sem ut sagittis.',
-        confirmLabel: 'Confirm',
-        declineLabel: 'Decline'
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue molestie sem ut sagittis.'
     })
     if(confirmed === true) toast('ok', 'Confirmed')
     else if(confirmed === false) toast('error', 'Declined')
@@ -113,8 +111,8 @@ else{
 async function confirm(theme: string, request: {
     title: string,
     description: string | (string | string[])[],
-    confirmLabel: string = 'Aceptar',
-    declineLabel: string = 'Cancelar',
+    confirmLabel: string = 'Accept',
+    declineLabel: string = 'Cancel',
     icon: string
 }): Promise<bool | null>
 ```

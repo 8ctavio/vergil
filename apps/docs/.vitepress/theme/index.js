@@ -5,12 +5,12 @@ import './styles/overrides.css'
 
 import AppLayout from './components/AppLayout.vue'
 import Demo from './components/Demo.vue'
-import { userTheme } from '@8ctavio/vergil/userTheme'
+import { vergil } from '@8ctavio/vergil/plugins'
 
 export default {
 	extends: DefaultTheme,
 	Layout: AppLayout,
 	enhanceApp({ app, router, siteData }) {
-		app.component('Demo', Demo).use(userTheme)
+		app.component('Demo', Demo).use(vergil)
 	}
 }

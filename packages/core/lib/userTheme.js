@@ -1,8 +1,7 @@
 import { ref, readonly } from 'vue'
+import { vergil } from '../vergil'
+import { isValidColor } from '../functions/utils/validators'
 
-const root = ref(null)
-
-const colors = ['cobalt', 'dartmouth', 'denim', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow']
 const cssVars = [
     '--c-user-1',
     '--c-user-2',
@@ -28,26 +27,16 @@ const cssVars = [
 
 const userThemeColor = ref('')
 const userThemeColorCopy = readonly(userThemeColor)
-
 function setUserThemeColor(color){
-    if(typeof color !== 'string' || !colors.includes(color)) color = 'brand'
+    if(!isValidColor(color)) color = vergil.config.userTheme.default
     cssVars.forEach(v => {
-        root.value.style.setProperty(v, `var(${v.replace('user', color)})`)
+        document.documentElement.style.setProperty(v, `var(${v.replace('user', color)})`)
     })
     localStorage.setItem('user-theme-color', color)
     userThemeColor.value = color
 }
 
-const userTheme = {
-    install(app, options){
-        root.value = document.documentElement
-        const color = localStorage.getItem('user-theme-color') ?? 'brand'
-        setUserThemeColor(color)
-    }
-}
-
 export {
-    userTheme,
     setUserThemeColor,
     userThemeColorCopy as userThemeColor
 }

@@ -1,13 +1,15 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
+import { vergil } from '../../vergil'
 import { closePopup, popupLeaving } from '.'
-import { isValidTheme, inferTheme } from '../../functions/utils'
+import { inferTheme } from '../../functions/utils'
+import { isValidTheme } from '../../functions/utils/validators'
 
 defineProps({
     title: String,
     theme: {
         type: String,
-        default: 'brand',
+        default: () => vergil.config.popup.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     disabled: Boolean

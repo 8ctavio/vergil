@@ -1,5 +1,6 @@
 import { shallowReactive } from 'vue'
-import { inferTheme, themeIcons } from "../../functions/utils"
+import { vergil } from '../../vergil'
+import { inferTheme } from "../../functions/utils"
 
 const confirmModel = shallowReactive({
     show: false,
@@ -11,15 +12,15 @@ const confirmModel = shallowReactive({
 async function confirm(theme, {
     title,
     description,
-    confirmLabel = 'Aceptar',
-    declineLabel = 'Cancelar',
+    confirmLabel = vergil.config.confirm.confirmLabel,
+    declineLabel = vergil.config.confirm.declineLabel,
     icon
 }){
     theme = inferTheme(theme)
     if(!confirmModel.waitingConfirmation){
         confirmModel.content = {
             theme,
-            icon: icon ?? themeIcons[theme],
+            icon: icon ?? vergil.config.confirm.icon[theme] ?? vergil.config.global.icon[theme],
             title,
             description,
             confirmLabel,

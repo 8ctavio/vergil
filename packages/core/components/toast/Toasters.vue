@@ -1,23 +1,24 @@
 <script setup>
 import Toast from './Toast.vue'
-import { reactive, onMounted } from 'vue'
-import { toasters, toasterPositions } from '.'
+import { onMounted, nextTick } from 'vue'
+import { vergil } from '../../vergil'
+import { syncFor } from '../../composables/waitFor'
+import { toasters } from '.'
 
-const containers = reactive({})
-toasterPositions.forEach(position => {
-    containers[position] = []
-})
-onMounted(() => {
-    toasterPositions.forEach(position => {
+const containers = {}
+onMounted(async () => {
+    await syncFor(() => vergil.isReady).toBe(true)
+    vergil.config.toaster.positions.forEach(position => {
+        toasters[position] = []
+    })
+    await nextTick()
+    vergil.config.toaster.positions.forEach(position => {
         containers[position] = document.getElementById(`toaster-${position}`)
     })
 })
 
-function closeToast(position, toast){
-    const index = toasters[position].findIndex(t => t.id === toast.id)
-    if(index > -1) toasters[position].splice(index, 1)
-}
-
+const onBeforeEnter = position => containers[position].classList.add('enter')
+const onAfterEnter = position => containers[position].classList.remove('enter')
 function onBeforeLeave(position, toast){
     if(containers[position].firstChild === toast){
         toast.classList.add('first-leave')
@@ -35,13 +36,18 @@ function onBeforeLeave(position, toast){
         toast.classList.add('not-first-leave')
     }
 }
+
+function closeToast(position, toast){
+    const index = toasters[position].findIndex(t => t.id === toast.id)
+    if(index > -1) toasters[position].splice(index, 1)
+}
 </script>
 
 <template>
     <div class="toasters">
         <TransitionGroup v-for="(toaster, position) in toasters" name="toast" tag="div" :id="`toaster-${position}`" :class="['toaster', ...position.split('-')]"
-            @before-enter="() => containers[position].classList.add('enter')"
-            @after-enter="() => containers[position].classList.remove('enter')"
+            @before-enter="() => onBeforeEnter(position)"
+            @after-enter="() => onAfterEnter(position)"
             @before-leave="toast => onBeforeLeave(position, toast)"
             >
             <Toast v-for="toast in toaster" :key="toast.id"

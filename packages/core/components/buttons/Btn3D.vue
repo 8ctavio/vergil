@@ -1,48 +1,43 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { isValidTheme, inferTheme } from '../../functions/utils'
+import { vergil } from '../../vergil'
+import { inferTheme } from '../../functions/utils'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../functions/utils/validators'
 
 defineProps({
     label: String,
     variant: {
         type: String,
-        default: 'solid',
-        validator(value, props){
-            return ['solid', 'soft', 'outline'].includes(value)
-        }
+        default: () => vergil.config.btn3D.variant,
+        validator: v => isValidVariant('Btn3D', v)
     },
-    borderless: Boolean,
+    borderless: {
+        type: Boolean,
+        default: () => vergil.config.btn3D.borderless
+    },
     theme: {
         type: String,
-        default: 'brand',
+        default: () => vergil.config.btn3D.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: 'md',
-        validator(value, props){
-            return ['sm', 'md', 'lg', 'xl'].includes(value)
-        }
+        default: () => vergil.config.btn3D.size ?? vergil.config.global.size,
+        validator: isValidSize
     },
     radius: {
         type: String,
-        default: 'md',
-        validator(value, props){
-            return ['none', 'sm', 'md', 'lg', 'full'].includes(value)
-        }
+        default: () => vergil.config.btn3D.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: '',
-        validator(value, props){
-            return ['', 'compact', 'expanded'].includes(value)
-        }
+        default:  () => vergil.config.btn3D.spacing ?? vergil.config.global.spacing,
+        validator: isValidSpacing
     },
     squared: {
         type: Boolean,
-        default(props){
-            return Boolean(!props.label && props.icon)
-        }
+        default: props => vergil.config.btn3D.squared || Boolean(!props.label && props.icon)
     },
     icon: String,
     iconLeft: String,

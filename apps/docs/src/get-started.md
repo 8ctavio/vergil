@@ -49,7 +49,7 @@ Icon codes required by Vergil components are the ones used by Material Symbols.
 In order to avoid importing fonts that may ultimately not be used, Vergil's font-family css variables value is `initial`. Thus, these variables should always be overwritten with fonts of choice. An example of this is shown next.
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10;0,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root{
     /* Overwrite css variables */
