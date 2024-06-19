@@ -64,7 +64,7 @@ Simple `Btn` text content can be specified through the default slot or the `labe
     <Btn borderless label="Borderless"/>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
+### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
@@ -430,7 +430,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `variant` | `'default' \| 'solid' \| 'soft' \| 'ghost' \| 'text' \| 'outline'` | `'default'` |
 | `fill` | `boolean` | `false` |
 | `borderless` | `boolean` | `false` |
-| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
@@ -440,3 +440,18 @@ Adding `squared` sets padding to the same value on all sides.
 | `icon` | `string` | `''` |
 | `icon-left` | `string` | `''` |
 | `icon-right` | `string` | `''` |
+
+### Configuration options
+
+The following `Btn` props' default values can be overwritten under the `btn` root-level [configuration option](/configuration).
+
+| `btn.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `variant` | |
+| `fill` | |
+| `borderless` | |
+| `theme` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
+| `spacing` | ✅ |
+| `squared` | |

@@ -19,7 +19,7 @@ function toast(){
     }
     const position = 
         vergil.config.toaster.positions.includes(args?.position) ? args.position
-        : vergil.config.toaster.positions.includes(vergil.config.toaster.default) ? vergil.config.toaster.default
+        : vergil.config.toaster.positions.includes(vergil.config.toaster.position) ? vergil.config.toaster.position
         : vergil.config.toaster.positions[0]
     toasters[position]?.unshift({
         id: Date.now().toString(),

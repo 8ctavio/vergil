@@ -52,7 +52,7 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
     <Btn3D variant="outline" borderless label="Borderless"/>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
+### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
@@ -342,7 +342,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `label` | `string` | `''` |
 | `variant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` |
 | `borderless` | `boolean` | `false` |
-| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
@@ -352,3 +352,17 @@ Adding `squared` sets padding to the same value on all sides.
 | `icon` | `string` | `''` |
 | `icon-left` | `string` | `''` |
 | `icon-right` | `string` | `''` |
+
+### Configuration options
+
+The following `Btn3D` props' default values can be overwritten under the `btn3D` root-level [configuration option](/configuration).
+
+| `btn3D.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `variant` | |
+| `borderless` | |
+| `theme` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
+| `spacing` | ✅ |
+| `squared` | |

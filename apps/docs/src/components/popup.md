@@ -192,7 +192,7 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
     </Popup>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
+### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 ```vue-html
 <Popup title="Theme" :theme>
@@ -291,6 +291,7 @@ An example of recommended styles is shown below. `clamp` values should be adjust
 | prop | type | default |
 | ---- | ---- | ------- |
 | `title` | `string` | `''` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `disabled` | `boolean` | `false` |
 
 ### Function
@@ -298,6 +299,14 @@ An example of recommended styles is shown below. `clamp` values should be adjust
 ```js
 function showPopup(component: ComponentInstance, props: object): void
 ```
+
+### Configuration options
+
+The following `Popup` props' default values can be overwritten under the `popup` root-level [configuration option](/configuration).
+
+| `popup.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `theme` | ✅ |
 
 #### Parameters
 

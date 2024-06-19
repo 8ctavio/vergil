@@ -23,6 +23,21 @@ pnpm add @8ctavio/vergil
 See [Installing a Package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
 :::
 
+## Plugin
+
+Vergil provides a `vergil` plugin that should always be installed to properly enable or initialize some features. 
+
+```js
+import { createApp } from 'vue'
+import { vergil } from '@8ctavio/vergil/plugins'
+
+const app = createApp()
+
+app.use(vergil)
+```
+
+The plugin also allows to override Vergil's default configuration. To learn more about Vergil's configuration see the [Configuration](/configuration.md) section.
+
 ## Styles
 
 To import Vergil's default theme in the project being worked on, add the following lines at the beginning of the project's main css file.
@@ -32,7 +47,7 @@ To import Vergil's default theme in the project being worked on, add the followi
 @import '@8ctavio/vergil/colors/default';
 ```
 
-For more information about Vergil's theme see [Theme](/theme.md).
+For more information about Vergil's theme see the [Theme](/theme.md) section.
 
 ### Icons
 

@@ -100,26 +100,9 @@ Therefore, to change a `theme`'s color palette, simply rename the color palette 
 
 The special `'user'` `theme` value allows to style components with a user-selected color palette. Every other `theme` is static in the sense that their color palette cannot be modified during runtime. Conversely, Vergil provides an API to programmatically update the color palette `'user'` themed components are styled with.
 
-#### Plugin
-
-First, the `userTheme` plugin should be installed.
-
-
-```js
-import { createApp } from 'vue'
-import { userTheme } from '@8ctavio/vergil/userTheme'
-
-const app = createApp()
-
-app.use(userTheme)
-```
-
-By default, selected `'user'` `theme` color palette is the same as the `'brand'` `theme` color palette.
-
-
 #### API
 
-Vergil provides a `setUserThemeColor` function and `userThemeColor` ref to handle updating `'user'` theme color palette.
+The `setUserThemeColor` function and `userThemeColor` ref help update the `'user'` theme color palette.
 
 ```ts
 type color = 'cobalt' | 'dartmouth' | 'denim' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
@@ -134,10 +117,16 @@ The `setUserThemeColor` function updates the user theme color palette. It only a
 The `userThemeColor` ref contains the current user theme color palette. It is possible for its value to be `'brand'`, in which case, the color palette used for `'user'` themed components is the same as the `'brand'` `theme` color palette.
 
 :::tip
-
 Click on the <Icon code="style"/> icon in the navigation bar to update the user theme color palette.
-
 :::
+
+#### Default theme
+
+By default, the user theme is set to `'brand'`. This can be overwrriten through the `userTheme.default` [configuration option](/configuration).
+
+#### Disable user theme
+
+User theme is enabled by default. If for the project being developed is not desired to use the user theme, it can be disabled by setting the `userTheme.enable` [configuration option](/configuration) to `false`.
 
 <style scoped>
 .icon{

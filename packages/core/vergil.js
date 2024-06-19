@@ -107,7 +107,7 @@ const vergil = {
         },
         toaster: {
             positions: ['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end'],
-            default: 'bottom-end',
+            position: 'bottom-end',
             duration: 6
         }
     },

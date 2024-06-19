@@ -30,6 +30,8 @@ features:
     details: Comprehensive set of utility functions and constants
   - title: Forms
     details: Intuitive and powerful reactive form components API
+  - title: Configurable
+    details: Customize default configuration options
   - title: Theme
     details: Carefully designed theme with accessible color palettes
   - title: Server Utilities

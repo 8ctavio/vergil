@@ -70,7 +70,7 @@ When passing `details`, the `message` will be displayed as a header for the toas
 
 When providing `details`, Vergil only parses Markdown-like tags in the `details` prop.
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme.md#the-theme-prop) = 'brand'</pre></Badge>
+### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 ```vue
 <Toast message="Toast message" :theme/>
@@ -114,9 +114,18 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 | ---- | ---- | ------- |
 | `message` | `string` | `''` |
 | `details` | `string` | `''` |
-| [`theme`](/theme.md#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `icon` | `string` | `''` |
 | `duration` | `number` | `undefined` |
+
+### Configuration options
+
+The following `Toast` props' default values can be overwritten under the `toast` root-level [configuration option](/configuration).
+
+| `toast.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `theme` | ✅ |
+| `icon.<theme>` | ✅ |
 
 ## Toaster &#8203;
 
@@ -168,21 +177,11 @@ function toast(options: {
 ```
 
 - `position`: The position of the toaster the `Toast` is going to be mounted on. Possible values are:
-```js
-position: 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
+```ts
+type position = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
 ```
 - `duration`: The number of seconds a `Toast` lasts mounted.
-- `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are shown in the following table.
-
-| `theme` | default `icon` |
-| ----- | ------------ |
-| `'brand'` | `'verified'` |
-| `'user'` | `'verified'` |
-| `'ok'` | `'check_circle'` |
-| `'info'` | `'info'` |
-| `'warn'` | `'warning'` |
-| `'danger'` | `'cancel'` |
-| `'neutral'` | `'info'` |
+- `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are found under the `global` [default configuration](/configuration#default-configuration) option.
 
 The remaining options are the same as the `Toast`'s props.
 
@@ -200,6 +199,15 @@ toast('Please remain calm!')
 toast('brand', 'Please remain calm!')
 toast({ message: 'Please remain calm!' })
 ```
+
+### Configuration options
+
+The following `toast` parameters' default values can be overwritten under the `toaster` root-level [configuration option](/configuration).
+
+- `position`
+- `duration`
+
+Additionally, only the toaster positions to be used may be specified under `toaster.positions`.
 
 ### Examples
 

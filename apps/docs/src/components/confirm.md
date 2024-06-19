@@ -110,7 +110,7 @@ else{
 ```js
 async function confirm(theme: string, request: {
     title: string,
-    description: string | (string | string[])[],
+    description: string,
     confirmLabel: string = 'Accept',
     declineLabel: string = 'Cancel',
     icon: string
@@ -119,7 +119,7 @@ async function confirm(theme: string, request: {
 
 #### Parameters
 
-- `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values are those of the [`theme`](/theme.md#the-theme-prop) prop.
+- `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values are those of the [`theme`](/theme#the-theme-prop) prop.
 - `title`: The request's title.
 - `description`: The request's description. Vergil is able to parse `description` for a minimal set of Markdown-like tags, as well as line breaks inside template strings (see examples below). Available tags syntax is shown in the next table.
     | Syntax      | Effect |
@@ -129,7 +129,7 @@ async function confirm(theme: string, request: {
     | `[[<str>]]` | `str` is displayed inside an inline block |
 - `confirmLabel`: Confirm button's label.
 - `declineLabel`: Decline button's label.
-- `icon`: Icon code.
+- `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are found under the `global` [default configuration](/configuration#default-configuration) option.
 
 #### Return value
 
@@ -143,6 +143,16 @@ A `Promise` that resolves to:
 
 Thus, if important operations are performed when the user declines a request, strict equality should be verified for the `false` return value.
 :::
+
+### Configuration options
+
+The following `confirm` parameters' default values can be overwritten under the `confirm` root-level [configuration option](/configuration).
+
+| `confirm.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `confirmLabel` | |
+| `declineLabel` | |
+| `icon.<theme>` | ✅ |
 
 ## Examples
 
