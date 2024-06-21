@@ -9,7 +9,7 @@ const emit = defineEmits(['close', 'error'])
 <template>
     <Popup title="Popup 2">
         <main class="popup-content">
-            <Btn variant="solid" label="Show Popup 1" @click="showPopup(PopupSwap1)"/>
+            <Btn label="Show Popup 1" @click="showPopup(PopupSwap1)"/>
         </main>
     </Popup>
 </template>

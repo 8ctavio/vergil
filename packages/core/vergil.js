@@ -59,7 +59,7 @@ const vergil = {
             default: 'brand'
         },
         btn: {
-            variant: 'default',
+            variant: 'solid',
             fill: undefined,
             borderless: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),

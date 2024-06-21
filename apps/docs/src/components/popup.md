@@ -16,7 +16,7 @@ import { showPopup } from '@8ctavio/vergil'
 </script>
 
 <Demo>
-    <Btn variant="solid" label="Show Popup" @click="showPopup(PopupDemo)"/>
+    <Btn label="Show Popup" @click="showPopup(PopupDemo)"/>
 </Demo>
 
 ## Usage
@@ -78,7 +78,7 @@ The `showPopup` function can be called inside a popup component. This results in
 In the following demo, two popup components have a button to change between components.
 
 <Demo>
-    <Btn variant="solid" label="Show Popup" @click="showPopup(PopupSwap1)"/>
+    <Btn label="Show Popup" @click="showPopup(PopupSwap1)"/>
 </Demo>
 
 ### Popup props and events

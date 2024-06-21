@@ -49,7 +49,6 @@ defineProps({
     disabled: Boolean,
     loading: Boolean
 })
-
 </script>
 
 <template>
@@ -70,7 +69,7 @@ defineProps({
         ]"
         :disabled="disabled || loading"
     >
-        <span v-if="variant === 'default'" class="btn-underline"></span>
+        <span v-if="variant === 'underline'" class="btn-underline"></span>
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>{{ label }}</slot>
@@ -157,7 +156,7 @@ defineProps({
         }
     }
 
-    &:where(.default, .solid) .btn-spinner{
+    &:where(.solid, .underline) .btn-spinner{
         border-color: white;
         border-top-color: rgb(0 0 0 / 0.4)
     }
@@ -176,75 +175,6 @@ defineProps({
 /*------------------------------------------------
 -------------------- VARIANTS --------------------
 ------------------------------------------------*/
-/*-------- DEFAULT --------*/
-.btn.default{
-    background-color: var(--c-grey-soft-1);
-    color: var(--c-grey-text-2);
-    overflow: hidden;
-
-    &:is(:hover, :focus-visible, .loading){
-        background-color: var(--c-theme-1);
-    }
-    &:is(:hover, :active, :focus-visible){
-        color: var(--c-theme-text-1);
-
-        &:not(:disabled) > .btn-content > .icon{
-            color: var(--c-theme-icon-1);
-        }
-    }
-    &:active:not(.loading){
-        background-color: var(--c-theme-2);
-
-        & > .btn-underline{
-            background-color: var(--c-theme-2);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
-
-        & > .btn-underline{
-            background-color: var(--c-disabled-border);
-        }
-    }
-
-    &:not(:disabled) > .btn-content > .icon{
-        color: var(--c-theme-icon-3);
-    }
-
-    /*-------- UNDERLINE --------*/
-    & > .btn-underline{
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: var(--component-border-bottom-width);
-        background-color: var(--c-theme-1);
-        transition: height 150ms, background-color 150ms;
-    }
-    &:where(.lg, .xl) > .btn-underline{
-        height: calc(var(--component-border-bottom-width) + 0.5px);
-    }
-
-    /*-------- FILL --------*/
-    &.fill:not(:disabled){
-        background-color: var(--c-grey-soft-1); 
-
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-grey-soft-1);  
-            
-            & > .btn-underline{
-                height: 100%;
-            }
-        }
-    }
-
-    /*-------- BORDERLESS --------*/
-    &.borderless > .btn-underline{
-        height: 0;
-    }
-}
-
 /*-------- SOLID --------*/
 .btn.solid{
     background-color: var(--c-theme-1);
@@ -312,29 +242,6 @@ defineProps({
     }
 }
 
-/*-------- TEXT --------*/
-.btn.text{
-    background-color: transparent;
-    color: var(--c-theme-text-3);
-
-    &:not(:disabled){
-        &:is(:hover, :focus-visible){
-            color: var(--c-theme-text-2);
-            text-decoration: underline 1.5px;
-            text-underline-offset: 3px;
-        }
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-3);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-2);
-    }
-    &.loading{
-        background-color: var(--c-theme-soft-1);
-    }
-}
-
 /*-------- OUTLINE --------*/
 .btn.outline{
     background-color: transparent;
@@ -357,6 +264,98 @@ defineProps({
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
         box-shadow: inset 0 0 0 1px var(--c-disabled-border);
+    }
+    &.loading{
+        background-color: var(--c-theme-soft-1);
+    }
+}
+
+/*-------- UNDERLINE --------*/
+.btn.underline{
+    background-color: var(--c-grey-soft-1);
+    color: var(--c-grey-text-2);
+    overflow: hidden;
+
+    &:is(:hover, :focus-visible, .loading){
+        background-color: var(--c-theme-1);
+    }
+    &:is(:hover, :active, :focus-visible){
+        color: var(--c-theme-text-1);
+
+        &:not(:disabled) > .btn-content > .icon{
+            color: var(--c-theme-icon-1);
+        }
+    }
+    &:active:not(.loading){
+        background-color: var(--c-theme-2);
+
+        & > .btn-underline{
+            background-color: var(--c-theme-2);
+        }
+    }
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-1);
+        color: var(--c-disabled-text);
+
+        & > .btn-underline{
+            background-color: var(--c-disabled-border);
+        }
+    }
+
+    &:not(:disabled) > .btn-content > .icon{
+        color: var(--c-theme-icon-3);
+    }
+
+    /*-------- UNDERLINE --------*/
+    & > .btn-underline{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: var(--component-border-bottom-width);
+        background-color: var(--c-theme-1);
+        transition: height 150ms, background-color 150ms;
+    }
+    &:where(.lg, .xl) > .btn-underline{
+        height: calc(var(--component-border-bottom-width) + 0.5px);
+    }
+
+    /*-------- FILL --------*/
+    &.fill:not(:disabled){
+        background-color: var(--c-grey-soft-1); 
+
+        &:is(:hover, :focus-visible){
+            background-color: var(--c-grey-soft-1);  
+            
+            & > .btn-underline{
+                height: 100%;
+            }
+        }
+    }
+
+    /*-------- BORDERLESS --------*/
+    &.borderless > .btn-underline{
+        height: 0;
+    }
+}
+
+/*-------- TEXT --------*/
+.btn.text{
+    background-color: transparent;
+    color: var(--c-theme-text-3);
+
+    &:not(:disabled){
+        &:is(:hover, :focus-visible){
+            color: var(--c-theme-text-2);
+            text-decoration: underline 1.5px;
+            text-underline-offset: 3px;
+        }
+        & > .btn-content > .icon{
+            color: var(--c-theme-icon-3);
+        }
+    }
+    &:disabled:not(.loading){
+        background-color: var(--c-disabled-2);
     }
     &.loading{
         background-color: var(--c-theme-soft-1);

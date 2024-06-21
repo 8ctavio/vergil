@@ -18,7 +18,7 @@ console.time('toast-duration')
 </script>
 
 <Demo>
-    <Btn variant="solid" label="Toast" @click="toast('Please remain calm!')"/>
+    <Btn label="Toast" @click="toast('Please remain calm!')"/>
 </Demo>
 
 <Demo>
@@ -218,13 +218,13 @@ toast(theme, message[theme])
 ```
 
 <Demo>
-    <Btn variant="solid" label="Brand" @click="toast('brand', 'Welcome!')"/>
-    <Btn variant="solid" label="User" @click="toast('user', 'Welcome!')"/>
-    <Btn variant="solid" label="Ok" @click="toast('ok', 'Success!')"/>
-    <Btn variant="solid" label="Info" @click="toast('info', 'Attention!')"/>
-    <Btn variant="solid" label="Warn" @click="toast('warn', 'Warning!')"/>
-    <Btn variant="solid" label="Danger" @click="toast('danger', 'Error!')"/>
-    <Btn variant="solid" label="Neutral" @click="toast('neutral', 'Notification')"/>
+    <Btn label="Brand" @click="toast('brand', 'Welcome!')"/>
+    <Btn label="User" @click="toast('user', 'Welcome!')"/>
+    <Btn label="Ok" @click="toast('ok', 'Success!')"/>
+    <Btn label="Info" @click="toast('info', 'Attention!')"/>
+    <Btn label="Warn" @click="toast('warn', 'Warning!')"/>
+    <Btn label="Danger" @click="toast('danger', 'Error!')"/>
+    <Btn label="Neutral" @click="toast('neutral', 'Notification')"/>
 </Demo>
 
 
@@ -239,12 +239,12 @@ toast({
 
 <Demo>
     <div class="positions">
-        <Btn variant="solid" label="Top-Start" @click="toast({ position: 'top-start', message: 'top-start' })"/>
-        <Btn variant="solid" label="Top" @click="toast({ position: 'top', message: 'top' })"/>
-        <Btn variant="solid" label="Top-End" @click="toast({ position: 'top-end', message: 'top-end' })"/>
-        <Btn variant="solid" label="Bottom-Start" @click="toast({ position: 'bottom-start', message: 'bottom-start' })"/>
-        <Btn variant="solid" label="Bottom" @click="toast({ position: 'bottom', message: 'bottom' })"/>
-        <Btn variant="solid" label="Bottom-End" @click="toast({ position: 'bottom-end', message: 'bottom-end' })"/>
+        <Btn label="Top-Start" @click="toast({ position: 'top-start', message: 'top-start' })"/>
+        <Btn label="Top" @click="toast({ position: 'top', message: 'top' })"/>
+        <Btn label="Top-End" @click="toast({ position: 'top-end', message: 'top-end' })"/>
+        <Btn label="Bottom-Start" @click="toast({ position: 'bottom-start', message: 'bottom-start' })"/>
+        <Btn label="Bottom" @click="toast({ position: 'bottom', message: 'bottom' })"/>
+        <Btn label="Bottom-End" @click="toast({ position: 'bottom-end', message: 'bottom-end' })"/>
     </div>
 </Demo>
 

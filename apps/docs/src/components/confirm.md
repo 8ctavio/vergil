@@ -49,13 +49,13 @@ function example1(){
 </script>
 
 <Demo>
-    <Btn variant="solid" @click="testConfirm('brand')" label="Brand"/>
-    <Btn variant="solid" @click="testConfirm('user')" label="User"/>
-    <Btn variant="solid" @click="testConfirm('ok')" label="Ok"/>
-    <Btn variant="solid" @click="testConfirm('info')" label="Info"/>
-    <Btn variant="solid" @click="testConfirm('warn')" label="Warn"/>
-    <Btn variant="solid" @click="testConfirm('danger')" label="Danger"/>
-    <Btn variant="solid" @click="testConfirm('neutral')" label="Neutral"/>
+    <Btn @click="testConfirm('brand')" label="Brand"/>
+    <Btn @click="testConfirm('user')" label="User"/>
+    <Btn @click="testConfirm('ok')" label="Ok"/>
+    <Btn @click="testConfirm('info')" label="Info"/>
+    <Btn @click="testConfirm('warn')" label="Warn"/>
+    <Btn @click="testConfirm('danger')" label="Danger"/>
+    <Btn @click="testConfirm('neutral')" label="Neutral"/>
 </Demo>
 
 ## Description
@@ -172,5 +172,5 @@ await confirm('brand', {
 ```
 
 <Demo>
-    <Btn variant="solid" label="Mayday" @click="example1"/>
+    <Btn label="Mayday" @click="example1"/>
 </Demo>

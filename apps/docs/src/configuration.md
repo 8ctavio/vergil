@@ -60,7 +60,7 @@ interface VergilConfiguration {
         default: (color | 'brand') = 'brand';
     },
     btn: {
-        variant: ('default' | 'solid' | 'soft' | 'ghost' | 'text' | 'outline') = 'default';
+        variant: ('solid' | 'soft' | 'ghost' | 'outline' | 'underline' | 'text') = 'solid';
         fill: boolean;
         borderless: boolean;
         theme: theme;
