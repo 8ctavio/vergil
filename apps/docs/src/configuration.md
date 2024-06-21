@@ -70,8 +70,8 @@ interface VergilConfiguration {
         squared: boolean;
     },
     btn3D: {
-        variant: ('solid' | 'soft' | 'outline') = 'solid';
-        borderless: boolean;
+        variant: ('solid' | 'soft' | 'plain') = 'solid';
+        bordered: boolean;
         theme: theme;
         size: size;
         radius: radius;

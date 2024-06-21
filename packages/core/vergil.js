@@ -70,7 +70,7 @@ const vergil = {
         },
         btn3D: {
             variant: 'solid',
-            borderless: undefined,
+            bordered: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,

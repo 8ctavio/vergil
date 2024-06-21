@@ -18,6 +18,6 @@ export function isValidVariant(c,v){
         case 'Btn':
             return ['solid', 'soft', 'ghost', 'outline', 'underline', 'text'].includes(v)
         case 'Btn3D':
-            return ['solid', 'soft', 'outline'].includes(v)
+            return ['solid', 'soft', 'plain'].includes(v)
     }
 }

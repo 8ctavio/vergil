@@ -35,21 +35,21 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
 <Btn3D label="Click"/>
 ```
 
-### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'outline') = 'solid'</pre></Badge>
+### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'plain') = 'solid'</pre></Badge>
 
 <Demo>
     <Btn3D variant="solid" label="Solid"/>
     <Btn3D variant="soft" label="Soft"/>
-    <Btn3D variant="outline" label="Outline"/>
+    <Btn3D variant="plain" label="Plain"/>
 </Demo>
 
-### Borderless <Badge type="tip"><pre>borderless: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "outline"</pre></Badge>
+### Bordered <Badge type="tip"><pre>bordered: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "plain"</pre></Badge>
 
 ```vue
-<Btn3D variant="outline" borderless label="Borderless"/>
+<Btn3D variant="plain" bordered label="Bordered"/>
 ```
 <Demo>
-    <Btn3D variant="outline" borderless label="Borderless"/>
+    <Btn3D variant="plain" bordered label="Bordered"/>
 </Demo>
 
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -75,13 +75,13 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
             <Btn3D variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn3D variant="outline" theme="brand" label="Brand"/>
-            <Btn3D variant="outline" theme="user" label="User"/>
-            <Btn3D variant="outline" theme="ok" label="Ok"/>
-            <Btn3D variant="outline" theme="info" label="Info"/>
-            <Btn3D variant="outline" theme="warn" label="Warn"/>
-            <Btn3D variant="outline" theme="danger" label="Danger"/>
-            <Btn3D variant="outline" theme="neutral" label="Neutral"/>
+            <Btn3D variant="plain" theme="brand" label="Brand"/>
+            <Btn3D variant="plain" theme="user" label="User"/>
+            <Btn3D variant="plain" theme="ok" label="Ok"/>
+            <Btn3D variant="plain" theme="info" label="Info"/>
+            <Btn3D variant="plain" theme="warn" label="Warn"/>
+            <Btn3D variant="plain" theme="danger" label="Danger"/>
+            <Btn3D variant="plain" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -179,7 +179,7 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D disabled label="Disabled" variant="solid"/>
     <Btn3D disabled label="Disabled" variant="soft"/>
-    <Btn3D disabled label="Disabled" variant="outline"/>
+    <Btn3D disabled label="Disabled" variant="plain"/>
 </Demo>
 
 ### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
@@ -187,39 +187,39 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D label="Loading" loading variant="solid"/>
     <Btn3D label="Loading" loading variant="soft"/>
-    <Btn3D label="Loading" loading variant="outline"/>
+    <Btn3D label="Loading" loading variant="plain"/>
 </Demo>
 
 <Demo>
     <div class="row center">
         <Btn3D label="Loading" loading theme="user" variant="solid"/>
         <Btn3D label="Loading" loading theme="user" variant="soft"/>
-        <Btn3D label="Loading" loading theme="user" variant="outline"/>
+        <Btn3D label="Loading" loading theme="user" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="ok" variant="solid"/>
         <Btn3D label="Loading" loading theme="ok" variant="soft"/>
-        <Btn3D label="Loading" loading theme="ok" variant="outline"/>
+        <Btn3D label="Loading" loading theme="ok" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="info" variant="solid"/>
         <Btn3D label="Loading" loading theme="info" variant="soft"/>
-        <Btn3D label="Loading" loading theme="info" variant="outline"/>
+        <Btn3D label="Loading" loading theme="info" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="warn" variant="solid"/>
         <Btn3D label="Loading" loading theme="warn" variant="soft"/>
-        <Btn3D label="Loading" loading theme="warn" variant="outline"/>
+        <Btn3D label="Loading" loading theme="warn" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="danger" variant="solid"/>
         <Btn3D label="Loading" loading theme="danger" variant="soft"/>
-        <Btn3D label="Loading" loading theme="danger" variant="outline"/>
+        <Btn3D label="Loading" loading theme="danger" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="neutral" variant="solid"/>
         <Btn3D label="Loading" loading theme="neutral" variant="soft"/>
-        <Btn3D label="Loading" loading theme="neutral" variant="outline"/>
+        <Btn3D label="Loading" loading theme="neutral" variant="plain"/>
     </div>
 </Demo>
 
@@ -258,37 +258,37 @@ Adding `squared` sets padding to the same value on all sides.
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="plain"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="outline"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="plain"/>
     </div>
 </Demo>
 
@@ -301,7 +301,7 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D label="Omega" icon-right="special_character" variant="solid"/>
     <Btn3D label="Omega" icon-right="special_character" variant="soft"/>
-    <Btn3D label="Omega" icon-right="special_character" variant="outline"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="plain"/>
 </Demo>
 
 <Demo>
@@ -340,8 +340,8 @@ Adding `squared` sets padding to the same value on all sides.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
-| `variant` | `'solid' \| 'soft' \| 'outline'` | `'solid'` |
-| `borderless` | `boolean` | `false` |
+| `variant` | `'solid' \| 'soft' \| 'plain'` | `'solid'` |
+| `bordered` | `boolean` | `false` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
@@ -360,7 +360,7 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 | `btn3D.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
-| `borderless` | |
+| `bordered` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |

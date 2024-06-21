@@ -11,9 +11,9 @@ defineProps({
         default: () => vergil.config.btn3D.variant,
         validator: v => isValidVariant('Btn3D', v)
     },
-    borderless: {
+    bordered: {
         type: Boolean,
-        default: () => vergil.config.btn3D.borderless
+        default: () => vergil.config.btn3D.bordered
     },
     theme: {
         type: String,
@@ -57,7 +57,7 @@ defineProps({
             `radius-${radius}`,
             spacing,
             {
-                borderless,
+                bordered,
                 squared,
                 loading,
             }
@@ -124,7 +124,6 @@ defineProps({
     }
 
     &:disabled:not(.loading){
-        border-color: var(--c-disabled-border);
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
         box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border);
@@ -179,7 +178,7 @@ defineProps({
         border-color: white;
         border-top-color: rgb(0 0 0 / 0.4)
     }
-    &:where(.soft, .outline) .btn-spinner{
+    &:where(.soft, .plain) .btn-spinner{
         border-color: var(--c-theme-soft-4);
         border-top-color: var(--c-theme-text-3);
     }
@@ -187,7 +186,7 @@ defineProps({
 .dark .btn3D{
     --btn3D-c-shadow: rgb(0 0 0 / 0.4);
 
-    &:where(.soft, .outline) .btn-spinner{
+    &:where(.soft, .plain) .btn-spinner{
         border-color: var(--c-theme-outline);
         border-top-color: var(--c-theme-soft-4)
     }
@@ -218,17 +217,18 @@ defineProps({
     }
 }
 
-/*-------- OUTLINE --------*/
-.btn3D.outline{
+/*-------- PLAIN --------*/
+.btn3D.plain{
     --btn3D-c-border: var(--c-theme-1);
     background-color: var(--c-grey-soft-1);
     color: var(--c-grey-text-2);
 
-    &:where(:not(.borderless)){
+    &.bordered{
         border: 1px solid var(--c-theme-1);
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
+        border-color: var(--c-disabled-border);
     }
     &.loading{
         background-color: var(--c-theme-soft-1);
@@ -237,10 +237,10 @@ defineProps({
         color: var(--c-theme-icon-3);
     }
 }
-.dark .btn3D.outline{
+.dark .btn3D.plain{
     --btn3D-c-border: var(--c-theme-3);
-    &:where(:not(.borderless)){
-        border: 1px solid var(--c-theme-3);
+    &:where(.bordered){
+        border-color: var(--c-theme-3);
     }
 }
 
