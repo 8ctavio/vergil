@@ -1,4 +1,5 @@
 import { isRef } from 'vue'
+import { ExtendedRef } from '../composables/extendedRef'
 
 //------------------------------------------------
 //-------------------- STRING --------------------
@@ -289,10 +290,20 @@ export class AppError{
 //---------------------------------------------
 // #region
 /**
+ * Assesses whether a value is an `ExtendedRef`
+ * 
+ * @param { any } mayBeExtendedRef
+ * @returns { boolean } `true` if `mayBeExtendedRef` is an `ExtendedRef`.
+ */
+export function isExtendedRef(mayBeExtendedRef){
+    return mayBeExtendedRef instanceof ExtendedRef
+}
+
+/**
  * Assesses whether a value is a valid watch source.
  * 
  * @param { any } mayBeWatchSource 
- * @returns { boolean } `true` if `mayBeWatchSource` is a valid watch source
+ * @returns { boolean } `true` if `mayBeWatchSource` is a valid watch source.
  */
 export function isWatchSource(mayBeWatchSource){
     return isRef(mayBeWatchSource) || (typeof mayBeWatchSource === 'function')

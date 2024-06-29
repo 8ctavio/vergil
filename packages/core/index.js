@@ -7,5 +7,6 @@ export { showPopup } from './components/popup'
 export { toast } from './components/toast'
 
 //---------- Composables ----------
+export * from './composables/extendedRef'
 export * from './composables/waitFor'
 export * from './composables/watchUntil'

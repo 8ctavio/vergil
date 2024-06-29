@@ -6,13 +6,20 @@ outline: [2,3]
 
 > Watches `sources` until `callback` returns `true` or another configurable value.
 
-### Usage
+## Usage
 
 ```js
 import { watchUnitl } from '@8ctavio/vergil'
+
+watchUntil(src, (v, oldV) => {
+    if(condition(v, oldV)){
+        // ...
+        return true  // watchUntil resolves to v
+    }
+})
 ```
 
-### Definition
+## Definition
 
 ```js
 function watchUntil(
@@ -35,14 +42,3 @@ function watchUntil(
 #### Return value
 
 A promise. Resolves to `WatchSource` value that fulfilled the callback.
-
-### Examples
-
-```js
-watchUntil(src, (v, oldV) => {
-    if(condition(v, oldV)){
-        // ...
-        return true  // watchUntil resolves to v
-    }
-})
-```

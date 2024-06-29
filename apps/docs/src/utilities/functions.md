@@ -356,6 +356,21 @@ class AppError {
 ## Ref
 
 <!-----------------------------------------------------
+-------------------- isExtendedRef --------------------
+------------------------------------------------------>
+### `isExtendedRef`
+
+> Assesses whether a value is an `ExtendedRef`
+
+```js
+function isExtendedRef(mayBeExtendedRef: any): boolean
+```
+
+#### Return value
+
+`true` if `mayBeExtendedRef` is an `ExtendedRef`.
+
+<!-----------------------------------------------------
 -------------------- isWatchSource --------------------
 ------------------------------------------------------>
 ### `isWatchSource`
