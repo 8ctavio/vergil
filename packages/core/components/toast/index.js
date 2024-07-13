@@ -3,31 +3,31 @@ import { vergil } from '../../vergil'
 import { inferTheme } from "../../functions/utils"
 
 const toasters = reactive({})
-function toast(){
+function toast(...args){
     let theme
-    let args = {}
-    if(arguments.length > 1){
-        theme = inferTheme(arguments[0])
-        args.message = arguments[1]
+    let options = {}
+    if(args.length > 1){
+        theme = inferTheme(args[0])
+        options.message = args[1]
     }
-    else if(typeof arguments[0] === 'string'){
-        args.message = arguments[0]
+    else if(typeof args[0] === 'string'){
+        options.message = args[0]
     }
     else{
-        if(arguments[0]?.theme) theme = inferTheme(arguments[0].theme)
-        args = arguments[0]
+        if(args[0]?.theme) theme = inferTheme(args[0].theme)
+        options = args[0]
     }
     const position = 
-        vergil.config.toaster.positions.includes(args?.position) ? args.position
+        vergil.config.toaster.positions.includes(options?.position) ? options.position
         : vergil.config.toaster.positions.includes(vergil.config.toaster.position) ? vergil.config.toaster.position
         : vergil.config.toaster.positions[0]
     toasters[position]?.unshift({
         id: Date.now().toString(),
-        message: args?.message ?? '',
-        details: args?.details ?? '',
+        message: options?.message ?? '',
+        details: options?.details ?? '',
         theme,
-        icon: args?.icon,
-        duration: args?.duration ?? vergil.config.toaster.duration
+        icon: options?.icon,
+        duration: options?.duration ?? vergil.config.toaster.duration
     })
 }
 
