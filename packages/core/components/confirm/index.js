@@ -14,7 +14,9 @@ async function confirm(theme, {
     description,
     confirmLabel = vergil.config.confirm.confirmLabel,
     declineLabel = vergil.config.confirm.declineLabel,
-    icon
+    icon,
+    onConfirmed = () => {},
+    onDeclined = () => {}
 }){
     theme = inferTheme(theme)
     if(!confirmModel.waitingConfirmation){
@@ -31,7 +33,14 @@ async function confirm(theme, {
 
     return confirmModel.waitingConfirmation ? null : new Promise(resolve => {
         confirmModel.waitingConfirmation = true
-        confirmModel.resolve = resolve
+        confirmModel.resolve = async response => {
+            if(response === true){
+                await onConfirmed()
+            } else if(response === false){
+                await onDeclined()
+            }
+            resolve(response)
+        }
     })
 }
 

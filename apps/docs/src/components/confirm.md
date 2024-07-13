@@ -91,19 +91,27 @@ const confirmed = await confirm('check', {
     title: 'Hello, traveler. Mombasa welcomes you!',
     description: 'Anxious? Stressed? Please remain calm. Need a health kit?',
     confirmLabel: 'I need a weapon',
-    declineLabel: 'Tell that to the covenant'
+    declineLabel: 'Tell that to the covenant',
+    onConfirmed(){
+        // User confirmed request
+    },
+    onDeclined(){
+        // User declined request
+    }
 })
 
-if(confirmed === true){
+if(confirmed === true) {
     // User confirmed request
-}
-else if(confirmed === false){
+} else if(confirmed === false){
     // User declined request
-}
-else{
+} else{
     // User tried to open a Confirm component before responding a previous request
 }
 ```
+
+:::tip
+The `onConfirmed` and `onDeclined` callbacks are (respectively) called and awaited before `confirm` resolves.
+:::
 
 ## API
 
@@ -113,7 +121,9 @@ async function confirm(theme: string, request: {
     description: string,
     confirmLabel: string = 'Accept',
     declineLabel: string = 'Cancel',
-    icon: string
+    icon: string,
+    onConfirmed: () => void | Promise<void>,
+    onDeclined: () => void | Promise<void>
 }): Promise<bool | null>
 ```
 
@@ -130,6 +140,8 @@ async function confirm(theme: string, request: {
 - `confirmLabel`: Confirm button's label.
 - `declineLabel`: Decline button's label.
 - `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are found under the `global` [default configuration](/configuration#default-configuration) option.
+- `onConfirmed`: Callback executed (and awaited, if it returns a `Promise`) before `confirm`'s `Promise` resolves if the confirm button is pressed.
+- `onDeclined`: Callback executed (and awaited, if it returns a `Promise`) before `confirm`'s `Promise` resolves if the decline button is pressed.
 
 #### Return value
 
