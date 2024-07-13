@@ -171,30 +171,58 @@ export function words(str){
 //------------------------------------------------
 // #region
 /**
- * Verifies all provided keys are present in a given object.
+ * Verifies object keys satisfy required and optional keys specification.
  * 
- * @param { object } obj - Object to perform key verification on
- * @param { string[] } required - Array of keys required to be present in `obj`
- * @param { boolean } strict - Whether to admit an object only when the required keys are the only keys in `obj`. Defaults to `true`
+ * @param { object } obj - Object to perform key verification on.
+ * @param { string[] | {
+ *  required?: string[];
+ *  optional?: string[]; 
+ * } } keys - Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
+ * @param { boolean } strict - Whether non-required keys are allowed. If optional keys are specified, object's non-required keys must be `optional` keys. Defaults to `true`.
  * @returns { boolean }
  * 
  * @example
  * ```js
+ * everyKeyInObject({ foo: '' }, ['foo'])                   // true
  * everyKeyInObject({ foo: '', bar: '' }, ['foo'])          // false
  * everyKeyInObject({ foo: '', bar: '' }, ['foo'], false)   // true
  * ```
+ * 
+ * @example
+ *  ```js
+ *  everyKeyInObject({ foo: '', bar: '', baz: '' }, {   // false
+ *      required: ['foo'],
+ *      optional: ['bar']
+ *  })
+ *  everyKeyInObject({ foo: '', bar: '', baz: '' }, {   // true
+ *      required: ['foo'],
+ *      optional: ['bar', 'baz']
+ *  })
+ *  everyKeyInObject({ bar: '' }, {                     // true
+ *      optional: ['foo', 'bar', 'baz']
+ *  })
+ * ```
  */
-export function everyKeyInObject(obj, required, strict = true){
+export function everyKeyInObject(obj, keys, strict = true){
     if(obj === null || typeof obj !== 'object') return false
-    const keys = Object.keys(obj)
-    const requiredSet = new Set(required)
-    if(keys.length < requiredSet.size) return false
-    if(strict && keys.length !== requiredSet.size) return false
-    const iterator = requiredSet.values()
-    for(const key of iterator){
-        if(!keys.includes(key)) return false
+    if(keys === null || typeof keys !== 'object') return false
+    const { required = [], optional = [] } = Array.isArray(keys) ? { required: keys } : keys
+    if(!Array.isArray(required) || !Array.isArray(optional)) return false
+
+    const providedKeys = Object.keys(obj)
+    const requiredKeys = new Set(required)
+    if(providedKeys.length < requiredKeys.size) return false
+    if(optional.length && strict){
+        const optionalKeys = new Set(optional).difference(requiredKeys)
+        if(providedKeys.length > requiredKeys.size + optionalKeys.size) return false
+        let requiredCount = 0
+        const keysOK = providedKeys.every(key => requiredKeys.has(key) ? ++requiredCount : optionalKeys.has(key))
+        const requiredOK = requiredKeys.size === requiredCount
+        return keysOK && requiredOK
+    } else {
+        if(strict && providedKeys.length !== requiredKeys.size) return false
+        return requiredKeys.isSubsetOf(providedKeys)
     }
-    return true
 }
 // #endregion
 

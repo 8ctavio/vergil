@@ -240,23 +240,49 @@ words('Zacatecas, Zacatecas, México')  // ['Zacatecas', 'Zacatecas', 'México]
 --------------------------------------------------------->
 ### `everyKeyInObject`
 
-> Verifies all provided keys are present in a given object.
+> Verifies object keys satisfy required and optional keys specification.
 
 ```js
-function everyKeyInObject(obj: object, required: string[], strict: boolean = true): boolean
+function everyKeyInObject(
+    obj: object,
+    keys: string[] | {
+        required?: string[];
+        optional?: string[];
+    },
+    strict?: boolean = true
+): boolean
 ```
 
 #### Parameters
 
 - **`obj`** — Object to perform key verification on.
-- **`required`** — Array of keys required to be present in `obj`.
-- **`strict`** — Whether to admit an object *only* when the required keys are the only keys in `obj`.
+- **`required`** —  Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
+- **`strict`** — Whether non-required keys are allowed. If optional keys are specified, object's non-required keys must be `optional` keys. Defaults to `true`.
+
+#### Return value
+
+- `if(optional.length && strict)`: Whether all required keys are a subset of object keys and all object's non-required keys are a subset of optional keys.
+- `else if(strict)`: Whether all required keys are a subset of object keys.
+- `else`: Whether all required keys are are equal to the object keys.
 
 #### Examples
 
 ```js
+everyKeyInObject({ foo: '' }, ['foo'])                   // true
 everyKeyInObject({ foo: '', bar: '' }, ['foo'])          // false
 everyKeyInObject({ foo: '', bar: '' }, ['foo'], false)   // true
+
+everyKeyInObject({ foo: '', bar: '', baz: '' }, {   
+    required: ['foo'],
+    optional: ['bar']
+}) // false
+everyKeyInObject({ foo: '', bar: '', baz: '' }, {   
+    required: ['foo'],
+    optional: ['bar', 'baz']
+}) // true
+everyKeyInObject({ bar: '' }, {                     
+    optional: ['foo', 'bar', 'baz']
+}) // true
 ```
 
 ## Date
