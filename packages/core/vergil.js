@@ -56,7 +56,7 @@ const vergil = {
         },
         userTheme: {
             enable: true,
-            default: 'brand'
+            default: 'moss'
         },
         btn: {
             variant: 'solid',
