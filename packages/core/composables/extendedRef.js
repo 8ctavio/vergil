@@ -1,29 +1,10 @@
 import { toRef, isRef, readonly, markRaw } from 'vue'
 
-/** Object property's descriptor */
-class Descriptor {
-    constructor(requestor, { value, enumerable, writable, readonly: isReadOnly }){
-        if(isRef(value)){
-            this.enumerable = enumerable ?? false
-            if(isReadOnly) value = readonly(value)
-            this.get = function(){
-                return value.value
-            }
-            this.set = function(v){
-                value.value = v
-            }
-            this.value = value
-        }
-        else{
-            this.enumerable = enumerable ?? true
-            if(typeof value === 'function'){
-                this.writable = writable ?? false
-                this.value = value.bind(requestor)
-            }
-            else{
-                this.writable = writable ?? true
-                this.value = value
-            }
+/** Object property's configuration options */
+class Options{
+    constructor(options){
+        for(const option in options){
+            this[option] = options[option]
         }
     }
 }
@@ -46,14 +27,12 @@ class ExtendedRef {
     }
 
     constructor(initial, extension = {}){
-        if(typeof extension === 'function'){
-            extension = extension((value, options) => new Descriptor(this, { ...options, value }))
-        }
-        if(typeof extension !== 'object' || extension === null){
+        if(typeof extension === 'function')
+            extension = extension((value, options) => new Options({ ...options, value }))
+        if(typeof extension !== 'object' || extension === null)
             throw new TypeError("Invalid value for 'extension' parameter")
-        }
 
-        if(initial instanceof ExtendedRef){
+        if(initial instanceof ExtendedRef) {
             // Extend ExtendedRef
             this.#ref = initial.ref
             for(const property of Object.getOwnPropertyNames(initial)){
@@ -62,23 +41,48 @@ class ExtendedRef {
                 const descriptor = Object.getOwnPropertyDescriptor(initial, property)
                 Object.defineProperty(this, property, descriptor)
                 
-                const propertyRef = initial.getRef(property)
-                if(isRef(propertyRef)) this.#refs[property] = propertyRef
+                const refProperty = initial.getRef(property)
+                if(isRef(refProperty)) this.#refs[property] = refProperty
             }
-        }
-        else{
+        } else {
             this.#ref = toRef(initial)
         }
 
-        for(const [property, value] of Object.entries(extension)){
+        for(const [property, options] of Object.entries(extension)){
             if(['ref', 'value', 'getRef'].includes(property)) continue
 
-            const descriptor = value instanceof Descriptor ? value : new Descriptor(this, { value })
-            if(isRef(descriptor.value)){
-                this.#refs[property] = descriptor.value
-                delete descriptor.value
+            const {
+                value,
+                enumerable,
+                writable,
+                readonly: isReadOnly = false
+            } = options instanceof Options ? options : { value: options }
+
+            if(isRef(value)) {
+                const refProperty = isReadOnly ? readonly(value) : value
+                this.#refs[property] = refProperty
+                Object.defineProperty(this, property, {
+                    enumerable: enumerable ?? false,
+                    get() {
+                        return refProperty.value
+                    },
+                    set(v) {
+                        refProperty.value = v
+                    }
+                })
+            } else if(typeof value === 'function') {
+                Object.defineProperty(this, property, {
+                    enumerable: enumerable ?? true,
+                    writable: writable ?? false,
+                    value: value.bind(this)
+                })
+            } else {
+                Object.defineProperty(this, property, {
+                    enumerable: enumerable ?? true,
+                    writable: writable ?? true,
+                    value: value
+                })
             }
-            Object.defineProperty(this, property, descriptor)
         }
     }
 }
@@ -101,8 +105,9 @@ class ExtendedRef {
  * 
  *  // Configure extended properties
  *  const extendedB = extendedRef(0, (withOptions) => ({
- *      extra1: withOptions(1, { enumerable: false, writable: false }),
- *      extra2: withOptions(ref(2), { enumerable: true, readonly: true })
+ *      extra1: 1,
+ *      extra2: withOptions(2, { enumerable: false, writable: false }),
+ *      extra3: withOptions(ref(3), { enumerable: true, readonly: true })
  *  }))
  */
 function extendedRef(initial, extension){

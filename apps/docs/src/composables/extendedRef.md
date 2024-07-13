@@ -23,8 +23,9 @@ console.log(extendedA.extra)
 
 // Configure extended properties
 const extendedB = extendedRef(0, (withOptions) => ({
-    extra1: withOptions(1, { enumerable: false, writable: false }),
-    extra2: withOptions(ref(2), { enumerable: true, readonly: true })
+    extra1: 1,
+    extra2: withOptions(2, { enumerable: false, writable: false }),
+    extra3: withOptions(ref(3), { enumerable: true, readonly: true }),
 }))
 ```
 
@@ -38,7 +39,7 @@ However, `extendedRef` does not directly modifies a ref object, but creates a ne
 
 **1. The `extendedRef` returned object is not a ref.**
 
-An extendedRef cannot be subsituted where a `Ref` object is expected, such as in the `watch` function.
+An extendedRef cannot be substituted where a `Ref` object is expected, such as in the `watch` function.
 
 ```js
 const extended = extendedRef()
@@ -54,7 +55,7 @@ watch(() => extended.value, callback) // getter also works
 
 **2. `extendedRef`s are not unwrapped in a SFC template.**
 
-To access an extendedRef's value in the template, full `.value` notation is requried. This is a requirement in order for the extended properties to be accessible in the template.
+To access an extendedRef's value in the template, full `.value` notation is required. This is a requirement in order for the extended properties to be accessible in the template.
 
 ```vue
 <template>
@@ -142,7 +143,7 @@ An `ExtendedRef` object.
 interface ExtendedRef<T,E> {
     value: T
     ref: Ref<T>
-    getRef: (property?: keyof E) => Ref
+    getRef: (property?: keyof E) => Ref | undefined
     [P in keyof E]: E[P]
 }
 ```
@@ -153,9 +154,9 @@ interface ExtendedRef<T,E> {
 function withOptions(
     value: any,
     options: {
-        enumerable: boolean;
-        writable: boolean;
-        readonly: boolean;
+        enumerable?: boolean;
+        writable?: boolean;
+        readonly?: boolean;
     }
 )
 ```
