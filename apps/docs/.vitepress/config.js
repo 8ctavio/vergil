@@ -64,6 +64,7 @@ export default {
 				collapsed: true,
 				items: [
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
+					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'waitFor', link: '/composables/waitFor' },
 					{ text: 'watchUntil', link: '/composables/watchUntil' },
 				]

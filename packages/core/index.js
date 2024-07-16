@@ -8,5 +8,6 @@ export { toast } from './components/toast'
 
 //---------- Composables ----------
 export * from './composables/extendedRef'
+export * from './composables/resetRef'
 export * from './composables/waitFor'
 export * from './composables/watchUntil'
