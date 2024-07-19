@@ -1,120 +1,96 @@
-import { toRef, isRef, readonly, markRaw } from 'vue'
+import { toRef } from 'vue'
+import { defineReactiveProperties } from './utils/extendedReactivity'
+import { ExtendedReactive } from './extendedReactive'
 
-/** Object property's configuration options */
-class Options{
-    constructor(options){
-        for(const option in options){
-            this[option] = options[option]
-        }
-    }
-}
-
-/** Extendable object with accessors (getter and setter) for an internal ref's value */
-class ExtendedRef {
-    #ref
-    #refs = {}
-
-    get value(){ return this.#ref.value }
-    set value(v){ this.#ref.value = v }
-    get ref(){ return this.#ref }
-    /**
-     * Returns the ref object of an extended property or the extended ref if no property is specified
-     * @param { string } [property] - Name of extended property
-     * @returns { Ref | undefined }
-     */
-    getRef(property){
-        return property ? this.#refs[property] : this.#ref
-    }
-
-    constructor(initial, extension = {}){
-        if(typeof extension === 'function')
-            extension = extension((value, options) => new Options({ ...options, value }))
-        if(typeof extension !== 'object' || extension === null)
-            throw new TypeError("Invalid value for 'extension' parameter")
-
-        if(initial instanceof ExtendedRef) {
-            // Extend ExtendedRef
-            this.#ref = initial.ref
-            for(const property of Object.getOwnPropertyNames(initial)){
-                if(['__v_skip'].includes(property)) continue
-
-                const descriptor = Object.getOwnPropertyDescriptor(initial, property)
-                Object.defineProperty(this, property, descriptor)
-                
-                const refProperty = initial.getRef(property)
-                if(isRef(refProperty)) this.#refs[property] = refProperty
-            }
-        } else {
-            this.#ref = toRef(initial)
-        }
-
-        for(const [property, options] of Object.entries(extension)){
-            if(['ref', 'value', 'getRef'].includes(property)) continue
-
-            const {
-                value,
-                enumerable,
-                writable,
-                readonly: isReadOnly = false
-            } = options instanceof Options ? options : { value: options }
-
-            if(isRef(value)) {
-                const refProperty = isReadOnly ? readonly(value) : value
-                this.#refs[property] = refProperty
-                Object.defineProperty(this, property, {
-                    enumerable: enumerable ?? false,
-                    get() {
-                        return refProperty.value
-                    },
-                    set(v) {
-                        refProperty.value = v
-                    }
-                })
-            } else if(typeof value === 'function') {
-                Object.defineProperty(this, property, {
-                    enumerable: enumerable ?? true,
-                    writable: writable ?? false,
-                    value: value.bind(this)
-                })
-            } else {
-                Object.defineProperty(this, property, {
-                    enumerable: enumerable ?? true,
-                    writable: writable ?? true,
-                    value: value
-                })
-            }
-        }
-    }
+/** Defines a `ref` property to store a ref object and `value` accessor methods to read from and write to the ref's value. */
+class ExtendedRef extends ExtendedReactive {
+	constructor(initial, accessor = {}) {
+		super()
+		const {
+			get = function () {
+				return this.ref.value
+			},
+			set = function (v) {
+				this.ref.value = v
+			},
+		} = accessor
+		Object.defineProperties(this, {
+			ref: { value: toRef(initial) },
+			value: { get, set },
+		})
+	}
 }
 
 /**
- * Extends a ref with additional properties
+ * Extends a ref with additional properties.
  * 
  * @template T,E
- * @param { T | (() => T) | Ref<T> | ExtendedRef<T,F> } initial - The initial value or getter for the ref to be extended. A ref or extendedRef object may instead be provided.
- * @param { E | (withOptions: function) => E } [extension] - Extension object or callback that returns extension object. The extension object entries (key-value pairs) are the names and (initial) values of the extended properties, respectively.
+ * @param { T | (() => T) | Ref<T> | ExtendedRef<T,F> } initial - Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
+ * @param { E | (withDescriptor: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names of the properties to be defined while its values represent the properties' initial values or descriptors.
  * 
  * @returns { ExtendedRef }
  * 
  * @example
- *  const extendedA = extendedRef('', { extra: 1 })
- *  // Access .value normally
- *  extendedA.value // ''
- *  // Access extended properties
- *  extendedA.extra // 1
- * 
- *  // Configure extended properties
- *  const extendedB = extendedRef(0, (withOptions) => ({
- *      extra1: 1,
- *      extra2: withOptions(2, { enumerable: false, writable: false }),
- *      extra3: withOptions(ref(3), { enumerable: true, readonly: true })
- *  }))
+ *	const extendedA = extendedRef(0, { extra: '' })
+ *	// read and write inner reactive value normally
+ *	extendedA.value = 8
+ *	console.log(extendedA.value)
+ *	// read and write extended properties
+ *	extendedA.extra = 'some value'
+ *	console.log(extendedA.extra)
+ *	
+ *	// Configure extended properties
+ *	const extendedB = extendedRef(0, (withDescriptor) => ({
+ *		extra1: 1,
+ *		extra2: withDescriptor({ value: 2, enumerable: false, writable: false }),
+ *		extra3: withDescriptor({ value: ref(3), enumerable: true, readonly: true })
+ *	}))
  */
-function extendedRef(initial, extension){
-    return markRaw(new ExtendedRef(initial, extension))
+function extendedRef(initial, extension) {
+	return defineReactiveProperties(
+		initial instanceof ExtendedRef ? initial : new ExtendedRef(initial),
+		extension,
+		['ref', 'value']
+	)
+}
+
+/**
+ * Extends a ref with additional properties and custom accessor.
+ * 
+ * @template T,E
+ * @param { T | (() => T) | Ref<T> } initial - Value to normalize into the ref to be extended.
+ * @param { { get?: () => T, set?: () => void } } accessor - Custom `value` property accessor.
+ * @param { E | (withOptions: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names of the properties to be defined while its values represent the properties' initial values or descriptors.
+ * 
+ * @returns { ExtendedRef }
+ * 
+ * @example
+ *	let n
+ *	const extended = extendedRef(0, {
+ *		get(){
+ *			console.log('inner value retrieved')
+ *			return this.ref.value
+ *		},
+ *		set(v){
+ *			this.ref.value = v
+ *			console.log('inner value updated')
+ *		}
+ *	}, withDescriptor => ({
+ *		extra: ''
+ *	}))
+ *	extended.value = 8 // 'inner value updated'
+ *	n = extended.value // 'inner value retrieved'
+ */
+function extendedCustomRef(initial, accessor, extension) {
+	return defineReactiveProperties(
+		new ExtendedRef(initial, accessor),
+		extension,
+		['ref', 'value']
+	)
 }
 
 export {
     ExtendedRef,
-    extendedRef
+    extendedRef,
+    extendedCustomRef
 }

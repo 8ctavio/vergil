@@ -16,7 +16,7 @@ hero:
       link: components/buttons/btn
     - theme: alt
       text: Composables
-      link: composables/extendedRef 
+      link: composables/extendedCustomRef
     - theme: alt
       text: Utilities
       link: utilities/functions

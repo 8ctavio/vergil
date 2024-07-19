@@ -381,6 +381,21 @@ class AppError {
 
 ## Ref
 
+<!----------------------------------------------------------
+-------------------- isExtendedReactive --------------------
+----------------------------------------------------------->
+### `isExtendedReactive`
+
+> Assesses whether a value is an `ExtendedReactive`
+
+```js
+function isExtendedReactive(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is an `ExtendedReactive`.
+
 <!-----------------------------------------------------
 -------------------- isExtendedRef --------------------
 ------------------------------------------------------>
@@ -389,12 +404,12 @@ class AppError {
 > Assesses whether a value is an `ExtendedRef`
 
 ```js
-function isExtendedRef(mayBeExtendedRef: any): boolean
+function isExtendedRef(value: any): boolean
 ```
 
 #### Return value
 
-`true` if `mayBeExtendedRef` is an `ExtendedRef`.
+`true` if `value` is an `ExtendedRef`.
 
 <!-----------------------------------------------------
 -------------------- isWatchSource --------------------

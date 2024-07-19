@@ -63,6 +63,8 @@ export default {
 				text: 'Composables',
 				collapsed: true,
 				items: [
+					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
+					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'waitFor', link: '/composables/waitFor' },

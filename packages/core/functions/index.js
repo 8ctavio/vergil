@@ -1,4 +1,5 @@
 import { isRef } from 'vue'
+import { ExtendedReactive } from '../composables/extendedReactive'
 import { ExtendedRef } from '../composables/extendedRef'
 
 //------------------------------------------------
@@ -318,13 +319,23 @@ export class AppError{
 //---------------------------------------------
 // #region
 /**
+ * Assesses whether a value is an `ExtendedReactive`
+ * 
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is an `ExtendedReactive`.
+ */
+export function isExtendedReactive(value){
+    return value instanceof ExtendedReactive
+}
+
+/**
  * Assesses whether a value is an `ExtendedRef`
  * 
- * @param { any } mayBeExtendedRef
- * @returns { boolean } `true` if `mayBeExtendedRef` is an `ExtendedRef`.
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is an `ExtendedRef`.
  */
-export function isExtendedRef(mayBeExtendedRef){
-    return mayBeExtendedRef instanceof ExtendedRef
+export function isExtendedRef(value){
+    return value instanceof ExtendedRef
 }
 
 /**
