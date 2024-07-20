@@ -57,7 +57,7 @@ interface VergilConfiguration {
     },
     userTheme: {
         enable: boolean = true;
-        default: (color | 'brand') = 'brand';
+        default: color = 'moss';
     },
     btn: {
         variant: ('solid' | 'soft' | 'ghost' | 'outline' | 'underline' | 'text') = 'solid';

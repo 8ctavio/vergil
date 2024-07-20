@@ -106,15 +106,11 @@ The `setUserThemeColor` function and `userThemeColor` ref help update the `'user
 
 ```ts
 type color = 'cobalt' | 'dartmouth' | 'denim' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
-
 function setUserThemeColor(color: color): void
-
-const userThemeColor: Ref<color | 'brand'>
+const userThemeColor: Ref<color>
 ```
 
-The `setUserThemeColor` function updates the user theme color palette. It only accepts available color palette names. The developer must ensure used color palettes are properly imported.
-
-The `userThemeColor` ref contains the current user theme color palette. It is possible for its value to be `'brand'`, in which case, the color palette used for `'user'` themed components is the same as the `'brand'` `theme` color palette.
+The `setUserThemeColor` function updates the user theme color palette. It only accepts available color palette names. The developer must ensure used color palettes are properly imported. The `userThemeColor` ref contains the current user theme color palette.
 
 :::tip
 Click on the <Icon code="style"/> icon in the navigation bar to update the user theme color palette.
@@ -122,7 +118,7 @@ Click on the <Icon code="style"/> icon in the navigation bar to update the user 
 
 #### Default theme
 
-By default, the user theme is set to `'brand'`. This can be overwrriten through the `userTheme.default` [configuration option](/configuration).
+By default, the user theme is set to `'moss'`. This can be overwrriten through the `userTheme.default` [configuration option](/configuration).
 
 #### Disable user theme
 
