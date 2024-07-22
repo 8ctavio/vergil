@@ -319,7 +319,7 @@ export class AppError{
 //---------------------------------------------
 // #region
 /**
- * Assesses whether a value is an `ExtendedReactive`
+ * Assesses whether a value is an `ExtendedReactive`.
  * 
  * @param { any } value
  * @returns { boolean } `true` if `value` is an `ExtendedReactive`.
@@ -329,13 +329,23 @@ export function isExtendedReactive(value){
 }
 
 /**
- * Assesses whether a value is an `ExtendedRef`
+ * Assesses whether a value is an `ExtendedRef`.
  * 
  * @param { any } value
  * @returns { boolean } `true` if `value` is an `ExtendedRef`.
  */
 export function isExtendedRef(value){
     return value instanceof ExtendedRef
+}
+
+/**
+ * Assesses whether a value is a model created by `useModel`.
+ * 
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is a model created by `useModel`.
+ */
+export function isModel(value){
+    return isExtendedRef(value) && Boolean(value?.__v_isModel)
 }
 
 /**

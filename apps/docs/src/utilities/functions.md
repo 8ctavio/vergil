@@ -386,7 +386,7 @@ class AppError {
 ----------------------------------------------------------->
 ### `isExtendedReactive`
 
-> Assesses whether a value is an `ExtendedReactive`
+> Assesses whether a value is an `ExtendedReactive`.
 
 ```js
 function isExtendedReactive(value: any): boolean
@@ -401,7 +401,7 @@ function isExtendedReactive(value: any): boolean
 ------------------------------------------------------>
 ### `isExtendedRef`
 
-> Assesses whether a value is an `ExtendedRef`
+> Assesses whether a value is an `ExtendedRef`.
 
 ```js
 function isExtendedRef(value: any): boolean
@@ -410,6 +410,21 @@ function isExtendedRef(value: any): boolean
 #### Return value
 
 `true` if `value` is an `ExtendedRef`.
+
+<!-----------------------------------------------
+-------------------- isModel --------------------
+------------------------------------------------>
+### `isModel`
+
+> Assesses whether a value is a model created by [`useModel`](/composables/useModel)
+
+```js
+function isModel(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a model created by `useModel`.
 
 <!-----------------------------------------------------
 -------------------- isWatchSource --------------------

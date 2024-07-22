@@ -18,8 +18,7 @@
 }
 
 .vp-doc h4{
-    margin-top: 24px;
-    text-indent: 10px;
+    margin-top: 18px;
 }
 .vp-doc :is(h2, h3, h4){
     display: flex;
