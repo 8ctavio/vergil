@@ -57,9 +57,9 @@ defineProps({
             'btn',
             variant,
             inferTheme(theme),
-            size,
+            `size-${size}`,
             `radius-${radius}`,
-            spacing,
+            `spacing-${spacing}`,
             {
                 fill,
                 borderless,
@@ -83,13 +83,21 @@ defineProps({
 
 <style>
 .btn{
+    font-size: var(--g-font-size);
+    padding: var(--g-gap-1) var(--g-gap-2);
+    border-radius: var(--g-radius);
+
     position: relative;
     border: none;
-    font-weight: 500;
     line-height: normal;
-    cursor: pointer;
+    font-weight: 500;
     outline: 0 solid transparent;
+    cursor: pointer;
     transition: background-color 150ms, color 150ms, border 150ms, box-shadow 150ms;
+
+    &.squared{
+        padding: var(--g-gap-1);
+    }
 
     &:focus-visible{
         outline: 2px solid var(--c-theme-outline);
@@ -112,14 +120,12 @@ defineProps({
         }
     }
 
-    &.radius-none{ border-radius: var(--border-radius-none); }
-    &.radius-full{ border-radius: var(--border-radius-full); }
-
     & > .btn-content{
         font-size: 1em;
         position: relative;
         display: grid;
         grid-auto-flow: column;
+        column-gap: var(--g-gap-1);
         line-height: inherit;
 
         &::selection{
@@ -366,93 +372,6 @@ defineProps({
     }
     &.loading{
         background-color: var(--c-theme-soft-1);
-    }
-}
-
-/*--------------------------------------------
--------------------- SIZE --------------------
---------------------------------------------*/
-/*-------- SM --------*/
-.btn.sm{
-    font-size: var(--font-size-sm);
-    padding: 4px 8px;
-    &.radius-sm{ border-radius: calc(0.8 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(0.8 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(0.8 * var(--border-radius-lg)); }
-    &.squared{ padding: 4px }
-    & > .btn-content{ column-gap: 4px; }
-    &.compact{
-        padding: 2px 4px;
-        &.squared{ padding: 2px }
-        & > .btn-content{ column-gap: 2px; }
-    }
-    &.expanded{
-        padding: 6px 12px;
-        &.squared{ padding: 6px }
-        & > .btn-content{ column-gap: 6px; }
-    }
-}
-
-/*-------- MD --------*/
-.btn.md{
-    font-size: var(--font-size-md);
-    padding: 6px 12px;
-    &.radius-sm{ border-radius: var(--border-radius-sm); }
-    &.radius-md{ border-radius: var(--border-radius-md); }
-    &.radius-lg{ border-radius: var(--border-radius-lg); }
-    &.squared{ padding: 6px }
-    & > .btn-content{ column-gap: 6px; }
-    &.compact{
-        padding: 4px 8px;
-        &.squared{ padding: 4px }
-        & > .btn-content{ column-gap: 4px; }
-    }
-    &.expanded{
-        padding: 8px 16px;
-        &.squared{ padding: 8px }
-        & > .btn-content{ column-gap: 8px; }
-    }
-}
-
-/*-------- LG --------*/
-.btn.lg{
-    font-size: var(--font-size-lg);
-    padding: 8px 16px;
-    &.radius-sm{ border-radius: calc(1.2 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(1.2 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(1.2 * var(--border-radius-lg)); }
-    &.squared{ padding: 8px }
-    & > .btn-content{ column-gap: 8px; }
-    &.compact{
-        padding: 6px 12px;
-        &.squared{ padding: 6px }
-        & > .btn-content{ column-gap: 6px; }
-    }
-    &.expanded{
-        padding: 10px 20px;
-        &.squared{ padding: 10px }
-        & > .btn-content{ column-gap: 10px; }
-    }
-}
-
-/*-------- XL --------*/
-.btn.xl{
-    font-size: var(--font-size-xl);
-    padding: 10px 20px;
-    &.radius-sm{ border-radius: calc(1.4 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(1.4 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(1.4 * var(--border-radius-lg)); }
-    &.squared{ padding: 10px }
-    & > .btn-content{ column-gap: 10px; }
-    &.compact{
-        padding: 8px 16px;
-        &.squared{ padding: 8px }
-        & > .btn-content{ column-gap: 8px; }
-    }
-    &.expanded{
-        padding: 12px 24px;
-        &.squared{ padding: 12px }
-        & > .btn-content{ column-gap: 12px; }
     }
 }
 </style>

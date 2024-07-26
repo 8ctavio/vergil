@@ -53,9 +53,9 @@ defineProps({
             'btn3D',
             variant,
             inferTheme(theme),
-            size,
+            `size-${size}`,
             `radius-${radius}`,
-            spacing,
+            `spacing-${spacing}`,
             {
                 bordered,
                 squared,
@@ -96,17 +96,42 @@ defineProps({
                             0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
 
+    font-size: var(--g-font-size);
+    padding: var(--g-gap-1) var(--g-gap-2);
+    border-radius: var(--g-radius);
+    column-gap: var(--g-gap-1);
+
     position: relative;
     display: grid;
-    box-sizing: border-box;
     grid-auto-flow: column;
+    box-sizing: border-box;
     
     border: none;
-    box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
     font-weight: 500;
     line-height: normal;
+    box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
     cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
+
+    &.squared{
+        padding: var(--g-gap-1);
+    }
+    &.size-sm.spacing-compact{
+        --btn3D-elv: 4px;
+        --btn3D-elv-hover: 3px;
+        --btn3D-shadow-x: 4px;
+        &:is(:hover, :focus-visible){
+            --btn3D-shadow-x: 2px;
+        }
+    }
+    &.size-xl{
+        --btn3D-elv: 6px;
+        --btn3D-elv-hover: 4px;
+        --btn3D-shadow-x: 6px;
+        &:is(:hover, :focus-visible){
+            --btn3D-shadow-x: 4px;
+        }
+    }
 
     &:is(:hover, :focus-visible){
         --btn3D-border: var(--btn3D-elv-hover);
@@ -139,9 +164,6 @@ defineProps({
     &::selection{
         background-color: transparent;
     }
-
-    &.radius-none{ border-radius: var(--border-radius-none); }
-    &.radius-full{ border-radius: var(--border-radius-full); }
 
     & > .icon{
         font-size: 1em;
@@ -241,107 +263,6 @@ defineProps({
     --btn3D-c-border: var(--c-theme-3);
     &:where(.bordered){
         border-color: var(--c-theme-3);
-    }
-}
-
-/*--------------------------------------------
--------------------- SIZE --------------------
---------------------------------------------*/
-/*-------- SM --------*/
-.btn3D.sm{
-    font-size: var(--font-size-sm);
-    column-gap: 4px;
-    padding: 4px 8px;
-    &.radius-sm{ border-radius: calc(0.8 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(0.8 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(0.8 * var(--border-radius-lg)); }
-    &.squared{ padding: 4px }
-    &.compact{
-        --btn3D-elv: 4px;
-        --btn3D-elv-hover: 3px;
-        --btn3D-shadow-x: 4px;
-        &:is(:hover, :focus-visible){
-            --btn3D-shadow-x: 2px;
-        }
-
-        column-gap: 2px;
-        padding: 2px 4px;
-        &.squared{ padding: 2px }
-    }
-    &.expanded{
-        column-gap: 6px;
-        padding: 6px 12px;
-        &.squared{ padding: 6px }
-    }
-}
-
-/*-------- MD --------*/
-.btn3D.md{
-    font-size: var(--font-size-md);
-    column-gap: 6px;
-    padding: 6px 12px;
-    &.radius-sm{ border-radius: var(--border-radius-sm); }
-    &.radius-md{ border-radius: var(--border-radius-md); }
-    &.radius-lg{ border-radius: var(--border-radius-lg); }
-    &.squared{ padding: 6px }
-    &.compact{
-        column-gap: 4px;
-        padding: 4px 8px;
-        &.squared{ padding: 4px }
-    }
-    &.expanded{
-        column-gap: 8px;
-        padding: 8px 16px;
-        &.squared{ padding: 8px }
-    }
-}
-
-/*-------- LG --------*/
-.btn3D.lg{
-    font-size: var(--font-size-lg);
-    column-gap: 8px;
-    padding: 8px 16px;
-    &.radius-sm{ border-radius: calc(1.2 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(1.2 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(1.2 * var(--border-radius-lg)); }
-    &.squared{ padding: 8px }
-    &.compact{
-        column-gap: 6px;
-        padding: 6px 12px;
-        &.squared{ padding: 6px }
-    }
-    &.expanded{
-        column-gap: 10px;
-        padding: 10px 20px;
-        &.squared{ padding: 10px }
-    }
-}
-
-/*-------- XL --------*/
-.btn3D.xl{
-    --btn3D-elv: 6px;
-    --btn3D-elv-hover: 4px;
-    --btn3D-shadow-x: 6px;
-    &:is(:hover, :focus-visible){
-        --btn3D-shadow-x: 4px;
-    }
-
-    font-size: var(--font-size-xl);
-    column-gap: 10px;
-    padding: 10px 20px;
-    &.radius-sm{ border-radius: calc(1.4 * var(--border-radius-sm)); }
-    &.radius-md{ border-radius: calc(1.4 * var(--border-radius-md)); }
-    &.radius-lg{ border-radius: calc(1.4 * var(--border-radius-lg)); }
-    &.squared{ padding: 10px }
-    &.compact{
-        column-gap: 8px;
-        padding: 8px 16px;
-        &.squared{ padding: 8px }
-    }
-    &.expanded{
-        column-gap: 12px;
-        padding: 12px 24px;
-        &.squared{ padding: 12px }
     }
 }
 </style>
