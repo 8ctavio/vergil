@@ -125,11 +125,11 @@ p, h1, h2, h3{
     --g-font-size: var(--font-size-md);
     --g-gap-1: 6px;
     --g-gap-2: 12px;
-    &.compact{
+    &.spacing-compact{
         --g-gap-1: 4px;
         --g-gap-2: 8px;
     }
-    &.expanded{
+    &.spacing-expanded{
         --g-gap-1: 8px;
         --g-gap-2: 16px;
     }
@@ -141,11 +141,11 @@ p, h1, h2, h3{
     --g-font-size: var(--font-size-lg);
     --g-gap-1: 8px;
     --g-gap-2: 16px;
-    &.compact{
+    &.spacing-compact{
         --g-gap-1: 6px;
         --g-gap-2: 12px;
     }
-    &.expanded{
+    &.spacing-expanded{
         --g-gap-1: 10px;
         --g-gap-2: 20px;
     }
@@ -157,11 +157,11 @@ p, h1, h2, h3{
     --g-font-size: var(--font-size-xl);
     --g-gap-1: 10px;
     --g-gap-2: 20px;
-    &.compact{
+    &.spacing-compact{
         --g-gap-1: 8px;
         --g-gap-2: 16px;
     }
-    &.expanded{
+    &.spacing-expanded{
         --g-gap-1: 12px;
         --g-gap-2: 24px;
     }
