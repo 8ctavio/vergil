@@ -90,6 +90,13 @@ const vergil = {
                 neutral: undefined
             }
         },
+        inputText: {
+            underline: false,
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+        },
         popup: {
             theme: undefined,
         },

@@ -89,12 +89,12 @@ const model = useModel(/* existing model created by parent */)
 There are different alternatives to receive a model in the component. The recommended approach is to receive it through the `modelValue` prop so the `v-model` directive can be used to provide it.
 
 ```js
-import { isModel, ExtendedRef } from '@8ctavio/vergil'
+import { useModel, isModel } from '@8ctavio/vergil'
 
 const props = defineProps({
     modelValue: {
-        type: ExtendedRef,
-        validator: isModel
+        validator: isModel,
+        default: () => useModel()
     }
 })
 

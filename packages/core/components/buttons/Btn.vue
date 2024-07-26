@@ -1,6 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
-import { vergil } from '../../vergil';
+import { vergil } from '../../vergil'
 import { inferTheme } from '../../functions/utils'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant, } from '../../functions/utils/validators'
 
@@ -98,7 +98,6 @@ defineProps({
 
     &:disabled:not(.loading){
         background-color: var(--c-disabled-1);
-        border-color: var(--c-disabled-border);
         color: var(--c-disabled-text);
         cursor: not-allowed;
     }
@@ -244,15 +243,23 @@ defineProps({
 
 /*-------- OUTLINE --------*/
 .btn.outline{
+    --btn-bw: 1px;
+    --btn-bw-b: 1px;
+    --btn-bc: var(--c-theme-border-1);
+    --btn-bc-b: var(--c-theme-border-1);
+
     background-color: transparent;
     color: var(--c-theme-text-3);
-    box-shadow: inset 0 0 0 1px var(--c-theme-border-1);
+    box-shadow: inset 0 calc(var(--btn-bw-b) * -1) var(--btn-bc-b),
+                inset 0 var(--btn-bw) var(--btn-bc),
+                inset var(--btn-bw) 0 var(--btn-bc),
+                inset calc(var(--btn-bw) * -1) 0 var(--btn-bc);
 
     &:not(:disabled) {
         &:is(:hover, :focus-visible){
             background-color: var(--c-theme-soft-1);
             color: var(--c-theme-text-2);
-            box-shadow: inset 0 0 0 1px var(--c-theme-border-2);
+            --btn-bc: var(--c-theme-border-2);
         }
         &:active{
             background-color: var(--c-theme-soft-2);
@@ -263,7 +270,7 @@ defineProps({
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
-        box-shadow: inset 0 0 0 1px var(--c-disabled-border);
+        --btn-bc: var(--c-disabled-border);
     }
     &.loading{
         background-color: var(--c-theme-soft-1);

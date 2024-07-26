@@ -60,6 +60,13 @@ export default {
 				]
 			},
 			{
+				text: 'Form Components',
+				collapsed: true,
+				items: [
+					{ text: 'InputText', link: '/components/form/inputText' },
+				]
+			},
+			{
 				text: 'Composables',
 				collapsed: true,
 				items: [

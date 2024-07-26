@@ -43,7 +43,12 @@
     align-items: center;
 }
 
-.demo :where(:deep(p)){
-    line-height: normal;
+:slotted(:is(.row, .col)).w-initial{
+    width: initial;
+}
+
+.demo :deep(p){
+    margin: initial;
+	line-height: initial;
 }
 </style>
