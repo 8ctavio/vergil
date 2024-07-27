@@ -72,7 +72,7 @@ Default accessor descriptor options are the same as when using `Object.definePro
 
 | Property type | `enumerable` | `writable` |
 | ------------- | ------------ | ---------- |
-| `UnwrapRef` | `false` | n/a |
+| `UnwrapRef` | `true` | n/a |
 | `Ref` | `true` | `false` |
 | `Function` | `true` | `false` |
 | other | `true` | `true` |

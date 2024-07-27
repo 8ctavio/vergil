@@ -77,7 +77,7 @@ export function defineReactiveProperties(object, properties = {}, ignore = []){
 				if (unwrap) {
 					object.setRef(property, refProperty)
 					const {
-						enumerable = false,
+						enumerable = true,
 						get = function () {
 							return object.getRef(property).value
 						},
