@@ -1,12 +1,14 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
-import { isModel } from '../../functions'
+import { isModel, isModelWrapper } from '../../functions'
 import { inferTheme } from '../../functions/utils'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../functions/utils/validators'
+
+defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
     value: {
@@ -15,7 +17,7 @@ const props = defineProps({
     },
     modelValue: {
         default: props => useModel(props.value),
-        validator: isModel
+        validator: v => isModel(v) || isModelWrapper(v)
     },
     type: {
         type: String,
@@ -68,7 +70,9 @@ const props = defineProps({
         validator: isValidSpacing
     },
     disabled: Boolean,
+    class: { default: '' }
 })
+const classAttr = toRef(() => props.class)
 
 const model = useModel(props.modelValue)
 
@@ -79,6 +83,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 
 <template>
     <div :class="['input-text',
+        classAttr,
         `size-${size}`,
         `radius-${radius}`,
         `spacing-${spacing}`,
@@ -97,17 +102,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 :spacing
                 :disabled="disabled || btnBefore.disabled"
                 />
-            <Btn v-if="showBtnAfter" variant="outline" v-bind="btnAfter"
-                :theme
-                :size
-                :radius
-                :spacing
-                :disabled="disabled || btnAfter.disabled"
-                />
             <div :class="['input-wrapper', inferTheme(theme)]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
+                    v-bind="$attrs"
                     v-model="model.value"
                     :ref="model.getRef('el')"
                     :class="`text-${textAlign}`"
@@ -120,6 +119,13 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 <label v-if="canLabelFloat">{{ label }}</label>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
+            <Btn v-if="showBtnAfter" variant="outline" v-bind="btnAfter"
+                :theme
+                :size
+                :radius
+                :spacing
+                :disabled="disabled || btnAfter.disabled"
+                />
         </div>
         <p v-if="help" class="input-details">{{ help }}</p>
     </div>
@@ -161,22 +167,22 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     grid-auto-flow: column;
     width: 100%;
 
-    &:has(> .btn:first-of-type) > .input-wrapper{
+    &:has(> .btn:first-child) > .input-wrapper{
         --text-input-bw-l: 0px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &:has(> .btn:last-of-type) > .input-wrapper{
+    &:has(> .btn:last-child) > .input-wrapper{
         --text-input-bw-r: 0px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
     & > .btn{
-        &:first-of-type{
+        &:first-child{
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
-        &:last-of-type{
+        &:last-child{
             grid-column-start: 3;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
@@ -219,6 +225,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 inset var(--text-input-bw-l) 0 var(--text-input-bc),
                 inset calc(var(--text-input-bw-r) * -1) 0 var(--text-input-bc);
     outline: 0 solid transparent;
+    z-index: 1;
     transition: background-color 150ms, box-shadow 150ms;
 
     &:has(input:focus-visible){
