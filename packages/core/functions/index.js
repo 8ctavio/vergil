@@ -349,6 +349,16 @@ export function isModel(value){
 }
 
 /**
+ * Assesses whether a value is a model wrapped by `useModel`.
+ * 
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is a model wrapped by `useModel`.
+ */
+export function isModelWrapper(value){
+    return isExtendedRef(value) && Boolean(value?.__v_isModelWrapper)
+}
+
+/**
  * Assesses whether a value is a valid watch source.
  * 
  * @param { any } mayBeWatchSource 

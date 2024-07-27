@@ -426,6 +426,21 @@ function isModel(value: any): boolean
 
 `true` if `value` is a model created by `useModel`.
 
+<!------------------------------------------------------
+-------------------- isModelWrapper --------------------
+------------------------------------------------------->
+### `isModelWrapper`
+
+> Assesses whether a value is a model wrapped by [`useModel`](/composables/useModel)
+
+```js
+function isModelWrapper(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a model wrapped by `useModel`.
+
 <!-----------------------------------------------------
 -------------------- isWatchSource --------------------
 ------------------------------------------------------>

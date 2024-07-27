@@ -1,6 +1,6 @@
 import { ref, isRef, toValue, toRaw } from 'vue'
 import { extendedCustomRef } from './extendedRef'
-import { isModel } from '../functions'
+import { isModel, isModelWrapper } from '../functions'
 
 /**
  * Creates or consumes a component model.
@@ -28,15 +28,24 @@ import { isModel } from '../functions'
  *  ```
  */
 export function useModel(value){
+    // Nested custom component: Return wrapped model
+    if(isModelWrapper(value)){
+        return value
+    }
     // Custom component: Wrap model
-    if(isModel(value)){
+    else if(isModel(value)){
         return extendedCustomRef(value.ref, {
             set: value.updateModel
-        },{
+        }, withDescriptor => ({
             el: value.getRef('el'),
             reset: value.reset,
-            onMutated: value.onMutated
-        })
+            onMutated: value.onMutated,
+            __v_isModelWrapper: withDescriptor({
+                value: true,
+                enumerable: false,
+                writable: false
+            })
+        }))
     }
     // Parent component: Create model
     else {
