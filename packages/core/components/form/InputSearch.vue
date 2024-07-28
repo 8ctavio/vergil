@@ -1,9 +1,10 @@
 <script setup>
 import InputText from './InputText.vue'
 import { ref, computed } from 'vue'
+import { vergil } from '../../vergil'
 import { extendedReactive } from '../../composables/extendedReactive'
 import { useModel } from '../../composables/useModel'
-import { isModel } from '../../functions'
+import { isModel, ucFirst } from '../../functions'
 
 const props = defineProps({
     value: {
@@ -14,8 +15,6 @@ const props = defineProps({
         default: props => useModel(props.value),
         validator: isModel
     },
-    onSearch: Function,
-    btnAfter: Object,
     iconSearch: {
         type: String,
         default: 'search'
@@ -24,7 +23,15 @@ const props = defineProps({
         type: String,
         default: 'search_off'
     },
+    btnPosition: {
+        type: String,
+        default: () => vergil.config.inputSearch.btnPosition,
+        validator: v => ['before', 'after'].includes(v)
+    },
+    btnBefore: Object,
+    btnAfter: Object,
     disabled: Boolean,
+    onSearch: Function,
 })
 const emit = defineEmits(['clear'])
 
@@ -56,8 +63,21 @@ const icon = computed(() => {
         || (model.value && model.value === lastSearch.value)
     ) ? props.iconClear : props.iconSearch
 })
+
+/**
+ * @Note reactive btnPosition
+ *  const btnProps = shallowRef({})
+ *  watch(() => props.btnPosition, p => {
+ *      btnProps.value = {
+ *          // Add updated properties
+ *      }
+ *  })
+ */
+const btnPositionFlag = props.btnPosition === 'after'
+const btnPositionName = ucFirst(props.btnPosition)
 const btnProps = extendedReactive({
-    icon,
+    iconLeft: btnPositionFlag ? icon : props[`btn${btnPositionName}`]?.iconLeft,
+    iconRight: btnPositionFlag ? props[`btn${btnPositionName}`]?.iconRight : icon,
     loading: loader,
     onClick(){
         if(model.value){
@@ -72,12 +92,11 @@ const btnProps = extendedReactive({
             lastSearch.value = ''
         }
     },
-    label: props.btnAfter?.label,
-    variant: props.btnAfter?.variant ?? 'outline',
-    fill: props.btnAfter?.fill,
-    borderless: props.btnAfter?.borderless,
-    squared: props.btnAfter?.squared,
-    iconRight: props.btnAfter?.iconRight,
+    label: props[`btn${btnPositionName}`]?.label ?? '',
+    variant: props[`btn${btnPositionName}`]?.variant ?? 'outline',
+    fill: props[`btn${btnPositionName}`]?.fill,
+    borderless: props[`btn${btnPositionName}`]?.borderless,
+    squared: props[`btn${btnPositionName}`]?.squared,
 })
 
 function clear(){
@@ -90,7 +109,8 @@ function clear(){
 <template>
     <InputText
         :model-value="model"
-        :btn-after="btnProps"
+        :btn-before="btnPositionFlag ? btnBefore : btnProps"
+        :btn-after="btnPositionFlag ? btnProps : btnAfter"
         @keyup.enter="handleEnter"
         :disabled="disabled || loader"
         />

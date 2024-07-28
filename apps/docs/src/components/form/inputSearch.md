@@ -36,14 +36,7 @@ const search = useModel('')
 
 ## Props
 
-All [`InputText`](/components/form/inputText) props are available for `InputSearch`. For the `btn-after` prop, only the following `Btn` props are available:
-
-- `label`
-- `variant`
-- `fill`
-- `borderless`
-- `squared`
-- `icon-right`
+All [`InputText`](/components/form/inputText) props are available for `InputSearch`. The `btn-before` and `btn-after` props have restrictions depending on the `btn-position` prop value.
 
 ### Search Icon <Badge type="tip"><pre>icon-search: string = 'search'</pre></Badge>
 
@@ -64,6 +57,45 @@ All [`InputText`](/components/form/inputText) props are available for `InputSear
 <Demo>
     <InputSearch icon-clear="cancel"/>
 </Demo>
+
+### Btn Position <Badge type="tip"><pre>btn-position: ('before' | 'after') = 'after'</pre></Badge>
+
+Position of the built-in search button. The prop for the button in the selected position (`btn-before` or `btn-after`) only accepts the following `Btn` props:
+
+- `label`
+- `variant`
+- `fill`
+- `borderless`
+- `squared`
+- If `btn-position` is `'before'`, `iconLeft`, otherwise `iconRight`.
+
+The prop for the other button can be normally passed.
+
+```vue
+<InputSearch
+    btn-position="before"
+    :btn-before="{
+        label: 'Search',
+        iconLeft: 'rocket_launch',
+        iconRight: 'star', // ignored
+    }"
+/>
+```
+
+<Demo>
+    <InputSearch
+        btn-position="before"
+        :btn-before="{
+            label: 'Search',
+            iconLeft: 'rocket_launch',
+            iconRight: 'star',
+        }"
+        />
+</Demo>
+
+:::info
+The `btn-position` prop does not support reactive properties.
+:::
 
 ## Events
 
@@ -110,7 +142,14 @@ function handleClear(){
 | ---- | ---- | ------- |
 | `icon-search` | `string` | `'search'` |
 | `icon-clear` | `string` | `'search_off'` |
+| `btn-position` | `'before' \| 'after'` | `'after'` |
 
 ### Configuration options
 
-Inherited from [`InputText`](/components/form/inputText#configuration-options).
+The following `InputSearch` props' default values can be overwritten under the `inputSearch` root-level [configuration option](/configuration).
+
+| `inputSearch.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `btnPosition` | |
+
+Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).

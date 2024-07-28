@@ -90,6 +90,9 @@ const vergil = {
                 neutral: undefined
             }
         },
+        inputSearch: {
+            btnPosition: 'after',
+        },
         inputText: {
             underline: false,
             theme: new Option(undefined, { modifier: inferTheme }),

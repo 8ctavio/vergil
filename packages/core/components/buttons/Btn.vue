@@ -41,7 +41,7 @@ defineProps({
     },
     squared: {
         type: Boolean,
-        default: props => vergil.config.btn.squared || Boolean(!props.label && props.icon)
+        default: props => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
     icon: String,
     iconLeft: String,
