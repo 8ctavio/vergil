@@ -21,9 +21,10 @@
 	"exports": {
 		".": "./index.js",
 		"./components": "./components/index.js",
-		"./server": "./functions/server/index.js",
-		"./*": "./lib/*.js",
 		"./plugins": "./plugins/index.js",
+		"./regex": "./utilities/regex.js",
+		"./server": "./utilities/server.js",
+		"./userTheme": "./utilities/userTheme.js",
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
 		"./colors/default": "./styles/default.css"

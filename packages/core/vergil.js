@@ -1,6 +1,6 @@
 import { ref, readonly } from 'vue'
 import isPlainObject from 'is-plain-obj'
-import { inferTheme } from './functions/utils'
+import { inferTheme } from './utilities/private'
 
 class Option{
     constructor(value, { modifier, validator }){

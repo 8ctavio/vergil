@@ -91,6 +91,16 @@ interface VergilConfiguration {
             neutral: string;
         }
     },
+    inputSearch: {
+        btnPosition: ('before' | 'after') = 'after',
+    },
+    inputText: {
+        underline: boolean,
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     popup: {
         theme: theme;
     },

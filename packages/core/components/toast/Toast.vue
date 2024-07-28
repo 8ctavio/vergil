@@ -3,8 +3,7 @@ import Icon from '../Icon.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
 import { ref } from 'vue'
 import { vergil } from '../../vergil'
-import { inferTheme } from '../../functions/utils'
-import { isValidTheme } from '../../functions/utils/validators'
+import { inferTheme, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
     message: {

@@ -1,5 +1,5 @@
 import { vergil } from '../vergil'
-import { setUserThemeColor } from '../lib/userTheme'
+import { setUserThemeColor } from '../utilities/userTheme'
 
 const plugin = {
     install(app, options){

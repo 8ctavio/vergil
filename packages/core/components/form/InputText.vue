@@ -4,9 +4,8 @@ import Icon from '../Icon.vue'
 import { computed, toRef } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
-import { isModel, isModelWrapper } from '../../functions'
-import { inferTheme } from '../../functions/utils'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../functions/utils/validators'
+import { isModel, isModelWrapper } from '../../utilities'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 

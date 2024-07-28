@@ -1,5 +1,5 @@
 //---------- Functions ----------
-export * from './functions'
+export * from './utilities'
 
 //---------- Components API ----------
 export { confirm } from './components/confirm'

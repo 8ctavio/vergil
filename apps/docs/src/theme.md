@@ -102,6 +102,13 @@ The special `'user'` `theme` value allows to style components with a user-select
 
 #### API
 
+```js
+import {
+    setUserThemeColor,
+    userThemeColor
+} from '@8ctavio/vergil/userTheme'
+```
+
 The `setUserThemeColor` function and `userThemeColor` ref help update the `'user'` theme color palette.
 
 ```ts

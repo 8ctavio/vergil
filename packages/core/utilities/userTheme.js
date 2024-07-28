@@ -1,6 +1,6 @@
 import { ref, readonly } from 'vue'
 import { vergil } from '../vergil'
-import { isValidColor } from '../functions/utils/validators'
+import { isValidColor } from './functions/private/validators'
 
 const cssVars = [
     '--c-user-1',

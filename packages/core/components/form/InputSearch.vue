@@ -4,7 +4,7 @@ import { ref, computed } from 'vue'
 import { vergil } from '../../vergil'
 import { extendedReactive } from '../../composables/extendedReactive'
 import { useModel } from '../../composables/useModel'
-import { isModel, ucFirst } from '../../functions'
+import { isModel, ucFirst } from '../../utilities'
 
 const props = defineProps({
     value: {
@@ -104,6 +104,7 @@ function clear(){
     model.value = ''
     lastSearch.value = ''
 }
+
 </script>
 
 <template>

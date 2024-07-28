@@ -2,8 +2,7 @@
 import Btn from '../buttons/Btn.vue'
 import { vergil } from '../../vergil'
 import { closePopup, popupLeaving } from '.'
-import { inferTheme } from '../../functions/utils'
-import { isValidTheme } from '../../functions/utils/validators'
+import { inferTheme, isValidTheme } from '../../utilities/private'
 
 defineProps({
     title: String,

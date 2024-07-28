@@ -1,6 +1,6 @@
 import { ref, isRef, toValue, toRaw } from 'vue'
 import { extendedCustomRef } from './extendedRef'
-import { isModel, isModelWrapper } from '../functions'
+import { isModel, isModelWrapper } from '../utilities'
 
 /**
  * Creates or consumes a component model.

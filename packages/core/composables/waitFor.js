@@ -1,4 +1,4 @@
-import { isWatchSource } from '../functions'
+import { isWatchSource } from '../utilities'
 import { watchUntil } from './watchUntil'
 
 /**

@@ -1,6 +1,6 @@
 import { shallowReactive } from 'vue'
 import { vergil } from '../../vergil'
-import { inferTheme } from "../../functions/utils"
+import { inferTheme } from "../../utilities/private"
 
 const confirmModel = shallowReactive({
     show: false,
