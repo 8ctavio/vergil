@@ -64,6 +64,21 @@ Models have a `reset` method to reset the model's value to its initial specified
 
 The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlyng ref object may be accessed with the `getRef` method: `model.getRef('el')`.
 
+#### `exposed`
+
+Models store an [extendedReactive](/composables/extendedReactive) object under a  `exposed` key whose purpose is to have components with support for models to define or *expose* methods or properties on it with [`defineReactiveProperties`](/composables/defineReactiveProperties). This is, therefore, an alternative of exposing data with `defineExpose`.
+
+By defining properties on the `exposed` property, the parent component can easily access exposed data from `model.exposed` and enjoy of extendedReactive features such as automatically unwrapped refs.
+
+```js
+const model = useModel()
+
+// Read properties
+console.log(model.exposed.property)
+// Call methods
+model.exposed.method()
+```
+
 ## Definition
 
 ```ts
@@ -101,7 +116,46 @@ const props = defineProps({
 const model = useModel(props.modelValue)
 ```
 
-The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` wraps the model in a new extendedRef for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are essentially the same.
+The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` wraps the model in a new extendedRef for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are very similar.
+
+### Nested component
+
+Consider a `Root` component that wraps another `Nested` component which supports models. The `Root` component may need wrap the received model to perform certain operations. Then, the model could be directly passed to the `Nested` component.
+
+```vue
+<!-- Root -->
+<script setup>
+const props = defineProps(/* ... */)
+const model = useModel(props.modelValue)
+</script>
+<template>
+    <Nested :model-value="modelValue"/>
+</template>
+```
+
+Altough this could work, two different model wrappers would be created for the same model (one for `Root` and one for `Nested`). To avoid creating multiple model wrappers, the model wrapper created in `Root` can be directly provided to `Nested`. 
+
+```diff
+-    <Nested :model-value="modelValue"/>
++    <Nested :model-value="model"/>
+```
+
+When `useModel` receives a model wrapper, that wrapper is simply returned. Thefore, the `Nested` model implementation is not affected. However, the prop definition should include support for receiving both models and model wrappers.
+
+```js
+// Nested
+import { useModel, isModel, isModelWrapper } from '@8ctavio/vergil'
+
+const props = defineProps({
+    modelValue: {
+        validator: v => isModel(v) || isModelWrapper(v),
+        default: () => useModel()
+    }
+})
+
+const model = useModel(props.modelValue)
+```
+
 
 ### Listen to external model mutations
 
@@ -130,3 +184,30 @@ The `el` property present on a model is intented to store a reference to a compo
 ```vue
 <element :ref="model.getRef('el')"/>
 ```
+
+### Expose data
+
+In order to expose component data such as methods and properties to make them available for the parent component, `defineReactiveProperties` should be used to define additional properties on the model's `exposed` property:
+
+```js
+import { useModel, defineReactiveProperties } from '@8ctavio/vergil'
+
+const props = defineProps(/* ... */)
+const model = useModel(props.modelValue)
+
+function method(){ /* ... */ }
+const property = ref(/* ... */)
+
+// Expose data
+defineReactiveProperties(props.modelValue.exposed, withDescriptor => ({
+    method,
+    property: withDescriptor({
+        value: property,
+        readonly: true
+    })
+}))
+```
+
+:::warning
+The properties should be defined on the received model's `exposed` property. Model wrappers do not have an `exposed` property.
+:::

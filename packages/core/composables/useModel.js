@@ -1,4 +1,5 @@
 import { ref, isRef, toValue, toRaw } from 'vue'
+import { extendedReactive } from './extendedReactive'
 import { extendedCustomRef } from './extendedRef'
 import { isModel, isModelWrapper } from '../utilities'
 
@@ -68,6 +69,7 @@ export function useModel(value){
             reset(){
                 this.updateModel(getReferenceCopy())
             },
+            exposed: extendedReactive(),
             updateModel: withDescriptor({
                 value(v){ this.ref.value = v },
                 enumerable: false
