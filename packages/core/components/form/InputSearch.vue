@@ -2,6 +2,7 @@
 import InputText from './InputText.vue'
 import { ref, computed } from 'vue'
 import { vergil } from '../../vergil'
+import { defineReactiveProperties } from '../../composables/defineReactiveProperties'
 import { extendedReactive } from '../../composables/extendedReactive'
 import { useModel } from '../../composables/useModel'
 import { isModel, ucFirst } from '../../utilities'
@@ -99,12 +100,15 @@ const btnProps = extendedReactive({
     squared: props[`btn${btnPositionName}`]?.squared,
 })
 
-function clear(){
-    emit('clear')
-    model.value = ''
-    lastSearch.value = ''
-}
-
+defineReactiveProperties(props.modelValue.exposed, {
+    clear(){
+        if(model.value){
+            model.value = ''
+            emit('clear')
+        }
+        lastSearch.value = ''
+    }
+})
 </script>
 
 <template>

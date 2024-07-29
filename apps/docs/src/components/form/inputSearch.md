@@ -5,8 +5,9 @@ outline: [2,3]
 # InputSearch <Badge type="tip"><pre>.input-search</pre></Badge>
 
 <script setup>
-import { InputSearch } from '@8ctavio/vergil/components'
+import { InputSearch, Btn } from '@8ctavio/vergil/components'
 import { useModel, toast } from '@8ctavio/vergil'
+import { onMounted } from 'vue'
 
 async function handleSearch(){
     await new Promise(r => setTimeout(r,3000))
@@ -14,6 +15,10 @@ async function handleSearch(){
 }
 function handleClear(){
     toast('info', 'Search query cleared')
+}
+const exposeModel = useModel('')
+function clean(){
+    exposeModel.exposed.clear?.()
 }
 </script>
 
@@ -134,6 +139,31 @@ function handleClear(){
 
 <Demo>
     <InputSearch @clear="handleClear"/>
+</Demo>
+
+## Exposed
+
+### Clear
+
+Method to properly clear `InputSearch`'s text field.
+
+```vue
+<script setup>
+const model = useModel('')
+function handleClear(){
+    model.exposed.clear?.()
+}
+</script>
+
+<template>
+    <InputSearch v-model="model"/>
+    <Btn @click="handleClear" label="Clear"/>
+</template>
+```
+
+<Demo>
+    <InputSearch v-model="exposeModel"/>
+    <Btn @click="clean" label="Clear"/>
 </Demo>
 
 ## API Reference
