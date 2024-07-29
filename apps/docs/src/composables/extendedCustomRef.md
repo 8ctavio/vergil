@@ -28,6 +28,7 @@ const extended = extendedCustomRef(0, {
 }, withDescriptor => ({
     extra: ''
 }))
+
 extended.value = 8 // 'inner value updated'
 n = extended.value // 'inner value retrieved'
 ```
@@ -36,7 +37,7 @@ n = extended.value // 'inner value retrieved'
 
 An extendedCustomRef is essentially an [extendedRef](/composables/extendedRef) with custom `value` accessor methods (getter and setter). The extendedRef's `value` property simply reads from and writes to the inner ref's value. If additional control over operations to perform when reading from and writing to the `value` property, an `extendedCustomRef` can be used.
 
-The `extendedCustomRef` composable returns an [`ExtendedRef`](/composables/extendedRef#extendedref-class) object and receives three arguments: `initial`, `accessor`, and `extension`. The `initial` and `extension` are the same as for the `extendedRef` composable. The `accessor` argument is an object with optional `get` and `set` methods, the custom accessor methods for the `value` property.
+The `extendedCustomRef` composable returns an `ExtendedRef` object and receives three arguments: `initial`, `accessor`, and `extension`. The `initial` and `extension` are the same as for the `extendedRef` composable. The `accessor` argument is an object with optional `get` and `set` methods, the custom accessor methods for the `value` property.
 
 ## Definition
 

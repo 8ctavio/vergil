@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `useModel`
 
-> Creates or consumes a component model.
+> Creates or wraps a component model.
 
 ## Usage
 
@@ -34,7 +34,7 @@ console.log(model.value) // 'initial value'
 
 The `useModel` composable creates a *model* for a custom component. Here, a model may be understood as an encapsulation of component state and utilities to conveniently interact with it.
 
-A created model should be provided to a component with special support for models created with `useModel` via the `v-model` directive. Therefore, the `useModel` composable is an alternative for two-way data binding with regular refs.
+A model should be provided to a component with special support for models created with `useModel` via the `v-model` directive. Therefore, the `useModel` composable is an alternative for two-way data binding with regular refs.
 
 ```vue
 <script>
@@ -72,7 +72,7 @@ function useModel<T>(value?: T | ExtendedRef<T>): ExtendedRef<T>
 
 #### Parameters
 
-- **`value`**: The initial value for a new model. To consume a model, `value` must be a model created by `useModel`.
+- **`value`**: The initial value to create a model with or the model to wrap. Wrapped models are directly returned.
 
 #### Return value
 
@@ -80,7 +80,7 @@ An `ExtendedRef` object.
 
 ## Component support for `useModel`
 
-In order for a custom component to support a model created with `useModel`, it must *consume* the model with `useModel`.
+In order for a custom component to support a model created with `useModel`, it must *wrap* the model with `useModel`.
 
 ```js
 const model = useModel(/* existing model created by parent */)
@@ -101,11 +101,11 @@ const props = defineProps({
 const model = useModel(props.modelValue)
 ```
 
-The `useModel` composable is analogous to the `defineModel` macro. When used to consume an already created model, `useModel` wraps the model in a new extendedRef for specific use inside the custom component. However, in practice, the APIs of a wrapped consumed model and a newly created model are essentially the same.
+The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` wraps the model in a new extendedRef for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are essentially the same.
 
 ### Listen to external model mutations
 
-When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a wrapped consumed model has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
+When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a wrapped model has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
 
 :::tip IMPORTANT
 If registered, the `onMutated` callback is responsible for updating the model value.

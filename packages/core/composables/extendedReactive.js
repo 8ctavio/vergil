@@ -1,26 +1,8 @@
-import { isRef, markRaw } from 'vue'
-import { defineReactiveProperties } from "./utils/extendedReactivity"
-
-/** Defines accessor methods to read and write internally stored refs of automatically unwrapped reactive properties */
-export class ExtendedReactive {
-	#refs = {}
-	constructor() {
-		markRaw(this)
-		Object.defineProperties(this, {
-			getRef: {
-				value: (property) => this.#refs[property],
-			},
-			setRef: {
-				value: (property, refProperty) => {
-                    if(isRef(refProperty)) this.#refs[property] = refProperty
-				},
-			},
-		})
-	}
-}
+import { defineReactiveProperties } from "./defineReactiveProperties"
+import { ExtendedReactive } from "../utilities"
 
 /**
- * Defines additional object properties through descriptors with special ref support.
+ * Defines additional `ExtendedReactive` object properties through descriptors with special ref support.
  * 
  * @template T
  * @param { T | (withDescriptor: function) => T } [properties] - An object, or function that returns an object, whose keys represent the names of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
@@ -51,6 +33,7 @@ export class ExtendedReactive {
  *          readonly: true
  *      })
  *  }))
+ * 
  */
 export function extendedReactive(properties) {
 	return defineReactiveProperties(new ExtendedReactive(), properties)

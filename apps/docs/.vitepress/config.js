@@ -71,6 +71,7 @@ export default {
 				text: 'Composables',
 				collapsed: true,
 				items: [
+					{ text: 'defineReactiveProperties', link: '/composables/defineReactiveProperties' },
 					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
 					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
@@ -85,10 +86,18 @@ export default {
 				collapsed: true,
 				items: [
 					{
-						text: 'Functions',
-						link: '/utilities/functions',
+						text: 'Classes',
+						link: '/utilities/classes/index.md',
 						items: [
-							{ text: 'Server', link: '/utilities/server' },
+							{ text: 'Server', link: '/utilities/classes/server' },
+						]
+					},
+					{ text: 'Error handling', link: '/utilities/error-handling' },
+					{
+						text: 'Functions',
+						link: '/utilities/functions/index.md',
+						items: [
+							{ text: 'Server', link: '/utilities/functions/server' },
 						]
 					},
 					{ text: 'Regex', link: '/utilities/regex' }

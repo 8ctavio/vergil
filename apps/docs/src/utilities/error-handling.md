@@ -2,62 +2,7 @@
 outline: [2,3]
 ---
 
-# Server
-
-> Server specific utility functions
-
-## Usage
-
-```js
-import { <fn> } from '@8ctavio/vergil/server'
-```
-
-<!----------------------------------------------
--------------------- getDayStart --------------------
------------------------------------------------>
-### `getDayStart`
-
-> Gets a start of day timestamp (00:00:00.000) of another timestamps' date in a given timezone.
-
-```js
-function getDayStart(tzo: number, timestamp: number = Date.now()): number
-```
-
-#### Parameters
-
-- **`tzo`** — Timezone offset in minutes.
-- **`timestamp`** — Reference timestamp in milliseconds.
-
-#### Return value
-
-Start-of-day timestamp of the target-timezone-date with the provided timestamp.
-
-<!---------------------------------------------------
--------------------- ServerError --------------------
----------------------------------------------------->
-### `ServerError`
-
-> Server specific (back-end) error.
-
-```ts
-class ServerError{
-    message: string
-    operation: string
-    code: string
-    causes?: (string | Error)[]
-
-    constructor (options: ServerError)
-}
-```
-
-#### Parameters
-
-- **`message`** — Human readable error description
-- **`operation`** — Name of operation where error originated.
-- **`code`** — A firebase functions' [FunctionsErrorCode](https://firebase.google.com/docs/reference/node/firebase.functions#functionserrorcode).
-- **`cause`** — Deductively ordered error causes.
-
-## Error handling
+# Error handling
 
 Handling and coordinating errors and their messages between server and client applications can quickly become chaotic and non-scalable if not using some kind of convention.
 
@@ -69,7 +14,7 @@ In order to simplify, organize and standardize error throwing syntax and error m
 
 ### Server side
 
-A `ServerErrorFactory` class that helps to generate `ServerError`s with messages of the form `"[ServerError] <Message title>: <Message details>"`, where the message title is based on the `operation` being performed and the message details depend on the `code` and `causes`.
+A `ServerErrorFactory` class that helps to generate [`ServerError`](/utilities/classes/server#servererror)s with messages of the form `"[ServerError] <Message title>: <Message details>"`, where the message title is based on the `operation` being performed and the message details depend on the `code` and `causes`.
 
 Basic usage is shown below:
 
@@ -83,7 +28,7 @@ if(exception)
 
 This way, `ServerError`s are uniquely identified by the sequence of `code, ...causes`. The `operation` only serves to inform where the error came from (what was the server doing).
 
-It is recommended to use a firebase functions' [FunctionsErrorCode](https://firebase.google.com/docs/reference/node/firebase.functions#functionserrorcode) for the `ServerError` `code`. However, the developer should propose short and simple *cause* codes to accurately and semantically describe the error.
+It is recommended to use a firebase functions' [FunctionsErrorCode](https://firebase.google.com/docs/reference/node/firebase.functions#functionserrorcode) for the `ServerError` `code`. In any case, the developer should suggest short and simple *cause* codes to accurately and semantically describe the error.
 
 It is important to note as well that the ordered sequence `code, ...causes` should be designed to deductively describe the error, i.e., when traversing the sequence from left to right, it should communicate with increasing specificity the reasons why the error ocurred.
 
@@ -168,7 +113,7 @@ Consider, for instance, a `create-note` operation that receives a `title` and `c
 - `error.throw('invalid-argument', 'note', 'title', 'too-long')`
 - `error.throw('invalid-argument', 'note', 'content')`
 
-The objects in the `ServerErrorFactory.throw` method would look something like this:
+The objects in the `ServerErrorFactory.throw` method might look something like this:
 
 ```js
 // Message titles
@@ -182,7 +127,7 @@ The objects in the `ServerErrorFactory.throw` method would look something like t
         'note': {
             'title': {
                 'empty': 'Sent an empty note title',
-                'too-long': 'Note title cannont exceed 50 characters',
+                'too-long': 'Note title cannot exceed 50 characters',
                 default: 'Sent an invalid note title'
             },
             'content': 'Sent invalid note content'
@@ -204,7 +149,7 @@ catch(error){
 
 ### Client side
 
-When an error coming from the server (should be a `ServerError`) is caught in the client, use a `getServerErrorMessage` function to generate a `message` for an `AppError` with `type = 'server'`.
+When an error coming from the server (should be a `ServerError`) is caught in the client, use a `getServerErrorMessage` function to generate a `message` for an [`AppError`](/utilities/classes/index.md#apperror) with `type = 'server'`.
 
 Basic usage is shown below:
 
@@ -252,4 +197,4 @@ function getServerErrorMessage(operation, code, causes){
 }
 ```
 
-How to display the `AppError` message is left to the developer. An option is, for instance, to use the object returned by `getServerErrorMessage` as props to a `Toast` component.
+How to display the `AppError` message is left to the developer. An option is, for instance, to use the object returned by `getServerErrorMessage` as props for a [`Toast`](/components/toast) component.

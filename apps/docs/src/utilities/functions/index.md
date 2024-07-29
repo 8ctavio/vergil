@@ -339,46 +339,6 @@ getTimestamp({
 })
 ```
 
-## Error
-
-<!------------------------------------------------
--------------------- AppError --------------------
-------------------------------------------------->
-### `AppError`
-
-> Class to manage custom app (front-end) errors.
-
-```ts
-class AppError {
-    type: string
-    message: string | {
-        title: string;
-        details: string;
-    }
-    code: string
-    details: object
-
-    constructor({
-        type: string,
-        log: string,
-        message: string | {
-            title: string;
-            details: string;
-        },
-        code: string = '',
-        details: object
-    })
-}
-```
-
-#### Parameters
-
-- **`type`** — Developer defined `AppError` type.
-- **`code`** — Developer defined code. There may be different set of codes for different `type` values.
-- **`details`** — `type` specific error details.
-- **`log`** — Message to be logged in the console.
-- **`message`** — User friendly message. As an object, `message` is separated in a `title` and `details`.
-
 ## Ref
 
 <!----------------------------------------------------------

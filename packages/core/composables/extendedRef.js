@@ -1,25 +1,5 @@
-import { toRef } from 'vue'
-import { defineReactiveProperties } from './utils/extendedReactivity'
-import { ExtendedReactive } from './extendedReactive'
-
-/** Defines a `ref` property to store a ref object and `value` accessor methods to read from and write to the ref's value. */
-class ExtendedRef extends ExtendedReactive {
-	constructor(initial, accessor = {}) {
-		super()
-		const {
-			get = function () {
-				return this.ref.value
-			},
-			set = function (v) {
-				this.ref.value = v
-			},
-		} = accessor
-		Object.defineProperties(this, {
-			ref: { value: toRef(initial) },
-			value: { get, set },
-		})
-	}
-}
+import { defineReactiveProperties } from './defineReactiveProperties'
+import { ExtendedRef } from '../utilities'
 
 /**
  * Extends a ref with additional properties.
@@ -46,11 +26,10 @@ class ExtendedRef extends ExtendedReactive {
  *		extra3: withDescriptor({ value: ref(3), enumerable: true, readonly: true })
  *	}))
  */
-function extendedRef(initial, extension) {
+export function extendedRef(initial, extension) {
 	return defineReactiveProperties(
 		initial instanceof ExtendedRef ? initial : new ExtendedRef(initial),
-		extension,
-		['ref', 'value']
+		extension
 	)
 }
 
@@ -81,16 +60,9 @@ function extendedRef(initial, extension) {
  *	extended.value = 8 // 'inner value updated'
  *	n = extended.value // 'inner value retrieved'
  */
-function extendedCustomRef(initial, accessor, extension) {
+export function extendedCustomRef(initial, accessor, extension) {
 	return defineReactiveProperties(
 		new ExtendedRef(initial, accessor),
-		extension,
-		['ref', 'value']
+		extension
 	)
-}
-
-export {
-    ExtendedRef,
-    extendedRef,
-    extendedCustomRef
 }

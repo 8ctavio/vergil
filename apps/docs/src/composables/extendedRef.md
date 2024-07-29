@@ -41,27 +41,13 @@ The `extendedRef` composable receives two arguments: `initial` and `extension`. 
 
 ### Extend properties
 
-The `extendedRef` composable employs the same method for defining additional properties as the [`extendedReactive`](/composables/extendedReactive) composable. Therefore, the `extendedRef`'s `extension` argument is analogous to the `extendedReactive`'s `properties` argument. See [Property Definition](/composables/extendedReactive#property-definition) to learn about defining additional properties.
+The `extendedRef` composable employs [`defineReactiveProperties`](/composables/defineReactiveProperties) to define additional properties. Therefore, the `extendedRef`'s `extension` argument is analogous to the `properties` argument of `defineReactiveProperties`. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn about defining additional properties.
 
-### `ExtendedRef` class
+### Additional features
 
-The `extendedRef` composable does not directly modifies a ref object, but creates and returns an `ExtendedRef` object instance. The `ExtendedRef` class extends the [`ExtendedReactive`](/composables/extendedReactive#extendedreactive-class) class. Therefore, the `getRef` and `setRef` reserved property methods are also available in an extendedRef.
+The `extendedRef` composable does not directly modifies a ref object, but creates and returns an [`ExtendedRef`](/utilities/classes#extendedref) object instance which extends the [`ExtendedReactive`](/utilities/classes#extendedreactive) class. Therefore, the `getRef` and `setRef` reserved methods are also available in an extendedRef.
 
 `ExtendedRef` defines two additional properties: `value` and `ref`. The `ref` property stores the extendedRef's underlying ref object. The `value` property, on the other hand, is defined with accessors (getter and setter) to read from and write to that inner ref's value.
-
-:::tip
-The `value` and `ref` properties are reserved for an `ExtendedRef` object. Therefore, these properties cannot be overwritten with `extendedRef`.
-:::
-
-The `ExtendedRef` class can be imported to assess whether an object is an `ExtendedRef` object. Vergil also provides an `isExtendedRef` utility function for this same purpose.
-
-```js
-import { ExtendedRef } from '@8ctavio/vergil'
-```
-
-:::warning
-The `ExtendedRef` constructor does not define additional properties.
-:::
 
 ### Difference with ref
 
@@ -111,12 +97,3 @@ function extendedRef<T,E>(
 #### Return value
 
 An `ExtendedRef` object.
-
-### `ExtendedRef`
-
-```ts
-interface ExtendedRef<T,E> extends ExtendedReactive<E> {
-    ref: Ref<T>;
-    value: T;
-}
-```

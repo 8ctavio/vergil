@@ -1,6 +1,5 @@
 import { isRef } from 'vue'
-import { ExtendedReactive } from '../../composables/extendedReactive'
-import { ExtendedRef } from '../../composables/extendedRef'
+import { ExtendedReactive, ExtendedRef } from '../classes'
 
 //------------------------------------------------
 //-------------------- STRING --------------------

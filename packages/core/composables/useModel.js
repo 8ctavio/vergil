@@ -3,9 +3,9 @@ import { extendedCustomRef } from './extendedRef'
 import { isModel, isModelWrapper } from '../utilities'
 
 /**
- * Creates or consumes a component model.
+ * Creates or wraps a component model.
  * 
- * @param [value] - The initial value for a new model. To consume a model, `value` must be a model created by `useModel`.
+ * @param [value] - The initial value to create a model with or the model to wrap. Wrapped models are directly returned.
  * 
  * @returns { ExtendedRef }
  * 

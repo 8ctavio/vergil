@@ -16,10 +16,10 @@ hero:
       link: components/buttons/btn
     - theme: alt
       text: Composables
-      link: composables/extendedCustomRef
+      link: composables/defineReactiveProperties
     - theme: alt
       text: Utilities
-      link: utilities/functions
+      link: utilities/classes/index.md
 
 features:
   - title: Components
