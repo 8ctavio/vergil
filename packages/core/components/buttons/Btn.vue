@@ -83,12 +83,12 @@ defineProps({
 <style>
 .btn{
     font-size: var(--g-font-size);
+    line-height: var(--line-height-text);
     padding: var(--g-gap-1) var(--g-gap-2);
     border-radius: var(--g-radius);
 
     position: relative;
     border: none;
-    line-height: normal;
     font-weight: 500;
     outline: 0 solid transparent;
     cursor: pointer;
@@ -125,15 +125,14 @@ defineProps({
         display: grid;
         grid-auto-flow: column;
         column-gap: var(--g-gap-1);
-        line-height: inherit;
 
         &::selection{
             background-color: transparent;
         }
 
         & > .icon{
-            font-size: 1em;
-            line-height: inherit;
+            font-size: calc(1em * var(--icon-font-size-coeff));
+            line-height: var(--line-height-icon);
             aspect-ratio: 1 / 1;
             transition: color 150ms;
         }
@@ -145,11 +144,13 @@ defineProps({
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: center;
+            align-items: center;
+            writing-mode: vertical-lr;
 
             & > .btn-spinner{
                 aspect-ratio: 1 / 1;
-                box-sizing: border-box;
+                height: 100%;
+                margin: 7.5% 0;
                 border-width: 3px;
                 border-style: solid;
                 border-top-width: 3px;

@@ -96,6 +96,7 @@ defineProps({
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
 
     font-size: var(--g-font-size);
+    line-height: var(--line-height-text);
     padding: var(--g-gap-1) var(--g-gap-2);
     border-radius: var(--g-radius);
     column-gap: var(--g-gap-1);
@@ -107,7 +108,6 @@ defineProps({
     
     border: none;
     font-weight: 500;
-    line-height: normal;
     box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
     cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
@@ -165,9 +165,9 @@ defineProps({
     }
 
     & > .icon{
-        font-size: 1em;
-        line-height: inherit;
         align-self: stretch;
+        font-size: calc(1em * var(--icon-font-size-coeff));
+        line-height: var(--line-height-icon);
         aspect-ratio: 1 / 1;
         transition: color 150ms;
     }
@@ -176,22 +176,24 @@ defineProps({
         position: absolute;
         top: 0;
         left: 0;
-        display: flex;
-        justify-content: center;
         width: 100%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        writing-mode: vertical-lr;
         padding: inherit;
         border-radius: inherit;
         background-color: inherit;
 
         & > .btn-spinner{
             aspect-ratio: 1 / 1;
-            box-sizing: border-box;
-            border-radius: 50%;
+            height: 100%;
+            margin: 7.5% 0;
             border-width: 3px;
             border-style: solid;
             border-top-width: 3px;
             border-top-style: solid;
+            border-radius: 50%;
             animation: spin 1000ms linear infinite;
         }
     }

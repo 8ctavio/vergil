@@ -23,6 +23,14 @@ p, h1, h2, h3{
     --font-size-lg: 1.6rem;
     --font-size-xl: 1.8rem;
 
+    /*---------- Line height ----------*/
+    --target-text-font-size: 14;
+    --target-icon-font-size: 17;
+    --target-line-height: 20;
+    --line-height-text: calc(var(--target-line-height) / var(--target-text-font-size));
+    --line-height-icon: calc(var(--target-line-height) / var(--target-icon-font-size));
+    --icon-font-size-coeff: var(--target-icon-font-size) / var(--target-text-font-size);
+
     /*---------- Font style ----------*/
     --font-sans: 'initial';
     --font-mono: 'initial';

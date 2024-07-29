@@ -133,7 +133,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 <style>
 .input-text{
     font-size: var(--g-font-size);
-    line-height: normal;
+    line-height: var(--line-height-text);
     display: flex;
     flex-direction: column;
     row-gap: calc(0.8 * var(--g-gap-1));
@@ -279,9 +279,8 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         color: var(--c-grey-text-3);
     }
     & > .icon{
-        align-self: stretch;
-        font-size: 1.2em;
-        line-height: inherit;
+        font-size: calc(1em * var(--icon-font-size-coeff));
+        line-height: var(--line-height-icon);
         color: var(--c-theme-icon-3);
     }
 }
