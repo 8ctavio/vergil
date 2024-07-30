@@ -24,12 +24,15 @@ p, h1, h2, h3{
     --font-size-xl: 1.8rem;
 
     /*---------- Line height ----------*/
-    --target-text-font-size: 14;
-    --target-icon-font-size: 17;
-    --target-line-height: 20;
-    --line-height-text: calc(var(--target-line-height) / var(--target-text-font-size));
-    --line-height-icon: calc(var(--target-line-height) / var(--target-icon-font-size));
-    --icon-font-size-coeff: var(--target-icon-font-size) / var(--target-text-font-size);
+    /* target-line-height >= target-font-size-icon >= target-font-size-text */
+    --target-font-size-text: 14;
+    --target-font-size-icon: 16;
+    --target-line-height: 18;
+    
+    /* line-height-text >= font-size-scale-icon >= 1 */
+    --font-size-scale-icon: calc(var(--target-font-size-icon) / var(--target-font-size-text));
+    --line-height-text: calc(var(--target-line-height) / var(--target-font-size-text));
+    --line-height-icon: calc(var(--line-height-text) / var(--font-size-scale-icon));
 
     /*---------- Font style ----------*/
     --font-sans: 'initial';

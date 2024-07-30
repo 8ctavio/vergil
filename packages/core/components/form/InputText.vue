@@ -279,7 +279,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         color: var(--c-grey-text-3);
     }
     & > .icon{
-        font-size: calc(1em * var(--icon-font-size-coeff));
+        font-size: calc(1em * var(--font-size-scale-icon));
         line-height: var(--line-height-icon);
         color: var(--c-theme-icon-3);
     }

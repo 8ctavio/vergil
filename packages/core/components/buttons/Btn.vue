@@ -131,13 +131,14 @@ defineProps({
         }
 
         & > .icon{
-            font-size: calc(1em * var(--icon-font-size-coeff));
+            font-size: calc(1em * var(--font-size-scale-icon));
             line-height: var(--line-height-icon);
             aspect-ratio: 1 / 1;
             transition: color 150ms;
         }
 
         & > .btn-loader{
+            font-size: 1em;
             position: absolute;
             top: 0;
             left: 0;
@@ -148,9 +149,10 @@ defineProps({
             writing-mode: vertical-lr;
 
             & > .btn-spinner{
-                aspect-ratio: 1 / 1;
+                font-size: 1em;
                 height: 100%;
-                margin: 7.5% 0;
+                margin: calc((100% - (1em * var(--font-size-scale-icon))) / 2) 0;
+                aspect-ratio: 1 / 1;
                 border-width: 3px;
                 border-style: solid;
                 border-top-width: 3px;
