@@ -42,6 +42,7 @@ export default {
 			{ text: 'Get Started', link: '/get-started' },
 			{ text: 'Configuration', link: '/configuration' },
 			{ text: 'Theme', link: '/theme' },
+			{ text: 'Mini-Markup', link: '/mini-markup' },
 			{
 				text: 'Components',
 				collapsed: true,

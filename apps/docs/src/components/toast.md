@@ -27,38 +27,22 @@ console.time('toast-duration')
 
 ## Props
 
-### Message <Badge type="tip"><pre>message: string = ''</pre></Badge>
+### Message <Badge type="tip"><pre>message: string = ''</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 ```vue
-<Toast message="Some message"/>
+<Toast message="Service Number **[[01928-19912-JK]]**" icon="military_tech"/>
 ```
 
 <Demo>
-    <Toast message="Some message"/>
+    <Toast message="Service Number **[[01928-19912-JK]]**" icon="military_tech"/>
 </Demo>
 
-Vergil is able to parse `message` for a minimal set of Markdown-like tags, as well as line breaks inside template strings. Available tags syntax is shown in the next table.
+### Details <Badge type="tip"><pre>details: string = ''</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
-| Syntax      | Effect |
-| ----------- | ------ |
-| `**<str>**` | `str` is displayed with bold font |
-| `//<str>//` | `str` is displayed in italics |
-| `[[<str>]]` | `str` is displayed inside an inline block |
+When the `details` prop is provided:
 
-```vue
-<Toast message="Service Number **[[01928-19912-JK]]**" icon="coronavirus"/>
-```
-<Demo>
-    <Toast message="Service Number **[[01928-19912-JK]]**" icon="coronavirus"/>
-</Demo>
-
-### Details <Badge type="tip"><pre>details: string = ''</pre></Badge>
-
-:::tip
-Message details are displayed only if the `message` prop is specified.
-:::
-
-When passing `details`, the `message` will be displayed as a header for the toast.
+- `message` is displayed as a header, and
+- Mini-Markup support is **only** available for the `details` prop.
 
 ```vue
 <Toast message="Message Header" details="Message details..."/>
@@ -68,7 +52,9 @@ When passing `details`, the `message` will be displayed as a header for the toas
     <Toast message="Message Header" details="Message details..."/>
 </Demo>
 
-When providing `details`, Vergil only parses Markdown-like tags in the `details` prop.
+:::tip
+Message details are displayed only if the `message` prop is specified.
+:::
 
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 

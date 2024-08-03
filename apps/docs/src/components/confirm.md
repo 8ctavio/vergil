@@ -131,12 +131,7 @@ async function confirm(theme: string, request: {
 
 - `theme`: Theme to style `Confirm` with. Different themes help transmit a request's level of concern to the user. Possible `theme` values are those of the [`theme`](/theme#the-theme-prop) prop.
 - `title`: The request's title.
-- `description`: The request's description. Vergil is able to parse `description` for a minimal set of Markdown-like tags, as well as line breaks inside template strings (see examples below). Available tags syntax is shown in the next table.
-    | Syntax      | Effect |
-    | ----------- | ------ |
-    | `**<str>**` | `str` is displayed with bold font |
-    | `//<str>//` | `str` is displayed in italics |
-    | `[[<str>]]` | `str` is displayed inside an inline block |
+- `description`: The request's description. <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 - `confirmLabel`: Confirm button's label.
 - `declineLabel`: Decline button's label.
 - `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are found under the `global` [default configuration](/configuration#default-configuration) option.
