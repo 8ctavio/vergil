@@ -103,6 +103,13 @@ const vergil = {
         popup: {
             theme: undefined,
         },
+        textarea: {
+            underline: false,
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+        },
         toast: {
             theme: undefined,
             icon: {

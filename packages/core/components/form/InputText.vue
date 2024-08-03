@@ -133,6 +133,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 
 <style>
 .input-text-outer{
+    font-size: 1em;
     display: grid;
     grid-auto-flow: column;
     width: 100%;

@@ -104,6 +104,13 @@ interface VergilConfiguration {
     popup: {
         theme: theme;
     },
+    textarea: {
+        underline: boolean,
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     toast: {
         theme: theme;
         icon: {

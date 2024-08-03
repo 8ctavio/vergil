@@ -67,6 +67,7 @@ export default {
 					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
+					{ text: 'Textarea', link: '/components/form/textarea' },
 				]
 			},
 			{

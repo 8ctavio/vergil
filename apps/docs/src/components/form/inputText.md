@@ -145,10 +145,7 @@ const btnAfterProps = {
     <InputText :btn-before="btnBeforeProps" :btn-after="btnAfterProps"/>
 </Demo>
 
-
-
 ### Float label <Badge type="tip"><pre>float-label: boolean</pre></Badge>
-
 
 ```vue
 <InputText label="Text Input" float-label/>
@@ -161,8 +158,6 @@ const btnAfterProps = {
 :::tip NOTE
 `float-label` only works if the `description`, `prefix`, and `icon[-left]` props are unset.
 :::
-
-
 
 ### Underline <Badge type="tip"><pre>underline: boolean</pre></Badge>
 
