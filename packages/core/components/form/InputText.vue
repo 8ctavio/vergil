@@ -1,6 +1,8 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
+import FormField from '../utils/FormField.vue'
+import MiniMarkup from "../utils/MiniMarkup.vue"
 import { computed, toRef } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -81,19 +83,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 </script>
 
 <template>
-    <div :class="['input-text',
-        classAttr,
-        `size-${size}`,
-        `radius-${radius}`,
-        `spacing-${spacing}`,
-    ]">
-        <div v-if="label || hint" class="label-wrapper">
-            <span v-if="canLabelFloat">&#8203;</span>
-            <label v-else>{{ label }}</label>
-            <span>{{ hint }}</span>
-        </div>
-        <p v-if="description" class="input-details">{{ description }}</p>
-        <div :class="['input-wrapper-outer', { underline }]">
+    <FormField :class="['input-text', classAttr]"
+        :label :hint :description :help :float-label="canLabelFloat"
+        :size :radius :spacing
+        >
+        <div :class="['input-text-outer', { underline }]">
             <Btn v-if="showBtnBefore" variant="outline" v-bind="btnBefore"
                 :theme
                 :size
@@ -101,7 +95,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 :spacing
                 :disabled="disabled || btnBefore.disabled"
                 />
-            <div :class="['input-wrapper', inferTheme(theme)]">
+            <div :class="['input-text-wrapper', inferTheme(theme)]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
@@ -115,7 +109,9 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                     :disabled
                 >
                 <p v-if="suffix">{{ suffix }}</p>
-                <label v-if="canLabelFloat">{{ label }}</label>
+                <label v-if="canLabelFloat">
+                    <MiniMarkup :str="label"/>
+                </label>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
             <Btn v-if="showBtnAfter" variant="outline" v-bind="btnAfter"
@@ -126,52 +122,21 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 :disabled="disabled || btnAfter.disabled"
                 />
         </div>
-        <p v-if="help" class="input-details">{{ help }}</p>
-    </div>
+    </FormField>
 </template>
 
 <style>
-.input-text{
-    font-size: var(--g-font-size);
-    line-height: var(--line-height-text);
-    display: flex;
-    flex-direction: column;
-    row-gap: calc(0.8 * var(--g-gap-1));
-}
-
-.label-wrapper{
-    font-size: 1em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: calc(0.8 * var(--g-gap-1));
-
-    & > :first-child{
-        font-size: 0.9em;
-        font-weight: 450;
-        color: var(--c-text);
-    }
-    & > :last-child{
-        font-size: 0.85em;
-        color: var(--c-grey-text-3);
-    }
-}
-.input-details{
-    font-size: 0.9em;
-    color: var(--c-grey-text-3);
-}
-
-.input-wrapper-outer{
+.input-text-outer{
     display: grid;
     grid-auto-flow: column;
     width: 100%;
 
-    &:has(> .btn:first-child) > .input-wrapper{
+    &:has(> .btn:first-child) > .input-text-wrapper{
         --text-input-bw-l: 0px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &:has(> .btn:last-child) > .input-wrapper{
+    &:has(> .btn:last-child) > .input-text-wrapper{
         --text-input-bw-r: 0px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -196,13 +161,13 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
             --btn-bw-b: 2px;
             --btn-bc-b: var(--c-theme-1);
         }
-        & > .input-wrapper{
+        & > .input-text-wrapper{
             --text-input-bw-b: 2px;
             --text-input-bc-b: var(--c-theme-1);
         }
     }
 }
-.input-wrapper{
+.input-text-wrapper{
     --text-input-bw-l: 0.5px;
     --text-input-bw-r: 0.5px;
     --text-input-bw-b: 0.5px;
