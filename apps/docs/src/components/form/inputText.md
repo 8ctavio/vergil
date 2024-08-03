@@ -39,26 +39,26 @@ const text = useModel('')
 
 ## Props
 
-### Value <Badge type="tip"><pre>value: string = ''</pre></Badge> <Badge type="warning">only if <pre>modelValue</pre> prop is unset</Badge>
+### Placeholder <Badge type="tip"><pre>placeholder: string</pre></Badge>
 
 ```vue
-<InputText value="Initial Value"/>
+<InputText placeholder="Text Input"/>
 ```
 
 <Demo>
-    <InputText value="Initial Value"/>
+    <InputText placeholder="Text Input"/>
 </Demo>
 
-### Type <Badge type="tip"><pre>type: ('text' | 'password') = 'text'</pre></Badge>
+### Max <Badge type="tip"><pre>max: string</pre></Badge>
+
+The maximum string length that can be entered into the text input.
 
 ```vue
-<InputText type='text' placeholder="Username"/>
-<InputText type='password' placeholder="Password"/>
+<InputText max="10" placeholder="Up to 10 characters"/>
 ```
 
 <Demo>
-    <InputText type='text' placeholder="Username"/>
-    <InputText type='password' placeholder="Password"/>
+    <InputText max="10" placeholder="Up to 10 characters"/>
 </Demo>
 
 ### Text align <Badge type="tip"><pre>text-align: ('left' | 'center' | 'right') = 'left'</pre></Badge>
@@ -77,81 +77,16 @@ const text = useModel('')
     </div>
 </Demo>
 
-### Max <Badge type="tip"><pre>max: string</pre></Badge>
-
-The maximum string length that can be entered into the text input.
+### Type <Badge type="tip"><pre>type: ('text' | 'password') = 'text'</pre></Badge>
 
 ```vue
-<InputText max="10" placeholder="Up to 10 characters"/>
+<InputText type='text' placeholder="Username"/>
+<InputText type='password' placeholder="Password"/>
 ```
 
 <Demo>
-    <InputText max="10" placeholder="Up to 10 characters"/>
-</Demo>
-
-### Placeholder <Badge type="tip"><pre>placeholder: string</pre></Badge>
-
-```vue
-<InputText placeholder="Text Input"/>
-```
-
-<Demo>
-    <InputText placeholder="Text Input"/>
-</Demo>
-
-### Label <Badge type="tip"><pre>label: string</pre></Badge>
-
-```vue
-<InputText label="Text Input"/>
-```
-
-<Demo>
-    <InputText label="Text Input"/>
-</Demo>
-
-### Float label <Badge type="tip"><pre>float-label: boolean</pre></Badge>
-
-
-```vue
-<InputText label="Text Input" float-label/>
-```
-
-<Demo>
-    <InputText label="Text Input" float-label/>
-</Demo>
-
-:::tip NOTE
-`float-label` only works if the `description`, `prefix`, and `icon[-left]` props are unset.
-:::
-
-### Hint <Badge type="tip"><pre>hint: string</pre></Badge>
-
-```vue
-<InputText label="Text Input" hint="optional"/>
-```
-
-<Demo>
-    <InputText label="Text Input" hint="optional"/>
-</Demo>
-
-### Description <Badge type="tip"><pre>description: string</pre></Badge>
-
-```vue
-<InputText label="Text Input" description="Description and additional details"/>
-```
-
-<Demo>
-    <InputText label="Text Input" description="Description and additional details"/>
-</Demo>
-
-### Help <Badge type="tip"><pre>help: string</pre></Badge>
-
-```vue
-<InputText label="Text Input" help="Help and additional details"/>
-```
-
-<Demo>
-    <InputText label="Text Input" help="Help and additional details"/>
+    <InputText type='text' placeholder="Username"/>
+    <InputText type='password' placeholder="Password"/>
 </Demo>
 
 ### Prefix and Suffix <Badge type="tip"><pre>prefix: string</pre></Badge> <Badge type="tip"><pre>suffix: string</pre></Badge>
@@ -209,6 +144,25 @@ const btnAfterProps = {
 <Demo>
     <InputText :btn-before="btnBeforeProps" :btn-after="btnAfterProps"/>
 </Demo>
+
+
+
+### Float label <Badge type="tip"><pre>float-label: boolean</pre></Badge>
+
+
+```vue
+<InputText label="Text Input" float-label/>
+```
+
+<Demo>
+    <InputText label="Text Input" float-label/>
+</Demo>
+
+:::tip NOTE
+`float-label` only works if the `description`, `prefix`, and `icon[-left]` props are unset.
+:::
+
+
 
 ### Underline <Badge type="tip"><pre>underline: boolean</pre></Badge>
 
@@ -309,15 +263,10 @@ const btnAfterProps = {
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
-| `type` | `'text' \| 'password'` | `'text'` |
-| `text-align` | `'left' \| 'center' \| 'right'` | `'left'` |
-| `max` | `string` | |
 | `placeholder` | `string` | |
-| `label` | `string` | |
-| `float-label` | `boolean` | `false` |
-| `hint` | `string` | |
-| `description` | `string` | |
-| `help` | `string` | |
+| `max` | `string` | |
+| `text-align` | `'left' \| 'center' \| 'right'` | `'left'` |
+| `type` | `'text' \| 'password'` | `'text'` |
 | `prefix` | `string` | |
 | `suffix` | `string` | |
 | `icon` | `string` | |
@@ -325,6 +274,11 @@ const btnAfterProps = {
 | `icon-right` | `string` | |
 | `btn-before` | `object` | |
 | `btn-after` | `object` | |
+| `label` | `string` | |
+| `hint` | `string` | |
+| `description` | `string` | |
+| `help` | `string` | |
+| `float-label` | `boolean` | `false` |
 | `underline` | `boolean` | `false` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |

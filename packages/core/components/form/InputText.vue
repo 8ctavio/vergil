@@ -12,6 +12,7 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
 defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
+    //----- Model -----
     value: {
         type: String,
         default: ''
@@ -20,6 +21,15 @@ const props = defineProps({
         default: props => useModel(props.value),
         validator: v => isModel(v) || isModelWrapper(v)
     },
+
+    //----- Component specific -----
+    placeholder: String,
+    max: String,
+    textAlign: {
+        type: String,
+        default: 'left',
+        validator: v => ['left', 'center', 'right'].includes(v),
+    },
     type: {
         type: String,
         default: 'text',
@@ -27,18 +37,6 @@ const props = defineProps({
             return ['text', 'password'].includes(v)
         },
     },
-    textAlign: {
-        type: String,
-        default: 'left',
-        validator: v => ['left', 'center', 'right'].includes(v),
-    },
-    max: String,
-    placeholder: String,
-    label: String,
-    floatLabel: Boolean,
-    hint: String,
-    description: String,
-    help: String,
     prefix: String,
     suffix: String,
     icon: String,
@@ -46,6 +44,14 @@ const props = defineProps({
     iconRight: String,
     btnBefore: Object,
     btnAfter: Object,
+
+    //----- FormField -----
+    label: String,
+    hint: String,
+    description: String,
+    help: String,
+    floatLabel: Boolean,
+
     underline: {
         type: Boolean,
         default: () => vergil.config.inputText.underline
@@ -83,7 +89,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 </script>
 
 <template>
-    <FormField :class="['input-text', classAttr]"
+    <FormField class="input-text" :class="classAttr"
         :label :hint :description :help :float-label="canLabelFloat"
         :size :radius :spacing
         >

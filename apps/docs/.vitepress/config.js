@@ -64,6 +64,7 @@ export default {
 				text: 'Form Components',
 				collapsed: true,
 				items: [
+					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
 				]
