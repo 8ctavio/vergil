@@ -118,5 +118,6 @@ defineReactiveProperties(props.modelValue.exposed, {
         :btn-after="btnPositionFlag ? btnProps : btnAfter"
         @keyup.enter="handleEnter"
         :disabled="disabled || loader"
+        class="input-search"
         />
 </template>

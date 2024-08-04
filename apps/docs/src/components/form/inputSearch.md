@@ -166,6 +166,33 @@ function handleClear(){
     <Btn @click="clean" label="Clear"/>
 </Demo>
 
+## Styling
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field input-text input-search">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="input-text-outer">
+            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="div" classes="input-text-wrapper">
+                <Anatomy tag="Icon" classes="icon"/>
+                <Anatomy tag="p"/>
+                <Anatomy tag="input"/>
+                <Anatomy tag="label"/>
+                <Anatomy tag="p"/>
+                <Anatomy tag="Icon" classes="icon"/>
+            </Anatomy>
+            <Anatomy tag="Btn" classes="btn"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |

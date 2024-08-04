@@ -5,12 +5,13 @@ import './styles/overrides.css'
 
 import AppLayout from './components/AppLayout.vue'
 import Demo from './components/Demo.vue'
+import Anatomy from './components/Anatomy.vue'
 import { vergil } from '@8ctavio/vergil/plugins'
 
 export default {
 	extends: DefaultTheme,
 	Layout: AppLayout,
 	enhanceApp({ app, router, siteData }) {
-		app.component('Demo', Demo).use(vergil)
+		app.component('Demo', Demo).component('Anatomy', Anatomy).use(vergil)
 	}
 }

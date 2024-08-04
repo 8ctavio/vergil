@@ -114,10 +114,10 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                     :maxlength="max"
                     :disabled
                 >
-                <p v-if="suffix">{{ suffix }}</p>
                 <label v-if="canLabelFloat">
                     <MiniMarkup :str="label"/>
                 </label>
+                <p v-if="suffix">{{ suffix }}</p>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
             <Btn v-if="showBtnAfter" variant="outline" v-bind="btnAfter"
