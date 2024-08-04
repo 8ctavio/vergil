@@ -1,5 +1,6 @@
 <script setup>
 import MiniMarkup from './MiniMarkup.vue'
+import Icon from '../Icon.vue'
 
 const props = defineProps({
     str: {
@@ -10,7 +11,7 @@ const props = defineProps({
 
 function parseMiniMarkup(str){
     str = str.trim().replace(/[ \t]+/g, ' ').replace(/\n | \n/g, '\n')
-	const reMarkPattern = /\*\*\S*?.*?\S*?\*\*|\/\/\S*?.*?\S*?\/\/|\[\[\S*?.*?\S*?\]\]|\n/g
+	const reMarkPattern = /\*\*.*?\*\*|\/\/.*?\/\/|\[\[.*?\]\]|@@\S*?@@|\n/g
 	const segments = []
 	let start = 0
 	let result
@@ -27,9 +28,10 @@ function parseMiniMarkup(str){
 	return segments
 }
 
-const reBold = /^\*\*\S*?.*?\S*?\*\*$/
-const reItalic = /^\/\/\S*?.*?\S*?\/\/$/
-const reInlineBlock = /^\[\[\S*?.*?\S*?\]\]$/
+const reBold = /^\*\*.*?\*\*$/
+const reItalic = /^\/\/.*?\/\/$/
+const reInlineBlock = /^\[\[.*?\]\]$/
+const reIcon = /^@@\S*?@@$/
 </script>
 
 <template>
@@ -44,10 +46,16 @@ const reInlineBlock = /^\[\[\S*?.*?\S*?\]\]$/
         <span v-else-if="reInlineBlock.test(segment)" class="inline-block">
             <MiniMarkup :str="segment.slice(2,-2)"/>
         </span>
+        <Icon v-else-if="reIcon.test(segment)" class="inline-icon" :code="segment.slice(2,-2)"/>
         <template v-else>{{ segment }}</template>
     </template>
 </template>
 
 <style>
 .inline-block{ display: inline-block; }
+.inline-icon {
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.175em;
+}
 </style>

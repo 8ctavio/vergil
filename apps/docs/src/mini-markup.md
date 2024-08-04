@@ -15,3 +15,4 @@ Available Mini-Markup tags syntax is summarized in the following table.
 | `**<str>**` | `str` is displayed with bold font |
 | `//<str>//` | `str` is displayed in italics |
 | `[[<str>]]` | `str` is displayed inside an inline block |
+| `@@<icon-code>@@` | Display Material Symbols icon whose code is `icon-code` |
