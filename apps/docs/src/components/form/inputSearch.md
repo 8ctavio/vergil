@@ -166,6 +166,24 @@ function handleClear(){
     <Btn @click="clean" label="Clear"/>
 </Demo>
 
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `icon-search` | `string` | `'search'` |
+| `icon-clear` | `string` | `'search_off'` |
+| `btn-position` | `'before' \| 'after'` | `'after'` |
+
+### Configuration options
+
+The following `InputSearch` props' default values can be overwritten under the `inputSearch` root-level [configuration option](/configuration).
+
+| `inputSearch.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `btnPosition` | |
+
+Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).
+
 ## Styling
 
 ### Anatomy
@@ -192,21 +210,3 @@ function handleClear(){
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>
 </Demo>
-
-## API Reference
-
-| prop | type | default |
-| ---- | ---- | ------- |
-| `icon-search` | `string` | `'search'` |
-| `icon-clear` | `string` | `'search_off'` |
-| `btn-position` | `'before' \| 'after'` | `'after'` |
-
-### Configuration options
-
-The following `InputSearch` props' default values can be overwritten under the `inputSearch` root-level [configuration option](/configuration).
-
-| `inputSearch.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `btnPosition` | |
-
-Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).

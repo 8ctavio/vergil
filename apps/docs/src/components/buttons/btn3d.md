@@ -329,12 +329,6 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-## Styling
-
-### Anatomy
-
-![Btn Anatomy](../../assets/btn3D-anatomy.png)
-
 ## API Reference
 
 | prop | type | default |
@@ -366,3 +360,9 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 | `radius` | ✅ |
 | `spacing` | ✅ |
 | `squared` | |
+
+## Styling
+
+### Anatomy
+
+![Btn Anatomy](../../assets/btn3D-anatomy.png)

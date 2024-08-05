@@ -260,30 +260,6 @@ The `disable` prop disables the `Popup`'s close button.
     </Popup>
 </Demo>
 
-## Styling
-
-To properly display the popup component, (commonly) its width property needs to be styled. It's recommended to use the `clamp` function for the width, with `min` and `max` values expressed in pixels (`px`) and `val` expressed as a percentage (`%`).
-
-An example of recommended styles is shown below. `clamp` values should be adjusted depending on the popup's content.
-
-```vue
-<template>
-    <Popup>
-        <main class="popup-content"></main>
-    </Popup>
-</template>
-
-<style scoped>
-.popup{
-    width: clamp(250px, 25%, 400px);
-}
-.popup-content{
-    width: 100%;
-    padding: 25px;
-}
-</style>
-```
-
 ## API Reference
 
 ### Props
@@ -312,6 +288,30 @@ The following `Popup` props' default values can be overwritten under the `popup`
 
 - `component`: The default import of a popup component's SFC.
 - `props`: Props object appended to `component` via the `v-bind` directive.
+
+## Styling
+
+To properly display the popup component, (commonly) its width property needs to be styled. It's recommended to use the `clamp` function for the width, with `min` and `max` values expressed in pixels (`px`) and `val` expressed as a percentage (`%`).
+
+An example of recommended styles is shown below. `clamp` values should be adjusted depending on the popup's content.
+
+```vue
+<template>
+    <Popup>
+        <main class="popup-content"></main>
+    </Popup>
+</template>
+
+<style scoped>
+.popup{
+    width: clamp(250px, 25%, 400px);
+}
+.popup-content{
+    width: 100%;
+    padding: 25px;
+}
+</style>
+```
 
 ## Popup template
 
