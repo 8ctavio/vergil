@@ -51,4 +51,11 @@
     margin: initial;
 	line-height: initial;
 }
+.demo :deep(code) {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    color: var(--c-text);
+    letter-spacing: 0.5px;
+}
 </style>

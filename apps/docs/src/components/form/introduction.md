@@ -14,7 +14,7 @@ Every Vergil form field component is associated with a component model created b
 
 ## Form field props
 
-All Vergil form field components accept the following props.
+Most Vergil form field components have certain props in common, with the exception of the `Radio` and `Checkbox` components. Shared props for other components are shown below.
 
 ### Value <Badge type="tip"><pre>value: T</pre></Badge> <Badge type="warning">only if <pre>modelValue</pre> prop is unset</Badge>
 

@@ -92,10 +92,10 @@ interface VergilConfiguration {
         }
     },
     inputSearch: {
-        btnPosition: ('before' | 'after') = 'after',
+        btnPosition: ('before' | 'after') = 'after';
     },
     inputText: {
-        underline: boolean,
+        underline: boolean;
         theme: theme;
         size: size;
         radius: radius;
@@ -104,8 +104,14 @@ interface VergilConfiguration {
     popup: {
         theme: theme;
     },
+    radio: {
+        theme: theme;
+        size: size;
+        radius: radius = 'full';
+        spacing: spacing;
+    },
     textarea: {
-        underline: boolean,
+        underline: boolean;
         theme: theme;
         size: size;
         radius: radius;

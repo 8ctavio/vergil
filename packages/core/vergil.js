@@ -103,6 +103,12 @@ const vergil = {
         popup: {
             theme: undefined,
         },
+        radio: {
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: 'full',
+            spacing: undefined,
+        },
         textarea: {
             underline: false,
             theme: new Option(undefined, { modifier: inferTheme }),

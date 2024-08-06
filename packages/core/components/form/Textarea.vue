@@ -1,13 +1,14 @@
 <script setup>
 import FormField from '../utils/FormField.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
-import { computed, toRef } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
+defineEmits(['update:modelValue'])
 
 const props = defineProps({
     //----- Model -----
@@ -63,9 +64,8 @@ const props = defineProps({
         validator: isValidSpacing
     },
     disabled: Boolean,
-    class: { default: '' }
+    class: [String, Object]
 })
-const classAttr = toRef(() => props.class)
 
 const model = useModel(props.modelValue)
 
@@ -73,7 +73,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
 </script>
 
 <template>
-    <FormField class="textarea" :class="classAttr"
+    <FormField :class="['textarea', props.class]"
         :label :hint :description :help :float-label="canLabelFloat"
         :size :radius :spacing
         >

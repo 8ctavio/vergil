@@ -2,6 +2,9 @@
     font-size: 0.625rem; /* 10px */
     font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+    & ::selection {
+        background-color: var(--c-theme-soft-2);
+    }
 }
 body{
     background-color: var(--c-bg);

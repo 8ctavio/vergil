@@ -67,6 +67,7 @@ export default {
 					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
+					{ text: 'Radio', link: '/components/form/radio' },
 					{ text: 'Textarea', link: '/components/form/textarea' },
 				]
 			},
@@ -111,7 +112,6 @@ export default {
 				collapsed: true,
 				items: [
 					{ text: 'Checkbox', link: '/form-components/checkbox' },
-					{ text: 'Radio Button', link: '/form-components/radio' },
 					{ text: 'Slider', link: '/form-components/slider' },
 					{ text: 'Switch', link: '/form-components/switch' },
 				]

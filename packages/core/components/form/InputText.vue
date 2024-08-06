@@ -3,13 +3,14 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
 import FormField from '../utils/FormField.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
-import { computed, toRef } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel, isModelWrapper } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
+defineEmits(['update:modelValue']) // Prevents conflict when binding attributes
 
 const props = defineProps({
     //----- Model -----
@@ -77,9 +78,8 @@ const props = defineProps({
         validator: isValidSpacing
     },
     disabled: Boolean,
-    class: { default: '' }
+    class: [String, Object]
 })
-const classAttr = toRef(() => props.class)
 
 const model = useModel(props.modelValue)
 
@@ -89,7 +89,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 </script>
 
 <template>
-    <FormField class="input-text" :class="classAttr"
+    <FormField :class="['input-text', props.class]"
         :label :hint :description :help :float-label="canLabelFloat"
         :size :radius :spacing
         >
