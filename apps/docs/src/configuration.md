@@ -110,6 +110,12 @@ interface VergilConfiguration {
         radius: radius = 'full';
         spacing: spacing;
     },
+    radioGroup: {
+        theme: theme;
+        size: size;
+        radius: radius = 'full';
+        spacing: spacing;
+    },
     textarea: {
         underline: boolean;
         theme: theme;

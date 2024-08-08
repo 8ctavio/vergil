@@ -39,6 +39,7 @@ const props = defineProps({
     help: String,
     floatLabel: Boolean,
 
+    //----- Appearance -----
     underline: {
         type: Boolean,
         default: () => vergil.config.textarea.underline

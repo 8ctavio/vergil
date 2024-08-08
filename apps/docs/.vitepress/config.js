@@ -68,6 +68,7 @@ export default {
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },
+					{ text: 'RadioGroup', link: '/components/form/radioGroup' },
 					{ text: 'Textarea', link: '/components/form/textarea' },
 				]
 			},

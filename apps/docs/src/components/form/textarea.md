@@ -113,15 +113,13 @@ The maximum string length that can be entered into the textarea.
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
-    <div class="row center">
-        <Textarea underline theme="brand" placeholder="Brand"/>
-        <Textarea underline theme="user" placeholder="User"/>
-        <Textarea underline theme="ok" placeholder="Ok"/>
-        <Textarea underline theme="info" placeholder="Info"/>
-        <Textarea underline theme="warn" placeholder="Warn"/>
-        <Textarea underline theme="danger" placeholder="Danger"/>
-        <Textarea underline theme="neutral" placeholder="Neutral"/>
-    </div>
+    <Textarea underline theme="brand" placeholder="Brand"/>
+    <Textarea underline theme="user" placeholder="User"/>
+    <Textarea underline theme="ok" placeholder="Ok"/>
+    <Textarea underline theme="info" placeholder="Info"/>
+    <Textarea underline theme="warn" placeholder="Warn"/>
+    <Textarea underline theme="danger" placeholder="Danger"/>
+    <Textarea underline theme="neutral" placeholder="Neutral"/>
 </Demo>
 
 ### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>

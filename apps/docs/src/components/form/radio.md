@@ -134,6 +134,7 @@ The default slot may be use instead. The slot content overrides the `label` prop
 
 | prop | type | default |
 | ---- | ---- | ------- |
+| `name` | `string` | |
 | `label` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |

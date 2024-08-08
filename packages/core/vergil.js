@@ -109,6 +109,12 @@ const vergil = {
             radius: 'full',
             spacing: undefined,
         },
+        radioGroup: {
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: 'full',
+            spacing: undefined,
+        },
         textarea: {
             underline: false,
             theme: new Option(undefined, { modifier: inferTheme }),

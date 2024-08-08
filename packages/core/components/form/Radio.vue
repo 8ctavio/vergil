@@ -1,4 +1,5 @@
 <script setup>
+import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel, isModelWrapper } from '../../utilities'
@@ -9,35 +10,42 @@ defineEmits(['update:modelValue'])
 
 const props = defineProps({
     modelValue: {
-        default: () => useModel(''),
         validator: v => isModel(v) || isModelWrapper(v)
     },
+    name: String,
     label: String,
     theme: {
         type: String,
-        default: () => vergil.config.radio.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.radio.size ?? vergil.config.global.size,
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.radio.radius,
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.radio.spacing ?? vergil.config.global.spacing,
         validator: isValidSpacing
     },
     disabled: Boolean,
     class: [String, Object]
 })
+const {
+    groupModel,
+    groupName,
+    groupDisabled,
+    groupTheme
+} = inject('radio-props', {})
 
-const model = useModel(props.modelValue)
+const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
+
+const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.radio.theme ?? vergil.config.global.theme)
+const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.radio.size ?? vergil.config.global.size)))
+const radius = computed(() => props.radius ?? (groupTheme ? '' : vergil.config.radio.radius))
+const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 </script>
 
 <template>
@@ -53,8 +61,10 @@ const model = useModel(props.modelValue)
         <input
             v-bind="$attrs"
             v-model="model.value"
+            :ref="model.getRef('el')"
             type="radio"
-            :disabled
+            :name="name || groupName"
+            :disabled="disabled || groupDisabled"
             >
         <span class="radio-icon" >
             <span class="radio-icon-outer"/>
