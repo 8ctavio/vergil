@@ -66,9 +66,8 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
             :name="name || groupName"
             :disabled="disabled || groupDisabled"
             >
-        <span class="radio-icon">
-            <span class="radio-icon-outer"/>
-            <span class="radio-icon-inner"/>
+        <span class="radio-button">
+            <span class="radio-circle"/>
         </span>
         <slot>{{ label }}</slot>
     </label>
@@ -76,8 +75,6 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
 
 <style>
 .radio {
-    --radio-c-border: var(--c-theme-1);
-
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     position: relative;
@@ -90,8 +87,8 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         color: var(--c-disabled-text);
         cursor: not-allowed;
     }
-    &:hover > .radio-icon {
-        box-shadow: inset 0 0 0 1.5px var(--radio-c-border);
+    &:hover > .radio-button {
+        border-color: var(--c-theme-1);
     }
 
     & > input {
@@ -100,60 +97,49 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         appearance: none;
         opacity: 0;
 
-        &:focus-visible + .radio-icon {
+        &:focus-visible + .radio-button {
             outline: 2px solid var(--c-theme-outline);
             outline-offset: 2px;
         }   
-        &:checked + .radio-icon {
-            box-shadow: inset 0 0 0 1.5px var(--radio-c-border);
-            & > .radio-icon-outer {
+        &:checked + .radio-button {
+            background-color: var(--c-theme-1);
+            border-color: var(--c-theme-1);
+            & > .radio-circle {
                 opacity: 1;
-            }
-            & > .radio-icon-inner {
-                transform: scale(0.4);
+                transform: scale(0.5);
             }
         }
-        &:not(:checked) + .radio-icon {
-            & > .radio-icon-outer {
-                transition: opacity 150ms;
-            }
-        }
-        &:disabled + .radio-icon {
-            box-shadow: inset 0 0 0 1.5px var(--c-disabled-border);
-            & > .radio-icon-outer {
-                background-color: var(--c-disabled-border);
-            }
-            & > .radio-icon-inner {
+        &:disabled {
+            & + .radio-button {
+                border-color: var(--c-disabled-1);
                 background-color: var(--c-disabled-2);
+            }
+            &:checked + .radio-button {
+                border-color: var(--c-disabled-border);
+                background-color: var(--c-disabled-border);
+                & > .radio-circle {
+                    background-color: var(--c-disabled-2);
+                }
             }
         }
     }
-    & > .radio-icon {
+    & > .radio-button {
         position: relative;
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
         border-radius: var(--g-radius);
-        box-shadow: inset 0 0 0 1.5px var(--c-grey-border-2);
-        transition: box-shadow 150ms;
+        border: 2px solid var(--c-grey-border-2);
+        transition: border-color 150ms;
 
-        & > .radio-icon-outer {
+        & > .radio-circle {
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            background-color: var(--radio-c-border);
+            background-color: var(--c-theme-icon-1);
             opacity: 0;
-        }
-        & > .radio-icon-inner {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background-color: var(--c-bg);
             transform: scale(0);
-            transition: transform 200ms var(--bezier-bounce-out);
+            transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
         }
     }
-}
-.dark .radio {
-    --radio-c-border: var(--c-theme-border-1);
 }
 </style>

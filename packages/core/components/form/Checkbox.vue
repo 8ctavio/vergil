@@ -121,10 +121,15 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         }
         &:disabled {
             & + .checkbox-box {
-                border-color: var(--c-disabled-border);
+                border-color: var(--c-disabled-1);
+                background-color: var(--c-disabled-2);
             }
             &:checked + .checkbox-box {
+                border-color: var(--c-disabled-border);
                 background-color: var(--c-disabled-border);
+                & > .checkbox-check {
+                    fill: var(--c-disabled-2);
+                }
             }
         }
     }
@@ -140,7 +145,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         & > .checkbox-check {
             position: absolute;
             inset: 0;
-            fill: var(--c-theme-text-1);
+            fill: var(--c-theme-icon-1);
             opacity: 0;
             transform: scale(0);
             transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);

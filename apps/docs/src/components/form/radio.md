@@ -159,9 +159,8 @@ The following `Radio` props' default values can be overwritten under the `radio`
 <Demo>
     <Anatomy tag="label" classes="radio">
         <Anatomy tag='input[type="radio"]'/>
-        <Anatomy tag="span" classes="radio-icon">
-            <Anatomy tag="span" classes="radio-icon-outer"/>
-            <Anatomy tag="span" classes="radio-icon-inner"/>
+        <Anatomy tag="span" classes="radio-button">
+            <Anatomy tag="span" classes="radio-circle"/>
         </Anatomy>
         <Anatomy tag="slot #default"/>
     </Anatomy>
