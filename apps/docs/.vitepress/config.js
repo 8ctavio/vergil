@@ -65,6 +65,7 @@ export default {
 				collapsed: true,
 				items: [
 					{ text: 'Introduction', link: '/components/form/introduction' },
+					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },
@@ -112,7 +113,6 @@ export default {
 				text: 'Form Components',
 				collapsed: true,
 				items: [
-					{ text: 'Checkbox', link: '/form-components/checkbox' },
 					{ text: 'Slider', link: '/form-components/slider' },
 					{ text: 'Switch', link: '/form-components/switch' },
 				]

@@ -12,7 +12,15 @@ const props = defineProps({
     modelValue: {
         validator: v => isModel(v) || isModelWrapper(v)
     },
-    name: String,
+    checked: Boolean,
+    valueChecked: {
+        type: [String, Boolean],
+        default: true
+    },
+    valueUnchecked: {
+        type: [String, Boolean],
+        default: props => (typeof props.valueChecked === 'string') ? '' : false
+    },
     label: String,
     theme: {
         type: String,
@@ -35,23 +43,22 @@ const props = defineProps({
 })
 const {
     groupModel,
-    groupName,
     groupDisabled,
     groupTheme
-} = inject('radio-props', {})
+} = inject('checkbox-props', {})
 
-const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
+const model = useModel(props.modelValue ?? groupModel ?? useModel(props.checked ? props.valueChecked : props.valueUnchecked))
 
-const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.radio.theme ?? vergil.config.global.theme)
-const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.radio.size ?? vergil.config.global.size)))
-const radius = computed(() => props.radius ?? (groupTheme ? '' : vergil.config.radio.radius))
-const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
+const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.checkbox.theme ?? vergil.config.global.theme)
+const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.checkbox.size ?? vergil.config.global.size)))
+const radius = computed(() => props.radius ?? (groupTheme ? '' : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
+const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 </script>
 
 <template>
     <label
         :class="[
-            'radio',
+            'checkbox',
             inferTheme(theme),
             `size-${size}`,
             `radius-${radius}`,
@@ -61,23 +68,23 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         <input
             v-bind="$attrs"
             v-model="model.value"
+            :true-value="valueChecked"
+            :false-value="valueUnchecked"
             :ref="model.getRef('el')"
-            type="radio"
-            :name="name || groupName"
+            type="checkbox"
             :disabled="disabled || groupDisabled"
             >
-        <span class="radio-icon">
-            <span class="radio-icon-outer"/>
-            <span class="radio-icon-inner"/>
+        <span class="checkbox-box">
+            <svg class="checkbox-check" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                <path d="m382-388 321-321q19-19 45-19t45 19q19 19 19 45t-19 45L427-253q-19 19-45 19t-45-19L167-423q-19-19-19-45t19-45q19-19 45-19t45 19l125 125Z"/>
+            </svg>
         </span>
         <slot>{{ label }}</slot>
     </label>
 </template>
 
 <style>
-.radio {
-    --radio-c-border: var(--c-theme-1);
-
+.checkbox {
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     position: relative;
@@ -90,8 +97,8 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         color: var(--c-disabled-text);
         cursor: not-allowed;
     }
-    &:hover > .radio-icon {
-        box-shadow: inset 0 0 0 1.5px var(--radio-c-border);
+    &:hover > .checkbox-box {
+        border-color: var(--c-theme-1);
     }
 
     & > input {
@@ -100,60 +107,44 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         appearance: none;
         opacity: 0;
 
-        &:focus-visible + .radio-icon {
+        &:focus-visible + .checkbox-box {
             outline: 2px solid var(--c-theme-outline);
             outline-offset: 2px;
         }   
-        &:checked + .radio-icon {
-            box-shadow: inset 0 0 0 1.5px var(--radio-c-border);
-            & > .radio-icon-outer {
+        &:checked + .checkbox-box {
+            background-color: var(--c-theme-1);
+            border-color: var(--c-theme-1);
+            & > .checkbox-check {
                 opacity: 1;
-            }
-            & > .radio-icon-inner {
-                transform: scale(0.4);
+                transform: scale(1);
             }
         }
-        &:not(:checked) + .radio-icon {
-            & > .radio-icon-outer {
-                transition: opacity 150ms;
+        &:disabled {
+            & + .checkbox-box {
+                border-color: var(--c-disabled-border);
             }
-        }
-        &:disabled + .radio-icon {
-            box-shadow: inset 0 0 0 1.5px var(--c-disabled-border);
-            & > .radio-icon-outer {
+            &:checked + .checkbox-box {
                 background-color: var(--c-disabled-border);
-            }
-            & > .radio-icon-inner {
-                background-color: var(--c-disabled-2);
             }
         }
     }
-    & > .radio-icon {
+    & > .checkbox-box {
+        box-sizing: border-box;
         position: relative;
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
         border-radius: var(--g-radius);
-        box-shadow: inset 0 0 0 1.5px var(--c-grey-border-2);
-        transition: box-shadow 150ms;
+        border: 2px solid var(--c-grey-border-2);
+        transition: background-color 150ms, border-color 150ms;
 
-        & > .radio-icon-outer {
+        & > .checkbox-check {
             position: absolute;
             inset: 0;
-            border-radius: inherit;
-            background-color: var(--radio-c-border);
+            fill: var(--c-theme-text-1);
             opacity: 0;
-        }
-        & > .radio-icon-inner {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background-color: var(--c-bg);
             transform: scale(0);
-            transition: transform 200ms var(--bezier-bounce-out);
+            transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
         }
     }
-}
-.dark .radio {
-    --radio-c-border: var(--c-theme-border-1);
 }
 </style>

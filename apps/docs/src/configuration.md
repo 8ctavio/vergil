@@ -78,6 +78,12 @@ interface VergilConfiguration {
         spacing: spacing;
         squared: boolean;
     },
+    checkbox: {
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     confirm: {
         confirmLabel: string = 'Accept';
         declineLabel: string = 'Cancel';

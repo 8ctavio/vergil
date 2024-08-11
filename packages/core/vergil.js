@@ -77,6 +77,12 @@ const vergil = {
             spacing: undefined,
             squared: undefined
         },
+        checkbox: {
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+        },
         confirm: {
             confirmLabel: 'Accept',
             declineLabel: 'Cancel',
