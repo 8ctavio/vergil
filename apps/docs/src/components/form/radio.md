@@ -139,7 +139,7 @@ The default slot may be use instead. The slot content overrides the `label` prop
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | `false` |
+| `disabled` | `boolean` | |
 
 ### Configuration options
 

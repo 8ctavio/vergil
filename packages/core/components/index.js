@@ -10,6 +10,7 @@ export { default as Toasters } from './toast/Toasters.vue'
 
 //---------- Form Components ----------
 export { default as Checkbox } from './form/Checkbox.vue'
+export { default as CheckboxGroup } from './form/CheckboxGroup.vue'
 export { default as InputSearch } from './form/InputSearch.vue'
 export { default as InputText } from './form/InputText.vue'
 export { default as Radio } from './form/Radio.vue'

@@ -66,6 +66,7 @@ export default {
 				items: [
 					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
+					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },

@@ -279,7 +279,7 @@ const btnAfterProps = {
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | `false` |
+| `disabled` | `boolean` | |
 
 ### Configuration options
 

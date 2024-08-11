@@ -84,6 +84,12 @@ interface VergilConfiguration {
         radius: radius;
         spacing: spacing;
     },
+    checkboxGroup: {
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     confirm: {
         confirmLabel: string = 'Accept';
         declineLabel: string = 'Cancel';

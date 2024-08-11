@@ -156,7 +156,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | `false` |
+| `disabled` | `boolean` | |
 
 ### Configuration options
 

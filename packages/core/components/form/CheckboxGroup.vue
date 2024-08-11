@@ -1,0 +1,82 @@
+<script setup>
+import FormField from '../utils/FormField.vue'
+import Checkbox from './Checkbox.vue'
+import { provide, toRef } from 'vue'
+import { vergil } from '../../vergil'
+import { useModel } from '../../composables/useModel'
+import { isModel } from '../../utilities'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+
+const props = defineProps({
+    //----- Model -----
+    value: {
+        type: Array,
+        default: []
+    },
+    modelValue: {
+        default: props => useModel(props.value),
+        validator: isModel
+    },
+
+    //----- Component specific -----
+    options: Object,
+    
+    //----- FormField -----
+    label: String,
+    hint: String,
+    description: String,
+    help: String,
+
+    //----- Appearance -----
+    theme: {
+        type: String,
+        default: () => vergil.config.checkboxGroup.theme ?? vergil.config.global.theme,
+        validator: isValidTheme
+    },
+    size: {
+        type: String,
+        default: () => vergil.config.checkboxGroup.size ?? vergil.config.global.size,
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: () => vergil.config.checkboxGroup.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
+    },
+    spacing: {
+        type: String,
+        default: () => vergil.config.checkboxGroup.spacing ?? vergil.config.global.spacing,
+        validator: isValidSpacing
+    },
+    disabled: Boolean,
+})
+
+const model = useModel(props.modelValue)
+
+provide('checkbox-props', {
+    groupModel: model,
+    groupDisabled: toRef(() => props.disabled),
+    groupTheme: toRef(() => props.theme)
+})
+</script>
+
+<template>
+    <FormField class="checkbox-group"
+        :label :hint :description :help
+        :size :radius :spacing
+        >
+        <div :class="['checkbox-group-wrapper', inferTheme(theme)]" :ref="model.getRef('el')">
+            <slot>
+                <Checkbox v-for="(label,value) in options" :key="value" :value :label/>
+            </slot>
+        </div>
+    </FormField>
+</template>
+
+<style>
+.checkbox-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--g-gap-1);
+}
+</style>

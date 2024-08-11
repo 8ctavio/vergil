@@ -216,7 +216,7 @@ The maximum string length that can be entered into the textarea.
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | `false` |
+| `disabled` | `boolean` | |
 
 ### Configuration options
 
