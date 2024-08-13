@@ -58,13 +58,13 @@ In order to bind multiple checkboxes to a component model, all checkboxes must i
 
 ## Props
 
-### Checked value <Badge><pre>value-checked: (boolean | string)</pre></Badge>
+### Checked value <Badge><pre>value-checked: (boolean | string) = true</pre></Badge>
 
 Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop.
 
-### Unchecked value <Badge><pre>value-unchecked: (boolean | string)</pre></Badge>
+### Unchecked value <Badge><pre>value-unchecked: (boolean | string) = false</pre></Badge>
 
-Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-checked` is a string, `unchecked-value` defaults to an empty string (`''`).
+Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-checked` is a string, `value-unchecked` defaults to an empty string (`''`).
 
 ### Label <Badge><pre>label: string</pre></Badge>
 
@@ -140,8 +140,8 @@ The default slot may be use instead. The slot content overrides the `label` prop
 | prop | type | default |
 | ---- | ---- | ------- |
 | `checked` | `string` | |
-| `valueChecked` | `boolean \| string` | |
-| `valueUnchecked` | `boolean \| string` | |
+| `valueChecked` | `boolean \| string` | `true` |
+| `valueUnchecked` | `boolean \| string` | `false` |
 | `label` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
