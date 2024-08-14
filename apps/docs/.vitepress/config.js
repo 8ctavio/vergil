@@ -71,6 +71,7 @@ export default {
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },
 					{ text: 'RadioGroup', link: '/components/form/radioGroup' },
+					{ text: 'Slider', link: '/components/form/slider' },
 					{ text: 'Switch', link: '/components/form/switch' },
 					{ text: 'Textarea', link: '/components/form/textarea' },
 				]
@@ -109,13 +110,6 @@ export default {
 						]
 					},
 					{ text: 'Regex', link: '/utilities/regex' }
-				]
-			},
-			{
-				text: 'Form Components',
-				collapsed: true,
-				items: [
-					{ text: 'Slider', link: '/form-components/slider' },
 				]
 			}
 		],

@@ -88,7 +88,7 @@ const model = useModel(props.modelValue)
                     inferTheme(theme), 
                     { evenTrack }
                 ]">
-                <span class="switch-circle"/>
+                <span class="switch-knob"/>
             </span>
             <label v-if="labelOn">
                 <MiniMarkup :str="labelOn"/>
@@ -107,41 +107,39 @@ const model = useModel(props.modelValue)
     color: var(--c-text);
     cursor: pointer;
 
-    &:focus-visible {
-        outline: 0 solid transparent;
-    }
     &:has(input:disabled){
         color: var(--c-disabled-text);
         cursor: not-allowed;
     }
 
-    & > input {
+    & > input[type="checkbox"] {
+        appearance: none;
+        pointer-events: none;
         position: absolute;
         margin: 0;
-        appearance: none;
         opacity: 0;
 
         &:focus-visible ~ .switch-track {
             outline: 2px solid var(--c-theme-outline);
             outline-offset: 2px;
-        }   
+        }
         &:checked ~ .switch-track {
             background-color: var(--c-theme-1);
-            & > .switch-circle {
+            & > .switch-knob {
                 left: calc(var(--base));
                 background-color: var(--c-theme-text-1);
             }
         }
         &:disabled ~ .switch-track {
             background-color: var(--c-disabled-1);
-            & > .switch-circle {
+            & > .switch-knob {
                 background-color: var(--c-disabled-text);
             }
         }
         &:disabled:checked ~ .switch-track,
         &:disabled ~ .switch-track.evenTrack {
             background-color: var(--c-disabled-border);
-            & > .switch-circle {
+            & > .switch-knob {
                 background-color: var(--c-bg);
             }
         }
@@ -163,7 +161,7 @@ const model = useModel(props.modelValue)
         background-color: var(--c-grey-soft-4);
         transition: background-color 150ms;
 
-        & > .switch-circle {
+        & > .switch-knob {
             position: absolute;
             left: 0;
             height: 100%;
@@ -174,7 +172,7 @@ const model = useModel(props.modelValue)
         }
         &.evenTrack {
             background-color: var(--c-theme-1);
-            & > .switch-circle {
+            & > .switch-knob {
                 background-color: var(--c-theme-text-1);;
             }
         }

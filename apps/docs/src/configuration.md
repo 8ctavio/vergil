@@ -128,6 +128,12 @@ interface VergilConfiguration {
         radius: radius = 'full';
         spacing: spacing;
     },
+    slider: {
+        theme: theme;
+        size: size;
+        radius: radius = 'full';
+        spacing: spacing;
+    },
     switch: {
         theme: theme;
         size: size;

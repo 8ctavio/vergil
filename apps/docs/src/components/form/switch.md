@@ -126,24 +126,24 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 <Demo>
     <div class="col">
         <div class="row center">
-            <Switch label-on="On" label-off="Off" size="sm" spacing="compact" placeholder="Compact"/>
-            <Switch label-on="On" label-off="Off" size="sm" placeholder="Default"/>
-            <Switch label-on="On" label-off="Off" size="sm" spacing="expanded" placeholder="Expanded"/>
+            <Switch label-on="On" label-off="Off" size="sm" spacing="compact"/>
+            <Switch label-on="On" label-off="Off" size="sm"/>
+            <Switch label-on="On" label-off="Off" size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Switch label-on="On" label-off="Off" size="md" spacing="compact" placeholder="Compact"/>
-            <Switch label-on="On" label-off="Off" size="md" placeholder="Default"/>
-            <Switch label-on="On" label-off="Off" size="md" spacing="expanded" placeholder="Expanded"/>
+            <Switch label-on="On" label-off="Off" size="md" spacing="compact"/>
+            <Switch label-on="On" label-off="Off" size="md"/>
+            <Switch label-on="On" label-off="Off" size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Switch label-on="On" label-off="Off" size="lg" spacing="compact" placeholder="Compact"/>
-            <Switch label-on="On" label-off="Off" size="lg" placeholder="Default"/>
-            <Switch label-on="On" label-off="Off" size="lg" spacing="expanded" placeholder="Expanded"/>
+            <Switch label-on="On" label-off="Off" size="lg" spacing="compact"/>
+            <Switch label-on="On" label-off="Off" size="lg"/>
+            <Switch label-on="On" label-off="Off" size="lg" spacing="expanded"/>
         </div>
         <div class="row center">
-            <Switch label-on="On" label-off="Off" size="xl" spacing="compact" placeholder="Compact"/>
-            <Switch label-on="On" label-off="Off" size="xl" placeholder="Default"/>
-            <Switch label-on="On" label-off="Off" size="xl" spacing="expanded" placeholder="Expanded"/>
+            <Switch label-on="On" label-off="Off" size="xl" spacing="compact"/>
+            <Switch label-on="On" label-off="Off" size="xl"/>
+            <Switch label-on="On" label-off="Off" size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
@@ -201,7 +201,7 @@ The following `Switch` props' default values can be overwritten under the `switc
             <Anatomy tag='input[type="checkbox"]'/>
             <Anatomy tag='label'/>
             <Anatomy tag="span" classes="switch-track">
-                <Anatomy tag="span" classes="switch-circle"/>
+                <Anatomy tag="span" classes="switch-knob"/>
             </Anatomy>
             <Anatomy tag='label'/>
         </Anatomy>

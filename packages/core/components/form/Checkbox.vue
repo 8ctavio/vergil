@@ -101,10 +101,11 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         border-color: var(--c-theme-1);
     }
 
-    & > input {
+    & > input[type="checkbox"] {
+        appearance: none;
+        pointer-events: none;
         position: absolute;
         margin: 0;
-        appearance: none;
         opacity: 0;
 
         &:focus-visible + .checkbox-box {

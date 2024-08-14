@@ -15,7 +15,6 @@ export { default as InputSearch } from './form/InputSearch.vue'
 export { default as InputText } from './form/InputText.vue'
 export { default as Radio } from './form/Radio.vue'
 export { default as RadioGroup } from './form/RadioGroup.vue'
+export { default as Slider } from './form/Slider.vue'
 export { default as Switch } from './form/Switch.vue'
 export { default as Textarea } from './form/Textarea.vue'
-
-export { default as Slider } from './form-components/Slider.vue'

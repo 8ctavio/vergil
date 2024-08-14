@@ -127,6 +127,12 @@ const vergil = {
             radius: 'full',
             spacing: undefined,
         },
+        slider: {
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: 'full',
+            spacing: undefined,
+        },
         switch: {
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
