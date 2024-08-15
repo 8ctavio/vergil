@@ -26,6 +26,7 @@ defineProps({
     color: var(--c-text);
     font-family: var(--font-mono);
     letter-spacing: 0.5px;
+    cursor: default;
 
     &:hover {
         background-color: rgb(var(--rgb-theme) / 0.08);

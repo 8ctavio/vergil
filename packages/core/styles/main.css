@@ -191,9 +191,13 @@ p, h1, h2, h3{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+@keyframes pulse {
+    from { opacity: 0.3; }
+    to { opacity: 0.15; }
+}
 @keyframes move-left {
     from { transform: translateX(0); }
-    to{ transform: translateX(calc(-100% - 1px)); }
+    to { transform: translateX(calc(-100% - 1px)); }
 }
 
 /*****************************************************************************************************

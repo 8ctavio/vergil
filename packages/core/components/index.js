@@ -7,6 +7,7 @@ export { default as Icon } from './Icon.vue'
 export { default as Placeholder } from './Placeholder.vue'
 export { default as Popup } from './popup/Popup.vue'
 export { default as PopupBackdrop } from './popup/PopupBackdrop.vue'
+export { default as Skeleton } from './Skeleton.vue'
 export { default as Toast } from './toast/Toast.vue'
 export { default as Toasters } from './toast/Toasters.vue'
 

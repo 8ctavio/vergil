@@ -139,6 +139,11 @@ const vergil = {
             radius: 'full',
             spacing: undefined,
         },
+        skeleton: {
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+        },
         slider: {
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,

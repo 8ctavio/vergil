@@ -140,6 +140,11 @@ interface VergilConfiguration {
         radius: radius = 'full';
         spacing: spacing;
     },
+    skeleton: {
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     slider: {
         theme: theme;
         size: size;
