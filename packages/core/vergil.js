@@ -58,6 +58,14 @@ const vergil = {
             enable: true,
             default: 'moss'
         },
+        badge: {
+            variant: 'soft',
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+            squared: undefined
+        },
         btn: {
             variant: 'solid',
             fill: undefined,

@@ -1,4 +1,5 @@
 //---------- Components ----------
+export { default as Badge } from './Badge.vue'
 export { default as Btn } from './buttons/Btn.vue'
 export { default as Btn3D } from './buttons/Btn3D.vue'
 export { default as Confirm } from './confirm/Confirm.vue'

@@ -49,7 +49,7 @@
 
 .demo :deep(p){
     margin: initial;
-	line-height: initial;
+	line-height: var(--line-height-text);
 }
 .demo :deep(code) {
     font-size: 1.2rem;

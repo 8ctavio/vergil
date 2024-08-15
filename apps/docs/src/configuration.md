@@ -59,6 +59,14 @@ interface VergilConfiguration {
         enable: boolean = true;
         default: color = 'moss';
     },
+    badge: {
+        variant: ('soft' | 'outline' | 'solid') = 'soft';
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+        squared: boolean;
+    },
     btn: {
         variant: ('solid' | 'soft' | 'ghost' | 'outline' | 'underline' | 'text') = 'solid';
         fill: boolean;

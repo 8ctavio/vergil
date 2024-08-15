@@ -47,6 +47,7 @@ export default {
 				text: 'Components',
 				collapsed: true,
 				items: [
+					{ text: 'Badge', link: '/components/badge' },
 					{
 						text: 'Buttons',
 						items: [
