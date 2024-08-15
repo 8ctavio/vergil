@@ -103,7 +103,7 @@ defineReactiveProperties({}, {
 
 When defining properties of `ExtendedReactive` or `ExtendedRef` objects, provided properties with those objects' reserved keys are ignored (see [`extendedReactive`'s](/composables/extendedReactive#additional-features) and [`extendedRef`'s](/composables/extendedRef#additional-features) additional features). That is, reserved `ExtendedReactive` and `ExtendedRef` properties and methods cannot be overwritten with `defineReactiveProperties`.
 
-In the case of `ExtendedReactive` objects, `defineReactiveProperties` automatically stores in the object internal index the underlying ref objects of unwrapped ref properties.
+In the case of `ExtendedReactive` objects, `defineReactiveProperties` automatically stores in the object's internal index the underlying ref objects of unwrapped ref properties.
 
 ## Definition
 
@@ -119,7 +119,7 @@ function defineReactiveProperties<T>(
 
 - **`object`**: The object on which to define properties.
 - **`properties`**: An object, or function that returns an object, whose keys represent the names of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
-- **`ignore`**: Array of property keys to be ignored from the extension object.
+- **`ignore`**: Array of property keys to be ignored from the properties object.
 
 #### Return value
 

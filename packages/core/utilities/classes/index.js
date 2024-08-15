@@ -1,4 +1,5 @@
 import { toRef, isRef, markRaw } from 'vue'
+import { symSetRef } from '../private'
 
 //-----------------------------------------------
 //-------------------- ERROR --------------------
@@ -49,7 +50,7 @@ export class ExtendedReactive {
 			getRef: {
 				value: (property) => this.#refs[property],
 			},
-			setRef: {
+			[symSetRef]: {
 				value: (property, refProperty) => {
                     if(isRef(refProperty)) this.#refs[property] = refProperty
 				},

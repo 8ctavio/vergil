@@ -43,7 +43,7 @@ const extendedB = extendedReactive(withDescriptor => ({
 
 ## Description
 
-The `extendedReactive` composable creates a new [`ExtendedReactive`](/utilities/classes#extendedreactive) object instance, defines on it the specified properties with [`defineReactiveProperties`](/composables/defineReactiveProperties), and returns it
+The `extendedReactive` composable creates a new [`ExtendedReactive`](/utilities/classes#extendedreactive) object instance, defines on it the specified properties with [`defineReactiveProperties`](/composables/defineReactiveProperties), and returns it.
 
 The `extendedReactive`'s single argument corresponds to the `properties` argument of `defineReactiveProperties`. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn how to define properties.
 
@@ -51,15 +51,15 @@ In practice, `extendedReactive` creates an object that can have both regular pro
 
 ### Additional features
 
-An `ExtendedReactive` object internally stores an index of the underlying ref objects of automatically unwrapped reactive properties. It provides two methods to interact with those ref objects: `getRef` and `setRef`.
+An `ExtendedReactive` object internally stores an index of the underlying ref objects of automatically unwrapped reactive properties, and provides a `getRef` method to retrieve those ref objects.
 
 The `getRef` method receives the property name of an automatically unwrapped ref property and returns its underlying ref object. If the property does not exist `undefined` is returned.
 
-The `setRef` method receives the property name of an automatically unwrapped ref property and a ref. It stores the ref in the internal index.
-
-:::warning
-Usage of the `setRef` method should be avoided. Its only purpose is for internal implementation.
-:::
+```js
+const extended = extendedReactive({ foo: ref() })
+console.log(isRef(extended.foo)) // false
+console.log(isRef(extended.getRef('foo'))) // true
+```
 
 ## Definition
 

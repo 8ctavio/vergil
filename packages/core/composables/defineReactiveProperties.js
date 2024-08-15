@@ -1,5 +1,6 @@
 import { toRef, isRef, readonly } from 'vue'
 import { isExtendedReactive, isExtendedRef } from '../utilities'
+import { symSetRef } from '../utilities/private'
 
 /**
  * Marks an object as a property descriptor.
@@ -61,7 +62,7 @@ export function defineReactiveProperties(object, properties = {}, ignore = []){
     if(typeof properties !== 'object' || properties === null)
         throw new TypeError('Invalid properties object')
 
-	if(isExtendedReactive(object)) ignore.push('__v_skip', 'getRef', 'setRef')
+	if(isExtendedReactive(object)) ignore.push('__v_skip', 'getRef', symSetRef)
 	if(isExtendedRef(object)) ignore.push('ref', 'value')
 
     for(const property in properties){
@@ -78,7 +79,7 @@ export function defineReactiveProperties(object, properties = {}, ignore = []){
 				const refProperty = isReadOnly ? readonly(toRef(value)) : toRef(value)
 				if (unwrap) {
 					if(isExtendedReactive(object)){
-						object.setRef(property, refProperty)
+						object[symSetRef](property, refProperty)
 						customDescriptor.get = descriptor.get ?? function () {
 							return object.getRef(property).value
 						}
