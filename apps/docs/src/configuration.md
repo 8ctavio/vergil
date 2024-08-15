@@ -121,6 +121,10 @@ interface VergilConfiguration {
         radius: radius;
         spacing: spacing;
     },
+    placeholder: {
+        size: size;
+        radius: radius;
+    },
     popup: {
         theme: theme;
     },

@@ -257,7 +257,7 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 
 ### Configuration options
 
-The following `Badge` props' default values can be overwritten under the `Badge` root-level [configuration option](/configuration).
+The following `Badge` props' default values can be overwritten under the `badge` root-level [configuration option](/configuration).
 
 | `badge.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |

@@ -120,6 +120,10 @@ const vergil = {
             radius: undefined,
             spacing: undefined,
         },
+        placeholder: {
+            size: undefined,
+            radius: undefined,
+        },
         popup: {
             theme: undefined,
         },
