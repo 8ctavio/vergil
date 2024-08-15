@@ -24,7 +24,7 @@ function isDescriptor(value){
  * 
  * @template T
  * @param { object } object - The object on which to define properties.
- * @param { T | (withDescriptor: function) => T } [properties] - An object, or function that returns an object, whose keys represent the names of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
+ * @param { T | (withDescriptor: function) => T } [properties] - An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
  * @param { string[] } [ignore] - Array of property keys to be ignored from the extension object.
  * 
  * @returns { object }
@@ -65,7 +65,7 @@ export function defineReactiveProperties(object, properties = {}, ignore = []){
 	if(isExtendedReactive(object)) ignore.push('__v_skip', 'getRef', symSetRef)
 	if(isExtendedRef(object)) ignore.push('ref', 'value')
 
-    for(const property in properties){
+    for(const property of [...Object.getOwnPropertyNames(properties), ...Object.getOwnPropertySymbols(properties)]){
         if(ignore.includes(property)) continue
 
         const v = properties[property]

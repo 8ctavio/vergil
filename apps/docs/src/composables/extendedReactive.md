@@ -71,7 +71,7 @@ function extendedReactive<T>(
 
 #### Parameters
 
-- **`properties`**: An object, or function that returns an object, whose keys represent the names of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
+- **`properties`**: An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
 
 #### Return value
 

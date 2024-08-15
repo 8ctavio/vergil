@@ -6,7 +6,7 @@ import { ExtendedRef } from '../utilities'
  * 
  * @template T,E
  * @param { T | (() => T) | Ref<T> | ExtendedRef<T,F> } initial - Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
- * @param { E | (withDescriptor: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names of the properties to be defined while its values represent the properties' initial values or descriptors.
+ * @param { E | (withDescriptor: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
  * 
  * @returns { ExtendedRef }
  * 
@@ -39,7 +39,7 @@ export function extendedRef(initial, extension) {
  * @template T,E
  * @param { T | (() => T) | Ref<T> } initial - Value to normalize into the ref to be extended.
  * @param { { get?: () => T, set?: () => void } } accessor - Custom `value` property accessor.
- * @param { E | (withOptions: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names of the properties to be defined while its values represent the properties' initial values or descriptors.
+ * @param { E | (withOptions: function) => E } [extension] - Extension object or callback that returns extension object. The extension object keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
  * 
  * @returns { ExtendedRef }
  * 

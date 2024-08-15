@@ -92,7 +92,7 @@ function extendedRef<T,E>(
 #### Parameters
 
 - **`initial`**: Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
-- **`extension`**: Extension object or callback that returns extension object. The extension object keys represent the names of the properties to be defined while its values represent the properties' initial values or descriptors.
+- **`extension`**: Extension object or callback that returns extension object. The extension object keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
 
 #### Return value
 

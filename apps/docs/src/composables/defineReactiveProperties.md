@@ -52,7 +52,7 @@ A property to be defined is described with a data or accessor [descriptor](https
 - `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. If set to `false`, the ref object itself is used as the property's value. Defaults to `true`
 - `readonly`: If set to `true`, wraps the ref object with the Vue's `readonly` function. Defaults to `false`.
 
-In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function which itself receives as an argument a helper function to mark objects as property descriptors. The callback function must return an object whose entries (key-value pairs) represent the properties' names and descriptors, respectively.
+In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function which itself receives as an argument a helper function to mark objects as property descriptors. The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
 
 ```js
 defineReactiveProperties({}, withDescriptor => ({
@@ -118,7 +118,7 @@ function defineReactiveProperties<T>(
 #### Parameters
 
 - **`object`**: The object on which to define properties.
-- **`properties`**: An object, or function that returns an object, whose keys represent the names of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
+- **`properties`**: An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
 - **`ignore`**: Array of property keys to be ignored from the properties object.
 
 #### Return value
