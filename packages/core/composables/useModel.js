@@ -46,7 +46,7 @@ export function useModel(value){
                 enumerable: false,
                 writable: false
             })
-        }))
+        }), { configurable: false })
     }
     // Parent component: Create model
     else {
@@ -86,6 +86,6 @@ export function useModel(value){
                 enumerable: false,
                 writable: false
             })
-        }))
+        }), { configurable: false })
     }
 }

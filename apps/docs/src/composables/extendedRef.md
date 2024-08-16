@@ -41,11 +41,11 @@ The `extendedRef` composable receives two arguments: `initial` and `extension`. 
 
 ### Extend properties
 
-The `extendedRef` composable employs [`defineReactiveProperties`](/composables/defineReactiveProperties) to define additional properties. Therefore, the `extendedRef`'s `extension` argument is analogous to the `properties` argument of `defineReactiveProperties`. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn about defining additional properties.
+The `extendedRef` composable employs [`defineReactiveProperties`](/composables/defineReactiveProperties) to define additional properties. Therefore, the `extendedRef`'s `extension` parameter is analogous to the `properties` parameter of `defineReactiveProperties`. The `options` parameter is available for `extendedRef` as well. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn about defining additional properties.
 
 ### Additional features
 
-The `extendedRef` composable does not directly modifies a ref object, but creates and returns an [`ExtendedRef`](/utilities/classes#extendedref) object instance which extends the [`ExtendedReactive`](/utilities/classes#extendedreactive) class. Therefore, the `getRef` and `setRef` reserved methods are also available in an extendedRef.
+The `extendedRef` composable does not directly modifies a ref object, but creates and returns an [`ExtendedRef`](/utilities/classes#extendedref) object instance which extends the [`ExtendedReactive`](/utilities/classes#extendedreactive) class. Therefore, the `getRef` method is also available in an extendedRef.
 
 `ExtendedRef` defines two additional properties: `value` and `ref`. The `ref` property stores the extendedRef's underlying ref object. The `value` property, on the other hand, is defined with accessors (getter and setter) to read from and write to that inner ref's value.
 
@@ -85,7 +85,12 @@ To access an extendedRef's inner ref value in the template, full `.value` notati
 ```ts
 function extendedRef<T,E>(
     initial: T | (() => T) | Ref<T> | ExtendedRef<T,F>,
-    extension?: E | (withDescriptor: function) => E
+    extension?: E | (withDescriptor: function) => E,
+    options?: {
+        ignore?: string[];
+        configurable?: boolean;
+        enumerable?: boolean;
+    }
 ): ExtendedRef<T, E | E extends F>
 ```
 
@@ -93,6 +98,9 @@ function extendedRef<T,E>(
 
 - **`initial`**: Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
 - **`extension`**: Extension object or callback that returns extension object. The extension object keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
+- **`options.ignore`**: Array of property keys to be ignored from the `extension` object.
+- **`options.configurable`**: Default value for data descriptors' `configurable` option. Defaults to `true`.
+- **`options.enumerable`**: Default value for data descriptors' `enumerable` option. Defaults to `true`.
 
 #### Return value
 

@@ -44,12 +44,11 @@ As the name implies, `defineReactiveProperties` defines properties on an object,
 
 The first argument of `defineReactiveProperties` is the object on which to define properties, whereas the second argument is used to provide the properties to be defined.
 
-
 #### Descriptors
 
 A property to be defined is described with a data or accessor [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#descriptor) object. There are, however, two additional data descriptor options available if the descriptor's `value` is a ref: `unwrap` and `readonly`.
 
-- `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. If set to `false`, the ref object itself is used as the property's value. Defaults to `true`
+- `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
 - `readonly`: If set to `true`, wraps the ref object with the Vue's `readonly` function. Defaults to `false`.
 
 In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function which itself receives as an argument a helper function to mark objects as property descriptors. The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
@@ -61,24 +60,20 @@ defineReactiveProperties({}, withDescriptor => ({
 }))
 ```
 
-:::tip
-Defined `Function` properties are automatically [bound](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to the object.
-:::
-
 #### Default descriptor options
 
-The provided `withDescriptor` function expects a descriptor object. Missing descriptor options fallback to default values. Different types of properties have different default descriptor options.
+The provided `withDescriptor` function expects a descriptor object. Missing descriptor options fallback to default values. Default accessor descriptor options are the same as those of [`Object.defineProperty`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty).
 
-Default accessor descriptor options are the same as when using [`Object.defineProperty`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). Default data descriptor options when using `defineReactiveProperties` are summarized in the following table.
+Data descriptors' `configurable` and `enumerable` options default to `true` in order for properties to behave as if they had been defined with an [object initializer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer). These default values, however, may be changed through the `options` parameters (see [Parameters](#parameters)).
 
-| Property type | `enumerable` | `writable` |
-| ------------- | ------------ | ---------- |
-| `UnwrapRef` | `true` | n/a |
-| `Ref` | `true` | `false` |
-| `Function` | `true` | `false` |
-| other | `true` | `true` |
+Additional details and default options for different types of properties are summarized in the following table.
 
-Additionally, custom `get` and `set` methods can be defined for unwrapped refs.
+| Property | `writable` | Details |
+| -------- | ---------- | ------- |
+| `UnwrapRef` | n/a | Defined with accessor descriptors. Custom `get` and `set` methods may be specified. |
+| `Ref` | `false` | |
+| `Function` | `false` | Automatically [bound](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to the object. |
+| other | `true` | |
 
 #### Descriptor inference
 
@@ -111,7 +106,11 @@ In the case of `ExtendedReactive` objects, `defineReactiveProperties` automatica
 function defineReactiveProperties<T>(
     object: object,
     properties?: T | (withDescriptor: function) => T,
-    ignore?: string[]
+    options?: {
+        ignore?: string[];
+        configurable?: boolean;
+        enumerable?: boolean;
+    }
 ): ExtendedRef<T>
 ```
 
@@ -119,7 +118,9 @@ function defineReactiveProperties<T>(
 
 - **`object`**: The object on which to define properties.
 - **`properties`**: An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
-- **`ignore`**: Array of property keys to be ignored from the properties object.
+- **`options.ignore`**: Array of property keys to be ignored from the `properties` object.
+- **`options.configurable`**: Default value for data descriptors' `configurable` option. Defaults to `true`.
+- **`options.enumerable`**: Default value for data descriptors' `enumerable` option. Defaults to `true`.
 
 #### Return value
 

@@ -6,6 +6,10 @@ import { ExtendedReactive } from "../utilities"
  * 
  * @template T
  * @param { T | (withDescriptor: function) => T } [properties] - An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
+ * @param { object } [options] - Additional options.
+ * @param { string[] } [options.ignore] - Array of property keys to be ignored from the properties object.
+ * @param { boolean } [options.configurable] - Default value for data descriptors' `configurable` option. Defaults to `true`.
+ * @param { boolean } [options.enumerable] - Default value for data descriptors' `enumerable` option. Defaults to `true`.
  * 
  * @returns { ExtendedReactive }
  * 
@@ -35,6 +39,6 @@ import { ExtendedReactive } from "../utilities"
  *  }))
  * 
  */
-export function extendedReactive(properties) {
-	return defineReactiveProperties(new ExtendedReactive(), properties)
+export function extendedReactive(properties, options) {
+	return defineReactiveProperties(new ExtendedReactive(), properties, options)
 }

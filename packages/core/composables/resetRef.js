@@ -35,5 +35,5 @@ export function resetRef(initial){
         reset(){
             this.value = getReferenceCopy()
         }
-    })
+    }, { configurable: false })
 }

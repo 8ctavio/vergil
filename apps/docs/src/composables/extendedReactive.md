@@ -45,7 +45,7 @@ const extendedB = extendedReactive(withDescriptor => ({
 
 The `extendedReactive` composable creates a new [`ExtendedReactive`](/utilities/classes#extendedreactive) object instance, defines on it the specified properties with [`defineReactiveProperties`](/composables/defineReactiveProperties), and returns it.
 
-The `extendedReactive`'s single argument corresponds to the `properties` argument of `defineReactiveProperties`. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn how to define properties.
+The `extendedReactive`'s parameters correspond to the `properties` and `options` parameters of `defineReactiveProperties`, respectively. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn how to define properties.
 
 In practice, `extendedReactive` creates an object that can have both regular properties and automatically unwrapped ref properties. Therefore, it behaves similar to a Vue `reactive` object, but with additional control over which properties are reactive.
 
@@ -65,13 +65,21 @@ console.log(isRef(extended.getRef('foo'))) // true
 
 ```ts
 function extendedReactive<T>(
-    properties?: T | (withDescriptor: function) => T
-): ExtendedRef<T>
+    properties?: T | (withDescriptor: function) => T,
+    options?: {
+        ignore?: string[];
+        configurable?: boolean;
+        enumerable?: boolean;
+    }
+): ExtendedReactive<T>
 ```
 
 #### Parameters
 
 - **`properties`**: An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
+- **`options.ignore`**: Array of property keys to be ignored from the `properties` object.
+- **`options.configurable`**: Default value for data descriptors' `configurable` option. Defaults to `true`.
+- **`options.enumerable`**: Default value for data descriptors' `enumerable` option. Defaults to `true`.
 
 #### Return value
 
