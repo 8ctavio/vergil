@@ -35,7 +35,8 @@ export default {
 		logo: "/assets/vergil_glasses.png",
 
 		nav: [
-			{ text: 'Docs', link: '/get-started' }
+			{ text: 'Docs', link: '/get-started' },
+			{ component: 'ColorPicker' }
 		],
 
 		sidebar: [
