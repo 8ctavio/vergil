@@ -34,7 +34,7 @@ const planets = useModel([])
 <Demo>
     <div class="col">
         <div class="row center">
-            <Checkbox v-model="checked"/>
+            <Checkbox v-model="checked" label="Checkbox"/>
         </div>
         <div class="row center">
             <code>checked.value === {{ checked.value }}</code>

@@ -97,9 +97,9 @@ defineProps({
 
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-1) var(--g-gap-2);
+    padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
-    column-gap: var(--g-gap-1);
+    column-gap: var(--g-gap-md);
 
     position: relative;
     display: grid;
@@ -113,7 +113,7 @@ defineProps({
     transition: box-shadow 150ms, transform 150ms;
 
     &.squared{
-        padding: var(--g-gap-1);
+        padding: var(--g-gap-md);
     }
     &.size-sm.spacing-compact{
         --btn3D-elv: 4px;

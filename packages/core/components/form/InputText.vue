@@ -186,8 +186,8 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     position: relative;
     display: flex;
     align-items: center;
-    column-gap: var(--g-gap-1);
-    padding: 0 var(--g-gap-2);
+    column-gap: var(--g-gap-md);
+    padding: 0 var(--g-gap-lg);
     width: 100%;
     border-radius: var(--g-radius);
     background-color: var(--c-bg);
@@ -217,7 +217,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         font-size: 1em;
         font-family: var(--font-sans);
         width: 100%;
-        padding: var(--g-gap-1) 0;
+        padding: var(--g-gap-md) 0;
         outline: 0 solid transparent;
         &.text-left{ text-align: left; }
         &.text-center{ text-align: center; }
@@ -227,7 +227,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         }
         &:placeholder-shown:not(:focus) + label{
             font-size: 1em;
-            padding: var(--g-gap-1) var(--g-gap-2);
+            padding: var(--g-gap-md) var(--g-gap-lg);
             transform: translateY(0);
             color: var(--c-grey-1);
             font-weight: 400;
@@ -244,7 +244,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         pointer-events: none;
         user-select: none;
         transform: translateY(-100%);
-        padding-bottom: calc(0.8 * var(--g-gap-1));
+        padding-bottom: var(--g-gap-sm);
         transition: transform 150ms, padding 150ms 50ms, font-size 150ms, color 150ms;
     }
     & > p{

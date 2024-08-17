@@ -106,7 +106,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
     position: relative;
     display: flex;
     align-items: center;
-    column-gap: var(--g-gap-1);
+    column-gap: var(--g-gap-md);
     width: 100%;
     border-radius: var(--g-radius);
     background-color: var(--c-bg);
@@ -139,7 +139,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
         font-size: 1em;
         font-family: var(--font-sans);
         width: 100%;
-        padding: var(--g-gap-1) var(--g-gap-2);
+        padding: var(--g-gap-md) var(--g-gap-lg);
         background-color: transparent;
         outline: 0 solid transparent;
         resize: none;
@@ -153,7 +153,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
         }
         &:placeholder-shown:not(:focus) + label{
             font-size: 1em;
-            padding: var(--g-gap-1) var(--g-gap-2);
+            padding: var(--g-gap-md) var(--g-gap-lg);
             transform: translateY(0);
             color: var(--c-grey-1);
             font-weight: 400;
@@ -170,7 +170,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
         pointer-events: none;
         user-select: none;
         transform: translateY(-100%);
-        padding-bottom: calc(0.8 * var(--g-gap-1));
+        padding-bottom: var(--g-gap-sm);
         transition: transform 150ms, padding 150ms 50ms, font-size 150ms, color 150ms;
     }
 }

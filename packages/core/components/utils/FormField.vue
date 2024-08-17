@@ -58,14 +58,14 @@ const props = defineProps({
     line-height: var(--line-height-text);
     display: flex;
     flex-direction: column;
-    row-gap: calc(0.8 * var(--g-gap-1));
+    row-gap: var(--g-gap-sm);
 
     & > .form-field-label-wrapper {
         font-size: 1em;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        column-gap: calc(0.8 * var(--g-gap-1));
+        column-gap: var(--g-gap-sm);
 
         & > :first-child{
             font-size: 0.9em;

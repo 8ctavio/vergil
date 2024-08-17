@@ -84,7 +84,7 @@ defineProps({
 .btn{
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-1) var(--g-gap-2);
+    padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
 
     position: relative;
@@ -95,7 +95,7 @@ defineProps({
     transition: background-color 150ms, color 150ms, border 150ms, box-shadow 150ms;
 
     &.squared{
-        padding: var(--g-gap-1);
+        padding: var(--g-gap-md);
     }
 
     &:focus-visible{
@@ -124,7 +124,7 @@ defineProps({
         position: relative;
         display: grid;
         grid-auto-flow: column;
-        column-gap: var(--g-gap-1);
+        column-gap: var(--g-gap-md);
 
         &::selection{
             background-color: transparent;

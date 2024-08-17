@@ -68,18 +68,18 @@ defineProps({
 .badge{
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-1) var(--g-gap-2);
+    padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
 
     display: grid;
     grid-auto-flow: column;
-    column-gap: var(--g-gap-1);
+    column-gap: var(--g-gap-md);
     border: none;
     font-weight: 500;
     cursor: default;
 
     &.squared{
-        padding: var(--g-gap-1);
+        padding: var(--g-gap-md);
     }
     & > .icon{
         font-size: calc(1em * var(--font-size-scale-icon));

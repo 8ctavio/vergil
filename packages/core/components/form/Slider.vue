@@ -127,9 +127,9 @@ const valueWidth = computed(() => props.max.length)
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     display: flex;
-    column-gap: var(--g-gap-2);
+    column-gap: var(--g-gap-lg);
     width: 100%;
-    padding: var(--g-gap-1) 0;
+    padding: var(--g-gap-md) 0;
     color: var(--c-text);
 
     &:has(> .slider-wrapper > input[type="range"]:disabled) {

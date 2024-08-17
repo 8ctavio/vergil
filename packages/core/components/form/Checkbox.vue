@@ -102,7 +102,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
     line-height: var(--line-height-text);
     position: relative;
     display: flex;
-    column-gap: var(--g-gap-1);
+    column-gap: var(--g-gap-md);
     color: var(--c-text);
     cursor: pointer;
 
@@ -168,7 +168,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
     & > div {
         display: flex;
         flex-direction: column;
-        row-gap: calc(0.5 * var(--g-gap-1));
+        row-gap: var(--g-gap-xs);
         & > .checkbox-description {
             font-size: 0.9em;
             color: var(--c-grey-text-3);

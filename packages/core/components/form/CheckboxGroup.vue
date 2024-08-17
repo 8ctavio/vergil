@@ -85,7 +85,7 @@ provide('checkbox-props', {
 .checkbox-group-wrapper {
     display: flex;
     flex-direction: v-bind(direction);
-    row-gap: var(--g-gap-1);
-    column-gap: calc(3 * var(--g-gap-1));
+    row-gap: var(--g-gap-md);
+    column-gap: var(--g-gap-xl);
 }
 </style>

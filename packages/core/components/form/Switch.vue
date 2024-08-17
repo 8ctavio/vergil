@@ -102,7 +102,7 @@ const model = useModel(props.modelValue)
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     display: flex;
-    column-gap: var(--g-gap-1);
+    column-gap: var(--g-gap-md);
     border: none;
     color: var(--c-text);
     cursor: pointer;
