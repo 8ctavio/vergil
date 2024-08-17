@@ -87,6 +87,10 @@ In order to customize `theme`s' color palettes, it's recommended to edit a copy 
 
 At the start of the file, only required color palettes should be imported.
 
+:::tip
+The `@8ctavio/vergil/styles` stylesheet imports the `grey` color. Therefore, it should not be required to import `@8ctavio/vergil/colors/grey` to use `grey` color variables inside the custom theme stylesheet.
+:::
+
 The stylesheet contains a declaration block for each `theme`. Each declaration block sets `theme` specific variables with a color palette specific variable. This is how a color palette is assigned to a `theme`.
 
 Therefore, to change a `theme`'s color palette, simply rename the color palette specific variables to include the desired color palette name:
