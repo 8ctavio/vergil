@@ -160,7 +160,7 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `array` | `[]` |
+| `value` | `array \| string` | `[]` |
 | `options` | `object` | |
 | `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |

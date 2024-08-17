@@ -8,6 +8,7 @@ outline: [2,3]
 import { Checkbox } from '@8ctavio/vergil/components'
 import { useModel } from '@8ctavio/vergil'
 const checked = useModel(false)
+const planet = useModel('')
 const planets = useModel([])
 </script>
 
@@ -18,6 +19,7 @@ const planets = useModel([])
 import { Checkbox } from '@8ctavio/vergil/components'
 import { useModel } from '@8ctavio/vergil'
 const checked = useModel(false)
+const planet = useModel('')
 const planets = useModel([])
 </script>
 
@@ -25,10 +27,15 @@ const planets = useModel([])
     <!-- Single boolean value -->
     <Checkbox v-model="checked" label="Checkbox"/>
 
-    <!-- Multiple values -->
-    <Checkbox v-model="planets" value="earth" label="Earth"/>
-    <Checkbox v-model="planets" value="reach" label="Reach"/>
-    <Checkbox v-model="planets" value="harvest" label="Harvest"/>
+    <!-- Multiple values, single selection -->
+    <Checkbox v-model="planet" value="earth" label="Earth"/>
+    <Checkbox v-model="planet" value="reach" label="Reach"/>
+    <Checkbox v-model="planet" value="harvest" label="Harvest"/>
+
+    <!-- Multiple values, multiple selection -->
+    <Checkbox v-model="planets" value="Arcadia" label="Arcadia"/>
+    <Checkbox v-model="planets" value="requiem" label="Requiem"/>
+    <Checkbox v-model="planets" value="sanghelios" label="Sanghelios"/>
 </template>
 ```
 <Demo>
@@ -40,9 +47,17 @@ const planets = useModel([])
             <code>checked.value === {{ checked.value }}</code>
         </div>
         <div class="row center">
-            <Checkbox v-model="planets" value="earth" label="Earth"/>
-            <Checkbox v-model="planets" value="reach" label="Reach"/>
-            <Checkbox v-model="planets" value="harvest" label="Harvest"/>
+            <Checkbox v-model="planet" value="earth" label="Earth"/>
+            <Checkbox v-model="planet" value="reach" label="Reach"/>
+            <Checkbox v-model="planet" value="harvest" label="Harvest"/>
+        </div>
+        <div class="row center">
+            <code>planet.value === '{{ planet.value }}'</code>
+        </div>
+        <div class="row center">
+            <Checkbox v-model="planets" value="arcadia" label="Arcadia"/>
+            <Checkbox v-model="planets" value="requiem" label="Requiem"/>
+            <Checkbox v-model="planets" value="sanghelios" label="Sanghelios"/>
         </div>
         <div class="row center">
             <code>planets.value === {{ planets.value }}</code>
@@ -50,17 +65,11 @@ const planets = useModel([])
     </div>
 </Demo>
 
-## Attributes
-
-### Value
-
-In order to bind multiple checkboxes to a component model, all checkboxes must include the `value` attribute and the model's value must be an array. The model's array value includes the `value` of checked checkboxes. Were the model's value not an array, `value` has no effect.
-
 ## Props
 
-### Checked value <Badge><pre>value-checked: (boolean | string) = true</pre></Badge>
+### Checked value <Badge><pre>value[-checked]: (boolean | string) = true</pre></Badge>
 
-Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop.
+The `value-checked` prop is used both as the underlying `input[type="checkbox"]` element's `value` attribute and as the Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop.
 
 ### Unchecked value <Badge><pre>value-unchecked: (boolean | string) = false</pre></Badge>
 
@@ -152,6 +161,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | prop | type | default |
 | ---- | ---- | ------- |
 | `checked` | `string` | |
+| `value` | `boolean \| string` | `undefined` |
 | `valueChecked` | `boolean \| string` | `true` |
 | `valueUnchecked` | `boolean \| string` | `false` |
 | `label` | `string` | |

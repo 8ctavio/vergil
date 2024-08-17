@@ -14,9 +14,13 @@ const props = defineProps({
         validator: v => isModel(v) || isModelWrapper(v)
     },
     checked: Boolean,
+    value: {
+        type: [String, Boolean],
+        default: undefined
+    },
     valueChecked: {
         type: [String, Boolean],
-        default: true
+        default: props => props.value ?? true
     },
     valueUnchecked: {
         type: [String, Boolean],
@@ -70,6 +74,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         <input
             v-bind="$attrs"
             v-model="model.value"
+            :value="valueChecked"
             :true-value="valueChecked"
             :false-value="valueUnchecked"
             :ref="model.getRef('el')"
