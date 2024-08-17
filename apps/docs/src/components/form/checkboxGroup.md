@@ -77,6 +77,15 @@ All other props are passed to (and, therefore, shared between) the `CheckboxGrou
 
 The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox` components. In such case, the `options` prop is ignored and `CheckboxGroup` group-level props may be overwritten on each `Checkbox` component.
 
+### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <CheckboxGroup :options="['Label 1', 'Label 2']" direction="column" label="Column"/>
+        <CheckboxGroup :options="['Label 1', 'Label 2']" direction="row" label="Row"/>
+    </div>
+</Demo>
+
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
@@ -153,6 +162,7 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
 | ---- | ---- | ------- |
 | `value` | `array` | `[]` |
 | `options` | `object` | |
+| `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |

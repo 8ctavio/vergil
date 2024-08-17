@@ -20,6 +20,11 @@ const props = defineProps({
 
     //----- Component specific -----
     options: Object,
+    direction: {
+        type: String,
+        default: 'column',
+        validator: v => ['column', 'row'].includes(v)
+    },
     
     //----- FormField -----
     label: String,
@@ -79,7 +84,8 @@ provide('checkbox-props', {
 <style>
 .checkbox-group-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: v-bind(direction);
     row-gap: var(--g-gap-1);
+    column-gap: calc(3 * var(--g-gap-1));
 }
 </style>

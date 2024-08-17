@@ -77,6 +77,15 @@ All other props are passed to (and, therefore, shared between) the `RadioGroup` 
 
 The `RadioGroup` default slot may be used instead to directly pass `Radio` components. In such case, the `options` prop is ignored and `RadioGroup` group-level props may be overwritten on each `Radio` component.
 
+### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <RadioGroup :options="['Label 1', 'Label 2']" name="dir-col" direction="column" label="Column"/>
+        <RadioGroup :options="['Label 1', 'Label 2']" name="dir-row" direction="row" label="Row"/>
+    </div>
+</Demo>
+
 ### Name <Badge><pre>name: string</pre></Badge>
 
 The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radio` members.
@@ -161,6 +170,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
 | `options` | `object` | |
+| `direction` | `'column' \| 'row'` | `'column'` |
 | `name` | `string` | |
 | `label` | `string` | |
 | `hint` | `string` | |
