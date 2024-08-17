@@ -69,7 +69,10 @@ provide('radio-props', {
         >
         <div :class="['radio-group-wrapper', inferTheme(theme)]" :ref="model.getRef('el')">
             <slot>
-                <Radio v-for="(label,value) in options" :key="value" :value :label/>
+                <Radio v-for="(text,value) in options" :key="value" :value
+                    :label="Array.isArray(text) ? text[0] : text"
+                    :description="Array.isArray(text) ? text[1] : undefined"
+                    />
             </slot>
         </div>
     </FormField>

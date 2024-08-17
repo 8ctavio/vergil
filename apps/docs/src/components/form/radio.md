@@ -48,7 +48,7 @@ Always provide `name` to improve (keyboard) usability and accessibility.
 
 ## Props
 
-### Label <Badge><pre>label: string</pre></Badge>
+### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 The default slot may be use instead. The slot content overrides the `label` prop.
 
@@ -62,6 +62,18 @@ The default slot may be use instead. The slot content overrides the `label` prop
     <Radio name="armor" value="mark-iv" label="Mark IV"/>
     <Radio name="armor" value="mark-v" label="Mark V"/>
     <Radio name="armor" value="mark-vi" label="Mark VI"/>
+</Demo>
+
+### Description <Badge><pre>description: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+
+The `description` slot may be use instead. The slot content overrides the `description` prop.
+
+```vue
+<Radio label="Label" description="Description"/>
+```
+
+<Demo>
+    <Radio value="-" label="Label" description="Description"/>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -135,6 +147,7 @@ The default slot may be use instead. The slot content overrides the `label` prop
 | ---- | ---- | ------- |
 | `name` | `string` | |
 | `label` | `string` | |
+| `description` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
@@ -162,6 +175,13 @@ The following `Radio` props' default values can be overwritten under the `radio`
         <Anatomy tag="span" classes="radio-button">
             <Anatomy tag="span" classes="radio-circle"/>
         </Anatomy>
-        <Anatomy tag="slot #default"/>
+        <Anatomy tag="div">
+            <Anatomy tag="p" classes="radio-label">
+                <Anatomy tag="slot #default"/>
+            </Anatomy>
+            <Anatomy tag="p" classes="radio-description">
+                <Anatomy tag="slot #description"/>
+            </Anatomy>
+        </Anatomy>
     </Anatomy>
 </Demo>

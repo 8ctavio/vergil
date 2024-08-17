@@ -1,4 +1,5 @@
 <script setup>
+import MiniMarkup from '../utils/MiniMarkup.vue'
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -22,6 +23,7 @@ const props = defineProps({
         default: props => (typeof props.valueChecked === 'string') ? '' : false
     },
     label: String,
+    description: String,
     theme: {
         type: String,
         validator: isValidTheme
@@ -79,7 +81,18 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
                 <path d="m382-388 321-321q19-19 45-19t45 19q19 19 19 45t-19 45L427-253q-19 19-45 19t-45-19L167-423q-19-19-19-45t19-45q19-19 45-19t45 19l125 125Z"/>
             </svg>
         </span>
-        <slot>{{ label }}</slot>
+        <div v-if="label">
+            <p class="checkbox-label">
+                <slot>
+                    <MiniMarkup :str="label"/>
+                </slot>
+            </p>
+            <p v-if="description" class="checkbox-description">
+                <slot name="description">
+                    <MiniMarkup :str="description"/>
+                </slot>
+            </p>
+        </div>
     </label>
 </template>
 
@@ -150,6 +163,15 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
             opacity: 0;
             transform: scale(0);
             transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
+        }
+    }
+    & > div {
+        display: flex;
+        flex-direction: column;
+        row-gap: calc(0.5 * var(--g-gap-1));
+        & > .checkbox-description {
+            font-size: 0.9em;
+            color: var(--c-grey-text-3);
         }
     }
 }

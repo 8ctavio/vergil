@@ -59,6 +59,20 @@ The `options` key-value pairs correspond to the `Radio` components' `value` and 
 <RadioGroup :options="{ value1: 'Label 1', value2: 'Label 2' }"/>
 ```
 
+The `options` values may also be string arrays whose first two elements correspond to the `Radio`'s `label` and `description`, respectively.
+
+```vue
+<RadioGroup :options="{ value: ['Label', 'Description'] }"/>
+```
+
+<Demo>
+    <RadioGroup name="options"
+        :options="{
+            value1: ['Label 1', 'Description 1'],
+            value2: ['Label 2', 'Description 2'],
+        }"/>
+</Demo>
+
 All other props are passed to (and, therefore, shared between) the `RadioGroup` underlying `Radio` components.
 
 The `RadioGroup` default slot may be used instead to directly pass `Radio` components. In such case, the `options` prop is ignored and `RadioGroup` group-level props may be overwritten on each `Radio` component.

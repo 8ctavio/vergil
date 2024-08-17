@@ -34,7 +34,7 @@ const planets = useModel([])
 <Demo>
     <div class="col">
         <div class="row center">
-            <Checkbox v-model="checked" label="Checkbox"/>
+            <Checkbox v-model="checked"/>
         </div>
         <div class="row center">
             <code>checked.value === {{ checked.value }}</code>
@@ -66,9 +66,21 @@ Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#che
 
 Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-checked` is a string, `value-unchecked` defaults to an empty string (`''`).
 
-### Label <Badge><pre>label: string</pre></Badge>
+### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 The default slot may be use instead. The slot content overrides the `label` prop.
+
+### Description <Badge><pre>description: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+
+The `description` slot may be use instead. The slot content overrides the `description` prop.
+
+```vue
+<Checkbox label="Label" description="Description"/>
+```
+
+<Demo>
+    <Checkbox label="Label" description="Description"/>
+</Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
@@ -143,6 +155,7 @@ The default slot may be use instead. The slot content overrides the `label` prop
 | `valueChecked` | `boolean \| string` | `true` |
 | `valueUnchecked` | `boolean \| string` | `false` |
 | `label` | `string` | |
+| `description` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
@@ -170,6 +183,13 @@ The following `Checkbox` props' default values can be overwritten under the `che
         <Anatomy tag="span" classes="checkbox-box">
             <Anatomy tag="svg" classes="checkbox-check"/>
         </Anatomy>
-        <Anatomy tag="slot #default"/>
+        <Anatomy tag="div">
+            <Anatomy tag="p" classes="checkbox-label">
+                <Anatomy tag="slot #default"/>
+            </Anatomy>
+            <Anatomy tag="p" classes="checkbox-description">
+                <Anatomy tag="slot #description"/>
+            </Anatomy>
+        </Anatomy>
     </Anatomy>
 </Demo>

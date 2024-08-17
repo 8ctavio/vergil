@@ -1,4 +1,5 @@
 <script setup>
+import MiniMarkup from '../utils/MiniMarkup.vue'
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -14,6 +15,7 @@ const props = defineProps({
     },
     name: String,
     label: String,
+    description: String,
     theme: {
         type: String,
         validator: isValidTheme
@@ -69,7 +71,18 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
         <span class="radio-button">
             <span class="radio-circle"/>
         </span>
-        <slot>{{ label }}</slot>
+        <div v-if="label">
+            <p class="radio-label">
+                <slot>
+                    <MiniMarkup :str="label"/>
+                </slot>
+            </p>
+            <p v-if="description" class="radio-description">
+                <slot name="description">
+                    <MiniMarkup :str="description"/>
+                </slot>
+            </p>
+        </div>
     </label>
 </template>
 
@@ -140,6 +153,15 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
             opacity: 0;
             transform: scale(0);
             transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
+        }
+    }
+    & > div {
+        display: flex;
+        flex-direction: column;
+        row-gap: calc(0.5 * var(--g-gap-1));
+        & > .radio-description {
+            font-size: 0.9em;
+            color: var(--c-grey-text-3);
         }
     }
 }

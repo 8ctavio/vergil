@@ -43,9 +43,9 @@ const ships = useModel([])
             harvest: 'Harvest'
         }"/>
     <CheckboxGroup label="Ships">
-        <Checkbox label="Pillar of Autumn"/>
-        <Checkbox label="In Amber Clad" theme="user"/>
-        <Checkbox label="Forward Unto Dawn"/>
+        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn"/>
+        <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
+        <Checkbox value="forwardUntoDawn" label="Forward Unto Dawn"/>
     </CheckboxGroup>
 </Demo>
 
@@ -56,8 +56,22 @@ const ships = useModel([])
 The `options` key-value pairs correspond to the `Checkbox` components' `value` and `label`, respectively.
 
 ```vue
-<Checkbox :options="{ value1: 'Label 1', value2: 'Label 2' }"/>
+<CheckboxGroup :options="{ value1: 'Label 1', value2: 'Label 2' }"/>
 ```
+
+The `options` values may also be string arrays whose first two elements correspond to the `Checkbox`'s `label` and `description`, respectively.
+
+```vue
+<CheckboxGroup :options="{ value: ['Label', 'Description'] }"/>
+```
+
+<Demo>
+    <CheckboxGroup
+        :options="{
+            value1: ['Label 1', 'Description 1'],
+            value2: ['Label 2', 'Description 2'],
+        }"/>
+</Demo>
 
 All other props are passed to (and, therefore, shared between) the `CheckboxGroup` underlying `Checkbox` components.
 

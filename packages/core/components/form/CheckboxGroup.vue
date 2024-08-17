@@ -67,7 +67,10 @@ provide('checkbox-props', {
         >
         <div :class="['checkbox-group-wrapper', inferTheme(theme)]" :ref="model.getRef('el')">
             <slot>
-                <Checkbox v-for="(label,value) in options" :key="value" :value :label/>
+                <Checkbox v-for="(text,value) in options" :key="value" :value 
+                    :label="Array.isArray(text) ? text[0] : text"
+                    :description="Array.isArray(text) ? text[1] : undefined"
+                    />
             </slot>
         </div>
     </FormField>
