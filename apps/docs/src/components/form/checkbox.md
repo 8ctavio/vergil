@@ -77,7 +77,7 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 
 ### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
-The default slot may be use instead. The slot content overrides the `label` prop.
+The `label` slot may be use instead. The slot content overrides the `label` prop.
 
 ### Description <Badge><pre>description: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
@@ -89,6 +89,25 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 <Demo>
     <Checkbox label="Label" description="Description"/>
+</Demo>
+
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+
+<Demo>
+    <div class="col starts">
+        <div class="row center">
+            <Checkbox variant="classic" label="Classic"/>
+            <Checkbox variant="card" label="Card"/>
+            <Checkbox variant="toggle" label="Toggle"/>
+            <Checkbox variant="list" label="List"/>
+        </div>
+        <div class="row center">
+            <Checkbox variant="classic" label="Classic" description="Description"/>
+            <Checkbox variant="card" label="Card" description="Description"/>
+            <Checkbox variant="toggle" label="Toggle" description="Description"/>
+            <Checkbox variant="list" label="List" description="Description"/>
+        </div>
+    </div>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -152,8 +171,24 @@ The `description` slot may be use instead. The slot content overrides the `descr
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Checkbox disabled label="Disabled" checked/>
-    <Checkbox disabled label="Disabled"/>
+    <div class="col center">
+        <div class="row center">
+            <Checkbox disabled label="Disabled" variant="classic" checked/>
+            <Checkbox disabled label="Disabled" variant="classic"/>
+        </div>
+        <div class="row center">
+            <Checkbox disabled label="Disabled" variant="card" checked/>
+            <Checkbox disabled label="Disabled" variant="card"/>    
+        </div>
+        <div class="row center">
+            <Checkbox disabled label="Disabled" variant="toggle" checked/>
+            <Checkbox disabled label="Disabled" variant="toggle"/>    
+        </div>
+        <div class="row center">
+            <Checkbox disabled label="Disabled" variant="list" checked/>
+            <Checkbox disabled label="Disabled" variant="list"/>    
+        </div>
+    </div>
 </Demo>
 
 ## API Reference
@@ -166,6 +201,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `valueUnchecked` | `boolean \| string` | `false` |
 | `label` | `string` | |
 | `description` | `string` | |
+| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
@@ -178,6 +214,7 @@ The following `Checkbox` props' default values can be overwritten under the `che
 
 | `checkbox.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
+| `variant` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
@@ -190,16 +227,14 @@ The following `Checkbox` props' default values can be overwritten under the `che
 <Demo>
     <Anatomy tag="label" classes="checkbox">
         <Anatomy tag='input[type="checkbox"]'/>
-        <Anatomy tag="span" classes="checkbox-box">
-            <Anatomy tag="svg" classes="checkbox-check"/>
+        <Anatomy tag="span" classes="toggle-button">
+            <Anatomy tag="svg" classes="toggle-check"/>
         </Anatomy>
-        <Anatomy tag="div">
-            <Anatomy tag="p" classes="checkbox-label">
-                <Anatomy tag="slot #default"/>
-            </Anatomy>
-            <Anatomy tag="p" classes="checkbox-description">
-                <Anatomy tag="slot #description"/>
-            </Anatomy>
+        <Anatomy tag="p" classes="toggle-label">
+            <Anatomy tag="slot #default"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-description">
+            <Anatomy tag="slot #description"/>
         </Anatomy>
     </Anatomy>
 </Demo>

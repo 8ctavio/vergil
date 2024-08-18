@@ -50,7 +50,7 @@ Always provide `name` to improve (keyboard) usability and accessibility.
 
 ### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
-The default slot may be use instead. The slot content overrides the `label` prop.
+The `label` slot may be use instead. The slot content overrides the `label` prop.
 
 ```vue
 <Radio name="armor" value="mark-iv" label="Mark IV"/>
@@ -74,6 +74,25 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 <Demo>
     <Radio value="-" label="Label" description="Description"/>
+</Demo>
+
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+
+<Demo>
+    <div class="col starts">
+        <div class="row center">
+            <Radio name="variant" value="1" variant="classic" label="Classic"/>
+            <Radio name="variant" value="2" variant="card" label="Card"/>
+            <Radio name="variant" value="3" variant="toggle" label="Toggle"/>
+            <Radio name="variant" value="4" variant="list" label="List"/>
+        </div>
+        <div class="row center">
+            <Radio name="variant" value="5" variant="classic" label="Classic" description="Description"/>
+            <Radio name="variant" value="6" variant="card" label="Card" description="Description"/>
+            <Radio name="variant" value="7" variant="toggle" label="Toggle" description="Description"/>
+            <Radio name="variant" value="8" variant="list" label="List" description="Description"/>
+        </div>
+    </div>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -137,8 +156,24 @@ The `description` slot may be use instead. The slot content overrides the `descr
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Radio disabled label="Disabled" checked/>
-    <Radio disabled label="Disabled"/>
+    <div class="col center">
+        <div class="row center">
+            <Radio disabled label="Disabled" variant="classic" checked/>
+            <Radio disabled label="Disabled" variant="classic"/>
+        </div>
+        <div class="row center">
+            <Radio disabled label="Disabled" variant="card" checked/>
+            <Radio disabled label="Disabled" variant="card"/>    
+        </div>
+        <div class="row center">
+            <Radio disabled label="Disabled" variant="toggle" checked/>
+            <Radio disabled label="Disabled" variant="toggle"/>    
+        </div>
+        <div class="row center">
+            <Radio disabled label="Disabled" variant="list" checked/>
+            <Radio disabled label="Disabled" variant="list"/>    
+        </div>
+    </div>
 </Demo>
 
 ## API Reference
@@ -148,6 +183,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `name` | `string` | |
 | `label` | `string` | |
 | `description` | `string` | |
+| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
@@ -160,10 +196,15 @@ The following `Radio` props' default values can be overwritten under the `radio`
 
 | `radio.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
+| `variant` | |
 | `theme` | ✅ |
 | `size` | ✅ |
-| `radius` | |
+| `radius` | ✅ |
 | `spacing` | ✅ |
+
+:::tip
+For the `'classic'` variant the `radius` global configuration option is ignored. If the `radio` component configuration option is not set, the `'full'` value is applied.
+:::
 
 ## Styling
 
@@ -172,16 +213,14 @@ The following `Radio` props' default values can be overwritten under the `radio`
 <Demo>
     <Anatomy tag="label" classes="radio">
         <Anatomy tag='input[type="radio"]'/>
-        <Anatomy tag="span" classes="radio-button">
-            <Anatomy tag="span" classes="radio-circle"/>
+        <Anatomy tag="span" classes="toggle-button">
+            <Anatomy tag="svg" classes="toggle-radio"/>
         </Anatomy>
-        <Anatomy tag="div">
-            <Anatomy tag="p" classes="radio-label">
-                <Anatomy tag="slot #default"/>
-            </Anatomy>
-            <Anatomy tag="p" classes="radio-description">
-                <Anatomy tag="slot #description"/>
-            </Anatomy>
+        <Anatomy tag="p" classes="toggle-label">
+            <Anatomy tag="slot #default"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-description">
+            <Anatomy tag="slot #description"/>
         </Anatomy>
     </Anatomy>
 </Demo>

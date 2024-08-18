@@ -86,12 +86,7 @@ const vergil = {
             squared: undefined
         },
         checkbox: {
-            theme: new Option(undefined, { modifier: inferTheme }),
-            size: undefined,
-            radius: undefined,
-            spacing: undefined,
-        },
-        checkboxGroup: {
+            variant: 'classic',
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,
@@ -128,15 +123,10 @@ const vergil = {
             theme: undefined,
         },
         radio: {
+            variant: 'classic',
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
-            radius: 'full',
-            spacing: undefined,
-        },
-        radioGroup: {
-            theme: new Option(undefined, { modifier: inferTheme }),
-            size: undefined,
-            radius: 'full',
+            radius: undefined,
             spacing: undefined,
         },
         skeleton: {

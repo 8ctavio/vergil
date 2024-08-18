@@ -77,6 +77,54 @@ All other props are passed to (and, therefore, shared between) the `RadioGroup` 
 
 The `RadioGroup` default slot may be used instead to directly pass `Radio` components. In such case, the `options` prop is ignored and `RadioGroup` group-level props may be overwritten on each `Radio` component.
 
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="classic" name="classic" label="Classic"/>
+</Demo>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card" label="Card"/>
+    <div class="col center">
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-user" theme="user"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-ok" theme="ok"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-info" theme="info"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-warn" theme="warn"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-danger" theme="danger"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-neutral" theme="neutral"/>
+    </div>
+</Demo>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle" label="Toggle"/>
+    <div class="col center">
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-user" theme="user"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-ok" theme="ok"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-info" theme="info"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-warn" theme="warn"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-danger" theme="danger"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-neutral" theme="neutral"/>
+    </div>
+</Demo>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" name="list" label="List"/>
+    <div class="col center">
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-user" theme="user"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-ok" theme="ok"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-info" theme="info"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-warn" theme="warn"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-danger" theme="danger"/>
+        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-neutral" theme="neutral"/>
+    </div>
+</Demo>
+
+<style>
+    .toggle-group-wrapper.list {
+        width: 250px;
+    }
+</style>
+
 ### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
 
 <Demo>
@@ -169,9 +217,10 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
-| `options` | `object` | |
-| `direction` | `'column' \| 'row'` | `'column'` |
 | `name` | `string` | |
+| `options` | `object` | |
+| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
+| `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
@@ -184,14 +233,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 
 ### Configuration options
 
-The following `RadioGroup` props' default values can be overwritten under the `radioGroup` root-level [configuration option](/configuration).
-
-| `radioGroup.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | |
-| `spacing` | ✅ |
+The `RadioGroup` is configured through the `Radio` configuration options.
 
 ## Styling
 
@@ -204,9 +246,9 @@ The following `RadioGroup` props' default values can be overwritten under the `r
             <Anatomy tag="span" classes="form-field-hint"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="radio-group-wrapper">
+        <Anatomy tag="div" classes="toggle-group-wrapper">
             <Anatomy tag="slot #default">
-                <Anatomy tag='Radio v-for="(label,value) in options"'/>
+                <Anatomy tag='Radio v-for="(text,value) in options"'/>
             </Anatomy>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>

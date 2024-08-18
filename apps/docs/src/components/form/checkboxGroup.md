@@ -77,6 +77,24 @@ All other props are passed to (and, therefore, shared between) the `CheckboxGrou
 
 The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox` components. In such case, the `options` prop is ignored and `CheckboxGroup` group-level props may be overwritten on each `Checkbox` component.
 
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="classic" label="Classic"/>
+</Demo>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" label="Card"/>
+</Demo>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" label="Toggle"/>
+</Demo>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" label="List"/>
+</Demo>
+
 ### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
 
 <Demo>
@@ -162,6 +180,7 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
 | ---- | ---- | ------- |
 | `value` | `array \| string` | `[]` |
 | `options` | `object` | |
+| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
 | `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |
 | `hint` | `string` | |
@@ -175,14 +194,7 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
 
 ### Configuration options
 
-The following `CheckboxGroup` props' default values can be overwritten under the `checkboxGroup` root-level [configuration option](/configuration).
-
-| `checkboxGroup.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+The `CheckboxGroup` is configured through the `Checkbox` configuration options.
 
 ## Styling
 
@@ -195,9 +207,9 @@ The following `CheckboxGroup` props' default values can be overwritten under the
             <Anatomy tag="span" classes="form-field-hint"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="checkbox-group-wrapper">
+        <Anatomy tag="div" classes="toggle-group-wrapper">
             <Anatomy tag="slot #default">
-                <Anatomy tag='Checkbox v-for="(label,value) in options"'/>
+                <Anatomy tag='Checkbox v-for="(text,value) in options"'/>
             </Anatomy>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>

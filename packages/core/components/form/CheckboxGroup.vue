@@ -1,91 +1,9 @@
 <script setup>
-import FormField from '../utils/FormField.vue'
-import Checkbox from './Checkbox.vue'
-import { provide, toRef } from 'vue'
-import { vergil } from '../../vergil'
-import { useModel } from '../../composables/useModel'
-import { isModel } from '../../utilities'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
-
-const props = defineProps({
-    //----- Model -----
-    value: {
-        type: Array,
-        default: []
-    },
-    modelValue: {
-        default: props => useModel(props.value),
-        validator: isModel
-    },
-
-    //----- Component specific -----
-    options: Object,
-    direction: {
-        type: String,
-        default: 'column',
-        validator: v => ['column', 'row'].includes(v)
-    },
-    
-    //----- FormField -----
-    label: String,
-    hint: String,
-    description: String,
-    help: String,
-
-    //----- Appearance -----
-    theme: {
-        type: String,
-        default: () => vergil.config.checkboxGroup.theme ?? vergil.config.global.theme,
-        validator: isValidTheme
-    },
-    size: {
-        type: String,
-        default: () => vergil.config.checkboxGroup.size ?? vergil.config.global.size,
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: () => vergil.config.checkboxGroup.radius ?? vergil.config.global.radius,
-        validator: isValidRadius
-    },
-    spacing: {
-        type: String,
-        default: () => vergil.config.checkboxGroup.spacing ?? vergil.config.global.spacing,
-        validator: isValidSpacing
-    },
-    disabled: Boolean,
-})
-
-const model = useModel(props.modelValue)
-
-provide('checkbox-props', {
-    groupModel: model,
-    groupDisabled: toRef(() => props.disabled),
-    groupTheme: toRef(() => props.theme)
-})
+import ToggleGroup from '../utils/ToggleGroup.vue'
 </script>
 
 <template>
-    <FormField class="checkbox-group"
-        :label :hint :description :help
-        :size :radius :spacing
-        >
-        <div :class="['checkbox-group-wrapper', inferTheme(theme)]" :ref="model.getRef('el')">
-            <slot>
-                <Checkbox v-for="(text,value) in options" :key="value" :value 
-                    :label="Array.isArray(text) ? text[0] : text"
-                    :description="Array.isArray(text) ? text[1] : undefined"
-                    />
-            </slot>
-        </div>
-    </FormField>
+    <ToggleGroup type="checkbox">
+        <slot/>
+    </ToggleGroup>
 </template>
-
-<style>
-.checkbox-group-wrapper {
-    display: flex;
-    flex-direction: v-bind(direction);
-    row-gap: var(--g-gap-md);
-    column-gap: var(--g-gap-xl);
-}
-</style>
