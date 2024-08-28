@@ -5,11 +5,13 @@ import Icon from '../Icon.vue'
 const props = defineProps({
     str: {
         type: String,
-        required: true
+        required: true,
+        default: '',
     }
 })
 
 function parseMiniMarkup(str){
+    if(!str) return []
     str = str.trim().replace(/[ \t]+/g, ' ').replace(/\n | \n/g, '\n')
 	const reMarkPattern = /\*\*.*?\*\*|\/\/.*?\/\/|\[\[.*?\]\]|@@\S*?@@|\n/g
 	const segments = []

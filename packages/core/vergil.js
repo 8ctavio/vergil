@@ -68,8 +68,6 @@ const vergil = {
         },
         btn: {
             variant: 'solid',
-            fill: undefined,
-            borderless: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,

@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Skeleton <Badge><pre>.skeleton</pre></Badge>
+# Skeleton
 
 <script setup>
 import { Skeleton } from '@8ctavio/vergil/components'

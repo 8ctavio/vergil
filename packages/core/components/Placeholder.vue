@@ -30,7 +30,7 @@ defineProps({
     --placeholder-pattern-width: 2px;
     --placeholder-pattern-gap: 10px;
     position: relative;
-    border: 2px dashed var(--c-grey-border-4);
+    border: 2px dashed var(--c-grey-border-subtle-4);
     border-radius: var(--g-radius);
     background: repeating-linear-gradient(
         -45deg,

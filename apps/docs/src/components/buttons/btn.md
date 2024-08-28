@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Btn <Badge type="tip"><pre>.btn</pre></Badge>
+# Btn
 
 > Button element to handle click events
 
@@ -27,7 +27,7 @@ import { Btn } from '@8ctavio/vergil/components'
 
 ## Props
 
-### Label <Badge type="tip"><pre>label: string = ''</pre></Badge>
+### Label <Badge type="tip"><pre>label: string = ''</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 Simple `Btn` text content can be specified through the default slot or the `label` prop. The slot content overrides the `label` prop.
 
@@ -35,33 +35,120 @@ Simple `Btn` text content can be specified through the default slot or the `labe
 <Btn label="Click"/>
 ```
 
-### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'ghost' | 'outline' | 'underline' | 'text') = 'solid'</pre></Badge>
+### Variant <Badge><pre>variant: ('solid' | 'soft' | 'subtle') = 'solid'</pre></Badge>
 
 <Demo>
     <Btn variant="solid" label="Solid"/>
     <Btn variant="soft" label="Soft"/>
-    <Btn variant="ghost" label="Ghost"/>
-    <Btn variant="outline" label="Outline"/>
-    <Btn variant="underline" label="Underline"/>
-    <Btn variant="text" label="Text"/>
+    <Btn variant="subtle" label="Subtle"/>
 </Demo>
 
-### Fill  <Badge type="tip"><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "underline"</pre></Badge>
+### Ghost <Badge><pre>ghost: boolean</pre></Badge>
 
-```vue
-<Btn variant="underline" fill label="Hover me!"/>
-```
 <Demo>
-    <Btn variant="underline" fill label="Hover me!"/>
+    <Btn ghost variant="solid" label="Solid"/>
+    <Btn ghost variant="soft" label="Soft"/>
+    <Btn ghost variant="subtle" label="Subtle"/>
 </Demo>
 
-### Borderless <Badge type="tip"><pre>borderless: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "underline"</pre></Badge>
+### Disclose <Badge><pre>disclose: boolean</pre></Badge>
+
+<Demo>
+    <Btn disclose variant="solid" label="Solid"/>
+    <Btn disclose variant="soft" label="Soft"/>
+    <Btn disclose variant="subtle" label="Subtle"/>
+</Demo>
+
+### Outline <Badge><pre>outline: (boolean | 'subtle' | 'strong')</pre></Badge>
+
+For both the `soft` and `subtle` variants, `outline = true` is equivalent to `outline = 'subtle'`. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` and `disclose` buttons are affected.
 
 ```vue
-<Btn variant="underline" borderless label="Borderless"/>
+<Btn outline variant="solid" ghost label="Solid"/>
+<Btn outline variant="solid" disclose label="Solid"/>
 ```
+
 <Demo>
-    <Btn variant="underline" borderless label="Borderless"/>
+    <Btn outline variant="solid" label="Solid" ghost/>
+    <Btn outline variant="solid" label="Solid" disclose/>
+</Demo>
+
+```vue
+<Btn variant="soft | subtle" outline/>
+<!-- or -->
+<Btn variant="soft | subtle" outline="subtle"/>
+```
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn outline variant="soft" label="Soft"/>
+            <Btn outline variant="subtle" label="Subtle"/>    
+        </div>
+        <div class="row center">
+            <Btn outline ghost variant="soft" label="Soft"/>
+            <Btn outline ghost variant="subtle" label="Subtle"/>    
+        </div>
+        <div class="row center">
+            <Btn outline="subtle" disclose variant="soft" label="Soft"/>
+            <Btn outline="subtle" disclose variant="subtle" label="Subtle"/>    
+        </div>
+    </div>
+</Demo>
+
+```vue
+<Btn variant="soft | subtle" outline="strong"/>
+```
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn outline="strong" variant="soft" label="Soft"/>
+            <Btn outline="strong" variant="subtle" label="Subtle"/>    
+        </div>
+        <div class="row center">
+            <Btn outline="strong" ghost variant="soft" label="Soft"/>
+            <Btn outline="strong" ghost variant="subtle" label="Subtle"/>    
+        </div>
+        <div class="row center">
+            <Btn outline="strong" disclose variant="soft" label="Soft"/>
+            <Btn outline="strong" disclose variant="subtle" label="Subtle"/>    
+        </div>
+    </div>
+</Demo>
+
+### Fill  <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre> or <pre>disclose</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn fill ghost variant="solid" label="Hover me!"/>
+            <Btn fill ghost variant="soft" label="Hover me!"/>
+            <Btn fill ghost variant="subtle" label="Hover me!"/>
+        </div>
+        <div class="row center">
+            <Btn fill disclose variant="solid" label="Hover me!"/>
+            <Btn fill disclose variant="soft" label="Hover me!"/>
+            <Btn fill disclose variant="subtle" label="Hover me!"/>
+        </div>
+    </div>
+</Demo>
+
+### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre> or <pre>disclose</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn underline fill ghost variant="solid" label="Underline"/>
+            <Btn underline fill ghost variant="soft" label="Underline"/>
+            <Btn underline fill ghost variant="subtle" label="Underline"/>
+        </div>
+        <div class="row center">
+            <Btn underline fill disclose variant="solid" label="Underline"/>
+            <Btn underline fill disclose variant="soft" label="Underline"/>
+            <Btn underline fill disclose variant="subtle" label="Underline"/>
+        </div>
+    </div>
 </Demo>
 
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -78,6 +165,15 @@ Simple `Btn` text content can be specified through the default slot or the `labe
             <Btn variant="solid" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
+            <Btn variant="solid" outline ghost theme="brand" label="Brand"/>
+            <Btn variant="solid" outline ghost theme="user" label="User"/>
+            <Btn variant="solid" outline ghost theme="ok" label="Ok"/>
+            <Btn variant="solid" outline ghost theme="info" label="Info"/>
+            <Btn variant="solid" outline ghost theme="warn" label="Warn"/>
+            <Btn variant="solid" outline ghost theme="danger" label="Danger"/>
+            <Btn variant="solid" outline ghost theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
             <Btn variant="soft" theme="brand" label="Brand"/>
             <Btn variant="soft" theme="user" label="User"/>
             <Btn variant="soft" theme="ok" label="Ok"/>
@@ -87,40 +183,49 @@ Simple `Btn` text content can be specified through the default slot or the `labe
             <Btn variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="ghost" theme="brand" label="Brand"/>
-            <Btn variant="ghost" theme="user" label="User"/>
-            <Btn variant="ghost" theme="ok" label="Ok"/>
-            <Btn variant="ghost" theme="info" label="Info"/>
-            <Btn variant="ghost" theme="warn" label="Warn"/>
-            <Btn variant="ghost" theme="danger" label="Danger"/>
-            <Btn variant="ghost" theme="neutral" label="Neutral"/>
+            <Btn variant="soft" outline theme="brand" label="Brand"/>
+            <Btn variant="soft" outline theme="user" label="User"/>
+            <Btn variant="soft" outline theme="ok" label="Ok"/>
+            <Btn variant="soft" outline theme="info" label="Info"/>
+            <Btn variant="soft" outline theme="warn" label="Warn"/>
+            <Btn variant="soft" outline theme="danger" label="Danger"/>
+            <Btn variant="soft" outline theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="outline" theme="brand" label="Brand"/>
-            <Btn variant="outline" theme="user" label="User"/>
-            <Btn variant="outline" theme="ok" label="Ok"/>
-            <Btn variant="outline" theme="info" label="Info"/>
-            <Btn variant="outline" theme="warn" label="Warn"/>
-            <Btn variant="outline" theme="danger" label="Danger"/>
-            <Btn variant="outline" theme="neutral" label="Neutral"/>
+            <Btn variant="soft" outline="strong" theme="brand" label="Brand"/>
+            <Btn variant="soft" outline="strong" theme="user" label="User"/>
+            <Btn variant="soft" outline="strong" theme="ok" label="Ok"/>
+            <Btn variant="soft" outline="strong" theme="info" label="Info"/>
+            <Btn variant="soft" outline="strong" theme="warn" label="Warn"/>
+            <Btn variant="soft" outline="strong" theme="danger" label="Danger"/>
+            <Btn variant="soft" outline="strong" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="underline" theme="brand" label="Brand"/>
-            <Btn variant="underline" theme="user" label="User"/>
-            <Btn variant="underline" theme="ok" label="Ok"/>
-            <Btn variant="underline" theme="info" label="Info"/>
-            <Btn variant="underline" theme="warn" label="Warn"/>
-            <Btn variant="underline" theme="danger" label="Danger"/>
-            <Btn variant="underline" theme="neutral" label="Neutral"/>
+            <Btn variant="subtle" theme="brand" label="Brand"/>
+            <Btn variant="subtle" theme="user" label="User"/>
+            <Btn variant="subtle" theme="ok" label="Ok"/>
+            <Btn variant="subtle" theme="info" label="Info"/>
+            <Btn variant="subtle" theme="warn" label="Warn"/>
+            <Btn variant="subtle" theme="danger" label="Danger"/>
+            <Btn variant="subtle" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="text" theme="brand" label="Brand"/>
-            <Btn variant="text" theme="user" label="User"/>
-            <Btn variant="text" theme="ok" label="Ok"/>
-            <Btn variant="text" theme="info" label="Info"/>
-            <Btn variant="text" theme="warn" label="Warn"/>
-            <Btn variant="text" theme="danger" label="Danger"/>
-            <Btn variant="text" theme="neutral" label="Neutral"/>
+            <Btn variant="subtle" outline theme="brand" label="Brand"/>
+            <Btn variant="subtle" outline theme="user" label="User"/>
+            <Btn variant="subtle" outline theme="ok" label="Ok"/>
+            <Btn variant="subtle" outline theme="info" label="Info"/>
+            <Btn variant="subtle" outline theme="warn" label="Warn"/>
+            <Btn variant="subtle" outline theme="danger" label="Danger"/>
+            <Btn variant="subtle" outline theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="subtle" outline="strong" theme="brand" label="Brand"/>
+            <Btn variant="subtle" outline="strong" theme="user" label="User"/>
+            <Btn variant="subtle" outline="strong" theme="ok" label="Ok"/>
+            <Btn variant="subtle" outline="strong" theme="info" label="Info"/>
+            <Btn variant="subtle" outline="strong" theme="warn" label="Warn"/>
+            <Btn variant="subtle" outline="strong" theme="danger" label="Danger"/>
+            <Btn variant="subtle" outline="strong" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -216,73 +321,77 @@ Adding `squared` sets padding to the same value on all sides.
 ### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Btn disabled label="Disabled" variant="solid"/>
-    <Btn disabled label="Disabled" variant="soft"/>
-    <Btn disabled label="Disabled" variant="ghost"/>
-    <Btn disabled label="Disabled" variant="outline"/>
-    <Btn disabled label="Disabled" variant="underline"/>
-    <Btn disabled label="Disabled" variant="text"/>
+    <div class="col center">
+        <div class="row center">
+            <Btn disabled label="Disabled" variant="solid"/>
+            <Btn disabled label="Disabled" variant="soft"/>
+            <Btn disabled label="Disabled" variant="subtle"/>
+        </div>
+        <div class="row center">
+            <Btn disabled label="Disabled" outline variant="solid"/>
+            <Btn disabled label="Disabled" outline variant="soft"/>
+            <Btn disabled label="Disabled" outline variant="subtle"/>
+        </div>
+        <div class="row center">
+            <Btn disabled label="Disabled" underline variant="solid"/>
+            <Btn disabled label="Disabled" underline variant="soft"/>
+            <Btn disabled label="Disabled" underline variant="subtle"/>
+        </div>
+    </div>
 </Demo>
 
-### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
+### Loading <Badge><pre>loading: boolean</pre></Badge>
 
 <Demo>
-    <Btn label="Loading" loading variant="solid"/>
-    <Btn label="Loading" loading variant="soft"/>
-    <Btn label="Loading" loading variant="ghost"/>
-    <Btn label="Loading" loading variant="outline"/>
-    <Btn label="Loading" loading variant="underline"/>
-    <Btn label="Loading" loading variant="text"/>
+    <div class="col center">
+        <div class="row center">
+            <Btn loading label="Loading" variant="solid"/>
+            <Btn loading label="Loading" variant="soft"/>
+            <Btn loading label="Loading" variant="subtle"/>
+        </div>
+        <div class="row center">
+            <Btn loading label="Loading" outline variant="solid"/>
+            <Btn loading label="Loading" outline variant="soft"/>
+            <Btn loading label="Loading" outline variant="subtle"/>
+        </div>
+        <div class="row center">
+            <Btn loading label="Loading" underline variant="solid"/>
+            <Btn loading label="Loading" underline variant="soft"/>
+            <Btn loading label="Loading" underline variant="subtle"/>
+        </div>
+    </div>
 </Demo>
 
 <Demo>
     <div class="row center">
         <Btn label="Loading" loading theme="user" variant="solid"/>
         <Btn label="Loading" loading theme="user" variant="soft"/>
-        <Btn label="Loading" loading theme="user" variant="ghost"/>
-        <Btn label="Loading" loading theme="user" variant="outline"/>
-        <Btn label="Loading" loading theme="user" variant="underline"/>
-        <Btn label="Loading" loading theme="user" variant="text"/>
+        <Btn label="Loading" loading theme="user" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn label="Loading" loading theme="ok" variant="solid"/>
         <Btn label="Loading" loading theme="ok" variant="soft"/>
-        <Btn label="Loading" loading theme="ok" variant="ghost"/>
-        <Btn label="Loading" loading theme="ok" variant="outline"/>
-        <Btn label="Loading" loading theme="ok" variant="underline"/>
-        <Btn label="Loading" loading theme="ok" variant="text"/>
+        <Btn label="Loading" loading theme="ok" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn label="Loading" loading theme="info" variant="solid"/>
         <Btn label="Loading" loading theme="info" variant="soft"/>
-        <Btn label="Loading" loading theme="info" variant="ghost"/>
-        <Btn label="Loading" loading theme="info" variant="outline"/>
-        <Btn label="Loading" loading theme="info" variant="underline"/>
-        <Btn label="Loading" loading theme="info" variant="text"/>
+        <Btn label="Loading" loading theme="info" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn label="Loading" loading theme="warn" variant="solid"/>
         <Btn label="Loading" loading theme="warn" variant="soft"/>
-        <Btn label="Loading" loading theme="warn" variant="ghost"/>
-        <Btn label="Loading" loading theme="warn" variant="outline"/>
-        <Btn label="Loading" loading theme="warn" variant="underline"/>
-        <Btn label="Loading" loading theme="warn" variant="text"/>
+        <Btn label="Loading" loading theme="warn" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn label="Loading" loading theme="danger" variant="solid"/>
         <Btn label="Loading" loading theme="danger" variant="soft"/>
-        <Btn label="Loading" loading theme="danger" variant="ghost"/>
-        <Btn label="Loading" loading theme="danger" variant="outline"/>
-        <Btn label="Loading" loading theme="danger" variant="underline"/>
-        <Btn label="Loading" loading theme="danger" variant="text"/>
+        <Btn label="Loading" loading theme="danger" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn label="Loading" loading theme="neutral" variant="solid"/>
         <Btn label="Loading" loading theme="neutral" variant="soft"/>
-        <Btn label="Loading" loading theme="neutral" variant="ghost"/>
-        <Btn label="Loading" loading theme="neutral" variant="outline"/>
-        <Btn label="Loading" loading theme="neutral" variant="underline"/>
-        <Btn label="Loading" loading theme="neutral" variant="text"/>
+        <Btn label="Loading" loading theme="neutral" variant="subtle"/>
     </div>
 </Demo>
 
@@ -311,7 +420,7 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
+### Icon <Badge><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
 
 ```vue
 <Btn icon="rocket_launch"/>
@@ -321,62 +430,48 @@ Adding `squared` sets padding to the same value on all sides.
     <div class="row center">
         <Btn icon="rocket_launch" theme="brand" variant="solid"/>
         <Btn icon="rocket_launch" theme="brand" variant="soft"/>
-        <Btn icon="rocket_launch" theme="brand" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="brand" variant="outline"/>
-        <Btn icon="rocket_launch" theme="brand" variant="underline"/>
-        <Btn icon="rocket_launch" theme="brand" variant="text"/>
+        <Btn icon="rocket_launch" theme="brand" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="brand" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="user" variant="solid"/>
         <Btn icon="rocket_launch" theme="user" variant="soft"/>
-        <Btn icon="rocket_launch" theme="user" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="user" variant="outline"/>
-        <Btn icon="rocket_launch" theme="user" variant="underline"/>
-        <Btn icon="rocket_launch" theme="user" variant="text"/>
+        <Btn icon="rocket_launch" theme="user" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="user" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="ok" variant="solid"/>
         <Btn icon="rocket_launch" theme="ok" variant="soft"/>
-        <Btn icon="rocket_launch" theme="ok" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="ok" variant="outline"/>
-        <Btn icon="rocket_launch" theme="ok" variant="underline"/>
-        <Btn icon="rocket_launch" theme="ok" variant="text"/>
+        <Btn icon="rocket_launch" theme="ok" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="ok" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="info" variant="solid"/>
         <Btn icon="rocket_launch" theme="info" variant="soft"/>
-        <Btn icon="rocket_launch" theme="info" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="info" variant="outline"/>
-        <Btn icon="rocket_launch" theme="info" variant="underline"/>
-        <Btn icon="rocket_launch" theme="info" variant="text"/>
+        <Btn icon="rocket_launch" theme="info" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="info" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="warn" variant="solid"/>
         <Btn icon="rocket_launch" theme="warn" variant="soft"/>
-        <Btn icon="rocket_launch" theme="warn" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="warn" variant="outline"/>
-        <Btn icon="rocket_launch" theme="warn" variant="underline"/>
-        <Btn icon="rocket_launch" theme="warn" variant="text"/>
+        <Btn icon="rocket_launch" theme="warn" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="warn" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="danger" variant="solid"/>
         <Btn icon="rocket_launch" theme="danger" variant="soft"/>
-        <Btn icon="rocket_launch" theme="danger" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="danger" variant="outline"/>
-        <Btn icon="rocket_launch" theme="danger" variant="underline"/>
-        <Btn icon="rocket_launch" theme="danger" variant="text"/>
+        <Btn icon="rocket_launch" theme="danger" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="danger" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="neutral" variant="solid"/>
         <Btn icon="rocket_launch" theme="neutral" variant="soft"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="ghost"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="outline"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="underline"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="text"/>
+        <Btn icon="rocket_launch" theme="neutral" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="neutral" variant="soft" ghost/>
     </div>
 </Demo>
 
-### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
+### Icon Right <Badge><pre>icon-right: string</pre></Badge>
 
 ```vue
 <Btn label="Omega" icon-right="special_character"/>
@@ -385,10 +480,7 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn label="Omega" icon-right="special_character" variant="solid"/>
     <Btn label="Omega" icon-right="special_character" variant="soft"/>
-    <Btn label="Omega" icon-right="special_character" variant="ghost"/>
-    <Btn label="Omega" icon-right="special_character" variant="outline"/>
-    <Btn label="Omega" icon-right="special_character" variant="underline"/>
-    <Btn label="Omega" icon-right="special_character" variant="text"/>
+    <Btn label="Omega" icon-right="special_character" variant="subtle"/>
 </Demo>
 
 <Demo>
@@ -421,9 +513,15 @@ Adding `squared` sets padding to the same value on all sides.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
-| `variant` | `'solid' \| 'soft' \| 'ghost' \| 'outline' \| 'underline' \| 'text'` | `'solid'` |
+| `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` |
+| `ghost` | `boolean` | |
+| `disclose` | `boolean` | |
+| `outline` | `boolean \| 'subtle' \| 'strong'` | |
+| `underline` | `boolean` | |
 | `fill` | `boolean` | `false` |
-| `borderless` | `boolean` | `false` |
+| `icon` | `string` | `''` |
+| `icon-left` | `string` | `''` |
+| `icon-right` | `string` | `''` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
@@ -431,9 +529,6 @@ Adding `squared` sets padding to the same value on all sides.
 | `squared` | `boolean` | `false` |
 | `disabled` | `boolean` | `false` |
 | `loading` | `boolean` | `false` |
-| `icon` | `string` | `''` |
-| `icon-left` | `string` | `''` |
-| `icon-right` | `string` | `''` |
 
 ### Configuration options
 
@@ -442,8 +537,6 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
 | `btn.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
-| `fill` | |
-| `borderless` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
@@ -454,4 +547,16 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
 
 ### Anatomy
 
-![Btn Anatomy](../../assets/btn-anatomy.png)
+<Demo>
+    <Anatomy tag="button" classes="btn">
+        <Anatomy tag="span" classes="btn-backdrop"/>
+        <Anatomy tag="div" classes="btn-content">
+            <Anatomy tag="Icon" classes="icon"/>
+            <Anatomy tag="slot #default" classes="icon"/>
+            <Anatomy tag="Icon" classes="icon"/>
+            <Anatomy tag="div" classes="btn-loader">
+                <Anatomy tag="span" classes="btn-spinner"/>
+            </Anatomy>
+        </Anatomy>
+    </Anatomy>
+</Demo>

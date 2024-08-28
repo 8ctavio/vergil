@@ -167,11 +167,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     &:where(.underline){
         & > .btn.outline{
             --btn-bw-b: 2px;
-            --btn-bc-b: var(--c-theme-1);
+            --btn-bc-b: var(--c-theme-solid-1);
         }
         & > .input-text-wrapper{
             --text-input-bw-b: 2px;
-            --text-input-bc-b: var(--c-theme-1);
+            --text-input-bc-b: var(--c-theme-solid-1);
         }
     }
 }
@@ -179,8 +179,8 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     --text-input-bw-l: 0.5px;
     --text-input-bw-r: 0.5px;
     --text-input-bw-b: 0.5px;
-    --text-input-bc: var(--c-grey-border-1);
-    --text-input-bc-b: var(--c-grey-border-1);
+    --text-input-bc: var(--c-grey-border-subtle-3);
+    --text-input-bc-b: var(--c-grey-border-subtle-3);
 
     font-size: 1em;
     position: relative;
@@ -204,10 +204,10 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         outline: 2px solid var(--c-theme-outline);
     }
     &:has(input:disabled){
-        --text-input-bc: var(--c-disabled-border);
-        --text-input-bc-b: var(--c-disabled-border);
+        --text-input-bc: var(--c-disabled-border-2);
+        --text-input-bc-b: var(--c-disabled-border-2);
         color: var(--c-disabled-text);
-        background-color: var(--c-disabled-2);
+        background-color: var(--c-disabled-1);
         & > input{
             cursor: not-allowed;
         }
@@ -254,7 +254,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     & > .icon{
         font-size: calc(1em * var(--font-size-scale-icon));
         line-height: var(--line-height-icon);
-        color: var(--c-theme-icon-3);
+        color: var(--c-theme-text-1);
     }
 }
 </style>

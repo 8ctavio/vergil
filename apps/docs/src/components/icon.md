@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Icon <Badge type="tip"><pre>.icon</pre></Badge>
+# Icon
 
 > Easily display Material Symbols icons
 

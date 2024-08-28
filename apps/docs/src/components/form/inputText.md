@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# InputText <Badge type="tip"><pre>.input-text</pre></Badge>
+# InputText
 
 <script setup>
 import { InputText, Btn } from '@8ctavio/vergil/components'

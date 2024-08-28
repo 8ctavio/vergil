@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Checkbox <Badge><pre>.checkbox</pre></Badge>
+# Checkbox
 
 <script setup>
 import { Checkbox } from '@8ctavio/vergil/components'

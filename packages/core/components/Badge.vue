@@ -108,8 +108,8 @@ defineProps({
 .badge.outline{
     --btn-bw: 1px;
     --btn-bw-b: 1px;
-    --btn-bc: var(--c-theme-border-1);
-    --btn-bc-b: var(--c-theme-border-1);
+    --btn-bc: var(--c-theme-border-subtle-4);
+    --btn-bc-b: var(--c-theme-border-subtle-4);
 
     background-color: var(--c-theme-soft-1);
     color: var(--c-theme-text-2);
@@ -122,16 +122,16 @@ defineProps({
         background-color: var(--c-theme-soft-3);
     }
     & > .icon{
-        color: var(--c-theme-icon-3);
+        color: var(--c-theme-text-1);
     }
 }
 
 /*-------- SOLID --------*/
 .badge.solid{
-    background-color: var(--c-theme-1);
-    color: var(--c-theme-text-1);
+    background-color: var(--c-theme-solid-1);
+    color: var(--c-theme-text-5);
     &::selection{
-        background-color: var(--c-theme-3);
+        background-color: var(--c-theme-solid-3);
     }
     & > .icon{
         color: var(--c-theme-icon-1);

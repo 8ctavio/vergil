@@ -70,7 +70,7 @@ defineProps({
     row-gap: var(--g-gap-xs);
 
     &:hover > .toggle-button {
-        border-color: var(--c-theme-1);
+        border-color: var(--c-theme-solid-1);
     }
 
     & > input:is([type="checkbox"], [type="radio"]) {
@@ -79,8 +79,8 @@ defineProps({
             outline-offset: 2px;
         }
         &:checked + .toggle-button {
-            background-color: var(--c-theme-1);
-            border-color: var(--c-theme-1);
+            background-color: var(--c-theme-solid-1);
+            border-color: var(--c-theme-solid-1);
             & > :is(.toggle-check, .toggle-radio) {
                 opacity: 1;
             }
@@ -92,14 +92,14 @@ defineProps({
             }
         }
         &:disabled + .toggle-button {
-            border-color: var(--c-disabled-1);
+            border-color: var(--c-disabled-border-1);
             background-color: var(--c-disabled-2);
         }
         &:disabled:checked + .toggle-button {
-            border-color: var(--c-disabled-border);
-            background-color: var(--c-disabled-border);
+            border-color: var(--c-disabled-border-3);
+            background-color: var(--c-disabled-border-3);
             & > .toggle-check {
-                fill: var(--c-disabled-2);
+                fill: var(--c-disabled-1);
             }
             & > .toggle-radio {
                 background-color: var(--c-disabled-2);
@@ -112,7 +112,7 @@ defineProps({
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
         border-radius: var(--g-radius);
-        border: 2px solid var(--c-grey-border-2);
+        border: 2px solid var(--c-grey-border-subtle-2);
         transition: border-color 150ms;
 
         & > :is(.toggle-check, .toggle-radio) {
@@ -123,11 +123,11 @@ defineProps({
             transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
         }
         & > .toggle-check {
-            fill: var(--c-theme-icon-1);
+            fill: var(--c-theme-text-4);
         }
         & > .toggle-radio {
             border-radius: inherit;
-            background-color: var(--c-theme-icon-1);
+            background-color: var(--c-theme-text-4);
         }
     }
     & > .toggle-description {
@@ -141,7 +141,7 @@ defineProps({
 
 /*-------- CARD --------*/
 :is(.checkbox, .radio).card {
-    --toggle-border-c: var(--c-grey-border-1);
+    --toggle-border-c: var(--c-grey-border-subtle-4);
     --toggle-border-w: 1px;
     display: flex;
     flex-direction: column;
@@ -153,10 +153,10 @@ defineProps({
     transition: box-shadow 150ms;
 
     &:hover {
-        --toggle-border-c: var(--c-grey-border-4);
+        --toggle-border-c: var(--c-theme-border-subtle-4);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        --toggle-border-c: var(--c-theme-border-2);
+        --toggle-border-c: var(--c-theme-border-solid-1);
         --toggle-border-w: 1.5px;
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
@@ -192,15 +192,16 @@ defineProps({
     transition: background-color 150ms, color 150ms;
 
     &:hover:not(:disabled) {
-        color: var(--c-theme-text-2);
+        color: var(--c-theme-text-3);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
         outline: 2px solid var(--c-theme-outline);
         color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        background-color: var(--c-theme-soft-1);
+        background-color: var(--c-theme-subtle-1);
         color: var(--c-theme-text-2);
+        /* font-weight: 600; */
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
         background-color: var(--c-disabled-2);

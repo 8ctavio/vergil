@@ -8,15 +8,15 @@
  * -------------------------------------------------------------------------- */
 
 :root{
-	--vp-c-brand-1: #3C5A2C;
-	--vp-c-brand-2: #476737;
-	--vp-c-brand-3: #587848;
+	--vp-c-brand-1: var(--c-moss-solid-3);
+	--vp-c-brand-2: var(--c-moss-solid-2);
+	--vp-c-brand-3: var(--c-moss-solid-1);
 	--vp-c-brand-soft: rgba(136, 186, 109, 0.14);
 }
 .dark{
-	--vp-c-brand-1: #AFD09F;
-	--vp-c-brand-2: #A1C291;
-	--vp-c-brand-3: #94B484;
+	--vp-c-brand-1: #84A871;
+	--vp-c-brand-2: #769E61;
+	--vp-c-brand-3: #6A8E57;
 }
 
 /**
@@ -84,7 +84,7 @@
  * -------------------------------------------------------------------------- */
 
 .dark {
-	--vp-button-brand-text: var(--c-moss-text-1);
-	--vp-button-brand-hover-text: var(--c-moss-text-1);
-	--vp-button-brand-active-text: var(--c-moss-text-1);
+	--vp-button-brand-text: #0C100A;
+	--vp-button-brand-hover-text: #0C100A;
+	--vp-button-brand-active-text: #0C100A;
 }

@@ -1,5 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
+import MiniMarkup from '../utils/MiniMarkup.vue'
 import { vergil } from '../../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
@@ -10,14 +11,17 @@ defineProps({
         default: () => vergil.config.btn.variant,
         validator: v => isValidVariant('Btn', v)
     },
-    fill: {
-        type: Boolean,
-        default: () => vergil.config.btn.fill
+    ghost: Boolean,
+    disclose: Boolean,
+    outline: {
+        type: [Boolean, String],
+        validator: v => (typeof v === 'boolean') || ['subtle', 'strong'].includes(v)
     },
-    borderless: {
-        type: Boolean,
-        default: () => vergil.config.btn.borderless
-    },
+    underline: Boolean,
+    fill: Boolean,
+    icon: String,
+    iconLeft: String,
+    iconRight: String,
     theme: {
         type: String,
         default: () => vergil.config.btn.theme ?? vergil.config.global.theme,
@@ -42,9 +46,6 @@ defineProps({
         type: Boolean,
         default: props => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
-    icon: String,
-    iconLeft: String,
-    iconRight: String,
     disabled: Boolean,
     loading: Boolean
 })
@@ -60,56 +61,100 @@ defineProps({
             `radius-${radius}`,
             `spacing-${spacing}`,
             {
+                ghost,
+                disclose,
+                outline,
+                'outline-subtle': [true, 'subtle'].includes(outline),
+                'outline-strong': outline === 'strong',
+                underline,
                 fill,
-                borderless,
                 squared,
                 loading,
             }
         ]"
         :disabled="disabled || loading"
     >
-        <span v-if="variant === 'underline'" class="btn-underline"></span>
+        <span v-if="ghost || disclose" class="btn-backdrop"/>
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
-            <slot>{{ label }}</slot>
+            <slot>
+                <MiniMarkup :str="label"/>
+            </slot>
             <Icon v-if="iconRight" :code="iconRight"/>
             <div v-if="loading" class="btn-loader">
-                <span class="btn-spinner"></span>
+                <span class="btn-spinner"/>
             </div>
         </div>
     </button>
 </template>
 
 <style>
-.btn{
+.btn {
+    --btn-c-border: var(--btn-c-border-1);
+    --btn-c-border-b: var(--c-theme-solid-1);
+    --btn-bw: 0px;
+    --btn-bw-b: 0px;
+
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
+    background-color: var(--btn-c-1);
+    color: var(--btn-c-text-1);
+    box-shadow: inset 0 calc(var(--btn-bw-b) * -1) var(--btn-c-border-b),
+                inset 0 0 0 var(--btn-bw) var(--btn-c-border, transparent);
 
     position: relative;
     border: none;
     font-weight: 500;
     outline: 0 solid transparent;
     cursor: pointer;
-    transition: background-color 150ms, color 150ms, border 150ms, box-shadow 150ms;
+    overflow: hidden;
+    transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
-    &.squared{
-        padding: var(--g-gap-md);
+    &:not(.loading) {
+        &:is(:hover, :focus-visible) {
+            --btn-c-border: var(--btn-c-border-2);
+            color: var(--btn-c-text-2);
+
+            &:not(.fill) {
+                background-color: var(--btn-c-2);
+            }
+            &.fill > .btn-backdrop {
+                height: 100%;
+                background-color: var(--btn-c-2);
+            }
+        }
+        &:active {
+            --btn-c-border: var(--btn-c-border-3);
+            color: var(--btn-c-text-2);
+
+            &:not(.fill), &.fill > .btn-backdrop {
+                background-color: var(--btn-c-3);
+            }
+        }
+        &:disabled {
+            cursor: not-allowed;
+            color: var(--c-disabled-text);
+            --btn-c-border-b: var(--c-disabled-border-3);
+
+            &.subtle {
+                background-color: var(--c-disabled-1);
+                --btn-c-border: var(--c-disabled-border-1);
+            }
+            &:is(.solid, .soft) {
+                background-color: var(--c-disabled-2);
+                --btn-c-border: var(--c-disabled-border-2);
+            }
+        }
     }
-
-    &:focus-visible{
-        outline: 2px solid var(--c-theme-outline);
-        outline-offset: 3px;
+    &:focus-visible {
+        outline: 2px solid var(--c-theme-border-subtle-4);
+        &.solid, &.outline, &.underline {
+            outline-offset: 3px;
+        }
     }
-
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
-        cursor: not-allowed;
-    }
-
-    &.loading{
+    &.loading {
         cursor: progress;
         & > .btn-content{
             background-color: inherit;
@@ -119,25 +164,140 @@ defineProps({
         }
     }
 
-    & > .btn-content{
+    &.solid {
+        --btn-c-1: var(--c-theme-solid-1);
+        --btn-c-2: var(--c-theme-solid-2);
+        --btn-c-3: var(--c-theme-solid-3);
+        --btn-c-text-1: var(--c-theme-text-5);
+        --btn-c-text-2: var(--c-theme-text-5);
+        &:is(.ghost, .disclose) {
+            --btn-c-2: var(--c-theme-solid-1);
+            --btn-c-3: var(--c-theme-solid-2);
+        }
+        &:where(.outline) {
+            --btn-c-border-1: var(--c-theme-border-solid-1);
+            --btn-c-border-2: transparent;
+            &.fill {
+                --btn-c-border-2: var(--btn-c-2);
+                &.disclose {
+                    --btn-c-border-2: var(--btn-c-border-1);
+                }
+            }
+        }
+        &.underline:not(.fill):active {
+            --btn-c-border-b: transparent;
+        }
+        & > .btn-content > .icon {
+            color: var(--c-theme-text-4);
+        }
+    }
+    &.soft {
+        --btn-c-1: var(--c-theme-soft-3);
+        --btn-c-2: var(--c-theme-soft-4);
+        --btn-c-3: var(--c-theme-soft-5);
+        --btn-c-text-1: var(--c-theme-text-3);
+        --btn-c-text-2: var(--c-theme-text-3);
+        &:is(.ghost, .disclose) {
+            --btn-c-2: var(--c-theme-soft-3);
+            --btn-c-3: var(--c-theme-soft-4);
+        }
+        &:where(.outline-subtle) {
+            --btn-c-border-1: var(--c-theme-border-subtle-3);
+            --btn-c-border-2: var(--c-theme-border-subtle-4);
+            --btn-c-border-3: var(--c-theme-border-subtle-4);
+            &:is(.ghost, .disclose) {
+                --btn-c-border-2: var(--c-theme-border-subtle-3);
+            }
+        }
+        &:where(.outline-strong) {
+            --btn-c-border-1: var(--c-theme-border-strong-3);
+            --btn-c-border-2: var(--c-theme-border-strong-4);
+            --btn-c-border-3: var(--c-theme-border-strong-4);
+            &:is(.ghost, .disclose) {
+                --btn-c-border-2: var(--c-theme-border-strong-3);
+            }
+        }
+    }
+    &.subtle {
+        --btn-c-1: var(--c-theme-soft-1);
+        --btn-c-2: var(--c-theme-soft-2);
+        --btn-c-3: var(--c-theme-soft-3);
+        --btn-c-text-1: var(--c-theme-text-2);
+        --btn-c-text-2: var(--c-theme-text-2);
+        &:is(.ghost, .disclose) {
+            --btn-c-2: var(--c-theme-soft-1);
+            --btn-c-3: var(--c-theme-soft-2);
+        }
+        &:where(.outline-subtle) {
+            --btn-c-border-1: var(--c-theme-border-subtle-1);
+            --btn-c-border-2: var(--c-theme-border-subtle-2);
+            --btn-c-border-3: var(--c-theme-border-subtle-2);
+            &:is(.ghost, .disclose) {
+                --btn-c-border-2: var(--c-theme-border-subtle-1);
+            }
+        }
+        &:where(.outline-strong) {
+            --btn-c-border-1: var(--c-theme-border-strong-1);
+            --btn-c-border-2: var(--c-theme-border-strong-2);
+            --btn-c-border-3: var(--c-theme-border-strong-2);
+            &:is(.ghost, .disclose) {
+                --btn-c-border-2: var(--c-theme-border-strong-1);
+            }
+        }
+    }
+    &.ghost {
+        --btn-c-1: transparent;
+        --btn-c-text-1: var(--c-theme-text-1);
+    }
+    &.disclose {
+        --btn-c-1: var(--c-grey-soft-2);
+        --btn-c-border-1: var(--c-grey-border-subtle-4);
+        --btn-c-text-1: var(--c-grey-text-2);
+    }
+    &.outline {
+        --btn-bw: 1px;
+    }
+    &.underline {
+        --btn-bw-b: var(--component-border-bottom-width);
+    }
+    &.fill {
+        transition: background-color 150ms, color 200ms, box-shadow 150ms;
+    }
+    &.squared {
+        padding: var(--g-gap-md);
+    }
+
+    &:is(.soft, .subtle) > .btn-backdrop {
+        box-shadow: inherit;
+    }
+    & > .btn-backdrop{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        background-color: transparent;
+        border-radius: inherit;
+        transition: height 150ms linear, background-color 150ms ease-in, box-shadow 150ms ease-in;
+    }
+    & > .btn-content {
         font-size: 1em;
         position: relative;
         display: grid;
         grid-auto-flow: column;
         column-gap: var(--g-gap-md);
 
-        &::selection{
+        &::selection {
             background-color: transparent;
         }
 
-        & > .icon{
+        & > .icon {
             font-size: calc(1em * var(--font-size-scale-icon));
             line-height: var(--line-height-icon);
             aspect-ratio: 1 / 1;
-            transition: color 150ms;
         }
 
-        & > .btn-loader{
+        & > .btn-loader {
             font-size: 1em;
             position: absolute;
             top: 0;
@@ -148,7 +308,7 @@ defineProps({
             align-items: center;
             writing-mode: vertical-lr;
 
-            & > .btn-spinner{
+            & > .btn-spinner {
                 font-size: 1em;
                 height: 100%;
                 margin: calc((100% - (1em * var(--font-size-scale-icon))) / 2) 0;
@@ -162,218 +322,17 @@ defineProps({
             }
         }
     }
-
-    &:where(.solid, .underline) .btn-spinner{
-        border-color: white;
-        border-top-color: rgb(0 0 0 / 0.4)
+    &.solid .btn-spinner{
+        border-color: rgb(255 255 255 / 0.95);
+        border-top-color: rgb(0 0 0 / 0.45);
     }
-    &:where(.soft, .ghost, .text, .outline) .btn-spinner{
-        border-color: var(--c-theme-soft-4);
-        border-top-color: var(--c-theme-text-3);
+    &.soft .btn-spinner{
+        border-color: var(--c-theme-border-subtle-3);
+        border-top-color: var(--c-theme-text-2);
     }
-}
-.dark .btn{
-    &:where(.soft, .ghost, .text, .outline) .btn-spinner{
-        border-color: var(--c-theme-outline);
-        border-top-color: var(--c-theme-soft-4)
-    }
-}
-
-/*------------------------------------------------
--------------------- VARIANTS --------------------
-------------------------------------------------*/
-/*-------- SOLID --------*/
-.btn.solid{
-    background-color: var(--c-theme-1);
-
-    &:not(:disabled){
-        color: var(--c-theme-text-1);
-
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-theme-2);
-        }
-        &:active{
-            background-color: var(--c-theme-3);
-        }
-
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-1);
-        }
-    }
-}
-
-/*-------- SOFT --------*/
-.btn.soft{
-    background-color: var(--c-theme-soft-2);
-    color: var(--c-theme-text-2);
-
-    &:not(:disabled){
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-theme-soft-3);
-        }
-        &:active{
-            background-color: var(--c-theme-soft-4);
-        }
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-2);
-        }
-    }
-}
-
-/*-------- GHOST --------*/
-.btn.ghost{
-    background-color: transparent;
-    color: var(--c-theme-text-3);
-
-    &:not(:disabled){
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-theme-soft-2);
-            color: var(--c-theme-text-2)
-        }
-        &:active{
-            background-color: var(--c-theme-soft-3);
-            color: var(--c-theme-text-2)
-        }
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-3);
-        }
-        &:is(:hover, :focus-visible, :active) > .btn-content > .icon{
-            color: var(--c-theme-icon-2);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-2);
-    }
-    &.loading{
-        background-color: var(--c-theme-soft-1);
-    }
-}
-
-/*-------- OUTLINE --------*/
-.btn.outline{
-    --btn-bw: 1px;
-    --btn-bw-b: 1px;
-    --btn-bc: var(--c-theme-border-1);
-    --btn-bc-b: var(--c-theme-border-1);
-
-    background-color: transparent;
-    color: var(--c-theme-text-3);
-    box-shadow: inset 0 calc(var(--btn-bw-b) * -1) var(--btn-bc-b),
-                inset 0 var(--btn-bw) var(--btn-bc),
-                inset var(--btn-bw) 0 var(--btn-bc),
-                inset calc(var(--btn-bw) * -1) 0 var(--btn-bc);
-
-    &:not(:disabled) {
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-theme-soft-1);
-            color: var(--c-theme-text-2);
-            --btn-bc: var(--c-theme-border-2);
-        }
-        &:active{
-            background-color: var(--c-theme-soft-2);
-        }
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-3);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-2);
-        --btn-bc: var(--c-disabled-border);
-    }
-    &.loading{
-        background-color: var(--c-theme-soft-1);
-    }
-}
-
-/*-------- UNDERLINE --------*/
-.btn.underline{
-    background-color: var(--c-grey-soft-1);
-    color: var(--c-grey-text-2);
-    overflow: hidden;
-
-    &:is(:hover, :focus-visible, .loading){
-        background-color: var(--c-theme-1);
-    }
-    &:is(:hover, :active, :focus-visible){
-        color: var(--c-theme-text-1);
-
-        &:not(:disabled) > .btn-content > .icon{
-            color: var(--c-theme-icon-1);
-        }
-    }
-    &:active:not(.loading){
-        background-color: var(--c-theme-2);
-
-        & > .btn-underline{
-            background-color: var(--c-theme-2);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
-
-        & > .btn-underline{
-            background-color: var(--c-disabled-border);
-        }
-    }
-
-    &:not(:disabled) > .btn-content > .icon{
-        color: var(--c-theme-icon-3);
-    }
-
-    /*-------- UNDERLINE --------*/
-    & > .btn-underline{
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: var(--component-border-bottom-width);
-        background-color: var(--c-theme-1);
-        transition: height 150ms, background-color 150ms;
-    }
-    &:where(.lg, .xl) > .btn-underline{
-        height: calc(var(--component-border-bottom-width) + 0.5px);
-    }
-
-    /*-------- FILL --------*/
-    &.fill:not(:disabled){
-        background-color: var(--c-grey-soft-1); 
-
-        &:is(:hover, :focus-visible){
-            background-color: var(--c-grey-soft-1);  
-            
-            & > .btn-underline{
-                height: 100%;
-            }
-        }
-    }
-
-    /*-------- BORDERLESS --------*/
-    &.borderless > .btn-underline{
-        height: 0;
-    }
-}
-
-/*-------- TEXT --------*/
-.btn.text{
-    background-color: transparent;
-    color: var(--c-theme-text-3);
-
-    &:not(:disabled){
-        &:is(:hover, :focus-visible){
-            color: var(--c-theme-text-2);
-            text-decoration: underline 1.5px;
-            text-underline-offset: 3px;
-        }
-        & > .btn-content > .icon{
-            color: var(--c-theme-icon-3);
-        }
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-2);
-    }
-    &.loading{
-        background-color: var(--c-theme-soft-1);
+    &.subtle .btn-spinner{
+        border-color: var(--c-theme-border-subtle-2);
+        border-top-color: var(--c-theme-text-1);
     }
 }
 </style>

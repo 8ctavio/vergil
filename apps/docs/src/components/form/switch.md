@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Switch <Badge><pre>.switch</pre></Badge>
+# Switch
 
 <script setup>
 import { Switch } from '@8ctavio/vergil/components'

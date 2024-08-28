@@ -10,7 +10,7 @@ const colors = ['moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
     <div class="menu">
         <Menu>
             <MenuButton>
-                <Btn variant="ghost" icon="style" size="lg" spacing="compact" radius="full"/>
+                <Btn variant="subtle" ghost icon="style" size="lg" spacing="compact" radius="full"/>
             </MenuButton>
             <MenuItems class="menu-items">
                 <MenuItem v-for="color in colors">
@@ -63,50 +63,50 @@ const colors = ['moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
     }
     &.moss{
         & > span{
-            background-color: var(--c-moss-1);
+            background-color: var(--c-moss-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-moss-2);
+            background-color: var(--c-moss-solid-2);
         }
     }
     &.teal{
         & > span{
-            background-color: var(--c-teal-1);
+            background-color: var(--c-teal-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-teal-2);
+            background-color: var(--c-teal-solid-2);
         }
     }
     &.sky{
         & > span{
-            background-color: var(--c-sky-1);
+            background-color: var(--c-sky-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-sky-2);
+            background-color: var(--c-sky-solid-2);
         }
     }
     &.denim{
         & > span{
-            background-color: var(--c-denim-1);
+            background-color: var(--c-denim-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-denim-2);
+            background-color: var(--c-denim-solid-2);
         }
     }
     &.indigo{
         & > span{
-            background-color: var(--c-indigo-1);
+            background-color: var(--c-indigo-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-indigo-2);
+            background-color: var(--c-indigo-solid-2);
         }
     }
     &.wine{
         & > span{
-            background-color: var(--c-wine-1);
+            background-color: var(--c-wine-solid-1);
         }
         &:hover > span{
-            background-color: var(--c-wine-2);
+            background-color: var(--c-wine-solid-2);
         }
     }
 }

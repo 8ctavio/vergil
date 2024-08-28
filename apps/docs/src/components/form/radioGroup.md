@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# RadioGroup <Badge><pre>.radio-group</pre></Badge>
+# RadioGroup
 
 <script setup>
 import { RadioGroup, Radio } from '@8ctavio/vergil/components'

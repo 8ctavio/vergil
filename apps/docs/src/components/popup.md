@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Popup <Badge type="tip"><pre>.popup</pre></Badge>
+# Popup
 
 > A Popup is a modal window with isolated interaction from the main application. It can be shown programmatically and hidden through user interaction.
 

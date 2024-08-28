@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Btn3D <Badge type="tip"><pre>.btn3D</pre></Badge>
+# Btn3D
 
 > Button with 3D effect
 

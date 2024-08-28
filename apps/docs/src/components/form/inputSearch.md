@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# InputSearch <Badge type="tip"><pre>.input-search</pre></Badge>
+# InputSearch
 
 <script setup>
 import { InputSearch, Btn } from '@8ctavio/vergil/components'

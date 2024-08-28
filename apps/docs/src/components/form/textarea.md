@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Textarea <Badge type="tip"><pre>.textarea</pre></Badge>
+# Textarea
 
 <script setup>
 import { Textarea } from '@8ctavio/vergil/components'

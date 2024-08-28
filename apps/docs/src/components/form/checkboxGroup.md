@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# CheckboxGroup <Badge><pre>.checkbox-group</pre></Badge>
+# CheckboxGroup
 
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'

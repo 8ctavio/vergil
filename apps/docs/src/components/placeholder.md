@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Placeholder <Badge><pre>.placeholder</pre></Badge>
+# Placeholder
 
 <script setup>
 import { Placeholder } from '@8ctavio/vergil/components'

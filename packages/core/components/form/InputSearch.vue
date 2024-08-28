@@ -94,9 +94,10 @@ const btnProps = extendedReactive({
         }
     },
     label: props[`btn${btnPositionName}`]?.label ?? '',
-    variant: props[`btn${btnPositionName}`]?.variant ?? 'outline',
+    variant: props[`btn${btnPositionName}`]?.variant ?? 'subtle',
+    outline: true,
+    underline: false,
     fill: props[`btn${btnPositionName}`]?.fill,
-    borderless: props[`btn${btnPositionName}`]?.borderless,
     squared: props[`btn${btnPositionName}`]?.squared,
 })
 

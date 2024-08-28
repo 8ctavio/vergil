@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Badge <Badge><pre>.badge</pre></Badge>
+# Badge
 
 <script setup>
 import { Badge as VergilBadge } from '@8ctavio/vergil/components'

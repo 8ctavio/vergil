@@ -150,7 +150,7 @@ defineProps({
     &:disabled:not(.loading){
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
-        box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border);
+        box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border-2);
         cursor: not-allowed;
         transform: translateY(0);
     }
@@ -200,21 +200,16 @@ defineProps({
         }
     }
     &:where(.solid) .btn-spinner{
-        border-color: white;
-        border-top-color: rgb(0 0 0 / 0.4)
+        border-color: rgb(255 255 255 / 0.95);
+        border-top-color: rgb(0 0 0 / 0.45);
     }
     &:where(.soft, .plain) .btn-spinner{
-        border-color: var(--c-theme-soft-4);
-        border-top-color: var(--c-theme-text-3);
+        border-color: var(--c-theme-border-subtle-3);
+        border-top-color: var(--c-theme-text-2);
     }
 }
 .dark .btn3D{
     --btn3D-c-shadow: rgb(0 0 0 / 0.4);
-
-    &:where(.soft, .plain) .btn-spinner{
-        border-color: var(--c-theme-outline);
-        border-top-color: var(--c-theme-soft-4)
-    }
 }
 
 /*------------------------------------------------
@@ -222,50 +217,50 @@ defineProps({
 ------------------------------------------------*/
 /*-------- SOLID --------*/
 .btn3D.solid{
-    --btn3D-c-border: var(--c-theme-border-3);
-    background-color: var(--c-theme-1);
-    color: var(--c-theme-text-1);
+    --btn3D-c-border: var(--c-theme-border-solid-2);
+    background-color: var(--c-theme-solid-1);
+    color: var(--c-theme-text-5);
 
     &:not(:disabled) > .icon{
-        color: var(--c-theme-icon-1);
+        color: var(--c-theme-text-4);
     }
 }
 
 /*-------- SOFT --------*/
 .btn3D.soft{
-    --btn3D-c-border: var(--c-theme-border-4);
+    --btn3D-c-border: var(--c-theme-border-subtle-4);
     background-color: var(--c-theme-soft-2);
-    color: var(--c-theme-text-2);
+    color: var(--c-theme-text-3);
 
     &:not(:disabled) > .icon{
-        color: var(--c-theme-icon-2);
+        color: var(--c-theme-text-2);
     }
 }
 
 /*-------- PLAIN --------*/
 .btn3D.plain{
-    --btn3D-c-border: var(--c-theme-1);
+    --btn3D-c-border: var(--c-theme-border-solid-1);
     background-color: var(--c-grey-soft-1);
-    color: var(--c-grey-text-2);
+    color: var(--c-grey-text-10);
 
     &.bordered{
-        border: 1px solid var(--c-theme-1);
+        border: 1px solid var(--c-theme-solid-1);
     }
     &:disabled:not(.loading){
         background-color: var(--c-disabled-2);
-        border-color: var(--c-disabled-border);
+        border-color: var(--c-disabled-border-1);
     }
     &.loading{
         background-color: var(--c-theme-soft-1);
     }
     &:not(:disabled) > .icon{
-        color: var(--c-theme-icon-3);
+        color: var(--c-theme-text-1);
     }
 }
 .dark .btn3D.plain{
-    --btn3D-c-border: var(--c-theme-3);
+    --btn3D-c-border: var(--c-theme-solid-3);
     &:where(.bordered){
-        border-color: var(--c-theme-3);
+        border-color: var(--c-theme-solid-3);
     }
 }
 </style>

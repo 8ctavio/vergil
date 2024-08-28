@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Slider <Badge><pre>.slider</pre></Badge>
+# Slider
 
 <script setup>
 import { Slider } from '@8ctavio/vergil/components'

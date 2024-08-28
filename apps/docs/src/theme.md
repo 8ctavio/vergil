@@ -96,8 +96,8 @@ The stylesheet contains a declaration block for each `theme`. Each declaration b
 Therefore, to change a `theme`'s color palette, simply rename the color palette specific variables to include the desired color palette name:
 
 ```diff
-- --c-theme-1: var(--c-moss-1);
-+ --c-theme-1: var(--c-<color>-1);
+- --c-theme-solid-1: var(--c-moss-1);
++ --c-theme-solid-1: var(--c-<color>-1);
 ```
 
 ### User theme

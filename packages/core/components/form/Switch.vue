@@ -124,24 +124,21 @@ const model = useModel(props.modelValue)
             outline-offset: 2px;
         }
         &:checked ~ .switch-track {
-            background-color: var(--c-theme-1);
+            background-color: var(--c-theme-solid-1);
             & > .switch-knob {
                 left: calc(var(--base));
-                background-color: var(--c-theme-text-1);
+                background-color: var(--c-theme-text-5);
             }
         }
         &:disabled ~ .switch-track {
             background-color: var(--c-disabled-1);
             & > .switch-knob {
-                background-color: var(--c-disabled-text);
+                background-color: var(--c-disabled-border-3);
             }
         }
         &:disabled:checked ~ .switch-track,
         &:disabled ~ .switch-track.evenTrack {
-            background-color: var(--c-disabled-border);
-            & > .switch-knob {
-                background-color: var(--c-bg);
-            }
+            background-color: var(--c-disabled-2);
         }
     }
     & > .switch-track {
@@ -167,13 +164,13 @@ const model = useModel(props.modelValue)
             height: 100%;
             aspect-ratio: 1 / 1;
             border-radius: inherit;
-            background-color: var(--c-grey-text-1);
+            background-color: var(--c-grey-text-5);
             transition: left 150ms, background-color 150ms;
         }
         &.evenTrack {
-            background-color: var(--c-theme-1);
+            background-color: var(--c-theme-solid-1);
             & > .switch-knob {
-                background-color: var(--c-theme-text-1);;
+                background-color: var(--c-theme-text-5);;
             }
         }
     }

@@ -163,19 +163,19 @@ const valueWidth = computed(() => props.max.length)
             z-index: 1;
 
             &:not(:disabled):hover + .slider-track > .slider-progress > .slider-knob {
-                box-shadow: 0 0 0 calc(1em * 10/14 * 0.6) rgb(var(--rgb-theme) / 0.15);
+                box-shadow: 0 0 0 calc(1em * 10/14 * 0.6) rgb(var(--rgb-theme-solid) / 0.15);
             }
             &:not(:disabled):active + .slider-track > .slider-progress > .slider-knob {
-                box-shadow: 0 0 0 calc(1em * 10/14) rgb(var(--rgb-theme) / 0.15);
+                box-shadow: 0 0 0 calc(1em * 10/14) rgb(var(--rgb-theme-solid) / 0.15);
             }
             &:disabled {
                 cursor: not-allowed;
                 & + .slider-track {
                     background-color: var(--c-disabled-1);
                     & > .slider-progress {
-                        background-color: var(--c-disabled-border);
+                        background-color: var(--c-disabled-border-2);
                         & > .slider-knob {
-                            background-color: var(--c-disabled-text);
+                            background-color: var(--c-disabled-border-3);
                         }
                     }
                 }
@@ -197,7 +197,7 @@ const valueWidth = computed(() => props.max.length)
                 height: 100%;
                 border-radius: inherit;
                 width: calc(var(--knob-radius) + var(--fixed-progress) + v-bind(sliderProgress) * (100% - var(--knob-diameter) - var(--fixed-progress)));
-                background-color: var(--c-theme-1);
+                background-color: var(--c-theme-solid-1);
                 & > .slider-knob {
                     position: absolute;
                     left: 100%;
@@ -205,7 +205,7 @@ const valueWidth = computed(() => props.max.length)
                     height: var(--knob-diameter);
                     aspect-ratio: 1 / 1;
                     border-radius: var(--g-radius);
-                    background-color: var(--c-theme-icon-2);
+                    background-color: var(--c-theme-text-2);
                     transition: box-shadow 150ms;
                 }
             }

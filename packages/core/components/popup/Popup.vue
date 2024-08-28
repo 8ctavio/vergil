@@ -23,7 +23,7 @@ defineProps({
             </div>
             <div class="controls right">
                 <slot name="controls-right"></slot>
-                <Btn icon="close" variant="ghost" spacing="compact" @click="() => closePopup(true)" :disabled/>
+                <Btn icon="close" variant="soft" ghost spacing="compact" @click="() => closePopup(true)" :disabled/>
             </div>
             <h1>{{ title }}</h1>
         </header>

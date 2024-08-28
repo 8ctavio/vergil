@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# Radio <Badge type="tip"><pre>.radio</pre></Badge>
+# Radio
 
 <script setup>
 import { Radio } from '@8ctavio/vergil/components'
