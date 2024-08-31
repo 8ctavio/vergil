@@ -9,34 +9,28 @@
     --c-yellow-soft-4: #F5D789;
     --c-yellow-soft-5: #F0CD75;
 
-    --c-yellow-subtle-1: #FCF8E9;
-    
-    --c-yellow-border-solid-1: #A48B0E;
-    --c-yellow-border-solid-2: #805E00;
-
-    --c-yellow-border-subtle-1: var(--c-yellow-soft-4);
-    --c-yellow-border-subtle-2: var(--c-yellow-soft-5);
-    --c-yellow-border-subtle-3: #ECC155;
-    --c-yellow-border-subtle-4: #EAB93E;
-
-    --c-yellow-border-strong-1: var(--c-yellow-solid-2);
-    --c-yellow-border-strong-2: var(--c-yellow-solid-3);
-    --c-yellow-border-strong-3: #E6A800;
-    --c-yellow-border-strong-4: #D69D00;
-
     --c-yellow-text-1: #805E00;
     --c-yellow-text-2: #805E00;
     --c-yellow-text-3: #664B00;
     --c-yellow-text-4: var(--c-yellow-text-3);
     --c-yellow-text-5: #4D3900;
 
+    --c-yellow-border-subtle: rgba(128 94 0 / 0.3);
+    --c-yellow-border-strong: rgba(128 94 0 / 0.6);
+
+    --c-yellow-border-1: #E8B430;
+    --c-yellow-border-2: #E8B430;
+    --c-yellow-border-3: #B88914;
+
+    --c-yellow-subtle-1: #FCF8E9;
+
     --rgb-yellow-solid: 255 212 98;
     --rgb-yellow-soft: 250 224 159;
 }
 .dark{
     --c-yellow-solid-1: #E0A500;
-    --c-yellow-solid-2: #F5B400;
-    --c-yellow-solid-3: #FFC21A;
+    --c-yellow-solid-2: #FFBC05;
+    --c-yellow-solid-3: #FFCD42;
 
     --c-yellow-soft-1: #332500;
     --c-yellow-soft-2: #4D3900;
@@ -44,29 +38,19 @@
     --c-yellow-soft-4: #805E00;
     --c-yellow-soft-5: #946C00;
 
-    --c-yellow-subtle-1: #1A1200;
-    
-    --c-yellow-border-solid-1: #A48B0E;
-    --c-yellow-border-solid-2: #473C06;
-
-    --c-yellow-border-subtle-1: var(--c-yellow-soft-3);
-    --c-yellow-border-subtle-2: var(--c-yellow-soft-4);
-    --c-yellow-border-subtle-3: #B38300;
-    --c-yellow-border-subtle-4: #CC9600;
-
-    --c-yellow-border-strong-1: #D19900;
-    --c-yellow-border-strong-2: var(--c-yellow-solid-1);
-    --c-yellow-border-strong-3: var(--c-yellow-solid-2);
-    --c-yellow-border-strong-4: var(--c-yellow-solid-3);
-
     --c-yellow-text-1: #FFC21A;
     --c-yellow-text-2: #F5D789;
     --c-yellow-text-3: white;
     --c-yellow-text-4: #523C00;
     --c-yellow-text-5: #472B00;
 
-    --c-yellow-icon-1: var(--c-yellow-soft-2);
-    --c-yellow-icon-2: var(--c-yellow-text-soft-1);
+    --c-yellow-border-subtle: rgba(255 235 179 / 0.3);
+    --c-yellow-border-strong: rgba(255 235 179 / 0.55);
+
+    --c-yellow-border-1: #4D3900;
+    --c-yellow-border-3: var(--c-yellow-soft-4);
+
+    --c-yellow-subtle-1: #1A1200;
 
     --rgb-yellow-solid: 224 165 0;
     --rgb-yellow-soft: 102 77 0;

@@ -13,7 +13,7 @@ hero:
       link: get-started
     - theme: alt
       text: Components
-      link: components/buttons/btn
+      link: components/badge
     - theme: alt
       text: Composables
       link: composables/defineReactiveProperties

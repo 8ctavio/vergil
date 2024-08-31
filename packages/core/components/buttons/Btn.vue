@@ -90,7 +90,6 @@ defineProps({
 
 <style>
 .btn {
-    --btn-c-border: var(--btn-c-border-1);
     --btn-c-border-b: var(--c-theme-solid-1);
     --btn-bw: 0px;
     --btn-bw-b: 0px;
@@ -114,7 +113,6 @@ defineProps({
 
     &:not(.loading) {
         &:is(:hover, :focus-visible) {
-            --btn-c-border: var(--btn-c-border-2);
             color: var(--btn-c-text-2);
 
             &:not(.fill) {
@@ -126,7 +124,6 @@ defineProps({
             }
         }
         &:active {
-            --btn-c-border: var(--btn-c-border-3);
             color: var(--btn-c-text-2);
 
             &:not(.fill), &.fill > .btn-backdrop {
@@ -149,7 +146,7 @@ defineProps({
         }
     }
     &:focus-visible {
-        outline: 2px solid var(--c-theme-border-subtle-4);
+        outline: 2px solid var(--c-theme-border-strong);
         &.solid, &.outline, &.underline {
             outline-offset: 3px;
         }
@@ -174,14 +171,10 @@ defineProps({
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
         }
-        &:where(.outline) {
-            --btn-c-border-1: var(--c-theme-border-solid-1);
-            --btn-c-border-2: transparent;
-            &.fill {
-                --btn-c-border-2: var(--btn-c-2);
-                &.disclose {
-                    --btn-c-border-2: var(--btn-c-border-1);
-                }
+        &.outline {
+            --btn-c-border: var(--c-theme-border-2);
+            &:where(:hover, :focus-visible, :active) {
+                --btn-c-border: transparent;
             }
         }
         &.underline:not(.fill):active {
@@ -201,22 +194,6 @@ defineProps({
             --btn-c-2: var(--c-theme-soft-3);
             --btn-c-3: var(--c-theme-soft-4);
         }
-        &:where(.outline-subtle) {
-            --btn-c-border-1: var(--c-theme-border-subtle-3);
-            --btn-c-border-2: var(--c-theme-border-subtle-4);
-            --btn-c-border-3: var(--c-theme-border-subtle-4);
-            &:is(.ghost, .disclose) {
-                --btn-c-border-2: var(--c-theme-border-subtle-3);
-            }
-        }
-        &:where(.outline-strong) {
-            --btn-c-border-1: var(--c-theme-border-strong-3);
-            --btn-c-border-2: var(--c-theme-border-strong-4);
-            --btn-c-border-3: var(--c-theme-border-strong-4);
-            &:is(.ghost, .disclose) {
-                --btn-c-border-2: var(--c-theme-border-strong-3);
-            }
-        }
     }
     &.subtle {
         --btn-c-1: var(--c-theme-soft-1);
@@ -228,22 +205,6 @@ defineProps({
             --btn-c-2: var(--c-theme-soft-1);
             --btn-c-3: var(--c-theme-soft-2);
         }
-        &:where(.outline-subtle) {
-            --btn-c-border-1: var(--c-theme-border-subtle-1);
-            --btn-c-border-2: var(--c-theme-border-subtle-2);
-            --btn-c-border-3: var(--c-theme-border-subtle-2);
-            &:is(.ghost, .disclose) {
-                --btn-c-border-2: var(--c-theme-border-subtle-1);
-            }
-        }
-        &:where(.outline-strong) {
-            --btn-c-border-1: var(--c-theme-border-strong-1);
-            --btn-c-border-2: var(--c-theme-border-strong-2);
-            --btn-c-border-3: var(--c-theme-border-strong-2);
-            &:is(.ghost, .disclose) {
-                --btn-c-border-2: var(--c-theme-border-strong-1);
-            }
-        }
     }
     &.ghost {
         --btn-c-1: transparent;
@@ -251,11 +212,16 @@ defineProps({
     }
     &.disclose {
         --btn-c-1: var(--c-grey-soft-2);
-        --btn-c-border-1: var(--c-grey-border-subtle-4);
         --btn-c-text-1: var(--c-grey-text-2);
     }
     &.outline {
         --btn-bw: 1px;
+    }
+    &.outline-subtle {
+        --btn-c-border: var(--c-theme-border-subtle);
+    }
+    &.outline-strong {
+        --btn-c-border: var(--c-theme-border-strong);
     }
     &.underline {
         --btn-bw-b: var(--component-border-bottom-width);
@@ -327,12 +293,12 @@ defineProps({
         border-top-color: rgb(0 0 0 / 0.45);
     }
     &.soft .btn-spinner{
-        border-color: var(--c-theme-border-subtle-3);
-        border-top-color: var(--c-theme-text-2);
+        border-color: var(--c-theme-border-subtle);
+        border-top-color: var(--c-theme-text-3);
     }
     &.subtle .btn-spinner{
-        border-color: var(--c-theme-border-subtle-2);
-        border-top-color: var(--c-theme-text-1);
+        border-color: var(--c-theme-border-subtle);
+        border-top-color: var(--c-theme-text-2);
     }
 }
 </style>

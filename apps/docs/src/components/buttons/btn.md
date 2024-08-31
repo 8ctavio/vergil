@@ -80,20 +80,8 @@ For both the `soft` and `subtle` variants, `outline = true` is equivalent to `ou
 ```
 
 <Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn outline variant="soft" label="Soft"/>
-            <Btn outline variant="subtle" label="Subtle"/>    
-        </div>
-        <div class="row center">
-            <Btn outline ghost variant="soft" label="Soft"/>
-            <Btn outline ghost variant="subtle" label="Subtle"/>    
-        </div>
-        <div class="row center">
-            <Btn outline="subtle" disclose variant="soft" label="Soft"/>
-            <Btn outline="subtle" disclose variant="subtle" label="Subtle"/>    
-        </div>
-    </div>
+    <Btn outline variant="soft" label="Soft"/>
+    <Btn outline variant="subtle" label="Subtle"/>
 </Demo>
 
 ```vue
@@ -101,20 +89,8 @@ For both the `soft` and `subtle` variants, `outline = true` is equivalent to `ou
 ```
 
 <Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn outline="strong" variant="soft" label="Soft"/>
-            <Btn outline="strong" variant="subtle" label="Subtle"/>    
-        </div>
-        <div class="row center">
-            <Btn outline="strong" ghost variant="soft" label="Soft"/>
-            <Btn outline="strong" ghost variant="subtle" label="Subtle"/>    
-        </div>
-        <div class="row center">
-            <Btn outline="strong" disclose variant="soft" label="Soft"/>
-            <Btn outline="strong" disclose variant="subtle" label="Subtle"/>    
-        </div>
-    </div>
+    <Btn outline="strong" variant="soft" label="Soft"/>
+    <Btn outline="strong" variant="subtle" label="Subtle"/>
 </Demo>
 
 ### Fill  <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre> or <pre>disclose</pre></Badge>
@@ -226,6 +202,29 @@ For both the `soft` and `subtle` variants, `outline = true` is equivalent to `ou
             <Btn variant="subtle" outline="strong" theme="warn" label="Warn"/>
             <Btn variant="subtle" outline="strong" theme="danger" label="Danger"/>
             <Btn variant="subtle" outline="strong" theme="neutral" label="Neutral"/>
+        </div>
+    </div>
+</Demo>
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <Btn variant="soft" ghost outline theme="brand" label="Brand"/>
+            <Btn variant="soft" ghost outline theme="user" label="User"/>
+            <Btn variant="soft" ghost outline theme="ok" label="Ok"/>
+            <Btn variant="soft" ghost outline theme="info" label="Info"/>
+            <Btn variant="soft" ghost outline theme="warn" label="Warn"/>
+            <Btn variant="soft" ghost outline theme="danger" label="Danger"/>
+            <Btn variant="soft" ghost outline theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="soft" ghost outline="strong" theme="brand" label="Brand"/>
+            <Btn variant="soft" ghost outline="strong" theme="user" label="User"/>
+            <Btn variant="soft" ghost outline="strong" theme="ok" label="Ok"/>
+            <Btn variant="soft" ghost outline="strong" theme="info" label="Info"/>
+            <Btn variant="soft" ghost outline="strong" theme="warn" label="Warn"/>
+            <Btn variant="soft" ghost outline="strong" theme="danger" label="Danger"/>
+            <Btn variant="soft" ghost outline="strong" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>

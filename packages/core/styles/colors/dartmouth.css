@@ -9,26 +9,20 @@
     --c-dartmouth-soft-4: #BFE8C3;
     --c-dartmouth-soft-5: #B0E3B5;
 
-    --c-dartmouth-subtle-1: #F4FBF4;
-    
-    --c-dartmouth-border-solid-1: var(--c-dartmouth-solid-1);
-    --c-dartmouth-border-solid-2: #105034;
-
-    --c-dartmouth-border-subtle-1: var(--c-dartmouth-soft-4);
-    --c-dartmouth-border-subtle-2: var(--c-dartmouth-soft-5);
-    --c-dartmouth-border-subtle-3: #A1DDA7;
-    --c-dartmouth-border-subtle-4: #93D79A;
-
-    --c-dartmouth-border-strong-1: #1C9B62;
-    --c-dartmouth-border-strong-2: #1A8E5A;
-    --c-dartmouth-border-strong-3: #1A8E5A;
-    --c-dartmouth-border-strong-4: #188152;
-
     --c-dartmouth-text-1: var(--c-dartmouth-solid-1);
     --c-dartmouth-text-2: var(--c-dartmouth-solid-2);
     --c-dartmouth-text-3: var(--c-dartmouth-solid-3);
     --c-dartmouth-text-4: #DDF3DF;
     --c-dartmouth-text-5: white;
+
+    --c-dartmouth-border-subtle: rgba(21 106 69 / 0.25);
+    --c-dartmouth-border-strong: rgba(23 122 78 / 0.7);
+
+    --c-dartmouth-border-1: #84C889;
+    --c-dartmouth-border-2: var(--c-dartmouth-solid-1);
+    --c-dartmouth-border-3: #105034;
+
+    --c-dartmouth-subtle-1: #F4FBF4;
 
     --rgb-dartmouth-solid: 23 122 78;
     --rgb-dartmouth-soft: 206 238 209;
@@ -44,22 +38,17 @@
     --c-dartmouth-soft-4: #204035;
     --c-dartmouth-soft-5: #274E40;
 
-    --c-dartmouth-subtle-1: #0E1B16;
-    
-    --c-dartmouth-border-solid-1: var(--c-dartmouth-solid-3);
-    --c-dartmouth-border-solid-2: #105034;
-
-    --c-dartmouth-border-subtle-3: #2E5C4C;
-    --c-dartmouth-border-subtle-4: #356957;
-
-    --c-dartmouth-border-strong-1: #188152;
-    --c-dartmouth-border-strong-2: #1A8E5A;
-    --c-dartmouth-border-strong-3: #1A8E5A;
-    --c-dartmouth-border-strong-4: #1C9B62;
-
     --c-dartmouth-text-1: #B0E3B5;
     --c-dartmouth-text-2: #BFE8C3;
     --c-dartmouth-text-3: #CEEED1;
+
+    --c-dartmouth-border-subtle: rgba(104 227 172 / 0.2);
+    --c-dartmouth-border-strong: rgba(104 227 172 / 0.4);
+
+    --c-dartmouth-border-1: var(--c-dartmouth-soft-1);
+    --c-dartmouth-border-3: #0C3B26;
+
+    --c-dartmouth-subtle-1: #0E1B16;
 
     --rgb-dartmouth-solid: 19 94 60;
     --rgb-dartmouth-soft: 26 50 41;

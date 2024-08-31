@@ -139,7 +139,7 @@ defineProps({
     }
     &:focus-visible{
         outline: none;
-        box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
+        /* box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline); */
     }
     &:active{
         box-shadow: none;
@@ -204,8 +204,8 @@ defineProps({
         border-top-color: rgb(0 0 0 / 0.45);
     }
     &:where(.soft, .plain) .btn-spinner{
-        border-color: var(--c-theme-border-subtle-3);
-        border-top-color: var(--c-theme-text-2);
+        border-color: var(--c-theme-border-subtle);
+        border-top-color: var(--c-theme-text-3);
     }
 }
 .dark .btn3D{
@@ -217,7 +217,7 @@ defineProps({
 ------------------------------------------------*/
 /*-------- SOLID --------*/
 .btn3D.solid{
-    --btn3D-c-border: var(--c-theme-border-solid-2);
+    --btn3D-c-border: var(--c-theme-border-3);
     background-color: var(--c-theme-solid-1);
     color: var(--c-theme-text-5);
 
@@ -228,8 +228,8 @@ defineProps({
 
 /*-------- SOFT --------*/
 .btn3D.soft{
-    --btn3D-c-border: var(--c-theme-border-subtle-4);
-    background-color: var(--c-theme-soft-2);
+    --btn3D-c-border: var(--c-theme-border-1);
+    background-color: var(--c-theme-soft-3);
     color: var(--c-theme-text-3);
 
     &:not(:disabled) > .icon{
@@ -239,7 +239,7 @@ defineProps({
 
 /*-------- PLAIN --------*/
 .btn3D.plain{
-    --btn3D-c-border: var(--c-theme-border-solid-1);
+    --btn3D-c-border: var(--c-theme-border-2);
     background-color: var(--c-grey-soft-1);
     color: var(--c-grey-text-10);
 

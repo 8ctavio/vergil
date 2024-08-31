@@ -155,7 +155,6 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
             border-bottom-right-radius: 0;
         }
         &:last-child{
-            grid-column-start: 3;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }

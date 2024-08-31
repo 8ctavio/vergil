@@ -21,26 +21,20 @@
     --c-theme-soft-4: var(--c-moss-soft-4);
     --c-theme-soft-5: var(--c-moss-soft-5);
 
-    --c-theme-subtle-1: var(--c-moss-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-moss-border-solid-1);
-    --c-theme-border-solid-2: var(--c-moss-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-moss-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-moss-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-moss-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-moss-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-moss-border-strong-1);
-    --c-theme-border-strong-2: var(--c-moss-border-strong-2);
-    --c-theme-border-strong-3: var(--c-moss-border-strong-3);
-    --c-theme-border-strong-4: var(--c-moss-border-strong-4);
-
     --c-theme-text-1: var(--c-moss-text-1);
     --c-theme-text-2: var(--c-moss-text-2);
     --c-theme-text-3: var(--c-moss-text-3);
     --c-theme-text-4: var(--c-moss-text-4);
     --c-theme-text-5: var(--c-moss-text-5);
+
+    --c-theme-border-subtle: var(--c-moss-border-subtle);
+    --c-theme-border-strong: var(--c-moss-border-strong);
+
+    --c-theme-border-1: var(--c-moss-border-1);
+    --c-theme-border-2: var(--c-moss-border-2);
+    --c-theme-border-3: var(--c-moss-border-3);
+
+    --c-theme-subtle-1: var(--c-moss-subtle-1);
 
     --rgb-theme-solid: var(--rgb-moss-solid);
     --rgb-theme-soft: var(--rgb-moss-soft);
@@ -58,26 +52,20 @@
     --c-theme-soft-4: var(--c-user-soft-4);
     --c-theme-soft-5: var(--c-user-soft-5);
 
-    --c-theme-subtle-1: var(--c-user-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-user-border-solid-1);
-    --c-theme-border-solid-2: var(--c-user-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-user-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-user-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-user-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-user-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-user-border-strong-1);
-    --c-theme-border-strong-2: var(--c-user-border-strong-2);
-    --c-theme-border-strong-3: var(--c-user-border-strong-3);
-    --c-theme-border-strong-4: var(--c-user-border-strong-4);
-
     --c-theme-text-1: var(--c-user-text-1);
     --c-theme-text-2: var(--c-user-text-2);
     --c-theme-text-3: var(--c-user-text-3);
     --c-theme-text-4: var(--c-user-text-4);
     --c-theme-text-5: var(--c-user-text-5);
+
+    --c-theme-border-subtle: var(--c-user-border-subtle);
+    --c-theme-border-strong: var(--c-user-border-strong);
+
+    --c-theme-border-1: var(--c-user-border-1);
+    --c-theme-border-2: var(--c-user-border-2);
+    --c-theme-border-3: var(--c-user-border-3);
+
+    --c-theme-subtle-1: var(--c-user-subtle-1);
 
     --rgb-theme-solid: var(--rgb-user-solid);
     --rgb-theme-soft: var(--rgb-user-soft);
@@ -95,26 +83,20 @@
     --c-theme-soft-4: var(--c-grey-soft-4);
     --c-theme-soft-5: var(--c-grey-soft-5);
 
-    --c-theme-subtle-1: var(--c-grey-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-grey-border-solid-1);
-    --c-theme-border-solid-2: var(--c-grey-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-grey-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-grey-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-grey-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-grey-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-grey-border-strong-1);
-    --c-theme-border-strong-2: var(--c-grey-border-strong-2);
-    --c-theme-border-strong-3: var(--c-grey-border-strong-3);
-    --c-theme-border-strong-4: var(--c-grey-border-strong-4);
-
     --c-theme-text-1: var(--c-grey-text-1);
     --c-theme-text-2: var(--c-grey-text-2);
     --c-theme-text-3: var(--c-grey-text-3);
     --c-theme-text-4: var(--c-grey-text-4);
     --c-theme-text-5: var(--c-grey-text-5);
+
+    --c-theme-border-subtle: var(--c-grey-border-subtle);
+    --c-theme-border-strong: var(--c-grey-border-strong);
+
+    --c-theme-border-1: var(--c-grey-border-1);
+    --c-theme-border-2: var(--c-grey-border-2);
+    --c-theme-border-3: var(--c-grey-border-3);
+
+    --c-theme-subtle-1: var(--c-grey-subtle-1);
 
     --rgb-theme-solid: var(--rgb-grey-solid);
     --rgb-theme-soft: var(--rgb-grey-soft);
@@ -132,26 +114,20 @@
     --c-theme-soft-4: var(--c-dartmouth-soft-4);
     --c-theme-soft-5: var(--c-dartmouth-soft-5);
 
-    --c-theme-subtle-1: var(--c-dartmouth-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-dartmouth-border-solid-1);
-    --c-theme-border-solid-2: var(--c-dartmouth-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-dartmouth-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-dartmouth-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-dartmouth-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-dartmouth-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-dartmouth-border-strong-1);
-    --c-theme-border-strong-2: var(--c-dartmouth-border-strong-2);
-    --c-theme-border-strong-3: var(--c-dartmouth-border-strong-3);
-    --c-theme-border-strong-4: var(--c-dartmouth-border-strong-4);
-
     --c-theme-text-1: var(--c-dartmouth-text-1);
     --c-theme-text-2: var(--c-dartmouth-text-2);
     --c-theme-text-3: var(--c-dartmouth-text-3);
     --c-theme-text-4: var(--c-dartmouth-text-4);
     --c-theme-text-5: var(--c-dartmouth-text-5);
+
+    --c-theme-border-subtle: var(--c-dartmouth-border-subtle);
+    --c-theme-border-strong: var(--c-dartmouth-border-strong);
+
+    --c-theme-border-1: var(--c-dartmouth-border-1);
+    --c-theme-border-2: var(--c-dartmouth-border-2);
+    --c-theme-border-3: var(--c-dartmouth-border-3);
+
+    --c-theme-subtle-1: var(--c-dartmouth-subtle-1);
 
     --rgb-theme-solid: var(--rgb-dartmouth-solid);
     --rgb-theme-soft: var(--rgb-dartmouth-soft);
@@ -169,26 +145,20 @@
     --c-theme-soft-4: var(--c-cobalt-soft-4);
     --c-theme-soft-5: var(--c-cobalt-soft-5);
 
-    --c-theme-subtle-1: var(--c-cobalt-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-cobalt-border-solid-1);
-    --c-theme-border-solid-2: var(--c-cobalt-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-cobalt-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-cobalt-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-cobalt-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-cobalt-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-cobalt-border-strong-1);
-    --c-theme-border-strong-2: var(--c-cobalt-border-strong-2);
-    --c-theme-border-strong-3: var(--c-cobalt-border-strong-3);
-    --c-theme-border-strong-4: var(--c-cobalt-border-strong-4);
-
     --c-theme-text-1: var(--c-cobalt-text-1);
     --c-theme-text-2: var(--c-cobalt-text-2);
     --c-theme-text-3: var(--c-cobalt-text-3);
     --c-theme-text-4: var(--c-cobalt-text-4);
     --c-theme-text-5: var(--c-cobalt-text-5);
+
+    --c-theme-border-subtle: var(--c-cobalt-border-subtle);
+    --c-theme-border-strong: var(--c-cobalt-border-strong);
+
+    --c-theme-border-1: var(--c-cobalt-border-1);
+    --c-theme-border-2: var(--c-cobalt-border-2);
+    --c-theme-border-3: var(--c-cobalt-border-3);
+
+    --c-theme-subtle-1: var(--c-cobalt-subtle-1);
 
     --rgb-theme-solid: var(--rgb-cobalt-solid);
     --rgb-theme-soft: var(--rgb-cobalt-soft);
@@ -206,26 +176,20 @@
     --c-theme-soft-4: var(--c-yellow-soft-4);
     --c-theme-soft-5: var(--c-yellow-soft-5);
 
-    --c-theme-subtle-1: var(--c-yellow-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-yellow-border-solid-1);
-    --c-theme-border-solid-2: var(--c-yellow-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-yellow-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-yellow-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-yellow-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-yellow-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-yellow-border-strong-1);
-    --c-theme-border-strong-2: var(--c-yellow-border-strong-2);
-    --c-theme-border-strong-3: var(--c-yellow-border-strong-3);
-    --c-theme-border-strong-4: var(--c-yellow-border-strong-4);
-
     --c-theme-text-1: var(--c-yellow-text-1);
     --c-theme-text-2: var(--c-yellow-text-2);
     --c-theme-text-3: var(--c-yellow-text-3);
     --c-theme-text-4: var(--c-yellow-text-4);
     --c-theme-text-5: var(--c-yellow-text-5);
+
+    --c-theme-border-subtle: var(--c-yellow-border-subtle);
+    --c-theme-border-strong: var(--c-yellow-border-strong);
+
+    --c-theme-border-1: var(--c-yellow-border-1);
+    --c-theme-border-2: var(--c-yellow-border-2);
+    --c-theme-border-3: var(--c-yellow-border-3);
+
+    --c-theme-subtle-1: var(--c-yellow-subtle-1);
 
     --rgb-theme-solid: var(--rgb-yellow-solid);
     --rgb-theme-soft: var(--rgb-yellow-soft);
@@ -243,26 +207,20 @@
     --c-theme-soft-4: var(--c-red-soft-4);
     --c-theme-soft-5: var(--c-red-soft-5);
 
-    --c-theme-subtle-1: var(--c-red-subtle-1);
-
-    --c-theme-border-solid-1: var(--c-red-border-solid-1);
-    --c-theme-border-solid-2: var(--c-red-border-solid-2);
-    
-    --c-theme-border-subtle-1: var(--c-red-border-subtle-1);
-    --c-theme-border-subtle-2: var(--c-red-border-subtle-2);
-    --c-theme-border-subtle-3: var(--c-red-border-subtle-3);
-    --c-theme-border-subtle-4: var(--c-red-border-subtle-4);
-    
-    --c-theme-border-strong-1: var(--c-red-border-strong-1);
-    --c-theme-border-strong-2: var(--c-red-border-strong-2);
-    --c-theme-border-strong-3: var(--c-red-border-strong-3);
-    --c-theme-border-strong-4: var(--c-red-border-strong-4);
-
     --c-theme-text-1: var(--c-red-text-1);
     --c-theme-text-2: var(--c-red-text-2);
     --c-theme-text-3: var(--c-red-text-3);
     --c-theme-text-4: var(--c-red-text-4);
     --c-theme-text-5: var(--c-red-text-5);
+
+    --c-theme-border-subtle: var(--c-red-border-subtle);
+    --c-theme-border-strong: var(--c-red-border-strong);
+
+    --c-theme-border-1: var(--c-red-border-1);
+    --c-theme-border-2: var(--c-red-border-2);
+    --c-theme-border-3: var(--c-red-border-3);
+
+    --c-theme-subtle-1: var(--c-red-subtle-1);
 
     --rgb-theme-solid: var(--rgb-red-solid);
     --rgb-theme-soft: var(--rgb-red-soft);

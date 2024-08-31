@@ -9,26 +9,20 @@
     --c-moss-soft-4: #CDDAC8;
     --c-moss-soft-5: #C2D2BC;
 
-    --c-moss-subtle-1: #F4F7F2;
-    
-    --c-moss-border-solid-1: var(--c-moss-solid-1);
-    --c-moss-border-solid-2: #394D2E;
-
-    --c-moss-border-subtle-1: var(--c-moss-soft-4);
-    --c-moss-border-subtle-2: var(--c-moss-soft-5);
-    --c-moss-border-subtle-3: #B7CAAF;
-    --c-moss-border-subtle-4: #ABC2A3;
-
-    --c-moss-border-strong-1: #759F60;
-    --c-moss-border-strong-2: #6C9358;
-    --c-moss-border-strong-3: #628650;
-    --c-moss-border-strong-4: var(--c-moss-solid-1);
-
     --c-moss-text-1: var(--c-moss-solid-1);
     --c-moss-text-2: var(--c-moss-solid-2);
     --c-moss-text-3: var(--c-moss-solid-3);
     --c-moss-text-4: #F1F5EF;
     --c-moss-text-5: white;
+
+    --c-moss-border-subtle: rgba(92 122 82 / 0.3);
+    --c-moss-border-strong: rgba(88 120 72 / 0.7);
+
+    --c-moss-border-1: #8FAD85;
+    --c-moss-border-2: var(--c-moss-solid-1);
+    --c-moss-border-3: var(--c-moss-solid-3);
+ 
+    --c-moss-subtle-1: #F4F7F2;
 
     --rgb-moss-solid: 88 120 72;
     --rgb-moss-soft: 216 227 212;
@@ -44,24 +38,16 @@
     --c-moss-soft-4: #2D3823;
     --c-moss-soft-5: #314229;
 
-    --c-moss-subtle-1: var(--c-moss-soft-1);
-    
-    --c-moss-border-solid-1: var(--c-moss-solid-3);
-    --c-moss-border-solid-2: #314229;
-
-    --c-moss-border-subtle-1: var(--c-moss-soft-5);
-    --c-moss-border-subtle-2: #3F5233;
-    --c-moss-border-subtle-3: var(--c-moss-solid-1);
-    --c-moss-border-subtle-4: var(--c-moss-solid-2);
-
-    --c-moss-border-strong-1: var(--c-moss-solid-3);
-    --c-moss-border-strong-2: var(--c-moss-border-solid-2);
-    --c-moss-border-strong-3: var(--c-moss-border-solid-2);
-    --c-moss-border-strong-4: #6C9358;
-
     --c-moss-text-1: #90B380;
     --c-moss-text-2: #B7CAAF;
     --c-moss-text-3: #CDDAC8;
+
+    --c-moss-border-subtle: rgba(171 198 159 / 0.2);
+
+    --c-moss-border-1: #192115;
+    --c-moss-border-3: #2F3F27;
+ 
+    --c-moss-subtle-1: var(--c-moss-soft-1);
 
     --rgb-moss-solid: 66 89 54;
     --rgb-moss-soft: 36 47 29;

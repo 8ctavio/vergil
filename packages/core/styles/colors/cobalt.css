@@ -9,26 +9,20 @@
     --c-cobalt-soft-4: #CBD7FB;
     --c-cobalt-soft-5: #BDCCF9;
 
-    --c-cobalt-subtle-1: #F5F9FF;
-    
-    --c-cobalt-border-solid-1: var(--c-cobalt-solid-1);
-    --c-cobalt-border-solid-2: #263F92;
-
-    --c-cobalt-border-subtle-1: var(--c-cobalt-soft-4);
-    --c-cobalt-border-subtle-2: var(--c-cobalt-soft-5);
-    --c-cobalt-border-subtle-3: #B0C2F8;
-    --c-cobalt-border-subtle-4: #A1B7F7;
-
-    --c-cobalt-border-strong-1: #5D79D5;
-    --c-cobalt-border-strong-2: #516FD2;
-    --c-cobalt-border-strong-3: #4465CF;
-    --c-cobalt-border-strong-4: var(--c-cobalt-solid-1);
-
     --c-cobalt-text-1: var(--c-cobalt-solid-1);
     --c-cobalt-text-2: var(--c-cobalt-solid-2);
     --c-cobalt-text-3: var(--c-cobalt-solid-3);
     --c-cobalt-text-4: #D9E2FC;
     --c-cobalt-text-5: white;
+
+    --c-cobalt-border-subtle: rgba(45 93 235 / 0.3);
+    --c-cobalt-border-strong: rgba(58 92 204 / 0.7);
+
+    --c-cobalt-border-1: #93ACF6;
+    --c-cobalt-border-2: var(--c-cobalt-solid-1);
+    --c-cobalt-border-3: #253D8E;
+
+    --c-cobalt-subtle-1: #F5F9FF;
 
     --rgb-cobalt-solid: 58 92 204;
     --rgb-cobalt-soft: 217 226 252;
@@ -44,22 +38,17 @@
     --c-cobalt-soft-4: #1C3073;
     --c-cobalt-soft-5: #203783;
 
-    --c-cobalt-subtle-1: #0C1531;
-    
-    --c-cobalt-border-solid-1: var(--c-cobalt-solid-3);
-    --c-cobalt-border-solid-2: #263F92;
-
-    --c-cobalt-border-subtle-3: #2845A4;
-    --c-cobalt-border-subtle-4: #2C4CB5;
-
-    --c-cobalt-border-strong-1: var(--c-cobalt-solid-3);
-    --c-cobalt-border-strong-2: #4465CF;
-    --c-cobalt-border-strong-3: #4465CF;
-    --c-cobalt-border-strong-4: #516FD2;
-
     --c-cobalt-text-1: #BDCCF9;
     --c-cobalt-text-2: #BDCCF9;
     --c-cobalt-text-3: #CBD7FB;
+
+    --c-cobalt-border-subtle: rgba(113 138 218 / 0.25);
+    --c-cobalt-border-strong: rgba(113 138 218 / 0.5);
+
+    --c-cobalt-border-1: #0F1A3D;
+    --c-cobalt-border-3: var(--c-cobalt-soft-3);
+
+    --c-cobalt-subtle-1: #0C1531;
 
     --rgb-cobalt-solid: 43 72 166;
     --rgb-cobalt-soft: 24 41 99;

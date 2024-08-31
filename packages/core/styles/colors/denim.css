@@ -9,26 +9,20 @@
     --c-denim-soft-4: #CEE4FD;
     --c-denim-soft-5: #BFDCFC;
 
-    --c-denim-subtle-1: #FAFCFF;
-    
-    --c-denim-border-solid-1: var(--c-denim-solid-1);
-    --c-denim-border-solid-2: #003E94;
-
-    --c-denim-border-subtle-1: var(--c-denim-soft-4);
-    --c-denim-border-subtle-2: var(--c-denim-soft-5);
-    --c-denim-border-subtle-3: #B6D8FC;
-    --c-denim-border-subtle-4: #ACD2FC;
-
-    --c-denim-border-strong-1: #066BE0;
-    --c-denim-border-strong-2: #0564D1;
-    --c-denim-border-strong-3: #0564D1;
-    --c-denim-border-strong-4: var(--c-denim-solid-1);
-
     --c-denim-text-1: var(--c-denim-solid-1);
     --c-denim-text-2: var(--c-denim-solid-1);
     --c-denim-text-3: var(--c-denim-solid-2);
     --c-denim-text-4: #E6F1FE;
     --c-denim-text-5: white;
+
+    --c-denim-border-subtle: rgba(8 108 221 / 0.25);
+    --c-denim-border-strong: rgba(5 91 192 / 0.65);
+
+    --c-denim-border-1: #9DC9FB;
+    --c-denim-border-2: var(--c-denim-solid-1);
+    --c-denim-border-3: #03438C;
+
+    --c-denim-subtle-1: #FAFCFF;
 
     --rgb-denim-solid: 5 91 192;
     --rgb-denim-soft: 220 236 254;
@@ -44,22 +38,17 @@
     --c-denim-soft-4: #04356C;
     --c-denim-soft-5: #043C7B;
 
-    --c-denim-subtle-1: #010E1E;
-    
-    --c-denim-border-solid-1: var(--c-denim-solid-2);
-    --c-denim-border-solid-2: #003E94;
-
-    --c-denim-border-subtle-3: #04438B;
-    --c-denim-border-subtle-4: #054A99;
-
-    --c-denim-border-strong-1: var(--c-denim-solid-1);
-    --c-denim-border-strong-2: var(--c-denim-solid-2);
-    --c-denim-border-strong-3: var(--c-denim-solid-3);
-    --c-denim-border-strong-4: #0564D1;
-
     --c-denim-text-1: #ACD2FC;
     --c-denim-text-2: #B6D8FC;
     --c-denim-text-3: #BFDCFC;
+
+    --c-denim-border-subtle: rgba(81 160 251 / 0.3);
+    --c-denim-border-strong: rgba(81 160 251 / 0.55);
+
+    --c-denim-border-1: #021E3D;
+    --c-denim-border-3: var(--c-denim-soft-3);
+
+    --c-denim-subtle-1: #010E1E;
 
     --rgb-denim-soft: 3 43 89;
 }
