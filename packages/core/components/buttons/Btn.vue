@@ -146,7 +146,7 @@ defineProps({
         }
     }
     &:focus-visible {
-        outline: 2px solid var(--c-theme-border-strong);
+        outline: 2px solid var(--c-theme-outline);
         &.solid, &.outline, &.underline {
             outline-offset: 3px;
         }

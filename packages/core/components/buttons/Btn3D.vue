@@ -115,22 +115,6 @@ defineProps({
     &.squared{
         padding: var(--g-gap-md);
     }
-    &.size-sm.spacing-compact{
-        --btn3D-elv: 4px;
-        --btn3D-elv-hover: 3px;
-        --btn3D-shadow-x: 4px;
-        &:is(:hover, :focus-visible){
-            --btn3D-shadow-x: 2px;
-        }
-    }
-    &.size-xl{
-        --btn3D-elv: 6px;
-        --btn3D-elv-hover: 4px;
-        --btn3D-shadow-x: 6px;
-        &:is(:hover, :focus-visible){
-            --btn3D-shadow-x: 4px;
-        }
-    }
 
     &:is(:hover, :focus-visible){
         --btn3D-border: var(--btn3D-elv-hover);
@@ -139,10 +123,28 @@ defineProps({
     }
     &:focus-visible{
         outline: none;
-        /* box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline); */
+        box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
+    }
+    &:where(.size-sm.spacing-compact) {
+        --btn3D-elv: 4px;
+        --btn3D-elv-hover: 3px;
+        --btn3D-shadow-x: 4px;
+        &:is(:hover, :focus-visible){
+            --btn3D-shadow-x: 2px;
+        }
+    }
+    &:where(.size-xl) {
+        --btn3D-elv: 6px;
+        --btn3D-elv-hover: 4px;
+        --btn3D-shadow-x: 6px;
+        &:is(:hover, :focus-visible){
+            --btn3D-shadow-x: 4px;
+        }
     }
     &:active{
-        box-shadow: none;
+        --btn3D-elv-hover: 0px;
+        --btn3D-shadow-x: 0px;
+        --btn3D-shadow-y: 0px;
         transform: translateY(var(--btn3D-elv));
         transition: box-shadow 100ms, transform 100ms;
     }

@@ -36,6 +36,8 @@
     /* for solid btn3D border bottom */
     --c-name-border-3: #;
 
+    --c-name-outline: #;
+
     /* rgb values of --c-name-solid-1 */
     --rgb-name-solid: #;
     /* rgb values of --c-name-soft-3 */

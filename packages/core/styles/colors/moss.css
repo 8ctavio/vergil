@@ -15,12 +15,15 @@
     --c-moss-text-4: #F1F5EF;
     --c-moss-text-5: white;
 
-    --c-moss-border-subtle: rgba(92 122 82 / 0.3);
-    --c-moss-border-strong: rgba(88 120 72 / 0.7);
+    --rgb-moss-border: 92 122 82;
+    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.3);
+    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.6);
 
     --c-moss-border-1: #8FAD85;
     --c-moss-border-2: var(--c-moss-solid-1);
     --c-moss-border-3: var(--c-moss-solid-3);
+
+    --c-moss-outline: #98B38F;
  
     --c-moss-subtle-1: #F4F7F2;
 
@@ -42,11 +45,15 @@
     --c-moss-text-2: #B7CAAF;
     --c-moss-text-3: #CDDAC8;
 
-    --c-moss-border-subtle: rgba(171 198 159 / 0.2);
+    --rgb-moss-border: 171 198 159;
+    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.2);
+    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.4);
 
     --c-moss-border-1: #192115;
     --c-moss-border-3: #2F3F27;
  
+    --c-moss-outline: #48613C;
+
     --c-moss-subtle-1: var(--c-moss-soft-1);
 
     --rgb-moss-solid: 66 89 54;
