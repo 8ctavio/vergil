@@ -9,6 +9,7 @@
     --c-dartmouth-soft-4: #BFE8C3;
     --c-dartmouth-soft-5: #B0E3B5;
 
+    --c-dartmouth-icon: var(--c-dartmouth-solid-1);
     --c-dartmouth-text-1: var(--c-dartmouth-solid-1);
     --c-dartmouth-text-2: var(--c-dartmouth-solid-2);
     --c-dartmouth-text-3: var(--c-dartmouth-solid-3);
@@ -41,6 +42,7 @@
     --c-dartmouth-soft-4: #204035;
     --c-dartmouth-soft-5: #274E40;
 
+    --c-dartmouth-icon: #22B472;
     --c-dartmouth-text-1: #B0E3B5;
     --c-dartmouth-text-2: #BFE8C3;
     --c-dartmouth-text-3: #CEEED1;

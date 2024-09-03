@@ -122,7 +122,7 @@ defineProps({
         background-color: var(--c-theme-soft-3);
     }
     & > .icon{
-        color: var(--c-theme-text-1);
+        color: var(--c-theme-icon);
     }
 }
 

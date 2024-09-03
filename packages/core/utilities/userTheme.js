@@ -11,6 +11,7 @@ const cssVars = [
     '--c-user-soft-3',
     '--c-user-soft-4',
     '--c-user-soft-5',
+    '--c-user-icon',
     '--c-user-text-1',
     '--c-user-text-2',
     '--c-user-text-3',

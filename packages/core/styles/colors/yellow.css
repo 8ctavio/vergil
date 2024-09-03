@@ -9,10 +9,11 @@
     --c-yellow-soft-4: #F5D789;
     --c-yellow-soft-5: #F0CD75;
 
+    --c-yellow-icon: #DEA300;
     --c-yellow-text-1: #805E00;
-    --c-yellow-text-2: #805E00;
-    --c-yellow-text-3: #664B00;
-    --c-yellow-text-4: var(--c-yellow-text-3);
+    --c-yellow-text-2: var(--c-yellow-text-1);
+    --c-yellow-text-3: var(--c-yellow-text-1);
+    --c-yellow-text-4: var(--c-yellow-text-1);
     --c-yellow-text-5: #4D3900;
 
     --rgb-yellow-border: 128 94 0;
@@ -41,6 +42,7 @@
     --c-yellow-soft-4: #805E00;
     --c-yellow-soft-5: #946C00;
 
+    --c-yellow-icon: #FFC21A;
     --c-yellow-text-1: #FFC21A;
     --c-yellow-text-2: #F5D789;
     --c-yellow-text-3: white;

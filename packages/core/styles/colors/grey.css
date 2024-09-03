@@ -3,12 +3,13 @@
     --c-grey-solid-2: #5C5C5C;
     --c-grey-solid-3: #525252;
 
-    --c-grey-soft-1: #EDEDED;
-    --c-grey-soft-2: #E8E8E8;
-    --c-grey-soft-3: #E0E0E0;
-    --c-grey-soft-4: #D9D9D9;
-    --c-grey-soft-5: #D1D1D1;
+    --c-grey-soft-1: #F1F1F1;
+    --c-grey-soft-2: #EBEBEB;
+    --c-grey-soft-3: #E4E4E4;
+    --c-grey-soft-4: #DDDDDD;
+    --c-grey-soft-5: #D5D5D5;
 
+    --c-grey-icon: var(--c-grey-solid-1);
     --c-grey-text-1: var(--c-grey-solid-1);
     --c-grey-text-2: var(--c-grey-solid-2);
     --c-grey-text-3: var(--c-grey-solid-3);
@@ -41,6 +42,7 @@
     --c-grey-soft-4: #2F2F2F;
     --c-grey-soft-5: #373737;
 
+    --c-grey-icon: #858585;
     --c-grey-text-1: #D1D1D1;
     --c-grey-text-2: #D9D9D9;
     --c-grey-text-3: #D9D9D9;

@@ -9,6 +9,7 @@
     --c-cobalt-soft-4: #CBD7FB;
     --c-cobalt-soft-5: #BDCCF9;
 
+    --c-cobalt-icon: var(--c-cobalt-solid-1);
     --c-cobalt-text-1: var(--c-cobalt-solid-1);
     --c-cobalt-text-2: var(--c-cobalt-solid-2);
     --c-cobalt-text-3: var(--c-cobalt-solid-3);
@@ -41,6 +42,7 @@
     --c-cobalt-soft-4: #1C3073;
     --c-cobalt-soft-5: #203783;
 
+    --c-cobalt-icon: #3D61D9;
     --c-cobalt-text-1: #BDCCF9;
     --c-cobalt-text-2: #BDCCF9;
     --c-cobalt-text-3: #CBD7FB;

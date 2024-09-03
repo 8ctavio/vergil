@@ -9,6 +9,7 @@
     --c-red-soft-4: #FFCCBD;
     --c-red-soft-5: #FFC4B3;
 
+    --c-red-icon: var(--c-red-solid-1);
     --c-red-text-1: var(--c-red-solid-1);
     --c-red-text-2: var(--c-red-solid-2);
     --c-red-text-3: var(--c-red-solid-3);
@@ -41,6 +42,7 @@
     --c-red-soft-4: #5D141A;
     --c-red-soft-5: #6D171E;
 
+    --c-red-icon: #D9323A;
     --c-red-text-1: #DE6E73;
     --c-red-text-2: #ECACAE;
     --c-red-text-3: #F1C1C3;

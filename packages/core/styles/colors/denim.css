@@ -9,6 +9,7 @@
     --c-denim-soft-4: #CEE4FD;
     --c-denim-soft-5: #BFDCFC;
 
+    --c-denim-icon: var(--c-denim-solid-1);
     --c-denim-text-1: var(--c-denim-solid-1);
     --c-denim-text-2: var(--c-denim-solid-1);
     --c-denim-text-3: var(--c-denim-solid-2);
@@ -41,6 +42,7 @@
     --c-denim-soft-4: #04356C;
     --c-denim-soft-5: #043C7B;
 
+    --c-denim-icon: #0673EF;
     --c-denim-text-1: #ACD2FC;
     --c-denim-text-2: #B6D8FC;
     --c-denim-text-3: #BFDCFC;

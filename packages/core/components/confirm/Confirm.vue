@@ -47,7 +47,7 @@ function resolveConfirm(response){
 	& > .icon{
 		font-size: 1.5em;
 		line-height: normal;
-        color: var(--c-theme-text-1);
+        color: var(--c-theme-icon);
         cursor: default;
         aspect-ratio: initial;
 	}

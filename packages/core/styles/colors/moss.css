@@ -9,6 +9,7 @@
     --c-moss-soft-4: #CDDAC8;
     --c-moss-soft-5: #C2D2BC;
 
+    --c-moss-icon: var(--c-moss-solid-1);
     --c-moss-text-1: var(--c-moss-solid-1);
     --c-moss-text-2: var(--c-moss-solid-2);
     --c-moss-text-3: var(--c-moss-solid-3);
@@ -41,6 +42,7 @@
     --c-moss-soft-4: #2D3823;
     --c-moss-soft-5: #314229;
 
+    --c-moss-icon: #6F995C;
     --c-moss-text-1: #90B380;
     --c-moss-text-2: #B7CAAF;
     --c-moss-text-3: #CDDAC8;

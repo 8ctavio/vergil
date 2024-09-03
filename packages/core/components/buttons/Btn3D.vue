@@ -243,7 +243,7 @@ defineProps({
 .btn3D.plain{
     --btn3D-c-border: var(--c-theme-border-2);
     background-color: var(--c-grey-soft-1);
-    color: var(--c-grey-text-10);
+    color: var(--c-grey-text-1);
 
     &.bordered{
         border: 1px solid var(--c-theme-solid-1);
@@ -256,7 +256,7 @@ defineProps({
         background-color: var(--c-theme-soft-1);
     }
     &:not(:disabled) > .icon{
-        color: var(--c-theme-text-1);
+        color: var(--c-theme-icon);
     }
 }
 .dark .btn3D.plain{

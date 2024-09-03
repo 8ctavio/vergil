@@ -13,6 +13,7 @@
     --c-name-soft-4: #;
     --c-name-soft-5: #;
 
+    --c-name-text-icon: #;
     /* for soft grey background */
     --c-name-text-1: #;
     /* for softer background: --c-name-soft-[1-3] */
