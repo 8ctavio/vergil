@@ -112,7 +112,7 @@ defineProps({
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
         border-radius: var(--g-radius);
-        border: 2px solid var(--c-grey-border-subtle-2);
+        border: 2px solid var(--c-grey-border-subtle);
         transition: border-color 150ms;
 
         & > :is(.toggle-check, .toggle-radio) {
@@ -141,7 +141,7 @@ defineProps({
 
 /*-------- CARD --------*/
 :is(.checkbox, .radio).card {
-    --toggle-border-c: var(--c-grey-border-subtle-4);
+    --toggle-border-c: var(--c-grey-border-subtle);
     --toggle-border-w: 1px;
     display: flex;
     flex-direction: column;
@@ -153,22 +153,22 @@ defineProps({
     transition: box-shadow 150ms;
 
     &:hover {
-        --toggle-border-c: var(--c-theme-border-subtle-4);
+        --toggle-border-c: var(--c-grey-border-strong);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        --toggle-border-c: var(--c-theme-border-solid-1);
+        --toggle-border-c: var(--c-theme-border-solid);
         --toggle-border-w: 1.5px;
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
         background-color: var(--c-theme-soft-1);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
-        --toggle-border-c: var(--c-disabled-1);
-        background-color: var(--c-disabled-2);
+        --toggle-border-c: var(--c-disabled-border-1);
+        background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
-        --toggle-border-c: var(--c-disabled-border);
+        --toggle-border-c: var(--c-disabled-border-2);
     }
 
     & > .toggle-label {
@@ -187,29 +187,27 @@ defineProps({
     row-gap: var(--g-gap-xs);
     padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
-    background-color: var(--c-grey-soft-2);
-    color: var(--c-disabled-text);
+    background-color: var(--c-grey-soft-3);
+    color: var(--c-grey-text-2);
     transition: background-color 150ms, color 150ms;
 
     &:hover:not(:disabled) {
-        color: var(--c-theme-text-3);
+        color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        outline: 2px solid var(--c-theme-outline);
+        outline: 2px solid var(--c-theme-border-solid);
         color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        background-color: var(--c-theme-subtle-1);
-        color: var(--c-theme-text-2);
-        /* font-weight: 600; */
+        background-color: var(--c-theme-1);
+        color: var(--c-theme-text-3);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
-        background-color: var(--c-disabled-2);
+        background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
+        background-color: var(--c-disabled-2);
     }
 
     & > .toggle-label {
@@ -236,18 +234,29 @@ defineProps({
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
         outline: 2px solid var(--c-theme-outline);
-        background-color: var(--c-grey-soft-1);
+        background-color: var(--c-theme-soft-1);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         background-color: var(--c-theme-soft-2);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
-        background-color: var(--c-disabled-2);
+        background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
+        background-color: var(--c-disabled-2);
+    }
+}
+:where(.dark) :is(.checkbox, .radio).list {
+    &:hover {
+        background-color: var(--c-grey-soft-3);
+    }
+    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
+        outline: 2px solid var(--c-theme-outline);
+        background-color: var(--c-theme-soft-1);
+    }
+    &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
+        background-color: var(--c-theme-soft-4);
     }
 }
 </style>

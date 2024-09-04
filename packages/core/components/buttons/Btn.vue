@@ -164,7 +164,7 @@ defineProps({
             --btn-c-text-1: var(--c-theme-text-1);
         }
         &.ghost-translucent {
-            --btn-c-1: rgb(127 127 127 / 0.1);
+            --btn-c-1: rgb(var(--rgb-grey-border) / 0.1);
             --btn-c-text-1: var(--c-grey-text-2);
         }
     }
@@ -196,7 +196,7 @@ defineProps({
         }
         &.outline {
             &:where(.ghost-transparent) {
-                --btn-c-border: var(--c-theme-border-2);
+                --btn-c-border: var(--c-theme-border-solid);
             }
             &:where(.ghost-translucent) {
                 --btn-c-border-1: rgb(var(--rgb-grey-border) / 0.75);

@@ -19,14 +19,13 @@
     --rgb-grey-border: 127 127 127;
     --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
     --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.5);
-
-    --c-grey-border-1: #B4B4B4;
-    --c-grey-border-2: var(--c-grey-solid-1);
-    --c-grey-border-3: #404040;
-
+    --c-grey-border-solid: var(--c-grey-solid-1);
+    
     --c-grey-outline: #BFBFBF;
 
-    --c-grey-subtle-1: #F7F7F7;
+    --c-grey-1: #F8F8F8;
+    --c-grey-2: #B4B4B4;
+    --c-grey-3: #404040;
 
     --rgb-grey-solid: 101 101 101;
     --rgb-grey-soft: 224 224 224;
@@ -50,12 +49,11 @@
     --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
     --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.55);
 
-    --c-grey-border-1: #151515;
-    --c-grey-border-3: #454545;
-
     --c-grey-outline: #4E4E4E;
 
-    --c-grey-subtle-1: var(--c-grey-soft-1);
+    --c-grey-1: var(--c-grey-soft-5);
+    --c-grey-2: #151515;
+    --c-grey-3: #454545;
 
     --rgb-grey-solid: 99 99 99;
     --rgb-grey-soft: 37 37 37;

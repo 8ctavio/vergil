@@ -219,7 +219,7 @@ defineProps({
 ------------------------------------------------*/
 /*-------- SOLID --------*/
 .btn3D.solid{
-    --btn3D-c-border: var(--c-theme-border-3);
+    --btn3D-c-border: var(--c-theme-3);
     background-color: var(--c-theme-solid-1);
     color: var(--c-theme-text-5);
 
@@ -230,7 +230,7 @@ defineProps({
 
 /*-------- SOFT --------*/
 .btn3D.soft{
-    --btn3D-c-border: var(--c-theme-border-1);
+    --btn3D-c-border: var(--c-theme-2);
     background-color: var(--c-theme-soft-3);
     color: var(--c-theme-text-3);
 
@@ -241,7 +241,7 @@ defineProps({
 
 /*-------- PLAIN --------*/
 .btn3D.plain{
-    --btn3D-c-border: var(--c-theme-border-2);
+    --btn3D-c-border: var(--c-theme-border-solid);
     background-color: var(--c-grey-soft-1);
     color: var(--c-grey-text-1);
 

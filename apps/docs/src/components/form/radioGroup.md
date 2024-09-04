@@ -85,38 +85,14 @@ The `RadioGroup` default slot may be used instead to directly pass `Radio` compo
 
 <Demo>
     <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card" label="Card"/>
-    <div class="col center">
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-user" theme="user"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-ok" theme="ok"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-info" theme="info"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-warn" theme="warn"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-danger" theme="danger"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="card" name="card-neutral" theme="neutral"/>
-    </div>
 </Demo>
 
 <Demo>
     <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle" label="Toggle"/>
-    <div class="col center">
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-user" theme="user"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-ok" theme="ok"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-info" theme="info"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-warn" theme="warn"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-danger" theme="danger"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle-neutral" theme="neutral"/>
-    </div>
 </Demo>
 
 <Demo>
     <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" name="list" label="List"/>
-    <div class="col center">
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-user" theme="user"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-ok" theme="ok"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-info" theme="info"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-warn" theme="warn"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-danger" theme="danger"/>
-        <RadioGroup :options="['Label 1', 'Label 2', 'Label 3', 'Label 4']" variant="list" name="list-neutral" theme="neutral"/>
-    </div>
 </Demo>
 
 <style>

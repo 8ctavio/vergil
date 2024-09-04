@@ -29,15 +29,17 @@
     --c-name-border-subtle: rgba();
     /* for strong borders with soft backgrounds */
     --c-name-border-strong: rgba();
-
-    /* for soft btn3D border bottom */
-    --c-name-border-1: #;
-    /* for solid btn outline */
-    --c-name-border-2: #;
-    /* for solid btn3D border bottom */
-    --c-name-border-3: #;
+    /* for solid border */
+    --c-name-border-solid: #;
 
     --c-name-outline: #;
+
+    /* used for ToggleButton 'toggle' variant's background */
+    --c-name-1: #;
+    /* used for soft btn3D border bottom */
+    --c-name-2: #;
+    /* used for solid btn3D border bottom */
+    --c-name-3: #;
 
     /* rgb values of --c-name-solid-1 */
     --rgb-name-solid: #;

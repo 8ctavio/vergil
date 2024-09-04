@@ -37,7 +37,7 @@ const colors = ['moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
     grid-template-columns: repeat(3,auto);
     gap: 2px;
     padding: 7px;
-    border: 1px solid var(--c-grey-border-1);
+    border: 1px solid var(--c-grey-2);
     border-radius: var(--border-radius-md);
     background-color: var(--c-bg);
 }

@@ -123,7 +123,11 @@ provide(`${props.type}-props`, {
         gap: var(--g-gap-sm);
         padding: var(--g-gap-sm);
         border-radius: var(--g-radius);
-        background-color: var(--c-grey-soft-2);
+        background-color: var(--c-grey-soft-3);
+
+        &:has(input:is([type="checkbox"],[type="radio"]):disabled) {
+            background-color: var(--c-disabled-1);
+        }
     }
     &.list {
         gap: var(--g-gap-xs);
