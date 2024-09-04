@@ -13,14 +13,22 @@ defineProps({
     },
     ghost: {
         type: [Boolean, String],
+        default: props => vergil.config.btn[props.variant]?.ghost,
         validator: v => (typeof v === 'boolean') || ['transparent', 'translucent'].includes(v)
     },
     outline: {
         type: [Boolean, String],
+        default: props => vergil.config.btn[props.variant]?.outline,
         validator: v => (typeof v === 'boolean') || ['subtle', 'strong'].includes(v)
     },
-    underline: Boolean,
-    fill: Boolean,
+    underline: {
+        type: Boolean,
+        default: props => vergil.config.btn[props.variant]?.underline,
+    },
+    fill: {
+        type: Boolean,
+        default: props => vergil.config.btn[props.variant]?.fill,
+    },
     icon: String,
     iconLeft: String,
     iconRight: String,

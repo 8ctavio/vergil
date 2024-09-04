@@ -68,6 +68,24 @@ const vergil = {
         },
         btn: {
             variant: 'solid',
+            solid: {
+                ghost: undefined,
+                outline: undefined,
+                underline: undefined,
+                fill: undefined,
+            },
+            soft: {
+                ghost: undefined,
+                outline: undefined,
+                underline: undefined,
+                fill: undefined,
+            },
+            subtle: {
+                ghost: undefined,
+                outline: undefined,
+                underline: undefined,
+                fill: undefined,
+            },
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,

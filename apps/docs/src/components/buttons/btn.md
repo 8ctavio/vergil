@@ -524,6 +524,10 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
 | `btn.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
+| `<variant>.ghost` | |
+| `<variant>.outline` | |
+| `<variant>.underline` | |
+| `<variant>.fill` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |

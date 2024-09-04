@@ -68,9 +68,13 @@ interface VergilConfiguration {
         squared: boolean;
     },
     btn: {
-        variant: ('solid' | 'soft' | 'ghost' | 'outline' | 'underline' | 'text') = 'solid';
-        fill: boolean;
-        borderless: boolean;
+        variant: ('solid' | 'soft' | 'subtle') = 'solid';
+        [variant]: {
+            ghost: boolean | 'transparent' | 'translucent';
+            outline: boolean | 'subtle' | 'strong';
+            underline: boolean;
+            fill: boolean;
+        };
         theme: theme;
         size: size;
         radius: radius;
