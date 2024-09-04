@@ -33,6 +33,9 @@
 :slotted(.row).right{
     justify-content: end;
 }
+:slotted(.row).evenly{
+    justify-content: space-evenly;
+}
 :slotted(.col){
     display: flex;
     flex-direction: column;

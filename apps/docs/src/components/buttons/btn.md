@@ -43,86 +43,75 @@ Simple `Btn` text content can be specified through the default slot or the `labe
     <Btn variant="subtle" label="Subtle"/>
 </Demo>
 
-### Ghost <Badge><pre>ghost: boolean</pre></Badge>
+### Ghost <Badge><pre>ghost: (boolean | 'transparent' | 'translucent')</pre></Badge>
 
-<Demo>
-    <Btn ghost variant="solid" label="Solid"/>
-    <Btn ghost variant="soft" label="Soft"/>
-    <Btn ghost variant="subtle" label="Subtle"/>
-</Demo>
-
-### Disclose <Badge><pre>disclose: boolean</pre></Badge>
-
-<Demo>
-    <Btn disclose variant="solid" label="Solid"/>
-    <Btn disclose variant="soft" label="Soft"/>
-    <Btn disclose variant="subtle" label="Subtle"/>
-</Demo>
-
-### Outline <Badge><pre>outline: (boolean | 'subtle' | 'strong')</pre></Badge>
-
-For both the `soft` and `subtle` variants, `outline = true` is equivalent to `outline = 'subtle'`. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` and `disclose` buttons are affected.
-
-```vue
-<Btn outline variant="solid" ghost label="Solid"/>
-<Btn outline variant="solid" disclose label="Solid"/>
-```
-
-<Demo>
-    <Btn outline variant="solid" label="Solid" ghost/>
-    <Btn outline variant="solid" label="Solid" disclose/>
-</Demo>
-
-```vue
-<Btn variant="soft | subtle" outline/>
-<!-- or -->
-<Btn variant="soft | subtle" outline="subtle"/>
-```
-
-<Demo>
-    <Btn outline variant="soft" label="Soft"/>
-    <Btn outline variant="subtle" label="Subtle"/>
-</Demo>
-
-```vue
-<Btn variant="soft | subtle" outline="strong"/>
-```
-
-<Demo>
-    <Btn outline="strong" variant="soft" label="Soft"/>
-    <Btn outline="strong" variant="subtle" label="Subtle"/>
-</Demo>
-
-### Fill  <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre> or <pre>disclose</pre></Badge>
+The `'transparent'` value is equivalent to `ghost = true`.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn fill ghost variant="solid" label="Hover me!"/>
-            <Btn fill ghost variant="soft" label="Hover me!"/>
-            <Btn fill ghost variant="subtle" label="Hover me!"/>
+            <Btn ghost label="Transparent" variant="solid"/>
+            <Btn ghost label="Transparent" variant="soft"/>
+            <Btn ghost label="Transparent" variant="subtle"/>    
         </div>
         <div class="row center">
-            <Btn fill disclose variant="solid" label="Hover me!"/>
-            <Btn fill disclose variant="soft" label="Hover me!"/>
-            <Btn fill disclose variant="subtle" label="Hover me!"/>
+            <Btn ghost="translucent" label="Translucent" variant="solid"/>
+            <Btn ghost="translucent" label="Translucent" variant="soft"/>
+            <Btn ghost="translucent" label="Translucent" variant="subtle"/>  
         </div>
     </div>
 </Demo>
 
-### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre> or <pre>disclose</pre></Badge>
+### Outline <Badge><pre>outline: (boolean | 'subtle' | 'strong')</pre></Badge>
+
+For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to `outline = true`. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` buttons are affected.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn underline fill ghost variant="solid" label="Underline"/>
-            <Btn underline fill ghost variant="soft" label="Underline"/>
-            <Btn underline fill ghost variant="subtle" label="Underline"/>
+            <Btn variant="solid" ghost outline label="Outline"/>
         </div>
         <div class="row center">
-            <Btn underline fill disclose variant="solid" label="Underline"/>
-            <Btn underline fill disclose variant="soft" label="Underline"/>
-            <Btn underline fill disclose variant="subtle" label="Underline"/>
+            <Btn variant="soft" outline="subtle" label="Subtle"/>
+            <Btn variant="soft" outline="strong" label="Strong"/>    
+        </div>
+        <div class="row center">
+            <Btn variant="subtle" outline="subtle" label="Subtle"/>
+            <Btn variant="subtle" outline="strong" label="Strong"/>    
+        </div>
+    </div>
+</Demo>
+
+### Fill <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn fill ghost="transparent" variant="solid" label="Hover me!"/>
+            <Btn fill ghost="transparent" variant="soft" label="Hover me!"/>
+            <Btn fill ghost="transparent" variant="subtle" label="Hover me!"/>
+        </div>
+        <div class="row center">
+            <Btn fill ghost="translucent" variant="solid" label="Hover me!"/>
+            <Btn fill ghost="translucent" variant="soft" label="Hover me!"/>
+            <Btn fill ghost="translucent" variant="subtle" label="Hover me!"/>
+        </div>
+    </div>
+</Demo>
+
+### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <Btn underline fill ghost="transparent" variant="solid" label="Underline"/>
+            <Btn underline fill ghost="transparent" variant="soft" label="Underline"/>
+            <Btn underline fill ghost="transparent" variant="subtle" label="Underline"/>
+        </div>
+        <div class="row center">
+            <Btn underline fill ghost="translucent" variant="solid" label="Underline"/>
+            <Btn underline fill ghost="translucent" variant="soft" label="Underline"/>
+            <Btn underline fill ghost="translucent" variant="subtle" label="Underline"/>
         </div>
     </div>
 </Demo>
@@ -344,9 +333,9 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn loading label="Loading" variant="solid"/>
-            <Btn loading label="Loading" variant="soft"/>
-            <Btn loading label="Loading" variant="subtle"/>
+            <Btn loading label="Loading" ghost variant="solid"/>
+            <Btn loading label="Loading" ghost variant="soft"/>
+            <Btn loading label="Loading" ghost variant="subtle"/>
         </div>
         <div class="row center">
             <Btn loading label="Loading" outline variant="solid"/>
@@ -511,16 +500,15 @@ Adding `squared` sets padding to the same value on all sides.
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `label` | `string` | `''` |
+| `label` | `string` | |
 | `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` |
-| `ghost` | `boolean` | |
-| `disclose` | `boolean` | |
+| `ghost` | `boolean \| 'transparent' \| 'translucent'` | |
 | `outline` | `boolean \| 'subtle' \| 'strong'` | |
 | `underline` | `boolean` | |
-| `fill` | `boolean` | `false` |
-| `icon` | `string` | `''` |
-| `icon-left` | `string` | `''` |
-| `icon-right` | `string` | `''` |
+| `fill` | `boolean` | |
+| `icon` | `string` | |
+| `iconLeft` | `string` | |
+| `iconRight` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
@@ -551,7 +539,7 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
         <Anatomy tag="span" classes="btn-backdrop"/>
         <Anatomy tag="div" classes="btn-content">
             <Anatomy tag="Icon" classes="icon"/>
-            <Anatomy tag="slot #default" classes="icon"/>
+            <Anatomy tag="slot #default"/>
             <Anatomy tag="Icon" classes="icon"/>
             <Anatomy tag="div" classes="btn-loader">
                 <Anatomy tag="span" classes="btn-spinner"/>

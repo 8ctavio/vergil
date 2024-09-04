@@ -11,8 +11,10 @@ defineProps({
         default: () => vergil.config.btn.variant,
         validator: v => isValidVariant('Btn', v)
     },
-    ghost: Boolean,
-    disclose: Boolean,
+    ghost: {
+        type: [Boolean, String],
+        validator: v => (typeof v === 'boolean') || ['transparent', 'translucent'].includes(v)
+    },
     outline: {
         type: [Boolean, String],
         validator: v => (typeof v === 'boolean') || ['subtle', 'strong'].includes(v)
@@ -62,9 +64,10 @@ defineProps({
             `spacing-${spacing}`,
             {
                 ghost,
-                disclose,
+                'ghost-transparent': [true,'transparent'].includes(ghost),
+                'ghost-translucent': ghost === 'translucent',
                 outline,
-                'outline-subtle': [true, 'subtle'].includes(outline),
+                'outline-subtle': [true,'subtle'].includes(outline),
                 'outline-strong': outline === 'strong',
                 underline,
                 fill,
@@ -74,7 +77,7 @@ defineProps({
         ]"
         :disabled="disabled || loading"
     >
-        <span v-if="ghost || disclose" class="btn-backdrop"/>
+        <span v-if="ghost" class="btn-backdrop"/>
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>
@@ -90,6 +93,7 @@ defineProps({
 
 <style>
 .btn {
+    --btn-c-border: var(--btn-c-border-1);
     --btn-c-border-b: var(--c-theme-solid-1);
     --btn-bw: 0px;
     --btn-bw-b: 0px;
@@ -113,17 +117,19 @@ defineProps({
 
     &:not(.loading) {
         &:is(:hover, :focus-visible) {
+            --btn-c-border: var(--btn-c-border-2);
             color: var(--btn-c-text-2);
 
             &:not(.fill) {
                 background-color: var(--btn-c-2);
             }
-            &.fill > .btn-backdrop {
+            &.fill:not(:disabled) > .btn-backdrop {
                 height: 100%;
                 background-color: var(--btn-c-2);
             }
         }
         &:active {
+            --btn-c-border: var(--btn-c-border-2);
             color: var(--btn-c-text-2);
 
             &:not(.fill), &.fill > .btn-backdrop {
@@ -144,10 +150,19 @@ defineProps({
                 --btn-c-border: var(--c-disabled-border-2);
             }
         }
+
+        &.ghost-transparent {
+            --btn-c-1: transparent;
+            --btn-c-text-1: var(--c-theme-text-1);
+        }
+        &.ghost-translucent {
+            --btn-c-1: rgb(127 127 127 / 0.1);
+            --btn-c-text-1: var(--c-grey-text-2);
+        }
     }
     &:focus-visible {
         outline: 2px solid var(--c-theme-outline);
-        &.solid, &.outline, &.underline {
+        &:is(.solid, .outline, .underline) {
             outline-offset: 3px;
         }
     }
@@ -167,17 +182,19 @@ defineProps({
         --btn-c-3: var(--c-theme-solid-3);
         --btn-c-text-1: var(--c-theme-text-5);
         --btn-c-text-2: var(--c-theme-text-5);
-        &:is(.ghost, .disclose) {
+        &.ghost {
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
         }
         &.outline {
-            --btn-c-border: var(--c-theme-border-2);
-            &:where(:hover, :focus-visible, :active) {
-                --btn-c-border: transparent;
+            &:where(.ghost-transparent) {
+                --btn-c-border: var(--c-theme-border-2);
+            }
+            &:where(.ghost-translucent) {
+                --btn-c-border-1: rgb(var(--rgb-grey-border) / 0.75);
             }
         }
-        &.underline:not(.fill):active {
+        &:where(:active) {
             --btn-c-border-b: transparent;
         }
         & > .btn-content > .icon {
@@ -190,7 +207,7 @@ defineProps({
         --btn-c-3: var(--c-theme-soft-5);
         --btn-c-text-1: var(--c-theme-text-3);
         --btn-c-text-2: var(--c-theme-text-3);
-        &:is(.ghost, .disclose) {
+        &.ghost {
             --btn-c-2: var(--c-theme-soft-3);
             --btn-c-3: var(--c-theme-soft-4);
         }
@@ -201,27 +218,30 @@ defineProps({
         --btn-c-3: var(--c-theme-soft-3);
         --btn-c-text-1: var(--c-theme-text-2);
         --btn-c-text-2: var(--c-theme-text-2);
-        &:is(.ghost, .disclose) {
+        &.ghost {
             --btn-c-2: var(--c-theme-soft-1);
             --btn-c-3: var(--c-theme-soft-2);
         }
     }
-    &.ghost {
-        --btn-c-1: transparent;
-        --btn-c-text-1: var(--c-theme-text-1);
+    &:is(.soft, .subtle) {
+        &.outline-subtle {
+            --btn-c-border-1: var(--c-theme-border-subtle);
+            --btn-c-border-2: var(--c-theme-border-subtle);
+            &:where(.ghost-translucent) {
+                --btn-c-border-1: var(--c-grey-border-subtle);
+            }
+        }
+        &.outline-strong {
+            --btn-c-border-1: var(--c-theme-border-strong);
+            --btn-c-border-2: var(--c-theme-border-strong);
+            &:where(.ghost-translucent) {
+                --btn-c-border-1: var(--c-grey-border-strong);
+            }
+        }
     }
-    &.disclose {
-        --btn-c-1: var(--c-grey-soft-2);
-        --btn-c-text-1: var(--c-grey-text-2);
-    }
+
     &.outline {
         --btn-bw: 1px;
-    }
-    &.outline-subtle {
-        --btn-c-border: var(--c-theme-border-subtle);
-    }
-    &.outline-strong {
-        --btn-c-border: var(--c-theme-border-strong);
     }
     &.underline {
         --btn-bw-b: var(--component-border-bottom-width);

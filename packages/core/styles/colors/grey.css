@@ -16,7 +16,7 @@
     --c-grey-text-4: #E8E8E8;
     --c-grey-text-5: white;
 
-    --rgb-grey-border: 124 124 124;
+    --rgb-grey-border: 127 127 127;
     --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
     --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.5);
 
