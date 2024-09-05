@@ -3,22 +3,20 @@
     --c-grey-solid-2: #5C5C5C;
     --c-grey-solid-3: #525252;
 
-    --c-grey-soft-1: #F1F1F1;
+    --c-grey-soft-1: #F3F3F3;
     --c-grey-soft-2: #EBEBEB;
     --c-grey-soft-3: #E4E4E4;
     --c-grey-soft-4: #DDDDDD;
-    --c-grey-soft-5: #D5D5D5;
 
     --c-grey-icon: var(--c-grey-solid-1);
     --c-grey-text-1: var(--c-grey-solid-1);
     --c-grey-text-2: var(--c-grey-solid-2);
-    --c-grey-text-3: var(--c-grey-solid-3);
-    --c-grey-text-4: #E8E8E8;
-    --c-grey-text-5: white;
+    --c-grey-text-3: #E8E8E8;
+    --c-grey-text-4: white;
 
     --rgb-grey-border: 127 127 127;
     --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
-    --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.5);
+    --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.55);
     --c-grey-border-solid: var(--c-grey-solid-1);
     
     --c-grey-outline: #BFBFBF;
@@ -28,33 +26,28 @@
     --c-grey-3: #404040;
 
     --rgb-grey-solid: 101 101 101;
-    --rgb-grey-soft: 224 224 224;
+    --rgb-grey-soft: 236 236 236;
 }
 .dark{
-    --c-grey-solid-1: #636363;
-    --c-grey-solid-2: #6E6E6E;
-    --c-grey-solid-3: #787878;
+    --c-grey-solid-1: #525252;
+    --c-grey-solid-2: #5C5C5C;
+    --c-grey-solid-3: #656565;
 
-    --c-grey-soft-1: #151515;
-    --c-grey-soft-2: #1E1E1E;
-    --c-grey-soft-3: #252525;
-    --c-grey-soft-4: #2F2F2F;
-    --c-grey-soft-5: #373737;
+    --c-grey-soft-1: #1D1D1D;
+    --c-grey-soft-2: #232323;
+    --c-grey-soft-3: #2A2A2A;
+    --c-grey-soft-4: #303030;
 
     --c-grey-icon: #858585;
     --c-grey-text-1: #D1D1D1;
-    --c-grey-text-2: #D9D9D9;
-    --c-grey-text-3: #D9D9D9;
-
-    --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
-    --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.55);
+    --c-grey-text-2: #DADADA;
 
     --c-grey-outline: #4E4E4E;
 
-    --c-grey-1: var(--c-grey-soft-5);
+    --c-grey-1: #373737;
     --c-grey-2: #151515;
     --c-grey-3: #454545;
 
-    --rgb-grey-solid: 99 99 99;
-    --rgb-grey-soft: 37 37 37;
+    --rgb-grey-solid: 82 82 82;
+    --rgb-grey-soft: 35 35 35;
 }

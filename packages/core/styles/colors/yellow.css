@@ -3,22 +3,20 @@
     --c-yellow-solid-2: #FFC933;
     --c-yellow-solid-3: #FFC21A;
 
-    --c-yellow-soft-1: #F9F2D8;
-    --c-yellow-soft-2: #FAEAA8;
-    --c-yellow-soft-3: #FAE09F;
-    --c-yellow-soft-4: #F5D789;
-    --c-yellow-soft-5: #F0CD75;
+    --c-yellow-soft-1: #FDF7E2;
+    --c-yellow-soft-2: #FCF0C5;
+    --c-yellow-soft-3: #FBEAAD;
+    --c-yellow-soft-4: #FAE599;
 
     --c-yellow-icon: #DEA300;
     --c-yellow-text-1: #805E00;
     --c-yellow-text-2: var(--c-yellow-text-1);
     --c-yellow-text-3: var(--c-yellow-text-1);
-    --c-yellow-text-4: var(--c-yellow-text-1);
-    --c-yellow-text-5: #4D3900;
+    --c-yellow-text-4: #4D3900;
 
     --rgb-yellow-border: 128 94 0;
-    --c-yellow-border-subtle: rgba(var(--rgb-yellow-border) / 0.3);
-    --c-yellow-border-strong: rgba(var(--rgb-yellow-border) / 0.6);
+    --c-yellow-border-subtle: rgba(var(--rgb-yellow-border) / 0.17);
+    --c-yellow-border-strong: rgba(var(--rgb-yellow-border) / 0.39);
     --c-yellow-border-solid: #E8B430;
 
     --c-yellow-outline: #DEBE6D;
@@ -28,36 +26,34 @@
     --c-yellow-3: #B88914;
 
     --rgb-yellow-solid: 255 212 98;
-    --rgb-yellow-soft: 250 224 159;
+    --rgb-yellow-soft: 252 240 197;
 }
 .dark{
     --c-yellow-solid-1: #E0A500;
     --c-yellow-solid-2: #FFBC05;
     --c-yellow-solid-3: #FFCD42;
 
-    --c-yellow-soft-1: #332500;
-    --c-yellow-soft-2: #4D3900;
-    --c-yellow-soft-3: #664D00;
-    --c-yellow-soft-4: #805E00;
-    --c-yellow-soft-5: #946C00;
+    --c-yellow-soft-1: #291D00;
+    --c-yellow-soft-2: #382900;
+    --c-yellow-soft-3: #473600;
+    --c-yellow-soft-4: #574100;
 
     --c-yellow-icon: #FFC21A;
     --c-yellow-text-1: #FFC21A;
     --c-yellow-text-2: #F5D789;
-    --c-yellow-text-3: white;
-    --c-yellow-text-4: #523C00;
-    --c-yellow-text-5: #472B00;
+    --c-yellow-text-3: #523C00;
+    --c-yellow-text-4: #472B00;
 
-    --rgb-yellow-border: 255 235 179;
-    --c-yellow-border-subtle: rgba(var(--rgb-yellow-border) / 0.3);
-    --c-yellow-border-strong: rgba(var(--rgb-yellow-border) / 0.45);
+    --rgb-yellow-border: 255 205 56;
+    --c-yellow-border-subtle: rgba(var(--rgb-yellow-border) / 0.18);
+    --c-yellow-border-strong: rgba(var(--rgb-yellow-border) / 0.36);
 
     --c-yellow-outline: #BF8C00;
     
-    --c-yellow-1: var(--c-yellow-soft-3);
+    --c-yellow-1: #664D00;
     --c-yellow-2: #4D3900;
-    --c-yellow-3: var(--c-yellow-soft-4);
+    --c-yellow-3: #805E00;
 
     --rgb-yellow-solid: 224 165 0;
-    --rgb-yellow-soft: 102 77 0;
+    --rgb-yellow-soft: 56 41 0;
 }

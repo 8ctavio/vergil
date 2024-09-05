@@ -123,11 +123,11 @@ defineProps({
             transition: opacity 150ms, transform 200ms var(--bezier-bounce-out);
         }
         & > .toggle-check {
-            fill: var(--c-theme-text-4);
+            fill: var(--c-theme-text-3);
         }
         & > .toggle-radio {
             border-radius: inherit;
-            background-color: var(--c-theme-text-4);
+            background-color: var(--c-theme-text-3);
         }
     }
     & > .toggle-description {
@@ -200,7 +200,7 @@ defineProps({
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         background-color: var(--c-theme-1);
-        color: var(--c-theme-text-3);
+        color: var(--c-theme-text-2);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
         background-color: var(--c-disabled-1);

@@ -129,7 +129,7 @@ defineProps({
 /*-------- SOLID --------*/
 .badge.solid{
     background-color: var(--c-theme-solid-1);
-    color: var(--c-theme-text-5);
+    color: var(--c-theme-text-4);
     &::selection{
         background-color: var(--c-theme-solid-3);
     }

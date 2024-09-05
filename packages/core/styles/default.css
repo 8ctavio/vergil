@@ -19,14 +19,12 @@
     --c-theme-soft-2: var(--c-moss-soft-2);
     --c-theme-soft-3: var(--c-moss-soft-3);
     --c-theme-soft-4: var(--c-moss-soft-4);
-    --c-theme-soft-5: var(--c-moss-soft-5);
 
     --c-theme-icon: var(--c-moss-icon);
     --c-theme-text-1: var(--c-moss-text-1);
     --c-theme-text-2: var(--c-moss-text-2);
     --c-theme-text-3: var(--c-moss-text-3);
     --c-theme-text-4: var(--c-moss-text-4);
-    --c-theme-text-5: var(--c-moss-text-5);
 
     --c-theme-border-subtle: var(--c-moss-border-subtle);
     --c-theme-border-strong: var(--c-moss-border-strong);
@@ -52,14 +50,12 @@
     --c-theme-soft-2: var(--c-user-soft-2);
     --c-theme-soft-3: var(--c-user-soft-3);
     --c-theme-soft-4: var(--c-user-soft-4);
-    --c-theme-soft-5: var(--c-user-soft-5);
 
     --c-theme-icon: var(--c-user-icon);
     --c-theme-text-1: var(--c-user-text-1);
     --c-theme-text-2: var(--c-user-text-2);
     --c-theme-text-3: var(--c-user-text-3);
     --c-theme-text-4: var(--c-user-text-4);
-    --c-theme-text-5: var(--c-user-text-5);
 
     --c-theme-border-subtle: var(--c-user-border-subtle);
     --c-theme-border-strong: var(--c-user-border-strong);
@@ -85,14 +81,12 @@
     --c-theme-soft-2: var(--c-grey-soft-2);
     --c-theme-soft-3: var(--c-grey-soft-3);
     --c-theme-soft-4: var(--c-grey-soft-4);
-    --c-theme-soft-5: var(--c-grey-soft-5);
 
     --c-theme-icon: var(--c-grey-icon);
     --c-theme-text-1: var(--c-grey-text-1);
     --c-theme-text-2: var(--c-grey-text-2);
     --c-theme-text-3: var(--c-grey-text-3);
     --c-theme-text-4: var(--c-grey-text-4);
-    --c-theme-text-5: var(--c-grey-text-5);
 
     --c-theme-border-subtle: var(--c-grey-border-subtle);
     --c-theme-border-strong: var(--c-grey-border-strong);
@@ -118,14 +112,12 @@
     --c-theme-soft-2: var(--c-dartmouth-soft-2);
     --c-theme-soft-3: var(--c-dartmouth-soft-3);
     --c-theme-soft-4: var(--c-dartmouth-soft-4);
-    --c-theme-soft-5: var(--c-dartmouth-soft-5);
 
     --c-theme-icon: var(--c-dartmouth-icon);
     --c-theme-text-1: var(--c-dartmouth-text-1);
     --c-theme-text-2: var(--c-dartmouth-text-2);
     --c-theme-text-3: var(--c-dartmouth-text-3);
     --c-theme-text-4: var(--c-dartmouth-text-4);
-    --c-theme-text-5: var(--c-dartmouth-text-5);
 
     --c-theme-border-subtle: var(--c-dartmouth-border-subtle);
     --c-theme-border-strong: var(--c-dartmouth-border-strong);
@@ -151,14 +143,12 @@
     --c-theme-soft-2: var(--c-cobalt-soft-2);
     --c-theme-soft-3: var(--c-cobalt-soft-3);
     --c-theme-soft-4: var(--c-cobalt-soft-4);
-    --c-theme-soft-5: var(--c-cobalt-soft-5);
 
     --c-theme-icon: var(--c-cobalt-icon);
     --c-theme-text-1: var(--c-cobalt-text-1);
     --c-theme-text-2: var(--c-cobalt-text-2);
     --c-theme-text-3: var(--c-cobalt-text-3);
     --c-theme-text-4: var(--c-cobalt-text-4);
-    --c-theme-text-5: var(--c-cobalt-text-5);
 
     --c-theme-border-subtle: var(--c-cobalt-border-subtle);
     --c-theme-border-strong: var(--c-cobalt-border-strong);
@@ -184,14 +174,12 @@
     --c-theme-soft-2: var(--c-yellow-soft-2);
     --c-theme-soft-3: var(--c-yellow-soft-3);
     --c-theme-soft-4: var(--c-yellow-soft-4);
-    --c-theme-soft-5: var(--c-yellow-soft-5);
 
     --c-theme-icon: var(--c-yellow-icon);
     --c-theme-text-1: var(--c-yellow-text-1);
     --c-theme-text-2: var(--c-yellow-text-2);
     --c-theme-text-3: var(--c-yellow-text-3);
     --c-theme-text-4: var(--c-yellow-text-4);
-    --c-theme-text-5: var(--c-yellow-text-5);
 
     --c-theme-border-subtle: var(--c-yellow-border-subtle);
     --c-theme-border-strong: var(--c-yellow-border-strong);
@@ -217,14 +205,12 @@
     --c-theme-soft-2: var(--c-red-soft-2);
     --c-theme-soft-3: var(--c-red-soft-3);
     --c-theme-soft-4: var(--c-red-soft-4);
-    --c-theme-soft-5: var(--c-red-soft-5);
 
     --c-theme-icon: var(--c-red-icon);
     --c-theme-text-1: var(--c-red-text-1);
     --c-theme-text-2: var(--c-red-text-2);
     --c-theme-text-3: var(--c-red-text-3);
     --c-theme-text-4: var(--c-red-text-4);
-    --c-theme-text-5: var(--c-red-text-5);
 
     --c-theme-border-subtle: var(--c-red-border-subtle);
     --c-theme-border-strong: var(--c-red-border-strong);

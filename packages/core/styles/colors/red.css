@@ -3,22 +3,20 @@
     --c-red-solid-2: #B72A31;
     --c-red-solid-3: #A6262C;
 
-    --c-red-soft-1: #F9EBE7;
-    --c-red-soft-2: #FFE0D6;
-    --c-red-soft-3: #FFD8CC;
-    --c-red-soft-4: #FFCCBD;
-    --c-red-soft-5: #FFC4B3;
+    --c-red-soft-1: #FBEFEF;
+    --c-red-soft-2: #F8E2E2;
+    --c-red-soft-3: #F5D6D6;
+    --c-red-soft-4: #F2CACA;
 
     --c-red-icon: var(--c-red-solid-1);
     --c-red-text-1: var(--c-red-solid-1);
-    --c-red-text-2: var(--c-red-solid-2);
-    --c-red-text-3: var(--c-red-solid-3);
-    --c-red-text-4: #F9E6E7;
-    --c-red-text-5: white;
+    --c-red-text-2: #A6262C;
+    --c-red-text-3: #F9E6E7;
+    --c-red-text-4: white;
 
-    --rgb-red-border: 200 45 54;
-    --c-red-border-subtle: rgba(var(--rgb-red-border) / 0.25);
-    --c-red-border-strong: rgba(var(--rgb-red-border) / 0.65);
+    --rgb-red-border: 144 35 35;
+    --c-red-border-subtle: rgba(var(--rgb-red-border) / 0.20);
+    --c-red-border-strong: rgba(var(--rgb-red-border) / 0.47);
     --c-red-border-solid: var(--c-red-solid-1);
 
     --c-red-outline: #E69E8A;
@@ -28,34 +26,32 @@
     --c-red-3: #962228;
 
     --rgb-red-solid: 200 45 54;
-    --rgb-red-soft: 255 216 204;
+    --rgb-red-soft: 248 226 226;
 }
 .dark {
     --c-red-solid-1: #A6262C;
     --c-red-solid-2: #B72A31;
     --c-red-solid-3: #C82D36;
 
-    --c-red-soft-1: #2A090B;
-    --c-red-soft-2: #3B0C10;
-    --c-red-soft-3: #4C1015;
-    --c-red-soft-4: #5D141A;
-    --c-red-soft-5: #6D171E;
+    --c-red-soft-1: #2E0A0D;
+    --c-red-soft-2: #3F0E12;
+    --c-red-soft-3: #4F1117;
+    --c-red-soft-4: #61151C;
 
     --c-red-icon: #D9323A;
-    --c-red-text-1: #DE6E73;
-    --c-red-text-2: #ECACAE;
-    --c-red-text-3: #F1C1C3;
+    --c-red-text-1: #D9595F;
+    --c-red-text-2: #ECACAF;
 
-    --rgb-red-border: 213 68 75;
-    --c-red-border-subtle: rgba(var(--rgb-red-border) / 0.3);
-    --c-red-border-strong: rgba(var(--rgb-red-border) / 0.5);
+    --rgb-red-border: 227 130 142;
+    --c-red-border-subtle: rgba(var(--rgb-red-border) / 0.2);
+    --c-red-border-strong: rgba(var(--rgb-red-border) / 0.36);
 
     --c-red-outline: #99202A;
 
-    --c-red-1: var(--c-red-soft-5);
+    --c-red-1: #6D171E;
     --c-red-2: #330B0E;
-    --c-red-3: var(--c-red-soft-5);
+    --c-red-3: #6D171E;
 
     --rgb-red-solid: 166 38 44;
-    --rgb-red-soft: 76 16 21;
+    --rgb-red-soft: 63 14 18;
 }

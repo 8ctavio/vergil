@@ -188,8 +188,8 @@ defineProps({
         --btn-c-1: var(--c-theme-solid-1);
         --btn-c-2: var(--c-theme-solid-2);
         --btn-c-3: var(--c-theme-solid-3);
-        --btn-c-text-1: var(--c-theme-text-5);
-        --btn-c-text-2: var(--c-theme-text-5);
+        --btn-c-text-1: var(--c-theme-text-4);
+        --btn-c-text-2: var(--c-theme-text-4);
         &.ghost {
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
@@ -205,33 +205,37 @@ defineProps({
         &:where(:active) {
             --btn-c-border-b: transparent;
         }
-        & > .btn-content > .icon {
-            color: var(--c-theme-text-4);
+        & > .btn-content {
+            & > .icon {
+                color: var(--c-theme-text-3);
+            }
+            & .btn-spinner {
+                border-color: rgb(255 255 255 / 0.95);
+                border-top-color: rgb(0 0 0 / 0.45);
+            }
         }
     }
     &.soft {
-        --btn-c-1: var(--c-theme-soft-3);
-        --btn-c-2: var(--c-theme-soft-4);
-        --btn-c-3: var(--c-theme-soft-5);
-        --btn-c-text-1: var(--c-theme-text-3);
-        --btn-c-text-2: var(--c-theme-text-3);
+        --btn-c-1: var(--c-theme-soft-2);
+        --btn-c-2: var(--c-theme-soft-3);
+        --btn-c-3: var(--c-theme-soft-4);
         &.ghost {
-            --btn-c-2: var(--c-theme-soft-3);
-            --btn-c-3: var(--c-theme-soft-4);
+            --btn-c-2: var(--c-theme-soft-2);
+            --btn-c-3: var(--c-theme-soft-3);
         }
     }
     &.subtle {
         --btn-c-1: var(--c-theme-soft-1);
         --btn-c-2: var(--c-theme-soft-2);
         --btn-c-3: var(--c-theme-soft-3);
-        --btn-c-text-1: var(--c-theme-text-2);
-        --btn-c-text-2: var(--c-theme-text-2);
         &.ghost {
             --btn-c-2: var(--c-theme-soft-1);
             --btn-c-3: var(--c-theme-soft-2);
         }
     }
     &:is(.soft, .subtle) {
+        --btn-c-text-1: var(--c-theme-text-2);
+        --btn-c-text-2: var(--c-theme-text-2);
         &.outline-subtle {
             --btn-c-border-1: var(--c-theme-border-subtle);
             --btn-c-border-2: var(--c-theme-border-subtle);
@@ -245,6 +249,10 @@ defineProps({
             &:where(.ghost-translucent) {
                 --btn-c-border-1: var(--c-grey-border-strong);
             }
+        }
+        & .btn-spinner{
+            border-color: var(--c-theme-border-subtle);
+            border-top-color: var(--c-theme-text-2);
         }
     }
 
@@ -315,18 +323,6 @@ defineProps({
                 animation: spin 1000ms linear infinite;
             }
         }
-    }
-    &.solid .btn-spinner{
-        border-color: rgb(255 255 255 / 0.95);
-        border-top-color: rgb(0 0 0 / 0.45);
-    }
-    &.soft .btn-spinner{
-        border-color: var(--c-theme-border-subtle);
-        border-top-color: var(--c-theme-text-3);
-    }
-    &.subtle .btn-spinner{
-        border-color: var(--c-theme-border-subtle);
-        border-top-color: var(--c-theme-text-2);
     }
 }
 </style>

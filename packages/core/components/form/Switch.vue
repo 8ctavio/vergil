@@ -127,7 +127,7 @@ const model = useModel(props.modelValue)
             background-color: var(--c-theme-solid-1);
             & > .switch-knob {
                 left: calc(var(--base));
-                background-color: var(--c-theme-text-5);
+                background-color: var(--c-theme-text-4);
             }
         }
         &:disabled ~ .switch-track {
@@ -170,7 +170,7 @@ const model = useModel(props.modelValue)
         &.evenTrack {
             background-color: var(--c-theme-solid-1);
             & > .switch-knob {
-                background-color: var(--c-theme-text-5);;
+                background-color: var(--c-theme-text-4);
             }
         }
     }

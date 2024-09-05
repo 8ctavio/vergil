@@ -207,7 +207,7 @@ defineProps({
     }
     &:where(.soft, .plain) .btn-spinner{
         border-color: var(--c-theme-border-subtle);
-        border-top-color: var(--c-theme-text-3);
+        border-top-color: var(--c-theme-text-2);
     }
 }
 .dark .btn3D{
@@ -221,10 +221,10 @@ defineProps({
 .btn3D.solid{
     --btn3D-c-border: var(--c-theme-3);
     background-color: var(--c-theme-solid-1);
-    color: var(--c-theme-text-5);
+    color: var(--c-theme-text-4);
 
     &:not(:disabled) > .icon{
-        color: var(--c-theme-text-4);
+        color: var(--c-theme-text-3);
     }
 }
 
@@ -232,7 +232,7 @@ defineProps({
 .btn3D.soft{
     --btn3D-c-border: var(--c-theme-2);
     background-color: var(--c-theme-soft-3);
-    color: var(--c-theme-text-3);
+    color: var(--c-theme-text-2);
 
     &:not(:disabled) > .icon{
         color: var(--c-theme-text-2);

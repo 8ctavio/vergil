@@ -3,22 +3,20 @@
     --c-moss-solid-2: #4D693F;
     --c-moss-solid-3: #425936;
 
-    --c-moss-soft-1: #EBF1E9;
-    --c-moss-soft-2: #E0E9DD;
-    --c-moss-soft-3: #D8E3D4;
-    --c-moss-soft-4: #CDDAC8;
-    --c-moss-soft-5: #C2D2BC;
+    --c-moss-soft-1: #EEF3EC;
+    --c-moss-soft-2: #E3ECDF;
+    --c-moss-soft-3: #D8E4D3;
+    --c-moss-soft-4: #CDDCC7;
 
     --c-moss-icon: var(--c-moss-solid-1);
     --c-moss-text-1: var(--c-moss-solid-1);
-    --c-moss-text-2: var(--c-moss-solid-2);
-    --c-moss-text-3: var(--c-moss-solid-3);
-    --c-moss-text-4: #F1F5EF;
-    --c-moss-text-5: white;
+    --c-moss-text-2: #466039;
+    --c-moss-text-3: #F1F5EF;
+    --c-moss-text-4: white;
 
-    --rgb-moss-border: 92 122 82;
-    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.3);
-    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.6);
+    --rgb-moss-border: 69 94 59;
+    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.17);
+    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.45);
     --c-moss-border-solid: var(--c-moss-solid-1);
 
     --c-moss-outline: #98B38F;
@@ -28,34 +26,32 @@
     --c-moss-3: var(--c-moss-solid-3);
 
     --rgb-moss-solid: 88 120 72;
-    --rgb-moss-soft: 216 227 212;
+    --rgb-moss-soft: 227 236 223;
 }
 .dark {
     --c-moss-solid-1: #425936;
     --c-moss-solid-2: #4D693F;
     --c-moss-solid-3: #587848;
 
-    --c-moss-soft-1: #151D11;
-    --c-moss-soft-2: #1E2617;
-    --c-moss-soft-3: #242F1D;
-    --c-moss-soft-4: #2D3823;
-    --c-moss-soft-5: #314229;
+    --c-moss-soft-1: #172013;
+    --c-moss-soft-2: #202D1B;
+    --c-moss-soft-3: #2A3A22;
+    --c-moss-soft-4: #33472A;
 
     --c-moss-icon: #6F995C;
     --c-moss-text-1: #90B380;
-    --c-moss-text-2: #B7CAAF;
-    --c-moss-text-3: #CDDAC8;
+    --c-moss-text-2: #B9CEB1;
 
     --rgb-moss-border: 171 198 159;
-    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.2);
-    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.4);
+    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.20);
+    --c-moss-border-strong: rgba(var(--rgb-moss-border) / 0.35);
 
     --c-moss-outline: #48613C;
 
-    --c-moss-1: var(--c-moss-soft-5);
+    --c-moss-1: #314229;
     --c-moss-2: #192115;
     --c-moss-3: #2F3F27;
 
     --rgb-moss-solid: 66 89 54;
-    --rgb-moss-soft: 36 47 29;
+    --rgb-moss-soft: 32 45 27;
 }
