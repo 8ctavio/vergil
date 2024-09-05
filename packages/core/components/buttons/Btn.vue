@@ -101,6 +101,7 @@ defineProps({
 
 <style>
 .btn {
+    --btn-c-icon: var(--btn-c-icon-1);
     --btn-c-border: var(--btn-c-border-1);
     --btn-c-border-b: var(--c-theme-solid-1);
     --btn-bw: 0px;
@@ -124,10 +125,12 @@ defineProps({
     transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
     &:not(.loading) {
-        &:is(:hover, :focus-visible) {
+        &:is(:hover, :focus-visible, :active) {
+            --btn-c-icon: var(--btn-c-icon-2);
             --btn-c-border: var(--btn-c-border-2);
             color: var(--btn-c-text-2);
-
+        }
+        &:is(:hover, :focus-visible) {
             &:not(.fill) {
                 background-color: var(--btn-c-2);
             }
@@ -137,35 +140,38 @@ defineProps({
             }
         }
         &:active {
-            --btn-c-border: var(--btn-c-border-2);
-            color: var(--btn-c-text-2);
-
+            &:where(.solid) {
+                --btn-c-border-b: transparent;
+            }
             &:not(.fill), &.fill > .btn-backdrop {
                 background-color: var(--btn-c-3);
             }
         }
         &:disabled {
+            --btn-c-icon: var(--c-disabled-text);
+            --btn-c-border-b: var(--c-disabled-border-3);
             cursor: not-allowed;
             color: var(--c-disabled-text);
-            --btn-c-border-b: var(--c-disabled-border-3);
 
             &.subtle {
-                background-color: var(--c-disabled-1);
                 --btn-c-border: var(--c-disabled-border-1);
+                background-color: var(--c-disabled-1);
             }
             &:is(.solid, .soft) {
-                background-color: var(--c-disabled-2);
                 --btn-c-border: var(--c-disabled-border-2);
+                background-color: var(--c-disabled-2);
             }
         }
 
         &.ghost-transparent {
             --btn-c-1: transparent;
             --btn-c-text-1: var(--c-theme-text-1);
+            --btn-c-icon-1: var(--c-theme-icon);
         }
         &.ghost-translucent {
             --btn-c-1: rgb(var(--rgb-grey-border) / 0.1);
             --btn-c-text-1: var(--c-grey-text-2);
+            --btn-c-icon-1: var(--c-grey-icon);
         }
     }
     &:focus-visible {
@@ -190,6 +196,8 @@ defineProps({
         --btn-c-3: var(--c-theme-solid-3);
         --btn-c-text-1: var(--c-theme-text-4);
         --btn-c-text-2: var(--c-theme-text-4);
+        --btn-c-icon-1: var(--c-theme-text-3);
+        --btn-c-icon-2: var(--c-theme-text-3);
         &.ghost {
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
@@ -202,17 +210,9 @@ defineProps({
                 --btn-c-border-1: rgb(var(--rgb-grey-border) / 0.75);
             }
         }
-        &:where(:active) {
-            --btn-c-border-b: transparent;
-        }
-        & > .btn-content {
-            & > .icon {
-                color: var(--c-theme-text-3);
-            }
-            & .btn-spinner {
-                border-color: rgb(255 255 255 / 0.95);
-                border-top-color: rgb(0 0 0 / 0.45);
-            }
+        & > .btn-content .btn-spinner {
+            border-color: rgb(255 255 255 / 0.95);
+            border-top-color: rgb(0 0 0 / 0.45);
         }
     }
     &.soft {
@@ -250,6 +250,9 @@ defineProps({
                 --btn-c-border-1: var(--c-grey-border-strong);
             }
         }
+        & > .btn-backdrop {
+            box-shadow: inherit;
+        }
         & .btn-spinner{
             border-color: var(--c-theme-border-subtle);
             border-top-color: var(--c-theme-text-2);
@@ -264,14 +267,14 @@ defineProps({
     }
     &.fill {
         transition: background-color 150ms, color 200ms, box-shadow 150ms;
+        & > .btn-content > .icon {
+            transition: color 200ms;
+        }
     }
     &.squared {
         padding: var(--g-gap-md);
     }
 
-    &:is(.soft, .subtle) > .btn-backdrop {
-        box-shadow: inherit;
-    }
     & > .btn-backdrop{
         position: absolute;
         left: 0;
@@ -297,6 +300,8 @@ defineProps({
             font-size: calc(1em * var(--font-size-scale-icon));
             line-height: var(--line-height-icon);
             aspect-ratio: 1 / 1;
+            color: var(--btn-c-icon, inherit);
+            transition: color 150ms;
         }
 
         & > .btn-loader {
