@@ -143,7 +143,7 @@ defineProps({
             &:where(.solid) {
                 --btn-c-border-b: transparent;
             }
-            &:not(.fill), &.fill > .btn-backdrop {
+            &:not(.fill), &.fill:not(:disabled) > .btn-backdrop {
                 background-color: var(--btn-c-3);
             }
         }
@@ -169,7 +169,7 @@ defineProps({
             --btn-c-icon-1: var(--c-theme-1);
         }
         &.ghost-translucent {
-            --btn-c-1: rgb(var(--rgb-grey-border) / 0.1);
+            --btn-c-1: rgb(var(--rgb-grey-border) / 0.05);
             --btn-c-text-1: var(--c-grey-text-2);
             --btn-c-icon-1: var(--c-grey-1);
         }
