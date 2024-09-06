@@ -19,7 +19,7 @@ defineProps({
     outline: {
         type: [Boolean, String],
         default: props => vergil.config.btn[props.variant]?.outline,
-        validator: v => (typeof v === 'boolean') || ['subtle', 'strong'].includes(v)
+        validator: v => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
     underline: {
         type: Boolean,
@@ -69,18 +69,16 @@ defineProps({
             inferTheme(theme),
             `size-${size}`,
             `radius-${radius}`,
-            `spacing-${spacing}`,
             {
                 ghost,
-                'ghost-transparent': [true,'transparent'].includes(ghost),
-                'ghost-translucent': ghost === 'translucent',
                 outline,
-                'outline-subtle': [true,'subtle'].includes(outline),
-                'outline-strong': outline === 'strong',
                 underline,
                 fill,
                 squared,
                 loading,
+                [`spacing-${spacing}`]: spacing,
+                [`ghost-${ghost === true ? 'transparent' : ghost}`]: ghost,
+                [`outline-${outline === true ? 'regular' : outline}`]: outline,
             }
         ]"
         :disabled="disabled || loading"
@@ -243,11 +241,18 @@ defineProps({
                 --btn-c-border-1: var(--c-grey-border-subtle);
             }
         }
-        &.outline-strong {
+        &.outline-regular {
             --btn-c-border-1: var(--c-theme-border-strong);
             --btn-c-border-2: var(--c-theme-border-strong);
             &:where(.ghost-translucent) {
                 --btn-c-border-1: var(--c-grey-border-strong);
+            }
+        }
+        &.outline-strong {
+            --btn-c-border-1: var(--c-theme-1);
+            --btn-c-border-2: var(--c-theme-1);
+            &:where(.ghost-translucent) {
+                --btn-c-border-1: var(--c-grey-1);
             }
         }
         & > .btn-backdrop {

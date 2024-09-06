@@ -62,9 +62,9 @@ The `'transparent'` value is equivalent to `ghost = true`.
     </div>
 </Demo>
 
-### Outline <Badge><pre>outline: (boolean | 'subtle' | 'strong')</pre></Badge>
+### Outline <Badge><pre>outline: (boolean | 'subtle' | 'regular' | 'strong')</pre></Badge>
 
-For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to `outline = true`. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` buttons are affected.
+For both the `soft` and `subtle` variants, the `'regular'` and `true` values are equivalent. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` buttons are affected.
 
 <Demo>
     <div class="col center">
@@ -73,10 +73,12 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
         </div>
         <div class="row center">
             <Btn variant="soft" outline="subtle" label="Subtle"/>
+            <Btn variant="soft" outline="regular" label="Regular"/>    
             <Btn variant="soft" outline="strong" label="Strong"/>    
         </div>
         <div class="row center">
             <Btn variant="subtle" outline="subtle" label="Subtle"/>
+            <Btn variant="subtle" outline="regular" label="Regular"/>    
             <Btn variant="subtle" outline="strong" label="Strong"/>    
         </div>
     </div>
@@ -130,15 +132,6 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
             <Btn variant="solid" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="solid" outline ghost theme="brand" label="Brand"/>
-            <Btn variant="solid" outline ghost theme="user" label="User"/>
-            <Btn variant="solid" outline ghost theme="ok" label="Ok"/>
-            <Btn variant="solid" outline ghost theme="info" label="Info"/>
-            <Btn variant="solid" outline ghost theme="warn" label="Warn"/>
-            <Btn variant="solid" outline ghost theme="danger" label="Danger"/>
-            <Btn variant="solid" outline ghost theme="neutral" label="Neutral"/>
-        </div>
-        <div class="row center">
             <Btn variant="soft" theme="brand" label="Brand"/>
             <Btn variant="soft" theme="user" label="User"/>
             <Btn variant="soft" theme="ok" label="Ok"/>
@@ -148,13 +141,22 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
             <Btn variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="soft" outline theme="brand" label="Brand"/>
-            <Btn variant="soft" outline theme="user" label="User"/>
-            <Btn variant="soft" outline theme="ok" label="Ok"/>
-            <Btn variant="soft" outline theme="info" label="Info"/>
-            <Btn variant="soft" outline theme="warn" label="Warn"/>
-            <Btn variant="soft" outline theme="danger" label="Danger"/>
-            <Btn variant="soft" outline theme="neutral" label="Neutral"/>
+            <Btn variant="soft" outline="subtle" theme="brand" label="Brand"/>
+            <Btn variant="soft" outline="subtle" theme="user" label="User"/>
+            <Btn variant="soft" outline="subtle" theme="ok" label="Ok"/>
+            <Btn variant="soft" outline="subtle" theme="info" label="Info"/>
+            <Btn variant="soft" outline="subtle" theme="warn" label="Warn"/>
+            <Btn variant="soft" outline="subtle" theme="danger" label="Danger"/>
+            <Btn variant="soft" outline="subtle" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="soft" outline="regular" theme="brand" label="Brand"/>
+            <Btn variant="soft" outline="regular" theme="user" label="User"/>
+            <Btn variant="soft" outline="regular" theme="ok" label="Ok"/>
+            <Btn variant="soft" outline="regular" theme="info" label="Info"/>
+            <Btn variant="soft" outline="regular" theme="warn" label="Warn"/>
+            <Btn variant="soft" outline="regular" theme="danger" label="Danger"/>
+            <Btn variant="soft" outline="regular" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
             <Btn variant="soft" outline="strong" theme="brand" label="Brand"/>
@@ -175,13 +177,22 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
             <Btn variant="subtle" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="subtle" outline theme="brand" label="Brand"/>
-            <Btn variant="subtle" outline theme="user" label="User"/>
-            <Btn variant="subtle" outline theme="ok" label="Ok"/>
-            <Btn variant="subtle" outline theme="info" label="Info"/>
-            <Btn variant="subtle" outline theme="warn" label="Warn"/>
-            <Btn variant="subtle" outline theme="danger" label="Danger"/>
-            <Btn variant="subtle" outline theme="neutral" label="Neutral"/>
+            <Btn variant="subtle" outline="subtle" theme="brand" label="Brand"/>
+            <Btn variant="subtle" outline="subtle" theme="user" label="User"/>
+            <Btn variant="subtle" outline="subtle" theme="ok" label="Ok"/>
+            <Btn variant="subtle" outline="subtle" theme="info" label="Info"/>
+            <Btn variant="subtle" outline="subtle" theme="warn" label="Warn"/>
+            <Btn variant="subtle" outline="subtle" theme="danger" label="Danger"/>
+            <Btn variant="subtle" outline="subtle" theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
+            <Btn variant="subtle" outline="regular" theme="brand" label="Brand"/>
+            <Btn variant="subtle" outline="regular" theme="user" label="User"/>
+            <Btn variant="subtle" outline="regular" theme="ok" label="Ok"/>
+            <Btn variant="subtle" outline="regular" theme="info" label="Info"/>
+            <Btn variant="subtle" outline="regular" theme="warn" label="Warn"/>
+            <Btn variant="subtle" outline="regular" theme="danger" label="Danger"/>
+            <Btn variant="subtle" outline="regular" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
             <Btn variant="subtle" outline="strong" theme="brand" label="Brand"/>
@@ -198,6 +209,15 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
 <Demo>
     <div class="col">
         <div class="row center">
+            <Btn variant="solid" ghost outline theme="brand" label="Brand"/>
+            <Btn variant="solid" ghost outline theme="user" label="User"/>
+            <Btn variant="solid" ghost outline theme="ok" label="Ok"/>
+            <Btn variant="solid" ghost outline theme="info" label="Info"/>
+            <Btn variant="solid" ghost outline theme="warn" label="Warn"/>
+            <Btn variant="solid" ghost outline theme="danger" label="Danger"/>
+            <Btn variant="solid" ghost outline theme="neutral" label="Neutral"/>
+        </div>
+        <div class="row center">
             <Btn variant="soft" ghost outline theme="brand" label="Brand"/>
             <Btn variant="soft" ghost outline theme="user" label="User"/>
             <Btn variant="soft" ghost outline theme="ok" label="Ok"/>
@@ -207,13 +227,13 @@ For both the `soft` and `subtle` variants, the `'subtle'` value is equivalent to
             <Btn variant="soft" ghost outline theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="soft" ghost outline="strong" theme="brand" label="Brand"/>
-            <Btn variant="soft" ghost outline="strong" theme="user" label="User"/>
-            <Btn variant="soft" ghost outline="strong" theme="ok" label="Ok"/>
-            <Btn variant="soft" ghost outline="strong" theme="info" label="Info"/>
-            <Btn variant="soft" ghost outline="strong" theme="warn" label="Warn"/>
-            <Btn variant="soft" ghost outline="strong" theme="danger" label="Danger"/>
-            <Btn variant="soft" ghost outline="strong" theme="neutral" label="Neutral"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="brand" label="Brand"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="user" label="User"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="ok" label="Ok"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="info" label="Info"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="warn" label="Warn"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="danger" label="Danger"/>
+            <Btn variant="subtle" ghost outline="subtle" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -338,9 +358,9 @@ Adding `squared` sets padding to the same value on all sides.
             <Btn loading label="Loading" ghost variant="subtle"/>
         </div>
         <div class="row center">
-            <Btn loading label="Loading" outline variant="solid"/>
-            <Btn loading label="Loading" outline variant="soft"/>
-            <Btn loading label="Loading" outline variant="subtle"/>
+            <Btn loading label="Loading" outline="subtle" variant="solid"/>
+            <Btn loading label="Loading" outline="subtle" variant="soft"/>
+            <Btn loading label="Loading" outline="subtle" variant="subtle"/>
         </div>
         <div class="row center">
             <Btn loading label="Loading" underline variant="solid"/>
@@ -418,43 +438,43 @@ Adding `squared` sets padding to the same value on all sides.
     <div class="row center">
         <Btn icon="rocket_launch" theme="brand" variant="solid"/>
         <Btn icon="rocket_launch" theme="brand" variant="soft"/>
-        <Btn icon="rocket_launch" theme="brand" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="brand" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="brand" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="user" variant="solid"/>
         <Btn icon="rocket_launch" theme="user" variant="soft"/>
-        <Btn icon="rocket_launch" theme="user" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="user" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="user" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="ok" variant="solid"/>
         <Btn icon="rocket_launch" theme="ok" variant="soft"/>
-        <Btn icon="rocket_launch" theme="ok" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="ok" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="ok" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="info" variant="solid"/>
         <Btn icon="rocket_launch" theme="info" variant="soft"/>
-        <Btn icon="rocket_launch" theme="info" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="info" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="info" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="warn" variant="solid"/>
         <Btn icon="rocket_launch" theme="warn" variant="soft"/>
-        <Btn icon="rocket_launch" theme="warn" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="warn" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="warn" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="danger" variant="solid"/>
         <Btn icon="rocket_launch" theme="danger" variant="soft"/>
-        <Btn icon="rocket_launch" theme="danger" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="danger" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="danger" variant="soft" ghost/>
     </div>
     <div class="row center">
         <Btn icon="rocket_launch" theme="neutral" variant="solid"/>
         <Btn icon="rocket_launch" theme="neutral" variant="soft"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="subtle" outline/>
+        <Btn icon="rocket_launch" theme="neutral" variant="subtle" outline="subtle"/>
         <Btn icon="rocket_launch" theme="neutral" variant="soft" ghost/>
     </div>
 </Demo>
@@ -503,7 +523,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `label` | `string` | |
 | `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` |
 | `ghost` | `boolean \| 'transparent' \| 'translucent'` | |
-| `outline` | `boolean \| 'subtle' \| 'strong'` | |
+| `outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | |
 | `underline` | `boolean` | |
 | `fill` | `boolean` | |
 | `icon` | `string` | |
