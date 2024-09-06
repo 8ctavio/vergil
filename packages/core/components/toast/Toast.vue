@@ -85,7 +85,7 @@ const playState = ref('running')
     & > .icon{
         line-height: normal;
         font-size: 1.5em;
-        color: var(--c-theme-icon);
+        color: var(--c-theme-1);
         cursor: default;
         aspect-ratio: initial;
     }
@@ -109,7 +109,7 @@ const playState = ref('running')
         & > div{
             width: 100%;
             height: 100%;
-            background-color: var(--c-theme-icon);
+            background-color: var(--c-theme-1);
             animation-name: move-left;
             animation-duration: v-bind('`${duration}s`');
             animation-fill-mode: forwards;

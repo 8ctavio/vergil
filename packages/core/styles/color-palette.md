@@ -12,7 +12,6 @@
     --c-name-soft-3: #;
     --c-name-soft-4: #;
 
-    --c-name-text-icon: #;
     /* for soft grey background */
     --c-name-text-1: #;
     /* for soft background: --c-name-soft-[1-4] */
@@ -26,17 +25,17 @@
     --c-name-border-subtle: rgba();
     /* for strong borders with soft backgrounds */
     --c-name-border-strong: rgba();
-    /* for solid border */
-    --c-name-border-solid: #;
 
     --c-name-outline: #;
 
-    /* used for ToggleButton 'toggle' variant's background */
+    /* used for icon and border (preferably equal to --c-name-solid-1) */
     --c-name-1: #;
     /* used for soft btn3D border bottom */
     --c-name-2: #;
     /* used for solid btn3D border bottom */
     --c-name-3: #;
+    /* used for ToggleButton 'toggle' variant's background */
+    --c-name-4: #;
 
     /* rgb values of --c-name-solid-1 */
     --rgb-name-solid: #;

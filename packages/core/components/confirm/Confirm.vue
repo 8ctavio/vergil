@@ -40,14 +40,14 @@ function resolveConfirm(response){
 	padding: 20px;
 	padding-left: calc(20px - var(--border-radius-lg));
 	border-radius: var(--border-radius-lg);
-	border-left: var(--border-radius-lg) solid var(--c-theme-solid-1);
+	border-left: var(--border-radius-lg) solid var(--c-theme-1);
 	background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
 	& > .icon{
 		font-size: 1.5em;
 		line-height: normal;
-        color: var(--c-theme-icon);
+        color: var(--c-theme-1);
         cursor: default;
         aspect-ratio: initial;
 	}
@@ -70,6 +70,6 @@ function resolveConfirm(response){
 }
 .dark #confirm-modal{
     border: 1px solid var(--c-grey-soft-2);
-	border-left: var(--border-radius-lg) solid var(--c-theme-solid-1);
+	border-left: var(--border-radius-lg) solid var(--c-theme-1);
 }
 </style>

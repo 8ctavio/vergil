@@ -166,12 +166,12 @@ defineProps({
         &.ghost-transparent {
             --btn-c-1: transparent;
             --btn-c-text-1: var(--c-theme-text-1);
-            --btn-c-icon-1: var(--c-theme-icon);
+            --btn-c-icon-1: var(--c-theme-1);
         }
         &.ghost-translucent {
             --btn-c-1: rgb(var(--rgb-grey-border) / 0.1);
             --btn-c-text-1: var(--c-grey-text-2);
-            --btn-c-icon-1: var(--c-grey-icon);
+            --btn-c-icon-1: var(--c-grey-1);
         }
     }
     &:focus-visible {
@@ -204,7 +204,7 @@ defineProps({
         }
         &.outline {
             &:where(.ghost-transparent) {
-                --btn-c-border: var(--c-theme-border-solid);
+                --btn-c-border-1: var(--c-theme-1);
             }
             &:where(.ghost-translucent) {
                 --btn-c-border-1: rgb(var(--rgb-grey-border) / 0.75);

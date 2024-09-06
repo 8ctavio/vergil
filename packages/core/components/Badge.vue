@@ -100,7 +100,7 @@ defineProps({
         background-color: var(--c-theme-soft-4);
     }
     & > .icon{
-        color: var(--c-theme-icon-2);
+        color: var(--c-theme-1);
     }
 }
 
@@ -122,7 +122,7 @@ defineProps({
         background-color: var(--c-theme-soft-3);
     }
     & > .icon{
-        color: var(--c-theme-icon);
+        color: var(--c-theme-1);
     }
 }
 
@@ -134,7 +134,7 @@ defineProps({
         background-color: var(--c-theme-solid-3);
     }
     & > .icon{
-        color: var(--c-theme-icon-1);
+        color: var(--c-theme-1);
     }
 }
 </style>

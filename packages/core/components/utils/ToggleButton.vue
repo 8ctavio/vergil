@@ -156,7 +156,7 @@ defineProps({
         --toggle-border-c: var(--c-grey-border-strong);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        --toggle-border-c: var(--c-theme-border-solid);
+        --toggle-border-c: var(--c-theme-1);
         --toggle-border-w: 1.5px;
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
@@ -195,11 +195,11 @@ defineProps({
         color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        outline: 2px solid var(--c-theme-border-solid);
+        outline: 2px solid var(--c-theme-1);
         color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        background-color: var(--c-theme-1);
+        background-color: var(--c-theme-4);
         color: var(--c-theme-text-2);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
