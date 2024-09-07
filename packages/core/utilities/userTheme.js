@@ -15,7 +15,7 @@ const cssVars = [
     '--c-user-text-3',
     '--c-user-text-4',
     '--c-user-border-subtle',
-    '--c-user-border-strong',
+    '--c-user-border-regular',
     '--c-user-outline',
     '--c-user-1',
     '--c-user-2',

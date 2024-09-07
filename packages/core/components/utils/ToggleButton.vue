@@ -153,7 +153,7 @@ defineProps({
     transition: box-shadow 150ms;
 
     &:hover {
-        --toggle-border-c: var(--c-grey-border-strong);
+        --toggle-border-c: var(--c-grey-border-regular);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         --toggle-border-c: var(--c-theme-1);

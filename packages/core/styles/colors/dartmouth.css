@@ -15,7 +15,7 @@
 
     --rgb-dartmouth-border: 21 106 69;
     --c-dartmouth-border-subtle: rgba(var(--rgb-dartmouth-border) / 0.20);
-    --c-dartmouth-border-strong: rgba(var(--rgb-dartmouth-border) / 0.45);
+    --c-dartmouth-border-regular: rgba(var(--rgb-dartmouth-border) / 0.45);
 
     --c-dartmouth-outline: #9FCCA4;
 
@@ -42,13 +42,13 @@
 
     --rgb-dartmouth-border: 124 233 184;
     --c-dartmouth-border-subtle: rgba(var(--rgb-dartmouth-border) / 0.18);
-    --c-dartmouth-border-strong: rgba(var(--rgb-dartmouth-border) / 0.32);
+    --c-dartmouth-border-regular: rgba(var(--rgb-dartmouth-border) / 0.32);
 
     --c-dartmouth-outline: #366B57;
 
     --c-dartmouth-1: #1C9B62;
-    --c-dartmouth-2: var(--c-dartmouth-soft-1);
-    --c-dartmouth-3: #0C3B26;
+    --c-dartmouth-2: var(--c-dartmouth-soft-4);
+    --c-dartmouth-3: var(--c-dartmouth-soft-3);
     --c-dartmouth-4: #274E40;
 
     --rgb-dartmouth-solid: 19 94 60;

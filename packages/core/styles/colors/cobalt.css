@@ -15,7 +15,7 @@
 
     --rgb-cobalt-border: 45 93 235;
     --c-cobalt-border-subtle: rgba(var(--rgb-cobalt-border) / 0.20);
-    --c-cobalt-border-strong: rgba(var(--rgb-cobalt-border) / 0.45);
+    --c-cobalt-border-regular: rgba(var(--rgb-cobalt-border) / 0.45);
 
     --c-cobalt-outline: #AEBCE6;
 
@@ -42,12 +42,12 @@
 
     --rgb-cobalt-border: 133 154 224;
     --c-cobalt-border-subtle: rgba(var(--rgb-cobalt-border) / 0.25);
-    --c-cobalt-border-strong: rgba(var(--rgb-cobalt-border) / 0.40);
+    --c-cobalt-border-regular: rgba(var(--rgb-cobalt-border) / 0.40);
 
     --c-cobalt-outline: #2947AB;
 
     --c-cobalt-1: #5A7AE2;
-    --c-cobalt-2: #0F1A3D;
+    --c-cobalt-2: var(--c-cobalt-soft-4);
     --c-cobalt-3: var(--c-cobalt-soft-3);
     --c-cobalt-4: #203783;
 

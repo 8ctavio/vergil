@@ -94,6 +94,12 @@ const vergil = {
         },
         btn3D: {
             variant: 'solid',
+            soft: {
+                outline: undefined
+            },
+            subtle: {
+                outline: undefined
+            },
             bordered: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,

@@ -70,8 +70,8 @@ interface VergilConfiguration {
     btn: {
         variant: ('solid' | 'soft' | 'subtle') = 'solid';
         [variant]: {
-            ghost: boolean | 'transparent' | 'translucent';
-            outline: boolean | 'subtle' | 'strong';
+            ghost: (boolean | 'transparent' | 'translucent');
+            outline: (boolean | 'subtle' | 'regular' | 'strong');
             underline: boolean;
             fill: boolean;
         };
@@ -82,7 +82,10 @@ interface VergilConfiguration {
         squared: boolean;
     },
     btn3D: {
-        variant: ('solid' | 'soft' | 'plain') = 'solid';
+        variant: ('solid' | 'soft' | 'subtle') = 'solid';
+        [variant]: {
+            outline: (boolean | 'subtle' | 'regular' | 'strong');
+        };
         bordered: boolean;
         theme: theme;
         size: size;

@@ -1,5 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
+import MiniMarkup from '../utils/MiniMarkup.vue'
 import { vergil } from '../../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
@@ -8,12 +9,16 @@ defineProps({
     variant: {
         type: String,
         default: () => vergil.config.btn3D.variant,
-        validator: v => isValidVariant('Btn3D', v)
+        validator: v => isValidVariant('Btn', v)
     },
-    bordered: {
-        type: Boolean,
-        default: () => vergil.config.btn3D.bordered
+    outline: {
+        type: [Boolean, String],
+        default: props => vergil.config.btn3D[props.variant]?.outline,
+        validator: v => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
+    icon: String,
+    iconLeft: String,
+    iconRight: String,
     theme: {
         type: String,
         default: () => vergil.config.btn3D.theme ?? vergil.config.global.theme,
@@ -38,9 +43,6 @@ defineProps({
         type: Boolean,
         default: props => vergil.config.btn3D.squared || Boolean(!props.label && props.icon)
     },
-    icon: String,
-    iconLeft: String,
-    iconRight: String,
     disabled: Boolean,
     loading: Boolean
 })
@@ -54,17 +56,20 @@ defineProps({
             inferTheme(theme),
             `size-${size}`,
             `radius-${radius}`,
-            `spacing-${spacing}`,
             {
-                bordered,
+                outline,
                 squared,
                 loading,
+                [`spacing-${spacing}`]: spacing,
+                [`outline-${outline === true ? 'regular' : outline}`]: outline,
             }
         ]"
         :disabled="disabled || loading"
     >
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
-        <slot>{{ label }}</slot>
+        <slot>
+            <MiniMarkup :str="label"/>
+        </slot>
         <Icon v-if="iconRight" :code="iconRight"/>
         <div v-if="loading" class="btn-loader">
             <span class="btn-spinner"></span>
@@ -80,15 +85,16 @@ defineProps({
     --btn3D-elv: 5px;
     --btn3D-elv-hover: 3px;
     --btn3D-elv-dif: calc(var(--btn3D-elv) - var(--btn3D-elv-hover));
-    --btn3D-border: var(--btn3D-elv);
+    --btn3D-front: var(--btn3D-elv);
 
     --btn3D-shadow-x: 5px;
-    --btn3D-shadow-y: calc(var(--btn3D-border) + var(--btn3D-shadow-x));
+    --btn3D-shadow-y: calc(var(--btn3D-front) + var(--btn3D-shadow-x));
     --btn3D-outline-width: 2px;
     --btn3D-outline-offset: 3px;
     --btn3D-outline-span: calc(var(--btn3D-outline-width) + var(--btn3D-outline-offset));
 
-    --btn3D-shadow-1: 0 var(--btn3D-border) var(--btn3D-c-border);
+    --btn3D-shadow-border: inset 0 0 0 var(--btn3D-bw, 0px) var(--btn3D-c-border, transparent);
+    --btn3D-shadow-1: var(--btn3D-shadow-border), 0 var(--btn3D-front) var(--btn3D-c-front);
     --btn3D-shadow-2: var(--btn3D-shadow-x) var(--btn3D-shadow-y) 1px var(--btn3D-c-shadow);
     --btn3D-shadow-outline: 0px 0px 0px var(--btn3D-outline-offset) var(--c-bg-alt),
                             0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-offset) var(--c-bg-alt),
@@ -112,12 +118,11 @@ defineProps({
     cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
 
-    &.squared{
-        padding: var(--g-gap-md);
+    &::selection{
+        background-color: transparent;
     }
-
     &:is(:hover, :focus-visible){
-        --btn3D-border: var(--btn3D-elv-hover);
+        --btn3D-front: var(--btn3D-elv-hover);
         --btn3D-shadow-x: 3px;
         transform: translateY(var(--btn3D-elv-dif));
     }
@@ -148,22 +153,81 @@ defineProps({
         transform: translateY(var(--btn3D-elv));
         transition: box-shadow 100ms, transform 100ms;
     }
-
     &:disabled:not(.loading){
-        background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
-        box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border-2);
         cursor: not-allowed;
         transform: translateY(0);
+
+        &.solid {
+            background-color: var(--c-disabled-2);
+            box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border-3);
+        }
+        &.soft {
+            background-color: var(--c-disabled-1);
+            box-shadow: var(--btn3D-shadow-border), 0 var(--btn3D-elv) var(--c-disabled-border-2);
+        }
+        &.subtle {
+            background-color: var(--c-disabled-1);
+            box-shadow: var(--btn3D-shadow-border), 0 var(--btn3D-elv) var(--c-disabled-border-3);
+        }
+        &.outline-subtle {
+            --btn3D-c-border: var(--c-disabled-border-1);
+        }
+        &.outline-regular {
+            --btn3D-c-border: var(--c-disabled-border-2);
+        }
+        &.outline-strong {
+            --btn3D-c-border: var(--c-disabled-border-3);
+        }
     }
     &.loading{
-        box-shadow: 0 var(--btn3D-elv) var(--btn3D-c-border);
+        box-shadow: 0 var(--btn3D-elv) var(--btn3D-c-front);
         cursor: progress;
         transform: translateY(0);
     }
 
-    &::selection{
-        background-color: transparent;
+    &.solid {
+        --btn3D-c-front: var(--c-theme-3);
+        background-color: var(--c-theme-solid-1);
+        color: var(--c-theme-text-4);
+
+        &:not(:disabled) > .icon{
+            color: var(--c-theme-text-3);
+        }
+        & .btn-spinner{
+            border-color: rgb(255 255 255 / 0.95);
+            border-top-color: rgb(0 0 0 / 0.45);
+        }
+    }
+    &.soft {
+        --btn3D-c-front: var(--c-theme-2);
+        background-color: var(--c-theme-soft-2);
+    }
+    &.subtle {
+        --btn3D-c-front: var(--c-theme-solid-1);
+        background-color: var(--c-theme-soft-1);
+    }
+    &:is(.soft, .subtle) {
+        color: var(--c-theme-text-2);
+        &.outline {
+            --btn3D-bw: 0.8px;
+        }
+        &.outline-subtle {
+            --btn3D-c-border: var(--c-theme-border-subtle);
+        }
+        &.outline-regular {
+            --btn3D-c-border: var(--c-theme-border-regular);
+        }
+        &.outline-strong {
+            --btn3D-c-border: var(--c-theme-1);
+        }
+        & .btn-spinner {
+            border-color: var(--c-theme-border-subtle);
+            border-top-color: var(--c-theme-text-2);
+        }
+    }
+    &.squared{
+        padding: var(--g-gap-md);
     }
 
     & > .icon{
@@ -173,7 +237,6 @@ defineProps({
         aspect-ratio: 1 / 1;
         transition: color 150ms;
     }
-
     & > .btn-loader{
         font-size: 1em;
         position: absolute;
@@ -201,68 +264,8 @@ defineProps({
             animation: spin 1000ms linear infinite;
         }
     }
-    &:where(.solid) .btn-spinner{
-        border-color: rgb(255 255 255 / 0.95);
-        border-top-color: rgb(0 0 0 / 0.45);
-    }
-    &:where(.soft, .plain) .btn-spinner{
-        border-color: var(--c-theme-border-subtle);
-        border-top-color: var(--c-theme-text-2);
-    }
 }
-.dark .btn3D{
+.dark .btn3D {
     --btn3D-c-shadow: rgb(0 0 0 / 0.4);
-}
-
-/*------------------------------------------------
--------------------- VARIANTS --------------------
-------------------------------------------------*/
-/*-------- SOLID --------*/
-.btn3D.solid{
-    --btn3D-c-border: var(--c-theme-3);
-    background-color: var(--c-theme-solid-1);
-    color: var(--c-theme-text-4);
-
-    &:not(:disabled) > .icon{
-        color: var(--c-theme-text-3);
-    }
-}
-
-/*-------- SOFT --------*/
-.btn3D.soft{
-    --btn3D-c-border: var(--c-theme-2);
-    background-color: var(--c-theme-soft-3);
-    color: var(--c-theme-text-2);
-
-    &:not(:disabled) > .icon{
-        color: var(--c-theme-text-2);
-    }
-}
-
-/*-------- PLAIN --------*/
-.btn3D.plain{
-    --btn3D-c-border: var(--c-theme-1);
-    background-color: var(--c-grey-soft-1);
-    color: var(--c-grey-text-1);
-
-    &.bordered{
-        border: 1px solid var(--c-theme-solid-1);
-    }
-    &:disabled:not(.loading){
-        background-color: var(--c-disabled-2);
-        border-color: var(--c-disabled-border-1);
-    }
-    &.loading{
-        background-color: var(--c-theme-soft-1);
-    }
-    &:not(:disabled) > .icon{
-        color: var(--c-theme-1);
-    }
-}
-.dark .btn3D.plain{
-    --btn3D-c-border: var(--c-theme-solid-3);
-    &:where(.bordered){
-        border-color: var(--c-theme-solid-3);
-    }
 }
 </style>

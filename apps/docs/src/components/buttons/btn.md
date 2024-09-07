@@ -27,7 +27,7 @@ import { Btn } from '@8ctavio/vergil/components'
 
 ## Props
 
-### Label <Badge type="tip"><pre>label: string = ''</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+### Label <Badge type="tip"><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 Simple `Btn` text content can be specified through the default slot or the `label` prop. The slot content overrides the `label` prop.
 

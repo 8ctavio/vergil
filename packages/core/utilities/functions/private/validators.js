@@ -17,8 +17,6 @@ export function isValidVariant(c,v){
     switch(c){
         case 'Btn':
             return ['solid', 'soft', 'subtle'].includes(v)
-        case 'Btn3D':
-            return ['solid', 'soft', 'plain'].includes(v)
         case 'ToggleButton':
             return ['classic', 'card', 'toggle', 'list'].includes(v)
     }

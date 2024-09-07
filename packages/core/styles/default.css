@@ -26,7 +26,7 @@
     --c-theme-text-4: var(--c-moss-text-4);
 
     --c-theme-border-subtle: var(--c-moss-border-subtle);
-    --c-theme-border-strong: var(--c-moss-border-strong);
+    --c-theme-border-regular: var(--c-moss-border-regular);
 
     --c-theme-outline: var(--c-moss-outline);
 
@@ -56,7 +56,7 @@
     --c-theme-text-4: var(--c-user-text-4);
 
     --c-theme-border-subtle: var(--c-user-border-subtle);
-    --c-theme-border-strong: var(--c-user-border-strong);
+    --c-theme-border-regular: var(--c-user-border-regular);
 
     --c-theme-outline: var(--c-user-outline);
 
@@ -86,7 +86,7 @@
     --c-theme-text-4: var(--c-grey-text-4);
 
     --c-theme-border-subtle: var(--c-grey-border-subtle);
-    --c-theme-border-strong: var(--c-grey-border-strong);
+    --c-theme-border-regular: var(--c-grey-border-regular);
 
     --c-theme-outline: var(--c-grey-outline);
 
@@ -116,7 +116,7 @@
     --c-theme-text-4: var(--c-dartmouth-text-4);
 
     --c-theme-border-subtle: var(--c-dartmouth-border-subtle);
-    --c-theme-border-strong: var(--c-dartmouth-border-strong);
+    --c-theme-border-regular: var(--c-dartmouth-border-regular);
 
     --c-theme-outline: var(--c-dartmouth-outline);
 
@@ -146,7 +146,7 @@
     --c-theme-text-4: var(--c-cobalt-text-4);
 
     --c-theme-border-subtle: var(--c-cobalt-border-subtle);
-    --c-theme-border-strong: var(--c-cobalt-border-strong);
+    --c-theme-border-regular: var(--c-cobalt-border-regular);
 
     --c-theme-outline: var(--c-cobalt-outline);
 
@@ -176,7 +176,7 @@
     --c-theme-text-4: var(--c-yellow-text-4);
 
     --c-theme-border-subtle: var(--c-yellow-border-subtle);
-    --c-theme-border-strong: var(--c-yellow-border-strong);
+    --c-theme-border-regular: var(--c-yellow-border-regular);
 
     --c-theme-outline: var(--c-yellow-outline);
 
@@ -206,7 +206,7 @@
     --c-theme-text-4: var(--c-red-text-4);
 
     --c-theme-border-subtle: var(--c-red-border-subtle);
-    --c-theme-border-strong: var(--c-red-border-strong);
+    --c-theme-border-regular: var(--c-red-border-regular);
 
     --c-theme-outline: var(--c-red-outline);
 

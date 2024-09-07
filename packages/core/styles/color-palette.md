@@ -23,8 +23,8 @@
 
     /* for subtle borders with soft backgrounds */
     --c-name-border-subtle: rgba();
-    /* for strong borders with soft backgrounds */
-    --c-name-border-strong: rgba();
+    /* for regular borders with soft backgrounds */
+    --c-name-border-regular: rgba();
 
     --c-name-outline: #;
 

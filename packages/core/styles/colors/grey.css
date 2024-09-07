@@ -15,7 +15,7 @@
 
     --rgb-grey-border: 127 127 127;
     --c-grey-border-subtle: rgba(var(--rgb-grey-border) / 0.25);
-    --c-grey-border-strong: rgba(var(--rgb-grey-border) / 0.55);
+    --c-grey-border-regular: rgba(var(--rgb-grey-border) / 0.55);
     
     --c-grey-outline: #BFBFBF;
 
@@ -43,8 +43,8 @@
     --c-grey-outline: #4E4E4E;
 
     --c-grey-1: #909090;
-    --c-grey-2: #151515;
-    --c-grey-3: #454545;
+    --c-grey-2: var(--c-grey-soft-4);
+    --c-grey-3: var(--c-grey-soft-3);
     --c-grey-4: #373737;
 
     --rgb-grey-solid: 82 82 82;

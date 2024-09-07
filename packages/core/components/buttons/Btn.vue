@@ -242,10 +242,10 @@ defineProps({
             }
         }
         &.outline-regular {
-            --btn-c-border-1: var(--c-theme-border-strong);
-            --btn-c-border-2: var(--c-theme-border-strong);
+            --btn-c-border-1: var(--c-theme-border-regular);
+            --btn-c-border-2: var(--c-theme-border-regular);
             &:where(.ghost-translucent) {
-                --btn-c-border-1: var(--c-grey-border-strong);
+                --btn-c-border-1: var(--c-grey-border-regular);
             }
         }
         &.outline-strong {
@@ -265,7 +265,7 @@ defineProps({
     }
 
     &.outline {
-        --btn-bw: 1px;
+        --btn-bw: 0.8px;
     }
     &.underline {
         --btn-bw-b: var(--component-border-bottom-width);

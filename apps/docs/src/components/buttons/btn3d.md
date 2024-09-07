@@ -27,7 +27,7 @@ import { Btn3D } from '@8ctavio/vergil/components'
 
 ## Props
 
-### Label <Badge type="tip"><pre>label: string = ''</pre></Badge>
+### Label <Badge type="tip"><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 Simple `Btn3D` text content can be specified through the default slot or the `label` prop. The slot content overrides the `label` prop.
 
@@ -35,21 +35,31 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
 <Btn3D label="Click"/>
 ```
 
-### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'plain') = 'solid'</pre></Badge>
+### Variant <Badge type="tip"><pre>variant: ('solid' | 'soft' | 'subtle') = 'solid'</pre></Badge>
 
 <Demo>
     <Btn3D variant="solid" label="Solid"/>
     <Btn3D variant="soft" label="Soft"/>
-    <Btn3D variant="plain" label="Plain"/>
+    <Btn3D variant="subtle" label="Subtle"/>
 </Demo>
 
-### Bordered <Badge type="tip"><pre>bordered: boolean</pre></Badge> <Badge type="warning">only for <pre>variant = "plain"</pre></Badge>
+### Outline <Badge><pre>outline: (boolean | 'subtle' | 'regular' | 'strong')</pre></Badge> <Badge type="warning">only for <pre>soft</pre> and <pre>subtle</pre> variants</Badge>
 
-```vue
-<Btn3D variant="plain" bordered label="Bordered"/>
-```
+The `'regular'` and `true` values are equivalent.
+
 <Demo>
-    <Btn3D variant="plain" bordered label="Bordered"/>
+    <div class="col center">
+        <div class="row center">
+            <Btn3D variant="soft" outline="subtle" label="Subtle"/>
+            <Btn3D variant="soft" outline="regular" label="Regular"/>    
+            <Btn3D variant="soft" outline="strong" label="Strong"/>    
+        </div>
+        <div class="row center">
+            <Btn3D variant="subtle" outline="subtle" label="Subtle"/>
+            <Btn3D variant="subtle" outline="regular" label="Regular"/>    
+            <Btn3D variant="subtle" outline="strong" label="Strong"/>    
+        </div>
+    </div>
 </Demo>
 
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -75,13 +85,13 @@ Simple `Btn3D` text content can be specified through the default slot or the `la
             <Btn3D variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn3D variant="plain" theme="brand" label="Brand"/>
-            <Btn3D variant="plain" theme="user" label="User"/>
-            <Btn3D variant="plain" theme="ok" label="Ok"/>
-            <Btn3D variant="plain" theme="info" label="Info"/>
-            <Btn3D variant="plain" theme="warn" label="Warn"/>
-            <Btn3D variant="plain" theme="danger" label="Danger"/>
-            <Btn3D variant="plain" theme="neutral" label="Neutral"/>
+            <Btn3D variant="subtle" theme="brand" label="Brand"/>
+            <Btn3D variant="subtle" theme="user" label="User"/>
+            <Btn3D variant="subtle" theme="ok" label="Ok"/>
+            <Btn3D variant="subtle" theme="info" label="Info"/>
+            <Btn3D variant="subtle" theme="warn" label="Warn"/>
+            <Btn3D variant="subtle" theme="danger" label="Danger"/>
+            <Btn3D variant="subtle" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -179,7 +189,7 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D disabled label="Disabled" variant="solid"/>
     <Btn3D disabled label="Disabled" variant="soft"/>
-    <Btn3D disabled label="Disabled" variant="plain"/>
+    <Btn3D disabled label="Disabled" variant="subtle"/>
 </Demo>
 
 ### Loading <Badge type="tip"><pre>loading: boolean</pre></Badge>
@@ -187,39 +197,39 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D label="Loading" loading variant="solid"/>
     <Btn3D label="Loading" loading variant="soft"/>
-    <Btn3D label="Loading" loading variant="plain"/>
+    <Btn3D label="Loading" loading variant="subtle"/>
 </Demo>
 
 <Demo>
     <div class="row center">
         <Btn3D label="Loading" loading theme="user" variant="solid"/>
         <Btn3D label="Loading" loading theme="user" variant="soft"/>
-        <Btn3D label="Loading" loading theme="user" variant="plain"/>
+        <Btn3D label="Loading" loading theme="user" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="ok" variant="solid"/>
         <Btn3D label="Loading" loading theme="ok" variant="soft"/>
-        <Btn3D label="Loading" loading theme="ok" variant="plain"/>
+        <Btn3D label="Loading" loading theme="ok" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="info" variant="solid"/>
         <Btn3D label="Loading" loading theme="info" variant="soft"/>
-        <Btn3D label="Loading" loading theme="info" variant="plain"/>
+        <Btn3D label="Loading" loading theme="info" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="warn" variant="solid"/>
         <Btn3D label="Loading" loading theme="warn" variant="soft"/>
-        <Btn3D label="Loading" loading theme="warn" variant="plain"/>
+        <Btn3D label="Loading" loading theme="warn" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="danger" variant="solid"/>
         <Btn3D label="Loading" loading theme="danger" variant="soft"/>
-        <Btn3D label="Loading" loading theme="danger" variant="plain"/>
+        <Btn3D label="Loading" loading theme="danger" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D label="Loading" loading theme="neutral" variant="solid"/>
         <Btn3D label="Loading" loading theme="neutral" variant="soft"/>
-        <Btn3D label="Loading" loading theme="neutral" variant="plain"/>
+        <Btn3D label="Loading" loading theme="neutral" variant="subtle"/>
     </div>
 </Demo>
 
@@ -258,37 +268,37 @@ Adding `squared` sets padding to the same value on all sides.
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="subtle"/>
     </div>
     <div class="row center">
         <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="solid"/>
         <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="plain"/>
+        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="subtle"/>
     </div>
 </Demo>
 
@@ -301,7 +311,7 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <Btn3D label="Omega" icon-right="special_character" variant="solid"/>
     <Btn3D label="Omega" icon-right="special_character" variant="soft"/>
-    <Btn3D label="Omega" icon-right="special_character" variant="plain"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="subtle"/>
 </Demo>
 
 <Demo>
@@ -334,18 +344,18 @@ Adding `squared` sets padding to the same value on all sides.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
-| `variant` | `'solid' \| 'soft' \| 'plain'` | `'solid'` |
-| `bordered` | `boolean` | `false` |
+| `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` |
+| `outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | |
+| `icon` | `string` | |
+| `iconLeft` | `string` | |
+| `iconRight` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `squared` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-| `loading` | `boolean` | `false` |
-| `icon` | `string` | `''` |
-| `icon-left` | `string` | `''` |
-| `icon-right` | `string` | `''` |
+| `squared` | `boolean` | |
+| `disabled` | `boolean` | |
+| `loading` | `boolean` | |
 
 ### Configuration options
 
@@ -354,7 +364,7 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 | `btn3D.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
-| `bordered` | |
+| `<variant>.outline` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
@@ -365,4 +375,13 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 
 ### Anatomy
 
-![Btn Anatomy](../../assets/btn3D-anatomy.png)
+<Demo>
+    <Anatomy tag="button" classes="btn3D">
+        <Anatomy tag="Icon" classes="icon"/>
+        <Anatomy tag="slot #default"/>
+        <Anatomy tag="Icon" classes="icon"/>
+        <Anatomy tag="div" classes="btn-loader">
+            <Anatomy tag="span" classes="btn-spinner"/>
+        </Anatomy>
+    </Anatomy>
+</Demo>
