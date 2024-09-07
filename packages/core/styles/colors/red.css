@@ -49,7 +49,7 @@
     --c-red-1: #D93039;
     --c-red-2: var(--c-red-soft-4);
     --c-red-3: var(--c-red-soft-3);
-    --c-red-4: #6D171E;
+    --c-red-4: var(--c-red-soft-3);
 
     --rgb-red-solid: 166 38 44;
     --rgb-red-soft: 63 14 18;

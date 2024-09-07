@@ -93,10 +93,11 @@ const btnProps = extendedReactive({
             lastSearch.value = ''
         }
     },
-    label: props[`btn${btnPositionName}`]?.label ?? '',
+    label: props[`btn${btnPositionName}`]?.label,
     variant: props[`btn${btnPositionName}`]?.variant ?? 'subtle',
-    outline: true,
-    underline: false,
+    ghost: props[`btn${btnPositionName}`]?.ghost,
+    outline: props[`btn${btnPositionName}`]?.outline ?? 'subtle',
+    underline: props[`btn${btnPositionName}`]?.underline,
     fill: props[`btn${btnPositionName}`]?.fill,
     squared: props[`btn${btnPositionName}`]?.squared,
 })

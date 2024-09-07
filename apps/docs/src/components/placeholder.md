@@ -35,11 +35,11 @@ import { Placeholder } from '@8ctavio/vergil/components'
 The `Placeholder` component features a [`Badge`](/components/badge) to display details. All `Placeholder` props are forwarded to its inner `Badge`.
 
 ```vue
-<Placeholder label="Placeholder" size="sm" variant="outline"/>
+<Placeholder label="Placeholder" outline size="sm"/>
 ```
 
 <Demo>
-    <Placeholder label="Placeholder" size="sm" variant="outline"/>
+    <Placeholder label="Placeholder" outline size="sm"/>
 </Demo>
 
 ## API Reference

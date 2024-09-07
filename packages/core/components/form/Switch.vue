@@ -143,7 +143,7 @@ const model = useModel(props.modelValue)
     }
     & > .switch-track {
         --base: 1em * var(--font-size-scale-icon) * var(--line-height-icon);
-        --ratio: 0.6;
+        --ratio: 0.7;
 
         box-sizing: border-box;
         position: relative;
@@ -164,14 +164,11 @@ const model = useModel(props.modelValue)
             height: 100%;
             aspect-ratio: 1 / 1;
             border-radius: inherit;
-            background-color: var(--c-grey-text-5);
+            background-color: var(--c-grey-text-4);
             transition: left 150ms, background-color 150ms;
         }
         &.evenTrack {
             background-color: var(--c-theme-solid-1);
-            & > .switch-knob {
-                background-color: var(--c-theme-text-4);
-            }
         }
     }
 }

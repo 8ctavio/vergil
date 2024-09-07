@@ -51,7 +51,7 @@
     --c-yellow-1: var(--c-yellow-solid-1);
     --c-yellow-2: var(--c-yellow-soft-4);
     --c-yellow-3: #805E00;
-    --c-yellow-4: #664D00;
+    --c-yellow-4: var(--c-yellow-soft-3);
 
     --rgb-yellow-solid: 224 165 0;
     --rgb-yellow-soft: 56 41 0;

@@ -49,7 +49,7 @@
     --c-denim-1: #107DF9;
     --c-denim-2: var(--c-denim-soft-4);
     --c-denim-3: var(--c-denim-soft-3);
-    --c-denim-4: #043C7B;
+    --c-denim-4: var(--c-denim-soft-3);
 
     --rgb-denim-solid: 4 84 174;
     --rgb-denim-soft: 1 38 81;

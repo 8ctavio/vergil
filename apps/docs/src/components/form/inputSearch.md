@@ -69,8 +69,10 @@ Position of the built-in search button. The prop for the button in the selected 
 
 - `label`
 - `variant`
+- `ghost`
+- `outline`
+- `underline`
 - `fill`
-- `borderless`
 - `squared`
 - If `btn-position` is `'before'`, `iconLeft`, otherwise `iconRight`.
 
@@ -99,7 +101,7 @@ The prop for the other button can be normally passed.
 </Demo>
 
 :::info
-The `btn-position` prop does not support reactive properties.
+The `btn-position` prop does not support reactive values.
 :::
 
 ## Events

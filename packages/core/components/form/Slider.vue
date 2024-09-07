@@ -108,11 +108,11 @@ const valueWidth = computed(() => props.max.length)
 .form-field.slider {
     &.size-sm > .slider-outer > .slider-wrapper {
         --track-height: 3.5px;
-        --knob-radius: 7px;
+        --knob-radius: 6px;
     }
     &.size-md > .slider-outer > .slider-wrapper {
         --track-height: 5px;
-        --knob-radius: 8px;
+        --knob-radius: 7px;
     }
     &.size-lg > .slider-outer > .slider-wrapper {
         --track-height: 6.5px;
@@ -163,10 +163,10 @@ const valueWidth = computed(() => props.max.length)
             z-index: 1;
 
             &:not(:disabled):hover + .slider-track > .slider-progress > .slider-knob {
-                box-shadow: 0 0 0 calc(1em * 10/14 * 0.6) rgb(var(--rgb-theme-solid) / 0.15);
+                box-shadow: 0 0 0 calc(1em * 10/14 * 0.6) var(--c-theme-border-subtle);
             }
             &:not(:disabled):active + .slider-track > .slider-progress > .slider-knob {
-                box-shadow: 0 0 0 calc(1em * 10/14) rgb(var(--rgb-theme-solid) / 0.15);
+                box-shadow: 0 0 0 calc(1em * 10/14 * 0.9) var(--c-theme-border-subtle);
             }
             &:disabled {
                 cursor: not-allowed;
@@ -205,7 +205,7 @@ const valueWidth = computed(() => props.max.length)
                     height: var(--knob-diameter);
                     aspect-ratio: 1 / 1;
                     border-radius: var(--g-radius);
-                    background-color: var(--c-theme-text-2);
+                    background-color: var(--c-theme-1);
                     transition: box-shadow 150ms;
                 }
             }

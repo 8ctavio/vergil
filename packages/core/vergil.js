@@ -60,6 +60,12 @@ const vergil = {
         },
         badge: {
             variant: 'soft',
+            soft: {
+                outline: undefined
+            },
+            subtle: {
+                outline: undefined
+            },
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,

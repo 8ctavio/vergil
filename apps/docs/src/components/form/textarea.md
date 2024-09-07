@@ -156,8 +156,6 @@ The maximum string length that can be entered into the textarea.
 
 ### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
-> Adjusts padding and gap for a every size.
-
 <Demo>
     <div class="col">
         <div class="row center">

@@ -99,8 +99,8 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
 <style>
 .textarea-wrapper{
     --textarea-bw-b: 0.5px;
-    --textarea-bc: var(--c-grey-border-subtle-3);
-    --textarea-bc-b: var(--c-grey-border-subtle-3);
+    --textarea-bc: var(--c-grey-border-subtle);
+    --textarea-bc-b: var(--c-grey-border-subtle);
 
     font-size: 1em;
     position: relative;
@@ -123,7 +123,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
     }
     &:has(textarea:disabled){
         --textarea-bc: var(--c-disabled-border-2);
-        --textarea-bc-b: var(--c-disabled-border-2);
+        --textarea-bc-b: var(--c-disabled-border-3);
         color: var(--c-disabled-text);
         background-color: var(--c-disabled-1);
         & > textarea{
@@ -131,7 +131,7 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
         }
     }
     &.underline {
-        --textarea-bw-b: 2px;
+        --textarea-bw-b: var(--component-border-bottom-width);
         --textarea-bc-b: var(--c-theme-solid-1);
     }
 

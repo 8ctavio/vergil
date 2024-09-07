@@ -30,14 +30,14 @@ defineProps({
     --placeholder-pattern-width: 2px;
     --placeholder-pattern-gap: 10px;
     position: relative;
-    border: 2px dashed var(--c-grey-border-subtle-4);
+    border: 2px dashed var(--c-grey-border-regular);
     border-radius: var(--g-radius);
     background: repeating-linear-gradient(
         -45deg,
         var(--c-grey-soft-3),
         var(--c-grey-soft-3) var(--placeholder-pattern-width),
         transparent var(--placeholder-pattern-width),
-        transparent var( --placeholder-pattern-gap)
+        transparent var(--placeholder-pattern-gap)
     );
     & > .badge {
         position: absolute;

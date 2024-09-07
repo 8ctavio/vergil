@@ -49,7 +49,7 @@
     --c-moss-1: #6B9358;
     --c-moss-2: var(--c-moss-soft-4);
     --c-moss-3: var(--c-moss-soft-3);
-    --c-moss-4: #314229;
+    --c-moss-4: var(--c-moss-soft-3);
 
     --rgb-moss-solid: 66 89 54;
     --rgb-moss-soft: 32 45 27;

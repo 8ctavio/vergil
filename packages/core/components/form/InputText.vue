@@ -94,15 +94,15 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         :label :hint :description :help :float-label="canLabelFloat"
         :size :radius :spacing
         >
-        <div :class="['input-text-outer', { underline }]">
-            <Btn v-if="showBtnBefore" variant="outline" v-bind="btnBefore"
+        <div class="input-text-outer">
+            <Btn v-if="showBtnBefore" v-bind="btnBefore"
                 :theme
                 :size
                 :radius
                 :spacing
                 :disabled="disabled || btnBefore.disabled"
                 />
-            <div :class="['input-text-wrapper', inferTheme(theme)]">
+            <div :class="['input-text-wrapper', inferTheme(theme), { underline }]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
@@ -121,7 +121,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 <p v-if="suffix">{{ suffix }}</p>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
-            <Btn v-if="showBtnAfter" variant="outline" v-bind="btnAfter"
+            <Btn v-if="showBtnAfter" v-bind="btnAfter"
                 :theme
                 :size
                 :radius
@@ -158,28 +158,14 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
-        &.outline{
-            --btn-bw: 0.5px;
-            --btn-bw-b: 0.5px;
-        }
-    }
-    &:where(.underline){
-        & > .btn.outline{
-            --btn-bw-b: 2px;
-            --btn-bc-b: var(--c-theme-solid-1);
-        }
-        & > .input-text-wrapper{
-            --text-input-bw-b: 2px;
-            --text-input-bc-b: var(--c-theme-solid-1);
-        }
     }
 }
-.input-text-wrapper{
-    --text-input-bw-l: 0.5px;
-    --text-input-bw-r: 0.5px;
-    --text-input-bw-b: 0.5px;
-    --text-input-bc: var(--c-grey-border-subtle-3);
-    --text-input-bc-b: var(--c-grey-border-subtle-3);
+.input-text-wrapper {
+    --text-input-bw-l: 0.8px;
+    --text-input-bw-r: 0.8px;
+    --text-input-bw-b: 0.8px;
+    --text-input-bc: var(--c-grey-border-subtle);
+    --text-input-bc-b: var(--c-grey-border-subtle);
 
     font-size: 1em;
     position: relative;
@@ -192,7 +178,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     background-color: var(--c-bg);
     color: var(--c-text);
     box-shadow: inset 0 calc(var(--text-input-bw-b) * -1) var(--text-input-bc-b),
-                inset 0 0.5px var(--text-input-bc),
+                inset 0 0.8px var(--text-input-bc),
                 inset var(--text-input-bw-l) 0 var(--text-input-bc),
                 inset calc(var(--text-input-bw-r) * -1) 0 var(--text-input-bc);
     outline: 0 solid transparent;
@@ -204,15 +190,19 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     }
     &:has(input:disabled){
         --text-input-bc: var(--c-disabled-border-2);
-        --text-input-bc-b: var(--c-disabled-border-2);
+        --text-input-bc-b: var(--c-disabled-border-3);
         color: var(--c-disabled-text);
         background-color: var(--c-disabled-1);
         & > input{
             cursor: not-allowed;
         }
     }
+    &.underline {
+        --text-input-bw-b: var(--component-border-bottom-width);
+        --text-input-bc-b: var(--c-theme-solid-1);
+    }
 
-    & > input{
+    & > input {
         font-size: 1em;
         font-family: var(--font-sans);
         width: 100%;
@@ -221,10 +211,10 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         &.text-left{ text-align: left; }
         &.text-center{ text-align: center; }
         &.text-right{ text-align: right; }
-        &::placeholder{
+        &::placeholder {
             color: var(--c-grey-1);
         }
-        &:placeholder-shown:not(:focus) + label{
+        &:placeholder-shown:not(:focus) + label {
             font-size: 1em;
             padding: var(--g-gap-md) var(--g-gap-lg);
             transform: translateY(0);
@@ -233,7 +223,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
             transition: transform 150ms 50ms, padding 150ms, font-size 150ms 50ms, color 150ms 50ms;
         }
     }
-    & > label{
+    & > label {
         font-size: 0.9em;
         position: absolute;
         top: 0;
@@ -246,11 +236,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         padding-bottom: var(--g-gap-sm);
         transition: transform 150ms, padding 150ms 50ms, font-size 150ms, color 150ms;
     }
-    & > p{
+    & > p {
         font-size: 0.9em;
-        color: var(--c-grey-text-3);
+        color: var(--c-grey-text-1);
     }
-    & > .icon{
+    & > .icon {
         font-size: calc(1em * var(--font-size-scale-icon));
         line-height: var(--line-height-icon);
         color: var(--c-theme-1);

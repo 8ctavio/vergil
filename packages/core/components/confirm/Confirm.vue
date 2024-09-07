@@ -22,7 +22,7 @@ function resolveConfirm(response){
 				<MiniMarkup :str="confirmModel.content.description"/>
 			</p>
 			<div>
-				<Btn variant="subtle" outline theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
+				<Btn variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
 				<Btn variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
 			</div>
 		</div>

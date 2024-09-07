@@ -61,6 +61,9 @@ interface VergilConfiguration {
     },
     badge: {
         variant: ('soft' | 'outline' | 'solid') = 'soft';
+        [variant]: {
+            outline: (boolean | 'subtle' | 'regular' | 'strong');
+        };
         theme: theme;
         size: size;
         radius: radius;

@@ -45,7 +45,7 @@
     --c-grey-1: #909090;
     --c-grey-2: var(--c-grey-soft-4);
     --c-grey-3: var(--c-grey-soft-3);
-    --c-grey-4: #373737;
+    --c-grey-4: var(--c-grey-soft-3);
 
     --rgb-grey-solid: 82 82 82;
     --rgb-grey-soft: 35 35 35;

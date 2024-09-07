@@ -49,7 +49,7 @@
     --c-cobalt-1: #5A7AE2;
     --c-cobalt-2: var(--c-cobalt-soft-4);
     --c-cobalt-3: var(--c-cobalt-soft-3);
-    --c-cobalt-4: #203783;
+    --c-cobalt-4: var(--c-cobalt-soft-3);
 
     --rgb-cobalt-solid: 43 72 166;
     --rgb-cobalt-soft: 20 33 77;

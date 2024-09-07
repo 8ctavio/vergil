@@ -33,18 +33,46 @@ Text content can be specified through the default slot or the `label` prop. The 
 <Badge label="Construction ahead. Expect delays."/>
 ```
 
-### Variant <Badge><pre>variant: ('soft' | 'outline' | 'solid') = 'soft'</pre></Badge>
+### Variant <Badge><pre>variant: ('solid' | 'soft' | 'subtle') = 'soft'</pre></Badge>
 
 <Demo>
-    <VergilBadge variant="soft" label="Soft"/>
-    <VergilBadge variant="outline" label="Outline"/>
     <VergilBadge variant="solid" label="Solid"/>
+    <VergilBadge variant="soft" label="Soft"/>
+    <VergilBadge variant="subtle" label="Subtle"/>
+</Demo>
+
+### Outline <Badge><pre>outline: (boolean | 'subtle' | 'regular' | 'strong')</pre></Badge> <Badge type="warning">only for <pre>soft</pre> and <pre>subtle</pre> variants</Badge>
+
+The `'regular'` and `true` values are equivalent.
+
+<Demo>
+    <div class="col center">
+        <div class="row center">
+            <VergilBadge variant="soft" outline="subtle" label="Subtle"/>
+            <VergilBadge variant="soft" outline="regular" label="Regular"/>    
+            <VergilBadge variant="soft" outline="strong" label="Strong"/>    
+        </div>
+        <div class="row center">
+            <VergilBadge variant="subtle" outline="subtle" label="Subtle"/>
+            <VergilBadge variant="subtle" outline="regular" label="Regular"/>    
+            <VergilBadge variant="subtle" outline="strong" label="Strong"/>    
+        </div>
+    </div>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <VergilBadge variant="solid" theme="brand" label="Brand"/>
+            <VergilBadge variant="solid" theme="user" label="User"/>
+            <VergilBadge variant="solid" theme="ok" label="Ok"/>
+            <VergilBadge variant="solid" theme="info" label="Info"/>
+            <VergilBadge variant="solid" theme="warn" label="Warn"/>
+            <VergilBadge variant="solid" theme="danger" label="Danger"/>
+            <VergilBadge variant="solid" theme="neutral" label="Neutral"/>
+        </div>
         <div class="row center">
             <VergilBadge variant="soft" theme="brand" label="Brand"/>
             <VergilBadge variant="soft" theme="user" label="User"/>
@@ -55,22 +83,13 @@ Text content can be specified through the default slot or the `label` prop. The 
             <VergilBadge variant="soft" theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <VergilBadge variant="outline" theme="brand" label="Brand"/>
-            <VergilBadge variant="outline" theme="user" label="User"/>
-            <VergilBadge variant="outline" theme="ok" label="Ok"/>
-            <VergilBadge variant="outline" theme="info" label="Info"/>
-            <VergilBadge variant="outline" theme="warn" label="Warn"/>
-            <VergilBadge variant="outline" theme="danger" label="Danger"/>
-            <VergilBadge variant="outline" theme="neutral" label="Neutral"/>
-        </div>
-        <div class="row center">
-            <VergilBadge variant="solid" theme="brand" label="Brand"/>
-            <VergilBadge variant="solid" theme="user" label="User"/>
-            <VergilBadge variant="solid" theme="ok" label="Ok"/>
-            <VergilBadge variant="solid" theme="info" label="Info"/>
-            <VergilBadge variant="solid" theme="warn" label="Warn"/>
-            <VergilBadge variant="solid" theme="danger" label="Danger"/>
-            <VergilBadge variant="solid" theme="neutral" label="Neutral"/>
+            <VergilBadge variant="subtle" theme="brand" label="Brand"/>
+            <VergilBadge variant="subtle" theme="user" label="User"/>
+            <VergilBadge variant="subtle" theme="ok" label="Ok"/>
+            <VergilBadge variant="subtle" theme="info" label="Info"/>
+            <VergilBadge variant="subtle" theme="warn" label="Warn"/>
+            <VergilBadge variant="subtle" theme="danger" label="Danger"/>
+            <VergilBadge variant="subtle" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -167,39 +186,39 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 
 <Demo>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="brand" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="brand" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="brand" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="brand" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="brand" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="user" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="user" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="user" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="user" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="user" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="ok" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="ok" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="ok" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="ok" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="ok" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="info" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="info" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="info" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="info" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="info" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="warn" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="warn" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="warn" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="warn" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="warn" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="danger" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="danger" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="danger" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="danger" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="danger" variant="subtle"/>
     </div>
     <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="neutral" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="neutral" variant="outline"/>
         <VergilBadge icon="rocket_launch" theme="neutral" variant="solid"/>
+        <VergilBadge icon="rocket_launch" theme="neutral" variant="soft"/>
+        <VergilBadge icon="rocket_launch" theme="neutral" variant="subtle"/>
     </div>
 </Demo>
 
@@ -210,9 +229,9 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 ```
 
 <Demo>
-    <VergilBadge label="Omega" icon-right="special_character" variant="soft"/>
-    <VergilBadge label="Omega" icon-right="special_character" variant="outline"/>
     <VergilBadge label="Omega" icon-right="special_character" variant="solid"/>
+    <VergilBadge label="Omega" icon-right="special_character" variant="soft"/>
+    <VergilBadge label="Omega" icon-right="special_character" variant="subtle"/>
 </Demo>
 
 <Demo>
@@ -246,14 +265,15 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
 | `variant` | `'soft' \| 'outline' \| 'solid'` | `'soft'` |
+| `outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | |
+| `icon` | `string` | |
+| `iconLeft` | `string` | |
+| `iconRight` | `string` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `squared` | `boolean` | `false` |
-| `icon` | `string` | `''` |
-| `icon-left` | `string` | `''` |
-| `icon-right` | `string` | `''` |
+| `squared` | `boolean` | |
 
 ### Configuration options
 
@@ -262,6 +282,7 @@ The following `Badge` props' default values can be overwritten under the `badge`
 | `badge.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
+| `<variant>.outline` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |

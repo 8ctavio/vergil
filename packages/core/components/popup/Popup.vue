@@ -23,7 +23,7 @@ defineProps({
             </div>
             <div class="controls right">
                 <slot name="controls-right"></slot>
-                <Btn icon="close" variant="soft" ghost spacing="compact" @click="() => closePopup(true)" :disabled/>
+                <Btn icon="close" variant="soft" spacing="compact" @click="() => closePopup(true)" :disabled/>
             </div>
             <h1>{{ title }}</h1>
         </header>
@@ -51,7 +51,7 @@ defineProps({
         row-gap: 5px;
         padding: 5px;
         padding-bottom: 15px;
-        background-color: var(--c-theme-soft-1);
+        background-color: var(--c-theme-soft-2);
         border-top-left-radius: var(--border-radius-lg);
         border-top-right-radius: var(--border-radius-lg);
 

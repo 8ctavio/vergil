@@ -49,7 +49,7 @@
     --c-dartmouth-1: #1C9B62;
     --c-dartmouth-2: var(--c-dartmouth-soft-4);
     --c-dartmouth-3: var(--c-dartmouth-soft-3);
-    --c-dartmouth-4: #274E40;
+    --c-dartmouth-4: var(--c-dartmouth-soft-3);
 
     --rgb-dartmouth-solid: 19 94 60;
     --rgb-dartmouth-soft: 9 52 33;

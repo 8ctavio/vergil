@@ -31,7 +31,7 @@ const props = defineProps({
             'form-field',
             `size-${size}`,
             `radius-${radius}`,
-            `spacing-${spacing}`,
+            { [`spacing-${spacing}`]: spacing },
         ]">
         <div v-if="label || hint" class="form-field-label-wrapper">
             <span v-if="floatLabel">&#8203;</span>
@@ -74,12 +74,12 @@ const props = defineProps({
         }
         & > :last-child{
             font-size: 0.85em;
-            color: var(--c-grey-text-3);
+            color: var(--c-grey-text-1);
         }
     }
     & > .form-field-details {
         font-size: 0.9em;
-        color: var(--c-grey-text-3);
+        color: var(--c-grey-text-1);
     }
 }
 </style>

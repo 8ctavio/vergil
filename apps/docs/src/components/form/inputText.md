@@ -122,8 +122,6 @@ The following `Btn` props are ignored from the `btn-before` and `btn-after` prop
 - `radius`
 - `spacing`
 
-The default `Btn` variant is `'outline'`.
-
 The `Btn` `disabled` prop is bound to the `InputField` `disabled` prop. That is, both `btn-before` and `btn-after` accept a `disabled` prop, but if the `InputField` is disabled, then the side buttons will also get disabled.
 
 ```vue

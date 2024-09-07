@@ -57,7 +57,7 @@ defineProps({
 
     &:not(.card) > .toggle-description {
         font-size: 0.9em;
-        color: var(--c-grey-text-3);
+        color: var(--c-grey-text-1);
     }
 }
 
@@ -155,12 +155,13 @@ defineProps({
     &:hover {
         --toggle-border-c: var(--c-grey-border-regular);
     }
+    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
+        --toggle-border-c: var(--c-grey-border-regular);
+        background-color: var(--c-theme-soft-2);
+    }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         --toggle-border-c: var(--c-theme-1);
         --toggle-border-w: 1.5px;
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        background-color: var(--c-theme-soft-1);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
         --toggle-border-c: var(--c-disabled-border-1);
@@ -195,12 +196,16 @@ defineProps({
         color: var(--c-text);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        outline: 2px solid var(--c-theme-1);
+        background-color: var(--c-grey-soft-2);
         color: var(--c-text);
+        outline: 2px solid var(--c-theme-1);
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         background-color: var(--c-theme-4);
         color: var(--c-theme-text-2);
+        & > .toggle-description {
+            color: var(--c-theme-text-2);
+        }
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
         background-color: var(--c-disabled-1);
@@ -226,7 +231,7 @@ defineProps({
     row-gap: var(--g-gap-xs);
     padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
-    background-color: var(--c-bg);
+    background-color: #FCFCFC;
     transition: background-color 150ms, color 150ms;
 
     &:hover {
@@ -238,6 +243,9 @@ defineProps({
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
         background-color: var(--c-theme-soft-2);
+        & > .toggle-description {
+            color: inherit;
+        }
     }
     &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
         background-color: var(--c-disabled-1);
@@ -247,16 +255,9 @@ defineProps({
         background-color: var(--c-disabled-2);
     }
 }
-:where(.dark) :is(.checkbox, .radio).list {
-    &:hover {
-        background-color: var(--c-grey-soft-3);
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        outline: 2px solid var(--c-theme-outline);
-        background-color: var(--c-theme-soft-1);
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        background-color: var(--c-theme-soft-4);
+:where(.dark) :is(.checkbox, .radio) {
+    &:is(.toggle, .list) {
+        background-color: #0A0A0A;
     }
 }
 </style>

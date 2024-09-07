@@ -133,7 +133,12 @@ provide(`${props.type}-props`, {
         gap: var(--g-gap-xs);
         padding: var(--g-gap-sm);
         border-radius: var(--g-radius);
-        background-color: var(--c-bg);
+        background-color: #FCFCFC;
+    }
+}
+.dark .toggle-group-wrapper {
+    &:is(.toggle, .list) {
+        background-color: #0A0A0A;
     }
 }
 </style>
