@@ -10,6 +10,10 @@ defineProps({
     description: String,
     variant: String,
 })
+
+function preventClickSelection(e) {
+    if(e.detail > 1) e.preventDefault()
+}
 </script>
 
 <template>
@@ -21,12 +25,12 @@ defineProps({
             </svg>
             <span v-else-if="type === 'radio'" class="toggle-radio"/>
         </span>
-        <p v-if="label || $slots.label" class="toggle-label">
+        <p v-if="label || $slots.label" class="toggle-label" @mousedown="preventClickSelection">
             <slot name="label">
                 <MiniMarkup :str="label"/>
             </slot>
         </p>
-        <p v-if="description || $slots.description" class="toggle-description">
+        <p v-if="description || $slots.description" class="toggle-description" @mousedown="preventClickSelection">
             <slot name="description">
                 <MiniMarkup :str="description"/>
             </slot>
