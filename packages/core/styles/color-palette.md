@@ -28,7 +28,7 @@
 
     --c-name-outline: #;
 
-    /* used for icon and border (preferably equal to --c-name-solid-1) */
+    /* used for strong border and icon (preferably equal to --c-name-solid-1) */
     --c-name-1: #;
     /* used for soft btn3D border bottom */
     --c-name-2: #;
