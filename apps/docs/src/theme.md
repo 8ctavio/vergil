@@ -45,6 +45,7 @@ Every `theme` should have a color palette assigned.
 Vergil provides several [color palettes](https://github.com/8ctavio/vergil/tree/main/packages/core/styles/colors) that can be assigned to `theme`s. Available color palettes are listed next:
 
 - `grey`
+- `emerald`
 - `dartmouth`
 - `moss`
 - `teal`
@@ -116,7 +117,7 @@ import {
 The `setUserThemeColor` function and `userThemeColor` ref help update the `'user'` theme color palette.
 
 ```ts
-type color = 'cobalt' | 'dartmouth' | 'denim' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
+type color = 'cobalt' | 'dartmouth' | 'denim' | 'emerald' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
 function setUserThemeColor(color: color): void
 const userThemeColor: Ref<color>
 ```

@@ -1,0 +1,56 @@
+:root {
+    --c-emerald-solid-1: #13DD99;
+    --c-emerald-solid-2: #12CE90;
+    --c-emerald-solid-3: #10B77F;
+
+    --c-emerald-soft-1: #ECFEF8;
+    --c-emerald-soft-2: #D8FDF1;
+    --c-emerald-soft-3: #C0FCE9;
+    --c-emerald-soft-4: #A7FBE0;
+
+    --c-emerald-text-1: #0A7552;
+    --c-emerald-text-2: var(--c-emerald-text-1);
+    --c-emerald-text-3: #08593E;
+    --c-emerald-text-4: black;
+
+    --rgb-emerald-border: 8 94 65;
+    --c-emerald-border-subtle: rgba(var(--rgb-emerald-border) / 0.18);
+    --c-emerald-border-regular: rgba(var(--rgb-emerald-border) / 0.36);
+
+    --c-emerald-outline: #98B38F;
+
+    --c-emerald-1: #0EA06F;
+    --c-emerald-2: #6DF8CC;
+    --c-emerald-3: #0FAE79;
+    --c-emerald-4: var(--c-emerald-soft-1);
+
+    --rgb-emerald-solid: 19 221 153;
+    --rgb-emerald-soft: 216 253 241;
+}
+.dark {
+    --c-emerald-solid-1: #11C086;
+    --c-emerald-solid-3: #14E6A0;
+
+    --c-emerald-soft-1: #03261A;
+    --c-emerald-soft-2: #043926;
+    --c-emerald-soft-3: #055136;
+    --c-emerald-soft-4: #076947;
+
+    --c-emerald-text-1: #13DD99;
+    --c-emerald-text-2: #3AEEB2;
+    --c-emerald-text-3: #064631;
+
+    --rgb-emerald-border: 138 245 209;
+    --c-emerald-border-subtle: rgba(var(--rgb-emerald-border) / 0.20);
+    --c-emerald-border-regular: rgba(var(--rgb-emerald-border) / 0.40);
+
+    --c-emerald-outline: #0A8F60;
+
+    --c-emerald-1: #11C589;
+    --c-emerald-2: var(--c-emerald-soft-4);
+    --c-emerald-3: var(--c-emerald-soft-4);
+    --c-emerald-4: var(--c-emerald-soft-2);
+
+    --rgb-emerald-solid: 17 192 134;
+    --rgb-emerald-soft: 4 57 38;
+}

@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { Btn } from '@8ctavio/vergil/components'
 import { userThemeColor, setUserThemeColor } from '@8ctavio/vergil/userTheme'
 
-const colors = ['moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
+const colors = ['emerald', 'moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
 </script>
 
 <template>
@@ -67,6 +67,14 @@ const colors = ['moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
         }
         &:hover > span{
             background-color: var(--c-moss-solid-2);
+        }
+    }
+    &.emerald{
+        & > span{
+            background-color: var(--c-emerald-solid-1);
+        }
+        &:hover > span{
+            background-color: var(--c-emerald-solid-2);
         }
     }
     &.teal{

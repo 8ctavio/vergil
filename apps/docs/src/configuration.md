@@ -32,7 +32,7 @@ For features or components configured through global options there are correspon
 ## Default configuration
 
 ```ts
-type color = 'cobalt' | 'dartmouth' | 'denim' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
+type color = 'cobalt' | 'dartmouth' | 'denim' | 'emerald' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
 type radius = 'none' | 'sm' | 'md' | 'lg'
 type size = 'sm' | 'md' | 'lg' | 'xl'
 type spacing = '' | 'compact' | 'expanded'

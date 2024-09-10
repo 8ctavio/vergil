@@ -1,4 +1,4 @@
-export const isValidColor = v => ['cobalt', 'dartmouth', 'denim', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow'].includes(v)
+export const isValidColor = v => ['cobalt', 'dartmouth', 'denim', 'emerald', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow'].includes(v)
 export const isValidRadius = v => ['none', 'sm', 'md', 'lg', 'full'].includes(v)
 export const isValidSize = v => ['sm', 'md', 'lg', 'xl'].includes(v)
 export const isValidSpacing = v => ['', 'compact', 'expanded'].includes(v)
