@@ -3,6 +3,7 @@ import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../utils/ModalTransition.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
+import { watchEffect } from "vue"
 import { confirmModel } from "."
 
 function resolveConfirm(response){
@@ -11,6 +12,14 @@ function resolveConfirm(response){
 	confirmModel.resolve = () => {}
 	confirmModel.waitingConfirmation = false
 }
+
+function handleKeydown(e) {
+	if(e.key === "Escape") resolveConfirm(false)
+}
+watchEffect(() => {
+	if(confirmModel.show) document.addEventListener('keydown', handleKeydown)
+	else document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
