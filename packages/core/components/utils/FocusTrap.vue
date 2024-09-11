@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
 
 function getTabbableEdges(container) {
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, node => {
@@ -43,7 +43,7 @@ function handleKeyDown(event) {
     }
 }
 
-const container = ref(null)
+const container = useTemplateRef('container')
 let lastFocused = null
 onMounted(async () => {
     lastFocused = document.activeElement

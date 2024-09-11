@@ -3,11 +3,11 @@ import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../utils/ModalTransition.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
-import { ref, watchEffect, nextTick } from "vue"
+import { useTemplateRef, watchEffect, nextTick } from "vue"
 import { confirmModel } from "."
 
-const cancelBtn = ref(null)
-const acceptBtn = ref(null)
+const cancelBtn = useTemplateRef('cancel-btn')
+const acceptBtn = useTemplateRef('accept-btn')
 
 function resolveConfirm(response){
 	confirmModel.show = false
@@ -59,8 +59,8 @@ function handleTabNavigation(event) {
 				<MiniMarkup :str="confirmModel.content.description"/>
 			</p>
 			<div @keydown="handleTabNavigation">
-				<Btn ref="cancelBtn" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
-				<Btn ref="acceptBtn" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
+				<Btn ref="cancel-btn" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
+				<Btn ref="accept-btn" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
 			</div>
 		</div>
 	</ModalTransition>
