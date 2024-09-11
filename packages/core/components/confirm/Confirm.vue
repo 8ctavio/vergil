@@ -3,8 +3,11 @@ import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../utils/ModalTransition.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
-import { watchEffect } from "vue"
+import { ref, watchEffect, nextTick } from "vue"
 import { confirmModel } from "."
+
+const cancelBtn = ref(null)
+const acceptBtn = ref(null)
 
 function resolveConfirm(response){
 	confirmModel.show = false
@@ -13,13 +16,38 @@ function resolveConfirm(response){
 	confirmModel.waitingConfirmation = false
 }
 
-function handleKeydown(e) {
+let lastFocused = null
+function handleEscape(e) {
 	if(e.key === "Escape") resolveConfirm(false)
 }
-watchEffect(() => {
-	if(confirmModel.show) document.addEventListener('keydown', handleKeydown)
-	else document.removeEventListener('keydown', handleKeydown)
+watchEffect(async () => {
+	if(confirmModel.show) {
+		lastFocused = document.activeElement
+		document.addEventListener('keydown', handleEscape)
+		await nextTick()
+		cancelBtn.value.$el.focus()
+	} else {
+		lastFocused?.focus({ preventScroll: true })
+		document.removeEventListener('keydown', handleEscape)
+	}
 })
+
+function handleTabNavigation(event) {
+	const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
+    const focusedElement = document.activeElement
+    if(isTabKey && focusedElement) {
+        switch(event.target) {
+			case cancelBtn.value.$el:
+				event.preventDefault()
+				acceptBtn.value.$el.focus()
+				break
+			case acceptBtn.value.$el:
+				event.preventDefault()
+				cancelBtn.value.$el.focus()
+				break
+		}
+	}
+}
 </script>
 
 <template>
@@ -30,9 +58,9 @@ watchEffect(() => {
 			<p v-if="confirmModel.content.description">
 				<MiniMarkup :str="confirmModel.content.description"/>
 			</p>
-			<div>
-				<Btn variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
-				<Btn variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
+			<div @keydown="handleTabNavigation">
+				<Btn ref="cancelBtn" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
+				<Btn ref="acceptBtn" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
 			</div>
 		</div>
 	</ModalTransition>

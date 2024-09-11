@@ -1,5 +1,6 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
+import FocusTrap from '../utils/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { closePopup, popupLeaving } from '.'
 import { inferTheme, isValidTheme } from '../../utilities/private'
@@ -16,26 +17,26 @@ defineProps({
 </script>
 
 <template>
-    <div :class="['popup', inferTheme(theme)]">
+    <FocusTrap :class="['popup', inferTheme(theme)]">
         <header class="popup-head">
             <div class="controls left">
-                <slot name="controls-left"></slot>
+                <slot name="controls-left"/>
             </div>
             <div class="controls right">
-                <slot name="controls-right"></slot>
+                <slot name="controls-right"/>
                 <Btn icon="close" variant="soft" spacing="compact" @click="() => closePopup(true)" :disabled/>
             </div>
             <h1>{{ title }}</h1>
         </header>
         <div class="popup-wrapper">
-            <slot></slot>
+            <slot/>
         </div>
-        <span v-show="popupLeaving" class="popup-overlay"></span>
-    </div>
+        <span v-show="popupLeaving" class="popup-overlay"/>
+    </FocusTrap>
 </template>
 
 <style scoped>
-.popup{
+.popup {
 	font-size: var(--font-size-md);
     position: relative;
     display: flex;
