@@ -8,7 +8,7 @@ function focus(target) {
 }
 
 function getTabbableEdges(container) {
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, node => {
+    const walker = document.createTreeWalker(toValue(container), NodeFilter.SHOW_ELEMENT, node => {
         const style = getComputedStyle(node)
 
         if(style.display === 'none' || ['','true'].includes(node.getAttribute('inert')))
@@ -59,38 +59,30 @@ function handleKeyDown(event) {
 
 const container = useTemplateRef('container')
 function focusFirst() {
-    const { first } = getTabbableEdges(container.value)
+    const { first } = getTabbableEdges(container)
     focus(first ?? container)
+}
+async function handleFocusOut(event) {
+    if(event.relatedTarget === null) {
+        await nextTick()
+        if(event.target.disabled || !event.target.isConnected) {
+            focusFirst()
+        }
+    }
 }
 
 let lastFocused = null
-const mutationObserver = new MutationObserver(mutations => {
-    for(const mutation of mutations) {
-        if(mutation.removedNodes.length > 0 && Array.prototype.some.call(mutation.removedNodes, node => !(node instanceof Comment))) {
-            if(!container.value.contains(document.activeElement)) {
-                focusFirst()
-            }
-            break
-        }
-    }
-})
-
 onMounted(() => {
-    mutationObserver.observe(container.value, {
-        childList: true,
-        subtree: true
-    })
     lastFocused = document.activeElement
     nextTick(focusFirst)
 })
 onUnmounted(() => {
-    mutationObserver.disconnect()
-    lastFocused?.focus({ preventScroll: true })
+    focus(lastFocused)
 })
 </script>
 
 <template>
-    <div ref="container" tabindex="0" @keydown="handleKeyDown">
+    <div ref="container" tabindex="0" @keydown="handleKeyDown" @focusout="handleFocusOut">
         <slot/>
     </div>
 </template>
