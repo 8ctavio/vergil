@@ -5,7 +5,7 @@ import { vergil } from '../../vergil'
 import { closePopup, popupLeaving } from '.'
 import { inferTheme, isValidTheme } from '../../utilities/private'
 
-defineProps({
+const { disabled } = defineProps({
     title: String,
     theme: {
         type: String,
@@ -14,10 +14,14 @@ defineProps({
     },
     disabled: Boolean
 })
+
+function handleKeyDown(e) {
+	if(e.key === "Escape" && !disabled) closePopup(true)
+}
 </script>
 
 <template>
-    <FocusTrap :class="['popup', inferTheme(theme)]">
+    <FocusTrap :class="['popup', inferTheme(theme)]" @keydown="handleKeyDown">
         <header class="popup-head">
             <div class="controls left">
                 <slot name="controls-left"/>
