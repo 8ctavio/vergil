@@ -62,22 +62,36 @@ function focusFirst() {
     const { first } = getTabbableEdges(container)
     focus(first ?? container)
 }
+
+let focusedBeforeBlur = null
 async function handleFocusOut(event) {
     if(event.relatedTarget === null) {
         await nextTick()
         if(event.target.disabled || !event.target.isConnected) {
             focusFirst()
+        } else {
+            focusedBeforeBlur = event.target
         }
     }
 }
+function handleFocusIn(event) {
+    if(!container.value.contains(event.target)) {
+        if(focusedBeforeBlur) {
+            focus(focusedBeforeBlur)
+            focusedBeforeBlur = null
+        } else focusFirst()
+    }
+}
 
-let lastFocused = null
+let focusedBeforeTrap = null
 onMounted(() => {
-    lastFocused = document.activeElement
+    focusedBeforeTrap = document.activeElement
+    document.addEventListener('focusin', handleFocusIn)
     nextTick(focusFirst)
 })
 onUnmounted(() => {
-    focus(lastFocused)
+    document.removeEventListener('focusin', handleFocusIn)
+    focus(focusedBeforeTrap)
 })
 </script>
 

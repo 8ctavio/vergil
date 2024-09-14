@@ -3,11 +3,8 @@ import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../utils/ModalTransition.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
-import { useTemplateRef, watchEffect, nextTick } from "vue"
+import { useTemplateRef, watch, nextTick } from "vue"
 import { confirmModel } from "."
-
-const cancelBtn = useTemplateRef('cancel-btn')
-const acceptBtn = useTemplateRef('accept-btn')
 
 function resolveConfirm(response){
 	confirmModel.show = false
@@ -16,38 +13,59 @@ function resolveConfirm(response){
 	confirmModel.waitingConfirmation = false
 }
 
-let lastFocused = null
-function handleEscape(e) {
-	if(e.key === "Escape") resolveConfirm(false)
-}
-watchEffect(async () => {
-	if(confirmModel.show) {
-		lastFocused = document.activeElement
-		document.addEventListener('keydown', handleEscape)
-		await nextTick()
-		cancelBtn.value.$el.focus()
+const cancelBtn = useTemplateRef('cancel-btn')
+const acceptBtn = useTemplateRef('accept-btn')
+function handleKeyDown(event) {
+	if(event.key === 'Escape') {
+		resolveConfirm(false)
 	} else {
-		lastFocused?.focus({ preventScroll: true })
-		document.removeEventListener('keydown', handleEscape)
-	}
-})
-
-function handleTabNavigation(event) {
-	const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
-    const focusedElement = document.activeElement
-    if(isTabKey && focusedElement) {
-        switch(event.target) {
-			case cancelBtn.value.$el:
-				event.preventDefault()
-				acceptBtn.value.$el.focus()
-				break
-			case acceptBtn.value.$el:
-				event.preventDefault()
-				cancelBtn.value.$el.focus()
-				break
+		const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
+		const focusedElement = document.activeElement
+		if(isTabKey && focusedElement) {
+			switch(event.target) {
+				case cancelBtn.value.$el:
+					event.preventDefault()
+					acceptBtn.value.$el.focus()
+					break
+				case acceptBtn.value.$el:
+					event.preventDefault()
+					cancelBtn.value.$el.focus()
+					break
+			}
 		}
 	}
 }
+
+let focusedBeforeBlur = null
+async function handleFocusOut(event) {
+    if(event.relatedTarget === null) {
+        await nextTick()
+        focusedBeforeBlur = event.target
+    }
+}
+function handleFocusIn(event) {
+    if(![cancelBtn.value.$el, acceptBtn.value.$el].includes(event.target)) {
+        if(focusedBeforeBlur) {
+            focusedBeforeBlur.focus()
+            focusedBeforeBlur = null
+        } else {
+			cancelBtn.value.$el.focus()
+		}
+    }
+}
+
+let lastFocused = null
+watch(() => confirmModel.show, show => {
+	if(show) {
+		lastFocused = document.activeElement
+		document.addEventListener('focusin', handleFocusIn)
+		nextTick(() => cancelBtn.value.$el.focus())
+	} else {
+		document.removeEventListener('focusin', handleFocusIn)
+		lastFocused?.focus({ preventScroll: true })
+		lastFocused?.select?.()
+	}
+})
 </script>
 
 <template>
@@ -58,7 +76,7 @@ function handleTabNavigation(event) {
 			<p v-if="confirmModel.content.description">
 				<MiniMarkup :str="confirmModel.content.description"/>
 			</p>
-			<div @keydown="handleTabNavigation">
+			<div @keydown="handleKeyDown" @focusout="handleFocusOut">
 				<Btn ref="cancel-btn" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
 				<Btn ref="accept-btn" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
 			</div>
