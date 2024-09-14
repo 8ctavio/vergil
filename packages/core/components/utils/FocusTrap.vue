@@ -1,5 +1,8 @@
 <script setup>
 import { toValue, useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
+import { FocusTrap } from '../../utilities/classes/private/FocusTrap'
+
+const focusTrap = new FocusTrap()
 
 function focus(target) {
     const element = toValue(target)
@@ -75,7 +78,7 @@ async function handleFocusOut(event) {
     }
 }
 function handleFocusIn(event) {
-    if(!container.value.contains(event.target)) {
+    if(focusTrap.isActive && !container.value.contains(event.target)) {
         if(focusedBeforeBlur) {
             focus(focusedBeforeBlur)
             focusedBeforeBlur = null
@@ -85,6 +88,7 @@ function handleFocusIn(event) {
 
 let focusedBeforeTrap = null
 onMounted(() => {
+    focusTrap.activate()
     focusedBeforeTrap = document.activeElement
     document.addEventListener('focusin', handleFocusIn)
     nextTick(focusFirst)
@@ -92,6 +96,7 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('focusin', handleFocusIn)
     focus(focusedBeforeTrap)
+    focusTrap.deactivate()
 })
 </script>
 

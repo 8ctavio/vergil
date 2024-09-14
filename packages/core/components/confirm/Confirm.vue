@@ -5,6 +5,9 @@ import ModalTransition from '../utils/ModalTransition.vue'
 import MiniMarkup from "../utils/MiniMarkup.vue"
 import { useTemplateRef, watch, nextTick } from "vue"
 import { confirmModel } from "."
+import { FocusTrap } from '../../utilities/classes/private/FocusTrap'
+
+const focusTrap = new FocusTrap()
 
 function resolveConfirm(response){
 	confirmModel.show = false
@@ -44,7 +47,7 @@ async function handleFocusOut(event) {
     }
 }
 function handleFocusIn(event) {
-    if(![cancelBtn.value.$el, acceptBtn.value.$el].includes(event.target)) {
+    if(focusTrap.isActive && ![cancelBtn.value.$el, acceptBtn.value.$el].includes(event.target)) {
         if(focusedBeforeBlur) {
             focusedBeforeBlur.focus()
             focusedBeforeBlur = null
@@ -54,16 +57,18 @@ function handleFocusIn(event) {
     }
 }
 
-let lastFocused = null
+let focusedBeforeTrap = null
 watch(() => confirmModel.show, show => {
 	if(show) {
-		lastFocused = document.activeElement
+		focusTrap.activate()
+		focusedBeforeTrap = document.activeElement
 		document.addEventListener('focusin', handleFocusIn)
 		nextTick(() => cancelBtn.value.$el.focus())
 	} else {
 		document.removeEventListener('focusin', handleFocusIn)
-		lastFocused?.focus({ preventScroll: true })
-		lastFocused?.select?.()
+		focusedBeforeTrap?.focus({ preventScroll: true })
+		focusedBeforeTrap?.select?.()
+		focusTrap.deactivate()
 	}
 })
 </script>
