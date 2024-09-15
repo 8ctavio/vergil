@@ -141,7 +141,7 @@ A popup component may be closed by the user through the `Popup` close button in 
 <script setup>
 const emit = defineEmits(['close', 'error'])
 // ...later
-emit('close')   // or emit('error')
+emit('close') // or emit('error')
 </script>
 ```
 
@@ -155,6 +155,31 @@ showPopup(PopupComponent, {
 ```
 
 Closing the popup through the close button will call the `onClose` handler.
+
+### Autofocus
+
+By default, the popup component's first tabbable element is focused when mounted, but this behavior can be modified by passing an `autofocus` prop to the `Popup` component.
+
+The `autofocus` prop may be a `boolean`, an `HTMLElement` object, or a [`ComponentPublicInstance`](https://vuejs.org/api/component-instance), and its default value is `true`.
+
+- If `autofocus === false`: No popup component child is focused (to keep focus trapped, the popup component's root element itself is focused).
+- If `autofocus instanceof HTMLElement`: The element's first tabbable element (including itself) is focused.
+- If `autofocus` is a `ComponentPublicInstance`: The instance `$el` element's first tabbable element (including itself) is focused.
+
+```vue
+<script setup>
+const autofocus = useTemplateRef('autofocus')
+</script>
+
+<template>
+    <Popup title="Custom autofocus" :autofocus>
+        <main class="popup-content">
+            <InputText placeholder="First tabbable element"/>
+            <InputText :ref="autofocus" placeholder="Force autofocus"/>
+        </main>
+    </Popup>
+</template>
+```
 
 ### Popup content
 

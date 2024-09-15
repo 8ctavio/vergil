@@ -22,6 +22,9 @@ function handleKeyDown(e) {
 
 <template>
     <FocusTrap :class="['popup', inferTheme(theme)]" @keydown="handleKeyDown">
+        <div class="popup-wrapper">
+            <slot/>
+        </div>
         <header class="popup-head">
             <div class="controls left">
                 <slot name="controls-left"/>
@@ -32,9 +35,6 @@ function handleKeyDown(e) {
             </div>
             <h1>{{ title }}</h1>
         </header>
-        <div class="popup-wrapper">
-            <slot/>
-        </div>
         <span v-show="popupLeaving" class="popup-overlay"/>
     </FocusTrap>
 </template>
@@ -50,7 +50,8 @@ function handleKeyDown(e) {
     background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
-    & > .popup-head{
+    & > .popup-head {
+        order: 1;
         display: grid;
         grid-template-columns: repeat(2,auto);
         row-gap: 5px;
@@ -60,7 +61,7 @@ function handleKeyDown(e) {
         border-top-left-radius: var(--border-radius-lg);
         border-top-right-radius: var(--border-radius-lg);
 
-        & > h1{
+        & > h1 {
             font-size: 1.5em;
             grid-column: span 2;
             justify-self: center;
@@ -69,26 +70,27 @@ function handleKeyDown(e) {
             color: var(--c-theme-text-2);
             letter-spacing: 0.5px;
         }
-        & > .controls{
+        & > .controls {
             display: flex;
             &.left{ justify-content: start; }
             &.right{ justify-content: end; }
         }
     }
-    & > .popup-wrapper{
+    & > .popup-wrapper {
+        order: 2;
         overflow-y: auto;
-        & > :first-child{
+        & > :first-child {
             border-bottom-left-radius: var(--border-radius-lg);
             border-bottom-right-radius: var(--border-radius-lg);
         }
     }
-    & > .popup-overlay{
+    & > .popup-overlay {
         position: absolute;
         inset: 0;
         background-color: transparent;
     }
 }
-.dark .popup{
+.dark .popup {
     border: 1px solid var(--c-grey-soft-2);
 }
 </style>

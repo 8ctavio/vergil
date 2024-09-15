@@ -24,10 +24,10 @@ async function doSomething(){
 </template>
 
 <style scoped>
-.popup{
+.popup {
     width: clamp(250px, 25%, 400px);
 }
-.popup-content{
+.popup-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,7 +35,7 @@ async function doSomething(){
     row-gap: 20px;
     width: 100%;
     padding: 25px;
-    & > .btn3D{        
+    & > .btn3D {        
         width: min(250px, 100%);
     }
 }
