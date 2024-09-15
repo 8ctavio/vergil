@@ -9,7 +9,7 @@ const { autofocus } = defineProps({
     }
 })
 
-const container = useTemplateRef('container')
+const root = useTemplateRef('root')
 const focusTrap = new FocusTrap()
 
 function focus(target) {
@@ -25,7 +25,7 @@ function isSelfHidden(node) {
         || ['','true'].includes(node.getAttribute('inert'))
 }
 function isHidden(node) {
-    while(node !== container.value) {
+    while(node !== root.value) {
         if(isSelfHidden(node)) return true
         node = node.parentElement
     }
@@ -43,8 +43,8 @@ function filterTabbable(node) {
     else
         return NodeFilter.FILTER_SKIP
 }
-function getFirstTabbable(node = container.value, { includeRoot = false } = {}) {
-    if(node !== container.value && (!container.value.contains(node) || isHidden(node)))
+function getFirstTabbable(node = root.value, { includeRoot = false } = {}) {
+    if(node !== root.value && (!root.value.contains(node) || isHidden(node)))
         return null
     if(includeRoot && isTabbable(node))
         return node
@@ -52,23 +52,26 @@ function getFirstTabbable(node = container.value, { includeRoot = false } = {}) 
     const walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT, filterTabbable)
     return walker.nextNode()
 }
-function getTabbableEdges(container) {
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, filterTabbable)
-    const nodes = { first: walker.nextNode() }
-    do {
-        nodes.last = walker.currentNode
-    } while(walker.nextNode())
-    return nodes
+function getLastTabbable(node = root.value, { includeRoot = false } = {}) {
+    if(node !== root.value && (!root.value.contains(node) || isHidden(node)))
+        return null
+    if(includeRoot && isTabbable(node))
+        return node
+
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT, filterTabbable)
+    while(walker.lastChild());
+    return walker.currentNode === walker.root ? null : walker.currentNode
 }
 
 function handleKeyDown(event) {
     const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
     const focusedElement = document.activeElement
     if(isTabKey && focusedElement) {
-        const container = event.currentTarget
-        const { first, last } = getTabbableEdges(container)
+        const root = event.currentTarget
+        const first = getFirstTabbable(root)
+        const last = getLastTabbable(root)
 
-        if(focusedElement === container) {
+        if(focusedElement === root) {
             if(event.shiftKey) {
                 event.preventDefault()
                 if(last) focus(last)
@@ -90,7 +93,7 @@ function handleKeyDown(event) {
 }
 
 function focusFirst() {
-    focus(getFirstTabbable() ?? container)
+    focus(getFirstTabbable() ?? root)
 }
 let focusedBeforeBlur = null
 async function handleFocusOut(event) {
@@ -104,7 +107,7 @@ async function handleFocusOut(event) {
     }
 }
 function handleFocusIn(event) {
-    if(focusTrap.isActive && !container.value.contains(event.target)) {
+    if(focusTrap.isActive && !root.value.contains(event.target)) {
         if(focusedBeforeBlur) {
             focus(focusedBeforeBlur)
             focusedBeforeBlur = null
@@ -123,9 +126,9 @@ onMounted(async () => {
     } else {
         const element = autofocus?.$el ?? autofocus
         if(element instanceof HTMLElement) {
-            focus(getFirstTabbable(element, { includeRoot: true }) ?? container)
+            focus(getFirstTabbable(element, { includeRoot: true }) ?? root)
         } else {
-            focus(container)
+            focus(root)
         }
     }
 })
@@ -137,7 +140,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div ref="container" tabindex="0" @keydown="handleKeyDown" @focusout="handleFocusOut">
+    <div ref="root" tabindex="0" @keydown="handleKeyDown" @focusout="handleFocusOut">
         <slot/>
     </div>
 </template>
