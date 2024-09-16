@@ -17,48 +17,58 @@ function focus(target) {
     element.focus({ preventScroll: true })
     element.select?.()
 }
-function isSelfHidden(node) {
-    const style = getComputedStyle(node)
-    return style.display === 'none'
-        || node.hidden
-        || ['hidden','collapse'].includes(style.visibility)
-        || ['','true'].includes(node.getAttribute('inert'))
-}
-function isHidden(node) {
+
+function isInert(node) {
     while(node !== root.value) {
-        if(isSelfHidden(node)) return true
+        if(node.inert) return true
         node = node.parentElement
     }
     return false
 }
 function isTabbable(node) {
-    return node.tabIndex >= 0 && !node.disabled && !(node.tagName === 'INPUT' && node.type === 'hidden')
+    return node.isConnected
+        && node.tabIndex >= 0
+        && node.checkVisibility({ visibilityProperty: true })
+        && !node.disabled
+        && !isInert(node)
 }
 
+function isTabbableCandidate(node, backgroundChecked = false) {
+    if(backgroundChecked) return node.checkVisibility() && !node.inert
+    return node.isConnected
+        && node.checkVisibility()
+        && root.value.contains(node)
+        && !isInert(node)
+}
+function approveTabbableCandidate(node) {
+    return node.tabIndex >= 0
+        && !node.disabled
+        && getComputedStyle(node).visibility === 'visible'
+}
 function filterTabbable(node) {
-    if(isSelfHidden(node))
+    if(!isTabbableCandidate(node, true))
         return NodeFilter.FILTER_REJECT
-    if(isTabbable(node))
+    if(approveTabbableCandidate(node))
         return NodeFilter.FILTER_ACCEPT
     else
         return NodeFilter.FILTER_SKIP
 }
-function getFirstTabbable(node = root.value, { includeRoot = false } = {}) {
-    if(node !== root.value && (!root.value.contains(node) || isHidden(node)))
+function getFirstTabbable(root, includeRoot = false) {
+    if(!isTabbableCandidate(root))
         return null
-    if(includeRoot && isTabbable(node))
-        return node
+    if(includeRoot && approveTabbableCandidate(root))
+        return root
 
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT, filterTabbable)
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
     return walker.nextNode()
 }
-function getLastTabbable(node = root.value, { includeRoot = false } = {}) {
-    if(node !== root.value && (!root.value.contains(node) || isHidden(node)))
+function getLastTabbable(root, includeRoot = false) {
+    if(!isTabbableCandidate(root))
         return null
-    if(includeRoot && isTabbable(node))
-        return node
+    if(includeRoot && approveTabbableCandidate(root))
+        return root
 
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT, filterTabbable)
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
     while(walker.lastChild());
     return walker.currentNode === walker.root ? null : walker.currentNode
 }
@@ -93,16 +103,16 @@ function handleKeyDown(event) {
 }
 
 function focusFirst() {
-    focus(getFirstTabbable() ?? root)
+    focus(getFirstTabbable(root.value) ?? root)
 }
 let focusedBeforeBlur = null
 async function handleFocusOut(event) {
     if(event.relatedTarget === null) {
         await nextTick()
-        if(event.target.disabled || !event.target.isConnected) {
-            focusFirst()
-        } else {
+        if(isTabbable(event.target)) {
             focusedBeforeBlur = event.target
+        } else {
+            focusFirst()
         }
     }
 }
@@ -126,7 +136,7 @@ onMounted(async () => {
     } else {
         const element = autofocus?.$el ?? autofocus
         if(element instanceof HTMLElement) {
-            focus(getFirstTabbable(element, { includeRoot: true }) ?? root)
+            focus(getFirstTabbable(element, true) ?? root)
         } else {
             focus(root)
         }
