@@ -1,6 +1,6 @@
 <script setup>
 import { toValue, useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
-import { FocusTrap } from '../../utilities/classes/private/FocusTrap'
+import { FocusTrap } from '../../utilities/private'
 
 const { autofocus } = defineProps({
     autofocus: {

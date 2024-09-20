@@ -1,5 +1,5 @@
 <script setup>
-import ToggleButton from '../utils/ToggleButton.vue'
+import ToggleButton from '../private/ToggleButton.vue'
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'

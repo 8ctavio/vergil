@@ -1,5 +1,5 @@
 <script setup>
-import ToggleGroup from '../utils/ToggleGroup.vue'
+import ToggleGroup from '../private/ToggleGroup.vue'
 </script>
 
 <template>

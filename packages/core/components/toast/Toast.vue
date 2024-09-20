@@ -1,6 +1,6 @@
 <script setup>
 import Icon from '../Icon.vue'
-import MiniMarkup from "../utils/MiniMarkup.vue"
+import MiniMarkup from "../private/MiniMarkup.vue"
 import { ref } from 'vue'
 import { vergil } from '../../vergil'
 import { inferTheme, isValidTheme } from '../../utilities/private'

@@ -1,8 +1,8 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
-import FormField from '../utils/FormField.vue'
-import MiniMarkup from "../utils/MiniMarkup.vue"
+import FormField from '../private/FormField.vue'
+import MiniMarkup from "../private/MiniMarkup.vue"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'

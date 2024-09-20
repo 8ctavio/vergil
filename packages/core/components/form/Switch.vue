@@ -1,6 +1,6 @@
 <script setup>
-import FormField from '../utils/FormField.vue'
-import MiniMarkup from "../utils/MiniMarkup.vue"
+import FormField from '../private/FormField.vue'
+import MiniMarkup from "../private/MiniMarkup.vue"
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel } from '../../utilities'

@@ -1,11 +1,11 @@
 <script setup>
 import Icon from "../Icon.vue"
 import Btn from '../buttons/Btn.vue'
-import ModalTransition from '../utils/ModalTransition.vue'
-import MiniMarkup from "../utils/MiniMarkup.vue"
+import ModalTransition from '../private/ModalTransition.vue'
+import MiniMarkup from "../private/MiniMarkup.vue"
 import { useTemplateRef, watch, nextTick } from "vue"
 import { confirmModel } from "."
-import { FocusTrap } from '../../utilities/classes/private/FocusTrap'
+import { FocusTrap } from '../../utilities/private'
 
 const focusTrap = new FocusTrap()
 

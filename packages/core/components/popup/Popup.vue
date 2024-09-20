@@ -1,6 +1,6 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
-import FocusTrap from '../utils/FocusTrap.vue'
+import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { closePopup, popupLeaving } from '.'
 import { inferTheme, isValidTheme } from '../../utilities/private'

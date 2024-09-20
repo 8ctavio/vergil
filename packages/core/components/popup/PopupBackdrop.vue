@@ -1,5 +1,5 @@
 <script setup>
-import ModalTransition from '../utils/ModalTransition.vue'
+import ModalTransition from '../private/ModalTransition.vue'
 import { popup, closePopup, popupLeaving } from '.'
 
 function onExpose(exposed){
