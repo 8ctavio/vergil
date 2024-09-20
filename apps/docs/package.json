@@ -14,9 +14,10 @@
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"type": "module",
 	"main": "index.js",
 	"dependencies": {
 		"@8ctavio/vergil": "workspace:*",
-		"@headlessui/vue": "^1.7.22"
+		"@headlessui/vue": "^1.7.23"
 	}
 }
