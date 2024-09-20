@@ -79,10 +79,10 @@ import { Confirm } from '@8ctavio/vergil/components'
 </template>
 ```
 :::tip
-`Confirm`'s backdrop `z-index` value is by default set to `50` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+`Confirm`'s backdrop `z-index` value is by default set to `30` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, a confirm request can be raised programmatically with the `confirm` function
+Then, a confirm request can be raised programmatically with the `confirm` function.
 
 ```js
 import { confirm } from '@8ctavio/vergil'

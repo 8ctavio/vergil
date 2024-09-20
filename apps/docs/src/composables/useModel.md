@@ -62,7 +62,7 @@ Models have a `reset` method to reset the model's value to its initial specified
 
 #### `el`
 
-The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlyng ref object may be accessed with the `getRef` method: `model.getRef('el')`.
+The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlying ref object may be accessed with the `getRef` method: `model.getRef('el')`.
 
 #### `exposed`
 

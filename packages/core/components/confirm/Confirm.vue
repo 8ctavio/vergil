@@ -74,7 +74,7 @@ watch(() => confirmModel.show, show => {
 </script>
 
 <template>
-	<ModalTransition :show="confirmModel.show" z-index="var(--z-index-confirm)">
+	<ModalTransition id="confirm-backdrop" :show="confirmModel.show">
 		<div id="confirm-modal" :class="confirmModel.content.theme">
 			<Icon :code="confirmModel.content.icon"/>
 			<h1>{{ confirmModel.content.title }}</h1>
@@ -90,7 +90,8 @@ watch(() => confirmModel.show, show => {
 </template>
 
 <style>
-#confirm-modal{
+#confirm-backdrop { z-index: var(--z-index-confirm) }
+#confirm-modal {
 	font-size: var(--font-size-md);
 	display: grid;
 	grid-template-columns: min-content auto;

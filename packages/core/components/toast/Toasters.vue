@@ -44,7 +44,7 @@ function closeToast(position, toast){
 </script>
 
 <template>
-    <div class="toasters">
+    <div id="toasters">
         <TransitionGroup v-for="(toaster, position) in toasters" name="toast" tag="div" :id="`toaster-${position}`" :class="['toaster', ...position.split('-')]"
             @before-enter="() => onBeforeEnter(position)"
             @after-enter="() => onAfterEnter(position)"
@@ -63,7 +63,7 @@ function closeToast(position, toast){
 </template>
 
 <style>
-.toaster{
+.toaster {
     --toast-gap: 15px;
     position: fixed;
     display: flex;

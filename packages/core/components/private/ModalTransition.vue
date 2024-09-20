@@ -1,32 +1,30 @@
 <script setup>
 import { ref } from 'vue'
 
-const props = defineProps({
-	show: Boolean,
-	zIndex: String
-})
-
 const modalAnimation = ref(false)
+
+defineProps({ show: Boolean })
 defineExpose({ modalAnimation })
+defineOptions({ inheritAttrs: false })
 </script>
 
 <template>
 	<Transition v-show="show" name="modal-backdrop" appear :duration="500">
-		<div class="modal-backdrop">
+		<div class="modal-backdrop" v-bind="$attrs">
 			<Transition v-show="show" name="modal-window" appear mode="out-in"
 				@before-enter="modalAnimation = true"
 				@after-enter="modalAnimation = false"
 				@before-leave="modalAnimation = true"
 				@after-leave="modalAnimation = false"
 				>
-				<slot></slot>
+				<slot/>
 			</Transition>
 		</div>
 	</Transition>
 </template>
 
 <style>
-.modal-backdrop{
+.modal-backdrop {
 	--duration-backdrop-opacity: 100ms;
 	--duration-window-opacity: 150ms;
 	--duration-window-tranform: 400ms;
@@ -40,9 +38,7 @@ defineExpose({ modalAnimation })
 	width: 100vw;
 	height: 100vh;
 	background-color: var(--c-backdrop);
-    backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
-	z-index: v-bind(zIndex);
+	backdrop-filter: blur(2px);
 
 	&.modal-backdrop-enter-active{
 		transition: opacity var(--duration-backdrop-opacity) var(--bezier-sine-out);

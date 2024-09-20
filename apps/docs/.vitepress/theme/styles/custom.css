@@ -8,9 +8,10 @@
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --z-index-pop-up: 100;
-    --z-index-confirm: 110;
-    --z-index-toast: 120;
+    --z-index-popup: 110;
+    --z-index-popover: 120;
+    --z-index-confirm: 130;
+    --z-index-toast: 140;
 }
 
 .dark body{

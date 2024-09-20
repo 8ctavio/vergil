@@ -28,10 +28,11 @@ See [Installing a Package](https://docs.github.com/en/packages/working-with-a-gi
 Vergil provides a `vergil` plugin that should always be installed to properly enable or initialize some features. 
 
 ```js
+import App from './path-to/App.vue'
 import { createApp } from 'vue'
 import { vergil } from '@8ctavio/vergil/plugins'
 
-const app = createApp()
+const app = createApp(App)
 
 app.use(vergil)
 ```

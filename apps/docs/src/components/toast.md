@@ -121,7 +121,6 @@ After a `Toast` is mounted, it can be removed from a toaster automatically after
 
 When a `Toast` is added to a toaster, already mounted `Toast`s are displaced to free up space for the recently added `Toast`.
 
-
 ### Mount toasters
 
 First, it is required to add the `Toasters` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
@@ -138,7 +137,7 @@ import { Toasters } from '@8ctavio/vergil/components'
 ```
 
 :::tip
-Toasters `z-index` value is by default set to `60` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+Toasters `z-index` value is by default set to `40` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ### Programmatic use

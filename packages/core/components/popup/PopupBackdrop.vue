@@ -10,7 +10,11 @@ function onExpose(exposed){
 </script>
 
 <template>
-	<ModalTransition :ref="onExpose" :show="popup.component !== null" z-index="var(--z-index-popup)">
+	<ModalTransition id="popup-backdrop" :ref="onExpose" :show="popup.component !== null">
 		<component :is="popup.component" v-bind="popup.props" :is-leaving="popupLeaving" @close="closePopup" @error="closePopup"/>
 	</ModalTransition>
 </template>
+
+<style>
+#popup-backdrop { z-index: var(--z-index-popup) }
+</style>

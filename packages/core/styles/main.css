@@ -62,12 +62,10 @@ p, h1, h2, h3{
     --bezier-bounce-in-out: cubic-bezier(0.55, -0.45, 0.45, 1.45);
 
     /*---------- Z-index ----------*/
-    --z-index-input: 10;
-    --z-index-tooltip: 20;
-    --z-index-select-dropdown: 30;
-    --z-index-popup: 40;
-    --z-index-confirm: 50;
-    --z-index-toast: 60;
+    --z-index-popup: 10;
+    --z-index-popover: 20;
+    --z-index-confirm: 30;
+    --z-index-toast: 40;
     
     /*---------- Border ----------*/
     --component-border-bottom-width: 2.5px;
@@ -172,49 +170,3 @@ p, h1, h2, h3{
     from { transform: translateX(0); }
     to { transform: translateX(calc(-100% - 1px)); }
 }
-
-/*****************************************************************************************************
-******************************************************************************************************
-**                                                                                                  **
-**___________________________________________ TOOL TIP _____________________________________________**
-**                                                                                                  **
-******************************************************************************************************
-*****************************************************************************************************/
-
-.tooltip{ position: relative; }
-.tooltip > span{
-    display: none;
-    align-items: center;
-    position: absolute;
-    width: max-content;
-    padding: 4px 15px;
-    border-radius: var(--borderRadius1);
-    background-color: var(--brand-c) !important;
-    color: var(--lightText);
-    font-size: 1.3rem;
-    text-align: center;
-    letter-spacing: 0.5px;
-
-    right: -10px;
-    bottom: -42px;          /* - (Altura de span) - (10px de separación) */
-    height: 20px;
-}
-.tooltip > span::after{
-    content: "";
-    display: block;
-    position: absolute;
-    
-    /* Show triangle at the bottom */
-    /*bottom: -7px;
-    border-top: 7px solid var(--brand-c);
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;*/
-
-    /* Show triangle at the top */
-    top: -7px;
-    border-bottom: 7px solid var(--brand-c);
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    right: calc(20px + 3.5px);
-}
-.tooltip:hover > span{ display: flex }

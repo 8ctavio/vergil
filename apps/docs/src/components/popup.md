@@ -35,8 +35,9 @@ import { PopupBackdrop } from '@8ctavio/vergil/components'
     <PopupBackdrop/>
 </template>
 ```
+
 :::tip
-`PopupBackdrop` `z-index` value is by default set to `40` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+`PopupBackdrop` `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ### Popup components
