@@ -71,7 +71,6 @@ defineProps({
             `radius-${radius}`,
             {
                 ghost,
-                outline,
                 underline,
                 fill,
                 squared,
@@ -200,14 +199,6 @@ defineProps({
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
         }
-        &.outline {
-            &:where(.ghost-transparent) {
-                --btn-c-border-1: var(--c-theme-1);
-            }
-            &:where(.ghost-translucent) {
-                --btn-c-border-1: rgb(var(--rgb-grey-border) / 0.75);
-            }
-        }
         & > .btn-content .btn-spinner {
             border-color: rgb(255 255 255 / 0.95);
             border-top-color: rgb(0 0 0 / 0.45);
@@ -234,27 +225,6 @@ defineProps({
     &:is(.soft, .subtle) {
         --btn-c-text-1: var(--c-theme-text-2);
         --btn-c-text-2: var(--c-theme-text-2);
-        &.outline-subtle {
-            --btn-c-border-1: var(--c-theme-border-subtle);
-            --btn-c-border-2: var(--c-theme-border-subtle);
-            &:where(.ghost-translucent) {
-                --btn-c-border-1: var(--c-grey-border-subtle);
-            }
-        }
-        &.outline-regular {
-            --btn-c-border-1: var(--c-theme-border-regular);
-            --btn-c-border-2: var(--c-theme-border-regular);
-            &:where(.ghost-translucent) {
-                --btn-c-border-1: var(--c-grey-border-regular);
-            }
-        }
-        &.outline-strong {
-            --btn-c-border-1: var(--c-theme-1);
-            --btn-c-border-2: var(--c-theme-1);
-            &:where(.ghost-translucent) {
-                --btn-c-border-1: var(--c-grey-1);
-            }
-        }
         & > .btn-backdrop {
             box-shadow: inherit;
         }
@@ -264,8 +234,35 @@ defineProps({
         }
     }
 
-    &.outline {
+    &:is(.outline-subtle, .outline-regular, .outline-strong) {
         --btn-bw: 0.8px;
+    }
+    &.outline-subtle {
+        --btn-c-border-1: var(--c-theme-border-subtle);
+        &:where(.soft, .subtle) {
+            --btn-c-border-2: var(--c-theme-border-subtle);
+        }
+        &:where(.ghost-translucent) {
+            --btn-c-border-1: var(--c-grey-border-subtle);
+        }
+    }
+    &.outline-regular {
+        --btn-c-border-1: var(--c-theme-border-regular);
+        &:where(.soft, .subtle) {
+            --btn-c-border-2: var(--c-theme-border-regular);
+        }
+        &:where(.ghost-translucent) {
+            --btn-c-border-1: var(--c-grey-border-regular);
+        }
+    }
+    &.outline-strong {
+        --btn-c-border-1: var(--c-theme-1);
+        &:where(.soft, .subtle) {
+            --btn-c-border-2: var(--c-theme-1);
+        }
+        &:where(.ghost-translucent) {
+            --btn-c-border-1: var(--c-grey-1);
+        }
     }
     &.underline {
         --btn-bw-b: var(--component-border-bottom-width);
@@ -295,6 +292,7 @@ defineProps({
         position: relative;
         display: grid;
         grid-auto-flow: column;
+        justify-content: center;
         column-gap: var(--g-gap-md);
 
         &::selection {

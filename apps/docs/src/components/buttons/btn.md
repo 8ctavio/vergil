@@ -64,12 +64,14 @@ The `'transparent'` value is equivalent to `ghost = true`.
 
 ### Outline <Badge><pre>outline: (boolean | 'subtle' | 'regular' | 'strong')</pre></Badge>
 
-For both the `soft` and `subtle` variants, the `'regular'` and `true` values are equivalent. In the case of the `solid` variant, `outline` is always coerced to a boolean, and only `ghost` buttons are affected.
+The `'regular'` and `true` values are equivalent. For the `solid` variant, only `ghost` buttons are affected.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn variant="solid" ghost outline label="Outline"/>
+            <Btn variant="solid" outline="subtle" label="Subtle" ghost/>
+            <Btn variant="solid" outline="regular" label="Regular" ghost/>
+            <Btn variant="solid" outline="strong" label="Strong" ghost/>
         </div>
         <div class="row center">
             <Btn variant="soft" outline="subtle" label="Subtle"/>
