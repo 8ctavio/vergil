@@ -296,7 +296,7 @@ The following `Badge` props' default values can be overwritten under the `badge`
 <Demo>
     <Anatomy tag="p" classes="badge">
         <Anatomy tag="Icon" classes="icon"/>
-        <Anatomy tag="slot #default"/>
+        <Anatomy tag='slot name="default"'/>
         <Anatomy tag="Icon" classes="icon"/>
     </Anatomy>
 </Demo>

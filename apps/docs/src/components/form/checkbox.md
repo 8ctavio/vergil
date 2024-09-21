@@ -231,10 +231,10 @@ The following `Checkbox` props' default values can be overwritten under the `che
             <Anatomy tag="svg" classes="toggle-check"/>
         </Anatomy>
         <Anatomy tag="p" classes="toggle-label">
-            <Anatomy tag="slot #default"/>
+            <Anatomy tag='slot name="default"'/>
         </Anatomy>
         <Anatomy tag="p" classes="toggle-description">
-            <Anatomy tag="slot #description"/>
+            <Anatomy tag='slot name="description"'/>
         </Anatomy>
     </Anatomy>
 </Demo>

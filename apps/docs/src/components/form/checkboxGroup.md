@@ -208,7 +208,7 @@ The `CheckboxGroup` is configured through the `Checkbox` configuration options.
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="toggle-group-wrapper">
-            <Anatomy tag="slot #default">
+            <Anatomy tag='slot name="default"'>
                 <Anatomy tag='Checkbox v-for="(text,value) in options"'/>
             </Anatomy>
         </Anatomy>

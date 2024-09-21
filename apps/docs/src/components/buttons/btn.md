@@ -565,11 +565,12 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
         <Anatomy tag="span" classes="btn-backdrop"/>
         <Anatomy tag="div" classes="btn-content">
             <Anatomy tag="Icon" classes="icon"/>
-            <Anatomy tag="slot #default"/>
+            <Anatomy tag='slot name="default"'/>
             <Anatomy tag="Icon" classes="icon"/>
             <Anatomy tag="div" classes="btn-loader">
                 <Anatomy tag="span" classes="btn-spinner"/>
             </Anatomy>
         </Anatomy>
+        <Anatomy tag='slot name="aside"'/>
     </Anatomy>
 </Demo>

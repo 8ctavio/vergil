@@ -217,10 +217,10 @@ For the `'classic'` variant the `radius` global configuration option is ignored.
             <Anatomy tag="svg" classes="toggle-radio"/>
         </Anatomy>
         <Anatomy tag="p" classes="toggle-label">
-            <Anatomy tag="slot #default"/>
+            <Anatomy tag='slot name="default"'/>
         </Anatomy>
         <Anatomy tag="p" classes="toggle-description">
-            <Anatomy tag="slot #description"/>
+            <Anatomy tag='slot name="description"'/>
         </Anatomy>
     </Anatomy>
 </Demo>

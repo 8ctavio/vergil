@@ -223,7 +223,7 @@ The `RadioGroup` is configured through the `Radio` configuration options.
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="toggle-group-wrapper">
-            <Anatomy tag="slot #default">
+            <Anatomy tag='slot name="default"'>
                 <Anatomy tag='Radio v-for="(text,value) in options"'/>
             </Anatomy>
         </Anatomy>

@@ -378,7 +378,7 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 <Demo>
     <Anatomy tag="button" classes="btn3D">
         <Anatomy tag="Icon" classes="icon"/>
-        <Anatomy tag="slot #default"/>
+        <Anatomy tag='slot name="default"'/>
         <Anatomy tag="Icon" classes="icon"/>
         <Anatomy tag="div" classes="btn-loader">
             <Anatomy tag="span" classes="btn-spinner"/>
