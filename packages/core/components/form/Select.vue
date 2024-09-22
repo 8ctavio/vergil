@@ -2,7 +2,7 @@
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, useTemplateRef, h } from 'vue'
+import { ref, computed, watchEffect, useTemplateRef, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -15,6 +15,7 @@ const {
     modelValue,
     options, optionValue, optionLabel,
     label, placeholder, description, floatLabel,
+    disabled,
     class: classProp
 } = defineProps({
     // ----- Model -----
@@ -105,6 +106,12 @@ function togglePopover(event) {
         showFloating.value = false
     }
 }
+watchEffect(() => {
+    if(disabled) {
+        stopAutoUpdate?.()
+        showFloating.value = false
+    }
+})
 
 //-------------------- OPTIONS --------------------
 function Options(props) {
@@ -138,7 +145,7 @@ const model = useModel(modelValue)
 let prevOption = null
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : placeholder)
 function handleSelection(event) {
-    if(event.target.tagName !== 'OPTION') return
+    if(event.target.tagName !== 'OPTION' || disabled) return
     const option = event.target
     if(Array.isArray(model.value)) {
 
