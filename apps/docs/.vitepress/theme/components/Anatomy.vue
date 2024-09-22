@@ -4,13 +4,17 @@ defineProps({
     classes: {
         type: String,
         default: ''
-    }
+    },
+    slot: String
 })
 </script>
 
 <template>
     <div :class="['anatomy', { parent: $slots.default }]">
-        <p><{{ tag }}<b>{{ classes.split(/\s+/).reduce((a,b) => b ? `${a}.${b}` : '', '') }}</b>/></p>
+        <p v-if="slot">
+            &lt;template <b>#{{ slot }}</b>/>
+        </p>
+        <p v-else><{{ tag }}<b>{{ classes.split(/\s+/).reduce((a,b) => b ? `${a}.${b}` : '', '') }}</b>/></p>
         <section v-if="$slots.default">
             <slot/>
         </section>

@@ -77,6 +77,7 @@ export default {
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },
 					{ text: 'RadioGroup', link: '/components/form/radioGroup' },
+					{ text: 'Select', link: '/components/form/select' },
 					{ text: 'Slider', link: '/components/form/slider' },
 					{ text: 'Switch', link: '/components/form/switch' },
 					{ text: 'Textarea', link: '/components/form/textarea' },

@@ -157,6 +157,14 @@ const vergil = {
             radius: undefined,
             spacing: undefined,
         },
+        select: {
+            underline: undefined,
+            fill: undefined,
+            theme: new Option(undefined, { modifier: inferTheme }),
+            size: undefined,
+            radius: undefined,
+            spacing: undefined,
+        },
         skeleton: {
             size: undefined,
             radius: undefined,

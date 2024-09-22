@@ -150,6 +150,14 @@ interface VergilConfiguration {
         radius: radius = 'full';
         spacing: spacing;
     },
+    select: {
+        underline: boolean;
+        fill: boolean;
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     skeleton: {
         size: size;
         radius: radius;
