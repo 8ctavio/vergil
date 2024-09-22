@@ -70,12 +70,12 @@ const props = defineProps({
 
 const model = useModel(props.modelValue)
 
-const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && !props.description))
+const floatLabelEnabled = computed(() => props.floatLabel && Boolean(props.label) && !(props.placeholder || props.description))
 </script>
 
 <template>
     <FormField :class="['textarea', props.class]"
-        :label :hint :description :help :float-label="canLabelFloat"
+        :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
         >
         <div :class="['textarea-wrapper', inferTheme(theme), { underline }]">
@@ -84,12 +84,12 @@ const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && 
                 v-model="model.value"
                 :ref="model.getRef('el')"
                 :class="[`text-${textAlign}`, { resize }]"
-                :placeholder="canLabelFloat ? '' : placeholder"
+                :placeholder
                 :maxlength="max"
                 :rows
                 :disabled
             />
-            <label v-if="canLabelFloat">
+            <label v-if="floatLabelEnabled">
                 <MiniMarkup :str="label"/>
             </label>
         </div>

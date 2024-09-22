@@ -101,7 +101,7 @@ The maximum string length that can be entered into the textarea.
 </Demo>
 
 :::tip NOTE
-`float-label` only works if the `description` prop is unset.
+`float-label` only works if the `placeholder` and `description` props are unset.
 :::
 
 ### Underline <Badge type="tip"><pre>underline: boolean</pre></Badge>

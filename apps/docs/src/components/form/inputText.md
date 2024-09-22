@@ -154,7 +154,7 @@ const btnAfterProps = {
 </Demo>
 
 :::tip NOTE
-`float-label` only works if the `description`, `prefix`, and `icon[-left]` props are unset.
+`float-label` only works if the `placeholder`, `description`, `prefix`, and `icon[-left]` props are unset.
 :::
 
 ### Underline <Badge type="tip"><pre>underline: boolean</pre></Badge>
@@ -271,8 +271,8 @@ const btnAfterProps = {
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
-| `float-label` | `boolean` | `false` |
-| `underline` | `boolean` | `false` |
+| `float-label` | `boolean` | |
+| `underline` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |

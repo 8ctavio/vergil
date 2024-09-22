@@ -84,14 +84,14 @@ const props = defineProps({
 
 const model = useModel(props.modelValue)
 
-const canLabelFloat = computed(() => Boolean(props.floatLabel && props.label && !(props.description || props.icon || props.iconLeft || props.prefix)))
+const floatLabelEnabled = computed(() => props.floatLabel && Boolean(props.label) && !(props.placeholder || props.description || props.icon || props.iconLeft || props.prefix))
 const showBtnBefore = typeof props.btnBefore === 'object' && props.btnBefore !== null
 const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== null
 </script>
 
 <template>
     <FormField :class="['input-text', props.class]"
-        :label :hint :description :help :float-label="canLabelFloat"
+        :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
         >
         <div class="input-text-outer">
@@ -111,11 +111,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                     :ref="model.getRef('el')"
                     :class="`text-${textAlign}`"
                     :type
-                    :placeholder="canLabelFloat ? '' : placeholder"
+                    :placeholder
                     :maxlength="max"
                     :disabled
                 >
-                <label v-if="canLabelFloat">
+                <label v-if="floatLabelEnabled">
                     <MiniMarkup :str="label"/>
                 </label>
                 <p v-if="suffix">{{ suffix }}</p>
