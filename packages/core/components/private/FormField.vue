@@ -34,7 +34,7 @@ const props = defineProps({
             { [`spacing-${spacing}`]: spacing },
         ]">
         <div v-if="label || hint" class="form-field-label-wrapper">
-            <span v-if="floatLabel">&#8203;</span>
+            <span v-if="floatLabel">&ZeroWidthSpace;</span>
             <label v-else class="form-field-label">
                 <MiniMarkup :str="label"/>
             </label>
@@ -49,6 +49,7 @@ const props = defineProps({
         <p v-if="help" class="form-field-details form-field-help">
             <MiniMarkup :str="help"/>
         </p>
+        <slot name="aside"/>
     </div>
 </template>
 

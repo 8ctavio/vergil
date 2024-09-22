@@ -93,6 +93,7 @@ defineProps({
                 <span class="btn-spinner"/>
             </div>
         </div>
+        <slot name="aside"/>
     </button>
 </template>
 
