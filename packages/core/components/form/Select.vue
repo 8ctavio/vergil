@@ -95,11 +95,11 @@ let stopAutoUpdate
 const showFloating = ref(false)
 function togglePopover(event) {
     if(!showFloating.value) {
+        showFloating.value = true
         updatePosition()
         stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
             elementResize: false
         })
-        showFloating.value = true
     } else {
         stopAutoUpdate?.()
         showFloating.value = false
