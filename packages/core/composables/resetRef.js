@@ -1,10 +1,10 @@
-import { isRef, toValue, toRaw } from 'vue'
+import { useResetValue } from "./private/useResetValue"
 
 /**
  * Returns extended ref with reset method.
  * 
  * @template T
- * @param { T | Ref<T> | () => T } initial - The extend ref's default value. A ref or getter can be used for a dynamic default value.
+ * @param { T | Ref<T> | () => T } reference - The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
  * 
  * @returns { ExtendedRef }
  * 
@@ -21,19 +21,11 @@ import { isRef, toValue, toRaw } from 'vue'
  *  num.reset()
  *  console.log(num.value) // 8
  */
-export function resetRef(initial){
-    const reference = (
-        isRef(initial)
-        || (typeof initial !== 'object')
-        || initial === null
-    ) ? initial : structuredClone(toRaw(initial))
-    function getReferenceCopy(){
-        const value = toValue(reference)
-        return ((typeof value !== 'object') || value === null) ? value : structuredClone(toRaw(value))
-    }
-    return extendedRef(getReferenceCopy(), {
+export function resetRef(reference){
+    const getResetValue = useResetValue(reference)
+    return extendedRef(getResetValue(), {
         reset(){
-            this.value = getReferenceCopy()
+            this.value = getResetValue()
         }
     }, { configurable: false })
 }

@@ -29,12 +29,12 @@ console.log(num.value) // 8
 ## Definition
 
 ```ts
-function resetRef<T>(initial: T | Ref<T> | () => T): ExtendedRef
+function resetRef<T>(reference: T | Ref<T> | () => T): ExtendedRef
 ```
 
 #### Parameters
 
-- **`initial`**: The extend ref's initial and reset value. A ref or getter can be used for a dynamic reset value.
+- **`reference`**: The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
 
 #### Return value
 
