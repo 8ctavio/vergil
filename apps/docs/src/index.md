@@ -16,7 +16,7 @@ hero:
       link: components/badge
     - theme: alt
       text: Composables
-      link: composables/defineReactiveProperties
+      link: composables/controlledRef
     - theme: alt
       text: Utilities
       link: utilities/classes/index.md

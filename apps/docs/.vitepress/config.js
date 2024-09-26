@@ -28,7 +28,7 @@ export default {
 		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
 		theme: {
 			light: 'github-light',
-			dark: 'dark-plus'
+			dark: 'vitesse-dark'
 		}
 	},
 	themeConfig: {
@@ -87,6 +87,7 @@ export default {
 				text: 'Composables',
 				collapsed: true,
 				items: [
+					{ text: 'controlledRef', link: '/composables/controlledRef' },
 					{ text: 'defineReactiveProperties', link: '/composables/defineReactiveProperties' },
 					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
 					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
