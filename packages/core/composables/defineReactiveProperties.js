@@ -1,4 +1,4 @@
-import { toRef, isRef, readonly } from 'vue'
+import { isRef, readonly } from 'vue'
 import { isExtendedReactive, isExtendedRef } from '../utilities'
 import { symSetRef } from '../utilities/private'
 
@@ -7,7 +7,7 @@ import { symSetRef } from '../utilities/private'
  * @param { object } o - Descriptor object to be marked.
  * @returns { object } Marked descriptor object.
  */
-function markDescriptor(o){
+function markDescriptor(o) {
     return Object.defineProperty(o, '__v_isDescriptor', { value: true })
 }
 /**
@@ -15,12 +15,12 @@ function markDescriptor(o){
  * @param { any } value
  * @returns { boolean } `true` if `value` is marked as a descriptor.
  */
-function isDescriptor(value){
+function isDescriptor(value) {
     return Boolean(value?.__v_isDescriptor)
 }
 
 /**
- * Defines object properties similar to `Object.defineProperties` but with convenient default descriptors, special support for extendedReactive and extendedRef objects, and additional features for ref properties.
+ * Defines object properties similar to `Object.defineProperties` but with convenient default descriptors, special support for `extendedReactive` and `extendedRef` objects, and additional features for ref properties.
  * 
  * @template T
  * @param { object } object - The object on which to define properties.
@@ -28,7 +28,6 @@ function isDescriptor(value){
  * @param { object } [options] - Additional options.
  * @param { string[] } [options.ignore] - Array of property keys to be ignored from the properties object.
  * @param { boolean } [options.configurable] - Default value for data descriptors' `configurable` option. Defaults to `true`.
- * @param { boolean } [options.enumerable] - Default value for data descriptors' `enumerable` option. Defaults to `true`.
  * 
  * @returns { object }
  * 
@@ -61,14 +60,13 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
     if(typeof object !== 'object' || object === null)
         throw new TypeError('Invalid object')
     if(typeof properties === 'function')
-        properties = properties(markDescriptor)
+        properties = properties(markDescriptor, object)
     if(typeof properties !== 'object' || properties === null)
         throw new TypeError('Invalid properties object')
 
 	const {
 		ignore = [],
 		configurable: dataConfigurable = true,
-		enumerable: dataEnumerable = true,
 	} = options
 
 	if(isExtendedReactive(object)) ignore.push('__v_skip', 'getRef', symSetRef)
@@ -81,36 +79,31 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
         const descriptor = isDescriptor(v) ? v : { value: v }
 
         if ('value' in descriptor) {
-			const { value, configurable = dataConfigurable, enumerable = dataEnumerable } = descriptor
-			const customDescriptor = { configurable, enumerable }
+			const { value, configurable = dataConfigurable } = descriptor
+			const customDescriptor = { configurable }
 			if (isRef(value)) {
+				customDescriptor.enumerable = descriptor.enumerable ?? (typeof property !== 'symbol')
 				const { unwrap = true, readonly: isReadOnly = false } = descriptor
-				const refProperty = isReadOnly ? readonly(toRef(value)) : toRef(value)
+				const refProperty = isReadOnly ? readonly(value) : value
 				if (unwrap) {
-					if(isExtendedReactive(object)){
+					if(isExtendedReactive(object)) {
 						object[symSetRef](property, refProperty)
-						customDescriptor.get = descriptor.get ?? function () {
-							return object.getRef(property).value
-						}
-						customDescriptor.set = descriptor.set ?? function (v) {
-							object.getRef(property).value = v
-						}
+						customDescriptor.get = () => object.getRef(property).value
+						customDescriptor.set = v => object.getRef(property).value = v
 					} else {
-						customDescriptor.get = descriptor.get ?? function () {
-							return refProperty.value
-						}
-						customDescriptor.set = descriptor.set ?? function (v) {
-							refProperty.value = v
-						}
+						customDescriptor.get = () => refProperty.value
+						customDescriptor.set = v => refProperty.value = v
 					}
 				} else {
 					customDescriptor.writable = descriptor.writable ?? false
 					customDescriptor.value = refProperty
 				}
 			} else if (typeof value === 'function') {
+				customDescriptor.enumerable = descriptor.enumerable ?? false
 				customDescriptor.writable = descriptor.writable ?? false
-				customDescriptor.value = value.bind(object)
+				customDescriptor.value = value
 			} else {
+				customDescriptor.enumerable = descriptor.enumerable ?? (typeof property !== 'symbol')
 				customDescriptor.writable = descriptor.writable ?? true
 				customDescriptor.value = value
 			}
