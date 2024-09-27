@@ -18,32 +18,18 @@ export class ExtendedReactive {
 /** Stores a ref object and defines `value` accessor methods to read from and write to that ref's value. */
 export class ExtendedRef extends ExtendedReactive {
 	#ref
-	#customGet
-	#customSet
-
-	constructor(value, accessor = {}) {
+	constructor(value) {
 		super()
-		const {
-			get = function () {
-				return this.#ref.value
-			},
-			set = function (v) {
-				this.#ref.value = v
-			},
-		} = accessor
-		this.#customGet = get
-		this.#customSet = set
 		this.#ref = toRef(value)
 	}
-
 	get ref() {
 		return this.#ref
 	}
 	get value() {
-		return this.#customGet()
+		return this.#ref.value
 	}
 	set value(v) {
-		this.#customSet(v)
+		this.#ref.value = v
 	}
 }
 

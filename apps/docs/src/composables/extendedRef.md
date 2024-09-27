@@ -84,7 +84,7 @@ To access an extendedRef's inner ref value in the template, full `.value` notati
 
 ```ts
 function extendedRef<T,E>(
-    initial: T | (() => T) | Ref<T> | ExtendedRef<T,F>,
+    value: T | (() => T) | Ref<T> | ExtendedRef<T,F>,
     extension?: E | (withDescriptor: function) => E,
     options?: {
         ignore?: string[];
@@ -96,7 +96,7 @@ function extendedRef<T,E>(
 
 #### Parameters
 
-- **`initial`**: Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
+- **`value`**: Value to normalize into the ref to be extended. If an extendedRef is provided, it is extended without creating a new `ExtendedRef` object.
 - **`extension`**: Extension object or callback that returns extension object. The extension object keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
 - **`options.ignore`**: Array of property keys to be ignored from the `extension` object.
 - **`options.configurable`**: Default value for data descriptors' `configurable` option. Defaults to `true`.

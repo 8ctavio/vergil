@@ -89,7 +89,6 @@ export default {
 				items: [
 					{ text: 'controlledRef', link: '/composables/controlledRef' },
 					{ text: 'defineReactiveProperties', link: '/composables/defineReactiveProperties' },
-					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
 					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
