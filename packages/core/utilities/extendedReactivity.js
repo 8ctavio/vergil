@@ -1,4 +1,4 @@
-import { toRef, isRef, markRaw } from 'vue'
+import { toRef, markRaw } from 'vue'
 import { symSetRef } from './private'
 
 /** Defines accessor methods to read and write internally stored refs of automatically unwrapped reactive properties. */
@@ -6,35 +6,44 @@ export class ExtendedReactive {
 	#refs = {}
 	constructor() {
 		markRaw(this)
-		Object.defineProperties(this, {
-			getRef: {
-				value: (property) => this.#refs[property],
-			},
-			[symSetRef]: {
-				value: (property, refProperty) => {
-                    if(isRef(refProperty)) this.#refs[property] = refProperty
-				},
-			},
-		})
+	}
+	getRef(property) {
+		return this.#refs[property]
+	}
+	[symSetRef](property, refProperty) {
+		this.#refs[property] = toRef(refProperty)
 	}
 }
 
-/** Defines a `ref` property to store a ref object and `value` accessor methods to read from and write to that ref's value. */
+/** Stores a ref object and defines `value` accessor methods to read from and write to that ref's value. */
 export class ExtendedRef extends ExtendedReactive {
-	constructor(initial, accessor = {}) {
+	#ref
+	#customGet
+	#customSet
+
+	constructor(value, accessor = {}) {
 		super()
 		const {
 			get = function () {
-				return this.ref.value
+				return this.#ref.value
 			},
 			set = function (v) {
-				this.ref.value = v
+				this.#ref.value = v
 			},
 		} = accessor
-		Object.defineProperties(this, {
-			ref: { value: toRef(initial) },
-			value: { get, set },
-		})
+		this.#customGet = get
+		this.#customSet = set
+		this.#ref = toRef(value)
+	}
+
+	get ref() {
+		return this.#ref
+	}
+	get value() {
+		return this.#customGet()
+	}
+	set value(v) {
+		this.#customSet(v)
 	}
 }
 

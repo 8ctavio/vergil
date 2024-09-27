@@ -56,6 +56,10 @@ Objects returned by `useModel` are [extendedRefs](/composables/extendedRef). See
 
 ### Features
 
+#### `controlledRef`
+
+Component models created with `useModel` are controlled extended refs. See [`controlledRef`](/composables/controlledRef#additional-methods) to learn about its additional methods.
+
 #### `reset`
 
 Models have a `reset` method to reset the model's value to its initial specified value. Its usage is similar to that of the [resetRef](/composables/resetRef) composable.

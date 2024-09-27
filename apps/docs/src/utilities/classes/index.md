@@ -57,7 +57,7 @@ class AppError {
 --------------------------------------------------------->
 ### `ExtendedReactive`
 
-> Defines method to read internally stored refs of automatically unwrapped reactive properties.
+> Defines accessor methods to read and write internally stored refs of automatically unwrapped reactive properties.
 
 ```ts
 interface ExtendedReactive<T> {
@@ -71,7 +71,7 @@ interface ExtendedReactive<T> {
 ---------------------------------------------------->
 ### `ExtendedRef`
 
-> Defines a `ref` property to store a ref object and `value` accessor methods to read from and write to that ref's value.
+> Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
 
 ```ts
 interface ExtendedRef<T,E> extends ExtendedReactive<E> {

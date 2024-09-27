@@ -1,7 +1,10 @@
-import { ref, isRef, toValue, toRaw } from 'vue'
+import { ref, isRef } from 'vue'
+import { defineReactiveProperties } from './defineReactiveProperties'
 import { extendedReactive } from './extendedReactive'
-import { extendedCustomRef } from './extendedRef'
-import { isModel, isModelWrapper } from '../utilities'
+import { controlledRef } from './controlledRef'
+import { ExtendedRef, isModel, isModelWrapper } from '../utilities'
+import { useResetValue } from "./private/useResetValue"
+import { symSetRef } from '../utilities/private'
 
 /**
  * Creates or wraps a component model.
@@ -30,57 +33,53 @@ import { isModel, isModelWrapper } from '../utilities'
  */
 export function useModel(value){
     // Nested custom component: Return wrapped model
-    if(isModelWrapper(value)){
+    if(isModelWrapper(value)) {
         return value
     }
     // Custom component: Wrap model
-    else if(isModel(value)){
-        return extendedCustomRef(value.ref, {
-            set: value.updateModel
-        }, withDescriptor => ({
-            el: value.getRef('el'),
-            reset: value.reset,
-            onMutated: value.onMutated,
-            __v_isModelWrapper: withDescriptor({
-                value: true,
-                enumerable: false,
-                writable: false
-            })
-        }), { configurable: false })
+    else if(isModel(value)) {
+        const wrapper = new ExtendedRef(value)
+        const descriptors = Object.getOwnPropertyDescriptors(value)
+		for(let property in descriptors) {
+            if(['__v_skip', 'exposed'].includes(property)) continue
+            Object.defineProperty(wrapper, property, descriptors[property])
+    		// Set private properties (#refs)
+            const refProperty = value.getRef(property)
+			if(isRef(refProperty)) wrapper[symSetRef](property, refProperty)
+		}
+
+        Object.defineProperties(wrapper, {
+            value: {
+                get: value.get,
+                set: value.updateModel
+            },
+            __v_isModelWrapper: { value: true }
+        })
+        return wrapper
     }
     // Parent component: Create model
     else {
-        const reference = (
-            isRef(value)
-            || (typeof value !== 'object')
-            || value === null
-        ) ? value : structuredClone(toRaw(value))
-        function getReferenceCopy(){
-            const v = toValue(reference)
-            return ((typeof v !== 'object') || v === null) ? v : structuredClone(toRaw(v))
-        }
         let mutateModel
-        return extendedCustomRef(getReferenceCopy(), {
-            set(v){
+        const getResetValue = useResetValue(value)
+        const model = controlledRef(getResetValue(), {
+            set(v) {
                 (mutateModel ?? this.updateModel)(v)
             }
-        }, withDescriptor => ({
+        })
+        return defineReactiveProperties(model, withDescriptor => ({
             el: ref(null),
-            reset(){
-                this.updateModel(getReferenceCopy())
-            },
             exposed: extendedReactive(),
-            updateModel: withDescriptor({
-                value(v){ this.ref.value = v },
-                enumerable: false
-            }),
-            onMutated: withDescriptor({
-                value(callback){
-                    if(typeof callback === 'function')
-                        mutateModel = callback
-                },
-                enumerable: false
-            }),
+            updateModel(v) {
+                model.set(v, { custom: false })
+            },
+            reset() {
+                model.value = getResetValue()
+            },
+            onMutated(callback) {
+                if(typeof callback === 'function') {
+                    mutateModel = callback
+                }
+            },
             __v_isModel: withDescriptor({
                 value: true,
                 enumerable: false,
