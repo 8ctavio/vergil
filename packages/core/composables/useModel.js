@@ -1,8 +1,8 @@
-import { ref, isRef } from 'vue'
+import { ref } from 'vue'
 import { defineReactiveProperties } from './defineReactiveProperties'
 import { extendedReactive } from './extendedReactive'
 import { controlledRef } from './controlledRef'
-import { ExtendedRef, isModel, isModelWrapper } from '../utilities'
+import { isModel, isModelWrapper } from '../utilities'
 import { useResetValue } from "./private/useResetValue"
 
 /**
@@ -20,10 +20,8 @@ import { useResetValue } from "./private/useResetValue"
  *  // Interact with the model value
  *  model.value = 'updated value'
  *  console.log(model.value) // 'updated value'
- *  // Reset the model value
- *  model.reset()
- *  console.log(model.value) // 'initial value'
  *  </script>
+ * 
  *  <template>
  *      <!-- Provide model to a component -->
  *      <Component v-model="model"/>
@@ -37,55 +35,40 @@ export function useModel(value){
     }
     // Custom component: Wrap model
     else if(isModel(value)) {
-        const wrapper = new ExtendedRef(value)
-        const descriptors = Object.getOwnPropertyDescriptors(value)
-		for(let property in descriptors) {
-            if(['__v_skip', 'exposed', 'refs', 'ref', 'value'].includes(property)) continue
-            Object.defineProperty(wrapper, property, descriptors[property])
-            const refProperty = value.refs[property]
-            if(isRef(refProperty)) Object.defineProperty(wrapper.refs, property, {
-                value: refProperty,
-                enumerable: true
-            })
-        }
-
-        Object.defineProperties(wrapper, {
+        return Object.create(Object.getPrototypeOf(value), {
             value: {
                 get: value.get,
-                set: value.updateModel
+                set: value.updateModel,
             },
             __v_isModelWrapper: { value: true }
         })
-        return wrapper
     }
     // Parent component: Create model
     else {
         let mutateModel
         const getResetValue = useResetValue(value)
-        const model = controlledRef(getResetValue(), {
+        const modelProto = controlledRef(getResetValue(), {
             set(v) {
                 (mutateModel ?? this.updateModel)(v)
             }
         })
-        return defineReactiveProperties(model, withDescriptor => ({
+        defineReactiveProperties(modelProto, {
             el: ref(null),
             exposed: extendedReactive(),
             updateModel(v) {
-                model.set(v, { custom: false })
+                modelProto.set(v, { custom: false })
             },
             reset() {
-                model.value = getResetValue()
+                modelProto.value = getResetValue()
             },
             onMutated(callback) {
                 if(typeof callback === 'function') {
                     mutateModel = callback
                 }
-            },
-            __v_isModel: withDescriptor({
-                value: true,
-                enumerable: false,
-                writable: false
-            })
-        }), { configurable: false })
+            }
+        }, { configurable: false })
+        return Object.create(modelProto, {
+            __v_isModel: { value: true }
+        })
     }
 }

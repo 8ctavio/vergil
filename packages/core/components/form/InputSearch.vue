@@ -102,8 +102,8 @@ const btnProps = extendedReactive({
     squared: props[`btn${btnPositionName}`]?.squared,
 })
 
-defineReactiveProperties(props.modelValue.exposed, {
-    clear(){
+defineReactiveProperties(model.exposed, {
+    clear() {
         if(model.value){
             model.value = ''
             emit('clear')

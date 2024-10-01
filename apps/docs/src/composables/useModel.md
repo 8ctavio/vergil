@@ -18,10 +18,6 @@ const model = useModel('initial value')
 // Interact with the model value
 model.value = 'updated value'
 console.log(model.value) // 'updated value'
-
-// Reset the model value
-model.reset()
-console.log(model.value) // 'initial value'
 </script>
 
 <template>
@@ -52,36 +48,27 @@ Besides providing additional features, `useModel` allows to build components wit
 
 ### Considerations
 
-Objects returned by `useModel` are [extendedRefs](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+Objects returned by `useModel` have as their prototype an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
 
 ### Features
 
-#### `controlledRef`
+- **`controlledRef`**: Models' prototype is a controlled extended ref. See [`controlledRef`](/composables/controlledRef#additional-methods) to learn about its additional methods.
 
-Component models created with `useModel` are controlled extended refs. See [`controlledRef`](/composables/controlledRef#additional-methods) to learn about its additional methods.
+- **`reset`**: Models have a `reset` method to reset the model's value to its initial specified value. Its usage is similar to that of the [resetRef](/composables/resetRef) composable.
 
-#### `reset`
+- **`el`**: The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlying ref object may be accessed through the `refs` index: `model.refs.el`.
 
-Models have a `reset` method to reset the model's value to its initial specified value. Its usage is similar to that of the [resetRef](/composables/resetRef) composable.
+- `exposed`: Models store an [extendedReactive](/composables/extendedReactive) object under a  `exposed` key whose purpose is to have components with support for models to define or *expose* methods or properties on it with [`defineReactiveProperties`](/composables/defineReactiveProperties). This is, therefore, an alternative of exposing data with `defineExpose`.
+    
+    By defining properties on `exposed`, the parent component can easily access exposed data from `model.exposed` and enjoy of extendedReactive features such as automatically unwrapped refs.
 
-#### `el`
-
-The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlying ref object may be accessed with the `getRef` method: `model.getRef('el')`.
-
-#### `exposed`
-
-Models store an [extendedReactive](/composables/extendedReactive) object under a  `exposed` key whose purpose is to have components with support for models to define or *expose* methods or properties on it with [`defineReactiveProperties`](/composables/defineReactiveProperties). This is, therefore, an alternative of exposing data with `defineExpose`.
-
-By defining properties on the `exposed` property, the parent component can easily access exposed data from `model.exposed` and enjoy of extendedReactive features such as automatically unwrapped refs.
-
-```js
-const model = useModel()
-
-// Read properties
-console.log(model.exposed.property)
-// Call methods
-model.exposed.method()
-```
+    ```js
+    const model = useModel()
+    // Read properties
+    console.log(model.exposed.property)
+    // Call methods
+    model.exposed.method()
+    ```
 
 ## Definition
 
@@ -110,27 +97,27 @@ There are different alternatives to receive a model in the component. The recomm
 ```js
 import { useModel, isModel } from '@8ctavio/vergil'
 
-const props = defineProps({
+const { modelValue } = defineProps({
     modelValue: {
         validator: isModel,
         default: () => useModel()
     }
 })
 
-const model = useModel(props.modelValue)
+const model = useModel(modelValue)
 ```
 
-The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` wraps the model in a new extendedRef for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are very similar.
+The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` returns a wrapped version for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are identical.
 
 ### Nested component
 
-Consider a `Root` component that wraps another `Nested` component which supports models. The `Root` component may need wrap the received model to perform certain operations. Then, the model could be directly passed to the `Nested` component.
+Consider a `Root` component that wraps another `Nested` component which supports models. The `Root` component may need to wrap the received model to perform certain operations. Then, the model could be directly passed to the `Nested` component.
 
 ```vue
 <!-- Root -->
 <script setup>
-const props = defineProps(/* ... */)
-const model = useModel(props.modelValue)
+const { modelValue } = defineProps(/* ... */)
+const model = useModel(modelValue)
 </script>
 <template>
     <Nested :model-value="modelValue"/>
@@ -150,20 +137,18 @@ When `useModel` receives a model wrapper, that wrapper is simply returned. Thefo
 // Nested
 import { useModel, isModel, isModelWrapper } from '@8ctavio/vergil'
 
-const props = defineProps({
+const { modelValue } = defineProps({
     modelValue: {
         validator: v => isModel(v) || isModelWrapper(v),
         default: () => useModel()
     }
 })
-
-const model = useModel(props.modelValue)
+const model = useModel(modelValue)
 ```
-
 
 ### Listen to external model mutations
 
-When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a wrapped model has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
+When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a model has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
 
 :::tip IMPORTANT
 If registered, the `onMutated` callback is responsible for updating the model value.
@@ -172,7 +157,7 @@ If registered, the `onMutated` callback is responsible for updating the model va
 ```js
 model.onMutated(v => {
     console.log('External programmatic mutation')
-    // The callback is responsible for updating the model value
+    // IMPORTANT: The callback is responsible for updating the model value
     model.value = v
 })
 ```
@@ -183,10 +168,10 @@ See [Listening to external programmatic model mutations with `defineModel`](http
 
 ### Reference a DOM element
 
-The `el` property present on a model is intented to store a reference to a component's DOM element instance. A model can easily get a DOM component reference with a template ref and the `getRef` method.
+The `el` property present on a model is intented to store a reference to a component's DOM element instance. A model can easily get a DOM component reference with a template ref and the `refs` index.
 
 ```vue
-<element :ref="model.getRef('el')"/>
+<element :ref="model.refs.el"/>
 ```
 
 ### Expose data
@@ -196,14 +181,14 @@ In order to expose component data such as methods and properties to make them av
 ```js
 import { useModel, defineReactiveProperties } from '@8ctavio/vergil'
 
-const props = defineProps(/* ... */)
-const model = useModel(props.modelValue)
+const { modelValue } = defineProps(/* ... */)
+const model = useModel(modelValue)
 
 function method(){ /* ... */ }
 const property = ref(/* ... */)
 
 // Expose data
-defineReactiveProperties(props.modelValue.exposed, withDescriptor => ({
+defineReactiveProperties(model.exposed, withDescriptor => ({
     method,
     property: withDescriptor({
         value: property,
@@ -211,7 +196,3 @@ defineReactiveProperties(props.modelValue.exposed, withDescriptor => ({
     })
 }))
 ```
-
-:::warning
-The properties should be defined on the received model's `exposed` property. Model wrappers do not have an `exposed` property.
-:::
