@@ -2,14 +2,13 @@
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, watchEffect, useTemplateRef, h } from 'vue'
+import { ref, computed, watchEffect, useTemplateRef, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
-defineEmits(['update:modelValue'])
 defineOptions({ inheritAttrs: false })
 const {
     modelValue,
@@ -84,7 +83,7 @@ const {
 })
 const floatLabelEnabled = computed(() => floatLabel && Boolean(label) && !(placeholder || description))
 
-//-------------------- POPOVER --------------------
+//-------------------- HANDLE POPOVER --------------------
 const reference = useTemplateRef('reference')
 const floating = useTemplateRef('floating')
 const { floatingStyles, update: updatePosition } = useFloating(reference, floating, {
@@ -113,9 +112,67 @@ watchEffect(() => {
     }
 })
 
-//-------------------- OPTIONS --------------------
+//-------------------- HANDLE SELECTION --------------------
+const model = useModel(modelValue)
+
+let currentOption = null
+function getOptionByValue(value) {
+    const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
+        return element instanceof HTMLOptionElement && element.value === value
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_REJECT
+    })
+    return walker.nextNode()
+}
+function updateSelection(option, hideOnSelect = false) {
+    if(Array.isArray(model.value)) {
+
+    } else {
+        if(option.classList.contains('selected')) {
+            option.classList.remove('selected')
+            model.value = ''
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : placeholder
+        } else {
+            if(currentOption) currentOption.classList.remove('selected')
+            option.classList.add('selected')
+            const updatePlaceholder = () => computedPlaceholder.value = option.innerText
+            if(floatLabelEnabled.value && !model.value) setTimeout(updatePlaceholder, 75)
+            else updatePlaceholder()
+            model.value = option.value
+            currentOption = option
+            if(hideOnSelect) showFloating.value = false
+        }
+    }
+}
+
+function handleSelection(event) {
+    if(event.target.tagName !== 'OPTION' || disabled) return
+    const option = event.target
+    updateSelection(option, true)
+}
+model.onMutated(v => {
+    if(v && model.value !== v) {
+        const option = getOptionByValue(v)
+        if(option) updateSelection(option)
+    } else if(!v && model.value) {
+        updateSelection(currentOption)
+    }
+})
+
+//-------------------- RENDER OPTIONS --------------------
+const computedPlaceholder = ref(floatLabelEnabled.value ? '' : placeholder)
 function Options(props) {
     const { options } = props
+    nextTick(() => {
+        // After options are mounted...
+        // Note: Effect dependencies are only tracked during synchronous execution
+        //       (i.e., reading model.value is safe here).
+        currentOption = getOptionByValue(model.value)
+        if(currentOption) {
+            currentOption.classList.add('selected')
+            computedPlaceholder.value = currentOption.innerText
+        }
+    })
     if(options === null) return
     if(Array.isArray(options)) {
         return options.map(option => {
@@ -124,46 +181,18 @@ function Options(props) {
             return h('option', {
                 key: value,
                 value,
-                tabindex: '0'
+                tabindex: '0',
             }, label)
         })
     } else {
-        return Object.entries(options).map(([key, option] )=> {
+        return Object.entries(options).map(([key, option]) => {
             const label = typeof optionLabel === 'function' ? optionLabel(option) : option[optionLabel]
             return h('option', {
                 key,
                 value: key,
-                tabindex: '0'
+                tabindex: '0',
             }, label)
         })
-    }
-}
-
-//-------------------- SELECTION --------------------
-const model = useModel(modelValue)
-
-let prevOption = null
-const computedPlaceholder = ref(floatLabelEnabled.value ? '' : placeholder)
-function handleSelection(event) {
-    if(event.target.tagName !== 'OPTION' || disabled) return
-    const option = event.target
-    if(Array.isArray(model.value)) {
-
-    } else {
-        if(option.classList.contains('selected')) {
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : placeholder
-            option.classList.remove('selected')
-            model.value = ''
-        } else {
-            const updatePlaceholder = () => computedPlaceholder.value = option.innerText
-            if(floatLabelEnabled.value && !model.value) setTimeout(updatePlaceholder, 75)
-            else updatePlaceholder()
-            if(prevOption) prevOption.classList.remove('selected')
-            option.classList.add('selected')
-            model.value = option.value
-            showFloating.value = false
-            prevOption = option
-        }
     }
 }
 </script>
