@@ -85,7 +85,7 @@ const valueWidth = computed(() => props.max.length)
                 <input
                     v-bind="$attrs"
                     v-model.number="model.value"
-                    :ref="model.getRef('el')"
+                    :ref="model.refs.el"
                     type="range"
                     :min
                     :max

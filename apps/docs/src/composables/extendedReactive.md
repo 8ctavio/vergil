@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `extendedReactive`
 
-> Defines additional `ExtendedReactive` object properties through descriptors with special ref support.
+> Defines object properties through descriptors with special ref support.
 
 :::tip
 Before proceeding with `extendedReactive`, learn first about [`defineReactiveProperties`](/composables/defineReactiveProperties).
@@ -51,14 +51,12 @@ In practice, `extendedReactive` creates an object that can have both regular pro
 
 ### Additional features
 
-An `ExtendedReactive` object internally stores an index of the underlying ref objects of automatically unwrapped reactive properties, and provides a `getRef` method to retrieve those ref objects.
-
-The `getRef` method receives the property name of an automatically unwrapped ref property and returns its underlying ref object. If the property does not exist `undefined` is returned.
+An `ExtendedReactive` object internally stores an index of the underlying ref objects of automatically unwrapped reactive properties as a non-writable object under the `refs` property.
 
 ```js
 const extended = extendedReactive({ foo: ref() })
 console.log(isRef(extended.foo)) // false
-console.log(isRef(extended.getRef('foo'))) // true
+console.log(isRef(extended.refs.foo)) // true
 ```
 
 ## Definition
@@ -69,7 +67,6 @@ function extendedReactive<T>(
     options?: {
         ignore?: string[];
         configurable?: boolean;
-        enumerable?: boolean;
     }
 ): ExtendedReactive<T>
 ```
@@ -79,7 +76,6 @@ function extendedReactive<T>(
 - **`properties`**: An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.
 - **`options.ignore`**: Array of property keys to be ignored from the `properties` object.
 - **`options.configurable`**: Default value for data descriptors' `configurable` option. Defaults to `true`.
-- **`options.enumerable`**: Default value for data descriptors' `enumerable` option. Defaults to `true`.
 
 #### Return value
 

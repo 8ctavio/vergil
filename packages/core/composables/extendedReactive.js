@@ -2,7 +2,7 @@ import { defineReactiveProperties } from "./defineReactiveProperties"
 import { ExtendedReactive } from "../utilities"
 
 /**
- * Defines additional `ExtendedReactive` object properties through descriptors with special ref support.
+ * Defines object properties through descriptors with special ref support.
  * 
  * @template T
  * @param { T | (withDescriptor: function) => T } [properties] - An object, or function that returns an object, whose keys represent the names or symbols of the properties to be defined and whose values represent either the properties' (initial) values or descriptors.

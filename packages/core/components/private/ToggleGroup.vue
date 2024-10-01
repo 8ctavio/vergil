@@ -93,7 +93,7 @@ provide(`${props.type}-props`, {
         :label :hint :description :help
         :size :radius :spacing
         >
-        <div :class="['toggle-group-wrapper', variant, inferTheme(theme)]" :ref="model.getRef('el')">
+        <div :class="['toggle-group-wrapper', variant, inferTheme(theme)]" :ref="model.refs.el">
             <slot>
                 <component :is="type" v-for="(text,value) in options" :key="value"
                     :value="value.toString()"

@@ -68,7 +68,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
             <input
                 v-bind="$attrs"
                 v-model="model.value"
-                :ref="model.getRef('el')"
+                :ref="model.refs.el"
                 type="radio"
                 :name="name || groupName"
                 :disabled="disabled || groupDisabled"

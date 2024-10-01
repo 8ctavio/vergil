@@ -46,10 +46,10 @@ The first argument is the ref's (initial) value and the second is a custom acces
 
 #### Factory function
 
-The factory function works the same way as `customRef`, but it receives different arguments. Instead of receiving the `track` and `trigger` function as the first two arguments, they are passed as object properties along with two additional functions — `getValue` and `setValue` — to interact with the ref's inner value.
+The factory function works the same way as `customRef`, but it receives different arguments. Instead of receiving the `track` and `trigger` function as the first two arguments, they are passed in the first argument as object properties along with two additional functions — `getValue` and `setValue` — to interact with the ref's inner value.
 
 ```js
-customRef(value, ({ track, trigger, getValue, setValue }) => ({}))
+useCustomRef(value, ({ track, trigger, getValue, setValue }) => ({}))
 ```
 
 ##### Default getter and setter
@@ -69,7 +69,7 @@ const {
 
 ##### Custom getter and setter
 
-If a custom accessor object is passed the ref's getter and setter are updated, but tracking and triggering effects is normally performed (`track` invoked before `get` and `trigger` invoked after `set`). To interact with the ref's inner value, the `get` and `set` methods receive an object with the `getValue` and `setValue` functions.
+If a custom accessor object is passed, the ref's getter and setter are updated, but tracking and triggering effects is normally performed (`track` invoked before `get` and `trigger` invoked after `set`). To interact with the ref's inner value, the `get` and `set` methods receive an object with the `getValue` and `setValue` functions.
 
 ```js
 useCustomRef(value, {

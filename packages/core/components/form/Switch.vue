@@ -75,7 +75,7 @@ const model = useModel(props.modelValue)
                 v-model="model.value"
                 :true-value="valueOn"
                 :false-value="valueOff"
-                :ref="model.getRef('el')"
+                :ref="model.refs.el"
                 type="checkbox"
                 :disabled
                 >

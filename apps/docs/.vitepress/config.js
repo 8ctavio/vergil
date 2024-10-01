@@ -109,7 +109,6 @@ export default {
 							{ text: 'Server', link: '/utilities/classes/server' },
 						]
 					},
-					{ text: 'Error handling', link: '/utilities/error-handling' },
 					{
 						text: 'Functions',
 						link: '/utilities/functions/index.md',
@@ -117,7 +116,8 @@ export default {
 							{ text: 'Server', link: '/utilities/functions/server' },
 						]
 					},
-					{ text: 'Regex', link: '/utilities/regex' }
+					{ text: 'Regex', link: '/utilities/regex' },
+					{ text: 'Error handling', link: '/utilities/error-handling' },
 				]
 			}
 		],

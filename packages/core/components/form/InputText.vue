@@ -108,7 +108,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 <input
                     v-bind="$attrs"
                     v-model="model.value"
-                    :ref="model.getRef('el')"
+                    :ref="model.refs.el"
                     :class="`text-${textAlign}`"
                     :type
                     :placeholder

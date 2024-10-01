@@ -4,7 +4,6 @@ import { extendedReactive } from './extendedReactive'
 import { controlledRef } from './controlledRef'
 import { ExtendedRef, isModel, isModelWrapper } from '../utilities'
 import { useResetValue } from "./private/useResetValue"
-import { symSetRef } from '../utilities/private'
 
 /**
  * Creates or wraps a component model.
@@ -41,12 +40,14 @@ export function useModel(value){
         const wrapper = new ExtendedRef(value)
         const descriptors = Object.getOwnPropertyDescriptors(value)
 		for(let property in descriptors) {
-            if(['__v_skip', 'exposed'].includes(property)) continue
+            if(['__v_skip', 'exposed', 'refs', 'ref', 'value'].includes(property)) continue
             Object.defineProperty(wrapper, property, descriptors[property])
-    		// Set private properties (#refs)
-            const refProperty = value.getRef(property)
-			if(isRef(refProperty)) wrapper[symSetRef](property, refProperty)
-		}
+            const refProperty = value.refs[property]
+            if(isRef(refProperty)) Object.defineProperty(wrapper.refs, property, {
+                value: refProperty,
+                enumerable: true
+            })
+        }
 
         Object.defineProperties(wrapper, {
             value: {

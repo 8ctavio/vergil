@@ -82,7 +82,7 @@ const floatLabelEnabled = computed(() => props.floatLabel && Boolean(props.label
             <textarea
                 v-bind="$attrs"
                 v-model="model.value"
-                :ref="model.getRef('el')"
+                :ref="model.refs.el"
                 :class="[`text-${textAlign}`, { resize }]"
                 :placeholder
                 :maxlength="max"

@@ -82,7 +82,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
                 :value="valueChecked"
                 :true-value="valueChecked"
                 :false-value="valueUnchecked"
-                :ref="model.getRef('el')"
+                :ref="model.refs.el"
                 type="checkbox"
                 :disabled="disabled || groupDisabled"
                 >
