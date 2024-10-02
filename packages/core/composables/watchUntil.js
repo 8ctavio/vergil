@@ -1,4 +1,4 @@
-import { watch, nextTick } from 'vue'
+import { watch } from 'vue'
 
 /**
  * Watches `sources` until `callback` returns `true` or another configurable value.
@@ -25,14 +25,17 @@ import { watch, nextTick } from 'vue'
  * ```
  */
 export function watchUntil(sources, callback, { fulfill = true, timeout } = { fulfill: true }){
-    let stop = () => {}
+    let stop
     const watcher = new Promise(resolve => {
+        let immediateStop = false
         stop = watch(sources, (newValues, oldValues) => {
-            if(callback(newValues, oldValues) === fulfill){
-                nextTick(() => stop())
+            if(callback(newValues, oldValues) === fulfill) {
+                if(stop) stop()
+                else immediateStop = true
                 resolve(newValues)
             }
         }, { immediate: true })
+        if(immediateStop) stop()
     })
 
     const promises = [watcher]
