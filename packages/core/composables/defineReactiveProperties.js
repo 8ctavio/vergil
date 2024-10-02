@@ -59,7 +59,7 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
     if(typeof object !== 'object' || object === null)
         throw new TypeError('Invalid object')
     if(typeof properties === 'function')
-        properties = properties(markDescriptor, object)
+        properties = properties(markDescriptor)
     if(typeof properties !== 'object' || properties === null)
         throw new TypeError('Invalid properties object')
 

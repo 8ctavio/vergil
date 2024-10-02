@@ -51,10 +51,10 @@ A property to be defined is described with a data or accessor [descriptor](https
 - `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. Thefore, an unwrapped ref descriptor may also include custom `get` and `set` methods. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
 - `readonly`: If set to `true`, wraps the ref object with the Vue's `readonly` function. Defaults to `false`.
 
-In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function. The callback function receives two arguments; the first argument is a helper function to mark objects as property descriptors. The second argument is a reference to the object the properties are being defined on (useful when defining methods). The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
+In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function that itself receives as a single argument a helper function to mark objects as property descriptors. The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
 
 ```js
-defineReactiveProperties({}, (withDescriptor, obj) => ({
+defineReactiveProperties({}, withDescriptor => ({
     // Define property with descriptor
     prop: withDescriptor({ /* descriptor */ })
 }))
@@ -114,10 +114,7 @@ The `refs`, `ref`, and `value` properties of `ExtendedReactive` and `ExtendedRef
 ```ts
 function defineReactiveProperties<T>(
     object: object,
-    properties?: T | ((
-        withDescriptor: function,
-        object: object
-    ) => T),
+    properties?: T | ((withDescriptor: function) => T),
     options?: {
         ignore?: string[];
         configurable?: boolean;

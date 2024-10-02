@@ -24,9 +24,10 @@ import { useResetValue } from "./private/useResetValue"
  */
 export function resetRef(reference){
     const getResetValue = useResetValue(reference)
-    return extendedRef(getResetValue(), (_, extended) => ({
+    const extended = extendedRef(getResetValue(), {
         reset() {
             extended.value = getResetValue()
         }
-    }), { configurable: false })
+    }, { configurable: false })
+    return extended
 }
