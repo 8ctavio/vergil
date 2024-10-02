@@ -6,7 +6,7 @@ import MiniMarkup from "../private/MiniMarkup.vue"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
-import { isModel, isModelWrapper } from '../../utilities'
+import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -20,7 +20,7 @@ const props = defineProps({
     },
     modelValue: {
         default: props => useModel(props.value),
-        validator: v => isModel(v) || isModelWrapper(v)
+        validator: isModel
     },
 
     //----- Component specific -----

@@ -3,7 +3,7 @@ import ToggleButton from '../private/ToggleButton.vue'
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
-import { isModel, isModelWrapper } from '../../utilities'
+import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -11,7 +11,7 @@ defineEmits(['update:modelValue'])
 
 const props = defineProps({
     modelValue: {
-        validator: v => isModel(v) || isModelWrapper(v)
+        validator: isModel
     },
     checked: Boolean,
     value: {

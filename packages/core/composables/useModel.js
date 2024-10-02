@@ -1,9 +1,9 @@
 import { ref } from 'vue'
-import { defineReactiveProperties } from './defineReactiveProperties'
-import { extendedReactive } from './extendedReactive'
-import { controlledRef } from './controlledRef'
-import { isModel, isModelWrapper } from '../utilities'
+import { extendedRef } from './extendedRef'
+import { ExtendedReactive, isModel, isModelWrapper } from '../utilities'
 import { useResetValue } from "./private/useResetValue"
+
+const onMutated = Symbol('onMutated')
 
 /**
  * Creates or wraps a component model.
@@ -29,46 +29,51 @@ import { useResetValue } from "./private/useResetValue"
  *  ```
  */
 export function useModel(value){
-    // Nested custom component: Return wrapped model
+    // Provider (nested custom component): Return wrapped model
     if(isModelWrapper(value)) {
         return value
     }
-    // Custom component: Wrap model
+    // Provider (custom component): Wrap model
     else if(isModel(value)) {
-        return Object.create(Object.getPrototypeOf(value), {
+        const modelProto = Object.getPrototypeOf(value)
+        return Object.create(modelProto, {
             value: {
-                get: value.get,
-                set: value.updateModel,
+                get: () => modelProto.ref.value,
+                set: modelProto.updateModel,
             },
+            onMutated: { value: modelProto[onMutated] },
             __v_isModelWrapper: { value: true }
         })
     }
-    // Parent component: Create model
+    // Consumer (parent component): Create model
     else {
         let mutateModel
         const getResetValue = useResetValue(value)
-        const modelProto = controlledRef(getResetValue(), {
-            set(v) {
-                (mutateModel ?? this.updateModel)(v)
-            }
-        })
-        defineReactiveProperties(modelProto, {
+        const modelProto = extendedRef(getResetValue(), withDescriptor => ({
             el: ref(null),
-            exposed: extendedReactive(),
+            exposed: new ExtendedReactive(),
             updateModel(v) {
-                modelProto.set(v, { custom: false })
+                modelProto.ref.value = v
             },
             reset() {
-                modelProto.value = getResetValue()
+                modelProto.ref.value = getResetValue()
             },
-            onMutated(callback) {
+            [onMutated](callback) {
                 if(typeof callback === 'function') {
                     mutateModel = callback
                 }
-            }
-        }, { configurable: false })
+            },
+            __v_isModel: withDescriptor({
+                value: true,
+                enumerable: false,
+                writable: false
+            })
+        }), { configurable: false })
         return Object.create(modelProto, {
-            __v_isModel: { value: true }
+            value: {
+                get: () => modelProto.ref.value,
+                set: mutateModel ?? modelProto.updateModel,
+            }
         })
     }
 }

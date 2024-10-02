@@ -48,7 +48,7 @@ The first argument of `defineReactiveProperties` is the object on which to defin
 
 A property to be defined is described with a data or accessor [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#descriptor) object. There are, however, two additional data descriptor options available if the descriptor's `value` is a ref: `unwrap` and `readonly`.
 
-- `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
+- `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. Thefore, an unwrapped ref descriptor may also include custom `get` and `set` methods. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
 - `readonly`: If set to `true`, wraps the ref object with the Vue's `readonly` function. Defaults to `false`.
 
 In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function. The callback function receives two arguments; the first argument is a helper function to mark objects as property descriptors. The second argument is a reference to the object the properties are being defined on (useful when defining methods). The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
@@ -73,6 +73,15 @@ Data descriptors' `configurable` option defaults to `true`. This default value m
 | `Function` | `false` | `false` |
 | other | `typeof property !== 'symbol'`| `true` |
 
+For unwrapped refs, the following default accessor methods are provided:
+
+```js
+const {
+    get = () => refProperty.value,
+    set = v => refProperty.value = v
+} = descriptor
+```
+
 #### Descriptor inference
 
 A descriptor may not be specified with the provided `withDescriptor` function but with any other value `x`, in which case a data descriptor of the form `{ value: x }` is inferred. Furthermore, if `withDescriptor` is not used at all, a plain object may instead be passed as the second argument of `defineReactiveProperties`.
@@ -94,9 +103,11 @@ defineReactiveProperties({}, {
 
 #### `ExtendedReactive` and `ExtendedRef` support
 
-When defining properties of `ExtendedReactive` or `ExtendedRef` objects, provided properties with those objects' reserved keys are ignored (see [`extendedReactive`'s](/composables/extendedReactive#additional-features) and [`extendedRef`'s](/composables/extendedRef#additional-features) additional features). That is, reserved `ExtendedReactive` and `ExtendedRef` properties and methods cannot be overwritten with `defineReactiveProperties`.
+If `defineReactiveProperties` is used on an `ExtendedReactive` object, the underlying ref objects of uwrapped ref properties are automatically stored in the object's internal index (see [extendedReactive's additional features](/composables/extendedReactive#additional-features)).
 
-In the case of `ExtendedReactive` objects, `defineReactiveProperties` automatically stores in the object's internal index the underlying ref objects of unwrapped ref properties.
+:::tip NOTE
+The `refs`, `ref`, and `value` properties of `ExtendedReactive` and `ExtendedRef` objects cannot be overwritten with `defineReactiveProperties`.
+:::
 
 ## Definition
 

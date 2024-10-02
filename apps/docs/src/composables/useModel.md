@@ -52,8 +52,6 @@ Objects returned by `useModel` have as their prototype an [extendedRef](/composa
 
 ### Features
 
-- **`controlledRef`**: Models' prototype is a controlled extended ref. See [`controlledRef`](/composables/controlledRef#additional-methods) to learn about its additional methods.
-
 - **`reset`**: Models have a `reset` method to reset the model's value to its initial specified value. Its usage is similar to that of the [resetRef](/composables/resetRef) composable.
 
 - **`el`**: The `el` property is an automatically unwrapped ref property intented to store a component's HTML element reference. The `el` underlying ref object may be accessed through the `refs` index: `model.refs.el`.
@@ -107,7 +105,7 @@ const { modelValue } = defineProps({
 const model = useModel(modelValue)
 ```
 
-The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` returns a wrapped version for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are identical.
+The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` returns a wrapped version for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are very similar.
 
 ### Nested component
 
@@ -131,24 +129,11 @@ Altough this could work, two different model wrappers would be created for the s
 +    <Nested :model-value="model"/>
 ```
 
-When `useModel` receives a model wrapper, that wrapper is simply returned. Thefore, the `Nested` model implementation is not affected. However, the prop definition should include support for receiving both models and model wrappers.
-
-```js
-// Nested
-import { useModel, isModel, isModelWrapper } from '@8ctavio/vergil'
-
-const { modelValue } = defineProps({
-    modelValue: {
-        validator: v => isModel(v) || isModelWrapper(v),
-        default: () => useModel()
-    }
-})
-const model = useModel(modelValue)
-```
+When `useModel` receives a model wrapper, that wrapper is simply returned. Thefore, the `Nested` model implementation is not affected.
 
 ### Listen to external model mutations
 
-When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a model has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
+When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a model wrapper has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
 
 :::tip IMPORTANT
 If registered, the `onMutated` callback is responsible for updating the model value.

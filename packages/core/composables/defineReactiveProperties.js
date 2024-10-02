@@ -90,12 +90,9 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
 							value: refProperty,
 							enumerable: true
 						})
-						customDescriptor.get = () => object.refs[property].value
-						customDescriptor.set = v => object.refs[property].value = v
-					} else {
-						customDescriptor.get = () => refProperty.value
-						customDescriptor.set = v => refProperty.value = v
 					}
+					customDescriptor.get = descriptor.get ?? (() => refProperty.value)
+					customDescriptor.set = descriptor.set ?? (v => refProperty.value = v)
 				} else {
 					customDescriptor.writable = descriptor.writable ?? false
 					customDescriptor.value = refProperty
