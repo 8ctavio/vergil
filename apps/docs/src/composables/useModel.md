@@ -48,7 +48,7 @@ Besides providing additional features, `useModel` allows to build components wit
 
 ### Considerations
 
-Objects returned by `useModel` have as their prototype an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+A model returned by `useModel` is an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
 
 ### Features
 

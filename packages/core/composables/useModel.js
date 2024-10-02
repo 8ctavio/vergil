@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { extendedRef } from './extendedRef'
+import { extendedCustomRef } from './extendedRef'
 import { ExtendedReactive, isModel, isModelWrapper } from '../utilities'
 import { useResetValue } from "./private/useResetValue"
 
@@ -35,13 +35,13 @@ export function useModel(value){
     }
     // Provider (custom component): Wrap model
     else if(isModel(value)) {
-        const modelProto = Object.getPrototypeOf(value)
-        return Object.create(modelProto, {
+        const model = value
+        return Object.create(model, {
             value: {
-                get: () => modelProto.ref.value,
-                set: modelProto.updateModel,
+                get: () => model.ref.value,
+                set: model.updateModel,
             },
-            onMutated: { value: modelProto[onMutated] },
+            onMutated: { value: model[onMutated] },
             __v_isModelWrapper: { value: true }
         })
     }
@@ -49,14 +49,19 @@ export function useModel(value){
     else {
         let mutateModel
         const getResetValue = useResetValue(value)
-        const modelProto = extendedRef(getResetValue(), withDescriptor => ({
+        const model = extendedCustomRef(getResetValue(), {
+            set: v => (mutateModel ?? model.updateModel)(v)
+        }, withDescriptor => ({
             el: ref(null),
-            exposed: new ExtendedReactive(),
+            exposed: withDescriptor({
+                value: new ExtendedReactive(),
+                writable: false
+            }),
             updateModel(v) {
-                modelProto.ref.value = v
+                model.ref.value = v
             },
             reset() {
-                modelProto.ref.value = getResetValue()
+                model.ref.value = getResetValue()
             },
             [onMutated](callback) {
                 if(typeof callback === 'function') {
@@ -69,11 +74,6 @@ export function useModel(value){
                 writable: false
             })
         }), { configurable: false })
-        return Object.create(modelProto, {
-            value: {
-                get: () => modelProto.ref.value,
-                set: mutateModel ?? modelProto.updateModel,
-            }
-        })
+        return model
     }
 }
