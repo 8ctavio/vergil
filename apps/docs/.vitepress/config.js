@@ -92,7 +92,6 @@ export default {
 					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
-					{ text: 'useCustomRef', link: '/composables/useCustomRef' },
 					{ text: 'useModel', link: '/composables/useModel' },
 					{ text: 'waitFor', link: '/composables/waitFor' },
 					{ text: 'watchUntil', link: '/composables/watchUntil' },
