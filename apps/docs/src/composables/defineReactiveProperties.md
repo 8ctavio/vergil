@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `defineReactiveProperties`
 
-> Defines object properties similar to `Object.defineProperties` but with convenient default descriptors, special support for `extendedReactive` and `extendedRef` objects, and additional features for ref properties.
+> Defines object properties similar to `Object.defineProperties` but with convenient default descriptors, special support for `ExtendedReactive` and `ExtendedRef` objects, and additional features for ref properties.
 
 ## Usage
 

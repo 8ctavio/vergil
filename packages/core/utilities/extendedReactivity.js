@@ -10,11 +10,17 @@ export class ExtendedReactive {
 
 /** Stores a ref object and defines `value` accessor methods to read from and write to that ref's value. */
 export class ExtendedRef extends ExtendedReactive {
-	constructor(value) {
+	constructor(value, { get, set } = {}) {
 		super()
 		Object.defineProperty(this, 'ref', {
 			value: toRef(value)
 		})
+		if(get || set) {
+			Object.defineProperty(this, 'value', {
+				get: get ?? (() => this.ref.value),
+				set: set ?? (v => this.ref.value = v)
+			})
+		}
 	}
 	get value() {
 		return this.ref.value
@@ -61,5 +67,5 @@ export function isModel(value){
  * @returns { boolean } `true` if `value` is a model wrapped by `useModel`.
  */
 export function isModelWrapper(value){
-    return isExtendedRef(value) && Boolean(value?.__v_isModelWrapper)
+    return isModel(value) && Boolean(value?.__v_isModelWrapper)
 }
