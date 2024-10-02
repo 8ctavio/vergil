@@ -7,7 +7,6 @@ export { showPopup } from './components/popup'
 export { toast } from './components/toast'
 
 //---------- Composables ----------
-export * from './composables/controlledRef'
 export * from './composables/defineReactiveProperties'
 export * from './composables/extendedReactive'
 export * from './composables/extendedRef'
