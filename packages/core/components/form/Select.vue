@@ -10,16 +10,10 @@ import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
-const {
-    modelValue,
-    options, optionValue, optionLabel,
-    label, placeholder, description, floatLabel,
-    disabled,
-    class: classProp
-} = defineProps({
+const props = defineProps({
     // ----- Model -----
     value: {
-        type: String,
+        type: [String, Array],
         default: ''
     },
     modelValue: {
@@ -41,6 +35,10 @@ const {
         default: () => (v => v)
     },
     placeholder: String,
+    placeholderFallback: {
+        type: Function,
+        default: n => vergil.config.select.placeholderFallback(n)
+    },
 
     //----- FormField -----
     label: String,
@@ -81,7 +79,11 @@ const {
     disabled: Boolean,
     class: [String, Object],
 })
-const floatLabelEnabled = computed(() => floatLabel && Boolean(label) && !(placeholder || description))
+const floatLabelEnabled = computed(() => {
+    return props.floatLabel
+        && Boolean(props.label)
+        && !(props.placeholder || props.description)
+})
 
 //-------------------- HANDLE POPOVER --------------------
 const reference = useTemplateRef('reference')
@@ -102,20 +104,71 @@ function togglePopover(event) {
         })
     } else {
         stopAutoUpdate?.()
+        stopAutoUpdate = undefined
         showFloating.value = false
     }
 }
 watchEffect(() => {
-    if(disabled) {
+    if(props.disabled) {
         stopAutoUpdate?.()
         showFloating.value = false
     }
 })
 
 //-------------------- HANDLE SELECTION --------------------
-const model = useModel(modelValue)
+const model = useModel(props.modelValue)
 
-let currentOption = null
+let selected
+const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
+const virtualPlaceholder = useTemplateRef('virtual-placeholder')
+function updateSelection(option, hideOnSelect = false) {
+    if(Array.isArray(model.value)) {
+        if(option.classList.contains('selected')) {
+            option.classList.remove('selected')
+            const idx = model.value.indexOf(option.value)
+            if(idx > -1) model.value.splice(idx, 1)
+            delete selected[option.value]
+        } else {
+            option.classList.add('selected')
+            model.value.push(option.value)
+            selected[option.value] = option.innerText
+        }
+
+        let placeholder = ''
+        for(const opt in selected) placeholder += `${selected[opt]}, `
+        placeholder = placeholder.slice(0,-2)
+        if(placeholder) {
+            virtualPlaceholder.value.innerText = placeholder
+            const n = model.value.length
+            const updatePlaceholder = () => {
+                computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                    ? props.placeholderFallback(n)
+                    : placeholder
+                virtualPlaceholder.value.innerText = ''
+            }
+            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+            else updatePlaceholder()
+        } else {
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+        }
+    } else {
+        if(option.classList.contains('selected')) {
+            option.classList.remove('selected')
+            model.value = ''
+            selected = null
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+        } else {
+            if(selected) selected.classList.remove('selected')
+            option.classList.add('selected')
+            model.value = option.value
+            selected = option
+            const updatePlaceholder = () => computedPlaceholder.value = option.innerText
+            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+            else updatePlaceholder()
+            if(hideOnSelect) showFloating.value = false
+        }
+    }
+}
 function getOptionByValue(value) {
     const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
         return element instanceof HTMLOptionElement && element.value === value
@@ -124,29 +177,9 @@ function getOptionByValue(value) {
     })
     return walker.nextNode()
 }
-function updateSelection(option, hideOnSelect = false) {
-    if(Array.isArray(model.value)) {
-
-    } else {
-        if(option.classList.contains('selected')) {
-            option.classList.remove('selected')
-            model.value = ''
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : placeholder
-        } else {
-            if(currentOption) currentOption.classList.remove('selected')
-            option.classList.add('selected')
-            const updatePlaceholder = () => computedPlaceholder.value = option.innerText
-            if(floatLabelEnabled.value && !model.value) setTimeout(updatePlaceholder, 75)
-            else updatePlaceholder()
-            model.value = option.value
-            currentOption = option
-            if(hideOnSelect) showFloating.value = false
-        }
-    }
-}
 
 function handleSelection(event) {
-    if(event.target.tagName !== 'OPTION' || disabled) return
+    if(event.target.tagName !== 'OPTION' || props.disabled) return
     const option = event.target
     updateSelection(option, true)
 }
@@ -155,29 +188,34 @@ model.onMutated(v => {
         const option = getOptionByValue(v)
         if(option) updateSelection(option)
     } else if(!v && model.value) {
-        updateSelection(currentOption)
+        updateSelection(selected)
     }
 })
 
 //-------------------- RENDER OPTIONS --------------------
-const computedPlaceholder = ref(floatLabelEnabled.value ? '' : placeholder)
-function Options(props) {
-    const { options } = props
+function Options({ options }) {
     nextTick(() => {
         // After options are mounted...
         // Note: Effect dependencies are only tracked during synchronous execution
         //       (i.e., reading model.value is safe here).
-        currentOption = getOptionByValue(model.value)
-        if(currentOption) {
-            currentOption.classList.add('selected')
-            computedPlaceholder.value = currentOption.innerText
+        if(Array.isArray(model.value)) {
+            selected = {}
+        } else {
+            selected = getOptionByValue(model.value)
+            if(selected) {
+                selected.classList.add('selected')
+                computedPlaceholder.value = selected.innerText
+            }
         }
     })
     if(options === null) return
+    function decodeOption(option, decoder) {
+        return (typeof decoder === 'function') ? decoder(option) : option[decoder]
+    }
     if(Array.isArray(options)) {
         return options.map(option => {
-            const value = typeof optionValue === 'function' ? optionValue(option) : option[optionValue]
-            const label = typeof optionLabel === 'function' ? optionLabel(option) : option[optionLabel]
+            const value = decodeOption(option, props.optionValue)
+            const label = decodeOption(option, props.optionLabel)
             return h('option', {
                 key: value,
                 value,
@@ -186,7 +224,7 @@ function Options(props) {
         })
     } else {
         return Object.entries(options).map(([key, option]) => {
-            const label = typeof optionLabel === 'function' ? optionLabel(option) : option[optionLabel]
+            const label = decodeOption(option, props.optionLabel)
             return h('option', {
                 key,
                 value: key,
@@ -198,14 +236,14 @@ function Options(props) {
 </script>
 
 <template>
-    <FormField :class="['select', classProp]"
+    <FormField :class="['select', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
         >
         <Btn ref="reference"
             :class="[
                 'select-button',
-                { selected: model.value }
+                { selected: model.value.length ?? model.value }
             ]"
             v-bind="$attrs"
             ghost="translucent" outline="subtle"
@@ -214,12 +252,10 @@ function Options(props) {
             icon-right="keyboard_arrow_down"
             :disabled
             @click="togglePopover">
-            <template v-if="computedPlaceholder">
+            <p class="select-placeholder">
+                <span ref="virtual-placeholder"/>
                 {{ computedPlaceholder }}
-            </template>
-            <template v-else>
-                &ZeroWidthSpace;
-            </template>
+            </p>
             <template #aside>
                 <label v-if="floatLabelEnabled">
                     <MiniMarkup :str="label"/>
@@ -270,7 +306,20 @@ function Options(props) {
             }
         }
         & > .btn-content {
-            justify-content: space-between;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            & > .select-placeholder {
+                position: relative;
+                text-align: left;
+                overflow-x: hidden;
+                text-wrap: nowrap;
+                text-overflow: ellipsis;
+                & > span {
+                    position: absolute;
+                    inset: 0;
+                    visibility: hidden;
+                }
+            }
         }
         & > label {
             position: absolute;

@@ -158,6 +158,7 @@ const vergil = {
             spacing: undefined,
         },
         select: {
+            placeholderFallback: n => `${n} Selected`,
             underline: undefined,
             fill: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),

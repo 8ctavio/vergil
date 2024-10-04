@@ -151,6 +151,7 @@ interface VergilConfiguration {
         spacing: spacing;
     },
     select: {
+        placeholderFallback: ((n: number) => string) = (n => `${n} Selected`)
         underline: boolean;
         fill: boolean;
         theme: theme;

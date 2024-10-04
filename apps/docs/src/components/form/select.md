@@ -21,9 +21,11 @@ const demo4 = useModel('')
 import { Select } from '@8ctavio/vergil/components'
 import { useModel } from '@8ctavio/vergil'
 const difficulty = useModel('')
+const skulls = useModel([])
 </script>
 
 <template>
+    <!-- Single Selection -->
     <Select
         v-model="difficulty"
         label="Difficulty"
@@ -34,18 +36,41 @@ const difficulty = useModel('')
             heroic: 'Heroic',
             legendary: 'Legendary'
         }"/>
+    <!-- Multiple Selection -->
+    <Select
+        v-model="skulls"
+        label="Skulls"
+        placeholder="Select skulls"
+        :options="{
+            anger: 'Anger',
+            blind: 'Blind',
+            catch: 'Catch',
+            ghost: 'Ghost',
+        }"/>
 </template>
 ```
 <Demo>
-    <Select
-        label="Difficulty"
-        placeholder="Choose difficulty"
-        :options="{
-            easy: 'Easy',
-            normal: 'Normal',
-            heroic: 'Heroic',
-            legendary: 'Legendary'
-        }"/>
+    <div class="col center">
+        <Select
+            label="Difficulty"
+            placeholder="Choose difficulty"
+            :options="{
+                easy: 'Easy',
+                normal: 'Normal',
+                heroic: 'Heroic',
+                legendary: 'Legendary'
+            }"/>
+        <Select
+            :value="[]"
+            label="Skulls"
+            placeholder="Select skulls"
+            :options="{
+                anger: 'Anger',
+                blind: 'Blind',
+                catch: 'Catch',
+                ghost: 'Ghost',
+            }"/>
+    </div>
 </Demo>
 
 ## Props
@@ -151,9 +176,41 @@ The `option-value` prop only takes effect when `options` is an array.
 <Select placeholder="Select option"/>
 ```
 
+### Placeholder fallback <Badge><pre>placeholder-fallback: (n: number) => string</pre></Badge>
+
+When selecting multiple options, the selected options are displayed in the select button as a comma-separated string of those options' labels. If that string overflows its container, a fallback placeholder is obtained from the `placeholder-fallback` function and displayed instead.
+
+The `placeholder-fallback` function receives as its only argument the number of selected options.
+
+```vue-html
+<Select
+    placeholder="Select options"
+    :options="['The Fall of Reach', 'The Flood', 'First Strike']"
+    :placeholder-fallback="n => {
+        return `${n} Option${n > 1 ? 's':''} Selected`
+    }"
+/>
+```
+
 <Demo>
-    <Select placeholder="Select option" :options="['Option']"/>
+    <Select
+        :value="[]"
+        placeholder="Select options"
+        :options="['The Fall of Reach', 'The Flood', 'First Strike']"
+        :placeholder-fallback="n => {
+            return `${n} Option${n > 1 ? 's':''} Selected`
+        }"/>
 </Demo>
+
+The following function is used as the default `placeholder-fallback` value.
+
+```js
+n => `${n} Selected`
+```
+
+:::tip
+The `placeholder-fallback` prop only takes effect in multiple selection mode.
+:::
 
 ### Float label <Badge><pre>float-label: boolean</pre></Badge>
 
@@ -263,11 +320,12 @@ The `option-value` prop only takes effect when `options` is an array.
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `string` | `''` |
+| `value` | `string \| array` | `''` |
 | `options` | `array \| object` | `[]` |
 | `optionValue` | `string \| function` | `v => v` |
 | `optionLabel` | `string \| function` | `v => v` |
 | `placeholder` | `string` | |
+| `placeholderFallback` | `(n: number) => string` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
@@ -282,10 +340,11 @@ The `option-value` prop only takes effect when `options` is an array.
 
 ### Configuration options
 
-The following `InputText` props' default values can be overwritten under the `inputText` root-level [configuration option](/configuration).
+The following `Select` props' default values can be overwritten under the `select` root-level [configuration option](/configuration).
 
-| `inputText.<option>` | [global](/configuration#global-configuration) |
+| `select.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
+| `placeholderFallback` | |
 | `underline` | |
 | `fill` | |
 | `theme` | ✅ |
@@ -304,7 +363,10 @@ The following `InputText` props' default values can be overwritten under the `in
             <Anatomy tag="span" classes="form-field-hint"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="Btn" classes="btn">
+        <Anatomy tag="Btn" classes="btn select-button">
+            <Anatomy tag="p" classes="select-placeholder">
+                <Anatomy tag="span"/>
+            </Anatomy>
             <Anatomy slot="aside">
                 <Anatomy tag="label"/>
             </Anatomy>
