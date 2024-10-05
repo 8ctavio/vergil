@@ -118,7 +118,8 @@ If `option-[value|label]` is a string, it represents an object key. If an option
         name: 'Xyz Jkm'
     }]"
     option-value="id"
-    option-label="name"/>
+    option-label="name"
+/>
 ```
 
 <Demo>
@@ -149,7 +150,8 @@ If `option-[value|label]` is a function it is called for each option, receives t
         name: 'Uvw Xyz'
     }]"
     :option-value="option => kebabCase(option.name)"
-    :option-label="option => option.name.split(' ')[0]"/>
+    :option-label="option => option.name.split(' ')[0]"
+/>
 ```
 
 <Demo>
@@ -172,7 +174,7 @@ The `option-value` prop only takes effect when `options` is an array.
 
 ### Placeholder <Badge><pre>placeholder: string</pre></Badge>
 
-```vue
+```vue-html
 <Select placeholder="Select option"/>
 ```
 
@@ -184,22 +186,24 @@ The `placeholder-fallback` function receives as its only argument the number of 
 
 ```vue-html
 <Select
-    placeholder="Select options"
+    :value="[]"
     :options="['The Fall of Reach', 'The Flood', 'First Strike']"
     :placeholder-fallback="n => {
         return `${n} Option${n > 1 ? 's':''} Selected`
     }"
+    placeholder="Select options"
 />
 ```
 
 <Demo>
     <Select
         :value="[]"
-        placeholder="Select options"
         :options="['The Fall of Reach', 'The Flood', 'First Strike']"
         :placeholder-fallback="n => {
             return `${n} Option${n > 1 ? 's':''} Selected`
-        }"/>
+        }"
+        placeholder="Select options"
+    />
 </Demo>
 
 The following function is used as the default `placeholder-fallback` value.
@@ -211,6 +215,26 @@ n => `${n} Selected`
 :::tip
 The `placeholder-fallback` prop only takes effect in multiple selection mode.
 :::
+
+### Chips <Badge><pre>chips: boolean</pre></Badge> <Badge type="warning">Only for multiple selection</Badge>
+
+```vue-html
+<Select
+    :value="[]"
+    :options="['abc','uvw','xyz']"
+    placeholder="Select options"
+    chips
+/>
+```
+
+<Demo>
+    <Select
+        :value="[]"
+        :options="['abc','uvw','xyz']"
+        placeholder="Select options"
+        chips
+    />
+</Demo>
 
 ### Float label <Badge><pre>float-label: boolean</pre></Badge>
 
@@ -326,6 +350,7 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 | `optionLabel` | `string \| function` | `v => v` |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
+| `chips` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
@@ -366,6 +391,13 @@ The following `Select` props' default values can be overwritten under the `selec
         <Anatomy tag="Btn" classes="btn select-button">
             <Anatomy tag="p" classes="select-placeholder">
                 <Anatomy tag="span"/>
+            </Anatomy>
+            <Anatomy tag="div" classes="chips">
+                <Anatomy tag='span.chip v-for="(label,value) in selected'>
+                    <Anatomy tag="button">
+                        <Anatomy tag="Icon" classes="icon"/>
+                    </Anatomy>
+                </Anatomy>
             </Anatomy>
             <Anatomy slot="aside">
                 <Anatomy tag="label"/>

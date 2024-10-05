@@ -1,4 +1,5 @@
 <script setup>
+import Icon from '../Icon.vue'
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
@@ -39,6 +40,7 @@ const props = defineProps({
         type: Function,
         default: n => vergil.config.select.placeholderFallback(n)
     },
+    chips: Boolean,
 
     //----- FormField -----
     label: String,
@@ -95,17 +97,22 @@ const { floatingStyles, update: updatePosition } = useFloating(reference, floati
 
 let stopAutoUpdate
 const showFloating = ref(false)
-function togglePopover(event) {
-    if(!showFloating.value) {
-        showFloating.value = true
-        updatePosition()
-        stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
-            elementResize: false
-        })
+function handleClick(event) {
+    if('value' in event.target.dataset) {
+        const option = getOptionByValue(event.target.dataset.value)
+        if(option) updateSelection(option)
     } else {
-        stopAutoUpdate?.()
-        stopAutoUpdate = undefined
-        showFloating.value = false
+        if(!showFloating.value) {
+            showFloating.value = true
+            updatePosition()
+            stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
+                elementResize: props.chips
+            })
+        } else {
+            stopAutoUpdate?.()
+            stopAutoUpdate = undefined
+            showFloating.value = false
+        }
     }
 }
 watchEffect(() => {
@@ -118,7 +125,7 @@ watchEffect(() => {
 //-------------------- HANDLE SELECTION --------------------
 const model = useModel(props.modelValue)
 
-let selected
+const selected = ref()
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 function updateSelection(option, hideOnSelect = false) {
@@ -127,41 +134,42 @@ function updateSelection(option, hideOnSelect = false) {
             option.classList.remove('selected')
             const idx = model.value.indexOf(option.value)
             if(idx > -1) model.value.splice(idx, 1)
-            delete selected[option.value]
+            delete selected.value[option.value]
         } else {
             option.classList.add('selected')
             model.value.push(option.value)
-            selected[option.value] = option.innerText
+            selected.value[option.value] = option.innerText
         }
-
-        let placeholder = ''
-        for(const opt in selected) placeholder += `${selected[opt]}, `
-        placeholder = placeholder.slice(0,-2)
-        if(placeholder) {
-            virtualPlaceholder.value.innerText = placeholder
-            const n = model.value.length
-            const updatePlaceholder = () => {
-                computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
-                    ? props.placeholderFallback(n)
-                    : placeholder
-                virtualPlaceholder.value.innerText = ''
+        if(!props.chips) {
+            let placeholder = ''
+            for(const opt in selected.value) placeholder += `${selected.value[opt]}, `
+            placeholder = placeholder.slice(0,-2)
+            if(placeholder) {
+                virtualPlaceholder.value.innerText = placeholder
+                const n = model.value.length
+                const updatePlaceholder = () => {
+                    computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                        ? props.placeholderFallback(n)
+                        : placeholder
+                    virtualPlaceholder.value.innerText = ''
+                }
+                if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+                else updatePlaceholder()
+            } else {
+                computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
             }
-            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
-            else updatePlaceholder()
-        } else {
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
     } else {
         if(option.classList.contains('selected')) {
             option.classList.remove('selected')
             model.value = ''
-            selected = null
+            selected.value = null
             computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         } else {
-            if(selected) selected.classList.remove('selected')
+            if(selected.value) selected.value.classList.remove('selected')
             option.classList.add('selected')
             model.value = option.value
-            selected = option
+            selected.value = option
             const updatePlaceholder = () => computedPlaceholder.value = option.innerText
             if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
             else updatePlaceholder()
@@ -188,7 +196,7 @@ model.onMutated(v => {
         const option = getOptionByValue(v)
         if(option) updateSelection(option)
     } else if(!v && model.value) {
-        updateSelection(selected)
+        updateSelection(selected.value)
     }
 })
 
@@ -199,12 +207,12 @@ function Options({ options }) {
         // Note: Effect dependencies are only tracked during synchronous execution
         //       (i.e., reading model.value is safe here).
         if(Array.isArray(model.value)) {
-            selected = {}
+            selected.value = {}
         } else {
-            selected = getOptionByValue(model.value)
-            if(selected) {
-                selected.classList.add('selected')
-                computedPlaceholder.value = selected.innerText
+            selected.value = getOptionByValue(model.value)
+            if(selected.value) {
+                selected.value.classList.add('selected')
+                computedPlaceholder.value = selected.value.innerText
             }
         }
     })
@@ -251,8 +259,16 @@ function Options({ options }) {
             :theme :size :radius :spacing :squared="false"
             icon-right="keyboard_arrow_down"
             :disabled
-            @click="togglePopover">
-            <p class="select-placeholder">
+            @click="handleClick">
+            <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
+                <span v-for="(label,value) in selected" :key="value" class="chip">
+                    {{ label }}
+                    <button :data-value="value">
+                        <Icon code="cancel"/>
+                    </button>
+                </span>
+            </div>
+            <p v-else class="select-placeholder">
                 <span ref="virtual-placeholder"/>
                 {{ computedPlaceholder }}
             </p>
@@ -286,6 +302,9 @@ function Options({ options }) {
         font-weight: 400;
         overflow: visible;
 
+        &:hover > .btn-content > .chips > .chip {
+            box-shadow: none;
+        }
         &:disabled {
             --btn-c-border: var(--c-disabled-border-1);
             background-color: var(--c-disabled-1);
@@ -314,10 +333,53 @@ function Options({ options }) {
                 overflow-x: hidden;
                 text-wrap: nowrap;
                 text-overflow: ellipsis;
+                &::selection {
+                    background-color: transparent;
+                }
                 & > span {
                     position: absolute;
                     inset: 0;
                     visibility: hidden;
+                }
+            }
+            & > .chips {
+                font-size: calc(0.9 * var(--g-font-size));
+                line-height: calc(var(--line-height-text) / 0.9);
+
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: start;
+                gap: var(--g-gap-xs) var(--g-gap-sm);
+                & > .chip {
+                    display: grid;
+                    grid-auto-flow: column;
+                    justify-content: center;
+                    column-gap: var(--g-gap-xs);
+                    padding: 0 var(--g-gap-sm);
+                    border-radius: var(--g-radius);
+                    background-color: var(--c-theme-soft-1);
+                    color: var(--c-theme-text-2);
+                    box-shadow: inset 0 0 0 var(--btn-bw) var(--c-theme-border-subtle);
+                    &::selection {
+                        background-color: transparent;
+                    }
+                    & > button {
+                        font-size: calc(1em * var(--font-size-scale-icon));
+                        line-height: calc(var(--line-height-icon) / 0.9);
+                        aspect-ratio: 1 / 1;
+                        display: flex;
+                        justify-content: center;
+                        color: rgb(var(--rgb-theme-solid) / 0.75);
+                        transition: color 150ms;
+                        &:hover {
+                            color: var(--c-theme-1);
+                        }
+                        & > .icon {
+                            font-size: inherit;
+                            line-height: inherit;
+                            pointer-events: none;
+                        }
+                    }
                 }
             }
         }
@@ -356,7 +418,6 @@ function Options({ options }) {
         cursor: pointer;
         z-index: var(--z-index-popover);
 
-        
         & > option {
             flex-shrink: 0;
             padding: var(--g-gap-sm) var(--g-gap-lg);
@@ -373,6 +434,11 @@ function Options({ options }) {
                 background-color: transparent;
             }
         }
+    }
+}
+.dark .select {
+    & > .select-button.btn > .btn-content > .chips > .chip > button {
+        color: var(--c-theme-1);
     }
 }
 </style>
