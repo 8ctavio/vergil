@@ -393,7 +393,7 @@ The following `Select` props' default values can be overwritten under the `selec
                 <Anatomy tag="span"/>
             </Anatomy>
             <Anatomy tag="div" classes="chips">
-                <Anatomy tag='span.chip v-for="(label,value) in selected'>
+                <Anatomy tag='Badge.badge v-for="(label,value) in selected'>
                     <Anatomy tag="button">
                         <Anatomy tag="Icon" classes="icon"/>
                     </Anatomy>

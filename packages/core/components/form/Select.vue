@@ -1,4 +1,5 @@
 <script setup>
+import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
@@ -261,12 +262,16 @@ function Options({ options }) {
             :disabled
             @click="handleClick">
             <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
-                <span v-for="(label,value) in selected" :key="value" class="chip">
+                <Badge v-for="(label,value) in selected" :key="value"
+                    variant="subtle"
+                    outline="subtle"
+                    :theme :size :radius :spacing :squared="false"
+                    >
                     {{ label }}
                     <button :data-value="value">
                         <Icon code="cancel"/>
                     </button>
-                </span>
+                </Badge>
             </div>
             <p v-else class="select-placeholder">
                 <span ref="virtual-placeholder"/>
@@ -302,7 +307,7 @@ function Options({ options }) {
         font-weight: 400;
         overflow: visible;
 
-        &:hover > .btn-content > .chips > .chip {
+        &:hover > .btn-content > .chips > .badge {
             box-shadow: none;
         }
         &:disabled {
@@ -345,21 +350,15 @@ function Options({ options }) {
             & > .chips {
                 font-size: calc(0.9 * var(--g-font-size));
                 line-height: calc(var(--line-height-text) / 0.9);
-
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: start;
                 gap: var(--g-gap-xs) var(--g-gap-sm);
-                & > .chip {
-                    display: grid;
-                    grid-auto-flow: column;
-                    justify-content: center;
+                & > .badge {
+                    font-size: calc(0.9 * var(--g-font-size));
+                    line-height: calc(var(--line-height-text) / 0.9);
                     column-gap: var(--g-gap-xs);
                     padding: 0 var(--g-gap-sm);
-                    border-radius: var(--g-radius);
-                    background-color: var(--c-theme-soft-1);
-                    color: var(--c-theme-text-2);
-                    box-shadow: inset 0 0 0 var(--btn-bw) var(--c-theme-border-subtle);
+                    cursor: pointer;
                     &::selection {
                         background-color: transparent;
                     }
@@ -369,10 +368,10 @@ function Options({ options }) {
                         aspect-ratio: 1 / 1;
                         display: flex;
                         justify-content: center;
-                        color: rgb(var(--rgb-theme-solid) / 0.75);
-                        transition: color 150ms;
+                        opacity: 0.75;
+                        transition: opacity 150ms;
                         &:hover {
-                            color: var(--c-theme-1);
+                            opacity: 1;
                         }
                         & > .icon {
                             font-size: inherit;
@@ -434,11 +433,6 @@ function Options({ options }) {
                 background-color: transparent;
             }
         }
-    }
-}
-.dark .select {
-    & > .select-button.btn > .btn-content > .chips > .chip > button {
-        color: var(--c-theme-1);
     }
 }
 </style>
