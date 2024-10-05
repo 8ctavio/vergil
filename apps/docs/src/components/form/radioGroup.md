@@ -96,9 +96,9 @@ The `RadioGroup` default slot may be used instead to directly pass `Radio` compo
 </Demo>
 
 <style>
-    .toggle-group-wrapper.list {
-        width: 250px;
-    }
+.toggle-group-wrapper.list {
+    width: 250px;
+}
 </style>
 
 ### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>

@@ -76,23 +76,26 @@ const icon = computed(() => {
  */
 const btnPositionFlag = props.btnPosition === 'after'
 const btnPositionName = ucFirst(props.btnPosition)
-const btnProps = extendedReactive({
+const btnProps = extendedReactive(withDescriptor => ({
     iconLeft: btnPositionFlag ? icon : props[`btn${btnPositionName}`]?.iconLeft,
     iconRight: btnPositionFlag ? props[`btn${btnPositionName}`]?.iconRight : icon,
     loading: loader,
-    onClick(){
-        if(model.value){
-            if(model.value === lastSearch.value){
-                emit('clear')
-                model.value = ''
-                lastSearch.value = ''
+    onClick: withDescriptor({
+        value() {
+            if(model.value){
+                if(model.value === lastSearch.value){
+                    emit('clear')
+                    model.value = ''
+                    lastSearch.value = ''
+                } else {
+                    handleSearch()
+                }
             } else {
-                handleSearch()
+                lastSearch.value = ''
             }
-        } else {
-            lastSearch.value = ''
-        }
-    },
+        },
+        enumerable: true
+    }),
     label: props[`btn${btnPositionName}`]?.label,
     variant: props[`btn${btnPositionName}`]?.variant ?? 'subtle',
     ghost: props[`btn${btnPositionName}`]?.ghost,
@@ -100,7 +103,7 @@ const btnProps = extendedReactive({
     underline: props[`btn${btnPositionName}`]?.underline,
     fill: props[`btn${btnPositionName}`]?.fill,
     squared: props[`btn${btnPositionName}`]?.squared,
-})
+}))
 
 defineReactiveProperties(model.exposed, {
     clear() {

@@ -95,6 +95,12 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
     <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" label="List"/>
 </Demo>
 
+<style>
+.toggle-group-wrapper.list {
+    width: 250px;
+}
+</style>
+
 ### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
 
 <Demo>
