@@ -199,7 +199,7 @@ The maximum string length that can be entered into the textarea.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
-| `placeholder` | `string` | |
+| `placeholder` | `string` | `''` |
 | `max` | `string` | |
 | `text-align` | `'left' \| 'center' \| 'right'` | `'left'` |
 | `rows` | `string` | |

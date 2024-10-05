@@ -22,7 +22,10 @@ const props = defineProps({
     },
 
     //----- Component specific -----
-    placeholder: String,
+    placeholder: {
+        type: String,
+        default: ''
+    },
     max: String,
     textAlign: {
         type: String,
@@ -70,7 +73,11 @@ const props = defineProps({
 
 const model = useModel(props.modelValue)
 
-const floatLabelEnabled = computed(() => props.floatLabel && Boolean(props.label) && !(props.placeholder || props.description))
+const floatLabelEnabled = computed(() => {
+    return props.floatLabel
+        && Boolean(props.label)
+        && !(props.placeholder || props.description)
+})
 </script>
 
 <template>

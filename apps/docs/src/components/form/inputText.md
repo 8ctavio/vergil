@@ -256,7 +256,7 @@ const btnAfterProps = {
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
-| `placeholder` | `string` | |
+| `placeholder` | `string` | `''` |
 | `max` | `string` | |
 | `text-align` | `'left' \| 'center' \| 'right'` | `'left'` |
 | `type` | `'text' \| 'password'` | `'text'` |
