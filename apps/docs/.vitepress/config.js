@@ -94,6 +94,7 @@ export default {
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useModel', link: '/composables/useModel' },
 					{ text: 'waitFor', link: '/composables/waitFor' },
+					{ text: 'watchControlled', link: '/composables/watchControlled' },
 					{ text: 'watchUntil', link: '/composables/watchUntil' },
 				]
 			},

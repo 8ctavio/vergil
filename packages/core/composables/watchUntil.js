@@ -24,7 +24,7 @@ import { watch } from 'vue'
  * })
  * ```
  */
-export function watchUntil(sources, callback, { fulfill = true, timeout } = { fulfill: true }){
+export function watchUntil(sources, callback, { fulfill = true, timeout } = {}){
     let stop
     const watcher = new Promise(resolve => {
         let immediateStop = false
