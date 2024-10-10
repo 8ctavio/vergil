@@ -8,6 +8,7 @@ import { ref, computed, watchEffect, useTemplateRef, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
+import { watchControlled } from '../../composables/watchControlled'
 import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -101,7 +102,10 @@ const showFloating = ref(false)
 function handleClick(event) {
     if('value' in event.target.dataset) {
         const option = getOptionByValue(event.target.dataset.value)
-        if(option) updateSelection(option)
+        if(option) {
+            updateMultipleSelection(option)
+            computePlaceholder()
+        }
     } else {
         if(!showFloating.value) {
             showFloating.value = true
@@ -125,81 +129,114 @@ watchEffect(() => {
 
 //-------------------- HANDLE SELECTION --------------------
 const model = useModel(props.modelValue)
-
 const selected = ref()
-const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
-const virtualPlaceholder = useTemplateRef('virtual-placeholder')
-function updateSelection(option, hideOnSelect = false) {
+
+const watchController = watchControlled(model.ref, (modelValue) => {
+    if(Array.isArray(modelValue)) {
+        if(selected.value === null || selected.value?.tagName === 'OPTION') {
+            selected.value = {}
+        }
+        Set.prototype.symmetricDifference.call(
+            new Set(modelValue),
+            new Set(Object.keys(selected.value))
+        ).forEach(value => {
+            const option = getOptionByValue(value)
+            if(option) updateMultipleSelection(option, false)
+        })
+        computePlaceholder()
+    } else {
+        if(selected.value !== null && selected.value?.tagName !== 'OPTION') {
+            selected.value = null
+        }
+        updateSingleSelection(getOptionByValue(modelValue), false)
+    }
+}, { deep: true })
+function handleSelection(event) {
+    if(event.target.tagName !== 'OPTION' || props.disabled) return
+    const option = event.target
     if(Array.isArray(model.value)) {
-        if(option.classList.contains('selected')) {
+        updateMultipleSelection(option)
+        computePlaceholder()
+    } else {
+        updateSingleSelection(option)
+    }
+}
+
+function updateSingleSelection(option, userInteraction = true) {
+    watchController.pause()
+    if(userInteraction ? option.classList.contains('selected') : !option) {
+        if(userInteraction) {
+            model.value = ''
             option.classList.remove('selected')
+        } else if(selected.value) {
+            selected.value.classList.remove('selected')
+        }
+        selected.value = null
+        computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+    } else {
+        if(selected.value) selected.value.classList.remove('selected')
+        if(userInteraction) {
+            model.value = option.value
+            showFloating.value = false
+        }
+        option.classList.add('selected')
+        selected.value = option
+        const updatePlaceholder = () => computedPlaceholder.value = option.innerText
+        if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+        else updatePlaceholder()
+    }
+    watchController.resume()
+}
+function updateMultipleSelection(option, userInteraction = true) {
+    watchController.pause()
+    if(option.classList.contains('selected')) {
+        if(userInteraction) {
             const idx = model.value.indexOf(option.value)
             if(idx > -1) model.value.splice(idx, 1)
-            delete selected.value[option.value]
-        } else {
-            option.classList.add('selected')
-            model.value.push(option.value)
-            selected.value[option.value] = option.innerText
         }
-        if(!props.chips) {
-            let placeholder = ''
-            for(const opt in selected.value) placeholder += `${selected.value[opt]}, `
-            placeholder = placeholder.slice(0,-2)
-            if(placeholder) {
-                virtualPlaceholder.value.innerText = placeholder
-                const n = model.value.length
-                const updatePlaceholder = () => {
-                    computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
-                        ? props.placeholderFallback(n)
-                        : placeholder
-                    virtualPlaceholder.value.innerText = ''
-                }
-                if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
-                else updatePlaceholder()
-            } else {
-                computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
-            }
-        }
+        option.classList.remove('selected')
+        delete selected.value[option.value]
     } else {
-        if(option.classList.contains('selected')) {
-            option.classList.remove('selected')
-            model.value = ''
-            selected.value = null
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
-        } else {
-            if(selected.value) selected.value.classList.remove('selected')
-            option.classList.add('selected')
-            model.value = option.value
-            selected.value = option
-            const updatePlaceholder = () => computedPlaceholder.value = option.innerText
+        if(userInteraction) {
+            model.value.push(option.value)
+        }
+        option.classList.add('selected')
+        selected.value[option.value] = option.innerText
+    }
+    watchController.resume()
+}
+
+const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
+const virtualPlaceholder = useTemplateRef('virtual-placeholder')
+function computePlaceholder() {
+    if(!props.chips) {
+        let placeholder = ''
+        for(const opt in selected.value) placeholder += `${selected.value[opt]}, `
+        placeholder = placeholder.slice(0,-2)
+        if(placeholder) {
+            virtualPlaceholder.value.innerText = placeholder
+            const n = model.value.length
+            const updatePlaceholder = () => {
+                computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                    ? props.placeholderFallback(n)
+                    : placeholder
+                virtualPlaceholder.value.innerText = ''
+            }
             if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
             else updatePlaceholder()
-            if(hideOnSelect) showFloating.value = false
+        } else {
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
     }
 }
 function getOptionByValue(value) {
     const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
-        return element instanceof HTMLOptionElement && element.value === value
+        return element.tagName === 'OPTION' && element.value === value
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
     return walker.nextNode()
 }
-
-function handleSelection(event) {
-    if(event.target.tagName !== 'OPTION' || props.disabled) return
-    const option = event.target
-    updateSelection(option, true)
-}
-model.onMutated(v => {
-    if(v && model.value !== v) {
-        const option = getOptionByValue(v)
-        if(option) updateSelection(option)
-    } else if(!v && model.value) {
-        updateSelection(selected.value)
-    }
-})
 
 //-------------------- RENDER OPTIONS --------------------
 function Options({ options }) {
@@ -209,12 +246,13 @@ function Options({ options }) {
         //       (i.e., reading model.value is safe here).
         if(Array.isArray(model.value)) {
             selected.value = {}
+            new Set(model.value).forEach(value => {
+                const option = getOptionByValue(value)
+                if(option) updateMultipleSelection(option, false)
+            })
+            computePlaceholder()
         } else {
-            selected.value = getOptionByValue(model.value)
-            if(selected.value) {
-                selected.value.classList.add('selected')
-                computedPlaceholder.value = selected.value.innerText
-            }
+            updateSingleSelection(getOptionByValue(model.value), false)
         }
     })
     if(options === null) return

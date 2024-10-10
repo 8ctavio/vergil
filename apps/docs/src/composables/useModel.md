@@ -44,7 +44,14 @@ const model = useModel()
 
 ### Motivation
 
-Besides providing additional features, `useModel` allows to build components with improved functionality compared to regular refs. See the [Listening to external programmatic model mutations with `defineModel`](https://github.com/vuejs/core/discussions/11250) discussion to learn more about why an API like the `useModel`'s is required.
+Besides providing some [additional features](#features), the `useModel` composable enables custom components implementations to separately handle model changes depending on their source. In general, component model's value changes can be originated from two distinct sources:
+
+- **Internal**. Changes derived from user-interaction events.
+- **External**. Programmatic mutations performed outside of the component's context/scope (e.g., by the component's parent).
+
+Internal changes are typically handled with event listeners. On the other hand, the `useModel` API allows to **intercept** external programmatic mutations in order to handle them separately. See [Handle external mutations](#handle-external-mutations) for more details.
+
+Also, see [Listening to external programmatic model mutations with `defineModel`](https://github.com/vuejs/core/discussions/11250) to learn more about why the described approach to implement components is required.
 
 ### Considerations
 
@@ -131,9 +138,13 @@ Altough this could work, two different model wrappers would be created for the s
 
 When `useModel` receives a model wrapper, that wrapper is simply returned. Thefore, the `Nested` model implementation is not affected.
 
-### Listen to external model mutations
+### Handle external mutations
 
-When authoring a component, it may be required to perform certain operations only if the model value was programmatically mutated outside the component. For this purpose, a model wrapper has an `onMutated` callback registration method. It expects a function that will be called every time the original model object its programmatically mutated by writing to its `value` property. The callback function receives as a single argument the value assigned to the original model value. 
+The `useModel` composable is intended to enable component implementations to separately handle [internal and external model changes](#motivation). Vergil provides two approaches to detect external programmatic mutations:
+
+#### 1. Intercept mutations
+
+The `useModel` composable allows to intercept write operations to the `value` property of models. Model wrappers have an `onMutated` callback registration method that expects a function to be called every time a `.value` assignment on the original model is intercepted. This way, the model wrapper is able to detect and separately handle external programmatic mutations, as well as to freely update the model value.
 
 :::tip IMPORTANT
 If registered, the `onMutated` callback is responsible for updating the model value.
@@ -147,9 +158,32 @@ model.onMutated(v => {
 })
 ```
 
-:::tip
-See [Listening to external programmatic model mutations with `defineModel`](https://github.com/vuejs/core/discussions/11250).
+:::warning
+The `onMutated` callback can properly intercept programmatic mutations of scalar model values (string, number, boolean). However, programmatic mutations of object model values cannot be fully intercepted since objects can be further mutated by (deeply nested) object properties.
+
+Due to this limitation, `useModel` implementation might change significantly in the future. For that reason, it is recommended to use an alternative approach to detect external programmatic mutations.
 :::
+
+#### 2. Observe mutations
+
+Programmatic mutations can be easily detected with watchers. However, since the model value needs to be *internally* updated in response to user-interaction events, all model-value-subscribed watchers would be triggered by those updates, rendering them unable to distinguish between internal and external changes.
+
+The [watchControlled](/composables/watchControlled) composable can be used instead for the watcher to explicitly ignore *internal* model mutations.
+
+
+```js
+const model = useModel(modelValue)
+
+// Same signature as regular watch
+const controller = watchControlled(model.ref, () => {}) 
+
+function eventHandler(event) {
+    controller.pause()
+    // Does not execute watch callback
+    model.value = event.target.value
+    controller.resume()
+}
+```
 
 ### Reference a DOM element
 

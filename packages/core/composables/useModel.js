@@ -39,7 +39,7 @@ export function useModel(value){
         return Object.create(model, {
             value: {
                 get: () => model.ref.value,
-                set: model.updateModel,
+                set: v => model.ref.value = v
             },
             onMutated: { value: model[onMutated] },
             __v_isModelWrapper: { value: true }
@@ -47,26 +47,27 @@ export function useModel(value){
     }
     // Consumer (parent component): Create model
     else {
-        let mutateModel
+        let mutateModel = null
         const getResetValue = useResetValue(value)
         const model = extendedCustomRef(getResetValue(), {
-            set: v => (mutateModel ?? model.updateModel)(v)
+            set: v => {
+                if(mutateModel) {
+                    mutateModel(v)
+                } else {
+                    model.ref.value = v
+                }
+            }
         }, withDescriptor => ({
             el: ref(null),
             exposed: withDescriptor({
                 value: new ExtendedReactive(),
                 writable: false
             }),
-            updateModel(v) {
-                model.ref.value = v
-            },
             reset() {
-                model.ref.value = getResetValue()
+                model.value = getResetValue()
             },
             [onMutated](callback) {
-                if(typeof callback === 'function') {
-                    mutateModel = callback
-                }
+                mutateModel = (typeof callback === 'function') ? callback : null
             },
             __v_isModel: withDescriptor({
                 value: true,
