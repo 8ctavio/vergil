@@ -101,7 +101,7 @@ let stopAutoUpdate
 const showFloating = ref(false)
 function handleClick(event) {
     if('value' in event.target.dataset) {
-        const option = getOptionByValue(event.target.dataset.value)
+        const option = getOptions(event.target.dataset.value)
         if(option) {
             updateMultipleSelection(option)
             computePlaceholder()
@@ -136,19 +136,15 @@ const watchController = watchControlled(model.ref, (modelValue) => {
         if(selected.value === null || selected.value?.tagName === 'OPTION') {
             selected.value = {}
         }
-        Set.prototype.symmetricDifference.call(
-            new Set(modelValue),
-            new Set(Object.keys(selected.value))
-        ).forEach(value => {
-            const option = getOptionByValue(value)
-            if(option) updateMultipleSelection(option, false)
+        getOptions(new Set(modelValue)).forEach(option => {
+            updateMultipleSelection(option, false)
         })
         computePlaceholder()
     } else {
         if(selected.value !== null && selected.value?.tagName !== 'OPTION') {
             selected.value = null
         }
-        updateSingleSelection(getOptionByValue(modelValue), false)
+        updateSingleSelection(getOptions(modelValue), false)
     }
 }, { deep: true })
 function handleSelection(event) {
@@ -229,13 +225,26 @@ function computePlaceholder() {
         }
     }
 }
-function getOptionByValue(value) {
+function getOptions(query) {
+    const [filter, resolve] = (query instanceof Set) ? [
+        optionValue => query.delete(optionValue) !== (optionValue in selected.value),
+        walker => {
+            const options = []
+            while(walker.nextNode()) {
+                options.push(walker.currentNode)
+            }
+            return options
+        }
+    ] : [
+        optionValue => query === optionValue,
+        walker => walker.nextNode()
+    ]
     const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
-        return element.tagName === 'OPTION' && element.value === value
+        return element.tagName === 'OPTION' && filter(element.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
-    return walker.nextNode()
+    return resolve(walker)
 }
 
 //-------------------- RENDER OPTIONS --------------------
@@ -246,13 +255,12 @@ function Options({ options }) {
         //       (i.e., reading model.value is safe here).
         if(Array.isArray(model.value)) {
             selected.value = {}
-            new Set(model.value).forEach(value => {
-                const option = getOptionByValue(value)
-                if(option) updateMultipleSelection(option, false)
+            getOptions(new Set(model.value)).forEach(option => {
+                updateMultipleSelection(option, false)
             })
             computePlaceholder()
         } else {
-            updateSingleSelection(getOptionByValue(model.value), false)
+            updateSingleSelection(getOptions(model.value), false)
         }
     })
     if(options === null) return
