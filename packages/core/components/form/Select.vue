@@ -101,11 +101,10 @@ let stopAutoUpdate
 const showFloating = ref(false)
 function handleClick(event) {
     if('value' in event.target.dataset) {
-        const option = getOptions(event.target.dataset.value)
-        if(option) {
-            updateMultipleSelection(option)
-            computePlaceholder()
-        }
+        updateOptions(event.target.dataset.value, {
+            userInteraction: true,
+            multiSelect: true
+        })
     } else {
         if(!showFloating.value) {
             showFloating.value = true
@@ -136,29 +135,28 @@ const watchController = watchControlled(model.ref, (modelValue) => {
         if(selected.value === null || selected.value?.tagName === 'OPTION') {
             selected.value = {}
         }
-        getOptions(new Set(modelValue)).forEach(option => {
-            updateMultipleSelection(option, false)
-        })
-        computePlaceholder()
+        updateOptions(new Set(modelValue))
     } else {
         if(selected.value !== null && selected.value?.tagName !== 'OPTION') {
             selected.value = null
         }
-        updateSingleSelection(getOptions(modelValue), false)
+        updateOptions(modelValue)
     }
 }, { deep: true })
 function handleSelection(event) {
     if(event.target.tagName !== 'OPTION' || props.disabled) return
     const option = event.target
     if(Array.isArray(model.value)) {
-        updateMultipleSelection(option)
-        computePlaceholder()
+        updateMultipleSelection(option, true)
+        composePlaceholder()
     } else {
-        updateSingleSelection(option)
+        updateSingleSelection(option, true)
     }
 }
 
-function updateSingleSelection(option, userInteraction = true) {
+const virtualPlaceholder = useTemplateRef('virtual-placeholder')
+const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
+function updateSingleSelection(option, userInteraction = false) {
     watchController.pause()
     if(userInteraction ? option.classList.contains('selected') : !option) {
         if(userInteraction) {
@@ -183,7 +181,7 @@ function updateSingleSelection(option, userInteraction = true) {
     }
     watchController.resume()
 }
-function updateMultipleSelection(option, userInteraction = true) {
+function updateMultipleSelection(option, userInteraction = false) {
     watchController.pause()
     if(option.classList.contains('selected')) {
         if(userInteraction) {
@@ -201,10 +199,7 @@ function updateMultipleSelection(option, userInteraction = true) {
     }
     watchController.resume()
 }
-
-const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
-const virtualPlaceholder = useTemplateRef('virtual-placeholder')
-function computePlaceholder() {
+function composePlaceholder() {
     if(!props.chips) {
         let placeholder = ''
         for(const opt in selected.value) placeholder += `${selected.value[opt]}, `
@@ -225,26 +220,36 @@ function computePlaceholder() {
         }
     }
 }
-function getOptions(query) {
-    const [filter, resolve] = (query instanceof Set) ? [
+function updateOptions(query, { userInteraction, multiSelect } = {}) {
+    const [filter, update] = (query instanceof Set) ? [
         optionValue => query.delete(optionValue) !== (optionValue in selected.value),
         walker => {
-            const options = []
-            while(walker.nextNode()) {
-                options.push(walker.currentNode)
+            if(walker.nextNode()) {
+                do updateMultipleSelection(walker.currentNode, userInteraction)
+                while(walker.nextNode())
+                composePlaceholder()
             }
-            return options
         }
     ] : [
         optionValue => query === optionValue,
-        walker => walker.nextNode()
+        walker => {
+            const option = walker.nextNode()
+            if(multiSelect) {
+                if(option) {
+                    updateMultipleSelection(option, userInteraction)
+                    composePlaceholder()
+                }
+            } else {
+                updateSingleSelection(option, userInteraction)
+            }
+        }
     ]
     const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'OPTION' && filter(element.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
-    return resolve(walker)
+    update(walker)
 }
 
 //-------------------- RENDER OPTIONS --------------------
@@ -255,12 +260,9 @@ function Options({ options }) {
         //       (i.e., reading model.value is safe here).
         if(Array.isArray(model.value)) {
             selected.value = {}
-            getOptions(new Set(model.value)).forEach(option => {
-                updateMultipleSelection(option, false)
-            })
-            computePlaceholder()
+            updateOptions(new Set(model.value))
         } else {
-            updateSingleSelection(getOptions(model.value), false)
+            updateOptions(model.value)
         }
     })
     if(options === null) return
