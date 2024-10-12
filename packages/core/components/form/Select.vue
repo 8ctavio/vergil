@@ -8,8 +8,9 @@ import { ref, computed, watchEffect, useTemplateRef, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
+import { waitFor } from '../../composables/waitFor'
 import { watchControlled } from '../../composables/watchControlled'
-import { isModel } from '../../utilities'
+import { isModel, deburr } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -90,41 +91,158 @@ const floatLabelEnabled = computed(() => {
 })
 
 //-------------------- HANDLE POPOVER --------------------
+const showFloating = ref(false)
 const reference = useTemplateRef('reference')
 const floating = useTemplateRef('floating')
-const { floatingStyles, update: updatePosition } = useFloating(reference, floating, {
+const { floatingStyles, update: updatePosition, isPositioned } = useFloating(reference, floating, {
     placement: 'bottom-start',
     middleware: [offset(4), flip()],
+    open: showFloating
 })
 
 let stopAutoUpdate
-const showFloating = ref(false)
+function showPopover() {
+    if(!showFloating.value) {
+        showFloating.value = true
+        updatePosition()
+        stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
+            elementResize: props.chips
+        })
+        return true
+    }
+    return false
+}
+function closePopover() {
+    stopAutoUpdate?.()
+    stopAutoUpdate = undefined
+    showFloating.value = false
+    reference.value?.$el.focus({ preventScroll: true })
+}
+function togglePopover() {
+    if(!showPopover()) closePopover()
+}
+
 function handleClick(event) {
     if('value' in event.target.dataset) {
         updateOptions(event.target.dataset.value, {
             userInteraction: true,
             multiSelect: true
         })
-    } else {
-        if(!showFloating.value) {
-            showFloating.value = true
-            updatePosition()
-            stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
-                elementResize: props.chips
-            })
+    } else togglePopover()
+}
+watchEffect(() => {
+    if(props.disabled) closePopover()
+})
+
+//-------------------- KEYBOARD NAVIGATION --------------------
+const search = {
+    query: '',
+    queryFound: false,
+    timeout: undefined
+}
+async function handleSelectKeydown(event) {
+    if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
+        event.stopPropagation()
+        closePopover()
+    } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
+        //---------- SEARCH OPTIONS ----------
+        if(showPopover()) {
+            await waitFor(isPositioned).toBe(true)
+        }
+        /** 
+         * @TODO If functions declared inside a setup function
+         *  are optimized to have one function object across
+         *  all component instances, move these functions
+         *  to the setup function body.
+         */
+        const prune = str => deburr(str).toLocaleLowerCase()
+        const key = prune(event.key)
+        const options = floating.value.children
+        const findNextOption = () => {
+            const active = document.activeElement
+            let beforeSelected = active?.tagName === 'OPTION' && key === prune(active.innerText.charAt(0))
+            let foundBefore, foundAfter, foundActive = null
+            for(const option of options) {
+                if(beforeSelected) {
+                    if(option === active) {
+                        foundActive = active
+                        beforeSelected = false
+                    } else if(!foundBefore && key === prune(option.innerText.charAt(0))) {
+                        foundBefore = option
+                    }
+                } else if(key === prune(option.innerText.charAt(0))) {
+                    foundAfter = option
+                    break
+                }
+            }
+            return foundAfter ?? foundBefore ?? foundActive
+        }
+        const startTimeout = () => {
+            search.timeout = setTimeout(() => {
+                search.query = ''
+                search.queryFound = false
+                search.timeout = undefined
+            }, 500)
+        }
+
+        if(search.timeout) {
+            clearTimeout(search.timeout)
+            if(search.queryFound) {
+                search.query += key
+                search.queryFound = false
+                for(const option of options) {
+                    if(prune(option.innerText).startsWith(search.query)) {
+                        search.queryFound = true
+                        option.focus()
+                        break
+                    }
+                }
+            } if(!search.queryFound) {
+                findNextOption()?.focus()
+            }
+            startTimeout()
         } else {
-            stopAutoUpdate?.()
-            stopAutoUpdate = undefined
-            showFloating.value = false
+            const next = findNextOption()
+            if(next !== null) {
+                search.query += key
+                search.queryFound = true
+                next.focus()
+                startTimeout()
+            }
         }
     }
 }
-watchEffect(() => {
-    if(props.disabled) {
-        stopAutoUpdate?.()
-        showFloating.value = false
+function handleButtonKeydown(event) {
+    if(['ArrowDown','ArrowUp'].includes(event.key)) {
+        event.preventDefault()
+        showPopover()
+        waitFor(isPositioned).toBe(true).then(() => {
+            floating.value.firstElementChild?.focus({ preventScroll: true })
+        })
+    } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
+        if(showFloating.value) {
+            event.preventDefault()
+            closePopover()
+        }
     }
-})
+}
+function handleOptionsKeydown(event) {
+    if(event.target.tagName !== 'OPTION' || props.disabled) return
+    const { key } = event
+    if(key === 'ArrowDown') {
+        event.preventDefault()
+        event.target.nextElementSibling?.focus({ preventDefault: true })
+    } else if(key === 'ArrowUp') {
+        event.preventDefault()
+        event.target.previousElementSibling?.focus({ preventDefault: true })
+    } else if(['Enter',' '].includes(key)) {
+        event.preventDefault()
+        handleSelection(event)
+    } else if(key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
+        event.preventDefault()
+        closePopover()
+    }
+}
 
 //-------------------- HANDLE SELECTION --------------------
 const model = useModel(props.modelValue)
@@ -171,7 +289,7 @@ function updateSingleSelection(option, userInteraction = false) {
         if(selected.value) selected.value.classList.remove('selected')
         if(userInteraction) {
             model.value = option.value
-            showFloating.value = false
+            closePopover()
         }
         option.classList.add('selected')
         selected.value = option
@@ -296,6 +414,7 @@ function Options({ options }) {
     <FormField :class="['select', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
+        @keydown="handleSelectKeydown"
         >
         <Btn ref="reference"
             :class="[
@@ -308,7 +427,8 @@ function Options({ options }) {
             :theme :size :radius :spacing :squared="false"
             icon-right="keyboard_arrow_down"
             :disabled
-            @click="handleClick">
+            @click="handleClick"
+            @keydown="handleButtonKeydown">
             <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
                 <Badge v-for="(label,value) in selected" :key="value"
                     variant="subtle"
@@ -338,7 +458,8 @@ function Options({ options }) {
                     'select-options',
                     inferTheme(theme)
                 ]"
-                @click.stop="handleSelection">
+                @click.stop="handleSelection"
+                @keydown="handleOptionsKeydown">
                 <Options :options/>
             </div>
         </template>
@@ -471,14 +592,17 @@ function Options({ options }) {
             border-radius: inherit;
             transition: background-color 150ms;
 
-            &:hover {
+            &:is(:hover, :focus-visible) {
                 background-color: var(--c-grey-soft-2);
             }
-            &.selected {
-                background-color: var(--c-theme-soft-3);
+            &:focus-visible {
+                outline: 2px solid var(--c-theme-outline);
             }
             &::selection {
                 background-color: transparent;
+            }
+            &.selected {
+                background-color: var(--c-theme-soft-3);
             }
         }
     }

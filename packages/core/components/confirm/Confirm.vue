@@ -19,7 +19,7 @@ function resolveConfirm(response){
 const cancelBtn = useTemplateRef('cancel-btn')
 const acceptBtn = useTemplateRef('accept-btn')
 function handleKeyDown(event) {
-	if(event.key === 'Escape') {
+	if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
 		resolveConfirm(false)
 	} else {
 		const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)

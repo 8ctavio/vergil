@@ -16,7 +16,8 @@ const { disabled } = defineProps({
 })
 
 function handleKeyDown(e) {
-	if(e.key === "Escape" && !disabled) closePopup(true)
+	if(e.key === 'Escape' && !(e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) && !disabled)
+        closePopup(true)
 }
 </script>
 
