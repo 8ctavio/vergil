@@ -4,7 +4,7 @@ import Icon from '../Icon.vue'
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, watchEffect, useTemplateRef, nextTick, h } from 'vue'
+import { ref, computed, watchEffect, useTemplateRef, onUnmounted, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -91,6 +91,8 @@ const floatLabelEnabled = computed(() => {
 })
 
 //-------------------- HANDLE POPOVER --------------------
+const focusWithin = ref(false)
+const clickWithin = ref(false)
 const showFloating = ref(false)
 const reference = useTemplateRef('reference')
 const floating = useTemplateRef('floating')
@@ -108,6 +110,8 @@ function showPopover() {
         stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
             elementResize: props.chips
         })
+        document.addEventListener('click', handleDocumentClick)
+        document.addEventListener('focusin', handleDocumentFocusIn)
         return true
     }
     return false
@@ -116,13 +120,34 @@ function closePopover() {
     stopAutoUpdate?.()
     stopAutoUpdate = undefined
     showFloating.value = false
-    reference.value?.$el.focus({ preventScroll: true })
+    document.removeEventListener('click', handleDocumentClick)
+    document.removeEventListener('focusin', handleDocumentFocusIn)
+    if(focusWithin.value) {
+        reference.value?.$el.focus({ preventScroll: true })
+    }
 }
 function togglePopover() {
     if(!showPopover()) closePopover()
 }
+onUnmounted(() => {
+    if(showFloating.value) {
+        closePopover()
+    }
+})
 
+function handleDocumentClick() {
+    if(!clickWithin.value) {
+        closePopover()
+    }
+    clickWithin.value = false
+}
+function handleDocumentFocusIn() {
+    if(!focusWithin.value) {
+        closePopover()
+    }
+}
 function handleClick(event) {
+    clickWithin.value = true
     if('value' in event.target.dataset) {
         updateOptions(event.target.dataset.value, {
             userInteraction: true,
@@ -415,6 +440,8 @@ function Options({ options }) {
         :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
         @keydown="handleSelectKeydown"
+        @focusin="focusWithin = true"
+        @focusout="focusWithin = false"
         >
         <Btn ref="reference"
             :class="[
