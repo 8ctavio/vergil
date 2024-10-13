@@ -479,16 +479,18 @@ function Options({ options }) {
             </template>
         </Btn>
         <template #aside>
-            <div v-show="showFloating" ref="floating"
-                :style="floatingStyles"
-                :class="[
-                    'select-options',
-                    inferTheme(theme)
-                ]"
-                @click.stop="handleSelection"
-                @keydown="handleOptionsKeydown">
-                <Options :options/>
-            </div>
+            <Transition v-show="showFloating">
+                <div ref="floating"
+                    :style="floatingStyles"
+                    :class="[
+                        'select-options',
+                        inferTheme(theme)
+                    ]"
+                    @click.stop="handleSelection"
+                    @keydown="handleOptionsKeydown">
+                    <Options :options/>
+                </div>
+            </Transition>
         </template>
     </FormField>
 </template>
@@ -613,6 +615,15 @@ function Options({ options }) {
         cursor: pointer;
         z-index: var(--z-index-popover);
 
+        &.v-enter-active {
+            transition: opacity 75ms var(--bezier-sine-out);
+        }
+        &.v-leave-active {
+            transition: opacity 75ms var(--bezier-sine-in);
+        }
+        &:is(.v-enter-from, .v-leave-to){
+            opacity: 0;
+        }
         & > option {
             flex-shrink: 0;
             padding: var(--g-gap-sm) var(--g-gap-lg);
