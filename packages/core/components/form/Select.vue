@@ -96,7 +96,11 @@ const clickWithin = ref(false)
 const showFloating = ref(false)
 const reference = useTemplateRef('reference')
 const floating = useTemplateRef('floating')
-const { floatingStyles, update: updatePosition, isPositioned } = useFloating(reference, floating, {
+const {
+    floatingStyles,
+    update: updatePosition,
+    isPositioned,
+} = useFloating(reference, floating, {
     placement: 'bottom-start',
     middleware: [offset(4), flip()],
     open: showFloating
@@ -182,7 +186,7 @@ async function handleSelectKeydown(event) {
          */
         const prune = str => deburr(str).toLocaleLowerCase()
         const key = prune(event.key)
-        const options = floating.value.children
+        const options = floating.value.children[0].children
         const findNextOption = () => {
             const active = document.activeElement
             let beforeSelected = active?.tagName === 'OPTION' && key === prune(active.innerText.charAt(0))
@@ -242,7 +246,7 @@ function handleButtonKeydown(event) {
         event.preventDefault()
         showPopover()
         waitFor(isPositioned).toBe(true).then(() => {
-            floating.value.firstElementChild?.focus({ preventScroll: true })
+            floating.value.children[0].firstElementChild?.focus({ preventScroll: true })
         })
     } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
         if(showFloating.value) {
@@ -387,7 +391,7 @@ function updateOptions(query, { userInteraction, multiSelect } = {}) {
             }
         }
     ]
-    const walker = document.createTreeWalker(floating.value, NodeFilter.SHOW_ELEMENT, element => {
+    const walker = document.createTreeWalker(floating.value.children[0], NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'OPTION' && filter(element.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
@@ -479,19 +483,17 @@ function Options({ options }) {
             </template>
         </Btn>
         <template #aside>
-            <Transition v-show="showFloating">
-                <div ref="floating"
-                    :style="floatingStyles"
-                    :class="[
-                        'select-options',
-                        inferTheme(theme)
-                    ]"
-                    @click.stop="handleSelection"
-                    @keydown="handleOptionsKeydown">
-                    <Options :options/>
-                </div>
-            </Transition>
-        </template>
+            <div ref="floating" class="floating" :style="floatingStyles">
+                <Transition v-show="showFloating">
+                    <div :class="['select-options', inferTheme(theme)]"
+                        @click.stop="handleSelection"
+                        @keydown="handleOptionsKeydown"
+                        >
+                        <Options :options/>
+                    </div>
+                </Transition>
+            </div>
+    </template>
     </FormField>
 </template>
 
@@ -591,56 +593,63 @@ function Options({ options }) {
             transition: transform 150ms 50ms, padding 150ms, font-size 150ms 50ms;
         }
     }
-    & > .select-options {
-        --select-max-options: 7;
-        display: flex;
-        flex-direction: column;
-        gap: var(--g-gap-xs);
-        padding: var(--g-gap-sm);
-        box-sizing: border-box;
+    & > .floating {
         width: 100%;
-        height: max-content;
-        max-height: calc(
-            1.6px
-            + ((var(--select-max-options) - 1) * var(--g-gap-xs))
-            + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
-            + (var(--select-max-options) * var(--line-height-text) * 1em)
-        );
-        overflow-y: auto;
-        border-radius: var(--g-radius);
-        border: 1px solid var(--c-grey-border-subtle);
-        background-color: var(--c-bg);
-        color: var(--c-text);
-        box-shadow: 2px 2px 3px var(--c-box-shadow);
-        cursor: pointer;
         z-index: var(--z-index-popover);
 
-        &.v-enter-active {
-            transition: opacity 75ms var(--bezier-sine-out);
-        }
-        &.v-leave-active {
-            transition: opacity 75ms var(--bezier-sine-in);
-        }
-        &:is(.v-enter-from, .v-leave-to){
-            opacity: 0;
-        }
-        & > option {
-            flex-shrink: 0;
-            padding: var(--g-gap-sm) var(--g-gap-lg);
-            border-radius: inherit;
-            transition: background-color 150ms;
+        & >.select-options {
+            --select-max-options: 7;
+            display: flex;
+            flex-direction: column;
+            gap: var(--g-gap-xs);
+            padding: var(--g-gap-sm);
+            box-sizing: border-box;
+            width: 100%;
+            height: max-content;
+            max-height: calc(
+                1.6px
+                + ((var(--select-max-options) - 1) * var(--g-gap-xs))
+                + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
+                + (var(--select-max-options) * var(--line-height-text) * 1em)
+            );
+            overflow-y: auto;
+            border-radius: var(--g-radius);
+            border: 1px solid var(--c-grey-border-subtle);
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            box-shadow: 2px 2px 3px var(--c-box-shadow);
+            cursor: pointer;
+            backface-visibility: hidden;
 
-            &:is(:hover, :focus-visible) {
-                background-color: var(--c-grey-soft-2);
+            &.v-enter-active {
+                transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
             }
-            &:focus-visible {
-                outline: 2px solid var(--c-theme-outline);
+            &.v-leave-active {
+                transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
             }
-            &::selection {
-                background-color: transparent;
+            &:is(.v-enter-from, .v-leave-to){
+                opacity: 0;
+                transform: translateY(4px);
+                /* transform: scale(0.95); */
             }
-            &.selected {
-                background-color: var(--c-theme-soft-3);
+            & > option {
+                flex-shrink: 0;
+                padding: var(--g-gap-sm) var(--g-gap-lg);
+                border-radius: inherit;
+                transition: background-color 150ms;
+
+                &:is(:hover, :focus-visible) {
+                    background-color: var(--c-grey-soft-2);
+                }
+                &:focus-visible {
+                    outline: 2px solid var(--c-theme-outline);
+                }
+                &::selection {
+                    background-color: transparent;
+                }
+                &.selected {
+                    background-color: var(--c-theme-soft-3);
+                }
             }
         }
     }

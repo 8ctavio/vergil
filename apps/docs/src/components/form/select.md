@@ -404,8 +404,10 @@ The following `Select` props' default values can be overwritten under the `selec
             </Anatomy>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
-        <Anatomy tag="div" classes="select-options">
-            <Anatomy tag='option v-for="option in options"'/>
+        <Anatomy tag="div" classes="floating">
+            <Anatomy tag="div" classes="select-options">
+                <Anatomy tag='option v-for="option in options"'/>
+            </Anatomy>
         </Anatomy>
     </Anatomy>
 </Demo>
