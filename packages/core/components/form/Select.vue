@@ -5,7 +5,7 @@ import Btn from '../buttons/Btn.vue'
 import InputText from './InputText.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, watchEffect, useTemplateRef, onUnmounted, nextTick, h } from 'vue'
+import { ref, computed, watchEffect, useTemplateRef, onMounted, onUnmounted, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -130,7 +130,7 @@ function showPopover() {
         showFloating.value = true
         updatePosition()
         stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
-            elementResize: props.chips
+            elementResize: props.filter || props.chips
         })
         document.addEventListener('click', handleDocumentClick)
         document.addEventListener('focusin', handleDocumentFocusIn)
@@ -154,10 +154,12 @@ function togglePopover() {
     if(!showPopover()) closePopover()
 }
 
-watchEffect(() => {
-    if(props.disabled) {
-        closePopover()
-    }
+onMounted(() => {
+    watchEffect(() => {
+        if(props.disabled) {
+            closePopover()
+        }
+    })
 })
 onUnmounted(() => {
     if(showFloating.value) {
@@ -252,29 +254,22 @@ async function handleSelectKeydown(event) {
                 }
             }   
         }
-    }
-}
-async function handleBtnKeydown(event) {
-    if(['ArrowDown','ArrowUp'].includes(event.key)) {
-        event.preventDefault()
-        showPopover()
-        waitFor(isPositioned).toBe(true).then(() => {
-            focusAdjacentOption(optionsWrapper.value.firstElementChild)
-        })
-    } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(showFloating.value && !props.filter) {
+    } else if(event.target.tagName !== 'OPTION') {
+        if(['ArrowDown','ArrowUp'].includes(event.key)) {
             event.preventDefault()
-            closePopover()
+            if(showPopover()) {
+                await waitFor(isPositioned).toBe(true)
+            }
+            focusAdjacentOption(optionsWrapper.value.firstElementChild)
+        } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
+            if(showFloating.value && !props.filter) {
+                event.preventDefault()
+                closePopover()
+            } else if(event.target.tagName === 'INPUT' && !event.shiftKey) {
+                event.preventDefault()
+                reference.value?.$el.focus({ preventScroll: true })
+            }
         }
-    }
-}
-function handleFilterKeydown(event) {
-    if(['ArrowDown','ArrowUp'].includes(event.key)) {
-        event.preventDefault()
-        focusAdjacentOption(optionsWrapper.value.firstElementChild)
-    } else if(event.key === 'Tab' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
-        event.preventDefault()
-        closePopover()
     }
 }
 function handleOptionsKeydown(event) {
@@ -313,18 +308,16 @@ function handleBtnClick(event) {
 
 //-------------------- FILTER OPTIONS --------------------
 function handleFilterInput(event) {
-	if(optionsWrapper.value) {
-		const options = optionsWrapper.value.children
-		const query = prune(event?.target.value ?? '')
-		for(const option of options) {
-			const pruned = prune(option.innerText)
-			if(pruned.includes(query)) {
-				option.hidden = false
-			} else {
-				option.hidden = true
-			}
-		}
-	}
+    const options = optionsWrapper.value.children
+    const query = prune(event?.target.value ?? '')
+    for(const option of options) {
+        const pruned = prune(option.innerText)
+        if(pruned.includes(query)) {
+            option.hidden = false
+        } else {
+            option.hidden = true
+        }
+    }
 }
 
 //-------------------- HANDLE SELECTION --------------------
@@ -345,6 +338,7 @@ const watchController = watchControlled(model.ref, (modelValue) => {
     }
 }, { deep: true })
 function handleSelection(event) {
+    clickWithin.value = true
     if(event.target.tagName !== 'OPTION' || props.disabled) return
     const option = event.target
     if(Array.isArray(model.value)) {
@@ -512,8 +506,7 @@ function Options({ options }) {
             :theme :size :radius :spacing :squared="false"
             icon-right="keyboard_arrow_down"
             :disabled
-            @click="handleBtnClick"
-            @keydown="handleBtnKeydown">
+            @click="handleBtnClick">
             <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
                 <Badge v-for="(label,value) in selected" :key="value"
                     variant="subtle"
@@ -548,7 +541,6 @@ function Options({ options }) {
                             v-model="filterModel"
                             placeholder="Filter"
                             icon="search"
-                            @keydown="handleFilterKeydown"
                             @input="handleFilterInput"
                         />
                         <div ref="select-options"
