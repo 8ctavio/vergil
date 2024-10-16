@@ -2,6 +2,7 @@
 import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import Btn from '../buttons/Btn.vue'
+import InputText from './InputText.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
 import { ref, computed, watchEffect, useTemplateRef, onUnmounted, nextTick, h } from 'vue'
@@ -10,7 +11,7 @@ import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { waitFor } from '../../composables/waitFor'
 import { watchControlled } from '../../composables/watchControlled'
-import { isModel, deburr } from '../../utilities'
+import { isModel, deburr, prune } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -43,6 +44,7 @@ const props = defineProps({
         type: Function,
         default: n => vergil.config.select.placeholderFallback(n)
     },
+    filter: Boolean,
     chips: Boolean,
 
     //----- FormField -----
@@ -90,6 +92,10 @@ const floatLabelEnabled = computed(() => {
         && !(props.placeholder || props.description)
 })
 
+const filterModel = useModel('')
+const filterInstance = useTemplateRef('filter')
+const optionsWrapper = useTemplateRef('select-options')
+
 //-------------------- HANDLE POPOVER --------------------
 const focusWithin = ref(false)
 const clickWithin = ref(false)
@@ -107,6 +113,18 @@ const {
 })
 
 let stopAutoUpdate
+function handleDocumentClick() {
+    if(!clickWithin.value) {
+        closePopover()
+    }
+    clickWithin.value = false
+}
+function handleDocumentFocusIn() {
+    if(!focusWithin.value) {
+        closePopover()
+    }
+}
+
 function showPopover() {
     if(!showFloating.value) {
         showFloating.value = true
@@ -126,6 +144,8 @@ function closePopover() {
     showFloating.value = false
     document.removeEventListener('click', handleDocumentClick)
     document.removeEventListener('focusin', handleDocumentFocusIn)
+    filterModel.value = ''
+    handleFilterInput()
     if(focusWithin.value) {
         reference.value?.$el.focus({ preventScroll: true })
     }
@@ -133,34 +153,16 @@ function closePopover() {
 function togglePopover() {
     if(!showPopover()) closePopover()
 }
+
+watchEffect(() => {
+    if(props.disabled) {
+        closePopover()
+    }
+})
 onUnmounted(() => {
     if(showFloating.value) {
         closePopover()
     }
-})
-
-function handleDocumentClick() {
-    if(!clickWithin.value) {
-        closePopover()
-    }
-    clickWithin.value = false
-}
-function handleDocumentFocusIn() {
-    if(!focusWithin.value) {
-        closePopover()
-    }
-}
-function handleClick(event) {
-    clickWithin.value = true
-    if('value' in event.target.dataset) {
-        updateOptions(event.target.dataset.value, {
-            userInteraction: true,
-            multiSelect: true
-        })
-    } else togglePopover()
-}
-watchEffect(() => {
-    if(props.disabled) closePopover()
 })
 
 //-------------------- KEYBOARD NAVIGATION --------------------
@@ -169,90 +171,110 @@ const search = {
     queryFound: false,
     timeout: undefined
 }
+function focusAdjacentOption(el, prev = false) {
+    while(el?.hidden) {
+        el = el[`${prev ? 'previous':'next'}ElementSibling`]
+    }
+    el?.focus()
+}
 async function handleSelectKeydown(event) {
     if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
         event.stopPropagation()
         closePopover()
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        //---------- SEARCH OPTIONS ----------
         if(showPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
-        /** 
-         * @TODO If functions declared inside a setup function
-         *  are optimized to have one function object across
-         *  all component instances, move these functions
-         *  to the setup function body.
-         */
-        const prune = str => deburr(str).toLocaleLowerCase()
-        const key = prune(event.key)
-        const options = floating.value.children[0].children
-        const findNextOption = () => {
-            const active = document.activeElement
-            let beforeSelected = active?.tagName === 'OPTION' && key === prune(active.innerText.charAt(0))
-            let foundBefore, foundAfter, foundActive = null
-            for(const option of options) {
-                if(beforeSelected) {
-                    if(option === active) {
-                        foundActive = active
-                        beforeSelected = false
-                    } else if(!foundBefore && key === prune(option.innerText.charAt(0))) {
-                        foundBefore = option
-                    }
-                } else if(key === prune(option.innerText.charAt(0))) {
-                    foundAfter = option
-                    break
-                }
-            }
-            return foundAfter ?? foundBefore ?? foundActive
-        }
-        const startTimeout = () => {
-            search.timeout = setTimeout(() => {
-                search.query = ''
-                search.queryFound = false
-                search.timeout = undefined
-            }, 500)
-        }
-
-        if(search.timeout) {
-            clearTimeout(search.timeout)
-            if(search.queryFound) {
-                search.query += key
-                search.queryFound = false
+        if(props.filter && event.target.tagName !== 'INPUT') {
+            event.preventDefault()
+            filterModel.value += event.key
+            filterInstance.value.focus()
+        } else if(!props.filter) {
+            /** 
+             * @TODO If functions declared inside a setup function
+             *  are optimized to have one function object across
+             *  all component instances, move these functions
+             *  to the setup function body.
+             */
+            const prune = str => deburr(str).toLocaleLowerCase()
+            const key = prune(event.key)
+            const options = optionsWrapper.value.children
+            const findNextOption = () => {
+                const active = document.activeElement
+                let beforeSelected = active?.tagName === 'OPTION' && key === prune(active.innerText.charAt(0))
+                let foundBefore, foundAfter, foundActive = null
                 for(const option of options) {
-                    if(prune(option.innerText).startsWith(search.query)) {
-                        search.queryFound = true
-                        option.focus()
+                    if(beforeSelected) {
+                        if(option === active) {
+                            foundActive = active
+                            beforeSelected = false
+                        } else if(!foundBefore && key === prune(option.innerText.charAt(0))) {
+                            foundBefore = option
+                        }
+                    } else if(key === prune(option.innerText.charAt(0))) {
+                        foundAfter = option
                         break
                     }
                 }
-            } if(!search.queryFound) {
-                findNextOption()?.focus()
+                return foundAfter ?? foundBefore ?? foundActive
             }
-            startTimeout()
-        } else {
-            const next = findNextOption()
-            if(next !== null) {
-                search.query += key
-                search.queryFound = true
-                next.focus()
+            const startTimeout = () => {
+                search.timeout = setTimeout(() => {
+                    search.query = ''
+                    search.queryFound = false
+                    search.timeout = undefined
+                }, 500)
+            }
+
+            if(search.timeout) {
+                clearTimeout(search.timeout)
+                if(search.queryFound) {
+                    search.query += key
+                    search.queryFound = false
+                    for(const option of options) {
+                        if(prune(option.innerText).startsWith(search.query)) {
+                            search.queryFound = true
+                            option.focus()
+                            break
+                        }
+                    }
+                } if(!search.queryFound) {
+                    findNextOption()?.focus()
+                }
                 startTimeout()
-            }
+            } else {
+                const next = findNextOption()
+                if(next !== null) {
+                    search.query += key
+                    search.queryFound = true
+                    next.focus()
+                    startTimeout()
+                }
+            }   
         }
     }
 }
-function handleButtonKeydown(event) {
+async function handleBtnKeydown(event) {
     if(['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
         showPopover()
         waitFor(isPositioned).toBe(true).then(() => {
-            floating.value.children[0].firstElementChild?.focus({ preventScroll: true })
+            focusAdjacentOption(optionsWrapper.value.firstElementChild)
         })
     } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(showFloating.value) {
+        if(showFloating.value && !props.filter) {
             event.preventDefault()
             closePopover()
         }
+    }
+}
+function handleFilterKeydown(event) {
+    if(['ArrowDown','ArrowUp'].includes(event.key)) {
+        event.preventDefault()
+        focusAdjacentOption(optionsWrapper.value.firstElementChild)
+    } else if(event.key === 'Tab' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
+        event.preventDefault()
+        closePopover()
     }
 }
 function handleOptionsKeydown(event) {
@@ -260,17 +282,49 @@ function handleOptionsKeydown(event) {
     const { key } = event
     if(key === 'ArrowDown') {
         event.preventDefault()
-        event.target.nextElementSibling?.focus({ preventDefault: true })
+        focusAdjacentOption(event.target.nextElementSibling)
     } else if(key === 'ArrowUp') {
         event.preventDefault()
-        event.target.previousElementSibling?.focus({ preventDefault: true })
+        focusAdjacentOption(event.target.previousElementSibling, true)
     } else if(['Enter',' '].includes(key)) {
         event.preventDefault()
         handleSelection(event)
     } else if(key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        event.preventDefault()
-        closePopover()
+        if(event.shiftKey && props.filter) {
+            event.preventDefault()
+            filterInstance.value.focus()
+        } else {
+            event.preventDefault()
+            closePopover()
+        }
     }
+}
+
+//-------------------- SELECT BUTTON --------------------
+function handleBtnClick(event) {
+    clickWithin.value = true
+    if('value' in event.target.dataset) {
+        updateOptions(event.target.dataset.value, {
+            userInteraction: true,
+            multiSelect: true
+        })
+    } else togglePopover()
+}
+
+//-------------------- FILTER OPTIONS --------------------
+function handleFilterInput(event) {
+	if(optionsWrapper.value) {
+		const options = optionsWrapper.value.children
+		const query = prune(event?.target.value ?? '')
+		for(const option of options) {
+			const pruned = prune(option.innerText)
+			if(pruned.includes(query)) {
+				option.hidden = false
+			} else {
+				option.hidden = true
+			}
+		}
+	}
 }
 
 //-------------------- HANDLE SELECTION --------------------
@@ -391,7 +445,7 @@ function updateOptions(query, { userInteraction, multiSelect } = {}) {
             }
         }
     ]
-    const walker = document.createTreeWalker(floating.value.children[0], NodeFilter.SHOW_ELEMENT, element => {
+    const walker = document.createTreeWalker(optionsWrapper.value, NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'OPTION' && filter(element.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
@@ -458,8 +512,8 @@ function Options({ options }) {
             :theme :size :radius :spacing :squared="false"
             icon-right="keyboard_arrow_down"
             :disabled
-            @click="handleClick"
-            @keydown="handleButtonKeydown">
+            @click="handleBtnClick"
+            @keydown="handleBtnKeydown">
             <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
                 <Badge v-for="(label,value) in selected" :key="value"
                     variant="subtle"
@@ -483,13 +537,25 @@ function Options({ options }) {
             </template>
         </Btn>
         <template #aside>
-            <div ref="floating" class="floating" :style="floatingStyles">
+            <div ref="floating"
+                class="floating"
+                :style="floatingStyles"
+                @click="handleSelection">
                 <Transition v-show="showFloating">
-                    <div :class="['select-options', inferTheme(theme)]"
-                        @click.stop="handleSelection"
-                        @keydown="handleOptionsKeydown"
-                        >
-                        <Options :options/>
+                    <div class="select-dropdown">
+                        <InputText v-if="filter" 
+                            ref="filter"
+                            v-model="filterModel"
+                            placeholder="Filter"
+                            icon="search"
+                            @keydown="handleFilterKeydown"
+                            @input="handleFilterInput"
+                        />
+                        <div ref="select-options"
+                            :class="['select-options', inferTheme(theme)]"
+                            @keydown="handleOptionsKeydown">
+                            <Options :options/>
+                        </div>
                     </div>
                 </Transition>
             </div>
@@ -597,58 +663,74 @@ function Options({ options }) {
         width: 100%;
         z-index: var(--z-index-popover);
 
-        & >.select-options {
-            --select-max-options: 7;
+        & > .select-dropdown {
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             gap: var(--g-gap-xs);
-            padding: var(--g-gap-sm);
-            box-sizing: border-box;
             width: 100%;
-            height: max-content;
-            max-height: calc(
-                1.6px
-                + ((var(--select-max-options) - 1) * var(--g-gap-xs))
-                + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
-                + (var(--select-max-options) * var(--line-height-text) * 1em)
-            );
-            overflow-y: auto;
             border-radius: var(--g-radius);
             border: 1px solid var(--c-grey-border-subtle);
             background-color: var(--c-bg);
-            color: var(--c-text);
             box-shadow: 2px 2px 3px var(--c-box-shadow);
-            cursor: pointer;
-            backface-visibility: hidden;
 
-            &.v-enter-active {
-                transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
+            & > .input-text {
+                margin: var(--g-gap-md) var(--g-gap-sm);
+                margin-bottom: 0;
+                & > .input-text-outer > .input-text-wrapper {
+                    padding: var(--g-gap-sm) var(--g-gap-md);
+                    & > input {
+                        padding: 0;
+                    }
+                }
             }
-            &.v-leave-active {
-                transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
-            }
-            &:is(.v-enter-from, .v-leave-to){
-                opacity: 0;
-                transform: translateY(4px);
-                /* transform: scale(0.95); */
-            }
-            & > option {
-                flex-shrink: 0;
-                padding: var(--g-gap-sm) var(--g-gap-lg);
-                border-radius: inherit;
-                transition: background-color 150ms;
+            & > .select-options {
+                --select-max-options: 7;
+                display: flex;
+                flex-direction: column;
+                gap: var(--g-gap-xs);
+                padding: var(--g-gap-sm);
+                box-sizing: border-box;
+                width: 100%;
+                height: max-content;
+                max-height: calc(
+                    ((var(--select-max-options) - 1) * var(--g-gap-xs))
+                    + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
+                    + (var(--select-max-options) * var(--line-height-text) * 1em)
+                );
+                overflow-y: auto;
+                color: var(--c-text);
+                cursor: pointer;
 
-                &:is(:hover, :focus-visible) {
-                    background-color: var(--c-grey-soft-2);
+                &.v-enter-active {
+                    transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
                 }
-                &:focus-visible {
-                    outline: 2px solid var(--c-theme-outline);
+                &.v-leave-active {
+                    transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
                 }
-                &::selection {
-                    background-color: transparent;
+                &:is(.v-enter-from, .v-leave-to){
+                    opacity: 0;
+                    transform: translateY(4px);
+                    /* transform: scale(0.95); */
                 }
-                &.selected {
-                    background-color: var(--c-theme-soft-3);
+                & > option {
+                    flex-shrink: 0;
+                    padding: var(--g-gap-sm) var(--g-gap-lg);
+                    border-radius: var(--g-radius);
+                    transition: background-color 150ms;
+
+                    &:is(:hover, :focus-visible) {
+                        background-color: var(--c-grey-soft-2);
+                    }
+                    &:focus-visible {
+                        outline: 2px solid var(--c-theme-outline);
+                    }
+                    &::selection {
+                        background-color: transparent;
+                    }
+                    &.selected {
+                        background-color: var(--c-theme-soft-3);
+                    }
                 }
             }
         }

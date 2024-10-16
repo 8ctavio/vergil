@@ -112,7 +112,7 @@ p, h1, h2, h3{
 }
 /*---------- Box Shadow ----------*/
 :root{
-    --c-box-shadow: #50505050;
+    --c-box-shadow: #90909050;
 }
 .dark{
     --c-box-shadow: #00000070;
