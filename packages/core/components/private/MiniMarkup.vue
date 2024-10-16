@@ -54,7 +54,10 @@ const reIcon = /^@@\S*?@@$/
 </template>
 
 <style>
-.inline-block{ display: inline-block; }
+.inline-block {
+    display: inline-block;
+    vertical-align: bottom;
+}
 .inline-icon {
     font-size: 1.2em;
     line-height: 0;

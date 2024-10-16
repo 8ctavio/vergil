@@ -5,7 +5,7 @@ import Btn from '../buttons/Btn.vue'
 import InputText from './InputText.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, watchEffect, useTemplateRef, onMounted, onUnmounted, nextTick, h } from 'vue'
+import { ref, computed, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick, h } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
@@ -45,6 +45,10 @@ const props = defineProps({
         default: n => vergil.config.select.placeholderFallback(n)
     },
     filter: Boolean,
+    placeholderNotFound: {
+        type: Function,
+        default: query => vergil.config.select.placeholderNotFound(query)
+    },
     chips: Boolean,
 
     //----- FormField -----
@@ -100,6 +104,7 @@ const optionsWrapper = useTemplateRef('select-options')
 const focusWithin = ref(false)
 const clickWithin = ref(false)
 const showFloating = ref(false)
+const isClosed = ref(false)
 const reference = useTemplateRef('reference')
 const floating = useTemplateRef('floating')
 const {
@@ -128,12 +133,18 @@ function handleDocumentFocusIn() {
 function showPopover() {
     if(!showFloating.value) {
         showFloating.value = true
+        isClosed.value = false
         updatePosition()
         stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
             elementResize: props.filter || props.chips
         })
         document.addEventListener('click', handleDocumentClick)
         document.addEventListener('focusin', handleDocumentFocusIn)
+        if(props.filter) {
+            nextTick(() => {
+                filterInstance.value.focus()
+            })
+        }
         return true
     }
     return false
@@ -144,11 +155,13 @@ function closePopover() {
     showFloating.value = false
     document.removeEventListener('click', handleDocumentClick)
     document.removeEventListener('focusin', handleDocumentFocusIn)
-    filterModel.value = ''
-    handleFilterInput()
     if(focusWithin.value) {
         reference.value?.$el.focus({ preventScroll: true })
     }
+    waitFor(isClosed).toBe(true).then(() => {
+        filterModel.value = ''
+        handleFilterInput()
+    })
 }
 function togglePopover() {
     if(!showPopover()) closePopover()
@@ -161,7 +174,7 @@ onMounted(() => {
         }
     })
 })
-onUnmounted(() => {
+onBeforeUnmount(() => {
     if(showFloating.value) {
         closePopover()
     }
@@ -307,13 +320,16 @@ function handleBtnClick(event) {
 }
 
 //-------------------- FILTER OPTIONS --------------------
+const empty = ref(false)
 function handleFilterInput(event) {
     const options = optionsWrapper.value.children
     const query = prune(event?.target.value ?? '')
+    empty.value = true
     for(const option of options) {
         const pruned = prune(option.innerText)
         if(pruned.includes(query)) {
             option.hidden = false
+            if(empty.value) empty.value = false
         } else {
             option.hidden = true
         }
@@ -534,7 +550,7 @@ function Options({ options }) {
                 class="floating"
                 :style="floatingStyles"
                 @click="handleSelection">
-                <Transition v-show="showFloating">
+                <Transition v-show="showFloating" @after-leave="isClosed = true">
                     <div class="select-dropdown">
                         <InputText v-if="filter" 
                             ref="filter"
@@ -543,7 +559,10 @@ function Options({ options }) {
                             icon="search"
                             @input="handleFilterInput"
                         />
-                        <div ref="select-options"
+                        <p v-if="empty" class="select-not-found">
+                            <MiniMarkup :str="placeholderNotFound(filterModel.value)"/>
+                        </p>
+                        <div v-show="!empty" ref="select-options"
                             :class="['select-options', inferTheme(theme)]"
                             @keydown="handleOptionsKeydown">
                             <Options :options/>
@@ -674,6 +693,18 @@ function Options({ options }) {
                     & > input {
                         padding: 0;
                     }
+                }
+            }
+            & > .select-not-found {
+                padding: var(--g-gap-md) var(--g-gap-lg);
+                text-align: center;
+                line-height: 1.5;
+                color: var(--c-grey-text-2);
+                & > .inline-block {
+                    max-width: 100%;
+                    overflow-x: hidden;
+                    text-wrap: nowrap;
+                    text-overflow: ellipsis;
                 }
             }
             & > .select-options {

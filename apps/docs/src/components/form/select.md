@@ -136,7 +136,6 @@ If `option-[value|label]` is a string, it represents an object key. If an option
     <code>selected.value === '{{ demo3.value }}'</code>
 </Demo>
 
-
 If `option-[value|label]` is a function it is called for each option, receives the option as a single argument, and its return value becomes the resulting value/label.
 
 ```vue-html
@@ -215,6 +214,54 @@ n => `${n} Selected`
 :::tip
 The `placeholder-fallback` prop only takes effect in multiple selection mode.
 :::
+
+### Filter <Badge><pre>filter: boolean</pre></Badge>
+
+```vue-html
+<Select
+    :options="['abc','uvw','xyz']"
+    placeholder="Select options"
+    filter
+/>
+```
+
+<Demo>
+    <Select
+        :options="['abc','uvw','xyz']"
+        placeholder="Select options"
+        filter
+    />
+</Demo>
+
+### Not-found placeholder <Badge><pre>placeholder-not-found: (query: string) => string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+
+The `placeholder-not-found` prop is used to obtain a placeholder to display when the `Select`'s filter input yields no results. The passed function receives as a single argument the filter input's query.
+
+```vue-html
+<Select
+    :options="['Option']"
+    placeholder="Select options"
+    filter
+    :placeholder-not-found="query => {
+        return `@@search_off@@\nCould not find [['${query}']]`
+    }"
+/>
+```
+
+<Demo>
+    <Select
+        :options="['Option']"
+        placeholder="Select options"
+        filter
+        :placeholder-not-found="query => `@@search_off@@\nCould not find [['${query}']]`"
+    />
+</Demo>
+
+The following function is used as the default `placeholder-not-found` value.
+
+```js
+query => `No results for [["${query}"]]`
+```
 
 ### Chips <Badge><pre>chips: boolean</pre></Badge> <Badge type="warning">Only for multiple selection</Badge>
 
@@ -350,6 +397,8 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 | `optionLabel` | `string \| function` | `v => v` |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
+| `filter` | `boolean` | |
+| `placeholderNotFound` | `(query: string) => string` | |
 | `chips` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
@@ -370,6 +419,7 @@ The following `Select` props' default values can be overwritten under the `selec
 | `select.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `placeholderFallback` | |
+| `placeholderNotFound` | |
 | `underline` | |
 | `fill` | |
 | `theme` | ✅ |
@@ -405,8 +455,12 @@ The following `Select` props' default values can be overwritten under the `selec
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
         <Anatomy tag="div" classes="floating">
-            <Anatomy tag="div" classes="select-options">
-                <Anatomy tag='option v-for="option in options"'/>
+            <Anatomy tag="div" classes="select-dropdown">
+                <Anatomy tag='Input' classes="input-text"/>
+                <Anatomy tag='p' classes="select-not-found"/>
+                <Anatomy tag="div" classes="select-options">
+                    <Anatomy tag='option v-for="option in options"'/>
+                </Anatomy>
             </Anatomy>
         </Anatomy>
     </Anatomy>
