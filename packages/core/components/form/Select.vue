@@ -158,10 +158,12 @@ function closePopover() {
     if(focusWithin.value) {
         reference.value?.$el.focus({ preventScroll: true })
     }
-    waitFor(isClosed).toBe(true).then(() => {
-        filterModel.value = ''
-        handleFilterInput()
-    })
+    if(props.filter) {
+        waitFor(isClosed).toBe(true).then(() => {
+            filterModel.value = ''
+            handleFilterInput()
+        })
+    }
 }
 function togglePopover() {
     if(!showPopover()) closePopover()
@@ -205,13 +207,7 @@ async function handleSelectKeydown(event) {
             filterModel.value += event.key
             filterInstance.value.focus()
         } else if(!props.filter) {
-            /** 
-             * @TODO If functions declared inside a setup function
-             *  are optimized to have one function object across
-             *  all component instances, move these functions
-             *  to the setup function body.
-             */
-            const prune = str => deburr(str).toLocaleLowerCase()
+            const prune = str => deburr(str).toLowerCase()
             const key = prune(event.key)
             const options = optionsWrapper.value.children
             const findNextOption = () => {
@@ -326,8 +322,7 @@ function handleFilterInput(event) {
     const query = prune(event?.target.value ?? '')
     empty.value = true
     for(const option of options) {
-        const pruned = prune(option.innerText)
-        if(pruned.includes(query)) {
+        if(prune(option.innerText).includes(query)) {
             option.hidden = false
             if(empty.value) empty.value = false
         } else {
@@ -483,7 +478,7 @@ function Options({ options }) {
     if(Array.isArray(options)) {
         return options.map(option => {
             const value = decodeOption(option, props.optionValue)
-            const label = decodeOption(option, props.optionLabel)
+            const label = decodeOption(option, props.optionLabel).trim()
             return h('option', {
                 key: value,
                 value,
@@ -492,7 +487,7 @@ function Options({ options }) {
         })
     } else {
         return Object.entries(options).map(([key, option]) => {
-            const label = decodeOption(option, props.optionLabel)
+            const label = decodeOption(option, props.optionLabel).trim()
             return h('option', {
                 key,
                 value: key,
