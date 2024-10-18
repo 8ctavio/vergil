@@ -160,6 +160,7 @@ const vergil = {
         select: {
             placeholderFallback: n => `${n} Selected`,
             placeholderNotFound: query => `No results for [["${query}"]]`,
+            placeholderFilter: 'Filter',
             underline: undefined,
             fill: undefined,
             theme: new Option(undefined, { modifier: inferTheme }),

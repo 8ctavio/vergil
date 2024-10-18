@@ -233,6 +233,40 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
     />
 </Demo>
 
+### Filter input <Badge><pre>filter-input: object</pre></Badge>
+
+The `filter-input` prop is an object of props forwarded to the filter's `InputText` component.
+
+```vue-html
+<Select
+    :options="['Option']"
+    placeholder="Select options"
+    filter
+    :filter-input="{
+        placeholder: 'Filter users',
+        icon: 'person_search',
+        max: '10'
+    }"
+/>
+```
+
+<Demo>
+    <Select
+        :options="['Option']"
+        placeholder="Select options"
+        filter
+        :filter-input="{
+            placeholder: 'Filter users',
+            icon: 'person_search',
+            max: '10'
+        }"
+    />
+</Demo>
+
+:::tip
+The filter's default placeholder can be configured through the `placeholderFilter` [configuration option](#configuration-options).
+:::
+
 ### Not-found placeholder <Badge><pre>placeholder-not-found: (query: string) => string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 The `placeholder-not-found` prop is used to obtain a placeholder to display when the `Select`'s filter input yields no results. The passed function receives as a single argument the filter input's query.
@@ -420,6 +454,7 @@ The following `Select` props' default values can be overwritten under the `selec
 | -------------- | :---: |
 | `placeholderFallback` | |
 | `placeholderNotFound` | |
+| `placeholderFilter` | |
 | `underline` | |
 | `fill` | |
 | `theme` | ✅ |

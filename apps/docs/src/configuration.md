@@ -151,8 +151,9 @@ interface VergilConfiguration {
         spacing: spacing;
     },
     select: {
-        placeholderFallback: ((n: number) => string) = (n => `${n} Selected`)
-        placeholderNotFound: ((query: string) => string) = (query => `No results for [["${query}"]]`)
+        placeholderFallback: ((n: number) => string) = (n => `${n} Selected`);
+        placeholderNotFound: ((query: string) => string) = (query => `No results for [["${query}"]]`);
+        placeholderFilter: string = 'Filter';
         underline: boolean;
         fill: boolean;
         theme: theme;

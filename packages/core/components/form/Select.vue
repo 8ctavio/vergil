@@ -45,6 +45,7 @@ const props = defineProps({
         default: n => vergil.config.select.placeholderFallback(n)
     },
     filter: Boolean,
+    filterInput: Object,
     placeholderNotFound: {
         type: Function,
         default: query => vergil.config.select.placeholderNotFound(query)
@@ -547,9 +548,10 @@ function Options({ options }) {
                     <div class="select-dropdown">
                         <InputText v-if="filter" 
                             ref="filter"
+                            v-bind="filterInput"
                             v-model="filterModel"
-                            placeholder="Filter"
-                            icon="search"
+                            :placeholder="filterInput?.placeholder ?? vergil.config.select.placeholderFilter"
+                            :icon="filterInput?.icon ?? 'search'"
                             @input="handleFilterInput"
                         />
                         <p v-if="empty" class="select-not-found">
