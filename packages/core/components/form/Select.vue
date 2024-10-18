@@ -203,8 +203,6 @@ async function handleSelectKeydown(event) {
             await waitFor(isPositioned).toBe(true)
         }
         if(props.filter && event.target.tagName !== 'INPUT') {
-            event.preventDefault()
-            filterModel.value += event.key
             filterInstance.value.focus()
         } else if(!props.filter) {
             const prune = str => deburr(str).toLowerCase()
