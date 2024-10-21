@@ -72,8 +72,8 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
             inferTheme(theme),
             `size-${size}`,
             `radius-${radius}`,
-            `spacing-${spacing}`,
             props.class,
+            { [`spacing-${spacing}`]: spacing }
         ]">
         <template #input>
             <input

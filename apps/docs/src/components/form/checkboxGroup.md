@@ -6,6 +6,12 @@ outline: [2,3]
 
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
+import { useModel, kebabCase } from '@8ctavio/vergil'
+
+const demo1 = useModel('')
+const demo2 = useModel('')
+const demo3 = useModel('')
+const demo4 = useModel('')
 </script>
 
 ## Basic Usage
@@ -51,31 +57,198 @@ const ships = useModel([])
 
 ## Props
 
-### Options <Badge><pre>options: object</pre></Badge>
+Props that affect a [`Checkbox`](/components/form/checkbox) component's appereance are passed to (and, therefore, shared between) all underlying `CheckboxGroup`'s  `Checkbox` components.
 
-The `options` key-value pairs correspond to the `Checkbox` components' `value` and `label`, respectively.
+### Options <Badge><pre>options: (array | object) = []</pre></Badge>
 
-```vue
-<CheckboxGroup :options="{ value1: 'Label 1', value2: 'Label 2' }"/>
-```
+The `options` prop is an array or (plain) object that provides the required data to define each *option*'s *value*, *label*, and *description*, which correspond to the `value`, `label`, and `description` props of each underlying `Checkbox` components.
 
-The `options` values may also be string arrays whose first two elements correspond to the `Checkbox`'s `label` and `description`, respectively.
+Options' values, labels, and descriptions can be automatically inferred from the values of `options` — each denoted as `option` — if they're either a string or an array of strings.
 
-```vue
-<CheckboxGroup :options="{ value: ['Label', 'Description'] }"/>
+The following table summarizes how option's label and description are inferred from an `option`.
+
+| Type of `option` | `string` | `string[]` |
+| ---------------- | -------- | ---------- |
+| **`label`** | `option` | `option[0]` |
+| **`description`** | `undefined` | `option[1]` |
+
+The following table summarizes how an option's value is inferred depending on the type of `options`.
+
+| Type of `options` | `array` | `object` |
+| ----------------- | ------- | -------- |
+| **`value`** | Same as `label` | The `option`'s `key` |
+
+##### Example. Options Array
+
+```vue-html
+<CheckboxGroup
+    v-model="checked"
+    :options="[
+        'Option 1',
+        ['Option 2', 'Description 2']
+    ]"
+/>
 ```
 
 <Demo>
-    <CheckboxGroup
-        :options="{
-            value1: ['Label 1', 'Description 1'],
-            value2: ['Label 2', 'Description 2'],
-        }"/>
+    <div class="col">
+        <div class="row center">
+            <CheckboxGroup
+                v-model="demo1"
+                label="Options array"
+                :options="[
+                    'Option 1',
+                    ['Option 2', 'Description 2']
+                ]"/>    
+        </div>
+        <div class="row center">
+            <code>checked.value === '{{ demo1.value }}'</code>
+        </div>
+    </div>
 </Demo>
 
-All other props are passed to (and, therefore, shared between) the `CheckboxGroup` underlying `Checkbox` components.
+##### Example. Options Object
 
+```vue-html
+<CheckboxGroup
+    v-model="checked"
+    :options="{
+        value1: 'Option 1',
+        value2: ['Option 2', 'Description 2']
+    }"
+/>
+```
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <CheckboxGroup
+                v-model="demo2"
+                label="Options object"
+                :options="{
+                    value1: 'Option 1',
+                    value2: ['Option 2', 'Description 2']
+                }"/>    
+        </div>
+        <div class="row center">
+            <code>checked.value === '{{ demo2.value }}'</code>
+        </div>
+    </div>
+</Demo>
+
+:::tip
 The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox` components. In such case, the `options` prop is ignored and `CheckboxGroup` group-level props may be overwritten on each `Checkbox` component.
+:::
+
+### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
+
+The `option-value`, `option-label`, and `option-description` props allow to specify custom options' values, labels, and descriptions.
+
+As strings, these props represent an object key. If an `option` is an object, the resulting value/label/description is obtained by accessing that object with the provided key.
+
+```vue-html
+<CheckboxGroup
+    v-model="checked"
+    :options="[{
+        id: '123',
+        name: 'Abc Def',
+        email: 'abd.def@vergil.com'
+    },{
+        id: '456',
+        name: 'Uvw Xyz',
+        email: 'uvw.xyz@vergil.com'
+    }]"
+    option-value="id"    
+    option-label="name"
+    option-description="email"
+/>
+```
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <CheckboxGroup
+                v-model="demo3"
+                :options="[{
+                    id: '123',
+                    name: 'Abc Def',
+                    email: 'abd.def@vergil.com'
+                },{
+                    id: '456',
+                    name: 'Uvw Xyz',
+                    email: 'uvw.xyz@vergil.com'
+                }]"
+                option-value="id"    
+                option-label="name"
+                option-description="email"/>    
+        </div>
+        <div class="row center">
+            <code>checked.value === '{{ demo3.value }}'</code>
+        </div>
+    </div>
+</Demo>
+
+:::tip NOTE
+If `options` is an object, `option-value` cannot be used as an object key.
+:::
+
+As functions, these props are called for each `option`, receive the `option` as a single argument, and their return value becomes the resulting value/label/description.
+
+```vue-html
+<CheckboxGroup
+    v-model="checked"
+    :options="[{
+        id: '123',
+        name: 'Abc Def',
+        email: 'abd.def@vergil.com'
+    },{
+        id: '456',
+        name: 'Uvw Xyz',
+        email: 'uvw.xyz@vergil.com'
+    }]"
+    :option-value="option => kebabCase(option.name)"    
+    :option-label="option => option.name.split(' ')[0]"
+    :option-description="option => `@@mail@@ ${option.email}`"
+/>
+```
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <CheckboxGroup
+                v-model="demo4"
+                :options="[{
+                    id: '123',
+                    name: 'Abc Def',
+                    email: 'abd.def@vergil.com'
+                },{
+                    id: '456',
+                    name: 'Uvw Xyz',
+                    email: 'uvw.xyz@vergil.com'
+                }]"
+                :option-value="option => kebabCase(option.name)"    
+                :option-label="option => option.name.split(' ')[0]"
+                :option-description="option => `@@mail@@ ${option.email}`"/>    
+        </div>
+        <div class="row center">
+            <code>checked.value === '{{ demo4.value }}'</code>
+        </div>
+    </div>
+</Demo>
+
+The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.
+
+```js
+function defaultOptionValue(option) {
+    return Array.isArray(option) ? option[0] : option
+}
+function defaultOptionLabel(option) {
+    return Array.isArray(option) ? option[0] : option
+}
+function defaultOptionDescription {
+    return Array.isArray(option) ? option[1] : undefined
+}
+```
 
 ### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
 
@@ -185,7 +358,10 @@ The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox`
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `array \| string` | `[]` |
-| `options` | `object` | |
+| `options` | `array \| object` | `[]` |
+| `optionValue` | `string \| function` | |
+| `optionLabel` | `string \| function` | |
+| `optionDescription` | `string \| function` | |
 | `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
 | `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |

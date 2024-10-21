@@ -1,16 +1,12 @@
 <script setup>
 import FormField from './FormField.vue'
-import Checkbox from '../form/Checkbox.vue'
-import Radio from '../form/Radio.vue'
-import { provide, toRef } from 'vue'
+import checkbox from '../form/Checkbox.vue'
+import radio from '../form/Radio.vue'
+import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
-
-defineOptions({
-    components: { Checkbox, Radio }
-})
 
 const props = defineProps({
     type: {
@@ -31,7 +27,22 @@ const props = defineProps({
 
     //----- Component specific -----
     name: String,
-    options: Object,
+    options : {
+        type: [Array, Object],
+        default: () => ([])
+    },
+    optionValue: {
+        type: [String, Function],
+        default: () => (option => Array.isArray(option) ? option[0] : option)
+    },
+    optionLabel: {
+        type: [String, Function],
+        default: () => (option => Array.isArray(option) ? option[0] : option)
+    },
+    optionDescription: {
+        type: [String, Function],
+        default: () => (option => Array.isArray(option) ? option[1] : undefined)
+    },
     variant: {
         type: String,
         default: props => vergil.config[props.type].variant,
@@ -86,6 +97,38 @@ provide(`${props.type}-props`, {
     groupDisabled: toRef(() => props.disabled),
     groupTheme: toRef(() => props.theme)
 })
+
+function Options({ options }) {
+    if(options === null) return
+    const component = { checkbox, radio }[props.type]
+    function decodeOption(option, decoder) {
+        const decoded = typeof decoder === 'function'
+            ? decoder(option)
+            : typeof option === 'object' && option !== null
+                ? option[decoder]
+                : option
+        return decoded?.toString().trim()
+    }
+    function createOptionVNode(idx, option, key) {
+        const value = decodeOption(key ?? option, props.optionValue)
+        return h(component, {
+            key: value + idx,
+            value,
+            label: decodeOption(option, props.optionLabel),
+            description: decodeOption(option, props.optionDescription),
+            variant: props.variant
+        })
+    }
+    if(Array.isArray(options)) {
+        return options.map((option, idx) => {
+            return createOptionVNode(idx, option)
+        })
+    } else {
+        return Object.entries(options).map(([key, option], idx) => {
+            return createOptionVNode(idx, option, key)
+        })
+    }
+}
 </script>
 
 <template>
@@ -95,12 +138,7 @@ provide(`${props.type}-props`, {
         >
         <div :class="['toggle-group-wrapper', variant, inferTheme(theme)]" :ref="model.refs.el">
             <slot>
-                <component :is="type" v-for="(text,value) in options" :key="value"
-                    :value="value.toString()"
-                    :variant
-                    :label="Array.isArray(text) ? text[0] : text"
-                    :description="Array.isArray(text) ? text[1] : undefined"
-                    />
+                <Options :options/>
             </slot>
         </div>
     </FormField>
