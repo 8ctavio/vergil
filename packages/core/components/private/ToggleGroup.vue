@@ -8,6 +8,7 @@ import { useModel } from '../../composables/useModel'
 import { isModel } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
+defineOptions({ inheritAttrs: false })
 const props = defineProps({
     type: {
         type: String,
@@ -87,6 +88,7 @@ const props = defineProps({
         validator: isValidSpacing
     },
     disabled: Boolean,
+    class: [String, Object],
 })
 
 const model = useModel(props.modelValue)
@@ -132,11 +134,14 @@ function Options({ options }) {
 </script>
 
 <template>
-    <FormField :class="`${type}-group`"
+    <FormField :class="[`${type}-group`, props.class]"
         :label :hint :description :help
         :size :radius :spacing
         >
-        <div :class="['toggle-group-wrapper', variant, inferTheme(theme)]" :ref="model.refs.el">
+        <div
+            v-bind="$attrs"
+            :ref="model.refs.el"
+            :class="['toggle-group-wrapper', variant, inferTheme(theme)]">
             <slot>
                 <Options :options/>
             </slot>

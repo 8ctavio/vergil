@@ -1,18 +1,18 @@
 <script setup>
+import CheckboxGroup from './CheckboxGroup.vue'
+import InputText from './InputText.vue'
+import Btn from '../buttons/Btn.vue'
 import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
-import Btn from '../buttons/Btn.vue'
-import InputText from './InputText.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup.vue"
-import { ref, computed, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick, h } from 'vue'
+import { ref, computed, watch, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { waitFor } from '../../composables/waitFor'
-import { watchControlled } from '../../composables/watchControlled'
 import { isModel, deburr, prune } from '../../utilities'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -27,18 +27,10 @@ const props = defineProps({
     },
 
     //----- Component specific -----
-    options : {
-        type: [Array, Object],
-        default: () => ([])
-    },
-    optionValue: {
-        type: [String, Function],
-        default: () => (v => v)
-    },
-    optionLabel: {
-        type: [String, Function],
-        default: () => (v => v)
-    },
+    options : [Array, Object],
+    optionValue: [String, Function],
+    optionLabel: [String, Function],
+    optionDescription: [String, Function],
     placeholder: String,
     placeholderFallback: {
         type: Function,
@@ -91,6 +83,8 @@ const props = defineProps({
     disabled: Boolean,
     class: [String, Object],
 })
+
+const model = useModel(props.modelValue)
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
         && Boolean(props.label)
@@ -99,7 +93,6 @@ const floatLabelEnabled = computed(() => {
 
 const filterModel = useModel('')
 const filterInstance = useTemplateRef('filter')
-const optionsWrapper = useTemplateRef('select-options')
 
 //-------------------- HANDLE POPOVER --------------------
 const focusWithin = ref(false)
@@ -193,7 +186,7 @@ function focusAdjacentOption(el, prev = false) {
     while(el?.hidden) {
         el = el[`${prev ? 'previous':'next'}ElementSibling`]
     }
-    el?.focus()
+    el?.firstElementChild.focus()
 }
 async function handleSelectKeydown(event) {
     if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
@@ -203,26 +196,30 @@ async function handleSelectKeydown(event) {
         if(showPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
-        if(props.filter && event.target.tagName !== 'INPUT') {
-            filterInstance.value.focus()
-        } else if(!props.filter) {
+        if(props.filter) {
+            if(event.target.tagName !== 'INPUT' || event.target.type !== 'text') {
+                filterInstance.value.focus()
+            }
+        } else {
             const prune = str => deburr(str).toLowerCase()
             const key = prune(event.key)
-            const options = optionsWrapper.value.children
+            const options = model.el.children
             const findNextOption = () => {
                 const active = document.activeElement
-                let beforeSelected = active?.tagName === 'OPTION' && key === prune(active.innerText.charAt(0))
+                let beforeSelected = active?.tagName === 'INPUT'
+                    && active.type === 'checkbox'
+                    && key === prune(active.parentElement.querySelector('& > .toggle-label').innerText.charAt(0))
                 let foundBefore, foundAfter, foundActive = null
                 for(const option of options) {
                     if(beforeSelected) {
-                        if(option === active) {
+                        if(option.firstElementChild === active) {
                             foundActive = active
                             beforeSelected = false
-                        } else if(!foundBefore && key === prune(option.innerText.charAt(0))) {
-                            foundBefore = option
+                        } else if(!foundBefore && key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
+                            foundBefore = option.firstElementChild
                         }
-                    } else if(key === prune(option.innerText.charAt(0))) {
-                        foundAfter = option
+                    } else if(key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
+                        foundAfter = option.firstElementChild
                         break
                     }
                 }
@@ -242,9 +239,9 @@ async function handleSelectKeydown(event) {
                     search.query += key
                     search.queryFound = false
                     for(const option of options) {
-                        if(prune(option.innerText).startsWith(search.query)) {
+                        if(prune(option.querySelector('& > .toggle-label').innerText).startsWith(search.query)) {
                             search.queryFound = true
-                            option.focus()
+                            option.firstElementChild.focus()
                             break
                         }
                     }
@@ -262,18 +259,18 @@ async function handleSelectKeydown(event) {
                 }
             }   
         }
-    } else if(event.target.tagName !== 'OPTION') {
+    } else if(event.target.tagName !== 'INPUT' || event.target.type !== 'checkbox') {
         if(['ArrowDown','ArrowUp'].includes(event.key)) {
             event.preventDefault()
             if(showPopover()) {
                 await waitFor(isPositioned).toBe(true)
             }
-            focusAdjacentOption(optionsWrapper.value.firstElementChild)
+            focusAdjacentOption(model.el.firstElementChild)
         } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
             if(showFloating.value && !props.filter) {
                 event.preventDefault()
                 closePopover()
-            } else if(event.target.tagName === 'INPUT' && !event.shiftKey) {
+            } else if(event.target.tagName === 'INPUT' && event.target.type === 'text' && !event.shiftKey) {
                 event.preventDefault()
                 reference.value?.$el.focus({ preventScroll: true })
             }
@@ -281,17 +278,24 @@ async function handleSelectKeydown(event) {
     }
 }
 function handleOptionsKeydown(event) {
-    if(event.target.tagName !== 'OPTION' || props.disabled) return
     const { key } = event
     if(key === 'ArrowDown') {
         event.preventDefault()
-        focusAdjacentOption(event.target.nextElementSibling)
+        focusAdjacentOption(event.target.parentElement?.nextElementSibling)
     } else if(key === 'ArrowUp') {
         event.preventDefault()
-        focusAdjacentOption(event.target.previousElementSibling, true)
-    } else if(['Enter',' '].includes(key)) {
-        event.preventDefault()
-        handleSelection(event)
+        focusAdjacentOption(event.target.parentElement?.previousElementSibling, true)
+    } else if(key === 'Enter') {
+        if(Array.isArray(model.value)) {
+            const idx = model.value.indexOf(event.target.value)
+            if(idx > -1) {
+                model.value.splice(idx,1)
+            } else {
+                model.value.push(event.target.value)
+            }
+        } else {
+            model.value = event.target.value
+        }
     } else if(key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
         if(event.shiftKey && props.filter) {
             event.preventDefault()
@@ -306,22 +310,20 @@ function handleOptionsKeydown(event) {
 //-------------------- SELECT BUTTON --------------------
 function handleBtnClick(event) {
     clickWithin.value = true
-    if('value' in event.target.dataset) {
-        updateOptions(event.target.dataset.value, {
-            userInteraction: true,
-            multiSelect: true
-        })
+    if('value' in event.target.dataset && Array.isArray(model.value)) {
+        const idx = model.value.indexOf(event.target.dataset.value)
+        if(idx > -1) model.value.splice(idx,1)
     } else togglePopover()
 }
 
 //-------------------- FILTER OPTIONS --------------------
 const empty = ref(false)
 function handleFilterInput(event) {
-    const options = optionsWrapper.value.children
+    const options = model.el.children
     const query = prune(event?.target.value ?? '')
     empty.value = true
     for(const option of options) {
-        if(prune(option.innerText).includes(query)) {
+        if(prune(option.querySelector('& > .toggle-label').innerText).includes(query)) {
             option.hidden = false
             if(empty.value) empty.value = false
         } else {
@@ -331,78 +333,46 @@ function handleFilterInput(event) {
 }
 
 //-------------------- HANDLE SELECTION --------------------
-const model = useModel(props.modelValue)
-const selected = ref()
-
-const watchController = watchControlled(model.ref, (modelValue) => {
-    if(Array.isArray(modelValue)) {
-        if(selected.value === null || selected.value?.tagName === 'OPTION') {
+function handleOptionsChange(event) {
+    updatePlaceholder(event.target, true)
+}
+watch(model.ref, (newModelValue, oldModelValue) => {
+    if(Array.isArray(newModelValue)) {
+        if(!Array.isArray(oldModelValue)) {
             selected.value = {}
         }
-        updateOptions(new Set(modelValue))
+        updateOptions(new Set(newModelValue))
     } else {
-        if(selected.value !== null && selected.value?.tagName !== 'OPTION') {
-            selected.value = null
-        }
-        updateOptions(modelValue)
+        updateOptions(newModelValue)
     }
-}, { deep: true })
-function handleSelection(event) {
-    clickWithin.value = true
-    if(event.target.tagName !== 'OPTION' || props.disabled) return
-    const option = event.target
-    if(Array.isArray(model.value)) {
-        updateMultipleSelection(option, true)
-        composePlaceholder()
-    } else {
-        updateSingleSelection(option, true)
-    }
-}
+}, { deep: 1, flush: 'post' })
 
+const selected = ref({})
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
-function updateSingleSelection(option, userInteraction = false) {
-    watchController.pause()
-    if(userInteraction ? option.classList.contains('selected') : !option) {
-        if(userInteraction) {
-            model.value = ''
-            option.classList.remove('selected')
-        } else if(selected.value) {
-            selected.value.classList.remove('selected')
-        }
-        selected.value = null
-        computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+function updatePlaceholder(input, userInteraction = false) {
+    if(Array.isArray(model.value)) {
+        updateSelected(input)
+        composePlaceholder()
     } else {
-        if(selected.value) selected.value.classList.remove('selected')
-        if(userInteraction) {
-            model.value = option.value
-            closePopover()
+        if(input?.checked) {
+            const update = () => {
+                computedPlaceholder.value = input.parentElement.querySelector('& > .toggle-label').innerText
+            }
+            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(update, 75)
+            else update()
+            if(userInteraction) closePopover()
+        } else {
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
-        option.classList.add('selected')
-        selected.value = option
-        const updatePlaceholder = () => computedPlaceholder.value = option.innerText
-        if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
-        else updatePlaceholder()
     }
-    watchController.resume()
 }
-function updateMultipleSelection(option, userInteraction = false) {
-    watchController.pause()
-    if(option.classList.contains('selected')) {
-        if(userInteraction) {
-            const idx = model.value.indexOf(option.value)
-            if(idx > -1) model.value.splice(idx, 1)
-        }
-        option.classList.remove('selected')
-        delete selected.value[option.value]
+function updateSelected(input) {
+    if(input.checked) {
+        selected.value[input.value] = input.parentElement.querySelector('& > .toggle-label').innerText
     } else {
-        if(userInteraction) {
-            model.value.push(option.value)
-        }
-        option.classList.add('selected')
-        selected.value[option.value] = option.innerText
+        delete selected.value[input.value]
     }
-    watchController.resume()
 }
 function composePlaceholder() {
     if(!props.chips) {
@@ -412,25 +382,25 @@ function composePlaceholder() {
         if(placeholder) {
             virtualPlaceholder.value.innerText = placeholder
             const n = model.value.length
-            const updatePlaceholder = () => {
+            const update = () => {
                 computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
                     ? props.placeholderFallback(n)
                     : placeholder
                 virtualPlaceholder.value.innerText = ''
             }
-            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
-            else updatePlaceholder()
+            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(update, 75)
+            else update()
         } else {
             computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
     }
 }
-function updateOptions(query, { userInteraction, multiSelect } = {}) {
+function updateOptions(query) {
     const [filter, update] = (query instanceof Set) ? [
         optionValue => query.delete(optionValue) !== (optionValue in selected.value),
         walker => {
             if(walker.nextNode()) {
-                do updateMultipleSelection(walker.currentNode, userInteraction)
+                do updateSelected(walker.currentNode.firstElementChild)
                 while(walker.nextNode())
                 composePlaceholder()
             }
@@ -438,62 +408,15 @@ function updateOptions(query, { userInteraction, multiSelect } = {}) {
     ] : [
         optionValue => query === optionValue,
         walker => {
-            const option = walker.nextNode()
-            if(multiSelect) {
-                if(option) {
-                    updateMultipleSelection(option, userInteraction)
-                    composePlaceholder()
-                }
-            } else {
-                updateSingleSelection(option, userInteraction)
-            }
+            updatePlaceholder(walker.nextNode()?.firstElementChild)
         }
     ]
-    const walker = document.createTreeWalker(optionsWrapper.value, NodeFilter.SHOW_ELEMENT, element => {
-        return element.tagName === 'OPTION' && filter(element.value)
+    const walker = document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
+        return element.tagName === 'LABEL' && filter(element.firstElementChild.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
     update(walker)
-}
-
-//-------------------- RENDER OPTIONS --------------------
-function Options({ options }) {
-    nextTick(() => {
-        // After options are mounted...
-        // Note: Effect dependencies are only tracked during synchronous execution
-        //       (i.e., reading model.value is safe here).
-        if(Array.isArray(model.value)) {
-            selected.value = {}
-            updateOptions(new Set(model.value))
-        } else {
-            updateOptions(model.value)
-        }
-    })
-    if(options === null) return
-    function decodeOption(option, decoder) {
-        return (typeof decoder === 'function') ? decoder(option) : option[decoder]
-    }
-    if(Array.isArray(options)) {
-        return options.map(option => {
-            const value = decodeOption(option, props.optionValue)
-            const label = decodeOption(option, props.optionLabel).trim()
-            return h('option', {
-                key: value,
-                value,
-                tabindex: '0',
-            }, label)
-        })
-    } else {
-        return Object.entries(options).map(([key, option]) => {
-            const label = decodeOption(option, props.optionLabel).trim()
-            return h('option', {
-                key,
-                value: key,
-                tabindex: '0',
-            }, label)
-        })
-    }
 }
 </script>
 
@@ -543,7 +466,8 @@ function Options({ options }) {
             <div ref="floating"
                 class="floating"
                 :style="floatingStyles"
-                @click="handleSelection">
+                @click="clickWithin = true"
+                >
                 <Transition v-show="showFloating" @after-leave="isClosed = true">
                     <div class="select-dropdown">
                         <InputText v-if="filter" 
@@ -557,11 +481,19 @@ function Options({ options }) {
                         <p v-if="empty" class="select-not-found">
                             <MiniMarkup :str="placeholderNotFound(filterModel.value)"/>
                         </p>
-                        <div v-show="!empty" ref="select-options"
-                            :class="['select-options', inferTheme(theme)]"
-                            @keydown="handleOptionsKeydown">
-                            <Options :options/>
-                        </div>
+                        <CheckboxGroup v-show="!empty"
+                            ref="select-options"
+                            :modelValue="model"
+                            :options
+                            :optionValue
+                            :optionLabel
+                            :optionDescription
+                            :disabled
+                            :theme :spacing
+                            variant="list"
+                            @change="handleOptionsChange"
+                            @keydown="handleOptionsKeydown"
+                        />
                     </div>
                 </Transition>
             </div>
@@ -680,6 +612,18 @@ function Options({ options }) {
             background-color: var(--c-bg);
             box-shadow: 2px 2px 3px var(--c-box-shadow);
 
+            &.v-enter-active {
+                transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
+            }
+            &.v-leave-active {
+                transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
+            }
+            &:is(.v-enter-from, .v-leave-to){
+                opacity: 0;
+                transform: translateY(4px);
+                /* transform: scale(0.95); */
+            }
+
             & > .input-text {
                 margin: var(--g-gap-md) var(--g-gap-sm);
                 margin-bottom: 0;
@@ -702,14 +646,8 @@ function Options({ options }) {
                     text-overflow: ellipsis;
                 }
             }
-            & > .select-options {
+            & > .checkbox-group > .toggle-group-wrapper {
                 --select-max-options: 7;
-                display: flex;
-                flex-direction: column;
-                gap: var(--g-gap-xs);
-                padding: var(--g-gap-sm);
-                box-sizing: border-box;
-                width: 100%;
                 height: max-content;
                 max-height: calc(
                     ((var(--select-max-options) - 1) * var(--g-gap-xs))
@@ -717,37 +655,15 @@ function Options({ options }) {
                     + (var(--select-max-options) * var(--line-height-text) * 1em)
                 );
                 overflow-y: auto;
-                color: var(--c-text);
                 cursor: pointer;
 
-                &.v-enter-active {
-                    transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
-                }
-                &.v-leave-active {
-                    transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
-                }
-                &:is(.v-enter-from, .v-leave-to){
-                    opacity: 0;
-                    transform: translateY(4px);
-                    /* transform: scale(0.95); */
-                }
-                & > option {
-                    flex-shrink: 0;
+                & > .checkbox {
                     padding: var(--g-gap-sm) var(--g-gap-lg);
-                    border-radius: var(--g-radius);
-                    transition: background-color 150ms;
-
-                    &:is(:hover, :focus-visible) {
-                        background-color: var(--c-grey-soft-2);
+                    &[hidden] {
+                        display: none;
                     }
-                    &:focus-visible {
-                        outline: 2px solid var(--c-theme-outline);
-                    }
-                    &::selection {
+                    & > p::selection{
                         background-color: transparent;
-                    }
-                    &.selected {
-                        background-color: var(--c-theme-soft-3);
                     }
                 }
             }

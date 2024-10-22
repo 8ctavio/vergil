@@ -53,22 +53,28 @@ const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.r
 const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.radio.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (groupTheme ? '' : (vergil.config.radio.radius ?? (props.variant === 'classic' ? 'full' : vergil.config.global.radius))))
 const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
+
+function handleTemplateRef(el) {
+    if(!model.el) model.el = el
+}
 </script>
 
 <template>
     <ToggleButton type="radio" :label :description :variant
         :class="[
             inferTheme(theme),
-            `size-${size}`,
-            `radius-${radius}`,
             props.class,
-            { [`spacing-${spacing}`]: spacing }
+            {
+                [`size-${size}`]: size,
+                [`radius-${radius}`]: radius,
+                [`spacing-${spacing}`]: spacing
+            }
         ]">
         <template #input>
             <input
                 v-bind="$attrs"
                 v-model="model.value"
-                :ref="model.refs.el"
+                :ref="handleTemplateRef"
                 type="radio"
                 :name="name || groupName"
                 :disabled="disabled || groupDisabled"

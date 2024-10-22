@@ -268,7 +268,7 @@ function defaultOptionDescription {
     <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" name="list" label="List"/>
 </Demo>
 
-<style>
+<style scoped>
 .toggle-group-wrapper.list {
     width: 250px;
 }

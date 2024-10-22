@@ -64,16 +64,22 @@ const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.c
 const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.checkbox.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (groupTheme ? '' : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
+
+function handleTemplateRef(el) {
+    if(!model.el) model.el = el
+}
 </script>
 
 <template>
     <ToggleButton type="checkbox" :label :description :variant
         :class="[
             inferTheme(theme),
-            `size-${size}`,
-            `radius-${radius}`,
             props.class,
-            { [`spacing-${spacing}`]: spacing }
+            {
+                [`size-${size}`]: size,
+                [`radius-${radius}`]: radius,
+                [`spacing-${spacing}`]: spacing
+            }
         ]">
         <template #input>
             <input
@@ -82,7 +88,7 @@ const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.confi
                 :value="valueChecked"
                 :true-value="valueChecked"
                 :false-value="valueUnchecked"
-                :ref="model.refs.el"
+                :ref="handleTemplateRef"
                 type="checkbox"
                 :disabled="disabled || groupDisabled"
                 >
