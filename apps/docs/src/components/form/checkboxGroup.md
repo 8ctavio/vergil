@@ -268,7 +268,7 @@ function defaultOptionDescription {
     <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" label="List"/>
 </Demo>
 
-<style>
+<style scoped>
 .toggle-group-wrapper.list {
     width: 250px;
 }

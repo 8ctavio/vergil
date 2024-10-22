@@ -77,99 +77,168 @@ const skulls = useModel([])
 
 ### Options <Badge><pre>options: (array | object) = []</pre></Badge>
 
-The `options` prop is used to define the select options' *values* and *labels*. The value is the one assigned to the component model when an option is selected and the label is the displayed text associated with an option.
+The `options` prop is an array or (plain) object that provides the required data to define each *option*'s *value*, *label*, and *description*, which correspond to the `value`, `label`, and `description` props of underlying [`Checkbox`](/components/form/checkbox) components.
 
-If `options` is an array, by default each of its values becomes an option's value and label.
+Options' values, labels, and descriptions can be automatically inferred from the values of `options` — each denoted as `option` — if they're either a string or an array of strings.
 
-```vue
-<Select v-model="selected" :options="['a','b']"/>
+The following table summarizes how option's label and description are inferred from an `option`.
+
+| Type of `option` | `string` | `string[]` |
+| ---------------- | -------- | ---------- |
+| **`label`** | `option` | `option[0]` |
+| **`description`** | `undefined` | `option[1]` |
+
+The following table summarizes how an option's value is inferred depending on the type of `options`.
+
+| Type of `options` | `array` | `object` |
+| ----------------- | ------- | -------- |
+| **`value`** | Same as `label` | The `option`'s `key` |
+
+##### Example. Options Array
+
+```vue-html
+<Select
+    v-model="selected"
+    :options="[
+        'Option 1',
+        ['Option 2', 'Description 2']
+    ]"
+/>
 ```
 
 <Demo>
-    <Select v-model="demo1" placeholder="Array" :options="['a','b']"/>
+    <Select
+        v-model="demo1"
+        placeholder="Options array"
+        :options="[
+            'Option 1',
+            ['Option 2', 'Description 2']
+        ]"/>    
     <code>selected.value === '{{ demo1.value }}'</code>
 </Demo>
 
-If `options` is a plain object, for each key-value pair the key becomes the option's value while, by default, the value becomes the option's label.
+##### Example. Options Object
 
-```vue
-<Select v-model="selected" :options="{ a: 'A', b: 'B' }"/>
+```vue-html
+<Select
+    v-model="selected"
+    :options="{
+        value1: 'Option 1',
+        value2: ['Option 2', 'Description 2']
+    }"
+/>
 ```
 
 <Demo>
-    <Select v-model="demo2" placeholder="Object" :options="{ a: 'A', b: 'B' }"/>
+    <Select
+        v-model="demo2"
+        placeholder="Options object"
+        :options="{
+            value1: 'Option 1',
+            value2: ['Option 2', 'Description 2']
+        }"/>  
     <code>selected.value === '{{ demo2.value }}'</code>
 </Demo>
 
-### Option's value and label <Badge><pre>option-[value|label]: (string | function) = opt => opt</pre></Badge>
+### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
 
-The `option-value` and `option-label` props allow to specify custom option's value and label.
+The `option-value`, `option-label`, and `option-description` props allow to specify custom options' values, labels, and descriptions.
 
-If `option-[value|label]` is a string, it represents an object key. If an option is an object, the resulting value/label is obtained by accessing that object with the provided key.
+As strings, these props represent an object key. If an `option` is an object, the resulting value/label/description is obtained by accessing that object with the provided key.
 
 ```vue-html
 <Select
     v-model="selected"
     :options="[{
         id: '123',
-        name: 'Abc Def'
+        name: 'Abc Def',
+        email: 'abd.def@vergil.com'
     },{
         id: '456',
-        name: 'Xyz Jkm'
+        name: 'Uvw Xyz',
+        email: 'uvw.xyz@vergil.com'
     }]"
-    option-value="id"
+    option-value="id"    
     option-label="name"
+    option-description="email"
 />
 ```
 
 <Demo>
-    <Select v-model="demo3" placeholder="Specific options"
+    <Select
+        v-model="demo3"
+        placeholder="Select option"
         :options="[{
             id: '123',
-            name: 'Abc Def'
+            name: 'Abc Def',
+            email: 'abd.def@vergil.com'
         },{
             id: '456',
-            name: 'Uvw Xyz'
+            name: 'Uvw Xyz',
+            email: 'uvw.xyz@vergil.com'
         }]"
-        option-value="id"
-        option-label="name"/>
-    <code>selected.value === '{{ demo3.value }}'</code>
+        option-value="id"    
+        option-label="name"
+        option-description="email"/>
+    <code>checked.value === '{{ demo3.value }}'</code>
 </Demo>
 
-If `option-[value|label]` is a function it is called for each option, receives the option as a single argument, and its return value becomes the resulting value/label.
+:::tip NOTE
+If `options` is an object, `option-value` cannot be used as an object key.
+:::
+
+As functions, these props are called for each `option`, receive the `option` as a single argument, and their return value becomes the resulting value/label/description.
 
 ```vue-html
 <Select
     v-model="selected"
     :options="[{
         id: '123',
-        name: 'Abc Def'
+        name: 'Abc Def',
+        email: 'abd.def@vergil.com'
     },{
         id: '456',
-        name: 'Uvw Xyz'
+        name: 'Uvw Xyz',
+        email: 'uvw.xyz@vergil.com'
     }]"
-    :option-value="option => kebabCase(option.name)"
+    :option-value="option => kebabCase(option.name)"    
     :option-label="option => option.name.split(' ')[0]"
+    :option-description="option => `@@mail@@ ${option.email}`"
 />
 ```
 
 <Demo>
-    <Select v-model="demo4" placeholder="Specific options"
+    <Select
+        v-model="demo4"
+        placeholder="Select option"
         :options="[{
             id: '123',
-            name: 'Abc Def'
+            name: 'Abc Def',
+            email: 'abd.def@vergil.com'
         },{
             id: '456',
-            name: 'Uvw Xyz'
+            name: 'Uvw Xyz',
+            email: 'uvw.xyz@vergil.com'
         }]"
-        :option-value="option => kebabCase(option.name)"
-        :option-label="option => option.name.split(' ')[0]"/>
-    <code>selected.value === '{{ demo4.value }}'</code>
+        :option-value="option => kebabCase(option.name)"    
+        :option-label="option => option.name.split(' ')[0]"
+        :option-description="option => `@@mail@@ ${option.email}`"/>  
+    <code>checked.value === '{{ demo4.value }}'</code>
 </Demo>
 
-:::tip
-The `option-value` prop only takes effect when `options` is an array.
-:::
+The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.
+
+```js
+function defaultOptionValue(option) {
+    return Array.isArray(option) ? option[0] : option
+}
+function defaultOptionLabel(option) {
+    return Array.isArray(option) ? option[0] : option
+}
+function defaultOptionDescription {
+    return Array.isArray(option) ? option[1] : undefined
+}
+```
 
 ### Placeholder <Badge><pre>placeholder: string</pre></Badge>
 
@@ -427,8 +496,9 @@ query => `No results for [["${query}"]]`
 | ---- | ---- | ------- |
 | `value` | `string \| array` | `''` |
 | `options` | `array \| object` | `[]` |
-| `optionValue` | `string \| function` | `v => v` |
-| `optionLabel` | `string \| function` | `v => v` |
+| `optionValue` | `string \| function` | |
+| `optionLabel` | `string \| function` | |
+| `optionDescription` | `string \| function` | |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
 | `filter` | `boolean` | |
@@ -493,9 +563,7 @@ The following `Select` props' default values can be overwritten under the `selec
             <Anatomy tag="div" classes="select-dropdown">
                 <Anatomy tag='Input' classes="input-text"/>
                 <Anatomy tag='p' classes="select-not-found"/>
-                <Anatomy tag="div" classes="select-options">
-                    <Anatomy tag='option v-for="option in options"'/>
-                </Anatomy>
+                <Anatomy tag='CheckboxGroup' classes="checkbox-group"/>
             </Anatomy>
         </Anatomy>
     </Anatomy>
