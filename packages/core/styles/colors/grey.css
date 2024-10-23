@@ -22,7 +22,7 @@
     --c-grey-1: var(--c-grey-solid-1);
     --c-grey-2: #B4B4B4;
     --c-grey-3: #404040;
-    --c-grey-4: #F8F8F8;
+    --c-grey-4: var(--c-grey-soft-3);
 
     --rgb-grey-solid: 101 101 101;
     --rgb-grey-soft: 236 236 236;
@@ -45,7 +45,7 @@
     --c-grey-1: #909090;
     --c-grey-2: var(--c-grey-soft-4);
     --c-grey-3: var(--c-grey-soft-3);
-    --c-grey-4: var(--c-grey-soft-3);
+    --c-grey-4: var(--c-grey-soft-2);
 
     --rgb-grey-solid: 82 82 82;
     --rgb-grey-soft: 35 35 35;

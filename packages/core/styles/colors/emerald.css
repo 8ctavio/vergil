@@ -22,7 +22,7 @@
     --c-emerald-1: #0EA06F;
     --c-emerald-2: #6DF8CC;
     --c-emerald-3: #0FAE79;
-    --c-emerald-4: var(--c-emerald-soft-1);
+    --c-emerald-4: var(--c-emerald-soft-2);
 
     --rgb-emerald-solid: 19 221 153;
     --rgb-emerald-soft: 216 253 241;
@@ -49,7 +49,6 @@
     --c-emerald-1: #11C589;
     --c-emerald-2: var(--c-emerald-soft-4);
     --c-emerald-3: var(--c-emerald-soft-4);
-    --c-emerald-4: var(--c-emerald-soft-2);
 
     --rgb-emerald-solid: 17 192 134;
     --rgb-emerald-soft: 4 57 38;

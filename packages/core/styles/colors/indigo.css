@@ -22,7 +22,7 @@
     --c-indigo-1: var(--c-indigo-solid-1);
     --c-indigo-2: #B4B4F3;
     --c-indigo-3: var(--c-indigo-solid-3);
-    --c-indigo-4: #F6F6FE;
+    --c-indigo-4: var(--c-indigo-soft-2);
 
     --rgb-indigo-solid: 79 70 229;
     --rgb-indigo-soft: 229 229 251;
@@ -49,7 +49,6 @@
     --c-indigo-1: #594ED0;
     --c-indigo-2: var(--c-indigo-soft-4);
     --c-indigo-3: var(--c-indigo-soft-3);
-    --c-indigo-4: var(--c-indigo-soft-3);
 
     --rgb-indigo-solid: 62 50 189;
     --rgb-indigo-soft: 24 20 77;
