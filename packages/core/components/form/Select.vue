@@ -85,6 +85,8 @@ const props = defineProps({
 })
 
 const model = useModel(props.modelValue)
+const isMultiSelect = computed(() => Array.isArray(model.value))
+
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
         && Boolean(props.label)
@@ -286,7 +288,7 @@ function handleOptionsKeydown(event) {
         event.preventDefault()
         focusAdjacentOption(event.target.parentElement?.previousElementSibling, true)
     } else if(key === 'Enter') {
-        if(Array.isArray(model.value)) {
+        if(isMultiSelect.value) {
             const idx = model.value.indexOf(event.target.value)
             if(idx > -1) {
                 model.value.splice(idx,1)
@@ -310,7 +312,7 @@ function handleOptionsKeydown(event) {
 //-------------------- SELECT BUTTON --------------------
 function handleBtnClick(event) {
     clickWithin.value = true
-    if('value' in event.target.dataset && Array.isArray(model.value)) {
+    if('value' in event.target.dataset && isMultiSelect.value) {
         const idx = model.value.indexOf(event.target.dataset.value)
         if(idx > -1) model.value.splice(idx,1)
     } else togglePopover()
@@ -351,7 +353,7 @@ const selected = ref({})
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
 function updatePlaceholder(input, userInteraction = false) {
-    if(Array.isArray(model.value)) {
+    if(isMultiSelect.value) {
         updateSelected(input)
         composePlaceholder()
     } else {
@@ -440,7 +442,7 @@ function updateOptions(query) {
             icon-right="keyboard_arrow_down"
             :disabled
             @click="handleBtnClick">
-            <div v-if="chips && Array.isArray(model.value) && model.value.length" class="chips">
+            <div v-if="chips && isMultiSelect" class="chips">
                 <Badge v-for="(label,value) in selected" :key="value"
                     variant="subtle"
                     outline="subtle"
@@ -491,6 +493,7 @@ function updateOptions(query) {
                             :disabled
                             :theme :spacing
                             variant="list"
+                            :show-symbol="isMultiSelect"
                             @change="handleOptionsChange"
                             @keydown="handleOptionsKeydown"
                         />

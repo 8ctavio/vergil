@@ -259,7 +259,7 @@ The `placeholder-fallback` function receives as its only argument the number of 
     :placeholder-fallback="n => {
         return `${n} Option${n > 1 ? 's':''} Selected`
     }"
-    placeholder="Select options"
+    placeholder="Select option"
 />
 ```
 
@@ -270,7 +270,7 @@ The `placeholder-fallback` function receives as its only argument the number of 
         :placeholder-fallback="n => {
             return `${n} Option${n > 1 ? 's':''} Selected`
         }"
-        placeholder="Select options"
+        placeholder="Select option"
     />
 </Demo>
 
@@ -289,7 +289,7 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 ```vue-html
 <Select
     :options="['abc','uvw','xyz']"
-    placeholder="Select options"
+    placeholder="Select option"
     filter
 />
 ```
@@ -297,7 +297,7 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 <Demo>
     <Select
         :options="['abc','uvw','xyz']"
-        placeholder="Select options"
+        placeholder="Select option"
         filter
     />
 </Demo>
@@ -309,7 +309,7 @@ The `filter-input` prop is an object of props forwarded to the filter's `InputTe
 ```vue-html
 <Select
     :options="['Option']"
-    placeholder="Select options"
+    placeholder="Select option"
     filter
     :filter-input="{
         placeholder: 'Filter users',
@@ -322,7 +322,7 @@ The `filter-input` prop is an object of props forwarded to the filter's `InputTe
 <Demo>
     <Select
         :options="['Option']"
-        placeholder="Select options"
+        placeholder="Select option"
         filter
         :filter-input="{
             placeholder: 'Filter users',
@@ -343,7 +343,7 @@ The `placeholder-not-found` prop is used to obtain a placeholder to display when
 ```vue-html
 <Select
     :options="['Option']"
-    placeholder="Select options"
+    placeholder="Select option"
     filter
     :placeholder-not-found="query => {
         return `@@search_off@@\nCould not find [['${query}']]`
@@ -354,7 +354,7 @@ The `placeholder-not-found` prop is used to obtain a placeholder to display when
 <Demo>
     <Select
         :options="['Option']"
-        placeholder="Select options"
+        placeholder="Select option"
         filter
         :placeholder-not-found="query => `@@search_off@@\nCould not find [['${query}']]`"
     />
@@ -372,7 +372,7 @@ query => `No results for [["${query}"]]`
 <Select
     :value="[]"
     :options="['abc','uvw','xyz']"
-    placeholder="Select options"
+    placeholder="Select option"
     chips
 />
 ```
@@ -381,7 +381,7 @@ query => `No results for [["${query}"]]`
     <Select
         :value="[]"
         :options="['abc','uvw','xyz']"
-        placeholder="Select options"
+        placeholder="Select option"
         chips
     />
 </Demo>
