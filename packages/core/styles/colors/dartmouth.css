@@ -22,7 +22,7 @@
     --c-dartmouth-1: var(--c-dartmouth-solid-1);
     --c-dartmouth-2: #84C889;
     --c-dartmouth-3: #105034;
-    --c-dartmouth-4: #EBF9EC;
+    --c-dartmouth-4: var(--c-dartmouth-soft-2);
 
     --rgb-dartmouth-solid: 23 122 78;
     --rgb-dartmouth-soft: 221 243 224;
@@ -49,7 +49,6 @@
     --c-dartmouth-1: #1C9B62;
     --c-dartmouth-2: var(--c-dartmouth-soft-4);
     --c-dartmouth-3: var(--c-dartmouth-soft-3);
-    --c-dartmouth-4: var(--c-dartmouth-soft-3);
 
     --rgb-dartmouth-solid: 19 94 60;
     --rgb-dartmouth-soft: 9 52 33;

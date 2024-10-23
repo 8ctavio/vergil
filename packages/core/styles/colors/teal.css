@@ -22,7 +22,7 @@
     --c-teal-1: var(--c-teal-solid-1);
     --c-teal-2: #9FDEDF;
     --c-teal-3: var(--c-teal-solid-3);
-    --c-teal-4: #E8F8F8;
+    --c-teal-4: var(--c-teal-soft-2);
 
     --rgb-teal-solid: 0 120 119;
     --rgb-teal-soft: 217 242 242;
@@ -50,7 +50,6 @@
     --c-teal-1: #009494;
     --c-teal-2: var(--c-teal-soft-4);
     --c-teal-3: var(--c-teal-soft-3);
-    --c-teal-4: var(--c-teal-soft-3);
  
     --rgb-teal-solid: 0 87 87;
     --rgb-teal-soft: 0 51 51;

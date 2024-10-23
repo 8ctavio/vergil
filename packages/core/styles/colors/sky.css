@@ -22,7 +22,7 @@
     --c-sky-1: var(--c-sky-solid-1);
     --c-sky-2: #80D4FF;
     --c-sky-3: var(--c-sky-solid-3);
-    --c-sky-4: #F0FAFF;
+    --c-sky-4: var(--c-sky-soft-2);
 
     --rgb-sky-solid: 0 112 171;
     --rgb-sky-soft: 214 241 255;
@@ -50,7 +50,6 @@
     --c-sky-1: #008BD6;
     --c-sky-2: var(--c-sky-soft-4);
     --c-sky-3: var(--c-sky-soft-3);
-    --c-sky-4: var(--c-sky-soft-3);
  
     --rgb-sky-solid: 0 87 143;
     --rgb-sky-soft: 0 41 66;

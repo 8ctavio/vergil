@@ -22,7 +22,7 @@
     --c-wine-1: var(--c-wine-solid-1);
     --c-wine-2: #D59AB7;
     --c-wine-3: var(--c-wine-solid-3);
-    --c-wine-4: var(--c-wine-soft-1);
+    --c-wine-4: var(--c-wine-soft-2);
 
     --rgb-wine-solid: 155 60 105;
     --rgb-wine-soft: 240 219 229;
@@ -50,7 +50,6 @@
     --c-wine-1: #96175D;
     --c-wine-2: var(--c-wine-soft-4);
     --c-wine-3: var(--c-wine-soft-3);
-    --c-wine-4: var(--c-wine-soft-3);
  
     --rgb-wine-solid: 113 18 70;
     --rgb-wine-soft: 62 10 38;

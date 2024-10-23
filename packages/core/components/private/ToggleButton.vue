@@ -57,7 +57,7 @@ function preventClickSelection(e) {
     &:not(.classic) {
         &:hover > .toggle-button,
         & > input:focus-visible + .toggle-button {
-            border-color: var(--c-grey-border-regular);
+            border-color: rgb(var(--rgb-grey-border) / 0.40);
         }
     }
 
@@ -142,6 +142,9 @@ function preventClickSelection(e) {
 .checkbox > .toggle-button {
     transition: background-color 150ms, border-color 150ms;
 }
+.dark .radio > .toggle-button > .toggle-radio {
+    background-color: var(--c-theme-text-2);
+}
 
 /*-------- CLASSIC --------*/
 :is(.checkbox, .radio).classic {
@@ -213,6 +216,7 @@ function preventClickSelection(e) {
         background-color: var(--c-theme-soft-2);
     }
     &:has(> input:disabled) {
+        --toggle-bw: 0px;
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
@@ -233,7 +237,7 @@ function preventClickSelection(e) {
     color: var(--c-grey-text-1);
     transition: background-color 150ms, color 150ms;
 
-    &:hover:not(:disabled) {
+    &:hover {
         color: var(--c-text);
     }
     &:has(> input:focus-visible) {
@@ -253,8 +257,8 @@ function preventClickSelection(e) {
         background-color: var(--c-disabled-2);
     }
 
-    & > .toggle-button {
-        border-color: rgb(var(--rgb-grey-border) / 0.40)
+    & > input:disabled + .toggle-button {
+        border-color: var(--c-disabled-border-2);
     }
     & > .toggle-label:has(+ .toggle-description) {
         font-weight: 500;

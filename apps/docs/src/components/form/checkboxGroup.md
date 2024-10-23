@@ -285,7 +285,7 @@ function defaultOptionDescription {
 </Demo>
 
 <Demo>
-    <CheckboxGroup theme="user" :options="[['Label 1', 'Description 1'], 'Label 2', 'Label 3']" show-symbol variant="toggle" label="Toggle"/>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="toggle" label="Toggle"/>
 </Demo>
 
 <style scoped>

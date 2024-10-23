@@ -176,10 +176,6 @@ function Options({ options }) {
         padding: var(--g-gap-sm);
         border-radius: var(--g-radius);
         background-color: var(--c-bg-alt);
-
-        &:has(input:is([type="checkbox"],[type="radio"]):disabled) {
-            background-color: var(--c-disabled-1);
-        }
     }
 
     & > :is(.checkbox,.radio) {
