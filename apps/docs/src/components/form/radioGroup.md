@@ -261,16 +261,36 @@ function defaultOptionDescription {
 </Demo>
 
 <Demo>
-    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle" label="Toggle"/>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" name="list" label="List"/>
 </Demo>
 
 <Demo>
-    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" name="list" label="List"/>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" name="toggle" label="Toggle"/>
 </Demo>
 
 <style scoped>
 .toggle-group-wrapper.list {
     width: 250px;
+}
+</style>
+
+### Show symbol <Badge><pre>show-symbol: boolean</pre></Badge>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="card" name="symbol-card" label="Card"/>
+</Demo>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="list" name="symbol-list" label="List"/>
+</Demo>
+
+<Demo>
+    <RadioGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="toggle" name="symbol-toggle" label="Toggle"/>
+</Demo>
+
+<style scoped>
+.radio-group > :deep(.toggle-group-wrapper.list) {
+    width: 200px;
 }
 </style>
 
@@ -355,12 +375,6 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
     <RadioGroup value="0" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
 </Demo>
 
-<style>
-    .fixed-width{
-        width: 150px;
-    }
-</style>
-
 ## API Reference
 
 | prop | type | default |
@@ -371,7 +385,8 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `optionValue` | `string \| function` | |
 | `optionLabel` | `string \| function` | |
 | `optionDescription` | `string \| function` | |
-| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
+| `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
+| `showSymbol` | `boolean` | |
 | `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |
 | `hint` | `string` | |

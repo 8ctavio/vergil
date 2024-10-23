@@ -97,12 +97,7 @@ interface VergilConfiguration {
         squared: boolean;
     },
     checkbox: {
-        theme: theme;
-        size: size;
-        radius: radius;
-        spacing: spacing;
-    },
-    checkboxGroup: {
+        variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic';
         theme: theme;
         size: size;
         radius: radius;
@@ -139,15 +134,11 @@ interface VergilConfiguration {
         theme: theme;
     },
     radio: {
+        variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic';
+        radioRadius: radius = 'full';
         theme: theme;
         size: size;
-        radius: radius = 'full';
-        spacing: spacing;
-    },
-    radioGroup: {
-        theme: theme;
-        size: size;
-        radius: radius = 'full';
+        radius: radius;
         spacing: spacing;
     },
     select: {

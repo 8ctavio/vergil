@@ -21,6 +21,12 @@ const props = defineProps({
         default: () => vergil.config.radio.variant,
         validator: v => isValidVariant('ToggleButton', v)
     },
+    showSymbol: Boolean,
+    radioRadius: {
+        type: String,
+        default: () => vergil.config.radio.radioRadius,
+        validator: isValidRadius
+    },
     theme: {
         type: String,
         validator: isValidTheme
@@ -60,10 +66,13 @@ function handleTemplateRef(el) {
 </script>
 
 <template>
-    <ToggleButton type="radio" :label :description :variant
+    <ToggleButton type="radio" :label :description
+        :variant
+        :showSymbol
+        :radius="radioRadius"
         :class="[
-            inferTheme(theme),
             props.class,
+            inferTheme(theme),
             {
                 [`size-${size}`]: size,
                 [`radius-${radius}`]: radius,

@@ -91,21 +91,38 @@ The `description` slot may be use instead. The slot content overrides the `descr
     <Checkbox label="Label" description="Description"/>
 </Demo>
 
-### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic'</pre></Badge>
 
 <Demo>
     <div class="col starts">
         <div class="row center">
             <Checkbox variant="classic" label="Classic"/>
             <Checkbox variant="card" label="Card"/>
-            <Checkbox variant="toggle" label="Toggle"/>
             <Checkbox variant="list" label="List"/>
+            <Checkbox variant="toggle" label="Toggle"/>
         </div>
         <div class="row center">
             <Checkbox variant="classic" label="Classic" description="Description"/>
             <Checkbox variant="card" label="Card" description="Description"/>
-            <Checkbox variant="toggle" label="Toggle" description="Description"/>
             <Checkbox variant="list" label="List" description="Description"/>
+            <Checkbox variant="toggle" label="Toggle" description="Description"/>
+        </div>
+    </div>
+</Demo>
+
+### Show symbol <Badge><pre>show-symbol: boolean</pre></Badge>
+
+<Demo>
+    <div class="col starts">
+        <div class="row center">
+            <Checkbox show-symbol variant="card" label="Card"/>
+            <Checkbox show-symbol variant="list" label="List"/>
+            <Checkbox show-symbol variant="toggle" label="Toggle"/>
+        </div>
+        <div class="row center">
+            <Checkbox show-symbol variant="card" label="Card" description="Description"/>
+            <Checkbox show-symbol variant="list" label="List" description="Description"/>
+            <Checkbox show-symbol variant="toggle" label="Toggle" description="Description"/>
         </div>
     </div>
 </Demo>
@@ -201,7 +218,8 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `valueUnchecked` | `boolean \| string` | `false` |
 | `label` | `string` | |
 | `description` | `string` | |
-| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
+| `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
+| `showSymbol` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
