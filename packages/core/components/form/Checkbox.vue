@@ -33,6 +33,7 @@ const props = defineProps({
         default: () => vergil.config.checkbox.variant,
         validator: v => isValidVariant('ToggleButton', v)
     },
+    showSymbol: Boolean,
     theme: {
         type: String,
         validator: isValidTheme
@@ -71,7 +72,9 @@ function handleTemplateRef(el) {
 </script>
 
 <template>
-    <ToggleButton type="checkbox" :label :description :variant
+    <ToggleButton type="checkbox" :label :description
+        :variant
+        :showSymbol
         :class="[
             inferTheme(theme),
             props.class,

@@ -18,6 +18,6 @@ export function isValidVariant(c,v){
         case 'Btn':
             return ['solid', 'soft', 'subtle'].includes(v)
         case 'ToggleButton':
-            return ['classic', 'card', 'toggle', 'list'].includes(v)
+            return ['classic', 'card', 'list', 'toggle'].includes(v)
     }
 }

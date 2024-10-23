@@ -49,6 +49,7 @@ const props = defineProps({
         default: props => vergil.config[props.type].variant,
         validator: v => isValidVariant('ToggleButton', v)
     },
+    showSymbol: Boolean,
     direction: {
         type: String,
         default: props => ['card', 'toggle'].includes(props.variant) ? 'row' : 'column',
@@ -118,7 +119,8 @@ function Options({ options }) {
             value,
             label: decodeOption(option, props.optionLabel),
             description: decodeOption(option, props.optionDescription),
-            variant: props.variant
+            variant: props.variant,
+            showSymbol: props.showSymbol
         })
     }
     if(Array.isArray(options)) {
@@ -153,6 +155,7 @@ function Options({ options }) {
 .toggle-group-wrapper {
     display: flex;
     flex-direction: v-bind(direction);
+    align-items: start;
 
     &.classic {
         column-gap: var(--g-gap-xl);
@@ -162,26 +165,26 @@ function Options({ options }) {
         column-gap: var(--g-gap-lg);
         row-gap: var(--g-gap-md);
     }
+    &.list {
+        gap: var(--g-gap-xs);
+        padding: var(--g-gap-sm);
+        border-radius: var(--g-radius);
+        background-color: var(--c-bg);
+    }
     &.toggle {
         gap: var(--g-gap-sm);
         padding: var(--g-gap-sm);
         border-radius: var(--g-radius);
-        background-color: var(--c-grey-soft-3);
+        background-color: var(--c-bg-alt);
 
         &:has(input:is([type="checkbox"],[type="radio"]):disabled) {
             background-color: var(--c-disabled-1);
         }
     }
-    &.list {
-        gap: var(--g-gap-xs);
-        padding: var(--g-gap-sm);
-        border-radius: var(--g-radius);
-        background-color: #FCFCFC;
-    }
-}
-.dark .toggle-group-wrapper {
-    &:is(.toggle, .list) {
-        background-color: #0A0A0A;
+
+    & > :is(.checkbox,.radio) {
+        width: 100%;
+        min-width: max-content;
     }
 }
 </style>

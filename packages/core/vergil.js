@@ -152,6 +152,7 @@ const vergil = {
         },
         radio: {
             variant: 'classic',
+            radioRadius: 'full',
             theme: new Option(undefined, { modifier: inferTheme }),
             size: undefined,
             radius: undefined,

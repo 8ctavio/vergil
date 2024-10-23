@@ -76,23 +76,50 @@ The `description` slot may be use instead. The slot content overrides the `descr
     <Radio value="-" label="Label" description="Description"/>
 </Demo>
 
-### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
+### Variant <Badge><pre>variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic'</pre></Badge>
 
 <Demo>
     <div class="col starts">
         <div class="row center">
             <Radio name="variant" value="1" variant="classic" label="Classic"/>
             <Radio name="variant" value="2" variant="card" label="Card"/>
-            <Radio name="variant" value="3" variant="toggle" label="Toggle"/>
             <Radio name="variant" value="4" variant="list" label="List"/>
+            <Radio name="variant" value="3" variant="toggle" label="Toggle"/>
         </div>
         <div class="row center">
             <Radio name="variant" value="5" variant="classic" label="Classic" description="Description"/>
             <Radio name="variant" value="6" variant="card" label="Card" description="Description"/>
-            <Radio name="variant" value="7" variant="toggle" label="Toggle" description="Description"/>
             <Radio name="variant" value="8" variant="list" label="List" description="Description"/>
+            <Radio name="variant" value="7" variant="toggle" label="Toggle" description="Description"/>
         </div>
     </div>
+</Demo>
+
+### Show symbol <Badge><pre>show-symbol: boolean</pre></Badge>
+
+<Demo>
+    <div class="col starts">
+        <div class="row center">
+            <Radio name="symbol" value="1" show-symbol variant="card" label="Card"/>
+            <Radio name="symbol" value="3" show-symbol variant="list" label="List"/>
+            <Radio name="symbol" value="2" show-symbol variant="toggle" label="Toggle"/>
+        </div>
+        <div class="row center">
+            <Radio name="symbol" value="4" show-symbol variant="card" label="Card" description="Description"/>
+            <Radio name="symbol" value="6" show-symbol variant="list" label="List" description="Description"/>
+            <Radio name="symbol" value="5" show-symbol variant="toggle" label="Toggle" description="Description"/>
+        </div>
+    </div>
+</Demo>
+
+### Radio radius <Badge><pre>radio-radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'full'</pre></Badge>
+
+<Demo>
+    <Radio name="radio-radius" value="none" label="None" radio-radius="none"/>
+    <Radio name="radio-radius" value="sm" label="Small" radio-radius="sm"/>
+    <Radio name="radio-radius" value="md" label="Medium" radio-radius="md"/>
+    <Radio name="radio-radius" value="lg" label="Large" radio-radius="lg"/>
+    <Radio name="radio-radius" value="full" label="Full" radio-radius="full"/>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -116,14 +143,14 @@ The `description` slot may be use instead. The slot content overrides the `descr
     <Radio name="size" value="xl" size="xl" label="Extra Large"/>
 </Demo>
 
-### Radius <Badge><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'full'</pre></Badge>
+### Radius <Badge><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'md'</pre></Badge>
 
 <Demo>
-    <Radio name="radius" value="none" label="None" radius="none"/>
-    <Radio name="radius" value="sm" label="Small" radius="sm"/>
-    <Radio name="radius" value="md" label="Medium" radius="md"/>
-    <Radio name="radius" value="lg" label="Large" radius="lg"/>
-    <Radio name="radius" value="full" label="Full" radius="full"/>
+    <Radio name="radius" variant="card" show-symbol value="none" label="None" radius="none"/>
+    <Radio name="radius" variant="card" show-symbol value="sm" label="Small" radius="sm"/>
+    <Radio name="radius" variant="card" show-symbol value="md" label="Medium" radius="md"/>
+    <Radio name="radius" variant="card" show-symbol value="lg" label="Large" radius="lg"/>
+    <Radio name="radius" variant="card" show-symbol value="full" label="Full" radius="full"/>
 </Demo>
 
 ### Spacing <Badge><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
@@ -183,7 +210,8 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `name` | `string` | |
 | `label` | `string` | |
 | `description` | `string` | |
-| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
+| `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
+| `showSymbol` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
@@ -197,6 +225,7 @@ The following `Radio` props' default values can be overwritten under the `radio`
 | `radio.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `variant` | |
+| `radioRadius` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |

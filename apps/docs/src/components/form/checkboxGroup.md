@@ -261,16 +261,36 @@ function defaultOptionDescription {
 </Demo>
 
 <Demo>
-    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" label="Toggle"/>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" label="List"/>
 </Demo>
 
 <Demo>
-    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="list" label="List"/>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" label="Toggle"/>
 </Demo>
 
 <style scoped>
 .toggle-group-wrapper.list {
     width: 250px;
+}
+</style>
+
+### Show symbol <Badge><pre>show-symbol: boolean</pre></Badge>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="card" label="Card"/>
+</Demo>
+
+<Demo>
+    <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="list" label="List"/>
+</Demo>
+
+<Demo>
+    <CheckboxGroup theme="user" :options="[['Label 1', 'Description 1'], 'Label 2', 'Label 3']" show-symbol variant="toggle" label="Toggle"/>
+</Demo>
+
+<style scoped>
+.checkbox-group > :deep(.toggle-group-wrapper.list) {
+    width: 200px;
 }
 </style>
 
@@ -347,12 +367,6 @@ function defaultOptionDescription {
     <CheckboxGroup :value="[0]" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
 </Demo>
 
-<style>
-    .fixed-width{
-        width: 150px;
-    }
-</style>
-
 ## API Reference
 
 | prop | type | default |
@@ -362,7 +376,8 @@ function defaultOptionDescription {
 | `optionValue` | `string \| function` | |
 | `optionLabel` | `string \| function` | |
 | `optionDescription` | `string \| function` | |
-| `variant` | `'classic' \| 'card' \| 'toggle' \| 'list'` | `'classic'` |
+| `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
+| `showSymbol` | `boolean` | |
 | `direction` | `'column' \| 'row'` | `'column'` |
 | `label` | `string` | |
 | `hint` | `string` | |

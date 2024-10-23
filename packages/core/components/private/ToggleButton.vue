@@ -4,11 +4,13 @@ import MiniMarkup from './MiniMarkup.vue'
 defineProps({
     type: {
         type: String,
-        validator: v => ['checkbox', 'radio'].includes(v)
+        validator: v => ['checkbox','radio'].includes(v)
     },
     label: String,
     description: String,
     variant: String,
+    showSymbol: Boolean,
+    radius: String
 })
 
 function preventClickSelection(e) {
@@ -17,20 +19,23 @@ function preventClickSelection(e) {
 </script>
 
 <template>
-    <label :class="[type, variant]">
+    <label :class="[type, variant]" @mousedown="preventClickSelection">
         <slot name="input"/>
-        <span v-if="variant === 'classic'" class="toggle-button">
+        <span v-if="variant === 'classic' || showSymbol"
+            :class="['toggle-button', {
+                [`radius-${radius}`]: radius
+            }]">
             <svg v-if="type === 'checkbox'" class="toggle-check" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
                 <path d="m382-388 321-321q19-19 45-19t45 19q19 19 19 45t-19 45L427-253q-19 19-45 19t-45-19L167-423q-19-19-19-45t19-45q19-19 45-19t45 19l125 125Z"/>
             </svg>
             <span v-else-if="type === 'radio'" class="toggle-radio"/>
         </span>
-        <p v-if="label || $slots.label" class="toggle-label" @mousedown="preventClickSelection">
+        <p v-if="label || $slots.label" class="toggle-label">
             <slot name="label">
                 <MiniMarkup :str="label"/>
             </slot>
         </p>
-        <p v-if="description || $slots.description" class="toggle-description" @mousedown="preventClickSelection">
+        <p v-if="description || $slots.description" class="toggle-description">
             <slot name="description">
                 <MiniMarkup :str="description"/>
             </slot>
@@ -39,49 +44,39 @@ function preventClickSelection(e) {
 </template>
 
 <style>
-:is(.checkbox, .radio) {
+:is(.checkbox,.radio) {
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     position: relative;
+    display: grid;
+    justify-content: start;
+    row-gap: var(--g-gap-xs);
     color: var(--c-text);
     cursor: pointer;
 
-    &:has(input:disabled){
+    &:not(.classic) {
+        &:hover > .toggle-button,
+        & > input:focus-visible + .toggle-button {
+            border-color: var(--c-grey-border-regular);
+        }
+    }
+
+    &:has(> input:disabled) {
         color: var(--c-disabled-text);
         cursor: not-allowed;
     }
+    &:has(> .toggle-button) {
+        grid-template-columns: repeat(2,auto);
+        column-gap: var(--g-gap-md);
+    }
 
-    & > input:is([type="checkbox"], [type="radio"]) {
+    & > input:is([type="checkbox"],[type="radio"]) {
         appearance: none;
         pointer-events: none;
         position: absolute;
         margin: 0;
         opacity: 0;
-    }
 
-    &:not(.card) > .toggle-description {
-        font-size: 0.9em;
-        color: var(--c-grey-text-1);
-    }
-}
-
-/*-------- CLASSIC --------*/
-:is(.checkbox, .radio).classic {
-    display: grid;
-    grid-template-columns: repeat(2,auto);
-    justify-content: start;
-    column-gap: var(--g-gap-md);
-    row-gap: var(--g-gap-xs);
-
-    &:hover > .toggle-button {
-        border-color: var(--c-theme-solid-1);
-    }
-
-    & > input:is([type="checkbox"], [type="radio"]) {
-        &:focus-visible + .toggle-button {
-            outline: 2px solid var(--c-theme-outline);
-            outline-offset: 2px;
-        }
         &:checked + .toggle-button {
             background-color: var(--c-theme-solid-1);
             border-color: var(--c-theme-solid-1);
@@ -113,6 +108,7 @@ function preventClickSelection(e) {
     & > .toggle-button {
         box-sizing: border-box;
         position: relative;
+        align-self: center;
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
         border-radius: var(--g-radius);
@@ -133,135 +129,135 @@ function preventClickSelection(e) {
             border-radius: inherit;
             background-color: var(--c-theme-text-3);
         }
+        & ~ .toggle-description {
+            grid-column-start: 2;
+            grid-row-start: 2;
+        }
     }
-    & > .toggle-description {
-        grid-column-start: 2;
-        grid-row-start: 2;
+
+    &:not(.card) > .toggle-description {
+        font-size: 0.9em;
     }
 }
-.checkbox.classic > .toggle-button {
+.checkbox > .toggle-button {
     transition: background-color 150ms, border-color 150ms;
+}
+
+/*-------- CLASSIC --------*/
+:is(.checkbox, .radio).classic {
+    &:hover > .toggle-button {
+        border-color: var(--c-theme-solid-1);
+    }
+    & > input:focus-visible + .toggle-button {
+        outline: 2px solid var(--c-theme-outline);
+        outline-offset: 2px;
+    }
+    & > .toggle-description {
+        color: var(--c-grey-text-1);
+    }
 }
 
 /*-------- CARD --------*/
 :is(.checkbox, .radio).card {
-    --toggle-border-c: var(--c-grey-border-subtle);
-    --toggle-border-w: 1px;
-    display: flex;
-    flex-direction: column;
     row-gap: var(--g-gap-sm);
     padding: var(--g-gap-lg) var(--g-gap-xl);
     border-radius: var(--g-radius);
     background-color: var(--c-bg);
-    box-shadow: inset 0 0 0 var(--toggle-border-w) var(--toggle-border-c);
+    box-shadow: inset 0 0 0 var(--toggle-bw, 1px) var(--toggle-bc, var(--c-grey-border-subtle));
     transition: box-shadow 150ms;
 
     &:hover {
-        --toggle-border-c: var(--c-grey-border-regular);
+        --toggle-bc: var(--c-grey-border-regular);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        --toggle-border-c: var(--c-grey-border-regular);
+    &:has(> input:focus-visible) {
+        --toggle-bc: var(--c-grey-border-regular);
         background-color: var(--c-theme-soft-2);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        --toggle-border-c: var(--c-theme-1);
-        --toggle-border-w: 1.5px;
+    &:has(> input:checked) {
+        --toggle-bw: 1.5px;
+        --toggle-bc: var(--c-theme-1);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
-        --toggle-border-c: var(--c-disabled-border-1);
+    &:has(> input:disabled) {
+        --toggle-bc: var(--c-disabled-border-1);
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
-        --toggle-border-c: var(--c-disabled-border-2);
+    &:has(> input:disabled:checked) {
+        --toggle-bc: var(--c-disabled-border-2);
     }
 
-    & > .toggle-label {
-        text-align: center;
-        &:has(+ .toggle-description) {
-            font-weight: 600;
-            text-align: left;
-        }
-    }
-}
-
-/*-------- TOGGLE --------*/
-:is(.checkbox, .radio).toggle {
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--g-gap-xs);
-    padding: var(--g-gap-md) var(--g-gap-lg);
-    border-radius: var(--g-radius);
-    background-color: var(--c-grey-soft-3);
-    color: var(--c-grey-text-2);
-    transition: background-color 150ms, color 150ms;
-
-    &:hover:not(:disabled) {
-        color: var(--c-text);
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
-        background-color: var(--c-grey-soft-2);
-        color: var(--c-text);
-        outline: 2px solid var(--c-theme-1);
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
-        background-color: var(--c-theme-4);
-        color: var(--c-theme-text-2);
-        & > .toggle-description {
-            color: var(--c-theme-text-2);
-        }
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
-        background-color: var(--c-disabled-1);
-        color: var(--c-disabled-text);
-    }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
-        background-color: var(--c-disabled-2);
-    }
-
-    & > .toggle-label {
-        text-align: center;
-        &:has(+ .toggle-description) {
-            font-weight: 500;
-            text-align: left;
-        }
+    & > .toggle-label:has(+ .toggle-description) {
+        font-weight: 600;
     }
 }
 
 /*-------- LIST --------*/
 :is(.checkbox, .radio).list {
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--g-gap-xs);
     padding: var(--g-gap-md) var(--g-gap-lg);
     border-radius: var(--g-radius);
-    background-color: #FCFCFC;
-    transition: background-color 150ms, color 150ms;
+    background-color: var(--c-bg);
+    box-shadow: inset 0 0 0 var(--toggle-bw, 0) var(--toggle-bc, transparent);
+    transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
     &:hover {
+        --toggle-bw: 0.8px;
+        --toggle-bc: var(--c-grey-border-subtle);
         background-color: var(--c-grey-soft-1);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):focus-visible) {
+    &:has(> input:focus-visible) {
         outline: 2px solid var(--c-theme-outline);
-        background-color: var(--c-theme-soft-1);
+        background-color: var(--c-grey-soft-1);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):checked) {
+    &:has(> input:checked) {
+        --toggle-bc: var(--c-theme-border-subtle);
         background-color: var(--c-theme-soft-2);
-        & > .toggle-description {
-            color: inherit;
-        }
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled) {
+    &:has(> input:disabled) {
         background-color: var(--c-disabled-1);
         color: var(--c-disabled-text);
     }
-    &:has(> input:is([type="checkbox"],[type="radio"]):disabled:checked) {
+    &:has(> input:disabled:checked) {
         background-color: var(--c-disabled-2);
     }
+
+    & > input:not(:checked) ~ .toggle-description {
+        color: var(--c-grey-text-1);
+    }
 }
-:where(.dark) :is(.checkbox, .radio) {
-    &:is(.toggle, .list) {
-        background-color: #0A0A0A;
+
+/*-------- TOGGLE --------*/
+:is(.checkbox, .radio).toggle {
+    padding: var(--g-gap-md) var(--g-gap-lg);
+    border-radius: var(--g-radius);
+    background-color: var(--c-bg-alt);
+    color: var(--c-grey-text-1);
+    transition: background-color 150ms, color 150ms;
+
+    &:hover:not(:disabled) {
+        color: var(--c-text);
+    }
+    &:has(> input:focus-visible) {
+        background-color: var(--c-grey-soft-2);
+        color: var(--c-text);
+        outline: 2px solid var(--c-theme-1);
+    }
+    &:has(> input:checked) {
+        background-color: var(--c-theme-4);
+        color: var(--c-theme-text-2);
+    }
+    &:has(> input:disabled) {
+        background-color: var(--c-disabled-1);
+        color: var(--c-disabled-text);
+    }
+    &:has(> input:disabled:checked) {
+        background-color: var(--c-disabled-2);
+    }
+
+    & > .toggle-button {
+        border-color: rgb(var(--rgb-grey-border) / 0.40)
+    }
+    & > .toggle-label:has(+ .toggle-description) {
+        font-weight: 500;
     }
 }
 </style>
