@@ -86,6 +86,7 @@ const props = defineProps({
 
 const model = useModel(props.modelValue)
 const isMultiSelect = computed(() => Array.isArray(model.value))
+const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -433,7 +434,7 @@ function updateOptions(query) {
         <Btn ref="reference"
             :class="[
                 'select-button',
-                { selected: model.value.length ?? model.value }
+                { selected: isSelected }
             ]"
             v-bind="$attrs"
             ghost="translucent" outline="subtle"
@@ -442,7 +443,7 @@ function updateOptions(query) {
             icon-right="keyboard_arrow_down"
             :disabled
             @click="handleBtnClick">
-            <div v-if="chips && isMultiSelect" class="chips">
+            <div v-if="chips && isMultiSelect && isSelected" class="chips">
                 <Badge v-for="(label,value) in selected" :key="value"
                     variant="subtle"
                     outline="subtle"
