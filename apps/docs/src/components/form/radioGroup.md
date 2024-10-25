@@ -188,11 +188,7 @@ As strings, these props represent an object key. If an `option` is an object, th
     </div>
 </Demo>
 
-:::tip NOTE
-If `options` is an object, `option-value` cannot be used as an object key.
-:::
-
-As functions, these props are called for each `option`, receive the `option` as a single argument, and their return value becomes the resulting value/label/description.
+As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
 ```vue-html
 <RadioGroup
@@ -239,8 +235,10 @@ As functions, these props are called for each `option`, receive the `option` as 
 The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.
 
 ```js
-function defaultOptionValue(option) {
-    return Array.isArray(option) ? option[0] : option
+function defaultOptionValue(option, key) {
+    return typeof key === 'number'
+        ? Array.isArray(option) ? option[0] : option
+        : key
 }
 function defaultOptionLabel(option) {
     return Array.isArray(option) ? option[0] : option
@@ -314,32 +312,32 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
-    <RadioGroup value="0" theme="brand" name="theme-brand" :options="['Brand 1', 'Brand 2']" label="Brand"/>
-    <RadioGroup value="0" theme="user" name="theme-user" :options="['User 1', 'User 2']" label="User"/>
-    <RadioGroup value="0" theme="ok" name="theme-ok" :options="['Ok 1', 'Ok 2']" label="Ok"/>
-    <RadioGroup value="0" theme="info" name="theme-info" :options="['Info 1', 'Info 2']" label="Info"/>
-    <RadioGroup value="0" theme="warn" name="theme-warn" :options="['Warn 1', 'Warn 2']" label="Warn"/>
-    <RadioGroup value="0" theme="danger" name="theme-danger" :options="['Danger 1', 'Danger 2']" label="Danger"/>
-    <RadioGroup value="0" theme="neutral" name="theme-neutral" :options="['Neutral 1', 'Neutral 2']" label="Neutral"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="brand" name="theme-brand" :options="['Brand 1', 'Brand 2']" label="Brand"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="user" name="theme-user" :options="['User 1', 'User 2']" label="User"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="ok" name="theme-ok" :options="['Ok 1', 'Ok 2']" label="Ok"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="info" name="theme-info" :options="['Info 1', 'Info 2']" label="Info"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="warn" name="theme-warn" :options="['Warn 1', 'Warn 2']" label="Warn"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="danger" name="theme-danger" :options="['Danger 1', 'Danger 2']" label="Danger"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" theme="neutral" name="theme-neutral" :options="['Neutral 1', 'Neutral 2']" label="Neutral"/>
 </Demo>
 
 ### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
-    <RadioGroup value="0" size="sm" name="size-sm" :options="['Small 1', 'Small 2']" label="Small"/>
-    <RadioGroup value="0" size="md" name="size-md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
-    <RadioGroup value="0" size="lg" name="size-lg" :options="['Large 1', 'Large 2']" label="Large"/>
-    <RadioGroup value="0" size="xl" name="size-xl" :options="['Extra Large 1', 'Extra Large 2']" label="Extra Large"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" size="sm" name="size-sm" :options="['Small 1', 'Small 2']" label="Small"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" size="md" name="size-md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" size="lg" name="size-lg" :options="['Large 1', 'Large 2']" label="Large"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" size="xl" name="size-xl" :options="['Extra Large 1', 'Extra Large 2']" label="Extra Large"/>
 </Demo>
 
 ### Radius <Badge><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'full'</pre></Badge>
 
 <Demo>
-    <RadioGroup value="0" radius="none" name="radius-none" :options="['None 1', 'None 2']" label="None"/>
-    <RadioGroup value="0" radius="sm" name="radius-sm" :options="['Small 1', 'Small 2']" label="Small"/>
-    <RadioGroup value="0" radius="md" name="radius-md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
-    <RadioGroup value="0" radius="lg" name="radius-lg" :options="['Large 1', 'Large 2']" label="Large"/>
-    <RadioGroup value="0" radius="full" name="radius-full" :options="['Full 1', 'Full 2']" label="Full"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" radius="none" name="radius-none" :options="['None 1', 'None 2']" label="None"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" radius="sm" name="radius-sm" :options="['Small 1', 'Small 2']" label="Small"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" radius="md" name="radius-md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" radius="lg" name="radius-lg" :options="['Large 1', 'Large 2']" label="Large"/>
+    <RadioGroup value="0" :option-value="(_,i) => i" radius="full" name="radius-full" :options="['Full 1', 'Full 2']" label="Full"/>
 </Demo>
 
 ### Spacing <Badge><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
@@ -347,24 +345,24 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 <Demo>
     <div class="col">
         <div class="row center">
-            <RadioGroup value="0" name="sm-compact" :options="['SM Compact 1', 'SM Compact 2']" label="SM Compact" size="sm" spacing="compact"/>
-            <RadioGroup value="0" name="sm-default" :options="['SM Default 1', 'SM Default 2']" label="SM Default" size="sm"/>
-            <RadioGroup value="0" name="sm-expanded" :options="['SM Expanded 1', 'SM Expanded 2']" label="SM Expanded" size="sm" spacing="expanded"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="sm-compact" :options="['SM Compact 1', 'SM Compact 2']" label="SM Compact" size="sm" spacing="compact"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="sm-default" :options="['SM Default 1', 'SM Default 2']" label="SM Default" size="sm"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="sm-expanded" :options="['SM Expanded 1', 'SM Expanded 2']" label="SM Expanded" size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <RadioGroup value="0" name="md-compact" :options="['MD Compact 1', 'MD Compact 2']" label="MD Compact" size="md" spacing="compact"/>
-            <RadioGroup value="0" name="md-default" :options="['MD Default 1', 'MD Default 2']" label="MD Default" size="md"/>
-            <RadioGroup value="0" name="md-expanded" :options="['MD Expanded 1', 'MD Expanded 2']" label="MD Expanded" size="md" spacing="expanded"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="md-compact" :options="['MD Compact 1', 'MD Compact 2']" label="MD Compact" size="md" spacing="compact"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="md-default" :options="['MD Default 1', 'MD Default 2']" label="MD Default" size="md"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="md-expanded" :options="['MD Expanded 1', 'MD Expanded 2']" label="MD Expanded" size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <RadioGroup value="0" name="lg-compact" :options="['LG Compact 1', 'LG Compact 2']" label="LG Compact" size="lg" spacing="compact"/>
-            <RadioGroup value="0" name="lg-default" :options="['LG Default 1', 'LG Default 2']" label="LG Default" size="lg"/>
-            <RadioGroup value="0" name="lg-expanded" :options="['LG Expanded 1', 'LG Expanded 2']" label="LG Expanded" size="lg" spacing="expanded"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="lg-compact" :options="['LG Compact 1', 'LG Compact 2']" label="LG Compact" size="lg" spacing="compact"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="lg-default" :options="['LG Default 1', 'LG Default 2']" label="LG Default" size="lg"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="lg-expanded" :options="['LG Expanded 1', 'LG Expanded 2']" label="LG Expanded" size="lg" spacing="expanded"/>
         </div>
         <div class="row center">
-            <RadioGroup value="0" name="xl-compact" :options="['XL Compact 1', 'XL Compact 2']" label="XL Compact" size="xl" spacing="compact"/>
-            <RadioGroup value="0" name="xl-default" :options="['XL Default 1', 'XL Default 2']" label="XL Default" size="xl"/>
-            <RadioGroup value="0" name="xl-expanded" :options="['XL Expanded 1', 'XL Expanded 2']" label="XL Expanded" size="xl" spacing="expanded"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xl-compact" :options="['XL Compact 1', 'XL Compact 2']" label="XL Compact" size="xl" spacing="compact"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xl-default" :options="['XL Default 1', 'XL Default 2']" label="XL Default" size="xl"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xl-expanded" :options="['XL Expanded 1', 'XL Expanded 2']" label="XL Expanded" size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
@@ -372,7 +370,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <RadioGroup value="0" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
+    <RadioGroup value="Disabled 1" :options="['Disabled 1', 'Disabled 2']" label="Disabled" disabled/>
 </Demo>
 
 ### Untabbable <Badge><pre>untabbable: boolean</pre></Badge>
