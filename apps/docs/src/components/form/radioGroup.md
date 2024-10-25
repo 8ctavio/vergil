@@ -248,6 +248,30 @@ function defaultOptionDescription {
 }
 ```
 
+### Options' attributes <Badge><pre>options-attributes: ('object' | 'function')</pre></Badge>
+
+As an object, `options-attributes` contains additional attributes to apply to all underlying `Radio` components.
+
+```vue-html
+<RadioGroup
+    :options
+    :options-attributes="{
+        'data-custom': 'data'
+    }"
+/>
+```
+
+As a function, `options-attributes` is called for each option, receives the computed `Radio` component's `key`, `value`, `label`, and `description`, and its return object becomes the additional attributes.
+
+```vue-html
+<RadioGroup
+    :options
+    :options-attributes="(key,value,label,description) => ({
+        /* additional attributes */
+    })
+/>
+```
+
 ### Variant <Badge><pre>variant: ('classic' | 'card' | 'toggle' | 'list') = 'classic'</pre></Badge>
 
 <Demo>
@@ -373,18 +397,6 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
     <RadioGroup value="Disabled 1" :options="['Disabled 1', 'Disabled 2']" label="Disabled" disabled/>
 </Demo>
 
-### Untabbable <Badge><pre>untabbable: boolean</pre></Badge>
-
-Makes underlying `Radio` components untabbable (with `tabindex="-1"`).
-
-```vue-html
-<RadioGroup :options="['Option']" untabbable/>
-```
-
-<Demo>
-    <RadioGroup :options="['Option']" untabbable/>
-</Demo>
-
 ## API Reference
 
 | prop | type | default |
@@ -395,6 +407,7 @@ Makes underlying `Radio` components untabbable (with `tabindex="-1"`).
 | `optionValue` | `string \| function` | |
 | `optionLabel` | `string \| function` | |
 | `optionDescription` | `string \| function` | |
+| `optionsAttributes` | `object \| function` | |
 | `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
 | `showSymbol` | `boolean` | |
 | `direction` | `'column' \| 'row'` | `'column'` |
@@ -407,7 +420,6 @@ Makes underlying `Radio` components untabbable (with `tabindex="-1"`).
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `disabled` | `boolean` | |
-| `untabbable` | `boolean` | |
 
 ### Configuration options
 

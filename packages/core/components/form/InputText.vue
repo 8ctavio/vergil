@@ -94,15 +94,6 @@ const floatLabelEnabled = computed(() => {
 })
 const showBtnBefore = typeof props.btnBefore === 'object' && props.btnBefore !== null
 const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== null
-
-defineExpose({
-    focus({ preventScroll, preventSelect } = {}) {
-        if(model.el) {
-            model.el.focus({ preventScroll })
-            if(!preventSelect) model.el.select()
-        }
-    }
-})
 </script>
 
 <template>

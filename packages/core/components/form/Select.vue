@@ -11,7 +11,7 @@ import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
 import { useModel } from '../../composables/useModel'
 import { waitFor } from '../../composables/waitFor'
-import { isModel, deburr, prune } from '../../utilities'
+import { isModel, prune } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -27,7 +27,7 @@ const props = defineProps({
     },
 
     //----- Component specific -----
-    options : [Array, Object],
+    options : Object,
     optionValue: [String, Function],
     optionLabel: [String, Function],
     optionDescription: [String, Function],
@@ -87,6 +87,7 @@ const props = defineProps({
 const model = useModel(props.modelValue)
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
+const selected = ref(null)
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -95,7 +96,6 @@ const floatLabelEnabled = computed(() => {
 })
 
 const filterModel = useModel('')
-const filterInstance = useTemplateRef('filter')
 
 //-------------------- HANDLE POPOVER --------------------
 const focusWithin = ref(false)
@@ -139,7 +139,8 @@ function showPopover() {
         document.addEventListener('focusin', handleDocumentFocusIn)
         if(props.filter) {
             nextTick(() => {
-                filterInstance.value.focus()
+                filterModel.el.focus()
+                filterModel.el.select()
             })
         }
         return true
@@ -201,6 +202,8 @@ async function handleSelectKeydown(event) {
             if(event.key === 'ArrowUp')
                 relative = 'previousElementSibling'
             option = event.target.parentElement[relative]
+        } else if(!isMultiSelect.value && selected.value && !selected.value.parentElement.hidden) {
+            option = selected.value.parentElement
         }
 
         while(option?.hidden) {
@@ -222,7 +225,6 @@ async function handleSelectKeydown(event) {
                     model.value = ''
                 } else {
                     model.value = event.target.value
-                    if(event.key === 'Enter') closePopover()
                 }
             }
         }
@@ -255,25 +257,24 @@ async function handleSelectKeydown(event) {
         if(showPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
-        const prune = str => deburr(str).toLowerCase()
         const key = prune(event.key)
         const options = model.el.children
         const findNextOption = () => {
             const active = document.activeElement
             let beforeSelected = active?.tagName === 'INPUT'
                 && active.type === 'checkbox'
-                && key === prune(active.parentElement.querySelector('& > .toggle-label').innerText.charAt(0))
+                && key === active.dataset.prunedLabel.charAt(0)
             let foundBefore, foundAfter, foundActive = null
-            for(const option of options) {
+            for(const { firstElementChild: input } of options) {
                 if(beforeSelected) {
-                    if(option.firstElementChild === active) {
+                    if(input === active) {
                         foundActive = active
                         beforeSelected = false
-                    } else if(!foundBefore && key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
-                        foundBefore = option.firstElementChild
+                    } else if(!foundBefore && key === input.dataset.prunedLabel.charAt(0)) {
+                        foundBefore = input
                     }
-                } else if(key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
-                    foundAfter = option.firstElementChild
+                } else if(key === input.dataset.prunedLabel.charAt(0)) {
+                    foundAfter = input
                     break
                 }
             }
@@ -292,10 +293,10 @@ async function handleSelectKeydown(event) {
             if(search.queryFound) {
                 search.query += key
                 search.queryFound = false
-                for(const option of options) {
-                    if(prune(option.querySelector('& > .toggle-label').innerText).startsWith(search.query)) {
+                for(const { firstElementChild: input } of options) {
+                    if(input.dataset.prunedLabel.startsWith(search.query)) {
                         search.queryFound = true
-                        option.firstElementChild.focus()
+                        input.focus()
                         break
                     }
                 }
@@ -341,90 +342,82 @@ function handleFilterInput(event) {
 }
 
 //-------------------- HANDLE SELECTION --------------------
-function handleOptionsChange(event) {
-    updatePlaceholder(event.target, true)
-}
-watch(model.ref, (newModelValue, oldModelValue) => {
-    if(Array.isArray(newModelValue)) {
-        if(!Array.isArray(oldModelValue)) {
-            selected.value = {}
-        }
-        updateOptions(new Set(newModelValue))
-    } else {
-        updateOptions(newModelValue)
-    }
-}, { deep: 1, flush: 'post' })
+watch(() => props.options, () => {
+    updateOptions(model.value)
+}, { flush: 'post' })
+watch(model.ref, updateOptions, { deep: 1, flush: 'post' })
 
-const selected = ref({})
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
-function updatePlaceholder(input, userInteraction = false) {
-    if(isMultiSelect.value) {
-        updateSelected(input)
-        composePlaceholder()
-    } else {
-        if(input?.checked) {
-            const update = () => {
-                computedPlaceholder.value = input.parentElement.querySelector('& > .toggle-label').innerText
-            }
-            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(update, 75)
-            else update()
-            if(userInteraction) closePopover()
-        } else {
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
-        }
-    }
-}
-function updateSelected(input) {
-    if(input.checked) {
-        selected.value[input.value] = input.parentElement.querySelector('& > .toggle-label').innerText
-    } else {
-        delete selected.value[input.value]
-    }
-}
-function composePlaceholder() {
-    if(!props.chips) {
-        let placeholder = ''
-        for(const opt in selected.value) placeholder += `${selected.value[opt]}, `
-        placeholder = placeholder.slice(0,-2)
-        if(placeholder) {
-            virtualPlaceholder.value.innerText = placeholder
-            const n = model.value.length
-            const update = () => {
-                computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
-                    ? props.placeholderFallback(n)
-                    : placeholder
-                virtualPlaceholder.value.innerText = ''
-            }
-            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(update, 75)
-            else update()
-        } else {
-            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
-        }
-    }
-}
-function updateOptions(query) {
-    const [filter, update] = (query instanceof Set) ? [
-        optionValue => query.delete(optionValue) !== (optionValue in selected.value),
-        walker => {
-            if(walker.nextNode()) {
-                do updateSelected(walker.currentNode.firstElementChild)
-                while(walker.nextNode())
-                composePlaceholder()
-            }
-        }
-    ] : [
-        optionValue => query === optionValue,
-        walker => {
-            updatePlaceholder(walker.nextNode()?.firstElementChild)
-        }
-    ]
-    const walker = document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
+function createOptionsWalker(filter) {
+    return document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'LABEL' && filter(element.firstElementChild.value)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
-    update(walker)
+}
+function updateOptions(modelValue) {
+    if(Array.isArray(modelValue)) {
+        if(typeof selected.value !== 'object' || selected.value === null) {
+            selected.value = {}
+        }
+        const selectedSet = new Set(modelValue)
+        const walker = createOptionsWalker(optionValue => {
+            return selectedSet.delete(optionValue) !== (optionValue in selected.value)
+        })
+        if(walker.nextNode()) {
+            do {
+                const input = walker.currentNode.firstElementChild
+                if(input.checked) {
+                    selected.value[input.value] = input
+                } else {
+                    delete selected.value[input.value]
+                }
+            } while(walker.nextNode())
+            if(!props.chips) {
+                let placeholder = ''
+                for(const opt in selected.value) placeholder += `${selected.value[opt].dataset.label}, `
+                placeholder = placeholder.slice(0,-2)
+                if(placeholder) {
+                    virtualPlaceholder.value.innerText = placeholder
+                    const n = model.value.length
+                    const updatePlaceholder = () => {
+                        computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                            ? props.placeholderFallback(n)
+                            : placeholder
+                        virtualPlaceholder.value.innerText = ''
+                    }
+                    if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+                    else updatePlaceholder()
+                } else {
+                    computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+                }
+            }
+        }
+    } else {
+        const walker = createOptionsWalker(optionValue => modelValue === optionValue)
+        const input = walker.nextNode()?.firstElementChild
+        selected.value = input
+        if(input?.checked) {
+            const updatePlaceholder = () => {
+                computedPlaceholder.value = input.parentElement.querySelector('& > .toggle-label').innerText
+            }
+            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+            else updatePlaceholder()
+            /**
+             * @NOTE Ideally, only close if model changed due to user interaction.
+             *  If model changed due to a programmatic mutation, popover should
+             *  not be closed.
+             * 
+             *  Native Vue's v-model is not compatible with Vergil's approach of
+             *  ignoring model mutations inside event handlers since the handler
+             *  attached by v-model cannot be customized.
+             */
+            closePopover()
+        } else {
+            computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+        }
+    }
 }
 </script>
 
@@ -449,13 +442,13 @@ function updateOptions(query) {
             :disabled
             @click="handleBtnClick">
             <div v-if="chips && isMultiSelect && isSelected" class="chips">
-                <Badge v-for="(label,value) in selected" :key="value"
+                <Badge v-for="input in selected" :key="input.value"
                     variant="subtle"
                     outline="subtle"
                     :theme :size :radius :spacing :squared="false"
                     >
-                    {{ label }}
-                    <button :data-value="value">
+                    {{ input.dataset.label }}
+                    <button :data-value="input.value">
                         <Icon code="cancel"/>
                     </button>
                 </Badge>
@@ -479,7 +472,6 @@ function updateOptions(query) {
                 <Transition v-show="showFloating" @after-leave="isClosed = true">
                     <div class="select-dropdown">
                         <InputText v-if="filter" 
-                            ref="filter"
                             v-bind="filterInput"
                             v-model="filterModel"
                             :placeholder="filterInput?.placeholder ?? vergil.config.select.placeholderFilter"
@@ -501,8 +493,11 @@ function updateOptions(query) {
                             :show-symbol="isMultiSelect"
                             variant="list"
                             tabindex="-1"
-                            untabbable
-                            @change="handleOptionsChange"
+                            :options-attributes="(key,value,label,description) => ({
+                                tabindex: '-1',
+                                'data-label': label,
+                                'data-pruned-label': prune(label)
+                            })"
                         />
                     </div>
                 </Transition>
