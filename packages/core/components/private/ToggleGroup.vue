@@ -48,6 +48,7 @@ const props = defineProps({
         type: [String, Function],
         default: () => (option => Array.isArray(option) ? option[1] : undefined)
     },
+    optionsAttributes: [Object, Function],
     variant: {
         type: String,
         default: props => vergil.config[props.type].variant,
@@ -93,7 +94,6 @@ const props = defineProps({
         validator: isValidSpacing
     },
 
-    untabbable: Boolean,
     disabled: Boolean,
     class: [String, Object]
 })
@@ -119,14 +119,19 @@ function Options({ options }) {
         return decoded?.toString().trim()
     }
     function createOptionVNode(option, key) {
+        const value = decodeOption(props.optionValue, option, key)
+        const label = decodeOption(props.optionLabel, option, key)
+        const description = decodeOption(props.optionDescription, option, key)
         return h(component, {
+            ...(typeof props.optionsAttributes === 'function'
+                ? props.optionsAttributes(key, value, label, description)
+                : props.optionsAttributes),
             key,
-            value: decodeOption(props.optionValue, option, key),
-            label: decodeOption(props.optionLabel, option, key),
-            description: decodeOption(props.optionDescription, option, key),
+            value,
+            label,
+            description,
             variant: props.variant,
             showSymbol: props.showSymbol,
-            tabindex: props.untabbable ? '-1' : undefined
         })
     }
     if(Array.isArray(options)) {
