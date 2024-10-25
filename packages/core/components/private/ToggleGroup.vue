@@ -62,7 +62,7 @@ const props = defineProps({
     description: String,
     help: String,
 
-    //----- Appearance -----
+    //----- Global -----
     theme: {
         type: String,
         default: props => vergil.config[props.type].theme ?? vergil.config.global.theme,
@@ -88,8 +88,10 @@ const props = defineProps({
         default: props => vergil.config[props.type].spacing ?? vergil.config.global.spacing,
         validator: isValidSpacing
     },
+
+    untabbable: Boolean,
     disabled: Boolean,
-    class: [String, Object],
+    class: [String, Object]
 })
 
 const model = useModel(props.modelValue)
@@ -120,7 +122,8 @@ function Options({ options }) {
             label: decodeOption(option, props.optionLabel),
             description: decodeOption(option, props.optionDescription),
             variant: props.variant,
-            showSymbol: props.showSymbol
+            showSymbol: props.showSymbol,
+            tabindex: props.untabbable ? '-1' : undefined
         })
     }
     if(Array.isArray(options)) {
