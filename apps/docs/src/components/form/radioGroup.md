@@ -375,6 +375,18 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
     <RadioGroup value="0" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
 </Demo>
 
+### Untabbable <Badge><pre>untabbable: boolean</pre></Badge>
+
+Makes underlying `Radio` components untabbable (with `tabindex="-1"`).
+
+```vue-html
+<RadioGroup :options="['Option']" untabbable/>
+```
+
+<Demo>
+    <RadioGroup :options="['Option']" untabbable/>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -397,6 +409,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `disabled` | `boolean` | |
+| `untabbable` | `boolean` | |
 
 ### Configuration options
 

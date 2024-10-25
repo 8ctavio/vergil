@@ -185,127 +185,132 @@ const search = {
     queryFound: false,
     timeout: undefined
 }
-function focusAdjacentOption(el, prev = false) {
-    while(el?.hidden) {
-        el = el[`${prev ? 'previous':'next'}ElementSibling`]
-    }
-    el?.firstElementChild.focus()
-}
 async function handleSelectKeydown(event) {
     if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
         event.stopPropagation()
         closePopover()
+    } else if(['ArrowDown','ArrowUp'].includes(event.key)) {
+        event.preventDefault()
+        if(showPopover()) {
+            await waitFor(isPositioned).toBe(true)
+        }
+
+        let relative = 'nextElementSibling'
+        let option = model.el.firstElementChild
+        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+            if(event.key === 'ArrowUp')
+                relative = 'previousElementSibling'
+            option = event.target.parentElement[relative]
+        }
+
+        while(option?.hidden) {
+            option = option[relative]
+        }
+        option?.firstElementChild.focus()
+    } else if(event.key === 'Enter') {
+        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+            event.preventDefault()
+            if(isMultiSelect.value) {
+                if(event.target.checked) {
+                    const idx = model.value.indexOf(event.target.value)
+                    if(idx > -1) model.value.splice(idx,1)
+                } else {
+                    model.value.push(event.target.value)
+                }
+            } else {
+                if(event.target.checked) {
+                    model.value = ''
+                } else {
+                    model.value = event.target.value
+                    if(event.key === 'Enter') closePopover()
+                }
+            }
+        }
+    } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
+        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+            if(!event.target.checked) {
+                if(isMultiSelect.value) {
+                    model.value.push(event.target.value)
+                } else {
+                    model.value = event.target.value
+                }
+            }
+        }
+    } else if (props.filter) {
+        if(
+            (event.target.tagName !== 'INPUT' || event.target.type !== 'text')
+            && !(event.altKey || event.ctrlKey || event.metaKey)
+            && (
+                (event.key.length === 1 && event.key !== ' ')
+                || ['Backspace','ArrowLeft','ArrowRight','Delete','Clear'].includes(event.key)
+            )
+        ) {
+            if(showPopover()) {
+                await waitFor(isPositioned).toBe(true)
+            }
+            filterModel.el.selectionStart = filterModel.value.length
+            filterModel.el.focus()
+        }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
         if(showPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
-        if(props.filter) {
-            if(event.target.tagName !== 'INPUT' || event.target.type !== 'text') {
-                filterInstance.value.focus()
+        const prune = str => deburr(str).toLowerCase()
+        const key = prune(event.key)
+        const options = model.el.children
+        const findNextOption = () => {
+            const active = document.activeElement
+            let beforeSelected = active?.tagName === 'INPUT'
+                && active.type === 'checkbox'
+                && key === prune(active.parentElement.querySelector('& > .toggle-label').innerText.charAt(0))
+            let foundBefore, foundAfter, foundActive = null
+            for(const option of options) {
+                if(beforeSelected) {
+                    if(option.firstElementChild === active) {
+                        foundActive = active
+                        beforeSelected = false
+                    } else if(!foundBefore && key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
+                        foundBefore = option.firstElementChild
+                    }
+                } else if(key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
+                    foundAfter = option.firstElementChild
+                    break
+                }
             }
-        } else {
-            const prune = str => deburr(str).toLowerCase()
-            const key = prune(event.key)
-            const options = model.el.children
-            const findNextOption = () => {
-                const active = document.activeElement
-                let beforeSelected = active?.tagName === 'INPUT'
-                    && active.type === 'checkbox'
-                    && key === prune(active.parentElement.querySelector('& > .toggle-label').innerText.charAt(0))
-                let foundBefore, foundAfter, foundActive = null
+            return foundAfter ?? foundBefore ?? foundActive
+        }
+        const startTimeout = () => {
+            search.timeout = setTimeout(() => {
+                search.query = ''
+                search.queryFound = false
+                search.timeout = undefined
+            }, 500)
+        }
+
+        if(search.timeout) {
+            clearTimeout(search.timeout)
+            if(search.queryFound) {
+                search.query += key
+                search.queryFound = false
                 for(const option of options) {
-                    if(beforeSelected) {
-                        if(option.firstElementChild === active) {
-                            foundActive = active
-                            beforeSelected = false
-                        } else if(!foundBefore && key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
-                            foundBefore = option.firstElementChild
-                        }
-                    } else if(key === prune(option.querySelector('& > .toggle-label').innerText.charAt(0))) {
-                        foundAfter = option.firstElementChild
+                    if(prune(option.querySelector('& > .toggle-label').innerText).startsWith(search.query)) {
+                        search.queryFound = true
+                        option.firstElementChild.focus()
                         break
                     }
                 }
-                return foundAfter ?? foundBefore ?? foundActive
+            } if(!search.queryFound) {
+                findNextOption()?.focus()
             }
-            const startTimeout = () => {
-                search.timeout = setTimeout(() => {
-                    search.query = ''
-                    search.queryFound = false
-                    search.timeout = undefined
-                }, 500)
-            }
-
-            if(search.timeout) {
-                clearTimeout(search.timeout)
-                if(search.queryFound) {
-                    search.query += key
-                    search.queryFound = false
-                    for(const option of options) {
-                        if(prune(option.querySelector('& > .toggle-label').innerText).startsWith(search.query)) {
-                            search.queryFound = true
-                            option.firstElementChild.focus()
-                            break
-                        }
-                    }
-                } if(!search.queryFound) {
-                    findNextOption()?.focus()
-                }
+            startTimeout()
+        } else {
+            const next = findNextOption()
+            if(next !== null) {
+                search.query += key
+                search.queryFound = true
+                next.focus()
                 startTimeout()
-            } else {
-                const next = findNextOption()
-                if(next !== null) {
-                    search.query += key
-                    search.queryFound = true
-                    next.focus()
-                    startTimeout()
-                }
-            }   
-        }
-    } else if(event.target.tagName !== 'INPUT' || event.target.type !== 'checkbox') {
-        if(['ArrowDown','ArrowUp'].includes(event.key)) {
-            event.preventDefault()
-            if(showPopover()) {
-                await waitFor(isPositioned).toBe(true)
             }
-            focusAdjacentOption(model.el.firstElementChild)
-        } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-            if(showFloating.value && !props.filter) {
-                event.preventDefault()
-                closePopover()
-            } else if(event.target.tagName === 'INPUT' && event.target.type === 'text' && !event.shiftKey) {
-                event.preventDefault()
-                reference.value?.$el.focus({ preventScroll: true })
-            }
-        }
-    }
-}
-function handleOptionsKeydown(event) {
-    const { key } = event
-    if(key === 'ArrowDown') {
-        event.preventDefault()
-        focusAdjacentOption(event.target.parentElement?.nextElementSibling)
-    } else if(key === 'ArrowUp') {
-        event.preventDefault()
-        focusAdjacentOption(event.target.parentElement?.previousElementSibling, true)
-    } else if(key === 'Enter') {
-        if(isMultiSelect.value) {
-            const idx = model.value.indexOf(event.target.value)
-            if(idx > -1) {
-                model.value.splice(idx,1)
-            } else {
-                model.value.push(event.target.value)
-            }
-        } else {
-            model.value = event.target.value
-        }
-    } else if(key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(event.shiftKey && props.filter) {
-            event.preventDefault()
-            filterInstance.value.focus()
-        } else {
-            event.preventDefault()
-            closePopover()
         }
     }
 }
@@ -493,10 +498,11 @@ function updateOptions(query) {
                             :optionDescription
                             :disabled
                             :theme :spacing
-                            variant="list"
                             :show-symbol="isMultiSelect"
+                            variant="list"
+                            tabindex="-1"
+                            untabbable
                             @change="handleOptionsChange"
-                            @keydown="handleOptionsKeydown"
                         />
                     </div>
                 </Transition>
@@ -661,6 +667,9 @@ function updateOptions(query) {
                 overflow-y: auto;
                 cursor: pointer;
 
+                &:focus-visible {
+                    outline: none;
+                }
                 & > .checkbox {
                     padding: var(--g-gap-sm) var(--g-gap-lg);
                     &[hidden] {

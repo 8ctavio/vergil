@@ -367,6 +367,18 @@ function defaultOptionDescription {
     <CheckboxGroup :value="[0]" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
 </Demo>
 
+### Untabbable <Badge><pre>untabbable: boolean</pre></Badge>
+
+Makes underlying `Checkbox` components untabbable (with `tabindex="-1"`).
+
+```vue-html
+<CheckboxGroup :options="['Option']" untabbable/>
+```
+
+<Demo>
+    <CheckboxGroup :options="['Option']" untabbable/>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -388,6 +400,7 @@ function defaultOptionDescription {
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `disabled` | `boolean` | |
+| `untabbable` | `boolean` | |
 
 ### Configuration options
 
