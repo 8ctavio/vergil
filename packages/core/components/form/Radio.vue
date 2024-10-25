@@ -70,6 +70,7 @@ function handleTemplateRef(el) {
         :variant
         :showSymbol
         :radius="radioRadius"
+        :size
         :class="[
             props.class,
             inferTheme(theme),
