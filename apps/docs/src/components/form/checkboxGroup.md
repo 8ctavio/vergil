@@ -188,11 +188,7 @@ As strings, these props represent an object key. If an `option` is an object, th
     </div>
 </Demo>
 
-:::tip NOTE
-If `options` is an object, `option-value` cannot be used as an object key.
-:::
-
-As functions, these props are called for each `option`, receive the `option` as a single argument, and their return value becomes the resulting value/label/description.
+As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
 ```vue-html
 <CheckboxGroup
@@ -239,8 +235,10 @@ As functions, these props are called for each `option`, receive the `option` as 
 The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.
 
 ```js
-function defaultOptionValue(option) {
-    return Array.isArray(option) ? option[0] : option
+function defaultOptionValue(option, key) {
+    return typeof key === 'number'
+        ? Array.isArray(option) ? option[0] : option
+        : key
 }
 function defaultOptionLabel(option) {
     return Array.isArray(option) ? option[0] : option
@@ -306,32 +304,32 @@ function defaultOptionDescription {
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
-    <CheckboxGroup :value="[0]" theme="brand" :options="['Brand 1', 'Brand 2']" label="Brand"/>
-    <CheckboxGroup :value="[0]" theme="user" :options="['User 1', 'User 2']" label="User"/>
-    <CheckboxGroup :value="[0]" theme="ok" :options="['Ok 1', 'Ok 2']" label="Ok"/>
-    <CheckboxGroup :value="[0]" theme="info" :options="['Info 1', 'Info 2']" label="Info"/>
-    <CheckboxGroup :value="[0]" theme="warn" :options="['Warn 1', 'Warn 2']" label="Warn"/>
-    <CheckboxGroup :value="[0]" theme="danger" :options="['Danger 1', 'Danger 2']" label="Danger"/>
-    <CheckboxGroup :value="[0]" theme="neutral" :options="['Neutral 1', 'Neutral 2']" label="Neutral"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="brand" :options="['Brand 1', 'Brand 2']" label="Brand"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="user" :options="['User 1', 'User 2']" label="User"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="ok" :options="['Ok 1', 'Ok 2']" label="Ok"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="info" :options="['Info 1', 'Info 2']" label="Info"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="warn" :options="['Warn 1', 'Warn 2']" label="Warn"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="danger" :options="['Danger 1', 'Danger 2']" label="Danger"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" theme="neutral" :options="['Neutral 1', 'Neutral 2']" label="Neutral"/>
 </Demo>
 
 ### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
-    <CheckboxGroup :value="[0]" size="sm" :options="['Small 1', 'Small 2']" label="Small"/>
-    <CheckboxGroup :value="[0]" size="md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
-    <CheckboxGroup :value="[0]" size="lg" :options="['Large 1', 'Large 2']" label="Large"/>
-    <CheckboxGroup :value="[0]" size="xl" :options="['Extra Large 1', 'Extra Large 2']" label="Extra Large"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" size="sm" :options="['Small 1', 'Small 2']" label="Small"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" size="md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" size="lg" :options="['Large 1', 'Large 2']" label="Large"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" size="xl" :options="['Extra Large 1', 'Extra Large 2']" label="Extra Large"/>
 </Demo>
 
 ### Radius <Badge><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'full'</pre></Badge>
 
 <Demo>
-    <CheckboxGroup :value="[0]" radius="none" :options="['None 1', 'None 2']" label="None"/>
-    <CheckboxGroup :value="[0]" radius="sm" :options="['Small 1', 'Small 2']" label="Small"/>
-    <CheckboxGroup :value="[0]" radius="md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
-    <CheckboxGroup :value="[0]" radius="lg" :options="['Large 1', 'Large 2']" label="Large"/>
-    <CheckboxGroup :value="[0]" radius="full" :options="['Full 1', 'Full 2']" label="Full"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" radius="none" :options="['None 1', 'None 2']" label="None"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" radius="sm" :options="['Small 1', 'Small 2']" label="Small"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" radius="md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" radius="lg" :options="['Large 1', 'Large 2']" label="Large"/>
+    <CheckboxGroup value="0" :option-value="(_,i) => i" radius="full" :options="['Full 1', 'Full 2']" label="Full"/>
 </Demo>
 
 ### Spacing <Badge><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
@@ -339,24 +337,24 @@ function defaultOptionDescription {
 <Demo>
     <div class="col">
         <div class="row center">
-            <CheckboxGroup :value="[0]" :options="['SM Compact 1', 'SM Compact 2']" label="SM Compact" size="sm" spacing="compact"/>
-            <CheckboxGroup :value="[0]" :options="['SM Default 1', 'SM Default 2']" label="SM Default" size="sm"/>
-            <CheckboxGroup :value="[0]" :options="['SM Expanded 1', 'SM Expanded 2']" label="SM Expanded" size="sm" spacing="expanded"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['SM Compact 1', 'SM Compact 2']" label="SM Compact" size="sm" spacing="compact"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['SM Default 1', 'SM Default 2']" label="SM Default" size="sm"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['SM Expanded 1', 'SM Expanded 2']" label="SM Expanded" size="sm" spacing="expanded"/>
         </div>
         <div class="row center">
-            <CheckboxGroup :value="[0]" :options="['MD Compact 1', 'MD Compact 2']" label="MD Compact" size="md" spacing="compact"/>
-            <CheckboxGroup :value="[0]" :options="['MD Default 1', 'MD Default 2']" label="MD Default" size="md"/>
-            <CheckboxGroup :value="[0]" :options="['MD Expanded 1', 'MD Expanded 2']" label="MD Expanded" size="md" spacing="expanded"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['MD Compact 1', 'MD Compact 2']" label="MD Compact" size="md" spacing="compact"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['MD Default 1', 'MD Default 2']" label="MD Default" size="md"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['MD Expanded 1', 'MD Expanded 2']" label="MD Expanded" size="md" spacing="expanded"/>
         </div>
         <div class="row center">
-            <CheckboxGroup :value="[0]" :options="['LG Compact 1', 'LG Compact 2']" label="LG Compact" size="lg" spacing="compact"/>
-            <CheckboxGroup :value="[0]" :options="['LG Default 1', 'LG Default 2']" label="LG Default" size="lg"/>
-            <CheckboxGroup :value="[0]" :options="['LG Expanded 1', 'LG Expanded 2']" label="LG Expanded" size="lg" spacing="expanded"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['LG Compact 1', 'LG Compact 2']" label="LG Compact" size="lg" spacing="compact"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['LG Default 1', 'LG Default 2']" label="LG Default" size="lg"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['LG Expanded 1', 'LG Expanded 2']" label="LG Expanded" size="lg" spacing="expanded"/>
         </div>
         <div class="row center">
-            <CheckboxGroup :value="[0]" :options="['XL Compact 1', 'XL Compact 2']" label="XL Compact" size="xl" spacing="compact"/>
-            <CheckboxGroup :value="[0]" :options="['XL Default 1', 'XL Default 2']" label="XL Default" size="xl"/>
-            <CheckboxGroup :value="[0]" :options="['XL Expanded 1', 'XL Expanded 2']" label="XL Expanded" size="xl" spacing="expanded"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['XL Compact 1', 'XL Compact 2']" label="XL Compact" size="xl" spacing="compact"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['XL Default 1', 'XL Default 2']" label="XL Default" size="xl"/>
+            <CheckboxGroup value="0" :option-value="(_,i) => i" :options="['XL Expanded 1', 'XL Expanded 2']" label="XL Expanded" size="xl" spacing="expanded"/>
         </div>
     </div>
 </Demo>
@@ -364,7 +362,7 @@ function defaultOptionDescription {
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <CheckboxGroup :value="[0]" :options="['Disabled', 'Disabled']" label="Disabled" disabled/>
+    <CheckboxGroup value="Disabled 1" :options="['Disabled 1', 'Disabled 2']" label="Disabled" disabled/>
 </Demo>
 
 ### Untabbable <Badge><pre>untabbable: boolean</pre></Badge>

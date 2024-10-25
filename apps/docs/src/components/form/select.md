@@ -183,11 +183,7 @@ As strings, these props represent an object key. If an `option` is an object, th
     <code>checked.value === '{{ demo3.value }}'</code>
 </Demo>
 
-:::tip NOTE
-If `options` is an object, `option-value` cannot be used as an object key.
-:::
-
-As functions, these props are called for each `option`, receive the `option` as a single argument, and their return value becomes the resulting value/label/description.
+As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
 ```vue-html
 <Select
@@ -229,8 +225,10 @@ As functions, these props are called for each `option`, receive the `option` as 
 The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.
 
 ```js
-function defaultOptionValue(option) {
-    return Array.isArray(option) ? option[0] : option
+function defaultOptionValue(option, key) {
+    return typeof key === 'number'
+        ? Array.isArray(option) ? option[0] : option
+        : key
 }
 function defaultOptionLabel(option) {
     return Array.isArray(option) ? option[0] : option

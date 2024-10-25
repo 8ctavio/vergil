@@ -29,12 +29,16 @@ const props = defineProps({
     //----- Component specific -----
     name: String,
     options : {
-        type: [Array, Object],
+        type: Object,
         default: () => ([])
     },
     optionValue: {
         type: [String, Function],
-        default: () => (option => Array.isArray(option) ? option[0] : option)
+        default: () => (
+            (option, key) => typeof key === 'number'
+                ? Array.isArray(option) ? option[0] : option
+                : key
+        )
     },
     optionLabel: {
         type: [String, Function],
@@ -106,33 +110,30 @@ provide(`${props.type}-props`, {
 function Options({ options }) {
     if(options === null) return
     const component = { checkbox, radio }[props.type]
-    function decodeOption(option, decoder) {
+    function decodeOption(decoder, option, key) {
         const decoded = typeof decoder === 'function'
-            ? decoder(option)
+            ? decoder(option,key)
             : typeof option === 'object' && option !== null
                 ? option[decoder]
                 : option
         return decoded?.toString().trim()
     }
-    function createOptionVNode(idx, option, key) {
-        const value = decodeOption(key ?? option, props.optionValue)
+    function createOptionVNode(option, key) {
         return h(component, {
-            key: value + idx,
-            value,
-            label: decodeOption(option, props.optionLabel),
-            description: decodeOption(option, props.optionDescription),
+            key,
+            value: decodeOption(props.optionValue, option, key),
+            label: decodeOption(props.optionLabel, option, key),
+            description: decodeOption(props.optionDescription, option, key),
             variant: props.variant,
             showSymbol: props.showSymbol,
             tabindex: props.untabbable ? '-1' : undefined
         })
     }
     if(Array.isArray(options)) {
-        return options.map((option, idx) => {
-            return createOptionVNode(idx, option)
-        })
+        return options.map(createOptionVNode)
     } else {
-        return Object.entries(options).map(([key, option], idx) => {
-            return createOptionVNode(idx, option, key)
+        return Object.entries(options).map(([key, option]) => {
+            return createOptionVNode(option, key)
         })
     }
 }
