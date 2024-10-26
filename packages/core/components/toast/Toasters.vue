@@ -2,12 +2,10 @@
 import Toast from './Toast.vue'
 import { onMounted, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { syncFor } from '../../composables/waitFor'
 import { toasters } from '.'
 
 const containers = {}
 onMounted(async () => {
-    await syncFor(() => vergil.isReady).toBe(true)
     vergil.config.toaster.positions.forEach(position => {
         toasters[position] = []
     })
