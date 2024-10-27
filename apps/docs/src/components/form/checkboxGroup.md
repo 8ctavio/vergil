@@ -6,7 +6,8 @@ outline: [2,3]
 
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
-import { useModel, kebabCase } from '@8ctavio/vergil'
+import { useModel } from '@8ctavio/vergil'
+import { kebabCase } from '@8ctavio/vergil/utilities'
 
 const demo1 = useModel('')
 const demo2 = useModel('')

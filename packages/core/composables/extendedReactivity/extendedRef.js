@@ -1,5 +1,5 @@
 import { defineReactiveProperties } from './defineReactiveProperties'
-import { ExtendedRef } from '../utilities'
+import { ExtendedRef } from '.'
 
 /**
  * Extends a ref with additional properties.

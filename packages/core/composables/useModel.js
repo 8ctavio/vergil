@@ -1,9 +1,29 @@
 import { ref } from 'vue'
-import { extendedCustomRef } from './extendedRef'
-import { ExtendedReactive, isModel, isModelWrapper } from '../utilities'
+import { extendedCustomRef } from './extendedReactivity/extendedRef'
+import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
 import { useResetValue } from "./private/useResetValue"
 
 const onMutated = Symbol('onMutated')
+
+/**
+ * Assesses whether a value is a model created by `useModel`.
+ * 
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is a model created by `useModel`.
+ */
+export function isModel(value){
+    return isExtendedRef(value) && Boolean(value?.__v_isModel)
+}
+
+/**
+ * Assesses whether a value is a model wrapped by `useModel`.
+ * 
+ * @param { any } value
+ * @returns { boolean } `true` if `value` is a model wrapped by `useModel`.
+ */
+export function isModelWrapper(value){
+    return isModel(value) && Boolean(value?.__v_isModelWrapper)
+}
 
 /**
  * Creates or wraps a component model.

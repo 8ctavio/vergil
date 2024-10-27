@@ -103,3 +103,34 @@ function extendedRef<T,E>(
 #### Return value
 
 An `ExtendedRef` object.
+
+## Utilities
+
+### Usage
+
+```js
+import { <util> } from '@8ctavio/vergil'
+```
+
+### `ExtendedReactive`
+
+> Stores `refs` index of automatically unwrapped reactive properties.
+
+```ts
+interface ExtendedReactive<T> {
+    refs: object;
+    [P in keyof T]: T[P];
+}
+```
+
+### `isExtendedReactive`
+
+> Assesses whether a value is an `ExtendedReactive` object.
+
+```js
+function isExtendedReactive(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is an `ExtendedReactive`.

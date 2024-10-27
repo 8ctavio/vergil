@@ -4,8 +4,7 @@ import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
 import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel } from '../../composables/useModel'
-import { isModel } from '../../utilities'
+import { useModel, isModel } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })

@@ -22,9 +22,9 @@
 		".": "./index.js",
 		"./components": "./components/index.js",
 		"./plugins": "./plugins/index.js",
-		"./regex": "./utilities/regex.js",
-		"./server": "./utilities/server.js",
-		"./userTheme": "./utilities/userTheme.js",
+		"./utilities": "./utilities/index.js",
+		"./utilities/regex": "./utilities/regex.js",
+		"./utilities/userTheme": "./utilities/userTheme.js",
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
 		"./colors/default": "./styles/default.css"

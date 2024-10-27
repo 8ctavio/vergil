@@ -215,3 +215,35 @@ defineReactiveProperties(model.exposed, withDescriptor => ({
     })
 }))
 ```
+
+## Utilities
+
+### Usage
+
+```js
+import { <util> } from '@8ctavio/vergil'
+```
+
+### `isModel`
+
+> Assesses whether a value is a model created by `useModel`.
+
+```js
+function isModel(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a model created by `useModel`.
+
+### `isModelWrapper`
+
+> Assesses whether a value is a model wrapped by `useModel`.
+
+```js
+function isModelWrapper(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a model wrapped by `useModel`.

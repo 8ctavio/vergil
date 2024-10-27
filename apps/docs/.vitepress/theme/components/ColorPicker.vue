@@ -1,7 +1,7 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { Btn } from '@8ctavio/vergil/components'
-import { userThemeColor, setUserThemeColor } from '@8ctavio/vergil/userTheme'
+import { userThemeColor, setUserThemeColor } from '@8ctavio/vergil/utilities/userTheme'
 
 const colors = ['emerald', 'moss', 'teal', 'sky', 'denim', 'indigo', 'wine']
 </script>

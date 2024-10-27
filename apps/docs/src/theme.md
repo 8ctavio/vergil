@@ -111,7 +111,7 @@ The special `'user'` `theme` value allows to style components with a user-select
 import {
     setUserThemeColor,
     userThemeColor
-} from '@8ctavio/vergil/userTheme'
+} from '@8ctavio/vergil/utilities/userTheme'
 ```
 
 The `setUserThemeColor` function and `userThemeColor` ref help update the `'user'` theme color palette.

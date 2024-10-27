@@ -1,5 +1,5 @@
 import { defineReactiveProperties } from "./defineReactiveProperties"
-import { ExtendedReactive } from "../utilities"
+import { ExtendedReactive } from "."
 
 /**
  * Defines object properties through descriptors with special ref support.

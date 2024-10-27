@@ -49,23 +49,3 @@ export function isExtendedReactive(value){
 export function isExtendedRef(value){
     return value instanceof ExtendedRef
 }
-
-/**
- * Assesses whether a value is a model created by `useModel`.
- * 
- * @param { any } value
- * @returns { boolean } `true` if `value` is a model created by `useModel`.
- */
-export function isModel(value){
-    return isExtendedRef(value) && Boolean(value?.__v_isModel)
-}
-
-/**
- * Assesses whether a value is a model wrapped by `useModel`.
- * 
- * @param { any } value
- * @returns { boolean } `true` if `value` is a model wrapped by `useModel`.
- */
-export function isModelWrapper(value){
-    return isModel(value) && Boolean(value?.__v_isModelWrapper)
-}

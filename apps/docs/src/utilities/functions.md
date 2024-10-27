@@ -7,7 +7,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { <fn> } from '@8ctavio/vergil'
+import { <fn> } from '@8ctavio/vergil/utilities'
 ```
 
 ## String
@@ -287,9 +287,9 @@ everyKeyInObject({ bar: '' }, {
 
 ## Date
 
-<!--------------------------------------------------------
+<!----------------------------------------------------
 -------------------- getTimestamp --------------------
---------------------------------------------------------->
+----------------------------------------------------->
 ### `getTimestamp`
 
 > Offset a timestamp and/or convert its time unit.
@@ -339,67 +339,92 @@ getTimestamp({
 })
 ```
 
-## Ref
+<!---------------------------------------------------
+-------------------- getDayStart --------------------
+---------------------------------------------------->
+### `getDayStart`
 
-<!----------------------------------------------------------
--------------------- isExtendedReactive --------------------
------------------------------------------------------------>
-### `isExtendedReactive`
-
-> Assesses whether a value is an `ExtendedReactive`.
+> Gets a start of day timestamp (00:00:00.000) of another timestamps' date in a given timezone.
 
 ```js
-function isExtendedReactive(value: any): boolean
+function getDayStart(tzo: number, timestamp: number = Date.now()): number
 ```
+
+#### Parameters
+
+- **`tzo`** — Timezone offset in minutes.
+- **`timestamp`** — Reference timestamp in milliseconds.
 
 #### Return value
 
-`true` if `value` is an `ExtendedReactive`.
+Start-of-day timestamp of the target-timezone-date with the provided timestamp.
 
-<!-----------------------------------------------------
--------------------- isExtendedRef --------------------
------------------------------------------------------->
-### `isExtendedRef`
+## Error
 
-> Assesses whether a value is an `ExtendedRef`.
+<!------------------------------------------------
+-------------------- AppError --------------------
+------------------------------------------------->
+### `AppError`
 
-```js
-function isExtendedRef(value: any): boolean
+> Class to manage custom app (front-end) errors.
+
+```ts
+class AppError {
+    type: string
+    message: string | {
+        title: string;
+        details: string;
+    }
+    code: string
+    details: object
+
+    constructor({
+        type: string,
+        log: string,
+        message: string | {
+            title: string;
+            details: string;
+        },
+        code: string = '',
+        details: object
+    })
+}
 ```
 
-#### Return value
+#### Parameters
 
-`true` if `value` is an `ExtendedRef`.
+- **`type`** — Developer defined `AppError` type.
+- **`code`** — Developer defined code. There may be different set of codes for different `type` values.
+- **`details`** — `type` specific error details.
+- **`log`** — Message to be logged in the console.
+- **`message`** — User friendly message. As an object, `message` is separated in a `title` and `details`.
 
-<!-----------------------------------------------
--------------------- isModel --------------------
------------------------------------------------->
-### `isModel`
+<!---------------------------------------------------
+-------------------- ServerError --------------------
+---------------------------------------------------->
+### `ServerError`
 
-> Assesses whether a value is a model created by [`useModel`](/composables/useModel)
+> Server specific (back-end) error.
 
-```js
-function isModel(value: any): boolean
+```ts
+class ServerError{
+    message: string
+    operation: string
+    code: string
+    causes?: (string | Error)[]
+
+    constructor (options: ServerError)
+}
 ```
 
-#### Return value
+#### Parameters
 
-`true` if `value` is a model created by `useModel`.
+- **`message`** — Human readable error description
+- **`operation`** — Name of operation where error originated.
+- **`code`** — A firebase functions' [FunctionsErrorCode](https://firebase.google.com/docs/reference/node/firebase.functions#functionserrorcode).
+- **`cause`** — Deductively ordered error causes.
 
-<!------------------------------------------------------
--------------------- isModelWrapper --------------------
-------------------------------------------------------->
-### `isModelWrapper`
-
-> Assesses whether a value is a model wrapped by [`useModel`](/composables/useModel)
-
-```js
-function isModelWrapper(value: any): boolean
-```
-
-#### Return value
-
-`true` if `value` is a model wrapped by `useModel`.
+## Reactivity
 
 <!-----------------------------------------------------
 -------------------- isWatchSource --------------------

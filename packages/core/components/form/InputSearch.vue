@@ -2,10 +2,8 @@
 import InputText from './InputText.vue'
 import { ref, computed } from 'vue'
 import { vergil } from '../../vergil'
-import { defineReactiveProperties } from '../../composables/defineReactiveProperties'
-import { extendedReactive } from '../../composables/extendedReactive'
-import { useModel } from '../../composables/useModel'
-import { isModel, ucFirst } from '../../utilities'
+import { defineReactiveProperties, extendedReactive, useModel, isModel } from '../../composables'
+import { ucFirst } from '../../utilities'
 
 const props = defineProps({
     value: {

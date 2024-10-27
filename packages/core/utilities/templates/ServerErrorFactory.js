@@ -1,4 +1,4 @@
-import { ServerError } from '@8ctavio/vergil/server'
+import { ServerError } from '@8ctavio/vergil/utilities'
 
 /** Factory to throw `ServerError`s with custom messages */
 export class ServerErrorFactory{

@@ -46,7 +46,7 @@ Unlimited `causes` can be defined for flexibility. However, defining many long `
 
 ```js
 // ServerErrorFactory.js
-import { ServerError } from '@8ctavio/vergil/server'
+import { ServerError } from '@8ctavio/vergil/utilities'
 
 /** Factory to throw `ServerError`s with custom messages */
 export class ServerErrorFactory{
@@ -154,7 +154,7 @@ When an error coming from the server (should be a `ServerError`) is caught in th
 Basic usage is shown below:
 
 ```js
-import { AppError } from '@8ctavio/vergil'
+import { AppError } from '@8ctavio/vergil/utilities'
 
 // caught error from server call
 catch(error){

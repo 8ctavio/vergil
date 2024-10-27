@@ -1,5 +1,5 @@
 import { isRef, readonly } from 'vue'
-import { isExtendedReactive, isExtendedRef } from '../utilities'
+import { isExtendedReactive, isExtendedRef } from '.'
 
 /**
  * Marks an object as a property descriptor.

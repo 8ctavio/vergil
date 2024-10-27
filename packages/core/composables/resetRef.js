@@ -1,4 +1,4 @@
-import { extendedRef } from "./extendedRef"
+import { extendedRef } from "./extendedReactivity/extendedRef"
 import { useResetValue } from "./private/useResetValue"
 
 /**

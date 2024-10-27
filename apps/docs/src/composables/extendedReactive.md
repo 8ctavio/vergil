@@ -80,3 +80,34 @@ function extendedReactive<T>(
 #### Return value
 
 An [`ExtendedReactive`](/utilities/classes#extendedreactive) object.
+
+## Utilities
+
+### Usage
+
+```js
+import { <util> } from '@8ctavio/vergil'
+```
+
+### `ExtendedRef`
+
+> Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
+
+```ts
+interface ExtendedRef<T,E> extends ExtendedReactive<E> {
+    ref: Ref<T>;
+    value: T;
+}
+```
+
+### `isExtendedRef`
+
+> Assesses whether a value is an `ExtendedRef` object.
+
+```js
+function isExtendedRef(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is an `ExtendedRef`.

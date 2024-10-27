@@ -7,7 +7,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { <re> } from '@8ctavio/vergil/regex'
+import { <re> } from '@8ctavio/vergil/utilities/regex'
 ```
 
 Some regular expressions have two versions: `re<Pattern>` and `reNot<Pattern>`:

@@ -9,9 +9,8 @@ import MiniMarkup from "../private/MiniMarkup.vue"
 import { ref, computed, watch, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'
-import { useModel } from '../../composables/useModel'
-import { waitFor } from '../../composables/waitFor'
-import { isModel, prune } from '../../utilities'
+import { useModel, waitFor, isModel } from '../../composables'
+import { prune } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })

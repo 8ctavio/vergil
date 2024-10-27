@@ -102,20 +102,7 @@ export default {
 				text: 'Utilities',
 				collapsed: true,
 				items: [
-					{
-						text: 'Classes',
-						link: '/utilities/classes/index.md',
-						items: [
-							{ text: 'Server', link: '/utilities/classes/server' },
-						]
-					},
-					{
-						text: 'Functions',
-						link: '/utilities/functions/index.md',
-						items: [
-							{ text: 'Server', link: '/utilities/functions/server' },
-						]
-					},
+					{ text: 'Functions', link: '/utilities/functions' },
 					{ text: 'Regex', link: '/utilities/regex' },
 					{ text: 'Error handling', link: '/utilities/error-handling' },
 				]
