@@ -8,6 +8,8 @@ import { watch } from 'vue'
  * @param { {
  *      fulfill: any;
  *      timeout: number;
+ *      deep: number;
+*       flush: 'pre' | 'post' | 'sync';
  * } } options -
  *  - `fulfill`: `callback` return value that stops the watcher. Defaults to `true`.
  *  - `timeout`: Duration of watcher timeout in milliseconds. If set and `callback` is not fulfilled after `timeout` milliseconds, the watcher stops.
@@ -24,23 +26,33 @@ import { watch } from 'vue'
  * })
  * ```
  */
-export function watchUntil(sources, callback, { fulfill = true, timeout } = {}){
+export function watchUntil(sources, callback, options = {}){
+    const {
+        fulfill = true,
+        timeout = 0,
+        ...watchOptions
+    } = options
+
     let stop
-    const watcher = new Promise(resolve => {
-        let immediateStop = false
-        stop = watch(sources, (newValues, oldValues) => {
-            if(callback(newValues, oldValues) === fulfill) {
-                if(stop) stop()
-                else immediateStop = true
-                resolve(newValues)
-            }
-        }, { immediate: true })
-        if(immediateStop) stop()
-    })
+    const promises = [
+        new Promise(resolve => {
+            let immediateStop = false
+            stop = watch(sources, (...args) => {
+                if(callback(...args) === fulfill) {
+                    if(stop) stop()
+                    else immediateStop = true
+                    resolve(args[0])
+                }
+            },{
+                ...watchOptions,
+                immediate: true,
+                once: false
+            })
+            if(immediateStop) stop()
+        })
+    ]
 
-    const promises = [watcher]
-
-    if(Number.isInteger(timeout)){
+    if(timeout) {
         promises.push(new Promise(resolve => {
             setTimeout(() => {
                 stop()

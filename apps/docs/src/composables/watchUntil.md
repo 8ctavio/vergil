@@ -21,23 +21,24 @@ watchUntil(src, (v, oldV) => {
 
 ## Definition
 
-```js
-function watchUntil(
+```ts
+function watchUntil<T>(
     sources: WatchSource<T>,
-    callback: ~WatchCallback,
+    callback: WatchCallback<T>,
     options: {
-        fulfill: any;
-        timeout: number;
-    } = { fulfill: true }
+        fulfill: any = true;
+        timeout: number = 0;
+        deep: number;
+        flush: 'pre' | 'post' | 'sync';
+    }
 ): Promise<T>
 ```
 
 #### Parameters
 
-- **`sources`**: See [watch](https://vuejs.org/api/reactivity-core.html#watch)
-- **`callback`**: See [watch](https://vuejs.org/api/reactivity-core.html#watch)
 - **`fulfill`**: `callback` return value that stops the watcher. Defaults to `true`.
 - **`timeout`**: Duration of watcher timeout in milliseconds. If set and `callback` is not fulfilled after `timeout` milliseconds, the watcher stops.
+- For others, see [watch](https://vuejs.org/api/reactivity-core.html#watch).
 
 #### Return value
 
