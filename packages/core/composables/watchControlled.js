@@ -42,24 +42,15 @@ import { watch, effectScope } from 'vue'
  * controller.stop()
  * ```
  */
-export function watchControlled(sources, callback, options) {
-	const meta = {
-		allChanges: 0,
-		lastChanges: 0,
-		pauseChanges: 0,
-		paused: false
-	}
+export function watchControlled(sources, callback, options = {}) {
+	let isPaused = false
+	let isDirty = options.immediate ?? false
+
 	function pause() {
-		if(!meta.paused) {
-			meta.paused = true
-			meta.lastChanges = meta.allChanges
-		}
+		if(!isPaused) isPaused = true
 	}
 	function resume() {
-		if(meta.paused) {
-			meta.pauseChanges += meta.allChanges - meta.lastChanges
-			meta.paused = false
-		}
+		if(isPaused) isPaused = false
 	}
 	function ignore(callback) {
 		pause()
@@ -69,26 +60,27 @@ export function watchControlled(sources, callback, options) {
 	
 	const scope = effectScope()
 	scope.run(() => {
-		if(options?.flush === 'sync') {
+		if(options.flush === 'sync') {
 			watch(sources, (...args) => {
-				if(!meta.paused) {
+				if(!isPaused) {
 					callback(...args)
 				}
 			}, options)
 		} else {
 			watch(sources, () => {
-				meta.allChanges++
+				if(!isPaused && !isDirty) {
+					isDirty = true
+				}
 			},{
 				flush: 'sync',
-				deep: options?.deep
+				deep: options.deep
 			})
 			watch(sources, (...args) => {
-				if(meta.allChanges === 0 || meta.allChanges !== meta.pauseChanges) {
+				if(!isPaused && isDirty) {
 					callback(...args)
 				}
-				meta.allChanges = 0
-				meta.pauseChanges = 0
-				if(options?.once) scope.stop()
+				isDirty = false
+				if(options.once) scope.stop()
 			}, options)
 		}
 	})
