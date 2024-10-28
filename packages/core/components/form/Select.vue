@@ -5,7 +5,7 @@ import Btn from '../buttons/Btn.vue'
 import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
-import MiniMarkup from "../private/MiniMarkup.vue"
+import MiniMarkup from "../private/MiniMarkup"
 import { ref, computed, watch, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
 import { vergil } from '../../vergil'

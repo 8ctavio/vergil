@@ -1,5 +1,5 @@
 <script setup>
-import MiniMarkup from './MiniMarkup.vue'
+import MiniMarkup from './MiniMarkup'
 
 defineProps({
     type: {

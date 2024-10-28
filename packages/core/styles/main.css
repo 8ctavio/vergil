@@ -1,6 +1,6 @@
 @import './colors/grey.css';
 
-:root{
+:root {
     font-size: 0.625rem; /* 10px */
     font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
@@ -8,19 +8,19 @@
         background-color: var(--c-theme-soft-2);
     }
 }
-body{
+body {
     background-color: var(--c-bg);
     margin: 0;
     padding: 0;
 }
-p, h1, h2, h3{
+p, h1, h2, h3 {
     margin: 0;
 }
 
 /*-----------------------------------------------------------------------------------------
 ---------------------------------------- VARIABLES ----------------------------------------
 -----------------------------------------------------------------------------------------*/
-:root{
+:root {
     /*---------- Font size ----------*/
     --font-size-xs: 1rem;
     --font-size-sm: 1.2rem;
@@ -75,22 +75,22 @@ p, h1, h2, h3{
 -------------------- COLORS --------------------
 ----------------------------------------------*/
 /*---------- Background ----------*/
-:root{
+:root {
     --c-bg: #FAFAFA;
     --c-bg-alt: #F3F3F3;
     --c-backdrop: #00000030;
 }
-.dark{
+.dark {
     --c-bg: #181818;
     --c-bg-alt: #121212;
 }
 /*---------- Text ----------*/
-:root{
+:root {
     --c-text-light: #FFFFFF;
     --c-text-dark: #252525;
     --c-text: var(--c-text-dark);
 }
-.dark{
+.dark {
     --c-text: var(--c-text-light);
 }
 /*---------- Disabled State ----------*/
@@ -111,29 +111,29 @@ p, h1, h2, h3{
     --c-disabled-text: #808080;
 }
 /*---------- Box Shadow ----------*/
-:root{
+:root {
     --c-box-shadow: #90909050;
 }
-.dark{
+.dark {
     --c-box-shadow: #00000070;
 }
 
 /*-----------------------------------------------
 -------------------- GLOBALS --------------------
 -----------------------------------------------*/
-.size-sm{
+.size-sm {
     --g-size: -1;
     --g-font-size: var(--font-size-sm);
 }
-.size-md{
+.size-md {
     --g-size: 0;
     --g-font-size: var(--font-size-md);
 }
-.size-lg{
+.size-lg {
     --g-size: 1;
     --g-font-size: var(--font-size-lg);
 }
-.size-xl{
+.size-xl {
     --g-size: 2;
     --g-font-size: var(--font-size-xl);
 }
@@ -148,9 +148,9 @@ p, h1, h2, h3{
     --g-gap-xl: calc(3 * var(--g-gap-md));
     --g-gap-2xl: calc(4 * var(--g-gap-md));
 
-    &.radius-sm{ --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-sm)); }
-    &.radius-md{ --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-md)); }
-    &.radius-lg{ --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-lg)); }
+    &.radius-sm { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-sm)); }
+    &.radius-md { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-md)); }
+    &.radius-lg { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-lg)); }
 }
 .radius-none{ --g-radius: var(--border-radius-none); }
 .radius-full{ --g-radius: var(--border-radius-full); }
@@ -169,4 +169,18 @@ p, h1, h2, h3{
 @keyframes move-left {
     from { transform: translateX(0); }
     to { transform: translateX(calc(-100% - 1px)); }
+}
+
+/*------------------------------------------------------------------------------------------
+---------------------------------------- COMPONENTS ----------------------------------------
+------------------------------------------------------------------------------------------*/
+/*---------- MiniMarkup ----------*/
+.inline-block {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.inline-icon {
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.175em;
 }
