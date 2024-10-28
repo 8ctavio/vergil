@@ -9,7 +9,7 @@ import { watch } from 'vue'
  *      fulfill: any;
  *      timeout: number;
  *      deep: number;
-*       flush: 'pre' | 'post' | 'sync';
+ *      flush: 'pre' | 'post' | 'sync';
  * } } options -
  *  - `fulfill`: `callback` return value that stops the watcher. Defaults to `true`.
  *  - `timeout`: Duration of watcher timeout in milliseconds. If set and `callback` is not fulfilled after `timeout` milliseconds, the watcher stops.
