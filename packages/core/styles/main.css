@@ -4,9 +4,14 @@
     font-size: 0.625rem; /* 10px */
     font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+    scrollbar-color: rgb(0 0 0 / 0.2) var(--c-bg-alt);
+
     & ::selection {
         background-color: var(--c-theme-soft-2);
     }
+}
+.dark {
+    scrollbar-color: rgb(255 255 255 / 0.2) var(--c-bg-alt);
 }
 body {
     background-color: var(--c-bg);

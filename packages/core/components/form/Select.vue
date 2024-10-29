@@ -508,8 +508,6 @@ function updateOptions(modelValue) {
 <style>
 .select {
     position: relative;
-    width: 200px;
-    /* overflow: hidden; */
 
     & > .select-button.btn {
         font-weight: 400;

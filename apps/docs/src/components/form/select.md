@@ -15,6 +15,12 @@ const demo3 = useModel('')
 const demo4 = useModel('')
 </script>
 
+<style scoped>
+.select {
+    width: 200px;
+}
+</style>
+
 ## Basic Usage
 
 ```vue
