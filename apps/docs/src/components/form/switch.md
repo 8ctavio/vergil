@@ -70,14 +70,16 @@ Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#che
 
 Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-on` is a string, `value-off` defaults to an empty string (`''`).
 
-### Even track <Badge><pre>even-track: boolean</pre></Badge>
+### Track <Badge><pre>track: ("on" | "off")</pre></Badge>
 
 ```vue
-<Switch even-track/>
+<Switch track="off"/>
+<Switch track="on"/>
 ```
 
 <Demo>
-    <Switch even-track/>
+    <Switch track="off"/>
+    <Switch track="on"/>
 </Demo>
 
 ### Labels <Badge><pre>label-on: string</pre></Badge> <Badge><pre>label-off: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
@@ -93,21 +95,21 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 ### Highlight labels <Badge><pre>highlight: boolean</pre></Badge>
 
 ```vue
-<Switch highlight even-track label-on="Yearly" label-off="Monthly"/>
+<Switch highlight track="on" label-on="Yearly" label-off="Monthly"/>
 ```
 
 <Demo>
-    <Switch highlight even-track label-on="Yearly" label-off="Monthly"/>
+    <Switch highlight track="on" label-on="Yearly" label-off="Monthly"/>
 </Demo>
 
 ### Icons <Badge><pre>icon-on: string</pre></Badge> <Badge><pre>icon-off: string</pre></Badge>
 
 ```vue
-<Switch icon-off="light_mode" icon-on="dark_mode" even-track/>
+<Switch icon-off="light_mode" icon-on="dark_mode" track="on"/>
 ```
 
 <Demo>
-    <Switch icon-off="light_mode" icon-on="dark_mode" even-track/>
+    <Switch icon-off="light_mode" icon-on="dark_mode" track="on"/>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -182,7 +184,7 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 | `checked` | `boolean` | |
 | `value-on` | `boolean \| string` | `true` |
 | `value-off` | `boolean \| string` | `false` |
-| `even-track` | `boolean` | |
+| `track` | `'on' \| 'off'` | |
 | `label-on` | `string` | |
 | `label-off` | `string` | |
 | `highlight` | `boolean` | |

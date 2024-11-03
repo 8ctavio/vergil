@@ -26,7 +26,10 @@ const props = defineProps({
     },
 
     //----- Component specific -----
-    evenTrack: Boolean,
+    track: {
+        type: String,
+        validator: v => ['on','off'].includes(v)
+    },
     labelOn: String,
     labelOff: String,
     highlight: Boolean,
@@ -72,7 +75,7 @@ const model = useModel(props.modelValue)
         :label :hint :description :help
         :size :radius :spacing
         >
-        <label :class="['switch-button', inferTheme(theme), { evenTrack }]">
+        <label :class="['switch-button', inferTheme(theme), { [`track-${track}`]: track }]">
             <input
                 v-bind="$attrs"
                 v-model="model.value"
@@ -114,7 +117,7 @@ const model = useModel(props.modelValue)
     --display-icon-off: initial;
     --display-icon-on: none;
 
-    &:has(> input:checked), &.evenTrack {
+    &:where(:not(.track-off)):has(> input:checked), &.track-on {
         --c-switch-icon: var(--c-theme-solid-1);
         & > .switch-track {
             background-color: var(--c-theme-solid-1);
@@ -143,7 +146,8 @@ const model = useModel(props.modelValue)
                 background-color: var(--c-disabled-border-3);
             }
         }
-        &.evenTrack > .switch-track {
+        &.track-on > .switch-track,
+        &:not(.track-off):has(> input:checked) > .switch-track {
             background-color: var(--c-disabled-2);
         }
     }
@@ -155,9 +159,6 @@ const model = useModel(props.modelValue)
         margin: 0;
         opacity: 0;
 
-        &:checked:disabled ~ .switch-track {
-            background-color: var(--c-disabled-2);
-        }
         &:focus-visible ~ .switch-track {
             outline: 2px solid var(--c-theme-outline);
             outline-offset: 2px;
