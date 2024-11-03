@@ -1,4 +1,5 @@
 <script setup>
+import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
@@ -25,10 +26,13 @@ const props = defineProps({
     },
 
     //----- Component specific -----
+    evenTrack: Boolean,
     labelOn: String,
     labelOff: String,
-    evenTrack: Boolean,
-    
+    highlight: Boolean,
+    iconOn: String,
+    iconOff: String,
+
     //----- FormField -----
     label: String,
     hint: String,
@@ -68,28 +72,27 @@ const model = useModel(props.modelValue)
         :label :hint :description :help
         :size :radius :spacing
         >
-        <label class="switch-button">
+        <label :class="['switch-button', inferTheme(theme), { evenTrack }]">
             <input
                 v-bind="$attrs"
                 v-model="model.value"
+                type="checkbox"
+                :class="{ highlight }"
                 :true-value="valueOn"
                 :false-value="valueOff"
                 :ref="model.refs.el"
-                type="checkbox"
                 :disabled
                 >
-            <label v-if="labelOff">
+            <label v-if="labelOff" class="switch-label-off">
                 <MiniMarkup :str="labelOff"/>
             </label>
-            <span
-                :class="[
-                    'switch-track',
-                    inferTheme(theme), 
-                    { evenTrack }
-                ]">
-                <span class="switch-knob"/>
+            <span class="switch-track">
+                <span class="switch-knob">
+                    <Icon :code="iconOff" class="switch-icon-off"/>
+                    <Icon :code="iconOn" class="switch-icon-on"/>
+                </span>
             </span>
-            <label v-if="labelOn">
+            <label v-if="labelOn" class="switch-label-on">
                 <MiniMarkup :str="labelOn"/>
             </label>
         </label>
@@ -106,9 +109,43 @@ const model = useModel(props.modelValue)
     color: var(--c-text);
     cursor: pointer;
 
-    &:has(input:disabled){
+    --c-switch-icon: var(--c-grey-solid-1);
+    --c-label-highlight: var(--c-theme-text-1);
+    --display-icon-off: initial;
+    --display-icon-on: none;
+
+    &:has(> input:checked), &.evenTrack {
+        --c-switch-icon: var(--c-theme-solid-1);
+        & > .switch-track {
+            background-color: var(--c-theme-solid-1);
+            & > .switch-knob {
+                background-color: var(--c-theme-text-4);
+            }
+        }
+    }
+    &:has(> input:checked) {
+        --display-icon-off: none;
+        --display-icon-on: initial;
+        & > .switch-track > .switch-knob {
+            left: var(--base);
+        }
+    }
+    &:has(> input:disabled){
+        --c-switch-icon: var(--c-disabled-1);
+        --c-label-highlight: var(--c-disabled-text);
+
         color: var(--c-disabled-text);
         cursor: not-allowed;
+        
+        & > .switch-track {
+            background-color: var(--c-disabled-1);
+            & > .switch-knob {
+                background-color: var(--c-disabled-border-3);
+            }
+        }
+        &.evenTrack > .switch-track {
+            background-color: var(--c-disabled-2);
+        }
     }
 
     & > input[type="checkbox"] {
@@ -118,30 +155,33 @@ const model = useModel(props.modelValue)
         margin: 0;
         opacity: 0;
 
+        &:checked:disabled ~ .switch-track {
+            background-color: var(--c-disabled-2);
+        }
         &:focus-visible ~ .switch-track {
             outline: 2px solid var(--c-theme-outline);
             outline-offset: 2px;
         }
-        &:checked ~ .switch-track {
-            background-color: var(--c-theme-solid-1);
-            & > .switch-knob {
-                left: calc(var(--base));
-                background-color: var(--c-theme-text-4);
+        &.highlight {
+            & ~ label { transition: color 150ms }
+            & ~ .switch-label-off {
+                color: var(--c-label-highlight);
             }
-        }
-        &:disabled ~ .switch-track {
-            background-color: var(--c-disabled-1);
-            & > .switch-knob {
-                background-color: var(--c-disabled-border-3);
+            & ~ .switch-label-on {
+                color: rgb(from var(--c-grey-text-1) r g b / 0.65);
             }
-        }
-        &:disabled:checked ~ .switch-track,
-        &:disabled ~ .switch-track.evenTrack {
-            background-color: var(--c-disabled-2);
+            &:checked {
+                & ~ .switch-label-off {
+                    color: rgb(from var(--c-grey-text-1) r g b / 0.65);
+                }
+                & ~ .switch-label-on {
+                    color: var(--c-label-highlight);
+                }
+            }
         }
     }
     & > .switch-track {
-        --base: 1em * var(--font-size-scale-icon) * var(--line-height-icon);
+        --base: calc(1em * var(--font-size-scale-icon) * var(--line-height-icon));
         --ratio: 0.7;
 
         box-sizing: border-box;
@@ -149,7 +189,7 @@ const model = useModel(props.modelValue)
         display: flex;
         align-items: center;
         width: calc(var(--base) * 2);
-        height: calc(var(--base));
+        height: var(--base);
         border-width: calc(var(--base) * 0.5 * (1 - var(--ratio)));
         border-style: solid;
         border-color: transparent;
@@ -160,14 +200,26 @@ const model = useModel(props.modelValue)
         & > .switch-knob {
             position: absolute;
             left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100%;
             aspect-ratio: 1 / 1;
             border-radius: inherit;
             background-color: var(--c-grey-text-4);
-            transition: left 150ms, background-color 150ms;
-        }
-        &.evenTrack {
-            background-color: var(--c-theme-solid-1);
+            transition: left 150ms, background-color 150ms; 
+
+            & > .icon {
+                font-size: calc(0.9 * var(--ratio) * var(--base));
+                color: var(--c-switch-icon);
+                transition: color 150ms;
+            }
+            & > .switch-icon-off {
+                display: var(--display-icon-off);
+            }
+            & > .switch-icon-on {
+                display: var(--display-icon-on);
+            }
         }
     }
 }

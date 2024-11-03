@@ -70,6 +70,16 @@ Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#che
 
 Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-on` is a string, `value-off` defaults to an empty string (`''`).
 
+### Even track <Badge><pre>even-track: boolean</pre></Badge>
+
+```vue
+<Switch even-track/>
+```
+
+<Demo>
+    <Switch even-track/>
+</Demo>
+
 ### Labels <Badge><pre>label-on: string</pre></Badge> <Badge><pre>label-off: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 ```vue
@@ -80,14 +90,24 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
     <Switch label-on="On" label-off="Off"/>
 </Demo>
 
-### Even track <Badge><pre>even-track: boolean</pre></Badge>
+### Highlight labels <Badge><pre>highlight: boolean</pre></Badge>
 
 ```vue
-<Switch label-on="Yearly" label-off="Monthly" even-track/>
+<Switch highlight even-track label-on="Yearly" label-off="Monthly"/>
 ```
 
 <Demo>
-    <Switch label-on="Yearly" label-off="Monthly" even-track/>
+    <Switch highlight even-track label-on="Yearly" label-off="Monthly"/>
+</Demo>
+
+### Icons <Badge><pre>icon-on: string</pre></Badge> <Badge><pre>icon-off: string</pre></Badge>
+
+```vue
+<Switch icon-off="light_mode" icon-on="dark_mode" even-track/>
+```
+
+<Demo>
+    <Switch icon-off="light_mode" icon-on="dark_mode" even-track/>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
@@ -162,9 +182,12 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 | `checked` | `boolean` | |
 | `value-on` | `boolean \| string` | `true` |
 | `value-off` | `boolean \| string` | `false` |
+| `even-track` | `boolean` | |
 | `label-on` | `string` | |
 | `label-off` | `string` | |
-| `even-track` | `boolean` | |
+| `highlight` | `boolean` | |
+| `icon-on` | `string` | |
+| `icon-off` | `string` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
@@ -199,11 +222,14 @@ The following `Switch` props' default values can be overwritten under the `switc
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="switch-button">
             <Anatomy tag='input[type="checkbox"]'/>
-            <Anatomy tag='label'/>
+            <Anatomy tag='label' classes="switch-label-off"/>
             <Anatomy tag="span" classes="switch-track">
-                <Anatomy tag="span" classes="switch-knob"/>
+                <Anatomy tag="span" classes="switch-knob">
+                    <Anatomy tag='Icon' classes="icon switch-icon-off"/>
+                    <Anatomy tag='Icon' classes="icon switch-icon-on"/>
+                </Anatomy>
             </Anatomy>
-            <Anatomy tag='label'/>
+            <Anatomy tag='label' classes="switch-label-on"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>
