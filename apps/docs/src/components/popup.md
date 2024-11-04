@@ -63,7 +63,7 @@ Create popup components inside a `components/popups` directory.
 
 ### Show Popup
 
-A popup component can be displayed programmatically with the `showPopup` function. It receives the popup component instance imported from a SFC.
+A popup component can be displayed programmatically with the `showPopup` function. It receives the popup component instance.
 
 ```js
 import PopupComponent from '@/components/popups/PopupComponent.vue'
@@ -101,16 +101,6 @@ defineProps({
 defineEmits([/* Define events to be handled by the API */])
 </script>
 ```
-
-:::tip
-An `isLeaving` prop is always sent to a popup component. It may be used to disable components during the popup closing animation.
-
-```js
-defineProps({
-    isLeaving: Boolean
-})
-```
-:::
 
 The keys of the object sent through `showPopup` should be
 - for props: the prop key as defined in the `defineProps` directive.
@@ -196,7 +186,7 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
 </template>
 
 <style scoped>
-.popup-content{
+.popup-content {
     /* define content layout, padding, background color, etc. */
 }
 </style>
@@ -311,10 +301,10 @@ const emit = defineEmits(['close', 'error'])
 </template>
 
 <style scoped>
-.popup{
+.popup {
     width: clamp(250px, 30%, 800px);
 }
-.popup-content{
+.popup-content {
     width: 100%;
     padding: 25px;
     display: flex, grid;
@@ -323,10 +313,10 @@ const emit = defineEmits(['close', 'error'])
 ```
 
 <style scoped>
-.popup{
+.popup {
     width: clamp(250px, 25%, 700px);
 }
-.popup-content{
+.popup-content {
     display: flex;
     justify-content: center;
     align-items: center;

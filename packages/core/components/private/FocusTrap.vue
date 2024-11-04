@@ -107,7 +107,7 @@ function focusFirst() {
 }
 let focusedBeforeBlur = null
 async function handleFocusOut(event) {
-    if(event.relatedTarget === null) {
+    if(root.value && event.relatedTarget === null) {
         await nextTick()
         if(isTabbable(event.target)) {
             focusedBeforeBlur = event.target
@@ -150,7 +150,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div ref="root" tabindex="0" @keydown="handleKeyDown" @focusout="handleFocusOut">
+    <div ref="root" tabindex="-1" @keydown="handleKeyDown" @focusout="handleFocusOut">
         <slot/>
     </div>
 </template>

@@ -2,7 +2,7 @@
 import Btn from '../buttons/Btn.vue'
 import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
-import { closePopup, popupLeaving } from '.'
+import { closePopup, popupIsLeaving } from '.'
 import { inferTheme, isValidTheme } from '../../utilities/private'
 
 const { disabled } = defineProps({
@@ -22,7 +22,7 @@ function handleKeyDown(e) {
 </script>
 
 <template>
-    <FocusTrap :class="['popup', inferTheme(theme)]" @keydown="handleKeyDown">
+    <FocusTrap :class="['popup', inferTheme(theme)]" @keydown="handleKeyDown" :inert="popupIsLeaving">
         <div class="popup-wrapper">
             <slot/>
         </div>
@@ -36,14 +36,12 @@ function handleKeyDown(e) {
             </div>
             <h1>{{ title }}</h1>
         </header>
-        <span v-show="popupLeaving" class="popup-overlay"/>
     </FocusTrap>
 </template>
 
 <style scoped>
 .popup {
 	font-size: var(--font-size-md);
-    position: relative;
     display: flex;
     flex-direction: column;
     max-height: 95vh;
@@ -84,11 +82,6 @@ function handleKeyDown(e) {
             border-bottom-left-radius: var(--border-radius-lg);
             border-bottom-right-radius: var(--border-radius-lg);
         }
-    }
-    & > .popup-overlay {
-        position: absolute;
-        inset: 0;
-        background-color: transparent;
     }
 }
 .dark .popup {

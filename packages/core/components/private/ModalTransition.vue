@@ -1,21 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 
-const modalAnimation = ref(false)
+const isLeaving = ref(false)
 
-defineProps({ show: Boolean })
-defineExpose({ modalAnimation })
 defineOptions({ inheritAttrs: false })
+defineProps({ show: Boolean })
+defineExpose({ isLeaving })
 </script>
 
 <template>
 	<Transition v-show="show" name="modal-backdrop" appear :duration="500">
 		<div class="modal-backdrop" v-bind="$attrs">
 			<Transition v-show="show" name="modal-window" appear mode="out-in"
-				@before-enter="modalAnimation = true"
-				@after-enter="modalAnimation = false"
-				@before-leave="modalAnimation = true"
-				@after-leave="modalAnimation = false"
+				@before-leave="isLeaving = true"
+				@after-leave="isLeaving = false"
 				>
 				<slot/>
 			</Transition>
