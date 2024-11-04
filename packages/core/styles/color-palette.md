@@ -36,10 +36,5 @@
     --c-name-3: #;
     /* used for ToggleButton 'toggle' variant's background */
     --c-name-4: #;
-
-    /* rgb values of --c-name-solid-1 */
-    --rgb-name-solid: #;
-    /* rgb values of --c-name-soft-2 */
-    --rgb-name-soft: #;
 }
 ```

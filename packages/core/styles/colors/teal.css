@@ -14,8 +14,8 @@
     --c-teal-text-4: white;
 
     --rgb-teal-border: 0 76 77;
-    --c-teal-border-subtle: rgba(var(--rgb-teal-border) / 0.15);
-    --c-teal-border-regular: rgba(var(--rgb-teal-border) / 0.37);
+    --c-teal-border-subtle: rgb(var(--rgb-teal-border) / 0.15);
+    --c-teal-border-regular: rgb(var(--rgb-teal-border) / 0.37);
 
     --c-teal-outline: #94DADB;
 
@@ -23,9 +23,6 @@
     --c-teal-2: #9FDEDF;
     --c-teal-3: var(--c-teal-solid-3);
     --c-teal-4: var(--c-teal-soft-2);
-
-    --rgb-teal-solid: 0 120 119;
-    --rgb-teal-soft: 217 242 242;
 }
 .dark {
     --c-teal-1: #005757;
@@ -42,15 +39,12 @@
     --c-teal-text-3: #D9F2F2;
 
     --rgb-teal-border: 204 255 255;
-    --c-teal-border-subtle: rgba(var(--rgb-teal-border) / 0.17);
-    --c-teal-border-regular: rgba(var(--rgb-teal-border) / 0.32);
+    --c-teal-border-subtle: rgb(var(--rgb-teal-border) / 0.17);
+    --c-teal-border-regular: rgb(var(--rgb-teal-border) / 0.32);
 
     --c-teal-outline: #007A7A;
 
     --c-teal-1: #009494;
     --c-teal-2: var(--c-teal-soft-4);
     --c-teal-3: var(--c-teal-soft-3);
- 
-    --rgb-teal-solid: 0 87 87;
-    --rgb-teal-soft: 0 51 51;
 }

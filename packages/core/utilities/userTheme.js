@@ -21,8 +21,6 @@ const cssVars = [
     '--c-user-2',
     '--c-user-3',
     '--c-user-4',
-    '--rgb-user-solid',
-    '--rgb-user-soft',
 ]
 
 const userThemeColor = ref('')

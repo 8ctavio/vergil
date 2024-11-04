@@ -14,8 +14,8 @@
     --c-dartmouth-text-4: white;
 
     --rgb-dartmouth-border: 21 106 69;
-    --c-dartmouth-border-subtle: rgba(var(--rgb-dartmouth-border) / 0.20);
-    --c-dartmouth-border-regular: rgba(var(--rgb-dartmouth-border) / 0.45);
+    --c-dartmouth-border-subtle: rgb(var(--rgb-dartmouth-border) / 0.20);
+    --c-dartmouth-border-regular: rgb(var(--rgb-dartmouth-border) / 0.45);
 
     --c-dartmouth-outline: #9FCCA4;
 
@@ -23,9 +23,6 @@
     --c-dartmouth-2: #84C889;
     --c-dartmouth-3: #105034;
     --c-dartmouth-4: var(--c-dartmouth-soft-2);
-
-    --rgb-dartmouth-solid: 23 122 78;
-    --rgb-dartmouth-soft: 221 243 224;
 }
 .dark{
     --c-dartmouth-solid-1: #135E3C;
@@ -41,15 +38,12 @@
     --c-dartmouth-text-2: #C7EACB;
 
     --rgb-dartmouth-border: 124 233 184;
-    --c-dartmouth-border-subtle: rgba(var(--rgb-dartmouth-border) / 0.18);
-    --c-dartmouth-border-regular: rgba(var(--rgb-dartmouth-border) / 0.32);
+    --c-dartmouth-border-subtle: rgb(var(--rgb-dartmouth-border) / 0.18);
+    --c-dartmouth-border-regular: rgb(var(--rgb-dartmouth-border) / 0.32);
 
     --c-dartmouth-outline: #366B57;
 
     --c-dartmouth-1: #1C9B62;
     --c-dartmouth-2: var(--c-dartmouth-soft-4);
     --c-dartmouth-3: var(--c-dartmouth-soft-3);
-
-    --rgb-dartmouth-solid: 19 94 60;
-    --rgb-dartmouth-soft: 9 52 33;
 }

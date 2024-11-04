@@ -14,8 +14,8 @@
     --c-wine-text-4: white;
 
     --rgb-wine-border: 92 36 62;
-    --c-wine-border-subtle: rgba(var(--rgb-wine-border) / 0.15);
-    --c-wine-border-regular: rgba(var(--rgb-wine-border) / 0.32);
+    --c-wine-border-subtle: rgb(var(--rgb-wine-border) / 0.15);
+    --c-wine-border-regular: rgb(var(--rgb-wine-border) / 0.32);
 
     --c-wine-outline: #D59AB7;
 
@@ -23,9 +23,6 @@
     --c-wine-2: #D59AB7;
     --c-wine-3: var(--c-wine-solid-3);
     --c-wine-4: var(--c-wine-soft-2);
-
-    --rgb-wine-solid: 155 60 105;
-    --rgb-wine-soft: 240 219 229;
 }
 .dark {
     --c-wine-solid-1: #711246;
@@ -42,15 +39,12 @@
     --c-wine-text-3: #E8C9D8;
 
     --rgb-wine-border: 252 233 243;
-    --c-wine-border-subtle: rgba(var(--rgb-wine-border) / 0.15);
-    --c-wine-border-regular: rgba(var(--rgb-wine-border) / 0.30);
+    --c-wine-border-subtle: rgb(var(--rgb-wine-border) / 0.15);
+    --c-wine-border-regular: rgb(var(--rgb-wine-border) / 0.30);
 
     --c-wine-outline: #831650;
 
     --c-wine-1: #96175D;
     --c-wine-2: var(--c-wine-soft-4);
     --c-wine-3: var(--c-wine-soft-3);
- 
-    --rgb-wine-solid: 113 18 70;
-    --rgb-wine-soft: 62 10 38;
 }

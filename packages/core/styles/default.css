@@ -35,9 +35,6 @@
     --c-theme-2: var(--c-moss-2);
     --c-theme-3: var(--c-moss-3);
     --c-theme-4: var(--c-moss-4);
-
-    --rgb-theme-solid: var(--rgb-moss-solid);
-    --rgb-theme-soft: var(--rgb-moss-soft);
 }
 
 /*-------- USER --------*/
@@ -65,9 +62,6 @@
     --c-theme-2: var(--c-user-2);
     --c-theme-3: var(--c-user-3);
     --c-theme-4: var(--c-user-4);
-
-    --rgb-theme-solid: var(--rgb-user-solid);
-    --rgb-theme-soft: var(--rgb-user-soft);
 }
 
 /*-------- NEUTRAL --------*/
@@ -95,9 +89,6 @@
     --c-theme-2: var(--c-grey-2);
     --c-theme-3: var(--c-grey-3);
     --c-theme-4: var(--c-grey-4);
-
-    --rgb-theme-solid: var(--rgb-grey-solid);
-    --rgb-theme-soft: var(--rgb-grey-soft);
 }
 
 /*-------- OK --------*/
@@ -125,9 +116,6 @@
     --c-theme-2: var(--c-dartmouth-2);
     --c-theme-3: var(--c-dartmouth-3);
     --c-theme-4: var(--c-dartmouth-4);
-
-    --rgb-theme-solid: var(--rgb-dartmouth-solid);
-    --rgb-theme-soft: var(--rgb-dartmouth-soft);
 }
 
 /*-------- INFO --------*/
@@ -155,9 +143,6 @@
     --c-theme-2: var(--c-cobalt-2);
     --c-theme-3: var(--c-cobalt-3);
     --c-theme-4: var(--c-cobalt-4);
-
-    --rgb-theme-solid: var(--rgb-cobalt-solid);
-    --rgb-theme-soft: var(--rgb-cobalt-soft);
 }
 
 /*-------- WARN --------*/
@@ -185,9 +170,6 @@
     --c-theme-2: var(--c-yellow-2);
     --c-theme-3: var(--c-yellow-3);
     --c-theme-4: var(--c-yellow-4);
-
-    --rgb-theme-solid: var(--rgb-yellow-solid);
-    --rgb-theme-soft: var(--rgb-yellow-soft);
 }
 
 /*-------- DANGER --------*/
@@ -215,7 +197,4 @@
     --c-theme-2: var(--c-red-2);
     --c-theme-3: var(--c-red-3);
     --c-theme-4: var(--c-red-4);
-
-    --rgb-theme-solid: var(--rgb-red-solid);
-    --rgb-theme-soft: var(--rgb-red-soft);
 }

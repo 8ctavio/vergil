@@ -14,8 +14,8 @@
     --c-moss-text-4: white;
 
     --rgb-moss-border: 69 94 59;
-    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.17);
-    --c-moss-border-regular: rgba(var(--rgb-moss-border) / 0.45);
+    --c-moss-border-subtle: rgb(var(--rgb-moss-border) / 0.17);
+    --c-moss-border-regular: rgb(var(--rgb-moss-border) / 0.45);
 
     --c-moss-outline: #98B38F;
 
@@ -23,9 +23,6 @@
     --c-moss-2: #8FAD85;
     --c-moss-3: var(--c-moss-solid-3);
     --c-moss-4: var(--c-moss-soft-3);
-
-    --rgb-moss-solid: 88 120 72;
-    --rgb-moss-soft: 227 236 223;
 }
 .dark {
     --c-moss-solid-1: #425936;
@@ -41,8 +38,8 @@
     --c-moss-text-2: #B9CEB1;
 
     --rgb-moss-border: 171 198 159;
-    --c-moss-border-subtle: rgba(var(--rgb-moss-border) / 0.20);
-    --c-moss-border-regular: rgba(var(--rgb-moss-border) / 0.35);
+    --c-moss-border-subtle: rgb(var(--rgb-moss-border) / 0.20);
+    --c-moss-border-regular: rgb(var(--rgb-moss-border) / 0.35);
 
     --c-moss-outline: #48613C;
 
@@ -50,7 +47,4 @@
     --c-moss-2: var(--c-moss-soft-4);
     --c-moss-3: var(--c-moss-soft-3);
     --c-moss-4: var(--c-moss-soft-2);
-
-    --rgb-moss-solid: 66 89 54;
-    --rgb-moss-soft: 32 45 27;
 }
