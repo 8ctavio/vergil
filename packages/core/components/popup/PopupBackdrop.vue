@@ -1,10 +1,10 @@
 <script setup>
 import ModalTransition from '../private/ModalTransition.vue'
-import { popup, closePopup, popupIsLeaving } from '.'
+import { popup, popupMeta, closePopup } from '.'
 
-function onExpose(exposed){
-	if(!exposed.isLeaving){
-		popupIsLeaving.value = false
+function onExpose(exposed) {
+	if(!exposed.isLeaving) {
+		popupMeta.isLeaving = false
 	}
 }
 </script>

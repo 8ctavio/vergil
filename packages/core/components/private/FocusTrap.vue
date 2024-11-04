@@ -2,11 +2,12 @@
 import { toValue, useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
 import { FocusTrap } from '../../utilities/private'
 
-const { autofocus } = defineProps({
+const { autofocus, focusOnUnmount } = defineProps({
     autofocus: {
         type: [Boolean, Object],
         default: true
-    }
+    },
+    focusOnUnmount: Object
 })
 
 const root = useTemplateRef('root')
@@ -14,8 +15,10 @@ const focusTrap = new FocusTrap()
 
 function focus(target) {
     const element = toValue(target)
-    element.focus({ preventScroll: true })
-    element.select?.()
+    if(element) {
+        element.focus({ preventScroll: true })
+        element.select?.()
+    }
 }
 
 function isInert(node) {
@@ -84,7 +87,7 @@ function handleKeyDown(event) {
         if(focusedElement === root) {
             if(event.shiftKey) {
                 event.preventDefault()
-                if(last) focus(last)
+                focus(last)
             } else if(!first) {
                 event.preventDefault()
             }
@@ -107,7 +110,7 @@ function focusFirst() {
 }
 let focusedBeforeBlur = null
 async function handleFocusOut(event) {
-    if(root.value && event.relatedTarget === null) {
+    if(event.relatedTarget === null) {
         await nextTick()
         if(isTabbable(event.target)) {
             focusedBeforeBlur = event.target
@@ -144,7 +147,7 @@ onMounted(async () => {
 })
 onUnmounted(() => {
     document.removeEventListener('focusin', handleFocusIn)
-    if(focusedBeforeTrap) focus(focusedBeforeTrap)
+    focus(focusOnUnmount ?? focusedBeforeTrap)
     focusTrap.deactivate()
 })
 </script>

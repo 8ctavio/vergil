@@ -1,14 +1,17 @@
-import { ref, shallowRef, markRaw, nextTick } from 'vue'
+import { shallowRef, shallowReactive, markRaw, nextTick } from 'vue'
 
-const popupIsLeaving = ref(false)
 const popup = shallowRef({
     component: null,
     props: {}
 })
+const popupMeta = shallowReactive({
+    isLeaving: false,
+    focusedBefore: null
+})
 
 async function showPopup(component, props){
     if(popup.value.component){
-        popupIsLeaving.value = true
+        popupMeta.isLeaving = true
         await nextTick()
     }
     popup.value = {
@@ -18,18 +21,19 @@ async function showPopup(component, props){
 }
 async function closePopup(closeBtn = false){
     const onClose = popup.value.props?.onClose
-    popupIsLeaving.value = true
+    popupMeta.isLeaving = true
     await nextTick()
+    popupMeta.focusedBefore = null
     popup.value = {
         component: null,
-        props: {}
+        props: null
     }
     if(closeBtn) onClose?.()
 }
 
 export {
     popup,
+    popupMeta,
     showPopup,
     closePopup,
-    popupIsLeaving
 }

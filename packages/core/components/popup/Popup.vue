@@ -2,7 +2,8 @@
 import Btn from '../buttons/Btn.vue'
 import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
-import { closePopup, popupIsLeaving } from '.'
+import { onMounted } from 'vue'
+import { popupMeta, closePopup } from '.'
 import { inferTheme, isValidTheme } from '../../utilities/private'
 
 const { disabled } = defineProps({
@@ -19,10 +20,18 @@ function handleKeyDown(e) {
 	if(e.key === 'Escape' && !(e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) && !disabled)
         closePopup(true)
 }
+
+onMounted(() => {
+    popupMeta.focusedBefore ??= document.activeElement
+})
 </script>
 
 <template>
-    <FocusTrap :class="['popup', inferTheme(theme)]" @keydown="handleKeyDown" :inert="popupIsLeaving">
+    <FocusTrap
+        :class="['popup', inferTheme(theme)]"
+        :inert="popupMeta.isLeaving"
+        :focus-on-unmount="popupMeta.focusedBefore"
+        @keydown="handleKeyDown">
         <div class="popup-wrapper">
             <slot/>
         </div>
