@@ -4,7 +4,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineEmits(['update:modelValue'])
@@ -75,7 +75,7 @@ const model = useModel(props.modelValue)
         :label :hint :description :help
         :size :radius :spacing
         >
-        <label :class="['switch-button', inferTheme(theme), { [`track-${track}`]: track }]">
+        <label :class="['switch-button', inferTheme(theme), { [`track-${track}`]: track }]" v-prevent-click-selection>
             <input
                 v-bind="$attrs"
                 v-model="model.value"

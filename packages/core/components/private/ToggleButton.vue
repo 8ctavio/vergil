@@ -1,5 +1,6 @@
 <script setup>
 import MiniMarkup from './MiniMarkup'
+import { vPreventClickSelection } from '../../utilities/private';
 
 defineProps({
     type: {
@@ -13,14 +14,10 @@ defineProps({
     radius: String,
     size: String,
 })
-
-function preventClickSelection(e) {
-    if(e.detail > 1) e.preventDefault()
-}
 </script>
 
 <template>
-    <label :class="[type, variant]" @mousedown="preventClickSelection">
+    <label :class="[type, variant]" v-prevent-click-selection>
         <slot name="input"/>
         <span v-if="variant === 'classic' || showSymbol"
             :class="['toggle-button', {
