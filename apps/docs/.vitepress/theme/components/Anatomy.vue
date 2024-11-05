@@ -25,16 +25,16 @@ defineProps({
 .anatomy {
     font-size: 1.2rem;
     border-radius: 4px;
-    background-color: rgb(var(--rgb-theme-solid) / 0.05);
-    border: 1px dashed rgb(var(--rgb-theme-solid) / 0.5);
+    background-color: rgb(from var(--c-theme-solid-1) r g b / 0.05);
+    border: 1px dashed rgb(from var(--c-theme-solid-1) r g b / 0.5);
     color: var(--c-text);
     font-family: var(--font-mono);
     letter-spacing: 0.5px;
     cursor: default;
 
     &:hover {
-        background-color: rgb(var(--rgb-theme-solid) / 0.08);
-        border-color: rgb(var(--rgb-theme-solid) / 1);
+        background-color: rgb(from var(--c-theme-solid-1) r g b / 0.08);
+        border-color: var(--c-theme-solid-1);
     }
     & > section {
         display: flex;
@@ -59,7 +59,7 @@ defineProps({
             padding: 2px 8px;
             border-radius: 4px;
             border: 1px solid var(--c-theme-solid-1);
-            background-color: rgb(var(--rgb-theme-soft) / 0.9);
+            background-color: rgb(from var(--c-theme-soft-2) r g b / 0.9);
         }
     }
     &:not(.parent) > p{

@@ -564,7 +564,7 @@ The following `Select` props' default values can be overwritten under the `selec
             </Anatomy>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
-        <Anatomy tag="div" classes="floating">
+        <Anatomy tag="div" classes="popover-floating">
             <Anatomy tag="div" classes="select-dropdown">
                 <Anatomy tag='Input' classes="input-text"/>
                 <Anatomy tag='p' classes="select-not-found"/>

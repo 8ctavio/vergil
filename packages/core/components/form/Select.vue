@@ -6,10 +6,9 @@ import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { ref, computed, watch, watchEffect, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useFloating, offset, flip, autoUpdate } from '@floating-ui/vue'
+import { ref, computed, watch, watchEffect, useTemplateRef, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, waitFor, isModel } from '../../composables'
+import { useModel, usePopover, waitFor, isModel } from '../../composables'
 import { prune } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -96,76 +95,31 @@ const floatLabelEnabled = computed(() => {
 
 const filterModel = useModel('')
 
-//-------------------- HANDLE POPOVER --------------------
-const focusWithin = ref(false)
-const clickWithin = ref(false)
-const showFloating = ref(false)
-const isClosed = ref(false)
-const reference = useTemplateRef('reference')
-const floating = useTemplateRef('floating')
+//-------------------- POPOVER --------------------
 const {
-    floatingStyles,
-    update: updatePosition,
+    Popover,
+    isOpen,
     isPositioned,
-} = useFloating(reference, floating, {
+    openPopover,
+    closePopover,
+    togglePopover,
+} = usePopover({
     placement: 'bottom-start',
-    middleware: [offset(4), flip()],
-    open: showFloating
+    offset: 4,
+    flip: true,
+    resize: () => props.filter || props.chips
 })
-
-let stopAutoUpdate
-function handleDocumentClick() {
-    if(!clickWithin.value) {
-        closePopover()
-    }
-    clickWithin.value = false
-}
-function handleDocumentFocusIn() {
-    if(!focusWithin.value) {
-        closePopover()
-    }
-}
-
-function showPopover() {
-    if(!showFloating.value) {
-        showFloating.value = true
-        isClosed.value = false
-        updatePosition()
-        stopAutoUpdate = autoUpdate(reference.value.$el, floating.value, updatePosition, {
-            elementResize: props.filter || props.chips
-        })
-        document.addEventListener('click', handleDocumentClick)
-        document.addEventListener('focusin', handleDocumentFocusIn)
-        if(props.filter) {
-            nextTick(() => {
-                filterModel.el.focus()
-                filterModel.el.select()
-            })
-        }
-        return true
-    }
-    return false
-}
-function closePopover() {
-    stopAutoUpdate?.()
-    stopAutoUpdate = undefined
-    showFloating.value = false
-    document.removeEventListener('click', handleDocumentClick)
-    document.removeEventListener('focusin', handleDocumentFocusIn)
-    if(focusWithin.value) {
-        reference.value?.$el.focus({ preventScroll: true })
-    }
+watch(isOpen, () => {
     if(props.filter) {
-        waitFor(isClosed).toBe(true).then(() => {
+        if(isOpen.value) {
+            filterModel.el.focus()
+            filterModel.el.select()
+        } else {
             filterModel.value = ''
             handleFilterInput()
-        })
+        }
     }
-}
-function togglePopover() {
-    if(!showPopover()) closePopover()
-}
-
+}, { flush: 'post' })
 onMounted(() => {
     watchEffect(() => {
         if(props.disabled) {
@@ -173,11 +127,14 @@ onMounted(() => {
         }
     })
 })
-onBeforeUnmount(() => {
-    if(showFloating.value) {
-        closePopover()
-    }
-})
+
+//-------------------- SELECT BUTTON --------------------
+function handleBtnClick(event) {
+    if('value' in event.target.dataset && isMultiSelect.value) {
+        const idx = model.value.indexOf(event.target.dataset.value)
+        if(idx > -1) model.value.splice(idx,1)
+    } else togglePopover()
+}
 
 //-------------------- KEYBOARD NAVIGATION --------------------
 const search = {
@@ -191,7 +148,7 @@ async function handleSelectKeydown(event) {
         closePopover()
     } else if(['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
-        if(showPopover()) {
+        if(openPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
 
@@ -246,14 +203,14 @@ async function handleSelectKeydown(event) {
                 || ['Backspace','ArrowLeft','ArrowRight','Delete','Clear'].includes(event.key)
             )
         ) {
-            if(showPopover()) {
+            if(openPopover()) {
                 await waitFor(isPositioned).toBe(true)
             }
             filterModel.el.selectionStart = filterModel.value.length
             filterModel.el.focus()
         }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(showPopover()) {
+        if(openPopover()) {
             await waitFor(isPositioned).toBe(true)
         }
         const key = prune(event.key)
@@ -313,15 +270,6 @@ async function handleSelectKeydown(event) {
             }
         }
     }
-}
-
-//-------------------- SELECT BUTTON --------------------
-function handleBtnClick(event) {
-    clickWithin.value = true
-    if('value' in event.target.dataset && isMultiSelect.value) {
-        const idx = model.value.indexOf(event.target.dataset.value)
-        if(idx > -1) model.value.splice(idx,1)
-    } else togglePopover()
 }
 
 //-------------------- FILTER OPTIONS --------------------
@@ -425,21 +373,23 @@ function updateOptions(modelValue) {
         :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
         @keydown="handleSelectKeydown"
-        @focusin="focusWithin = true"
-        @focusout="focusWithin = false"
         >
-        <Btn ref="reference"
+        <Popover.Reference :is="Btn"
+            v-bind="$attrs"
             :class="[
                 'select-button',
                 { selected: isSelected }
             ]"
-            v-bind="$attrs"
-            ghost="translucent" outline="subtle"
-            :underline :fill
-            :theme :size :radius :spacing :squared="false"
+            ghost="translucent"
+            outline="subtle"
             icon-right="keyboard_arrow_down"
+            :fill
+            :underline
             :disabled
-            @click="handleBtnClick">
+            :squared="false"
+            :theme :size :radius :spacing
+            @click="handleBtnClick"
+            >
             <div v-if="chips && isMultiSelect && isSelected" class="chips">
                 <Badge v-for="input in selected" :key="input.value"
                     variant="subtle"
@@ -461,47 +411,39 @@ function updateOptions(modelValue) {
                     <MiniMarkup :str="label"/>
                 </label>
             </template>
-        </Btn>
+        </Popover.Reference>
         <template #aside>
-            <div ref="floating"
-                class="floating"
-                :style="floatingStyles"
-                @click="clickWithin = true"
-                >
-                <Transition v-show="showFloating" @after-leave="isClosed = true">
-                    <div class="select-dropdown">
-                        <InputText v-if="filter" 
-                            v-bind="filterInput"
-                            v-model="filterModel"
-                            :placeholder="filterInput?.placeholder ?? vergil.config.select.placeholderFilter"
-                            :icon="filterInput?.icon ?? 'search'"
-                            @input="handleFilterInput"
-                        />
-                        <p v-if="empty" class="select-not-found">
-                            <MiniMarkup :str="placeholderNotFound(filterModel.value)"/>
-                        </p>
-                        <CheckboxGroup v-show="!empty"
-                            ref="select-options"
-                            :modelValue="model"
-                            :options
-                            :optionValue
-                            :optionLabel
-                            :optionDescription
-                            :disabled
-                            :theme :spacing
-                            :show-symbol="isMultiSelect"
-                            variant="list"
-                            tabindex="-1"
-                            :options-attributes="(key,value,label,description) => ({
-                                tabindex: '-1',
-                                'data-label': label,
-                                'data-pruned-label': prune(label)
-                            })"
-                        />
-                    </div>
-                </Transition>
-            </div>
-    </template>
+            <Popover.Floating is="div" class="select-dropdown">
+                <InputText v-if="filter" 
+                    v-bind="filterInput"
+                    v-model="filterModel"
+                    :placeholder="filterInput?.placeholder ?? vergil.config.select.placeholderFilter"
+                    :icon="filterInput?.icon ?? 'search'"
+                    @input="handleFilterInput"
+                />
+                <p v-if="empty" class="select-not-found">
+                    <MiniMarkup :str="placeholderNotFound(filterModel.value)"/>
+                </p>
+                <CheckboxGroup v-show="!empty"
+                    ref="select-options"
+                    :modelValue="model"
+                    :options
+                    :optionValue
+                    :optionLabel
+                    :optionDescription
+                    :disabled
+                    :theme :spacing
+                    :show-symbol="isMultiSelect"
+                    variant="list"
+                    tabindex="-1"
+                    :options-attributes="(key,value,label,description) => ({
+                        tabindex: '-1',
+                        'data-label': label,
+                        'data-pruned-label': prune(label)
+                    })"
+                />
+            </Popover.Floating>
+        </template>
     </FormField>
 </template>
 
@@ -599,77 +541,60 @@ function updateOptions(modelValue) {
             transition: transform 150ms 50ms, padding 150ms, font-size 150ms 50ms;
         }
     }
-    & > .floating {
+    & > .popover-floating > .select-dropdown {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: var(--g-gap-xs);
         width: 100%;
-        z-index: var(--z-index-popover);
+        border-radius: var(--g-radius);
+        border: 1px solid var(--c-grey-border-subtle);
+        background-color: var(--c-bg);
+        box-shadow: 2px 2px 3px var(--c-box-shadow);
 
-        & > .select-dropdown {
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            gap: var(--g-gap-xs);
-            width: 100%;
-            border-radius: var(--g-radius);
-            border: 1px solid var(--c-grey-border-subtle);
-            background-color: var(--c-bg);
-            box-shadow: 2px 2px 3px var(--c-box-shadow);
-
-            &.v-enter-active {
-                transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
-            }
-            &.v-leave-active {
-                transition: opacity 100ms var(--bezier-sine-in), transform 100ms var(--bezier-sine-in);
-            }
-            &:is(.v-enter-from, .v-leave-to){
-                opacity: 0;
-                transform: translateY(4px);
-                /* transform: scale(0.95); */
-            }
-
-            & > .input-text {
-                margin: var(--g-gap-md) var(--g-gap-sm);
-                margin-bottom: 0;
-                & > .input-text-outer > .input-text-wrapper {
-                    padding: var(--g-gap-sm) var(--g-gap-md);
-                    & > input {
-                        padding: 0;
-                    }
+        & > .input-text {
+            margin: var(--g-gap-md) var(--g-gap-sm);
+            margin-bottom: 0;
+            & > .input-text-outer > .input-text-wrapper {
+                padding: var(--g-gap-sm) var(--g-gap-md);
+                & > input {
+                    padding: 0;
                 }
             }
-            & > .select-not-found {
-                padding: var(--g-gap-md) var(--g-gap-lg);
-                text-align: center;
-                line-height: 1.5;
-                color: var(--c-grey-text-2);
-                & > .inline-block {
-                    max-width: 100%;
-                    overflow-x: hidden;
-                    text-wrap: nowrap;
-                    text-overflow: ellipsis;
-                }
+        }
+        & > .select-not-found {
+            padding: var(--g-gap-md) var(--g-gap-lg);
+            text-align: center;
+            line-height: 1.5;
+            color: var(--c-grey-text-2);
+            & > .inline-block {
+                max-width: 100%;
+                overflow-x: hidden;
+                text-wrap: nowrap;
+                text-overflow: ellipsis;
             }
-            & > .checkbox-group > .toggle-group-wrapper {
-                --select-max-options: 7;
-                height: max-content;
-                max-height: calc(
-                    ((var(--select-max-options) - 1) * var(--g-gap-xs))
-                    + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
-                    + (var(--select-max-options) * var(--line-height-text) * 1em)
-                );
-                overflow-y: auto;
-                cursor: pointer;
+        }
+        & > .checkbox-group > .toggle-group-wrapper {
+            --select-max-options: 7;
+            height: max-content;
+            max-height: calc(
+                ((var(--select-max-options) - 1) * var(--g-gap-xs))
+                + ((var(--select-max-options) + 1) * var(--g-gap-sm) * 2)
+                + (var(--select-max-options) * var(--line-height-text) * 1em)
+            );
+            overflow-y: auto;
+            cursor: pointer;
 
-                &:focus-visible {
-                    outline: none;
+            &:focus-visible {
+                outline: none;
+            }
+            & > .checkbox {
+                padding: var(--g-gap-sm) var(--g-gap-lg);
+                &[hidden] {
+                    display: none;
                 }
-                & > .checkbox {
-                    padding: var(--g-gap-sm) var(--g-gap-lg);
-                    &[hidden] {
-                        display: none;
-                    }
-                    & > p::selection{
-                        background-color: transparent;
-                    }
+                & > p::selection{
+                    background-color: transparent;
                 }
             }
         }
