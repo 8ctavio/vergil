@@ -189,3 +189,22 @@ p, h1, h2, h3 {
     line-height: 0;
     vertical-align: -0.175em;
 }
+
+/*---------- Popover ----------*/
+.popover-floating {
+    width: 100%;
+    z-index: var(--z-index-popover);
+
+    & > :first-child {
+        &.popover-enter-active {
+            transition: opacity 75ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
+        }
+        &.popover-leave-active {
+            transition: opacity 75ms var(--bezier-sine-in), transform 75ms var(--bezier-sine-in);
+        }
+        &:is(.popover-enter-from, .popover-leave-to){
+            opacity: 0;
+            transform: translateY(4px);
+        }
+    }
+}

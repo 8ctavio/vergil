@@ -38,26 +38,26 @@ defineExpose({ isLeaving })
 	background-color: var(--c-backdrop);
 	backdrop-filter: blur(2px);
 
-	&.modal-backdrop-enter-active{
+	&.modal-backdrop-enter-active {
 		transition: opacity var(--duration-backdrop-opacity) var(--bezier-sine-out);
 	}
-	&.modal-backdrop-leave-active{
+	&.modal-backdrop-leave-active {
 		transition: opacity var(--duration-backdrop-opacity) var(--duration-window-tranform) var(--bezier-sine-in);
 	}
-	&:is(.modal-backdrop-enter-from, .modal-backdrop-leave-to){
+	&:is(.modal-backdrop-enter-from, .modal-backdrop-leave-to) {
 		opacity: 0;
 	}
 
-	& > :first-child{
-		&.modal-window-enter-active{
+	& > :first-child {
+		&.modal-window-enter-active {
 			transition: opacity var(--duration-window-opacity) var(--duration-backdrop-opacity) var(--bezier-sine-out),
 						transform var(--duration-window-tranform) var(--duration-backdrop-opacity) var(--bezier-bounce-out);
 		}
-		&.modal-window-leave-active{
+		&.modal-window-leave-active {
 			transition: opacity var(--duration-window-opacity) calc(var(--duration-window-tranform) - var(--duration-window-opacity)) var(--bezier-sine-in),
 						transform var(--duration-window-tranform) var(--bezier-bounce-in);
 		}
-		&:is(.modal-window-enter-from, .modal-window-leave-to){
+		&:is(.modal-window-enter-from, .modal-window-leave-to) {
 			opacity: 0;
 			transform: translateY(-30px);
 		}
