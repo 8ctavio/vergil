@@ -8,7 +8,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { ref, computed, watch, watchEffect, useTemplateRef, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, usePopover, waitFor, isModel } from '../../composables'
+import { useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -98,11 +98,10 @@ const filterModel = useModel('')
 //-------------------- POPOVER --------------------
 const {
     Popover,
-    isOpen,
-    isPositioned,
     openPopover,
     closePopover,
     togglePopover,
+    isOpen,
 } = usePopover({
     placement: 'bottom-start',
     offset: 4,
@@ -148,9 +147,7 @@ async function handleSelectKeydown(event) {
         closePopover()
     } else if(['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
-        if(openPopover()) {
-            await waitFor(isPositioned).toBe(true)
-        }
+        await openPopover(true)
 
         let relative = 'nextElementSibling'
         let option = model.el.firstElementChild
@@ -203,16 +200,12 @@ async function handleSelectKeydown(event) {
                 || ['Backspace','ArrowLeft','ArrowRight','Delete','Clear'].includes(event.key)
             )
         ) {
-            if(openPopover()) {
-                await waitFor(isPositioned).toBe(true)
-            }
+            await openPopover(true)
             filterModel.el.selectionStart = filterModel.value.length
             filterModel.el.focus()
         }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(openPopover()) {
-            await waitFor(isPositioned).toBe(true)
-        }
+        await openPopover(true)
         const key = prune(event.key)
         const options = model.el.children
         const findNextOption = () => {
