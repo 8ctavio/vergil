@@ -118,7 +118,7 @@ watch(isOpen, () => {
             handleFilterInput()
         }
     }
-}, { flush: 'post' })
+}, { flush: 'sync' })
 onMounted(() => {
     watchEffect(() => {
         if(props.disabled) {

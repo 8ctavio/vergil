@@ -97,7 +97,7 @@ export function usePopover(options) {
 		if(isPositioned.value) isOpen.value = true
 	})
 
-	let stopAutoUpdate
+	let controller, stopAutoUpdate
 	function openPopover(waitUntilOpened = false) {
 		if(!open.value) {
 			open.value = true
@@ -107,11 +107,17 @@ export function usePopover(options) {
 			})
 			document.addEventListener('click', handleDocumentClick)
 			document.addEventListener('focusin', handleDocumentFocusIn)
-			return waitUntilOpened ? waitFor(isOpen).toBe(true) : true
+			return waitUntilOpened
+				? waitFor(isOpen, {
+					flush: 'sync',
+					signal: (controller = new AbortController()).signal
+				}).toBe(true)
+				: true
 		}
 		return waitUntilOpened ? Promise.resolve(false) : false
 	}
 	function closePopover() {
+		controller = controller?.abort(new DOMException('[Vergil] Open Popover operation aborted', 'AbortError'))
 		stopAutoUpdate = void stopAutoUpdate?.()
 		document.removeEventListener('click', handleDocumentClick)
 		document.removeEventListener('focusin', handleDocumentFocusIn)

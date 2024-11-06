@@ -70,7 +70,9 @@ const { Popover, togglePopover } = usePopover({
 
 The `usePopover` composable creates two functional components — `Popup.Reference` and `Popup.Floating` — to manage and render the *reference* and *floating* elements. The floating element is the element that *pops over*, positioned in relation to the reference element.
 
-Both of these components accept a single `is` prop to indicate the component to be rendered. All props and slots are directly passed to that component, so the rendered components can normally be used. The `Popup.Floating` component wraps the specified component in a `div` element with the class `popover-floating`.
+Both of these components accept a single `is` prop to indicate the component to be rendered. All props and slots are directly passed to that component, so the rendered components can normally be used.
+
+The `Popup.Floating` component wraps the specified component in a `div` element with the class `popover-floating`.
 
 <Demo>
 	<Anatomy tag="div" classes="popover-floating">
@@ -87,9 +89,15 @@ The floating element's parent should have `position: realtive` (or similar) for 
 :::
 
 
-The `usePopover` composable provides three functions to control the popover's state: `openPopover`, `closePopover`, and `togglePopover`. Their names best describe their functionality; however, `openPopover` provides additional functionality. Both `closePopover` and `togglePopover` don't accept arguments and return `undefined`. On the other hand, `openPopover` returns `false` if the popover was already opened and `true` otherwise, and accepts an `waitUntilOpened` boolean argument that, when set to `true`, makes `openPopover` return a `Promise` resolved until the floating element has been properly positioned.
+The `usePopover` composable provides three functions to control the popover's state: `openPopover`, `closePopover`, and `togglePopover`. Their names best describe their functionality; however, `openPopover` provides additional functionality. Both `closePopover` and `togglePopover` don't accept arguments and return `undefined`. On the other hand, `openPopover` returns `false` if the popover was already opened and `true` otherwise.
 
-Additionally, the `usePopover` composable returns an `isOpen` ref with a boolean value to detect when the popover has been opened and is safe to interact with it or its contents. The popover is considered to be open when the floating element has been properly positioned, and closed (i.e., `isOpen.value === false`) when the leaving transition of the floating element completes.
+Additionally, the `openPopover` function accepts a `waitUntilOpened` boolean argument that, when set to `true`, makes `openPopover` return a `Promise` resolved until the floating element has been properly positioned.
+
+Lastly, the `usePopover` composable returns an `isOpen` ref with a boolean value to detect when the popover has been opened and is safe to interact with it or its contents. The popover is considered to be open when the floating element has been properly positioned, and closed (i.e., `isOpen.value === false`) when the leaving transition of the floating element completes and the element has been removed from the DOM.
+
+:::warning
+If `openPopover` is called with `waitUntilOpened = true` and then `closePopover` is called before `openPopover`'s promise is resolved, the promise will be rejected with an `AbortError` [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException).
+:::
 
 ## Definition
 
