@@ -39,6 +39,7 @@ defineProps({
         transparent var(--placeholder-pattern-width),
         transparent var(--placeholder-pattern-gap)
     );
+    background-color: var(--c-bg);
     & > .badge {
         position: absolute;
         top: -2px;

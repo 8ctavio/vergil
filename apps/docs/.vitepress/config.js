@@ -93,6 +93,7 @@ export default {
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useModel', link: '/composables/useModel' },
+					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'waitFor', link: '/composables/waitFor' },
 					{ text: 'watchControlled', link: '/composables/watchControlled' },
 					{ text: 'watchUntil', link: '/composables/watchUntil' },

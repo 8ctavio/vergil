@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```vue
-<script>
+<script setup>
 import { useModel } from '@8ctavio/vergil'
 
 // Create new model

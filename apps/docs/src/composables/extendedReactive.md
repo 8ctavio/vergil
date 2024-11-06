@@ -79,7 +79,7 @@ function extendedReactive<T>(
 
 #### Return value
 
-An [`ExtendedReactive`](/utilities/classes#extendedreactive) object.
+An `ExtendedReactive` object.
 
 ## Utilities
 
