@@ -29,6 +29,7 @@ function waitFor(
     source: WatchSource,
     options: {
         timeout: number = 0;
+        signal: AbortSignal;
         deep: number;
         flush: 'pre' | 'post' | 'sync';
     }
@@ -38,6 +39,7 @@ function waitFor(
 #### Parameters
 
 - **`timeout`**: Duration of watcher timeout in milliseconds. If set and condition is not fulfilled after `timeout` milliseconds, the watcher stops.
+- **`signal`**: `AbortSignal` to abort watcher with a corresponding [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
 - For others, see [watch](https://vuejs.org/api/reactivity-core.html#watch).
 
 #### Return value
@@ -57,4 +59,4 @@ Condition methods. Available methods are:
 
 Additionally, condition methods (except for `.toChange`) can be prefixed with `.not` in order to negate the condition.
 
-All methods return a promise that resolves to the `src` value (`toValue(src)`) that fulfilled the condition.
+All methods return a promise that resolves to the `src` value (`toValue(src)`) that fulfilled the condition. If aborted, the promise rejects with the abort signal's abort reason (`signal.reason`).

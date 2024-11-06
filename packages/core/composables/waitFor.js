@@ -7,10 +7,12 @@ import { watchUntil } from './watchUntil'
  * @param { WatchSource<T> } source 
  * @param { {
  *      timeout: number;
+ *      signal: AbortSignal;
  *      deep: number;
  *      flush: 'pre' | 'post' | 'sync';
  * } } options -
  *  - `timeout`: Duration of watcher timeout in milliseconds. If set and condition is not fulfilled after `timeout` milliseconds, the watcher stops.
+ *  - `signal`: `AbortSignal` to abort watcher with a corresponding [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
  * @returns { {
  *      toBe: (value: any) => Promise<T>;
  *      toBeEqual: () => Promise<T>;
