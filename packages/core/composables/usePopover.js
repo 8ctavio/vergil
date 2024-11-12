@@ -1,13 +1,15 @@
 import {
 	toValue, shallowRef, shallowReadonly, computed, watchEffect,
-	h, withDirectives, onBeforeUnmount,
-	Transition, vShow
+	h, cloneVNode, Comment, withDirectives, mergeProps, onBeforeUnmount,
+	vShow, Transition, Teleport
 } from 'vue'
 import { useFloating, autoUpdate, offset as useOffset, flip as useFlip } from '@floating-ui/vue'
+import { vergil } from '../vergil'
 import { waitFor } from './waitFor'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
 
 /**
- * Creates (functional) components and state to manage a `Popover`.
+ * Creates state and (functional) component to manage a `Popover`.
  * 
  * @param { {
  *      placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
@@ -21,17 +23,13 @@ import { waitFor } from './waitFor'
  *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
  * 
  * @returns { {
- * 		Popover: {
- * 			Reference: function;
- * 			Floating: function;
- * 		};
+ * 		Popover: function;
  * 		openPopover: (waitUntilOpened: boolean) => boolean | Promise<boolean>;
  * 		closePopover: () => void;
 * 		togglePopover: () => void;
 * 		isOpen: Ref<boolean>;
  * } }
- * - `Popover.Reference`: Functional component for the reference element. Accepts an `is` prop to pass the element or component to render.
- * - `Popover.Floating`: Functional component for the floating element. Accepts an `is` prop to pass the element or component to render.
+ * - `Popover`: Functional component with `default` and `portal` slots to manage and render the Popover's *reference* and *floating* elements, respectively.
  * - `openPopover`: Opens `Popover`. Returns (or resolves to) `false` if already opened and `true` otherwise.
  * - `closePopover`: Closes `Popover`.
  * - `togglePopover`: Toggle `Popover`'s open state.
@@ -47,25 +45,31 @@ import { waitFor } from './waitFor'
  * 	</script>
  * 
  * 	<template>
- * 		<div class="popover-container">
- * 			<Popover.Reference :is="Btn" v-on:click="togglePopover">
- * 				Toggle Popover
- * 			</Popover.Reference>
- * 			<Popover.Floating :is="Placeholder"/>
- * 		</div>
+ * 		<Popover class="popover-demo">
+ * 			<Btn @click="togglePopover" label="Toggle Popover"/>
+ * 			<template #portal>
+ * 				<Placeholder/>
+ * 			</template>
+ * 		</Popover>
  * 	</template>
  * 
  * 	<style scoped>
- * 	.popover-container {
- * 		position: relative;
- * 		& > .popover-floating > :deep(.placeholder) {
- * 			height: 50px;
+ * 	#popover-portal > .popover-wrapper > .popover-demo {
+ * 		width: 200px;
+ * 		height: 80px;
+ * 		padding: 10px;
+ * 		border: 1px solid var(--c-grey-border-subtle);
+ * 		border-radius: var(--g-radius);
+ * 		background-color: var(--c-bg);
+ * 		& > .placeholder {
+ * 			width: 100%;
+ * 			height: 100%;
  * 		}
  * 	}
  * 	</style>
  *  ```
  */
-export function usePopover(options) {
+export function usePopover(options = {}) {
 	const {
 		placement,
 		offset,
@@ -155,38 +159,69 @@ export function usePopover(options) {
 		if(open.value) closePopover()
 	})
 
-	function Reference(props, { slots }) {
-		return h(props.is, {
-			ref: referenceRef,
-			...eventHandlers
-		}, slots)
-	}
-	Reference.props = ['is']
-	
-	function Floating(props, { slots, attrs }) {
-		return h('div', {
-			ref: floating,
-			class: 'popover-floating',
-			style: floatingStyles.value,
-			...eventHandlers
-		}, h(Transition, {
-			name: 'popover',
-			onAfterLeave() {
-				isOpen.value = false
+	function Popover({ theme, size, radius, spacing }, { slots, attrs }) {
+		let reference
+		/** @See https://github.com/vuejs/core/blob/76c43c6040518c93b41f60a28b224f967c007fdf/packages/runtime-core/src/components/BaseTransition.ts#L264 */
+		for(const vnode of (slots.default?.() ?? [])) {
+			if(vnode.type !== Comment) {
+				reference = cloneVNode(vnode, {
+					ref: referenceRef,
+					...eventHandlers
+				})
+				break
 			}
-		}, () => withDirectives(
-			h(props.is, attrs, slots),
-			[[vShow, open.value]]
-		)))
+		}
+		return [
+			reference,
+			h(Teleport, {
+				to: '#popover-portal',
+				defer: true
+			}, h('div', {
+				ref: floating,
+				class: 'popover-wrapper',
+				style: floatingStyles.value,
+				...eventHandlers
+			}, h(Transition, {
+				name: 'popover',
+				onAfterLeave() {
+					isOpen.value = false
+				}
+			}, () => withDirectives(
+				h('div', mergeProps(attrs, {
+					class: [`popover ${inferTheme(theme)} size-${size} radius-${radius}`, {
+						[`spacing-${spacing}`]: spacing,
+					}]
+				}), slots.portal()),
+				[[vShow, open.value]]
+			))))
+		]
 	}
-	Floating.props = ['is']
-	Floating.inheritAttrs = false
+	Popover.inheritAttrs = false
+	Popover.props = {
+		theme: {
+			type: String,
+			default: () => vergil.config.global.theme,
+			validator: isValidTheme
+		},
+		size: {
+			type: String,
+			default: () => vergil.config.global.size,
+			validator: isValidSize
+		},
+		radius: {
+			type: String,
+			default: () => vergil.config.global.radius,
+			validator: isValidRadius
+		},
+		spacing: {
+			type: String,
+			default: () => vergil.config.global.spacing,
+			validator: isValidSpacing
+		}
+	}
 
 	return {
-		Popover: {
-			Reference,
-			Floating,
-		},
+		Popover,
 		openPopover,
 		closePopover,
 		togglePopover,

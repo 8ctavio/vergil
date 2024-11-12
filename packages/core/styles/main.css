@@ -189,28 +189,3 @@ p, h1, h2, h3 {
     line-height: 0;
     vertical-align: -0.175em;
 }
-
-/*---------- Popover ----------*/
-.popover-floating {
-    width: 100%;
-    z-index: var(--z-index-popover);
-    /* Fix for scale animation on Chrome */
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-
-    & > :first-child {
-        backface-visibility: hidden;
-        -webkit-font-smoothing: subpixel-antialiased;
-        &.popover-enter-active {
-            transition: opacity 70ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
-        }
-        &.popover-leave-active {
-            transition: opacity 70ms var(--bezier-sine-in), transform 70ms var(--bezier-sine-in);
-        }
-        &:is(.popover-enter-from, .popover-leave-to){
-            opacity: 0;
-            /* transform: translateY(4px); */
-            transform: scale(0.95);
-        }
-    }
-}

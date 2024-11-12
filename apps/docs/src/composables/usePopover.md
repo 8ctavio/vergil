@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `usePopover`
 
-> Creates (functional) components and state to manage a `Popover`.
+> Creates state and (functional) component to manage a `Popover`.
 
 ## Usage
 
@@ -18,6 +18,24 @@ const { Popover, togglePopover } = usePopover({
 })
 </script>
 
+First, it is required to add the `PopoverPortal` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+
+```vue
+<script setup>
+import { PopoverPortal } from '@8ctavio/vergil/components'
+</script>
+
+<template>
+    <AppLayout/>
+    <PopoverPortal/>
+</template>
+```
+:::tip
+`PopoverPortal`'s container `z-index` value is by default set to `20` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+:::
+
+Then, the `usePopover` returned `Popover` component's `portal` slot content is teleported to a `div#popover-portal` element rendered by the `PopoverPortal` component.
+
 ```vue
 <script setup>
 import { Btn, Placeholder } from '@8ctavio/vergil/components'
@@ -30,64 +48,73 @@ const { Popover, togglePopover } = usePopover({
 </script>
 
 <template>
-	<div class="container">
-		<Popover.Reference :is="Btn" @click="togglePopover">
-			Toggle Popover
-		</Popover.Reference>	
-		<Popover.Floating :is="Placeholder"/>
-	</div>
+	<Popover class="popover-demo">
+		<Btn @click="togglePopover" label="Toggle Popover"/>
+		<template #portal>
+			<Placeholder/>
+		</template>
+	</Popover>
 </template>
 
-<style scoped>
-.container {
-	position: relative;
-	& > .popover-floating > :deep(.placeholder) {
-		height: 50px;
+<style>
+#popover-portal > .popover-wrapper > .popover-demo {
+	width: 200px;
+	height: 80px;
+	padding: 10px;
+	border: 1px solid var(--c-grey-border-subtle);
+	border-radius: var(--g-radius);
+	background-color: var(--c-bg);
+	& > .placeholder {
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>
 ```
 
 <Demo>
-	<div class="container">
-		<Popover.Reference :is="Btn" @click="togglePopover">
-			Toggle Popover
-		</Popover.Reference>	
-		<Popover.Floating :is="Placeholder"/>
-	</div>
+	<Popover class="popover-demo">
+		<Btn @click="togglePopover" label="Toggle Popover"/>
+		<template #portal>
+			<Placeholder/>
+		</template>
+	</Popover>
 </Demo>
 
-<style scoped>
-.container {
-	position: relative;
-	& > .popover-floating > :deep(.placeholder) {
-		height: 50px;
+<style>
+#popover-portal > .popover-wrapper > .popover-demo {
+	width: 200px;
+	height: 80px;
+	padding: 10px;
+	border: 1px solid var(--c-grey-border-subtle);
+	border-radius: var(--g-radius);
+	background-color: var(--c-bg);
+	& > .placeholder {
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>
 
 ## Description
 
-The `usePopover` composable creates two functional components — `Popup.Reference` and `Popup.Floating` — to manage and render the *reference* and *floating* elements. The floating element is the element that *pops over*, positioned in relation to the reference element.
+The `usePopover` composable creates a `Popover` functional component to manage and render the Popover's *reference* and *floating* elements. The floating element is the element that *pops over*, positioned in relation to the reference element. The reference element is taken from the `default` slot's root element while the `portal` slot content is wrapped by the floating element.
 
-Both of these components accept a single `is` prop to indicate the component to be rendered. All props and slots are directly passed to that component, so the rendered components can normally be used.
+:::tip
+The `Popover` component only supports a single element or component as its `default` slot content. If the content is a component, the component must also have only one single root element.
+:::
 
-The `Popup.Floating` component wraps the specified component in a `div` element with the class `popover-floating`.
+The `portal` slot content is teleported to a `div#popover-portal` element and wrapped inside two `div` elements with `popover-wrapper` and `popover` classes, respectively.
 
 <Demo>
-	<Anatomy tag="div" classes="popover-floating">
-		<Anatomy tag="floating-component"/>
+	<Anatomy tag="div" id="popover-portal">
+		<Anatomy tag="div" classes="popover-wrapper">
+			<Anatomy tag="div" classes="popover"/>
+		</Anatomy>
 	</Anatomy>
 </Demo>
 
-:::tip
-The floating element's parent should have `position: realtive` (or similar) for the floating element styles to take effect. 
-:::
-
-:::tip
-`Popup.Floating` only supports a single element or component as its slot content. If the content is a component, the component must also have only one single root element.
-:::
-
+The `Popover` component attributes are applied to the `div.popover` element. The `div.popover` element can be styled as the Popover's content main container.
 
 The `usePopover` composable provides three functions to control the popover's state: `openPopover`, `closePopover`, and `togglePopover`. Their names best describe their functionality; however, `openPopover` provides additional functionality. Both `closePopover` and `togglePopover` don't accept arguments and return `undefined`. On the other hand, `openPopover` returns `false` if the popover was already opened and `true` otherwise.
 
@@ -108,10 +135,7 @@ function usePopover<T>(optione?: {
 	flip: boolean;
 	resize: boolean;
 }): {
-	Popover: {
-		Reference: function;
-		Floating: function;
-	},
+	Popover: function,
 	openPopover: (waitUntilOpened: boolean) => boolean | Promise<boolean>;
 	closePopover: () => void;
 	togglePopover: () => void;
@@ -128,8 +152,7 @@ function usePopover<T>(optione?: {
 
 #### Return value
 
-- **`Popover.Reference`**: Functional component for the reference element. Accepts an `is` prop to pass the element or component to render.
-- `Popover.Floating`: Functional component for the floating element. Accepts an `is` prop to pass the element or component to render.
+- **`Popover`**: Functional component with `default` and `portal` slots to manage and render the Popover's *reference* and *floating* elements, respectively.
 - **`openPopover`**: Opens `Popover`. Returns (or resolves to) `false` if already opened and `true` otherwise.
 - **`closePopover`**: Closes `Popover`.
 - **`togglePopover`**: Toggle `Popover`'s open state.

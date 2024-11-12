@@ -5,6 +5,7 @@ defineProps({
         type: String,
         default: ''
     },
+    id: String,
     slot: String
 })
 </script>
@@ -14,7 +15,9 @@ defineProps({
         <p v-if="slot">
             &lt;template <b>#{{ slot }}</b>/>
         </p>
-        <p v-else><{{ tag }}<b>{{ classes.split(/\s+/).reduce((a,b) => b ? `${a}.${b}` : '', '') }}</b>/></p>
+        <p v-else>
+            <{{ tag }}<b>{{ id ? `#${id}` : '' }}{{ classes.split(/\s+/).reduce((a,b) => b ? `${a}.${b}` : '', '') }}</b>/>
+        </p>
         <section v-if="$slots.default">
             <slot/>
         </section>

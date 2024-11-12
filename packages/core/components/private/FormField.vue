@@ -49,7 +49,6 @@ const props = defineProps({
         <p v-if="help" class="form-field-details form-field-help">
             <MiniMarkup :str="help"/>
         </p>
-        <slot name="aside"/>
     </div>
 </template>
 

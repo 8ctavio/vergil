@@ -27,15 +27,15 @@ defineProps({
 
 <style>
 .placeholder {
-    --placeholder-pattern-width: 2px;
-    --placeholder-pattern-gap: 10px;
+    --placeholder-pattern-width: 1px;
+    --placeholder-pattern-gap: 8px;
     position: relative;
-    border: 2px dashed var(--c-grey-border-regular);
+    border: 1.5px dashed var(--c-grey-border-regular);
     border-radius: var(--g-radius);
     background: repeating-linear-gradient(
         -45deg,
-        var(--c-grey-soft-3),
-        var(--c-grey-soft-3) var(--placeholder-pattern-width),
+        var(--c-grey-border-subtle),
+        var(--c-grey-border-subtle) var(--placeholder-pattern-width),
         transparent var(--placeholder-pattern-width),
         transparent var(--placeholder-pattern-gap)
     );

@@ -21,6 +21,12 @@ const demo4 = useModel('')
 }
 </style>
 
+<style>
+#popover-portal > .popover-wrapper > .select-popover.select-demo {
+    width: 200px;
+}   
+</style>
+
 ## Basic Usage
 
 ```vue
@@ -34,6 +40,7 @@ const skulls = useModel([])
 <template>
     <!-- Single Selection -->
     <Select
+        class="select-demo"
         v-model="difficulty"
         label="Difficulty"
         placeholder="Choose difficulty"
@@ -45,6 +52,7 @@ const skulls = useModel([])
         }"/>
     <!-- Multiple Selection -->
     <Select
+        class="select-demo"
         v-model="skulls"
         label="Skulls"
         placeholder="Select skulls"
@@ -55,10 +63,22 @@ const skulls = useModel([])
             ghost: 'Ghost',
         }"/>
 </template>
+
+<style scoped>
+.select-demo {
+    width: 200px;
+}
+</style>
+
+<style>
+#popover-portal > .popover-wrapper > .select-demo {
+    width: 200px;
+}   
+</style>
 ```
 <Demo>
     <div class="col center">
-        <Select
+        <Select class="select-demo"
             label="Difficulty"
             placeholder="Choose difficulty"
             :options="{
@@ -67,7 +87,7 @@ const skulls = useModel([])
                 heroic: 'Heroic',
                 legendary: 'Legendary'
             }"/>
-        <Select
+        <Select class="select-demo"
             :value="[]"
             label="Skulls"
             placeholder="Select skulls"
@@ -114,7 +134,7 @@ The following table summarizes how an option's value is inferred depending on th
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         v-model="demo1"
         placeholder="Options array"
         :options="[
@@ -137,7 +157,7 @@ The following table summarizes how an option's value is inferred depending on th
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         v-model="demo2"
         placeholder="Options object"
         :options="{
@@ -172,7 +192,7 @@ As strings, these props represent an object key. If an `option` is an object, th
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         v-model="demo3"
         placeholder="Select option"
         :options="[{
@@ -211,7 +231,7 @@ As functions, these props are called for each `option`, receive the `option` and
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         v-model="demo4"
         placeholder="Select option"
         :options="[{
@@ -269,7 +289,7 @@ The `placeholder-fallback` function receives as its only argument the number of 
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         :value="[]"
         :options="['The Fall of Reach', 'The Flood', 'First Strike']"
         :placeholder-fallback="n => {
@@ -300,7 +320,7 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         :options="['abc','uvw','xyz']"
         placeholder="Select option"
         filter
@@ -325,7 +345,7 @@ The `filter-input` prop is an object of props forwarded to the filter's `InputTe
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         :options="['Option']"
         placeholder="Select option"
         filter
@@ -357,7 +377,7 @@ The `placeholder-not-found` prop is used to obtain a placeholder to display when
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         :options="['Option']"
         placeholder="Select option"
         filter
@@ -383,7 +403,7 @@ query => `No results for [["${query}"]]`
 ```
 
 <Demo>
-    <Select
+    <Select class="select-demo"
         :value="[]"
         :options="['abc','uvw','xyz']"
         placeholder="Select option"
@@ -398,7 +418,7 @@ query => `No results for [["${query}"]]`
 ```
 
 <Demo>
-    <Select label="Select option" float-label :options="['Option']"/>
+    <Select class="select-demo" label="Select option" float-label :options="['Option']"/>
 </Demo>
 
 :::tip NOTE
@@ -408,26 +428,26 @@ query => `No results for [["${query}"]]`
 ### Underline <Badge><pre>underline: boolean</pre></Badge>
 
 <Demo>
-    <Select placeholder="Select option" underline :options="['Option']"/>
+    <Select class="select-demo" placeholder="Select option" underline :options="['Option']"/>
 </Demo>
 
 ### Fill <Badge><pre>fill: boolean</pre></Badge>
 
 <Demo>
-    <Select placeholder="Select option" underline fill :options="['Option']"/>
+    <Select class="select-demo" placeholder="Select option" underline fill :options="['Option']"/>
 </Demo>
 
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="row center">
-        <Select underline :options="['Option']" theme="brand" placeholder="Brand"/>
-        <Select underline :options="['Option']" theme="user" placeholder="User"/>
-        <Select underline :options="['Option']" theme="ok" placeholder="Ok"/>
-        <Select underline :options="['Option']" theme="info" placeholder="Info"/>
-        <Select underline :options="['Option']" theme="warn" placeholder="Warn"/>
-        <Select underline :options="['Option']" theme="danger" placeholder="Danger"/>
-        <Select underline :options="['Option']" theme="neutral" placeholder="Neutral"/>
+        <Select class="select-demo" underline :options="['Option']" theme="brand" placeholder="Brand"/>
+        <Select class="select-demo" underline :options="['Option']" theme="user" placeholder="User"/>
+        <Select class="select-demo" underline :options="['Option']" theme="ok" placeholder="Ok"/>
+        <Select class="select-demo" underline :options="['Option']" theme="info" placeholder="Info"/>
+        <Select class="select-demo" underline :options="['Option']" theme="warn" placeholder="Warn"/>
+        <Select class="select-demo" underline :options="['Option']" theme="danger" placeholder="Danger"/>
+        <Select class="select-demo" underline :options="['Option']" theme="neutral" placeholder="Neutral"/>
     </div>
 </Demo>
 
@@ -435,10 +455,10 @@ query => `No results for [["${query}"]]`
 
 <Demo>
     <div class="col center">
-        <Select size="sm" :options="['Option']" placeholder="Small"/>
-        <Select size="md" :options="['Option']" placeholder="Medium"/>
-        <Select size="lg" :options="['Option']" placeholder="Large"/>
-        <Select size="xl" :options="['Option']" placeholder="Extra Large"/>
+        <Select class="select-demo" size="sm" :options="['Option']" placeholder="Small"/>
+        <Select class="select-demo" size="md" :options="['Option']" placeholder="Medium"/>
+        <Select class="select-demo" size="lg" :options="['Option']" placeholder="Large"/>
+        <Select class="select-demo" size="xl" :options="['Option']" placeholder="Extra Large"/>
     </div>
 </Demo>
 
@@ -446,18 +466,18 @@ query => `No results for [["${query}"]]`
 
 <Demo>
     <div class="col center w-initial">
-        <Select :options="['Option']" placeholder="None" radius="none"/>
-        <Select :options="['Option']" placeholder="Small" radius="sm"/>
-        <Select :options="['Option']" placeholder="Medium" radius="md"/>
-        <Select :options="['Option']" placeholder="Large" radius="lg"/>
-        <Select :options="['Option']" placeholder="Full" radius="full"/>
+        <Select class="select-demo" :options="['Option']" placeholder="None" radius="none"/>
+        <Select class="select-demo" :options="['Option']" placeholder="Small" radius="sm"/>
+        <Select class="select-demo" :options="['Option']" placeholder="Medium" radius="md"/>
+        <Select class="select-demo" :options="['Option']" placeholder="Large" radius="lg"/>
+        <Select class="select-demo" :options="['Option']" placeholder="Full" radius="full"/>
     </div>
     <div class="col center w-initial">
-        <Select :options="['Option']" underline placeholder="None" radius="none"/>
-        <Select :options="['Option']" underline placeholder="Small" radius="sm"/>
-        <Select :options="['Option']" underline placeholder="Medium" radius="md"/>
-        <Select :options="['Option']" underline placeholder="Large" radius="lg"/>
-        <Select :options="['Option']" underline placeholder="Full" radius="full"/>
+        <Select class="select-demo" :options="['Option']" underline placeholder="None" radius="none"/>
+        <Select class="select-demo" :options="['Option']" underline placeholder="Small" radius="sm"/>
+        <Select class="select-demo" :options="['Option']" underline placeholder="Medium" radius="md"/>
+        <Select class="select-demo" :options="['Option']" underline placeholder="Large" radius="lg"/>
+        <Select class="select-demo" :options="['Option']" underline placeholder="Full" radius="full"/>
     </div>
 </Demo>
 
@@ -466,24 +486,24 @@ query => `No results for [["${query}"]]`
 <Demo>
     <div class="col">
         <div class="row center">
-            <Select size="sm" :options="['Option']" spacing="compact" placeholder="Compact"/>
-            <Select size="sm" :options="['Option']" placeholder="Default"/>
-            <Select size="sm" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
+            <Select class="select-demo" size="sm" :options="['Option']" spacing="compact" placeholder="Compact"/>
+            <Select class="select-demo" size="sm" :options="['Option']" placeholder="Default"/>
+            <Select class="select-demo" size="sm" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
         </div>
         <div class="row center">
-            <Select size="md" :options="['Option']" spacing="compact" placeholder="Compact"/>
-            <Select size="md" :options="['Option']" placeholder="Default"/>
-            <Select size="md" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
+            <Select class="select-demo" size="md" :options="['Option']" spacing="compact" placeholder="Compact"/>
+            <Select class="select-demo" size="md" :options="['Option']" placeholder="Default"/>
+            <Select class="select-demo" size="md" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
         </div>
         <div class="row center">
-            <Select size="lg" :options="['Option']" spacing="compact" placeholder="Compact"/>
-            <Select size="lg" :options="['Option']" placeholder="Default"/>
-            <Select size="lg" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
+            <Select class="select-demo" size="lg" :options="['Option']" spacing="compact" placeholder="Compact"/>
+            <Select class="select-demo" size="lg" :options="['Option']" placeholder="Default"/>
+            <Select class="select-demo" size="lg" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
         </div>
         <div class="row center">
-            <Select size="xl" :options="['Option']" spacing="compact" placeholder="Compact"/>
-            <Select size="xl" :options="['Option']" placeholder="Default"/>
-            <Select size="xl" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
+            <Select class="select-demo" size="xl" :options="['Option']" spacing="compact" placeholder="Compact"/>
+            <Select class="select-demo" size="xl" :options="['Option']" placeholder="Default"/>
+            <Select class="select-demo" size="xl" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
         </div>
     </div>
 </Demo>
@@ -491,8 +511,8 @@ query => `No results for [["${query}"]]`
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 <Demo>
-    <Select disabled placeholder="Disabled"/>
-    <Select disabled placeholder="Disabled" underline/>
+    <Select class="select-demo" disabled placeholder="Disabled"/>
+    <Select class="select-demo" disabled placeholder="Disabled" underline/>
 </Demo>
 
 ## API Reference
@@ -564,11 +584,13 @@ The following `Select` props' default values can be overwritten under the `selec
             </Anatomy>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
-        <Anatomy tag="div" classes="popover-floating">
-            <Anatomy tag="div" classes="select-dropdown">
-                <Anatomy tag='Input' classes="input-text"/>
-                <Anatomy tag='p' classes="select-not-found"/>
-                <Anatomy tag='CheckboxGroup' classes="checkbox-group"/>
+        <Anatomy tag="Teleport" id="popover-portal">
+            <Anatomy tag="div" classes="popover-wrapper">
+                <Anatomy tag="div" classes="popover select-popver">
+                    <Anatomy tag='Input' classes="input-text"/>
+                    <Anatomy tag='p' classes="select-not-found"/>
+                    <Anatomy tag='CheckboxGroup' classes="checkbox-group"/>
+                </Anatomy>
             </Anatomy>
         </Anatomy>
     </Anatomy>
