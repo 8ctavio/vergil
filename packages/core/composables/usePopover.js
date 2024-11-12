@@ -3,7 +3,7 @@ import {
 	h, cloneVNode, Comment, withDirectives, mergeProps, onBeforeUnmount,
 	vShow, Transition, Teleport
 } from 'vue'
-import { useFloating, autoUpdate, offset as useOffset, flip as useFlip } from '@floating-ui/vue'
+import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift } from '@floating-ui/vue'
 import { vergil } from '../vergil'
 import { waitFor } from './waitFor'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
@@ -20,7 +20,9 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
  *  - [`placement`](https://floating-ui.com/docs/computePosition#placement): Floating element's placement relative to reference element. Defaults to `bottom`.
  *  - [`offset`](https://floating-ui.com/docs/offset#options): Distance between reference and floating elements.
  *  - [`flip`](https://floating-ui.com/docs/flip): Whether to change floating element's placement to keep it in view.
+ *  - [`shift`](https://floating-ui.com/docs/shift): Prevent the floating element from overflowing along its axis of alignment.
  *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
+ *  - [`strategy`](https://floating-ui.com/docs/computeposition#strategy): The CSS `position` property to use on the floating element.
  * 
  * @returns { {
  * 		Popover: function;
@@ -74,12 +76,15 @@ export function usePopover(options = {}) {
 		placement,
 		offset,
 		flip,
+		shift,
 		resize,
+		strategy,
 	} = options
 
 	const middleware = []
 	if(offset) middleware.push(useOffset(offset))
 	if(flip) middleware.push(useFlip())
+	if(shift) middleware.push(useShift({ padding: shift.padding ?? offset }))
 
 	const referenceRef = shallowRef(null)
 	const reference = computed(() => referenceRef.value?.$el ?? referenceRef.value)
@@ -95,6 +100,7 @@ export function usePopover(options = {}) {
 		open,
 		placement,
 		middleware,
+		strategy,
 	})
 
 	watchEffect(() => {

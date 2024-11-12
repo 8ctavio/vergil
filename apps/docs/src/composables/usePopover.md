@@ -133,7 +133,9 @@ function usePopover<T>(optione?: {
 	placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
 	offset: number;
 	flip: boolean;
+	shift: boolean;
 	resize: boolean;
+	strategy: 'absolute' | 'fixed'
 }): {
 	Popover: function,
 	openPopover: (waitUntilOpened: boolean) => boolean | Promise<boolean>;
@@ -148,7 +150,13 @@ function usePopover<T>(optione?: {
 - **[`placement`](https://floating-ui.com/docs/computePosition#placement)**: Floating element's placement relative to reference element. Defaults to `bottom`.
 - **[`offset`](https://floating-ui.com/docs/offset#options)**: Distance between reference and floating elements.
 - **[`flip`](https://floating-ui.com/docs/flip)**: Whether to change floating element's placement to keep it in view.
+- [`shift`](https://floating-ui.com/docs/shift): Prevent the floating element from overflowing along its axis of alignment.
 - **[`resize`](https://floating-ui.com/docs/autoupdate#elementresize)**: Whether to update floating element's position when itself or the reference element are resized.
+- [`strategy`](https://floating-ui.com/docs/computeposition#strategy): The CSS `position` property to use on the floating element.
+
+:::tip
+If a floating element's parent has position `fixed`, use `strategy: 'fixed'`.
+:::
 
 #### Return value
 
