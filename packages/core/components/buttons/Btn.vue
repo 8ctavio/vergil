@@ -63,23 +63,16 @@ defineProps({
 
 <template>
     <button
-        :class="[
-            'btn',
-            variant,
-            inferTheme(theme),
-            `size-${size}`,
-            `radius-${radius}`,
-            {
-                ghost,
-                underline,
-                fill,
-                squared,
-                loading,
-                [`spacing-${spacing}`]: spacing,
-                [`ghost-${ghost === true ? 'transparent' : ghost}`]: ghost,
-                [`outline-${outline === true ? 'regular' : outline}`]: outline,
-            }
-        ]"
+        :class="[`btn ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+            ghost,
+            underline,
+            fill,
+            squared,
+            loading,
+            [`spacing-${spacing}`]: spacing,
+            [`ghost-${ghost === true ? 'transparent' : ghost}`]: ghost,
+            [`outline-${outline === true ? 'regular' : outline}`]: outline,
+        }]"
         :disabled="disabled || loading"
     >
         <span v-if="ghost" class="btn-backdrop"/>

@@ -87,10 +87,6 @@ onMounted(() => {
     & > .popup-wrapper {
         order: 2;
         overflow-y: auto;
-        & > :first-child {
-            border-bottom-left-radius: var(--border-radius-lg);
-            border-bottom-right-radius: var(--border-radius-lg);
-        }
     }
 }
 .dark .popup {

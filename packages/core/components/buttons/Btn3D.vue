@@ -50,20 +50,13 @@ defineProps({
 
 <template>
     <button
-        :class="[
-            'btn3D',
-            variant,
-            inferTheme(theme),
-            `size-${size}`,
-            `radius-${radius}`,
-            {
-                outline,
-                squared,
-                loading,
-                [`spacing-${spacing}`]: spacing,
-                [`outline-${outline === true ? 'regular' : outline}`]: outline,
-            }
-        ]"
+        :class="[`btn3D ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+            outline,
+            squared,
+            loading,
+            [`spacing-${spacing}`]: spacing,
+            [`outline-${outline === true ? 'regular' : outline}`]: outline,
+        }]"
         :disabled="disabled || loading"
     >
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>

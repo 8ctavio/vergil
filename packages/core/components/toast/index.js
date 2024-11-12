@@ -17,10 +17,11 @@ function toast(...args){
         if(args[0]?.theme) theme = inferTheme(args[0].theme)
         options = args[0]
     }
-    const position = 
-        vergil.config.toaster.positions.includes(options?.position) ? options.position
-        : vergil.config.toaster.positions.includes(vergil.config.toaster.position) ? vergil.config.toaster.position
-        : vergil.config.toaster.positions[0]
+    const position = vergil.config.toaster.positions.includes(options?.position)
+        ? options.position
+        : vergil.config.toaster.positions.includes(vergil.config.toaster.position)
+            ? vergil.config.toaster.position
+            : vergil.config.toaster.positions[0]
     toasters[position]?.unshift({
         id: Date.now().toString(),
         message: options?.message ?? '',
