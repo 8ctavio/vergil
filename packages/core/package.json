@@ -24,7 +24,7 @@
 		"./plugins": "./plugins/index.js",
 		"./utilities": "./utilities/index.js",
 		"./utilities/regex": "./utilities/regex.js",
-		"./utilities/userTheme": "./utilities/userTheme.js",
+		"./utilities/userTheme": "./utilities/userTheme/index.js",
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
 		"./colors/default": "./styles/default.css"

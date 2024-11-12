@@ -1,6 +1,6 @@
 import { ref, readonly } from 'vue'
-import { vergil } from '../vergil'
-import { isValidColor } from './private'
+import { vergil } from '../../vergil'
+import { isValidColor } from '../private'
 
 const cssVars = [
     '--c-user-solid-1',
@@ -38,3 +38,5 @@ export {
     setUserThemeColor,
     userThemeColorCopy as userThemeColor
 }
+
+export { default as ColorPicker } from './ColorPicker.vue'

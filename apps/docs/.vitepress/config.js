@@ -38,7 +38,12 @@ export default {
 
 		nav: [
 			{ text: 'Docs', link: '/get-started' },
-			{ component: 'ColorPicker' }
+			{
+				component: 'ColorPicker',
+				props: {
+					strategy: 'fixed'
+				}
+			}
 		],
 
 		sidebar: [

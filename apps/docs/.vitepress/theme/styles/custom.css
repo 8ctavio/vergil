@@ -35,3 +35,10 @@
     display: inline-block;
     margin: 0;
 }
+
+.VPNavBarMenu > .btn {
+    align-self: center;
+}
+.VPSidebar {
+    scrollbar-width: thin;
+}

@@ -4,6 +4,7 @@ outline: [2,3]
 
 <script setup>
 import { Icon } from '@8ctavio/vergil/components'
+import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 </script>
 
 # Theme
@@ -92,9 +93,9 @@ At the start of the file, only required color palettes should be imported.
 The `@8ctavio/vergil/styles` stylesheet imports the `grey` color. Therefore, it should not be required to import `@8ctavio/vergil/colors/grey` to use `grey` color variables inside the custom theme stylesheet.
 :::
 
-The stylesheet contains a declaration block for each `theme`. Each declaration block sets `theme` specific variables with a color palette specific variable. This is how a color palette is assigned to a `theme`.
+The stylesheet contains a declaration block for each `theme`. Each declaration block sets `theme`-specific variables with color palette-specific variables. This is how a color palette is assigned to a `theme`.
 
-Therefore, to change a `theme`'s color palette, simply rename the color palette specific variables to include the desired color palette name:
+Therefore, to change a `theme`'s color palette, simply rename the color palette-specific variables to include the desired color palette name:
 
 ```diff
 - --c-theme-solid-1: var(--c-moss-1);
@@ -135,6 +136,42 @@ By default, the user theme is set to `'moss'`. This can be overwrriten through t
 #### Disable user theme
 
 User theme is enabled by default. If for the project being developed is not desired to use the user theme, it can be disabled by setting the `userTheme.enable` [configuration option](/configuration) to `false`.
+
+### `ColorPicker` component
+
+Vergil provides a `ColorPicker` component for the user to conveniently update the user-theme color palette.
+
+#### Usage
+
+```vue
+<script setup>
+import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
+</script>
+
+<template>
+    <ColorPicker/>
+</template>
+```
+
+<Demo>
+    <ColorPicker/>
+</Demo>
+
+#### Props
+
+<br>
+
+##### Colors <Badge><pre>colors: array | object</pre></Badge>
+
+As an array, `colors` should contain [color palette names](#color-palettes). Custom labels can be provided by passing an object instead, where keys are color palette names and values the corresponding display labels.
+
+##### Strategy <Badge><pre>strategy: 'absolute' | 'fixed'</pre></Badge>
+
+CSS `position` property for the `ColorPicker`'s popover.
+
+:::tip
+If a `ColorPicker`'s parent has position `fixed`, use `strategy: 'fixed'`.
+:::
 
 <style scoped>
 .icon{
