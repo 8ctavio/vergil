@@ -67,6 +67,7 @@ export default {
 					{ text: 'Popup', link: '/components/popup' },
 					{ text: 'Skeleton', link: '/components/skeleton' },
 					{ text: 'Toast', link: '/components/toast' },
+					{ text: 'Tooltip', link: '/components/tooltip' },
 				]
 			},
 			{

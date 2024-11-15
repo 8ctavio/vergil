@@ -23,7 +23,7 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
  * } } options -
  *  - [`placement`](https://floating-ui.com/docs/computePosition#placement): Floating element's placement relative to reference element. Defaults to `bottom`.
  *  - [`offset`](https://floating-ui.com/docs/offset#options): Gap distance between reference and floating elements.
- *  - `padding`: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px`  left when the floating element shifts. Defaults to `6`.
+ *  - `padding`: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the floating element shifts. Defaults to `6`.
  *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
  * 	- `closeBehavior`: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `unmount`.
  *  - `trigger`: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.

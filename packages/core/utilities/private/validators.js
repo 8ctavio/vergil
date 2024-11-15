@@ -21,3 +21,5 @@ export function isValidVariant(c,v){
             return ['classic', 'card', 'list', 'toggle'].includes(v)
     }
 }
+
+export const isValidPlacement = v => ['top','top-start','top-end','right','right-start','right-end','bottom','bottom-start','bottom-end','left','left-start','left-end'].includes(v)
