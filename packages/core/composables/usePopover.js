@@ -10,7 +10,7 @@ import { waitFor } from './waitFor'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
 
 /**
- * Creates state and (functional) component to manage a `Popover`.
+ * Creates state and (functional) component to manage a Popover.
  * 
  * @param { {
  *      placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
@@ -25,7 +25,7 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
  *  - [`offset`](https://floating-ui.com/docs/offset#options): Gap distance between reference and floating elements.
  *  - `padding`: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the floating element shifts. Defaults to `6`.
  *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
- * 	- `closeBehavior`: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `unmount`.
+ * 	- `closeBehavior`: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `'unmount'`.
  *  - `trigger`: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
  *  - [`position`](https://floating-ui.com/docs/computeposition#strategy): Floating element's CSS `position` property.
  * 
@@ -117,7 +117,9 @@ export function usePopover(options = {}) {
 			stopAutoUpdate = autoUpdate(reference.value, floating.value, updatePosition, {
 				elementResize: toValue(resize)
 			})
-			document.addEventListener('click', handleDocumentClick)
+			if(toValue(trigger) !== 'hover') {
+				document.addEventListener('click', handleDocumentClick)
+			}
 			document.addEventListener('focusin', handleDocumentFocusIn)
 			return waitUntilOpened
 				? waitFor(isOpen, {
@@ -151,24 +153,35 @@ export function usePopover(options = {}) {
 	function handleDocumentFocusIn() {
 		if(!focusWithin.value) closePopover()
 	}
-	const eventHandlers = {
-		onClick() {
-			clickWithin.value = true
+
+	const dismissHandlers = {
+		click: {
+			onClick() {
+				clickWithin.value = true
+			}
 		},
-		onFocusin() {
-			focusWithin.value = true
-		},
-		onFocusout() {
-			focusWithin.value = false
+		focus: {
+			onFocusin() {
+				focusWithin.value = true
+			},
+			onFocusout() {
+				focusWithin.value = false
+			}
 		}
 	}
-	const triggers = {
+	let closeTimeout
+	const triggerHandlers = {
 		click: {
 			onClick: togglePopover
 		},
 		hover: {
-			onPointerenter: openPopover,
-			onPointerleave: closePopover
+			onPointerenter() {
+				clearTimeout(closeTimeout)
+				openPopover()
+			},
+			onPointerleave() {
+				closeTimeout = setTimeout(closePopover, 100)
+			}
 		}
 	}
 
@@ -177,13 +190,7 @@ export function usePopover(options = {}) {
 	})
 
 	function Popover({ theme, size, radius, spacing }, { slots, attrs }) {
-		let props = {
-			ref: referenceRef,
-			...eventHandlers
-		}
-		if(trigger) {
-			props = mergeProps(props, triggers[trigger])
-		}
+		const triggerValue = toValue(trigger)
 		/**
 		 * @See [getTransitionRawChildren](https://github.com/vuejs/core/blob/76c43c6040518c93b41f60a28b224f967c007fdf/packages/runtime-core/src/components/BaseTransition.ts#L529)
 		 * @See [findNonCommentChild](https://github.com/vuejs/core/blob/76c43c6040518c93b41f60a28b224f967c007fdf/packages/runtime-core/src/components/BaseTransition.ts#L264)
@@ -196,7 +203,14 @@ export function usePopover(options = {}) {
 					if(vnode.type === Fragment) {
 						vnodes = vnode.children
 					} else {
-						reference = cloneVNode(vnode, props)
+						reference = cloneVNode(vnode, mergeProps(
+							{
+								ref: referenceRef,
+								...dismissHandlers.focus
+							},
+							triggerValue !== 'hover' && dismissHandlers.click,
+							triggerHandlers[triggerValue]
+						))
 					}
 					continue outer
 				}
@@ -216,12 +230,15 @@ export function usePopover(options = {}) {
 			h(Teleport, {
 				to: '#popover-portal',
 				defer: true
-			}, h('div', {
-				ref: floating,
-				class: 'popover-wrapper',
-				style: floatingStyles.value,
-				...eventHandlers
-			}, h(Transition, {
+			}, h('div', mergeProps(
+				{
+					ref: floating,
+					class: 'popover-wrapper',
+					style: floatingStyles.value,
+					...dismissHandlers.focus
+				},
+				triggerValue === 'hover' ? triggerHandlers.hover : dismissHandlers.click,
+			), h(Transition, {
 				name: 'popover',
 				onAfterLeave() {
 					isOpen.value = false

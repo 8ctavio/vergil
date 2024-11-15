@@ -20,6 +20,8 @@ import { Tooltip, Btn } from '@8ctavio/vergil/components'
 
 ## Props
 
+All [`Popover`](/composables/usePopover#popover) props are available for `Tooltip`.
+
 ### Text <Badge><pre>text: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 ```vue-html
