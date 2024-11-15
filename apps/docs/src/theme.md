@@ -165,16 +165,16 @@ import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 
 As an array, `colors` should contain [color palette names](#color-palettes). Custom labels can be provided by passing an object instead, where keys are color palette names and values the corresponding display labels.
 
-##### Strategy <Badge><pre>strategy: 'absolute' | 'fixed'</pre></Badge>
+##### Position <Badge><pre>position: 'absolute' | 'fixed'</pre></Badge>
 
-CSS `position` property for the `ColorPicker`'s popover.
+`ColorPicker`'s popover CSS `position` property.
 
 :::tip
-If a `ColorPicker`'s parent has position `fixed`, use `strategy: 'fixed'`.
+If a `ColorPicker`'s parent has position `fixed`, use `position: 'fixed'`.
 :::
 
 <style scoped>
-.icon{
+.icon {
     display: inline-block;
     padding: 0 5px;
     font-size: 1.2em;

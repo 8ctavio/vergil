@@ -12,10 +12,7 @@ outline: [2,3]
 import { Btn, Placeholder } from '@8ctavio/vergil/components'
 import { usePopover } from '@8ctavio/vergil'
 
-const { Popover, togglePopover } = usePopover({
-	offset: 4,
-	flip: true
-})
+const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>
 
 First, it is required to add the `PopoverPortal` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
@@ -34,17 +31,14 @@ import { PopoverPortal } from '@8ctavio/vergil/components'
 `PopoverPortal`'s container `z-index` value is by default set to `20` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
-Then, the `usePopover` returned `Popover` component's `portal` slot content is teleported to a `div#popover-portal` element rendered by the `PopoverPortal` component.
+The `usePopover` returned `Popover` component's `portal` slot content is teleported to a `div#popover-portal` element rendered by the `PopoverPortal` component.
 
 ```vue
 <script setup>
 import { Btn, Placeholder } from '@8ctavio/vergil/components'
 import { usePopover } from '@8ctavio/vergil'
 
-const { Popover, togglePopover } = usePopover({
-	offset: 4,
-	flip: true
-})
+const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>
 
 <template>
@@ -132,10 +126,11 @@ If `openPopover` is called with `waitUntilOpened = true` and then `closePopover`
 function usePopover<T>(optione?: {
 	placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
 	offset: number;
-	flip: boolean;
-	shift: boolean;
+	padding: number;
 	resize: boolean;
-	strategy: 'absolute' | 'fixed'
+	closeBehavior: 'unmount' | 'hide';
+	trigger: 'click' | 'hover';
+	position: 'absolute' | 'fixed'
 }): {
 	Popover: function,
 	openPopover: (waitUntilOpened: boolean) => boolean | Promise<boolean>;
@@ -148,14 +143,14 @@ function usePopover<T>(optione?: {
 #### Parameters
 
 - **[`placement`](https://floating-ui.com/docs/computePosition#placement)**: Floating element's placement relative to reference element. Defaults to `bottom`.
-- **[`offset`](https://floating-ui.com/docs/offset#options)**: Distance between reference and floating elements.
-- **[`flip`](https://floating-ui.com/docs/flip)**: Whether to change floating element's placement to keep it in view.
-- [`shift`](https://floating-ui.com/docs/shift): Prevent the floating element from overflowing along its axis of alignment.
+- **[`offset`](https://floating-ui.com/docs/offset#options)**: Gap distance in `px` between reference and floating elements.
+- **`padding`**: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px`  left when the floating element shifts. Defaults to `6`.
 - **[`resize`](https://floating-ui.com/docs/autoupdate#elementresize)**: Whether to update floating element's position when itself or the reference element are resized.
-- [`strategy`](https://floating-ui.com/docs/computeposition#strategy): The CSS `position` property to use on the floating element.
+- **`closeBehavior`**: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `unmount`.
+- [`position`](https://floating-ui.com/docs/computeposition#strategy): Floating element's CSS `position` property.
 
 :::tip
-If a floating element's parent has position `fixed`, use `strategy: 'fixed'`.
+If a floating element's parent has position `fixed`, use `position: 'fixed'`.
 :::
 
 #### Return value

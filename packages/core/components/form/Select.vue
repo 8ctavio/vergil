@@ -105,8 +105,8 @@ const {
 } = usePopover({
     placement: 'bottom-start',
     offset: 4,
-    flip: true,
-    resize: () => props.filter || props.chips
+    closeBehavior: 'hide',
+    resize: () => props.filter || props.chips,
 })
 watch(isOpen, () => {
     if(props.filter) {

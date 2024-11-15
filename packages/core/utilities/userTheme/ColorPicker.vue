@@ -7,7 +7,7 @@ import { isValidColor } from '../private'
 import { userThemeColor, setUserThemeColor } from '.'
 
 const name = useId()
-const { strategy } = defineProps({
+const { position } = defineProps({
 	colors: {
 		type: Object,
 		default: ['emerald', 'moss', 'teal', 'sky', 'denim', 'indigo', 'wine'],
@@ -19,7 +19,7 @@ const { strategy } = defineProps({
 			}
 		},
 	},
-	strategy: {
+	position: {
 		type: String,
 		validator: v => ['absolute','fixed'].includes(v)
 	}
@@ -27,9 +27,7 @@ const { strategy } = defineProps({
 
 const { Popover, togglePopover } = usePopover({
 	offset: 5,
-	flip: true,
-	shift: true,
-	strategy
+	position
 })
 </script>
 

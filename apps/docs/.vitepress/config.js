@@ -40,9 +40,7 @@ export default {
 			{ text: 'Docs', link: '/get-started' },
 			{
 				component: 'ColorPicker',
-				props: {
-					strategy: 'fixed'
-				}
+				props: { position: 'fixed' }
 			}
 		],
 
