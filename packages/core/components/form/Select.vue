@@ -365,9 +365,11 @@ function updateOptions(modelValue) {
     <FormField :class="['select', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :size :radius :spacing
-        @keydown="handleSelectKeydown"
+    >
+        <Popover :class="['select-popover', props.class]"
+            :theme :size :radius
+            @keydown="handleSelectKeydown"
         >
-        <Popover :class="['select-popover', props.class]">
             <Btn
                 v-bind="$attrs"
                 :class="[
@@ -383,6 +385,7 @@ function updateOptions(modelValue) {
                 :squared="false"
                 :theme :size :radius :spacing
                 @click="handleBtnClick"
+                @keydown="handleSelectKeydown"
             >
                 <div v-if="chips && isMultiSelect && isSelected" class="chips">
                     <Badge v-for="input in selected" :key="input.value"
@@ -554,6 +557,7 @@ function updateOptions(modelValue) {
         }
     }
     & > .select-not-found {
+        font-size: var(--g-font-size);
         padding: var(--g-gap-md) var(--g-gap-lg);
         text-align: center;
         line-height: 1.5;
