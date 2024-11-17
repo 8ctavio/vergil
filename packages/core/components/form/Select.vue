@@ -147,22 +147,22 @@ async function handleSelectKeydown(event) {
         closePopover()
     } else if(['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
-        await openPopover(true)
+        if(await openPopover(true)) {
+            let relative = 'nextElementSibling'
+            let option = model.el.firstElementChild
+            if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+                if(event.key === 'ArrowUp')
+                    relative = 'previousElementSibling'
+                option = event.target.parentElement[relative]
+            } else if(!isMultiSelect.value && selected.value && !selected.value.parentElement.hidden) {
+                option = selected.value.parentElement
+            }
 
-        let relative = 'nextElementSibling'
-        let option = model.el.firstElementChild
-        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-            if(event.key === 'ArrowUp')
-                relative = 'previousElementSibling'
-            option = event.target.parentElement[relative]
-        } else if(!isMultiSelect.value && selected.value && !selected.value.parentElement.hidden) {
-            option = selected.value.parentElement
+            while(option?.hidden) {
+                option = option[relative]
+            }
+            option?.firstElementChild.focus()
         }
-
-        while(option?.hidden) {
-            option = option[relative]
-        }
-        option?.firstElementChild.focus()
     } else if(event.key === 'Enter') {
         if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
             event.preventDefault()
@@ -199,13 +199,13 @@ async function handleSelectKeydown(event) {
                 (event.key.length === 1 && event.key !== ' ')
                 || ['Backspace','ArrowLeft','ArrowRight','Delete','Clear'].includes(event.key)
             )
+            && await openPopover(true)
         ) {
-            await openPopover(true)
             filterModel.el.selectionStart = filterModel.value.length
             filterModel.el.focus()
         }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        await openPopover(true)
+        if(!(await openPopover(true))) return
         const key = prune(event.key)
         const options = model.el.children
         const findNextOption = () => {

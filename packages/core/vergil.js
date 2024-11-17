@@ -166,6 +166,10 @@ let template = {
         size: undefined,
         radius: undefined,
     },
+    popover: {
+        padding: 6,
+        delay: 400
+    },
     popup: {
         theme: undefined,
     },

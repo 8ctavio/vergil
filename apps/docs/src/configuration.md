@@ -130,6 +130,10 @@ interface VergilConfiguration {
         size: size;
         radius: radius;
     },
+    popover: {
+        padding: number = 6;
+        delay: number = 400;
+    },
     popup: {
         theme: theme;
     },
