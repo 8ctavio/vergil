@@ -38,6 +38,7 @@ type size = 'sm' | 'md' | 'lg' | 'xl'
 type spacing = '' | 'compact' | 'expanded'
 type theme = 'brand' | 'user' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral'
 type toastPosition = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
+type placement = 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end'` | `'top'
 
 interface VergilConfiguration {
     global: {
@@ -196,6 +197,10 @@ interface VergilConfiguration {
         positions: toastPosition[] = ['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end'];
         default: toastPosition = 'bottom-end';
         duration: number = 6;
+    },
+    tooltip: {
+        placement: placement = 'top';
+        offset: number = 5;
     }
 }
 ```

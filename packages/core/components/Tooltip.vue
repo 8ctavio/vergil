@@ -1,20 +1,22 @@
 <script setup>
 import MiniMarkup from './private/MiniMarkup'
+import { vergil } from '../vergil'
 import { usePopover } from '../composables'
 import { isValidPlacement } from '../utilities/private'
 
-const { placement, offset, padding, position, trigger } = defineProps({
+const { placement, offset, padding, delay, trigger, position } = defineProps({
 	text: String,
 	placement: {
 		type: String,
-		default: 'top',
+		default: () => vergil.config.tooltip.placement,
 		validator: isValidPlacement,
 	},
 	offset: {
 		type: Number,
-		default: 5
+		default: () => vergil.config.tooltip.offset
 	},
 	padding: Number,
+	delay: Number,
 	trigger: {
 		type: String,
 		default: 'hover',
@@ -30,8 +32,9 @@ const { Popover } = usePopover({
 	placement,
 	offset,
 	padding,
-	position,
+	delay,
 	trigger,
+	position,
 })
 </script>
 

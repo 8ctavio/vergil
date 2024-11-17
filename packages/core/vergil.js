@@ -232,5 +232,9 @@ let template = {
         positions: ['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end'],
         position: 'bottom-end',
         duration: 6
+    },
+    tooltip: {
+        placement: 'top',
+        offset: 5,
     }
 }
