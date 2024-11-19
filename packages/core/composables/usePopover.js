@@ -4,32 +4,93 @@ import {
 	Comment, Fragment, Transition, Teleport,
 	onBeforeUnmount
 } from 'vue'
-import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift } from '@floating-ui/vue'
+import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift, arrow as useArrow } from '@floating-ui/vue'
 import { vergil } from '../vergil'
 import { waitFor } from './waitFor'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
+
+const usePositionArrow = arrow => ({
+	name: 'positionArrow',
+	fn({ placement, rects, middlewareData }) {
+		if(arrow.element.value) {
+			const { x,y } = middlewareData.arrow
+			const [side, alignment] = placement.split('-')
+
+			const unsetSides = {
+				top: '',
+				bottom: '',
+				left: '',
+				right: ''
+			}
+			const arrowDirection = {
+				top: 'bottom',
+				bottom: 'top',
+				left: 'right',
+				right: 'left',
+			}[side]
+			const arrowRotation = {
+				top: '0deg',
+				bottom: '180deg',
+				left: '-90deg',
+				right: '90deg'
+			}[arrowDirection]
+
+			const dim = ['top','bottom'].includes(side) ? 'width' : 'height'
+			if(alignment && rects.reference[dim] > rects.floating[dim]) {
+				const crossSide = {
+					'top-start': 'left',
+					'top-end': 'right',
+					'bottom-start': 'left',
+					'bottom-end': 'right',
+					'left-start': 'top',
+					'left-end': 'bottom',
+					'right-start': 'top',
+					'right-end': 'bottom',
+				}[placement]
+
+				Object.assign(arrow.element.value.style, {
+					...unsetSides,
+					transform: `rotate(${arrowRotation})`,
+					[arrowDirection]: `-${arrow.height}px`,
+					[crossSide]: 'min(15%,15px)',
+				})
+			} else {
+				Object.assign(arrow.element.value.style, {
+					...unsetSides,
+					transform: `rotate(${arrowRotation})`,
+					left: (typeof x === 'number') ? `${x}px` : '',
+					top: (typeof y === 'number') ? `${y}px` : '',
+					[arrowDirection]: `-${arrow.height}px`,
+				})
+			}
+		}
+		return {}
+	}
+})
 
 /**
  * Creates state and (functional) component to manage a Popover.
  * 
  * @param { {
- *      placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
+ * 		arrow: boolean | { border: number };
+ *      closeBehavior: 'unmount' | 'hide';
+ * 		delay: number;
  *      offset: number;
  *      padding: number;
- * 		delay: number;
- *      resize: boolean;
- *      closeBehavior: 'unmount' | 'hide';
- *      trigger: 'click' | 'hover';
+ *      placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
  *      position: 'absolute' | 'fixed';
+ *      resize: boolean;
+ *      trigger: 'click' | 'hover';
  * } } options -
- *  - [`placement`](https://floating-ui.com/docs/computePosition#placement): Floating element's placement relative to reference element. Defaults to `'bottom'`.
+ *  - `arrow`: Whether to show an arrow in the floating element pointing toward the reference element. As an object, the `border` option defines the arrow's border width in `px`.
+ * 	- `closeBehavior`: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `'unmount'`.
+ * 	- `delay`: Popover opening delay in milliseconds. If `trigger === 'hover'`, defaults to `400`.
  *  - [`offset`](https://floating-ui.com/docs/offset#options): Distance in `px` of gap between reference and floating elements.
  *  - `padding`: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the floating element shifts. Defaults to `6`.
- * 	- `delay`: Popover opening delay in milliseconds. If `trigger === 'hover'`, defaults to `400`.
- *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
- * 	- `closeBehavior`: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `'unmount'`.
- *  - `trigger`: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
+ *  - [`placement`](https://floating-ui.com/docs/computePosition#placement): Floating element's placement relative to reference element. Defaults to `'bottom'`.
  *  - [`position`](https://floating-ui.com/docs/computeposition#strategy): Floating element's CSS `position` property. Defaults to `'absolute'`.
+ *  - [`resize`](https://floating-ui.com/docs/autoupdate#elementresize): Whether to update floating element's position when itself or the reference element are resized.
+ *  - `trigger`: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
  * 
  * @returns { {
  * 		Popover: function;
@@ -53,7 +114,7 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
  * 
  * 	<template>
  * 		<Popover class="popover-demo">
- * 			<Btn @click="togglePopover" label="Toggle Popover"/>
+ * 			<Btn v-on:click="togglePopover" label="Toggle Popover"/>
  * 			<template #portal>
  * 				<Placeholder/>
  * 			</template>
@@ -78,25 +139,40 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
  */
 export function usePopover(options = {}) {
 	const {
-		placement,
+		closeBehavior = 'unmount',
 		offset,
 		padding = vergil.config.popover.padding,
+		placement,
+		position,
 		resize,
-		closeBehavior = 'unmount',
-		position
 	} = options
 	const trigger = toRef(options.trigger)
 	const delay = toRef(() => toValue(options.delay) ?? (trigger.value === 'hover' && vergil.config.popover.delay))
-
-	const middleware = []
-	if(offset) middleware.push(useOffset(offset))
-	middleware.push(useFlip(), useShift({ padding }))
+	const arrow = {
+		...options.arrow,
+		show: Boolean(options.arrow),
+		element: shallowRef(null),
+		height: 7,
+	}
 
 	const referenceRef = shallowRef(null)
 	const reference = computed(() => referenceRef.value?.$el ?? referenceRef.value)
 	const floating = shallowRef(null)
+	
 	const open = shallowRef(false)
 	const isOpen = shallowRef(false)
+
+	const middleware = []
+	if(offset || arrow.show) {
+		middleware.push(useOffset((offset ?? 0) + (arrow.show ? arrow.height : 0)))
+	}
+	middleware.push(useFlip(), useShift({ padding }))
+	if(arrow.show) {
+		middleware.push(
+			useArrow({ element: arrow.element }),
+			usePositionArrow(arrow)
+		)
+	}
 
 	const {
 		isPositioned,
@@ -108,7 +184,6 @@ export function usePopover(options = {}) {
 		middleware,
 		strategy: position,
 	})
-
 	watchEffect(() => {
 		if(isPositioned.value) isOpen.value = true
 	})
@@ -244,11 +319,45 @@ export function usePopover(options = {}) {
 			break
 		}
 
+		const popoverContent = slots.portal()
+		if(arrow.show) {
+			const shapes = [
+				h('polygon', {
+					points: `0,${arrow.height} ${arrow.height},0 ${2*arrow.height},${arrow.height}`
+				})
+			]
+			if(arrow.border > 0) {
+				const coeff = 0.5 * Math.sqrt(2)
+				shapes.push(
+					h('polyline', {
+						'stroke-width': `${arrow.border}px`,
+						points: 
+							`${coeff*arrow.border},${arrow.height}`
+							+ ` ${arrow.height},${coeff*arrow.border}`
+							+ ` ${2*arrow.height - coeff*arrow.border},${arrow.height}`
+					})
+				)
+			}
+			popoverContent.push(
+				h('div', {
+					ref: arrow.element,
+					class: 'popover-arrow',
+					style: {
+						width: `${2*arrow.height}px`,
+						height: `${2*arrow.height}px`,
+					}
+				}, h('svg', {
+					width: 2*arrow.height,
+					height: arrow.height,
+					viewBox: `0 0 ${2*arrow.height} ${arrow.height}`
+				}, shapes))
+			)
+		}
 		const popover = h('div', mergeProps(attrs, {
 			class: [`popover ${inferTheme(theme)} size-${size} radius-${radius}`, {
 				[`spacing-${spacing}`]: spacing,
 			}]
-		}), slots.portal())
+		}), popoverContent)
 		const popoverClone = withDirectives(cloneVNode(popover), [[vShow,open.value]])
 
 		return [

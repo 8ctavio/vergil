@@ -128,7 +128,15 @@ The `portal` slot content is teleported to the `div#popover-portal` element and 
 <Demo>
 	<Anatomy tag="div" id="popover-portal">
 		<Anatomy tag="div" classes="popover-wrapper">
-			<Anatomy tag="div" classes="popover"/>
+			<Anatomy tag="div" classes="popover">
+				<Anatomy tag='slot name="portal"'/>
+				<Anatomy tag="div" classes="popover-arrow">
+					<Anatomy tag="svg">
+						<Anatomy tag="polygon"/>
+						<Anatomy tag="polyline"/>
+					</Anatomy>
+				</Anatomy>
+			</Anatomy>
 		</Anatomy>
 	</Anatomy>
 </Demo>
@@ -147,15 +155,16 @@ The `Popover` component attributes are applied to the `div.popover` element. The
 ## Definition
 
 ```ts
-function usePopover<T>(optione?: {
-	placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
+function usePopover<T>(options?: {
+	arrow: boolean | { border: number };
+	closeBehavior: 'unmount' | 'hide';
+	delay: number;
 	offset: number;
 	padding: number;
-	delay: number;
-	resize: boolean;
-	closeBehavior: 'unmount' | 'hide';
-	trigger: 'click' | 'hover';
+	placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
 	position: 'absolute' | 'fixed'
+	resize: boolean;
+	trigger: 'click' | 'hover';
 }): {
 	Popover: function,
 	openPopover: (waitUntilOpened: boolean) => Promise<boolean>;
@@ -167,17 +176,31 @@ function usePopover<T>(optione?: {
 
 #### Parameters
 
-- **[`placement`](https://floating-ui.com/docs/computePosition#placement)**: Floating element's placement relative to reference element. Defaults to `'bottom'`.
+- **`arrow`**: Whether to show an arrow in the floating element pointing toward the reference element. As an object, the `border` option defines the arrow's border width in `px`.
+- **`closeBehavior`**: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `'unmount'`.
+- **`delay`**: Popover opening delay in milliseconds. If `trigger === 'hover'`, defaults to `400`.
 - **[`offset`](https://floating-ui.com/docs/offset#options)**: Distance in `px` of gap between reference and floating elements.
 - **`padding`**: [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px`  left when the floating element shifts. Defaults to `6`.
-- **`delay`**: Popover opening delay in milliseconds. If `trigger === 'hover'`, defaults to `400`.
-- **[`resize`](https://floating-ui.com/docs/autoupdate#elementresize)**: Whether to update floating element's position when itself or the reference element are resized.
-- **`closeBehavior`**: Popover closing method: unmount (`v-if`) or hide (`v-show`). Defaults to `'unmount'`.
-- **`trigger`**: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
+- **[`placement`](https://floating-ui.com/docs/computePosition#placement)**: Floating element's placement relative to reference element. Defaults to `'bottom'`.
 - **[`position`](https://floating-ui.com/docs/computeposition#strategy)**: Floating element's CSS `position` property. Defaults to `'absolute'`.
+- **[`resize`](https://floating-ui.com/docs/autoupdate#elementresize)**: Whether to update floating element's position when itself or the reference element are resized.
+- **`trigger`**: If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
 
 :::tip
 If a floating element's parent has position `fixed`, use `position: 'fixed'`.
+:::
+
+:::tip
+Arrow's background and border colors can be defined through the arrow's svg `fill` and `stroke` properties, respectively:
+
+```css
+.popover {
+	& > .popover-arrow > svg {
+		fill: /* arrow background color */;
+		stroke: /* arrow border color */;
+	}
+}
+```
 :::
 
 #### Return value

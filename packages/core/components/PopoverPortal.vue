@@ -10,6 +10,7 @@
 	z-index: var(--z-index-popover);
 
 	& > .popover-wrapper > .popover {
+        position: relative;
         &.popover-enter-active {
             transition: opacity 70ms var(--bezier-sine-out), transform 100ms var(--bezier-sine-out);
         }
@@ -19,6 +20,19 @@
         &:is(.popover-enter-from, .popover-leave-to){
             opacity: 0;
             transform: scale(0.95);
+        }
+
+        & > .popover-arrow {
+            position: absolute;
+            & > svg {
+                & > polygon {
+                    stroke-width: 0;
+                }
+                & > polyline {
+                    fill: none;
+                    stroke-linecap: square;
+                }
+            }
         }
 	}
 }
