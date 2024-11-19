@@ -199,8 +199,9 @@ interface VergilConfiguration {
         duration: number = 6;
     },
     tooltip: {
+        arrow: false;
+        offset: arrow => arrow ? 2 : 5;
         placement: placement = 'top';
-        offset: number = 5;
     }
 }
 ```

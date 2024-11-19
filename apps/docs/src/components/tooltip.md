@@ -42,38 +42,6 @@ All [`Popover`](/composables/usePopover#popover) props are available for `Toolti
 </Tooltip>
 ```
 
-### Placement <Badge><pre>placement: string = 'top'</pre></Badge>
-
-Possible `placement` values are shown below.
-
-```ts
-type placement
-    = 'top' | 'top-start' | 'top-end'
-    | 'right' | 'right-start' | 'right-end'
-    | 'bottom' | 'bottom-start' | 'bottom-end'
-    | 'left' | 'left-start' | 'left-end'
-```
-
-### Offset <Badge><pre>offset: number = 5</pre></Badge>
-
-Distance in `px` of gap between reference element and tooltip.
-
-```vue-html
-<Tooltip text="Text" placement="bottom" :offset="0">
-    <Btn label="Tooltip"/>
-</Tooltip>
-```
-
-<Demo>
-    <Tooltip text="Text" placement="bottom" :offset="0">
-        <Btn label="Tooltip"/>
-    </Tooltip>
-</Demo>
-
-### Padding <Badge><pre>padding: number = 6</pre></Badge>
-
-[Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the tooltip shifts.
-
 ### Delay <Badge><pre>delay: number</pre></Badge>
 
 Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`, `delay` defaults to `400`.
@@ -110,6 +78,58 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
     </Tooltip>
 </Demo>
 
+### Arrow <Badge><pre>arrow: boolean</pre></Badge>
+
+```vue-html
+<Tooltip text="Tooltip with Arrow" arrow>
+    <Btn label="Arrow"/>
+</Tooltip>
+```
+
+<Demo>
+    <Tooltip text="Tooltip with Arrow" arrow>
+        <Btn label="Arrow"/>
+    </Tooltip>
+</Demo>
+
+### Offset <Badge><pre>offset: number</pre></Badge>
+
+Distance in `px` of gap between reference element and tooltip.
+
+```vue-html
+<Tooltip text="Text" placement="bottom" :offset="0">
+    <Btn label="Tooltip"/>
+</Tooltip>
+```
+
+<Demo>
+    <Tooltip text="Text" placement="bottom" :offset="0">
+        <Btn label="Tooltip"/>
+    </Tooltip>
+</Demo>
+
+The `offset` prop default value is determined through a function that receives the `arrow` prop. The following function is used by default.
+
+```js
+arrow => arrow ? 2 : 5
+```
+
+### Padding <Badge><pre>padding: number = 6</pre></Badge>
+
+[Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the tooltip shifts.
+
+### Placement <Badge><pre>placement: string = 'top'</pre></Badge>
+
+Possible `placement` values are shown below.
+
+```ts
+type placement
+    = 'top' | 'top-start' | 'top-end'
+    | 'right' | 'right-start' | 'right-end'
+    | 'bottom' | 'bottom-start' | 'bottom-end'
+    | 'left' | 'left-start' | 'left-end'
+```
+
 ### Position <Badge><pre>position: 'absolute' | 'fixed'</pre></Badge>
 
 Tooltip CSS `position` property.
@@ -123,12 +143,13 @@ If a Tooltip's parent has position `fixed`, use `position: 'fixed'`.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `text` | `string` | |
-| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'right' \| 'right-start' \| 'right-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end'` | `'top'` |
-| `offset` | `number` | `5` |
-| `padding` | `number` | |
+| `arrow` | `boolean` | |
 | `delay` | `number` | |
-| `trigger` | `'click' \| 'hover'` | `'hover'` |
+| `padding` | `number` | |
+| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'right' \| 'right-start' \| 'right-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end'` | `'top'` |
 | `position` | `'absolute' \| 'fixed'` | `'absolute'` |
+| `offset` | `number` | `5` |
+| `trigger` | `'click' \| 'hover'` | `'hover'` |
 
 ### Configuration options
 
@@ -136,5 +157,6 @@ The following `Tooltip` props' default values can be overwritten under the `tool
 
 | `tooltip.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
-| `placement` | |
+| `arrow` | |
 | `offset` | |
+| `placement` | |

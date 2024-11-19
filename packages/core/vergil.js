@@ -234,7 +234,8 @@ let template = {
         duration: 6
     },
     tooltip: {
+        arrow: false,
+        offset: arrow => arrow ? 2 : 5,
         placement: 'top',
-        offset: 5,
     }
 }

@@ -4,37 +4,44 @@ import { vergil } from '../vergil'
 import { usePopover } from '../composables'
 import { isValidPlacement } from '../utilities/private'
 
-const { placement, offset, padding, delay, trigger, position } = defineProps({
+const { arrow, delay, padding, placement, position, offset, trigger } = defineProps({
 	text: String,
+	arrow: {
+		type: Boolean,
+		default: () => vergil.config.tooltip.arrow
+	},
+	delay: Number,
+	padding: Number,
 	placement: {
 		type: String,
 		default: () => vergil.config.tooltip.placement,
 		validator: isValidPlacement,
 	},
+	position: {
+		type: String,
+		validator: v => ['absolute','fixed'].includes(v)
+	},
 	offset: {
 		type: Number,
-		default: () => vergil.config.tooltip.offset
+		default: props => vergil.config.tooltip.offset(props.arrow)
 	},
-	padding: Number,
-	delay: Number,
 	trigger: {
 		type: String,
 		default: 'hover',
 		validator: v => ['click','hover'].includes(v)
-	},
-	position: {
-		type: String,
-		validator: v => ['absolute','fixed'].includes(v)
 	}
 })
 
 const { Popover } = usePopover({
-	placement,
-	offset,
-	padding,
+	arrow: arrow && {
+		border: 1
+	},
 	delay,
-	trigger,
+	padding,
+	placement,
 	position,
+	offset,
+	trigger,
 })
 </script>
 
@@ -65,5 +72,11 @@ const { Popover } = usePopover({
     background-color: var(--c-bg);
     box-shadow: 1px 1px 2px var(--c-box-shadow);
 	color: var(--c-text);
+	cursor: default;
+
+	& > .popover-arrow > svg {
+		fill: var(--c-bg);
+		stroke: var(--c-grey-border-subtle);
+	}
 }
 </style>
