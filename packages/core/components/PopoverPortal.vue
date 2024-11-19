@@ -24,14 +24,12 @@
 
         & > .popover-arrow {
             position: absolute;
-            & > svg {
-                & > polygon {
-                    stroke-width: 0;
-                }
-                & > polyline {
-                    fill: none;
-                    stroke-linecap: square;
-                }
+            & > polygon {
+                stroke-width: 0;
+            }
+            & > polyline {
+                fill: none;
+                stroke-linecap: square;
             }
         }
 	}

@@ -74,7 +74,7 @@ const { Popover } = usePopover({
 	color: var(--c-text);
 	cursor: default;
 
-	& > .popover-arrow > svg {
+	& > .popover-arrow {
 		fill: var(--c-bg);
 		stroke: var(--c-grey-border-subtle);
 	}

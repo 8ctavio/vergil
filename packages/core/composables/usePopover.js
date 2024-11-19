@@ -319,8 +319,8 @@ export function usePopover(options = {}) {
 			break
 		}
 
-		const popoverContent = slots.portal()
-		if(arrow.show) {
+		const popoverContent = slots.portal?.()
+		if(popoverContent && arrow.show) {
 			const shapes = [
 				h('polygon', {
 					points: `0,${arrow.height} ${arrow.height},0 ${2*arrow.height},${arrow.height}`
@@ -339,18 +339,15 @@ export function usePopover(options = {}) {
 				)
 			}
 			popoverContent.push(
-				h('div', {
+				h('svg', {
 					ref: arrow.element,
 					class: 'popover-arrow',
 					style: {
 						width: `${2*arrow.height}px`,
 						height: `${2*arrow.height}px`,
-					}
-				}, h('svg', {
-					width: 2*arrow.height,
-					height: arrow.height,
-					viewBox: `0 0 ${2*arrow.height} ${arrow.height}`
-				}, shapes))
+					},
+					viewBox: `0 0 ${2*arrow.height} ${2*arrow.height}`
+				}, shapes)
 			)
 		}
 		const popover = h('div', mergeProps(attrs, {

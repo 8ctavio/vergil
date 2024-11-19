@@ -130,11 +130,9 @@ The `portal` slot content is teleported to the `div#popover-portal` element and 
 		<Anatomy tag="div" classes="popover-wrapper">
 			<Anatomy tag="div" classes="popover">
 				<Anatomy tag='slot name="portal"'/>
-				<Anatomy tag="div" classes="popover-arrow">
-					<Anatomy tag="svg">
-						<Anatomy tag="polygon"/>
-						<Anatomy tag="polyline"/>
-					</Anatomy>
+				<Anatomy tag="svg" classes="popover-arrow">
+					<Anatomy tag="polygon"/>
+					<Anatomy tag="polyline"/>
 				</Anatomy>
 			</Anatomy>
 		</Anatomy>
@@ -195,7 +193,7 @@ Arrow's background and border colors can be defined through the arrow's svg `fil
 
 ```css
 .popover {
-	& > .popover-arrow > svg {
+	& > .popover-arrow {
 		fill: /* arrow background color */;
 		stroke: /* arrow border color */;
 	}
