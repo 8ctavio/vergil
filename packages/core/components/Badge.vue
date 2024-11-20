@@ -50,21 +50,12 @@ defineProps({
 </script>
 
 <template>
-    <p
-        :class="[
-            'badge',
-            variant,
-            inferTheme(theme),
-            `size-${size}`,
-            `radius-${radius}`,
-            {
-                outline,
-                squared,
-                [`spacing-${spacing}`]: spacing,
-                [`outline-${outline === true ? 'regular' : outline}`]: outline,
-            }
-        ]"
-    >
+    <p :class="[`badge ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+        outline,
+        squared,
+        [`spacing-${spacing}`]: spacing,
+        [`outline-${outline === true ? 'regular' : outline}`]: outline,
+    }]">
         <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
         <slot>
             <MiniMarkup :str="label"/>
@@ -84,7 +75,6 @@ defineProps({
     grid-auto-flow: column;
     column-gap: var(--g-gap-md);
     border: none;
-    font-weight: 500;
     cursor: default;
 
     &.solid {

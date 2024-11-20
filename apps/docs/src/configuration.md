@@ -117,6 +117,12 @@ interface VergilConfiguration {
             neutral: string;
         }
     },
+    datalist: {
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     inputSearch: {
         btnPosition: ('before' | 'after') = 'after';
     },

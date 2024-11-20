@@ -152,6 +152,12 @@ let template = {
             neutral: undefined
         }
     },
+    datalist: {
+        theme: new Option(undefined, inferTheme),
+        size: undefined,
+        radius: undefined,
+        spacing: undefined,
+    },
     inputSearch: {
         btnPosition: 'after',
     },

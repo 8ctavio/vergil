@@ -62,6 +62,7 @@ export default {
 						]
 					},
 					{ text: 'Confirm', link: '/components/confirm' },
+					{ text: 'DataList', link: '/components/datalist' },
 					{ text: 'Icon', link: '/components/icon' },
 					{ text: 'Placeholder', link: '/components/placeholder' },
 					{ text: 'Popup', link: '/components/popup' },
