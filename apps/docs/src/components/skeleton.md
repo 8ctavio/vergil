@@ -10,6 +10,10 @@ import { Skeleton } from '@8ctavio/vergil/components'
 
 ## Basic Usage
 
+<Demo>
+    <Skeleton/>
+</Demo>
+
 ```vue
 <script setup>
 import { Skeleton } from '@8ctavio/vergil/components'
@@ -26,9 +30,6 @@ import { Skeleton } from '@8ctavio/vergil/components'
 }
 </style>
 ```
-<Demo>
-    <Skeleton/>
-</Demo>
 
 ## API Reference
 
@@ -48,9 +49,7 @@ The following `Skeleton` props' default values can be overwritten under the `ske
 | `radius` | ✅ |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="skeleton"/>

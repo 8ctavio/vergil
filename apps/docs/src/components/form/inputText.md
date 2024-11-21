@@ -22,6 +22,10 @@ const btnAfterProps = {
 
 ## Basic Usage
 
+<Demo>
+    <InputText label="Text Input"/>
+</Demo>
+
 ```vue
 <script setup>
 import { InputText } from '@8ctavio/vergil/components'
@@ -33,9 +37,6 @@ const text = useModel('')
     <InputText v-model="text" label="Text Input"/>
 </template>
 ```
-<Demo>
-    <InputText label="Text Input"/>
-</Demo>
 
 ## Props
 
@@ -291,9 +292,7 @@ The following `InputText` props' default values can be overwritten under the `in
 | `radius` | ✅ |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field input-text">

@@ -15,6 +15,10 @@ const spacing = useModel('')
 
 ## Basic Usage
 
+<Demo>
+    <Textarea label="Textarea"/>
+</Demo>
+
 ```vue
 <script setup>
 import { Textarea } from '@8ctavio/vergil/components'
@@ -26,9 +30,6 @@ const text = useModel('')
     <Textarea v-model="text" label="Textarea"/>
 </template>
 ```
-<Demo>
-    <Textarea label="Textarea"/>
-</Demo>
 
 ## Props
 
@@ -228,9 +229,7 @@ The following `Textarea` props' default values can be overwritten under the `tex
 | `radius` | ✅ |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field textarea">

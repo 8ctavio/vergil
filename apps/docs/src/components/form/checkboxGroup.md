@@ -17,6 +17,20 @@ const demo4 = useModel('')
 
 ## Basic Usage
 
+<Demo>
+    <CheckboxGroup label="Planets"
+        :options="{
+            earth: 'Earth',
+            reach: 'Reach',
+            harvest: 'Harvest'
+        }"/>
+    <CheckboxGroup label="Ships">
+        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn"/>
+        <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
+        <Checkbox value="forwardUntoDawn" label="Forward Unto Dawn"/>
+    </CheckboxGroup>
+</Demo>
+
 ```vue
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
@@ -42,19 +56,6 @@ const ships = useModel([])
     </CheckboxGroup>
 </template>
 ```
-<Demo>
-    <CheckboxGroup label="Planets"
-        :options="{
-            earth: 'Earth',
-            reach: 'Reach',
-            harvest: 'Harvest'
-        }"/>
-    <CheckboxGroup label="Ships">
-        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn"/>
-        <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
-        <Checkbox value="forwardUntoDawn" label="Forward Unto Dawn"/>
-    </CheckboxGroup>
-</Demo>
 
 ## Props
 
@@ -417,9 +418,7 @@ As a function, `options-attributes` is called for each option, receives the comp
 
 The `CheckboxGroup` is configured through the `Checkbox` configuration options.
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field checkbox-group">

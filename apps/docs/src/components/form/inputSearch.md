@@ -24,6 +24,10 @@ function clean(){
 
 ## Basic Usage
 
+<Demo>
+    <InputSearch label="Search Input"/>
+</Demo>
+
 ```vue
 <script setup>
 import { InputSearch } from '@8ctavio/vergil/components'
@@ -35,9 +39,6 @@ const search = useModel('')
     <InputSearch v-model="search" label="Search Input"/>
 </template>
 ```
-<Demo>
-    <InputSearch label="Search Input"/>
-</Demo>
 
 ## Props
 
@@ -186,9 +187,7 @@ The following `InputSearch` props' default values can be overwritten under the `
 
 Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field input-text input-search">

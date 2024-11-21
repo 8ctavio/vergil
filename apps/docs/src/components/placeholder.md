@@ -10,6 +10,10 @@ import { Placeholder } from '@8ctavio/vergil/components'
 
 ## Basic Usage
 
+<Demo>
+    <Placeholder/>
+</Demo>
+
 ```vue
 <script setup>
 import { Placeholder } from '@8ctavio/vergil/components'
@@ -26,9 +30,6 @@ import { Placeholder } from '@8ctavio/vergil/components'
 }
 </style>
 ```
-<Demo>
-    <Placeholder/>
-</Demo>
 
 ## Props
 
@@ -59,9 +60,7 @@ The following `Placeholder` props' default values can be overwritten under the `
 | `size` | ✅ |
 | `radius` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="placeholder">

@@ -17,6 +17,20 @@ const demo4 = useModel('')
 
 ## Basic Usage
 
+<Demo>
+    <RadioGroup name="vehicles" label="Vehicles"
+        :options="{
+            mongoose: 'Mongoose',
+            warthog: 'Warthog',
+            scorpion: 'Scorpion'
+        }"/>
+    <RadioGroup value="mark-iv" name="armor" label="Armor">
+        <Radio value="mark-iv" label="Mark IV"/>
+        <Radio value="mark-v" label="Mark V" theme="user"/>
+        <Radio value="mark-vi" label="Mark VI"/>
+    </RadioGroup>
+</Demo>
+
 ```vue
 <script setup>
 import { RadioGroup, Radio } from '@8ctavio/vergil/components'
@@ -42,19 +56,6 @@ const armor = useModel('mark-iv')
     </RadioGroup>
 </template>
 ```
-<Demo>
-    <RadioGroup name="vehicles" label="Vehicles"
-        :options="{
-            mongoose: 'Mongoose',
-            warthog: 'Warthog',
-            scorpion: 'Scorpion'
-        }"/>
-    <RadioGroup value="mark-iv" name="armor" label="Armor">
-        <Radio value="mark-iv" label="Mark IV"/>
-        <Radio value="mark-v" label="Mark V" theme="user"/>
-        <Radio value="mark-vi" label="Mark VI"/>
-    </RadioGroup>
-</Demo>
 
 ## Props
 
@@ -426,9 +427,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 
 The `RadioGroup` is configured through the `Radio` configuration options.
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field radio-group">

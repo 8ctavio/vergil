@@ -12,6 +12,10 @@ outline: [2,3]
 
 ## Usage
 
+<Demo>
+    <Icon code="snowboarding"/>
+</Demo>
+
 ```vue
 <script setup>
     import { Icon } from '@8ctavio/vergil/components'
@@ -21,9 +25,6 @@ outline: [2,3]
     <Icon code="snowboarding"/>
 </template>
 ```
-<Demo>
-    <Icon code="snowboarding"/>
-</Demo>
 
 :::tip
 Vergil uses [Material Symbols](https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Symbols). In order for icons to display properly, it is required to import Material Symbols to the project's main css file as follows
@@ -47,3 +48,9 @@ Material Symbols icon code.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `code` | `string` | `''` |
+
+## Anatomy
+
+<Demo>
+    <Anatomy tag="span" classes="icon"/>
+</Demo>

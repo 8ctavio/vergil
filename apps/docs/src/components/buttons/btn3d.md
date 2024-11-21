@@ -12,6 +12,10 @@ import { Btn3D } from '@8ctavio/vergil/components'
 
 ## Basic Usage
 
+<Demo>
+    <Btn3D>Keep it Clean!</Btn3D>
+</Demo>
+
 ```vue
 <script setup>
 import { Btn3D } from '@8ctavio/vergil/components'
@@ -21,9 +25,6 @@ import { Btn3D } from '@8ctavio/vergil/components'
     <Btn3D>Keep it Clean!</Btn3D>
 </template>
 ```
-<Demo>
-    <Btn3D>Keep it Clean!</Btn3D>
-</Demo>
 
 ## Props
 
@@ -371,9 +372,7 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 | `spacing` | ✅ |
 | `squared` | |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="button" classes="btn3D">

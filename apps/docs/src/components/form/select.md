@@ -29,6 +29,30 @@ const demo4 = useModel('')
 
 ## Basic Usage
 
+<Demo>
+    <div class="col center">
+        <Select class="select-demo"
+            label="Difficulty"
+            placeholder="Choose difficulty"
+            :options="{
+                easy: 'Easy',
+                normal: 'Normal',
+                heroic: 'Heroic',
+                legendary: 'Legendary'
+            }"/>
+        <Select class="select-demo"
+            :value="[]"
+            label="Skulls"
+            placeholder="Select skulls"
+            :options="{
+                anger: 'Anger',
+                blind: 'Blind',
+                catch: 'Catch',
+                ghost: 'Ghost',
+            }"/>
+    </div>
+</Demo>
+
 ```vue
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
@@ -76,29 +100,6 @@ const skulls = useModel([])
 }   
 </style>
 ```
-<Demo>
-    <div class="col center">
-        <Select class="select-demo"
-            label="Difficulty"
-            placeholder="Choose difficulty"
-            :options="{
-                easy: 'Easy',
-                normal: 'Normal',
-                heroic: 'Heroic',
-                legendary: 'Legendary'
-            }"/>
-        <Select class="select-demo"
-            :value="[]"
-            label="Skulls"
-            placeholder="Select skulls"
-            :options="{
-                anger: 'Anger',
-                blind: 'Blind',
-                catch: 'Catch',
-                ghost: 'Ghost',
-            }"/>
-    </div>
-</Demo>
 
 ## Props
 
@@ -557,9 +558,7 @@ The following `Select` props' default values can be overwritten under the `selec
 | `radius` | ✅ |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field select">

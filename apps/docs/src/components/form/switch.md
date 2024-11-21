@@ -13,24 +13,6 @@ const skulls = useModel([])
 
 ## Basic Usage
 
-```vue
-<script setup>
-import { Switch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const isOn = useModel(false)
-const skulls = useModel([])
-</script>
-
-<template>
-    <!-- Single boolean value -->
-    <Switch v-model="isOn" label="Switch"/>
-
-    <!-- Multiple values -->
-    <Switch v-model="skulls" value="iron" label="Iron"/>
-    <Switch v-model="skulls" value="blind" label="Blind"/>
-    <Switch v-model="skulls" value="iwhbyd" label="IWHBYD "/>
-</template>
-```
 <Demo>
     <div class="col">
         <div class="row center">
@@ -49,6 +31,25 @@ const skulls = useModel([])
         </div>
     </div>
 </Demo>
+
+```vue
+<script setup>
+import { Switch } from '@8ctavio/vergil/components'
+import { useModel } from '@8ctavio/vergil'
+const isOn = useModel(false)
+const skulls = useModel([])
+</script>
+
+<template>
+    <!-- Single boolean value -->
+    <Switch v-model="isOn" label="Switch"/>
+
+    <!-- Multiple values -->
+    <Switch v-model="skulls" value="iron" label="Iron"/>
+    <Switch v-model="skulls" value="blind" label="Blind"/>
+    <Switch v-model="skulls" value="iwhbyd" label="IWHBYD "/>
+</template>
+```
 
 ## Attributes
 
@@ -211,9 +212,7 @@ The following `Switch` props' default values can be overwritten under the `switc
 | `radius` | |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field switch">

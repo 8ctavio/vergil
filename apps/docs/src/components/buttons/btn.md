@@ -12,6 +12,10 @@ import { Btn } from '@8ctavio/vergil/components'
 
 ## Basic Usage
 
+<Demo>
+    <Btn>Keep it Clean!</Btn>
+</Demo>
+
 ```vue
 <script setup>
 import { Btn } from '@8ctavio/vergil/components'
@@ -21,9 +25,6 @@ import { Btn } from '@8ctavio/vergil/components'
     <Btn>Keep it Clean!</Btn>
 </template>
 ```
-<Demo>
-    <Btn>Keep it Clean!</Btn>
-</Demo>
 
 ## Props
 
@@ -556,9 +557,7 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
 | `spacing` | ✅ |
 | `squared` | |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="button" classes="btn">

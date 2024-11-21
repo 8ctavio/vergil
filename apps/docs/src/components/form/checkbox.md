@@ -14,30 +14,6 @@ const planets = useModel([])
 
 ## Basic Usage
 
-```vue
-<script setup>
-import { Checkbox } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const checked = useModel(false)
-const planet = useModel('')
-const planets = useModel([])
-</script>
-
-<template>
-    <!-- Single boolean value -->
-    <Checkbox v-model="checked" label="Checkbox"/>
-
-    <!-- Multiple values, single selection -->
-    <Checkbox v-model="planet" value="earth" label="Earth"/>
-    <Checkbox v-model="planet" value="reach" label="Reach"/>
-    <Checkbox v-model="planet" value="harvest" label="Harvest"/>
-
-    <!-- Multiple values, multiple selection -->
-    <Checkbox v-model="planets" value="Arcadia" label="Arcadia"/>
-    <Checkbox v-model="planets" value="requiem" label="Requiem"/>
-    <Checkbox v-model="planets" value="sanghelios" label="Sanghelios"/>
-</template>
-```
 <Demo>
     <div class="col">
         <div class="row center">
@@ -64,6 +40,31 @@ const planets = useModel([])
         </div>
     </div>
 </Demo>
+
+```vue
+<script setup>
+import { Checkbox } from '@8ctavio/vergil/components'
+import { useModel } from '@8ctavio/vergil'
+const checked = useModel(false)
+const planet = useModel('')
+const planets = useModel([])
+</script>
+
+<template>
+    <!-- Single boolean value -->
+    <Checkbox v-model="checked" label="Checkbox"/>
+
+    <!-- Multiple values, single selection -->
+    <Checkbox v-model="planet" value="earth" label="Earth"/>
+    <Checkbox v-model="planet" value="reach" label="Reach"/>
+    <Checkbox v-model="planet" value="harvest" label="Harvest"/>
+
+    <!-- Multiple values, multiple selection -->
+    <Checkbox v-model="planets" value="Arcadia" label="Arcadia"/>
+    <Checkbox v-model="planets" value="requiem" label="Requiem"/>
+    <Checkbox v-model="planets" value="sanghelios" label="Sanghelios"/>
+</template>
+```
 
 ## Props
 
@@ -238,9 +239,7 @@ The following `Checkbox` props' default values can be overwritten under the `che
 | `radius` | ✅ |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="label" classes="checkbox">

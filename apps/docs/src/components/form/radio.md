@@ -12,6 +12,19 @@ const vehicles = useModel('')
 
 ## Basic Usage
 
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <Radio v-model="vehicles" name="vehicles" value="mongoose" label="Mongoose"/>
+            <Radio v-model="vehicles" name="vehicles" value="warthog" label="Warthog"/>
+            <Radio v-model="vehicles" name="vehicles" value="scorpion" label="Scorpion"/>
+        </div>
+        <div class="row center">
+            <code>vehicles.value === '{{vehicles.value}}'</code>
+        </div>
+    </div>
+</Demo>
+
 ```vue
 <script setup>
 import { Radio } from '@8ctavio/vergil/components'
@@ -25,18 +38,6 @@ const vehicles = useModel('')
     <Radio v-model="vehicles" name="vehicles" value="scorpion" label="Scorpion"/>
 </template>
 ```
-<Demo>
-    <div class="col">
-        <div class="row center">
-            <Radio v-model="vehicles" name="vehicles" value="mongoose" label="Mongoose"/>
-            <Radio v-model="vehicles" name="vehicles" value="warthog" label="Warthog"/>
-            <Radio v-model="vehicles" name="vehicles" value="scorpion" label="Scorpion"/>
-        </div>
-        <div class="row center">
-            <code>vehicles.value === '{{vehicles.value}}'</code>
-        </div>
-    </div>
-</Demo>
 
 ## Attributes
 
@@ -235,9 +236,7 @@ The following `Radio` props' default values can be overwritten under the `radio`
 For the `'classic'` variant the `radius` global configuration option is ignored. If the `radio` component configuration option is not set, the `'full'` value is applied.
 :::
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="label" classes="radio">

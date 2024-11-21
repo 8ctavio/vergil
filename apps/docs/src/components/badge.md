@@ -10,6 +10,10 @@ import { Badge as VergilBadge } from '@8ctavio/vergil/components'
 
 ## Basic Usage
 
+<Demo>
+    <VergilBadge>Welcome. Access Granted.</VergilBadge>
+</Demo>
+
 ```vue
 <script setup>
 import { Badge } from '@8ctavio/vergil/components'
@@ -19,9 +23,6 @@ import { Badge } from '@8ctavio/vergil/components'
     <Badge>Welcome. Access Granted.</Badge>
 </template>
 ```
-<Demo>
-    <VergilBadge>Welcome. Access Granted.</VergilBadge>
-</Demo>
 
 ## Props
 
@@ -289,9 +290,7 @@ The following `Badge` props' default values can be overwritten under the `badge`
 | `spacing` | ✅ |
 | `squared` | |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="p" classes="badge">

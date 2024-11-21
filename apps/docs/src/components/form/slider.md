@@ -15,6 +15,10 @@ function formatValue(value){
 
 ## Basic Usage
 
+<Demo>
+    <Slider label="Slider" value="80"/>
+</Demo>
+
 ```vue
 <script setup>
 import { Slider } from '@8ctavio/vergil/components'
@@ -26,9 +30,6 @@ const progress = useModel(80)
     <Slider v-model="progress" label="Slider"/>
 </template>
 ```
-<Demo>
-    <Slider label="Slider" value="80"/>
-</Demo>
 
 ## Attributes
 
@@ -188,9 +189,7 @@ The following `Slider` props' default values can be overwritten under the `slide
 | `radius` | |
 | `spacing` | ✅ |
 
-## Styling
-
-### Anatomy
+## Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field slider">
