@@ -1,10 +1,8 @@
 import { fileURLToPath, URL } from 'node:url'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitepress.vuejs.org/reference/site-config
 export default {
 	vite: {
-		plugins: [vueDevTools()],
 		server: {
 			port: 3000
 		},

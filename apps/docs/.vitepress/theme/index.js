@@ -9,20 +9,18 @@ import Demo from './components/Demo.vue'
 import Anatomy from './components/Anatomy.vue'
 import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 import { PopupBackdrop, PopoverPortal, Confirm, Toasters } from '@8ctavio/vergil/components'
-import { defineComponent, h } from 'vue'
+import { h } from 'vue'
 import { vergil } from '@8ctavio/vergil/plugins'
 
 export default {
 	extends: DefaultTheme,
-	Layout: defineComponent({
-		render: () => [
-			h(Layout),
-			h(PopupBackdrop),
-			h(PopoverPortal),
-			h(Confirm),
-			h(Toasters)
-		]
-	}),
+	Layout: () => [
+		h(Layout),
+		h(PopupBackdrop),
+		h(PopoverPortal),
+		h(Confirm),
+		h(Toasters)
+	],
 	enhanceApp({ app, router, siteData }) {
 		app
 			.component('Demo', Demo)
