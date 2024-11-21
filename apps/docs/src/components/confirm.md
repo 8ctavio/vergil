@@ -43,7 +43,22 @@ function example1(){
         `,
         confirmLabel: 'Respond',
         declineLabel: 'Dismiss',
-        icon: 'sensors'
+        icon: 'sensors',
+        onConfirmed() {
+            if((115 + Math.floor(Math.random() * 4)) === 117) {
+                toast({
+                    message: "Captain Andrew Del Rio",
+                    details: "This is Captain Andrew Del Rio, hailing any survivors of the UNSC Forward Unto Dawn; we're approaching your last known location.",
+                    icon: "military_tech"
+                })
+            } else {
+                toast({
+                    message: "#N$C In%#%i@y",
+                    details: "Incoming Transmission...",
+                    icon: "router"
+                })
+            }
+        }
     })
 }
 </script>
