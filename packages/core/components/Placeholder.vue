@@ -1,27 +1,43 @@
 <script setup>
 import Badge from './Badge.vue'
 import { vergil } from '../vergil'
-import { isValidRadius, isValidSize } from '../utilities/private'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineProps({
     label: String,
+    descendant: Boolean,
+    theme: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.placeholder.theme ?? vergil.config.global.theme),
+        validator: isValidTheme
+    },
     size: {
         type: String,
-        default: () => vergil.config.placeholder.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.placeholder.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.placeholder.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.placeholder.radius ?? vergil.config.global.radius),
         validator: isValidRadius
+    },
+    spacing: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.placeholder.spacing ?? vergil.config.global.spacing),
+        validator: isValidSpacing
     },
 })
 </script>
 
 <template>
-    <div :class="['placeholder', `radius-${radius}`, `size-${size}`]">
-        <Badge v-if="label" v-bind="$attrs" :label :size :radius/>
+    <div :class="['placeholder', {
+        [inferTheme(theme)]: theme,
+        [`size-${size}`]: size,
+        [`radius-${radius}`]: radius,
+        [`spacing-${spacing}`]: spacing,
+    }]">
+        <Badge v-if="label" v-bind="$attrs" :label descendant/>
     </div>
 </template>
 

@@ -22,37 +22,42 @@ defineProps({
     icon: String,
     iconLeft: String,
     iconRight: String,
-    theme: {
-        type: String,
-        default: () => vergil.config.badge.theme ?? vergil.config.global.theme,
-        validator: isValidTheme
-    },
-    size: {
-        type: String,
-        default: () => vergil.config.badge.size ?? vergil.config.global.size,
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: () => vergil.config.badge.radius ?? vergil.config.global.radius,
-        validator: isValidRadius
-    },
-    spacing: {
-        type: String,
-        default: () => vergil.config.badge.spacing ?? vergil.config.global.spacing,
-        validator: isValidSpacing
-    },
     squared: {
         type: Boolean,
         default: props => vergil.config.badge.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
+
+    descendant: Boolean,
+    theme: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.badge.theme ?? vergil.config.global.theme),
+        validator: isValidTheme
+    },
+    size: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.badge.size ?? vergil.config.global.size),
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.badge.radius ?? vergil.config.global.radius),
+        validator: isValidRadius
+    },
+    spacing: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.badge.spacing ?? vergil.config.global.spacing),
+        validator: isValidSpacing
+    }
 })
 </script>
 
 <template>
-    <p :class="[`badge ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+    <p :class="['badge', variant, {
         outline,
         squared,
+        [inferTheme(theme)]: theme,
+        [`size-${size}`]: size,
+        [`radius-${radius}`]: radius,
         [`spacing-${spacing}`]: spacing,
         [`outline-${outline === true ? 'regular' : outline}`]: outline,
     }]">

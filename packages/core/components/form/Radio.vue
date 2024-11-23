@@ -26,6 +26,10 @@ const props = defineProps({
         default: () => vergil.config.radio.radioRadius,
         validator: isValidRadius
     },
+    disabled: Boolean,
+    class: [String, Object],
+
+    descendant: Boolean,
     theme: {
         type: String,
         validator: isValidTheme
@@ -41,23 +45,21 @@ const props = defineProps({
     spacing: {
         type: String,
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 const {
     groupModel,
     groupName,
     groupDisabled,
-    groupTheme
 } = inject('radio-props', {})
 
 const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
 
-const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.radio.theme ?? vergil.config.global.theme)
-const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.radio.size ?? vergil.config.global.size)))
-const radius = computed(() => props.radius ?? (groupTheme ? '' : (vergil.config.radio.radius ?? (props.variant === 'classic' ? 'full' : vergil.config.global.radius))))
-const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
+const descendant = computed(() => props.descendant || isModel(groupModel))
+const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
+const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.radio.size ?? vergil.config.global.size)))
+const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
+const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
 function handleTemplateRef(el) {
     if(!model.el) model.el = el
@@ -69,16 +71,12 @@ function handleTemplateRef(el) {
         :variant
         :showSymbol
         :radius="radioRadius"
-        :size
-        :class="[
-            props.class,
-            inferTheme(theme),
-            {
-                [`size-${size}`]: size,
-                [`radius-${radius}`]: radius,
-                [`spacing-${spacing}`]: spacing
-            }
-        ]">
+        :class="[props.class, {
+            [inferTheme(theme)]: theme,
+            [`size-${size}`]: size,
+            [`radius-${radius}`]: radius,
+            [`spacing-${spacing}`]: spacing
+        }]">
         <template #input>
             <input
                 v-bind="$attrs"

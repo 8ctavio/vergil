@@ -172,11 +172,12 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | |
 
 ### Configuration options
 

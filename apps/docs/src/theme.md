@@ -7,6 +7,15 @@ import { Icon } from '@8ctavio/vergil/components'
 import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 </script>
 
+<style scoped>
+.icon {
+    display: inline-block;
+    padding: 0 5px;
+    font-size: 1.2em;
+    color: var(--c-moss-1);
+}
+</style>
+
 # Theme
 
 Vergil's theme defines global styles and css variables to maintain a consistent looking design throughout the application. This theme should be imported at the beginning of the main css file of the project being worked on as shown below.
@@ -17,11 +26,9 @@ Vergil's theme defines global styles and css variables to maintain a consistent 
 
 To customize the theme, [existing css variables](https://github.com/8ctavio/vergil/blob/main/packages/core/styles/main.css) may be overwritten.
 
-:::tip
-Use Vergil's css variables to style the underlying project Vergil is being used on.
-:::
-
 Additionally, Vergil components are designed to be themed with different colors. Vergil defines different *themes* for components to change the color palette with which they are styled. Component themes are specified through a `theme` prop.
+
+Similarly, component's geometric appearance may be customized though `size`, `radius`, and `spacing` props.
 
 ## The `theme` prop
 
@@ -173,11 +180,53 @@ As an array, `colors` should contain [color palette names](#color-palettes). Cus
 If a `ColorPicker`'s parent has position `fixed`, use `position: 'fixed'`.
 :::
 
-<style scoped>
-.icon {
-    display: inline-block;
-    padding: 0 5px;
-    font-size: 1.2em;
-    color: var(--c-moss-1);
-}
-</style>
+## Geometric appearance
+
+Most Vergil components accept `size`, `radius`, and `spacing` props to customize their appearance by updating geometric attributes such as `font-size`, `border-radius`, and `padding`.
+
+### The `size` prop
+
+The `size` prop adjusts the size of components' font (`font-size`) and gaps (`padding`, `margin`, `gap`).
+
+Possible `size` values are shown below.
+
+```ts
+type size = 'sm' | 'md' | 'lg' | 'xl'
+```
+
+### The `radius` prop
+
+The `radius` prop adjusts components' `border-radius`.
+
+Possible `radius` values are shown below.
+
+```ts
+type radius = 'none' | 'sm' | 'md' | 'lg' | 'full'
+```
+
+### The `spacing` prop
+
+The `spacing` prop increases or decreases the size of components' gaps (`padding`, `margin`, `gap`) without updating the font size with in order to give either a more compact or spacious look.
+
+Possible `spacing` values are shown below.
+
+```ts
+type spacing = '' | 'compact' | 'expanded'
+```
+
+## The `descendant` prop
+
+Components that support the `theme`, `size`, `radius`, and `spacing` props also support a boolean `descendant` prop. When set, this prop marks the component as a descendant of another component that also accept the beforementioned props. Descendant components' default prop values will not be set, allowing them to inherit a parent component's prop values.
+
+## Global style props default values
+
+Default values for the `theme`, `size`, `radius`, and `spacing` props can be globally defined for components that support them under the `global` [configuration option](/configuration).
+
+Default global values for these props are shown below.
+
+| prop | default global value |
+| ---- | -------------------- |
+| `theme` | `'brand'` |
+| `size` | `'md'` |
+| `radius` | `'md'` |
+| `spacing` | `''` |

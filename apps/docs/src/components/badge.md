@@ -61,6 +61,36 @@ The `'regular'` and `true` values are equivalent.
     </div>
 </Demo>
 
+### Icon <Badge><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
+
+```vue
+<Badge icon="rocket_launch"/>
+```
+
+<Demo>
+    <VergilBadge icon="rocket_launch" theme="brand" variant="solid"/>
+    <VergilBadge icon="rocket_launch" theme="brand" variant="soft"/>
+    <VergilBadge icon="rocket_launch" theme="brand" variant="subtle"/>
+</Demo>
+
+### Icon Right <Badge><pre>icon-right: string</pre></Badge>
+
+```vue
+<Badge label="Omega" icon-right="special_character"/>
+```
+
+<Demo>
+    <VergilBadge label="Omega" icon-right="special_character" variant="solid"/>
+    <VergilBadge label="Omega" icon-right="special_character" variant="soft"/>
+    <VergilBadge label="Omega" icon-right="special_character" variant="subtle"/>
+</Demo>
+
+### Squared <Badge><pre>squared: boolean</pre></Badge>
+
+<Demo>
+    <VergilBadge squared label="Squared"/>
+</Demo>
+
 ### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
@@ -96,8 +126,6 @@ The `'regular'` and `true` values are equivalent.
 </Demo>
 
 ### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
-
-Changing the size mainly changes the font-size and adjusts padding accordingly.
 
 <Demo>
     <VergilBadge size="sm" label="Small"/>
@@ -170,96 +198,6 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
     </div>
 </Demo>
 
-### Squared <Badge><pre>squared: boolean</pre></Badge>
-
-<Demo>
-    <VergilBadge size="sm" squared label="Small"/>
-    <VergilBadge size="md" squared label="Medium"/>
-    <VergilBadge size="lg" squared label="Large"/>
-    <VergilBadge size="xl" squared label="Extra Large"/>
-</Demo>
-
-### Icon <Badge><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
-
-```vue
-<Badge icon="rocket_launch"/>
-```
-
-<Demo>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="brand" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="brand" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="brand" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="user" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="user" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="user" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="ok" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="ok" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="ok" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="info" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="info" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="info" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="warn" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="warn" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="warn" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="danger" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="danger" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="danger" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <VergilBadge icon="rocket_launch" theme="neutral" variant="solid"/>
-        <VergilBadge icon="rocket_launch" theme="neutral" variant="soft"/>
-        <VergilBadge icon="rocket_launch" theme="neutral" variant="subtle"/>
-    </div>
-</Demo>
-
-### Icon Right <Badge><pre>icon-right: string</pre></Badge>
-
-```vue
-<Badge label="Omega" icon-right="special_character"/>
-```
-
-<Demo>
-    <VergilBadge label="Omega" icon-right="special_character" variant="solid"/>
-    <VergilBadge label="Omega" icon-right="special_character" variant="soft"/>
-    <VergilBadge label="Omega" icon-right="special_character" variant="subtle"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <VergilBadge label="Omega" icon-right="special_character" size="sm" spacing="compact"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="sm"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="sm" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <VergilBadge label="Omega" icon-right="special_character" size="md" spacing="compact"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="md"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="md" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <VergilBadge label="Omega" icon-right="special_character" size="lg" spacing="compact"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="lg"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="lg" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <VergilBadge label="Omega" icon-right="special_character" size="xl" spacing="compact"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="xl"/>
-            <VergilBadge label="Omega" icon-right="special_character" size="xl" spacing="expanded"/>
-        </div>
-    </div>
-</Demo>
-
 ## API Reference
 
 | prop | type | default |
@@ -270,11 +208,12 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 | `icon` | `string` | |
 | `iconLeft` | `string` | |
 | `iconRight` | `string` | |
+| `squared` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `squared` | `boolean` | |
 
 ### Configuration options
 
@@ -284,11 +223,11 @@ The following `Badge` props' default values can be overwritten under the `badge`
 | -------------- | :---: |
 | `variant` | |
 | `<variant>.outline` | |
+| `squared` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-| `squared` | |
 
 ## Anatomy
 

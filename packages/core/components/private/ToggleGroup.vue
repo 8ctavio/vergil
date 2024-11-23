@@ -5,7 +5,7 @@ import radio from '../form/Radio.vue'
 import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -59,6 +59,8 @@ const props = defineProps({
         default: props => ['card', 'toggle'].includes(props.variant) ? 'row' : 'column',
         validator: v => ['column', 'row'].includes(v)
     },
+    disabled: Boolean,
+    class: [String, Object],
     
     //----- FormField -----
     label: String,
@@ -67,34 +69,31 @@ const props = defineProps({
     help: String,
 
     //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: props => vergil.config[props.type].theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config[props.type].theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: props => vergil.config[props.type].size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config[props.type].size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
         default: props => {
-            return vergil.config[props.type].radius ?? (
-                (props.type === 'radio' && props.variant === 'classic') ? 'full'
-                : vergil.config.global.radius
-            )
+            return (props.type === 'radio' && props.variant === 'classic')
+                ? (vergil.config[props.type].radius ?? 'full')
+                : (props.descendant ? undefined : (vergil.config[props.type].radius ?? vergil.config.global.radius))
         },
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: props => vergil.config[props.type].spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config[props.type].spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
-    },
-
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 
 const model = useModel(props.modelValue)
@@ -103,7 +102,6 @@ provide(`${props.type}-props`, {
     groupModel: model,
     groupName: toRef(() => props.name),
     groupDisabled: toRef(() => props.disabled),
-    groupTheme: toRef(() => props.theme)
 })
 
 function Options({ options }) {
@@ -146,12 +144,13 @@ function Options({ options }) {
 <template>
     <FormField :class="[`${type}-group`, props.class]"
         :label :hint :description :help
-        :size :radius :spacing
+        :theme :size :radius :spacing
         >
         <div
             v-bind="$attrs"
             :ref="model.refs.el"
-            :class="['toggle-group-wrapper', variant, inferTheme(theme)]">
+            :class="['toggle-group-wrapper', variant]"
+        >
             <slot>
                 <Options :options/>
             </slot>

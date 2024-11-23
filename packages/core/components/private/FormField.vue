@@ -1,5 +1,6 @@
 <script setup>
 import MiniMarkup from "./MiniMarkup"
+import { inferTheme } from "../../utilities/private"
 
 const props = defineProps({
     label: {
@@ -19,6 +20,7 @@ const props = defineProps({
         default: '',
     },
     floatLabel: Boolean,
+    theme: String,
     size: String,
     radius: String,
     spacing: String,
@@ -26,13 +28,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <div
-        :class="[
-            'form-field',
-            `size-${size}`,
-            `radius-${radius}`,
-            { [`spacing-${spacing}`]: spacing },
-        ]">
+    <div :class="['form-field', {
+        [inferTheme(theme)]: theme,
+        [`size-${size}`]: size,
+        [`radius-${radius}`]: radius,
+        [`spacing-${spacing}`]: spacing,
+    }]">
         <div v-if="label || hint" class="form-field-label-wrapper">
             <span v-if="floatLabel">&ZeroWidthSpace;</span>
             <label v-else class="form-field-label">

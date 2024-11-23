@@ -1,34 +1,34 @@
 <script setup>
 import { vergil } from '../vergil'
-import { isValidRadius, isValidSize, isValidSpacing } from '../utilities/private'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing } from '../utilities/private'
 
 defineProps({
+    descendant: Boolean,
     size: {
         type: String,
-        default: () => vergil.config.skeleton.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.skeleton.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.skeleton.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.skeleton.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.skeleton.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.skeleton.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
 })
 </script>
 
 <template>
-    <div
-        :class="[
-            'skeleton',
-            `size-${size}`,
-            `radius-${radius}`,
-            `spacing-${spacing}`,
-        ]">
+    <div :class="['skeleton', {
+        [inferTheme(theme)]: theme,
+        [`size-${size}`]: size,
+        [`radius-${radius}`]: radius,
+        [`spacing-${spacing}`]: spacing,
+    }]">
         &ZeroWidthSpace;
     </div>
 </template>

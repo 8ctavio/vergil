@@ -63,6 +63,38 @@ The `'regular'` and `true` values are equivalent.
     </div>
 </Demo>
 
+### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
+
+```vue
+<Btn3D label="Rocket" icon="rocket_launch"/>
+```
+
+<Demo>
+    <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
+    <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
+    <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="subtle"/>
+</Demo>
+
+### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
+
+```vue
+<Btn3D label="Omega" icon-right="special_character"/>
+```
+
+<Demo>
+    <Btn3D label="Omega" icon-right="special_character" variant="solid"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="soft"/>
+    <Btn3D label="Omega" icon-right="special_character" variant="subtle"/>
+</Demo>
+
+### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
+
+Adding `squared` sets padding to the same value on all sides.
+
+<Demo>
+    <Btn3D squared label="Squared"/>
+</Demo>
+
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
@@ -174,16 +206,7 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
     </div>
 </Demo>
 
-### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
 
-Adding `squared` sets padding to the same value on all sides.
-
-<Demo>
-    <Btn3D size="sm" squared label="Small"/>
-    <Btn3D size="md" squared label="Medium"/>
-    <Btn3D size="lg" squared label="Large"/>
-    <Btn3D size="xl" squared label="Extra Large"/>
-</Demo>
 
 ### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
 
@@ -259,86 +282,7 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-### Icon <Badge type="tip"><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
 
-```vue
-<Btn3D label="Rocket" icon="rocket_launch"/>
-```
-
-<Demo>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="brand" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="user" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="ok" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="info" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="warn" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="danger" variant="subtle"/>
-    </div>
-    <div class="row center">
-        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="solid"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="soft"/>
-        <Btn3D icon="rocket_launch" label="Rocket" theme="neutral" variant="subtle"/>
-    </div>
-</Demo>
-
-### Icon Right <Badge type="tip"><pre>icon-right: string</pre></Badge>
-
-```vue
-<Btn3D label="Omega" icon-right="special_character"/>
-```
-
-<Demo>
-    <Btn3D label="Omega" icon-right="special_character" variant="solid"/>
-    <Btn3D label="Omega" icon-right="special_character" variant="soft"/>
-    <Btn3D label="Omega" icon-right="special_character" variant="subtle"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" size="sm" spacing="compact"/>
-            <Btn3D label="Omega" icon-right="special_character" size="sm"/>
-            <Btn3D label="Omega" icon-right="special_character" size="sm" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" size="md" spacing="compact"/>
-            <Btn3D label="Omega" icon-right="special_character" size="md"/>
-            <Btn3D label="Omega" icon-right="special_character" size="md" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" size="lg" spacing="compact"/>
-            <Btn3D label="Omega" icon-right="special_character" size="lg"/>
-            <Btn3D label="Omega" icon-right="special_character" size="lg" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn3D label="Omega" icon-right="special_character" size="xl" spacing="compact"/>
-            <Btn3D label="Omega" icon-right="special_character" size="xl"/>
-            <Btn3D label="Omega" icon-right="special_character" size="xl" spacing="expanded"/>
-        </div>
-    </div>
-</Demo>
 
 ## API Reference
 
@@ -350,13 +294,14 @@ Adding `squared` sets padding to the same value on all sides.
 | `icon` | `string` | |
 | `iconLeft` | `string` | |
 | `iconRight` | `string` | |
+| `squared` | `boolean` | |
+| `disabled` | `boolean` | |
+| `loading` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `squared` | `boolean` | |
-| `disabled` | `boolean` | |
-| `loading` | `boolean` | |
 
 ### Configuration options
 
@@ -366,11 +311,11 @@ The following `Btn3D` props' default values can be overwritten under the `btn3D`
 | -------------- | :---: |
 | `variant` | |
 | `<variant>.outline` | |
+| `squared` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-| `squared` | |
 
 ## Anatomy
 

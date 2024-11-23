@@ -4,7 +4,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineEmits(['update:modelValue'])
@@ -25,7 +25,6 @@ const props = defineProps({
         validator: isModel
     },
 
-    //----- Component specific -----
     track: {
         type: String,
         validator: v => ['on','off'].includes(v)
@@ -35,36 +34,37 @@ const props = defineProps({
     highlight: Boolean,
     iconOn: String,
     iconOff: String,
+    disabled: Boolean,
+    class: [String, Object],
 
     //----- FormField -----
     label: String,
     hint: String,
     description: String,
     help: String,
-
-    //----- Appearance -----
+    
+    //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: () => vergil.config.switch.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.switch.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.switch.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.switch.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.switch.radius,
+        default: props => props.descendant ? undefined : (vergil.config.switch.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.switch.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.switch.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 
 const model = useModel(props.modelValue)
@@ -73,9 +73,9 @@ const model = useModel(props.modelValue)
 <template>
     <FormField :class="['switch', props.class]"
         :label :hint :description :help
-        :size :radius :spacing
+        :theme :size :radius :spacing
         >
-        <label :class="['switch-button', inferTheme(theme), { [`track-${track}`]: track }]" v-prevent-click-selection>
+        <label :class="['switch-button', { [`track-${track}`]: track }]" v-prevent-click-selection>
             <input
                 v-bind="$attrs"
                 v-model="model.value"

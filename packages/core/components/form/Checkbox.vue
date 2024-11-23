@@ -33,6 +33,10 @@ const props = defineProps({
         validator: v => isValidVariant('ToggleButton', v)
     },
     showSymbol: Boolean,
+    disabled: Boolean,
+    class: [String, Object],
+
+    descendant: Boolean,
     theme: {
         type: String,
         validator: isValidTheme
@@ -48,22 +52,20 @@ const props = defineProps({
     spacing: {
         type: String,
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 const {
     groupModel,
     groupDisabled,
-    groupTheme
 } = inject('checkbox-props', {})
 
 const model = useModel(props.modelValue ?? groupModel ?? useModel(props.checked ? props.valueChecked : props.valueUnchecked))
 
-const theme = computed(() => props.theme ?? groupTheme?.value ?? vergil.config.checkbox.theme ?? vergil.config.global.theme)
-const size = computed(() => props.size ?? (groupTheme ? '' : (vergil.config.checkbox.size ?? vergil.config.global.size)))
-const radius = computed(() => props.radius ?? (groupTheme ? '' : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
-const spacing = computed(() => props.spacing ?? (groupTheme ? '' : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
+const descendant = computed(() => props.descendant || isModel(groupModel))
+const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.checkbox.theme ?? vergil.config.global.theme)))
+const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.checkbox.size ?? vergil.config.global.size)))
+const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
+const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
 function handleTemplateRef(el) {
     if(!model.el) model.el = el
@@ -74,15 +76,12 @@ function handleTemplateRef(el) {
     <ToggleButton type="checkbox" :label :description
         :variant
         :showSymbol
-        :class="[
-            inferTheme(theme),
-            props.class,
-            {
-                [`size-${size}`]: size,
-                [`radius-${radius}`]: radius,
-                [`spacing-${spacing}`]: spacing
-            }
-        ]">
+        :class="[props.class, {
+            [inferTheme(theme)]: theme,
+            [`size-${size}`]: size,
+            [`radius-${radius}`]: radius,
+            [`spacing-${spacing}`]: spacing
+        }]">
         <template #input>
             <input
                 v-bind="$attrs"

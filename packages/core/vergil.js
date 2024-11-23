@@ -169,8 +169,10 @@ let template = {
         spacing: undefined,
     },
     placeholder: {
+        theme: new Option(undefined, inferTheme),
         size: undefined,
         radius: undefined,
+        spacing: undefined,
     },
     popover: {
         padding: 6,

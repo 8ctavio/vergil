@@ -134,8 +134,10 @@ interface VergilConfiguration {
         spacing: spacing;
     },
     placeholder: {
+        theme: theme;
         size: size;
         radius: radius;
+        spacing: spacing;
     },
     popover: {
         padding: number = 6;

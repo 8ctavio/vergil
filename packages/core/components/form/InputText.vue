@@ -6,7 +6,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineEmits(['update:modelValue']) // Prevents conflict when binding attributes
@@ -22,7 +22,6 @@ const props = defineProps({
         validator: isModel
     },
 
-    //----- Component specific -----
     placeholder: {
         type: String,
         default: ''
@@ -47,7 +46,13 @@ const props = defineProps({
     iconRight: String,
     btnBefore: Object,
     btnAfter: Object,
-
+    underline: {
+        type: Boolean,
+        default: () => vergil.config.inputText.underline
+    },
+    disabled: Boolean,
+    class: [String, Object],
+    
     //----- FormField -----
     label: String,
     hint: String,
@@ -55,33 +60,28 @@ const props = defineProps({
     help: String,
     floatLabel: Boolean,
 
-    //----- Appearance -----
-    underline: {
-        type: Boolean,
-        default: () => vergil.config.inputText.underline
-    },
+    //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: () => vergil.config.inputText.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.inputText.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.inputText.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.inputText.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.inputText.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.inputText.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.inputText.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.inputText.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 
 const model = useModel(props.modelValue)
@@ -98,17 +98,11 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 <template>
     <FormField :class="['input-text', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
-        :size :radius :spacing
-        >
+        :theme :size :radius :spacing
+    >
         <div class="input-text-outer">
-            <Btn v-if="showBtnBefore" v-bind="btnBefore"
-                :theme
-                :size
-                :radius
-                :spacing
-                :disabled="disabled || btnBefore.disabled"
-                />
-            <div :class="['input-text-wrapper', inferTheme(theme), { underline }]">
+            <Btn v-if="showBtnBefore" v-bind="btnBefore" descendant :disabled="disabled || btnBefore.disabled"/>
+            <div :class="['input-text-wrapper', { underline }]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
@@ -127,13 +121,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 <p v-if="suffix">{{ suffix }}</p>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
-            <Btn v-if="showBtnAfter" v-bind="btnAfter"
-                :theme
-                :size
-                :radius
-                :spacing
-                :disabled="disabled || btnAfter.disabled"
-                />
+            <Btn v-if="showBtnAfter" v-bind="btnAfter" descendant :disabled="disabled || btnAfter.disabled"/>
         </div>
     </FormField>
 </template>

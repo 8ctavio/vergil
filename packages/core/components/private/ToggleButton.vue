@@ -12,7 +12,6 @@ defineProps({
     variant: String,
     showSymbol: Boolean,
     radius: String,
-    size: String,
 })
 </script>
 
@@ -21,7 +20,6 @@ defineProps({
         <slot name="input"/>
         <span v-if="variant === 'classic' || showSymbol"
             :class="['toggle-button', {
-                [`size-${size}`]: size,
                 [`radius-${radius}`]: radius
             }]">
             <svg v-if="type === 'checkbox'" class="toggle-check" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">

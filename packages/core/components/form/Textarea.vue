@@ -4,7 +4,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineEmits(['update:modelValue'])
@@ -19,8 +19,7 @@ const props = defineProps({
         default: props => useModel(props.value),
         validator: isModel
     },
-
-    //----- Component specific -----
+    
     placeholder: {
         type: String,
         default: ''
@@ -33,6 +32,12 @@ const props = defineProps({
     },
     rows: String,
     resize: Boolean,
+    underline: {
+        type: Boolean,
+        default: () => vergil.config.textarea.underline
+    },
+    disabled: Boolean,
+    class: [String, Object],
     
     //----- FormField -----
     label: String,
@@ -41,33 +46,28 @@ const props = defineProps({
     help: String,
     floatLabel: Boolean,
 
-    //----- Appearance -----
-    underline: {
-        type: Boolean,
-        default: () => vergil.config.textarea.underline
-    },
+    //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: () => vergil.config.textarea.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.textarea.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.textarea.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.textarea.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.textarea.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.textarea.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.textarea.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.textarea.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 
 const model = useModel(props.modelValue)
@@ -82,9 +82,9 @@ const floatLabelEnabled = computed(() => {
 <template>
     <FormField :class="['textarea', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
-        :size :radius :spacing
-        >
-        <div :class="['textarea-wrapper', inferTheme(theme), { underline }]">
+        :theme :size :radius :spacing
+    >
+        <div :class="['textarea-wrapper', { underline }]">
             <textarea
                 v-bind="$attrs"
                 v-model="model.value"

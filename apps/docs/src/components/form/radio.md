@@ -213,11 +213,12 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `description` | `string` | |
 | `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
 | `showSymbol` | `boolean` | |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | |
 
 ### Configuration options
 

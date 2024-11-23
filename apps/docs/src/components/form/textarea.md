@@ -211,11 +211,12 @@ The maximum string length that can be entered into the textarea.
 | `help` | `string` | |
 | `float-label` | `boolean` | `false` |
 | `underline` | `boolean` | `false` |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | |
 
 ### Configuration options
 

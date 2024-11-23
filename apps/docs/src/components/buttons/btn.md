@@ -121,6 +121,39 @@ The `'regular'` and `true` values are equivalent. For the `solid` variant, only 
     </div>
 </Demo>
 
+### Icon <Badge><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
+
+```vue
+<Btn icon="rocket_launch"/>
+```
+
+<Demo>
+    <Btn icon="rocket_launch" theme="brand" variant="solid"/>
+    <Btn icon="rocket_launch" theme="brand" variant="soft"/>
+    <Btn icon="rocket_launch" theme="brand" variant="subtle" outline="subtle"/>
+    <Btn icon="rocket_launch" theme="brand" variant="soft" ghost/>
+</Demo>
+
+### Icon Right <Badge><pre>icon-right: string</pre></Badge>
+
+```vue
+<Btn label="Omega" icon-right="special_character"/>
+```
+
+<Demo>
+    <Btn label="Omega" icon-right="special_character" variant="solid"/>
+    <Btn label="Omega" icon-right="special_character" variant="soft"/>
+    <Btn label="Omega" icon-right="special_character" variant="subtle"/>
+</Demo>
+
+### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
+
+Adding `squared` sets padding to the same value on all sides.
+
+<Demo>
+    <Btn squared label="Squared"/>
+</Demo>
+
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
@@ -243,8 +276,6 @@ The `'regular'` and `true` values are equivalent. For the `solid` variant, only 
 
 ### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
-Changing the size mainly changes the font-size and adjusts padding accordingly.
-
 <Demo>
     <Btn size="sm" label="Small"/>
     <Btn size="md" label="Medium"/>
@@ -291,8 +322,6 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 
 ### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
-Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing spacing gives either a more compact or spacious look.
-
 <Demo>
     <div class="col center">
         <div class="row center">
@@ -316,17 +345,6 @@ Spacing refers to a `Btn`'s default padding and gap (for a given size). Changing
             <Btn size="xl" spacing="expanded" label="Expanded"/>
         </div>
     </div>
-</Demo>
-
-### Squared <Badge type="tip"><pre>squared: boolean</pre></Badge>
-
-Adding `squared` sets padding to the same value on all sides.
-
-<Demo>
-    <Btn size="sm" squared label="Small"/>
-    <Btn size="md" squared label="Medium"/>
-    <Btn size="lg" squared label="Large"/>
-    <Btn size="xl" squared label="Extra Large"/>
 </Demo>
 
 ### Disabled <Badge type="tip"><pre>disabled: boolean</pre></Badge>
@@ -431,94 +449,6 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-### Icon <Badge><pre>icon: string</pre></Badge> <Badge type="info">alias: <pre>icon-left</pre></Badge>
-
-```vue
-<Btn icon="rocket_launch"/>
-```
-
-<Demo>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="brand" variant="solid"/>
-        <Btn icon="rocket_launch" theme="brand" variant="soft"/>
-        <Btn icon="rocket_launch" theme="brand" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="brand" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="user" variant="solid"/>
-        <Btn icon="rocket_launch" theme="user" variant="soft"/>
-        <Btn icon="rocket_launch" theme="user" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="user" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="ok" variant="solid"/>
-        <Btn icon="rocket_launch" theme="ok" variant="soft"/>
-        <Btn icon="rocket_launch" theme="ok" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="ok" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="info" variant="solid"/>
-        <Btn icon="rocket_launch" theme="info" variant="soft"/>
-        <Btn icon="rocket_launch" theme="info" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="info" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="warn" variant="solid"/>
-        <Btn icon="rocket_launch" theme="warn" variant="soft"/>
-        <Btn icon="rocket_launch" theme="warn" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="warn" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="danger" variant="solid"/>
-        <Btn icon="rocket_launch" theme="danger" variant="soft"/>
-        <Btn icon="rocket_launch" theme="danger" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="danger" variant="soft" ghost/>
-    </div>
-    <div class="row center">
-        <Btn icon="rocket_launch" theme="neutral" variant="solid"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="soft"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="subtle" outline="subtle"/>
-        <Btn icon="rocket_launch" theme="neutral" variant="soft" ghost/>
-    </div>
-</Demo>
-
-### Icon Right <Badge><pre>icon-right: string</pre></Badge>
-
-```vue
-<Btn label="Omega" icon-right="special_character"/>
-```
-
-<Demo>
-    <Btn label="Omega" icon-right="special_character" variant="solid"/>
-    <Btn label="Omega" icon-right="special_character" variant="soft"/>
-    <Btn label="Omega" icon-right="special_character" variant="subtle"/>
-</Demo>
-
-<Demo>
-    <div class="col center">
-        <div class="row center">
-            <Btn label="Omega" icon-right="special_character" size="sm" spacing="compact"/>
-            <Btn label="Omega" icon-right="special_character" size="sm"/>
-            <Btn label="Omega" icon-right="special_character" size="sm" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn label="Omega" icon-right="special_character" size="md" spacing="compact"/>
-            <Btn label="Omega" icon-right="special_character" size="md"/>
-            <Btn label="Omega" icon-right="special_character" size="md" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn label="Omega" icon-right="special_character" size="lg" spacing="compact"/>
-            <Btn label="Omega" icon-right="special_character" size="lg"/>
-            <Btn label="Omega" icon-right="special_character" size="lg" spacing="expanded"/>
-        </div>
-        <div class="row center">
-            <Btn label="Omega" icon-right="special_character" size="xl" spacing="compact"/>
-            <Btn label="Omega" icon-right="special_character" size="xl"/>
-            <Btn label="Omega" icon-right="special_character" size="xl" spacing="expanded"/>
-        </div>
-    </div>
-</Demo>
-
 ## API Reference
 
 | prop | type | default |
@@ -532,13 +462,14 @@ Adding `squared` sets padding to the same value on all sides.
 | `icon` | `string` | |
 | `iconLeft` | `string` | |
 | `iconRight` | `string` | |
+| `squared` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+| `loading` | `boolean` | `false` |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `squared` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-| `loading` | `boolean` | `false` |
 
 ### Configuration options
 
@@ -551,11 +482,11 @@ The following `Btn` props' default values can be overwritten under the `btn` roo
 | `<variant>.outline` | |
 | `<variant>.underline` | |
 | `<variant>.fill` | |
+| `squared` | |
 | `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-| `squared` | |
 
 ## Anatomy
 

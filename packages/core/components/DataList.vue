@@ -7,24 +7,25 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } 
 
 defineProps({
 	data: Object,
+	descendant: Boolean,
 	theme: {
         type: String,
-        default: () => vergil.config.datalist.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.datalist.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.datalist.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.datalist.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.datalist.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.datalist.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.datalist.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.datalist.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
@@ -51,19 +52,22 @@ function EmbeddedTable({ data }) {
 </script>
 
 <template>
-	<div :class="[`data-list ${inferTheme(theme)} size-${size} radius-${radius}`, {
-        [`spacing-${spacing}`]: spacing
+	<div :class="['data-list', {
+        [inferTheme(theme)]: theme,
+        [`size-${size}`]: size,
+        [`radius-${radius}`]: radius,
+        [`spacing-${spacing}`]: spacing,
     }]">
 		<template v-for="(value,key) in data">
 			<label class="data-list-label">{{ key }}</label>
 			<EmbeddedTable v-if="Array.isArray(value)"
 				:data="value"
 			/>
-			<Badge v-else-if="/^\[\[.*?\]\]$/.test(value)"
-				:label="value.slice(2,-2)" :theme :size :radius
+			<Badge v-else-if="/^\[\[.*?\]\]$/.test(value)" descendant
+				:label="value.slice(2,-2)"
 			/>
-			<Badge v-else-if="/^\(\(.*?\)\)$/.test(value)"
-				:label="value.slice(2,-2)" :theme :size radius="full"
+			<Badge v-else-if="/^\(\(.*?\)\)$/.test(value)" descendant
+				:label="value.slice(2,-2)" radius="full"
 			/>
 			<p v-else class="data-list-value">
 				<MiniMarkup :str="value"/>

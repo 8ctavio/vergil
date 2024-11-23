@@ -4,7 +4,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel } from '../../composables'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 defineEmits(['update:modelValue'])
@@ -29,41 +29,41 @@ const props = defineProps({
         validator: isModel
     },
 
-    //----- Component specific -----
     displayValue: {
         type: [Boolean, Function]
     },
     fixedProgress: Boolean,
+    disabled: Boolean,
+    class: [String, Object],
     
     //----- FormField -----
     label: String,
     hint: String,
     description: String,
     help: String,
-
-    //----- Appearance -----
+    
+    //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: () => vergil.config.slider.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.slider.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.slider.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.slider.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.slider.radius,
+        default: props => props.descendant ? undefined : vergil.config.slider.radius,
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.slider.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.slider.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
-    },
-    disabled: Boolean,
-    class: [String, Object]
+    }
 })
 
 const model = useModel(props.modelValue)
@@ -75,11 +75,10 @@ const valueWidth = computed(() => props.max.length)
 <template>
     <FormField :class="['slider', props.class]"
         :label :hint :description :help
-        :size :radius :spacing
-        >
+        :theme :size :radius :spacing
+    >
         <div class="slider-outer">
-            <div
-                :class="['slider-wrapper', inferTheme(theme), { fixedProgress }]">
+            <div :class="['slider-wrapper', { fixedProgress }]">
                 <span>&ZeroWidthSpace;</span>
                 <input
                     v-bind="$attrs"

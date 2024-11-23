@@ -48,8 +48,11 @@ The `Placeholder` component features a [`Badge`](/components/badge) to display d
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | |
+| `descendant` | `boolean` | |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
+| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 
 ### Configuration options
 
@@ -57,8 +60,10 @@ The following `Placeholder` props' default values can be overwritten under the `
 
 | `placeholder.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
+| `theme` | ✅ |
 | `size` | ✅ |
 | `radius` | ✅ |
+| `spacing` | ✅ |
 
 ## Anatomy
 

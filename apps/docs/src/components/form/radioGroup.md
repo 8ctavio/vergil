@@ -417,11 +417,12 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `disabled` | `boolean` | |
 
 ### Configuration options
 

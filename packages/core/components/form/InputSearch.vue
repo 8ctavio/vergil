@@ -116,11 +116,11 @@ defineReactiveProperties(model.exposed, {
 
 <template>
     <InputText
+        class="input-search"
         :model-value="model"
         :btn-before="btnPositionFlag ? btnBefore : btnProps"
         :btn-after="btnPositionFlag ? btnProps : btnAfter"
-        @keyup.enter="handleEnter"
         :disabled="disabled || loader"
-        class="input-search"
-        />
+        @keyup.enter="handleEnter"
+    />
 </template>

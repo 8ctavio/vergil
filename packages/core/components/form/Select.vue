@@ -24,7 +24,6 @@ const props = defineProps({
         validator: isModel
     },
 
-    //----- Component specific -----
     options : Object,
     optionValue: [String, Function],
     optionLabel: [String, Function],
@@ -41,15 +40,6 @@ const props = defineProps({
         default: query => vergil.config.select.placeholderNotFound(query)
     },
     chips: Boolean,
-
-    //----- FormField -----
-    label: String,
-    hint: String,
-    description: String,
-    help: String,
-    floatLabel: Boolean,
-
-    //----- Appearance -----
     underline: {
         type: Boolean,
         default: props => vergil.config.select[props.variant]?.underline,
@@ -58,28 +48,38 @@ const props = defineProps({
         type: Boolean,
         default: props => vergil.config.select[props.variant]?.fill,
     },
+    disabled: Boolean,
+    class: [String, Object],
+
+    //----- FormField -----
+    label: String,
+    hint: String,
+    description: String,
+    help: String,
+    floatLabel: Boolean,
+    
+    //----- Global -----
+    descendant: Boolean,
     theme: {
         type: String,
-        default: () => vergil.config.select.theme ?? vergil.config.global.theme,
+        default: props => props.descendant ? undefined : (vergil.config.select.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String,
-        default: () => vergil.config.select.size ?? vergil.config.global.size,
+        default: props => props.descendant ? undefined : (vergil.config.select.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String,
-        default: () => vergil.config.select.radius ?? vergil.config.global.radius,
+        default: props => props.descendant ? undefined : (vergil.config.select.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String,
-        default: () => vergil.config.select.spacing ?? vergil.config.global.spacing,
+        default: props => props.descendant ? undefined : (vergil.config.select.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
-    disabled: Boolean,
-    class: [String, Object],
 })
 
 const model = useModel(props.modelValue)
@@ -364,18 +364,18 @@ function updateOptions(modelValue) {
 <template>
     <FormField :class="['select', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
-        :size :radius :spacing
+        :theme :size :radius :spacing
     >
         <Popover :class="['select-popover', props.class]"
-            :theme :size :radius
+            :theme :size :radius :spacing
             @keydown="handleSelectKeydown"
         >
             <Btn
                 v-bind="$attrs"
-                :class="[
-                    'select-button',
-                    { selected: isSelected }
-                ]"
+                :class="['select-button', {
+                    selected: isSelected
+                }]"
+                descendant
                 ghost="translucent"
                 outline="subtle"
                 icon-right="keyboard_arrow_down"
@@ -383,15 +383,15 @@ function updateOptions(modelValue) {
                 :underline
                 :disabled
                 :squared="false"
-                :theme :size :radius :spacing
                 @click="handleBtnClick"
                 @keydown="handleSelectKeydown"
             >
                 <div v-if="chips && isMultiSelect && isSelected" class="chips">
                     <Badge v-for="input in selected" :key="input.value"
+                        descendant
                         variant="subtle"
                         outline="subtle"
-                        :theme :size :radius :spacing :squared="false"
+                        :squared="false"
                         >
                         {{ input.dataset.label }}
                         <button :data-value="input.value">
@@ -413,6 +413,7 @@ function updateOptions(modelValue) {
                 <InputText v-if="filter" 
                     v-bind="filterInput"
                     v-model="filterModel"
+                    descendant
                     :placeholder="filterInput?.placeholder ?? vergil.config.select.placeholderFilter"
                     :icon="filterInput?.icon ?? 'search'"
                     @input="handleFilterInput"
@@ -422,13 +423,13 @@ function updateOptions(modelValue) {
                 </p>
                 <CheckboxGroup v-show="!empty"
                     ref="select-options"
+                    descendant
                     :modelValue="model"
                     :options
                     :optionValue
                     :optionLabel
                     :optionDescription
                     :disabled
-                    :theme :spacing
                     :show-symbol="isMultiSelect"
                     variant="list"
                     tabindex="-1"

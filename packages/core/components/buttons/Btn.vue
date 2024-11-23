@@ -32,43 +32,48 @@ defineProps({
     icon: String,
     iconLeft: String,
     iconRight: String,
-    theme: {
-        type: String,
-        default: () => vergil.config.btn.theme ?? vergil.config.global.theme,
-        validator: isValidTheme
-    },
-    size: {
-        type: String,
-        default: () => vergil.config.btn.size ?? vergil.config.global.size,
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: () => vergil.config.btn.radius ?? vergil.config.global.radius,
-        validator: isValidRadius
-    },
-    spacing: {
-        type: String,
-        default: () => vergil.config.btn.spacing ?? vergil.config.global.spacing,
-        validator: isValidSpacing
-    },
     squared: {
         type: Boolean,
         default: props => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
     disabled: Boolean,
-    loading: Boolean
+    loading: Boolean,
+
+    descendant: Boolean,
+    theme: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn.theme ?? vergil.config.global.theme),
+        validator: isValidTheme
+    },
+    size: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn.size ?? vergil.config.global.size),
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn.radius ?? vergil.config.global.radius),
+        validator: isValidRadius
+    },
+    spacing: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn.spacing ?? vergil.config.global.spacing),
+        validator: isValidSpacing
+    }
 })
 </script>
 
 <template>
     <button
-        :class="[`btn ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+        :class="['btn', variant, {
             ghost,
             underline,
             fill,
             squared,
             loading,
+            [inferTheme(theme)]: theme,
+            [`size-${size}`]: size,
+            [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing,
             [`ghost-${ghost === true ? 'transparent' : ghost}`]: ghost,
             [`outline-${outline === true ? 'regular' : outline}`]: outline,

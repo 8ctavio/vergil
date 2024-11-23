@@ -19,41 +19,46 @@ defineProps({
     icon: String,
     iconLeft: String,
     iconRight: String,
-    theme: {
-        type: String,
-        default: () => vergil.config.btn3D.theme ?? vergil.config.global.theme,
-        validator: isValidTheme
-    },
-    size: {
-        type: String,
-        default: () => vergil.config.btn3D.size ?? vergil.config.global.size,
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: () => vergil.config.btn3D.radius ?? vergil.config.global.radius,
-        validator: isValidRadius
-    },
-    spacing: {
-        type: String,
-        default:  () => vergil.config.btn3D.spacing ?? vergil.config.global.spacing,
-        validator: isValidSpacing
-    },
     squared: {
         type: Boolean,
         default: props => vergil.config.btn3D.squared || Boolean(!props.label && props.icon)
     },
     disabled: Boolean,
-    loading: Boolean
+    loading: Boolean,
+
+    descendant: Boolean,
+    theme: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn3D.theme ?? vergil.config.global.theme),
+        validator: isValidTheme
+    },
+    size: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn3D.size ?? vergil.config.global.size),
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: props => props.descendant ? undefined : (vergil.config.btn3D.radius ?? vergil.config.global.radius),
+        validator: isValidRadius
+    },
+    spacing: {
+        type: String,
+        default:  props => props.descendant ? undefined : (vergil.config.btn3D.spacing ?? vergil.config.global.spacing),
+        validator: isValidSpacing
+    }
 })
 </script>
 
 <template>
     <button
-        :class="[`btn3D ${variant} ${inferTheme(theme)} size-${size} radius-${radius}`, {
+        :class="['btn3D', variant, {
             outline,
             squared,
             loading,
+            [inferTheme(theme)]: theme,
+            [`size-${size}`]: size,
+            [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing,
             [`outline-${outline === true ? 'regular' : outline}`]: outline,
         }]"
