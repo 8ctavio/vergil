@@ -26,19 +26,12 @@ p, h1, h2, h3 {
 ---------------------------------------- VARIABLES ----------------------------------------
 -----------------------------------------------------------------------------------------*/
 :root {
-    /*---------- Font size ----------*/
-    --font-size-xs: 1rem;
-    --font-size-sm: 1.2rem;
-    --font-size-md: 1.4rem;
-    --font-size-lg: 1.6rem;
-    --font-size-xl: 1.8rem;
-
     /*---------- Line height ----------*/
     /* target-line-height >= target-font-size-icon >= target-font-size-text */
     --target-font-size-text: 14;
     --target-font-size-icon: 16;
     --target-line-height: 18;
-    
+
     /* line-height-text >= font-size-scale-icon >= 1 */
     --font-size-scale-icon: calc(var(--target-font-size-icon) / var(--target-font-size-text));
     --line-height-text: calc(var(--target-line-height) / var(--target-font-size-text));
@@ -47,13 +40,6 @@ p, h1, h2, h3 {
     /*---------- Font style ----------*/
     --font-sans: 'initial';
     --font-mono: 'initial';
-
-    /*---------- Border radius ----------*/
-    --border-radius-none: 0px;
-    --border-radius-sm: 3px;
-    --border-radius-md: 4px;
-    --border-radius-lg: 6px;
-    --border-radius-full: 9999px;
 
     /*---------- Bezier curves ----------*/
     --bezier-sine-in: cubic-bezier(0.47, 0, 0.745, 0.715);
@@ -128,19 +114,19 @@ p, h1, h2, h3 {
 -----------------------------------------------*/
 .size-sm {
     --g-size: -1;
-    --g-font-size: var(--font-size-sm);
+    --g-font-size: 1.2rem;
 }
 .size-md {
     --g-size: 0;
-    --g-font-size: var(--font-size-md);
+    --g-font-size: 1.4rem;
 }
 .size-lg {
     --g-size: 1;
-    --g-font-size: var(--font-size-lg);
+    --g-font-size: 1.6rem;
 }
 .size-xl {
     --g-size: 2;
-    --g-font-size: var(--font-size-xl);
+    --g-font-size: 1.8rem;
 }
 .spacing-compact { --g-spacing: -1; }
 .spacing-expanded { --g-spacing: 1; }
