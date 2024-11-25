@@ -77,7 +77,7 @@ defineProps({
 
 <style>
 .btn3D{
-    --btn3D-c-shadow: rgb(0 0 0 / 0.15);
+    --btn3D-c-shadow: light-dark(rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.25));
 
     /*-------- BOX-SHADOW --------*/
     --btn3D-elv: 5px;
@@ -262,8 +262,5 @@ defineProps({
             animation: spin 1000ms linear infinite;
         }
     }
-}
-.dark .btn3D {
-    --btn3D-c-shadow: rgb(0 0 0 / 0.25);
 }
 </style>

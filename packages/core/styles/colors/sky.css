@@ -1,50 +1,31 @@
 :root {
-    --c-sky-solid-1: #0070AB;
-    --c-sky-solid-2: #00639C;
-    --c-sky-solid-3: #00578F;
+    --c-sky-solid-1: light-dark(#0070AB, #00578F);
+    --c-sky-solid-2: light-dark(#00639C, #00639C);
+    --c-sky-solid-3: light-dark(#00578F, #0070AB);
 
-    --c-sky-soft-1: #E5F6FF;
-    --c-sky-soft-2: #D6F1FF;
-    --c-sky-soft-3: #C2EBFF;
-    --c-sky-soft-4: #BAE1F5;
+    --c-sky-soft-1: light-dark(#E5F6FF, #001F33);
+    --c-sky-soft-2: light-dark(#D6F1FF, #002942);
+    --c-sky-soft-3: light-dark(#C2EBFF, #00395C);
+    --c-sky-soft-4: light-dark(#BAE1F5, #005E99);
 
-    --c-sky-text-1: var(--c-sky-solid-1);
-    --c-sky-text-2: var(--c-sky-solid-2);
-    --c-sky-text-3: var(--c-sky-soft-2);
+    --c-sky-text-1: light-dark(var(--c-sky-solid-1), #BAE1F5);
+    --c-sky-text-2: light-dark(var(--c-sky-solid-2), var(--c-sky-text-1));
+    --c-sky-text-3: light-dark(var(--c-sky-soft-2), #D6F1FF);
     --c-sky-text-4: white;
 
     --rgb-sky-border: 0 66 102;
     --c-sky-border-subtle: rgb(var(--rgb-sky-border) / 0.15);
     --c-sky-border-regular: rgb(var(--rgb-sky-border) / 0.40);
 
-    --c-sky-outline: #A5C7D9;
+    --c-sky-outline: light-dark(#A5C7D9, #0065A3);
 
-    --c-sky-1: var(--c-sky-solid-1);
-    --c-sky-2: #80D4FF;
-    --c-sky-3: var(--c-sky-solid-3);
+    --c-sky-1: light-dark(var(--c-sky-solid-1), #008BD6);
+    --c-sky-2: light-dark(#80D4FF, var(--c-sky-soft-4));
+    --c-sky-3: light-dark(var(--c-sky-solid-3), var(--c-sky-soft-3));
     --c-sky-4: var(--c-sky-soft-2);
 }
-.dark {
-    --c-sky-1: #00578F;
-    --c-sky-2: #00639C;
-    --c-sky-3: #0070AB;
-    
-    --c-sky-soft-1: #001F33;
-    --c-sky-soft-2: #002942;
-    --c-sky-soft-3: #00395C;
-    --c-sky-soft-4: #005E99;
-
-    --c-sky-text-1: #BAE1F5;
-    --c-sky-text-2: var(--c-sky-text-1);
-    --c-sky-text-3: #D6F1FF;
-
+:root.dark {
     --rgb-sky-border: 204 237 255;
     --c-sky-border-subtle: rgb(var(--rgb-sky-border) / 0.15);
     --c-sky-border-regular: rgb(var(--rgb-sky-border) / 0.32);
-
-    --c-sky-outline: #0065A3;
-
-    --c-sky-1: #008BD6;
-    --c-sky-2: var(--c-sky-soft-4);
-    --c-sky-3: var(--c-sky-soft-3);
 }

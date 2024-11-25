@@ -1,15 +1,15 @@
 :root {
-    --c-moss-solid-1: #587848;
-    --c-moss-solid-2: #4D693F;
-    --c-moss-solid-3: #425936;
+    --c-moss-solid-1: light-dark(#587848, #425936);
+    --c-moss-solid-2: light-dark(#4D693F, #4D693F);
+    --c-moss-solid-3: light-dark(#425936, #587848);
 
-    --c-moss-soft-1: #EEF3EC;
-    --c-moss-soft-2: #E3ECDF;
-    --c-moss-soft-3: #D8E4D3;
-    --c-moss-soft-4: #CDDCC7;
+    --c-moss-soft-1: light-dark(#EEF3EC, #172013);
+    --c-moss-soft-2: light-dark(#E3ECDF, #202D1B);
+    --c-moss-soft-3: light-dark(#D8E4D3, #2A3A22);
+    --c-moss-soft-4: light-dark(#CDDCC7, #33472A);
 
-    --c-moss-text-1: var(--c-moss-solid-1);
-    --c-moss-text-2: #466039;
+    --c-moss-text-1: light-dark(var(--c-moss-solid-1), #90B380);
+    --c-moss-text-2: light-dark(#466039, #B9CEB1);
     --c-moss-text-3: #F1F5EF;
     --c-moss-text-4: white;
 
@@ -17,34 +17,15 @@
     --c-moss-border-subtle: rgb(var(--rgb-moss-border) / 0.17);
     --c-moss-border-regular: rgb(var(--rgb-moss-border) / 0.45);
 
-    --c-moss-outline: #98B38F;
+    --c-moss-outline: light-dark(#98B38F, #48613C);
 
-    --c-moss-1: var(--c-moss-solid-1);
-    --c-moss-2: #8FAD85;
-    --c-moss-3: var(--c-moss-solid-3);
-    --c-moss-4: var(--c-moss-soft-3);
+    --c-moss-1: light-dark(var(--c-moss-solid-1), #6B9358);
+    --c-moss-2: light-dark(#8FAD85, var(--c-moss-soft-4));
+    --c-moss-3: light-dark(var(--c-moss-solid-3), var(--c-moss-soft-3));
+    --c-moss-4: light-dark(var(--c-moss-soft-3), var(--c-moss-soft-2));
 }
-.dark {
-    --c-moss-solid-1: #425936;
-    --c-moss-solid-2: #4D693F;
-    --c-moss-solid-3: #587848;
-
-    --c-moss-soft-1: #172013;
-    --c-moss-soft-2: #202D1B;
-    --c-moss-soft-3: #2A3A22;
-    --c-moss-soft-4: #33472A;
-
-    --c-moss-text-1: #90B380;
-    --c-moss-text-2: #B9CEB1;
-
+:root.dark {
     --rgb-moss-border: 171 198 159;
     --c-moss-border-subtle: rgb(var(--rgb-moss-border) / 0.20);
     --c-moss-border-regular: rgb(var(--rgb-moss-border) / 0.35);
-
-    --c-moss-outline: #48613C;
-
-    --c-moss-1: #6B9358;
-    --c-moss-2: var(--c-moss-soft-4);
-    --c-moss-3: var(--c-moss-soft-3);
-    --c-moss-4: var(--c-moss-soft-2);
 }

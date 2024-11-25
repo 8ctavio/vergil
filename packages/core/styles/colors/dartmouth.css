@@ -1,15 +1,15 @@
-:root{
-    --c-dartmouth-solid-1: #177A4E;
-    --c-dartmouth-solid-2: #156A44;
-    --c-dartmouth-solid-3: #135E3C;
+:root {
+    --c-dartmouth-solid-1: light-dark(#177A4E, #135E3C);
+    --c-dartmouth-solid-2: light-dark(#156A44, #156A44);
+    --c-dartmouth-solid-3: light-dark(#135E3C, #177A4E);
 
-    --c-dartmouth-soft-1: #ECF8ED;
-    --c-dartmouth-soft-2: #DDF3E0;
-    --c-dartmouth-soft-3: #D2EED6;
-    --c-dartmouth-soft-4: #C7EACB;
+    --c-dartmouth-soft-1: light-dark(#ECF8ED, #072719);
+    --c-dartmouth-soft-2: light-dark(#DDF3E0, #093421);
+    --c-dartmouth-soft-3: light-dark(#D2EED6, #0B4129);
+    --c-dartmouth-soft-4: light-dark(#C7EACB, #0D4E31);
 
-    --c-dartmouth-text-1: var(--c-dartmouth-solid-1);
-    --c-dartmouth-text-2: var(--c-dartmouth-solid-2);
+    --c-dartmouth-text-1: light-dark(var(--c-dartmouth-solid-1), #B0E3B5);
+    --c-dartmouth-text-2: light-dark(var(--c-dartmouth-solid-2), #C7EACB);
     --c-dartmouth-text-3: #DDF3DF;
     --c-dartmouth-text-4: white;
 
@@ -17,33 +17,15 @@
     --c-dartmouth-border-subtle: rgb(var(--rgb-dartmouth-border) / 0.20);
     --c-dartmouth-border-regular: rgb(var(--rgb-dartmouth-border) / 0.45);
 
-    --c-dartmouth-outline: #9FCCA4;
+    --c-dartmouth-outline: light-dark(#9FCCA4, #366B57);
 
-    --c-dartmouth-1: var(--c-dartmouth-solid-1);
-    --c-dartmouth-2: #84C889;
-    --c-dartmouth-3: #105034;
+    --c-dartmouth-1: light-dark(var(--c-dartmouth-solid-1), #1C9B62);
+    --c-dartmouth-2: light-dark(#84C889, var(--c-dartmouth-soft-4));
+    --c-dartmouth-3: light-dark(#105034, var(--c-dartmouth-soft-3));
     --c-dartmouth-4: var(--c-dartmouth-soft-2);
 }
-.dark{
-    --c-dartmouth-solid-1: #135E3C;
-    --c-dartmouth-solid-2: #156A44;
-    --c-dartmouth-solid-3: #177A4E;
-
-    --c-dartmouth-soft-1: #072719;
-    --c-dartmouth-soft-2: #093421;
-    --c-dartmouth-soft-3: #0B4129;
-    --c-dartmouth-soft-4: #0D4E31;
-
-    --c-dartmouth-text-1: #B0E3B5;
-    --c-dartmouth-text-2: #C7EACB;
-
+:root.dark {
     --rgb-dartmouth-border: 124 233 184;
     --c-dartmouth-border-subtle: rgb(var(--rgb-dartmouth-border) / 0.18);
     --c-dartmouth-border-regular: rgb(var(--rgb-dartmouth-border) / 0.32);
-
-    --c-dartmouth-outline: #366B57;
-
-    --c-dartmouth-1: #1C9B62;
-    --c-dartmouth-2: var(--c-dartmouth-soft-4);
-    --c-dartmouth-3: var(--c-dartmouth-soft-3);
 }

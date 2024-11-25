@@ -1,49 +1,31 @@
 :root {
-    --c-indigo-solid-1: #4f46e5;
+    --c-indigo-solid-1: light-dark(#4f46e5, #3E32BD);
     --c-indigo-solid-2: #4338ca;
-    --c-indigo-solid-3: #3730a3;
+    --c-indigo-solid-3: light-dark(#3730a3, #433BE3);
 
-    --c-indigo-soft-1: #F2F2FD;
-    --c-indigo-soft-2: #E5E5FB;
-    --c-indigo-soft-3: #D7D7F9;
-    --c-indigo-soft-4: #C6C6F6;
+    --c-indigo-soft-1: light-dark(#F2F2FD, #100E34);
+    --c-indigo-soft-2: light-dark(#E5E5FB, #18144D);
+    --c-indigo-soft-3: light-dark(#D7D7F9, #1E1961);
+    --c-indigo-soft-4: light-dark(#C6C6F6, #27207E);
 
-    --c-indigo-text-1: var(--c-indigo-solid-1);
-    --c-indigo-text-2: var(--c-indigo-solid-2);
-    --c-indigo-text-3: var(--c-indigo-soft-2);
+    --c-indigo-text-1: light-dark(var(--c-indigo-solid-1), #C6C6F6);
+    --c-indigo-text-2: light-dark(var(--c-indigo-solid-2), var(--c-indigo-text-1));
+    --c-indigo-text-3: light-dark(var(--c-indigo-soft-2), #E5E5FB);
     --c-indigo-text-4: white;
 
     --rgb-indigo-border: 33 25 179;
     --c-indigo-border-subtle: rgb(var(--rgb-indigo-border) / 0.15);
     --c-indigo-border-regular: rgb(var(--rgb-indigo-border) / 0.43);
 
-    --c-indigo-outline: #ACACF1;
+    --c-indigo-outline: light-dark(#ACACF1, #322AA2);
 
-    --c-indigo-1: var(--c-indigo-solid-1);
-    --c-indigo-2: #B4B4F3;
-    --c-indigo-3: var(--c-indigo-solid-3);
+    --c-indigo-1: light-dark(var(--c-indigo-solid-1), #594ED0);
+    --c-indigo-2: light-dark(#B4B4F3, var(--c-indigo-soft-4));
+    --c-indigo-3: light-dark(var(--c-indigo-solid-3), var(--c-indigo-soft-3));
     --c-indigo-4: var(--c-indigo-soft-2);
 }
-.dark {
-    --c-indigo-solid-1: #3E32BD;
-    --c-indigo-solid-3: #433BE3;
-
-    --c-indigo-soft-1: #100E34;
-    --c-indigo-soft-2: #18144D;
-    --c-indigo-soft-3: #1E1961;
-    --c-indigo-soft-4: #27207E;
-
-    --c-indigo-text-1: #C6C6F6;
-    --c-indigo-text-2: var(--c-indigo-text-1);
-    --c-indigo-text-3: #E5E5FB;
-
+:root.dark {
     --rgb-indigo-border: 225 224 251;
     --c-indigo-border-subtle: rgb(var(--rgb-indigo-border) / 0.16);
     --c-indigo-border-regular: rgb(var(--rgb-indigo-border) / 0.35);
-
-    --c-indigo-outline: #322AA2;
-
-    --c-indigo-1: #594ED0;
-    --c-indigo-2: var(--c-indigo-soft-4);
-    --c-indigo-3: var(--c-indigo-soft-3);
 }

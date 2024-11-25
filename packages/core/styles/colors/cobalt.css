@@ -1,15 +1,15 @@
 :root {
-    --c-cobalt-solid-1: #3a5ccc;
-    --c-cobalt-solid-2: #3050BB;
-    --c-cobalt-solid-3: #2B48A6;
+    --c-cobalt-solid-1: light-dark(#3a5ccc, #2B48A6);
+    --c-cobalt-solid-2: light-dark(#3050BB, #3050BB);
+    --c-cobalt-solid-3: light-dark(#2B48A6, #3a5ccc);
 
-    --c-cobalt-soft-1: #EFF1FB;
-    --c-cobalt-soft-2: #E6EAF9;
-    --c-cobalt-soft-3: #DEE3F7;
-    --c-cobalt-soft-4: #D6DCF5;
+    --c-cobalt-soft-1: light-dark(#EFF1FB, #101A3C);
+    --c-cobalt-soft-2: light-dark(#E6EAF9, #14214D);
+    --c-cobalt-soft-3: light-dark(#DEE3F7, #18285D);
+    --c-cobalt-soft-4: light-dark(#D6DCF5, #1C2F6D);
 
-    --c-cobalt-text-1: var(--c-cobalt-solid-1);
-    --c-cobalt-text-2: var(--c-cobalt-solid-2);
+    --c-cobalt-text-1: light-dark(var(--c-cobalt-solid-1), #BDC7EF);
+    --c-cobalt-text-2: light-dark(var(--c-cobalt-solid-2), var(--c-cobalt-text-1));
     --c-cobalt-text-3: #D9E2FC;
     --c-cobalt-text-4: white;
 
@@ -17,33 +17,15 @@
     --c-cobalt-border-subtle: rgb(var(--rgb-cobalt-border) / 0.20);
     --c-cobalt-border-regular: rgb(var(--rgb-cobalt-border) / 0.45);
 
-    --c-cobalt-outline: #AEBCE6;
+    --c-cobalt-outline: light-dark(#AEBCE6, #2947AB);
 
-    --c-cobalt-1: var(--c-cobalt-solid-1);
-    --c-cobalt-2: #93ACF6;
-    --c-cobalt-3: #253D8E;
+    --c-cobalt-1: light-dark(var(--c-cobalt-solid-1), #5A7AE2);
+    --c-cobalt-2: light-dark(#93ACF6, var(--c-cobalt-soft-4));
+    --c-cobalt-3: light-dark(#253D8E, var(--c-cobalt-soft-3));
     --c-cobalt-4: var(--c-cobalt-soft-2);
 }
-.dark {
-    --c-cobalt-solid-1: #2B48A6;
-    --c-cobalt-solid-2: #3050BB;
-    --c-cobalt-solid-3: #3a5ccc;
-
-    --c-cobalt-soft-1: #101A3C;
-    --c-cobalt-soft-2: #14214D;
-    --c-cobalt-soft-3: #18285D;
-    --c-cobalt-soft-4: #1C2F6D;
-
-    --c-cobalt-text-1: #BDC7EF;
-    --c-cobalt-text-2: var(--c-cobalt-text-1);
-
+:root.dark {
     --rgb-cobalt-border: 133 154 224;
     --c-cobalt-border-subtle: rgb(var(--rgb-cobalt-border) / 0.25);
     --c-cobalt-border-regular: rgb(var(--rgb-cobalt-border) / 0.40);
-
-    --c-cobalt-outline: #2947AB;
-
-    --c-cobalt-1: #5A7AE2;
-    --c-cobalt-2: var(--c-cobalt-soft-4);
-    --c-cobalt-3: var(--c-cobalt-soft-3);
 }

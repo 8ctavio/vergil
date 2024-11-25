@@ -1,17 +1,17 @@
 @import './colors/grey.css';
 
+:root { color-scheme: light }
+:root.dark { color-scheme: dark }
+
 :root {
     font-size: 0.625rem; /* 10px */
     font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-    scrollbar-color: rgb(0 0 0 / 0.2) var(--c-bg-alt);
+    scrollbar-color: rgb(from light-dark(black,white) r g b / 0.2) var(--c-bg-alt);
 
     & ::selection {
         background-color: var(--c-theme-soft-2);
     }
-}
-.dark {
-    scrollbar-color: rgb(255 255 255 / 0.2) var(--c-bg-alt);
 }
 body {
     background-color: var(--c-bg);
@@ -41,6 +41,36 @@ p, h1, h2, h3 {
     --font-sans: 'initial';
     --font-mono: 'initial';
 
+    /*--------------------------
+    ---------- Colors ----------
+    --------------------------*/
+    /*-------- Background --------*/
+    --c-bg: light-dark(#FAFAFA, #181818);
+    --c-bg-alt: light-dark(#F3F3F3, #121212);
+    --c-backdrop: #00000030;
+
+    /*-------- Text --------*/
+    --c-text-light: #FFFFFF;
+    --c-text-dark: #252525;
+    --c-text: light-dark(var(--c-text-dark), var(--c-text-light));
+
+    /*-------- Disabled --------*/
+    --c-disabled-1: light-dark(#E5E5E5, #222222);
+    --c-disabled-2: light-dark(#D7D7D7, #303030);
+    --c-disabled-border-1: light-dark(#CCCCCC, #383838);
+    --c-disabled-border-2: light-dark(#ADADAD, #575757);
+    --c-disabled-border-3: light-dark(#888888, #6B6B6B);
+    --c-disabled-text: light-dark(#5E5E5E, #808080);
+
+    /*-------- Box-Shadow --------*/
+    --c-box-shadow: light-dark(#95959550, #00000070);
+    
+    /*---------- Z-index ----------*/
+    --z-index-popup: 10;
+    --z-index-popover: 20;
+    --z-index-confirm: 30;
+    --z-index-toast: 40;
+
     /*---------- Bezier curves ----------*/
     --bezier-sine-in: cubic-bezier(0.47, 0, 0.745, 0.715);
     --bezier-sine-out: cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -52,61 +82,8 @@ p, h1, h2, h3 {
     --bezier-bounce-out: cubic-bezier(0.30, 0.20, 0.45, 1.45);
     --bezier-bounce-in-out: cubic-bezier(0.55, -0.45, 0.45, 1.45);
 
-    /*---------- Z-index ----------*/
-    --z-index-popup: 10;
-    --z-index-popover: 20;
-    --z-index-confirm: 30;
-    --z-index-toast: 40;
-    
     /*---------- Border ----------*/
     --component-border-bottom-width: 2.5px;
-}
-
-/*----------------------------------------------
--------------------- COLORS --------------------
-----------------------------------------------*/
-/*---------- Background ----------*/
-:root {
-    --c-bg: #FAFAFA;
-    --c-bg-alt: #F3F3F3;
-    --c-backdrop: #00000030;
-}
-.dark {
-    --c-bg: #181818;
-    --c-bg-alt: #121212;
-}
-/*---------- Text ----------*/
-:root {
-    --c-text-light: #FFFFFF;
-    --c-text-dark: #252525;
-    --c-text: var(--c-text-dark);
-}
-.dark {
-    --c-text: var(--c-text-light);
-}
-/*---------- Disabled State ----------*/
-:root {
-    --c-disabled-1: #E5E5E5;
-    --c-disabled-2: #D7D7D7;
-    --c-disabled-border-1: #CCCCCC;
-    --c-disabled-border-2: #ADADAD;
-    --c-disabled-border-3: #888888;
-    --c-disabled-text: #5E5E5E;
-}
-.dark {
-    --c-disabled-1: #222222;
-    --c-disabled-2: #303030;
-    --c-disabled-border-1: #383838;
-    --c-disabled-border-2: #575757;
-    --c-disabled-border-3: #6B6B6B;
-    --c-disabled-text: #808080;
-}
-/*---------- Box Shadow ----------*/
-:root {
-    --c-box-shadow: #95959550;
-}
-.dark {
-    --c-box-shadow: #00000070;
 }
 
 /*-----------------------------------------------

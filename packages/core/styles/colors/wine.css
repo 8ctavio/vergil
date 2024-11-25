@@ -1,50 +1,31 @@
 :root {
-    --c-wine-solid-1: #9B3C69;
-    --c-wine-solid-2: #8D2F5D;
-    --c-wine-solid-3: #7F2251;
+    --c-wine-solid-1: light-dark(#9B3C69, #711246);
+    --c-wine-solid-2: light-dark(#8D2F5D, #7F2251);
+    --c-wine-solid-3: light-dark(#7F2251, #8D2F5D);
 
-    --c-wine-soft-1: #F7EDF2;
-    --c-wine-soft-2: #F0DBE5;
-    --c-wine-soft-3: #E8C9D8;
-    --c-wine-soft-4: #E1B7CB;
+    --c-wine-soft-1: light-dark(#F7EDF2, #280619);
+    --c-wine-soft-2: light-dark(#F0DBE5, #3E0A26);
+    --c-wine-soft-3: light-dark(#E8C9D8, #530E33);
+    --c-wine-soft-4: light-dark(#E1B7CB, #691240);
 
-    --c-wine-text-1: var(--c-wine-solid-2);
-    --c-wine-text-2: var(--c-wine-solid-3);
-    --c-wine-text-3: var(--c-wine-soft-2);
+    --c-wine-text-1: light-dark(var(--c-wine-solid-2), #E1B7CB);
+    --c-wine-text-2: light-dark(var(--c-wine-solid-3), var(--c-wine-text-1));
+    --c-wine-text-3: light-dark(var(--c-wine-soft-2), #E8C9D8);
     --c-wine-text-4: white;
 
     --rgb-wine-border: 92 36 62;
     --c-wine-border-subtle: rgb(var(--rgb-wine-border) / 0.15);
     --c-wine-border-regular: rgb(var(--rgb-wine-border) / 0.32);
 
-    --c-wine-outline: #D59AB7;
+    --c-wine-outline: light-dark(#D59AB7, #831650);
 
-    --c-wine-1: var(--c-wine-solid-1);
-    --c-wine-2: #D59AB7;
-    --c-wine-3: var(--c-wine-solid-3);
+    --c-wine-1: light-dark(var(--c-wine-solid-1), #96175D);
+    --c-wine-2: light-dark(#D59AB7, var(--c-wine-soft-4));
+    --c-wine-3: light-dark(var(--c-wine-solid-3), var(--c-wine-soft-3));
     --c-wine-4: var(--c-wine-soft-2);
 }
-.dark {
-    --c-wine-solid-1: #711246;
-    --c-wine-solid-2: #7F2251;
-    --c-wine-solid-3: #8D2F5D;
-    
-    --c-wine-soft-1: #280619;
-    --c-wine-soft-2: #3E0A26;
-    --c-wine-soft-3: #530E33;
-    --c-wine-soft-4: #691240;
-
-    --c-wine-text-1: #E1B7CB;
-    --c-wine-text-2: var(--c-wine-text-1);
-    --c-wine-text-3: #E8C9D8;
-
+:root.dark {
     --rgb-wine-border: 252 233 243;
     --c-wine-border-subtle: rgb(var(--rgb-wine-border) / 0.15);
     --c-wine-border-regular: rgb(var(--rgb-wine-border) / 0.30);
-
-    --c-wine-outline: #831650;
-
-    --c-wine-1: #96175D;
-    --c-wine-2: var(--c-wine-soft-4);
-    --c-wine-3: var(--c-wine-soft-3);
 }

@@ -1,50 +1,31 @@
 :root {
-    --c-teal-solid-1: #007877;
-    --c-teal-solid-2: #006B6B;
-    --c-teal-solid-3: #005757;
+    --c-teal-solid-1: light-dark(#007877, #005757);
+    --c-teal-solid-2: light-dark(#006B6B, #006B6B);
+    --c-teal-solid-3: light-dark(#005757, #007877);
 
-    --c-teal-soft-1: #ECF9F9;
-    --c-teal-soft-2: #D9F2F2;
-    --c-teal-soft-3: #C6ECEC;
-    --c-teal-soft-4: #B3E5E6;
+    --c-teal-soft-1: light-dark(#ECF9F9, #002929);
+    --c-teal-soft-2: light-dark(#D9F2F2, #003333);
+    --c-teal-soft-3: light-dark(#C6ECEC, #004040);
+    --c-teal-soft-4: light-dark(#B3E5E6, #004D4D);
 
-    --c-teal-text-1: var(--c-teal-solid-1);
-    --c-teal-text-2: var(--c-teal-solid-2);
-    --c-teal-text-3: var(--c-teal-soft-2);
+    --c-teal-text-1: light-dark(var(--c-teal-solid-1), #BAE1F5);
+    --c-teal-text-2: light-dark(var(--c-teal-solid-2), var(--c-teal-text-1));
+    --c-teal-text-3: light-dark(var(--c-teal-soft-2), #D9F2F2);
     --c-teal-text-4: white;
 
     --rgb-teal-border: 0 76 77;
     --c-teal-border-subtle: rgb(var(--rgb-teal-border) / 0.15);
     --c-teal-border-regular: rgb(var(--rgb-teal-border) / 0.37);
 
-    --c-teal-outline: #94DADB;
+    --c-teal-outline: light-dark(#94DADB, #007A7A);
 
-    --c-teal-1: var(--c-teal-solid-1);
-    --c-teal-2: #9FDEDF;
-    --c-teal-3: var(--c-teal-solid-3);
+    --c-teal-1: light-dark(var(--c-teal-solid-1), #009494);
+    --c-teal-2: light-dark(#9FDEDF, var(--c-teal-soft-4));
+    --c-teal-3: light-dark(var(--c-teal-solid-3), var(--c-teal-soft-3));
     --c-teal-4: var(--c-teal-soft-2);
 }
-.dark {
-    --c-teal-1: #005757;
-    --c-teal-2: #006B6B;
-    --c-teal-3: #007877;
-    
-    --c-teal-soft-1: #002929;
-    --c-teal-soft-2: #003333;
-    --c-teal-soft-3: #004040;
-    --c-teal-soft-4: #004D4D;
-
-    --c-teal-text-1: #BAE1F5;
-    --c-teal-text-2: var(--c-teal-text-1);
-    --c-teal-text-3: #D9F2F2;
-
+:root.dark {
     --rgb-teal-border: 204 255 255;
     --c-teal-border-subtle: rgb(var(--rgb-teal-border) / 0.17);
     --c-teal-border-regular: rgb(var(--rgb-teal-border) / 0.32);
-
-    --c-teal-outline: #007A7A;
-
-    --c-teal-1: #009494;
-    --c-teal-2: var(--c-teal-soft-4);
-    --c-teal-3: var(--c-teal-soft-3);
 }

@@ -112,6 +112,7 @@ watch(() => confirmModel.show, show => {
     padding: var(--g-gap-xl);
 	padding-left: calc(20px - var(--g-radius-lg));
     border-radius: var(--g-radius-lg);
+    border: 1px solid light-dark(transparent, var(--c-grey-soft-2));
 	border-left: var(--g-radius-lg) solid var(--c-theme-1);
 
 	display: grid;
@@ -145,9 +146,5 @@ watch(() => confirmModel.show, show => {
 		justify-content: end;
 		column-gap: 10px;
     }
-}
-.dark #confirm-modal {
-    border: 1px solid var(--c-grey-soft-2);
-	border-left: var(--g-radius-lg) solid var(--c-theme-1);
 }
 </style>

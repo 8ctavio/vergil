@@ -1,6 +1,6 @@
 <script setup>
 import { vergil } from '../vergil'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing } from '../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing } from '../utilities/private'
 
 defineProps({
     descendant: Boolean,
@@ -24,7 +24,6 @@ defineProps({
 
 <template>
     <div :class="['skeleton', {
-        [inferTheme(theme)]: theme,
         [`size-${size}`]: size,
         [`radius-${radius}`]: radius,
         [`spacing-${spacing}`]: spacing,
@@ -39,10 +38,7 @@ defineProps({
     line-height: var(--line-height-text);
     padding: var(--g-gap-md);
     border-radius: var(--g-radius-full, var(--g-radius-md));
-    background-color: #C0C0C0;
+    background-color: light-dark(#C0C0C0, #383838);
     animation: pulse 1s var(--bezier-sine-in-out) infinite alternate;
-}
-.dark .skeleton {
-    background-color: #383838;
 }
 </style>

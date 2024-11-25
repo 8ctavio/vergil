@@ -124,7 +124,7 @@ defineProps({
         }
         & > .toggle-radio {
             border-radius: inherit;
-            background-color: var(--c-theme-text-3);
+            background-color: light-dark(var(--c-theme-text-3), var(--c-theme-text-2));
         }
         & ~ .toggle-description {
             grid-column-start: 2;
@@ -138,9 +138,6 @@ defineProps({
 }
 .checkbox > .toggle-button {
     transition: background-color 150ms, border-color 150ms;
-}
-.dark .radio > .toggle-button > .toggle-radio {
-    background-color: var(--c-theme-text-2);
 }
 
 /*-------- CLASSIC --------*/

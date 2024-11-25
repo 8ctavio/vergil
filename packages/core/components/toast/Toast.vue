@@ -77,7 +77,8 @@ const playState = ref('running')
     width: max-content;
     min-width: 250px;
     max-width: 350px;
-    background-color: white;
+    border: 1px solid light-dark(transparent, var(--c-grey-soft-1));
+    background-color: light-dark(white, #131313);
     box-shadow: 3px 3px 3px var(--c-box-shadow);
     overflow: hidden;
     cursor: default;
@@ -106,10 +107,10 @@ const playState = ref('running')
         aspect-ratio: initial;
     }
     & > .toast-close {
-        color: rgb(0 0 0 / 0.4);
+        color: light-dark(rgb(0 0 0 / 0.4), rgb(255 255 255 / 0.6));
         transition: color 150ms;
         &:hover {
-            color: rgb(0 0 0 / 0.7);
+            color: light-dark(rgb(0 0 0 / 0.7), rgb(255 255 255 / 0.8));
         }
         & .icon {
             font-size: 1.2em;
@@ -131,16 +132,6 @@ const playState = ref('running')
             animation-fill-mode: forwards;
             animation-timing-function: linear;
             animation-play-state: v-bind(playState);
-        }
-    }
-}
-.dark .toast {
-    background-color: #131313;
-    border: 1px solid var(--c-grey-soft-1);
-    & > .toast-close {
-        color: rgb(255 255 255 / 0.6);
-        &:hover{
-            color: rgb(255 255 255 / 0.8);
         }
     }
 }
