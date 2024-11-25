@@ -114,7 +114,7 @@ const floatLabelEnabled = computed(() => {
     align-items: center;
     column-gap: var(--g-gap-md);
     width: 100%;
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-md);
     background-color: var(--c-bg);
     color: var(--c-text);
     box-shadow: inset 0 calc(var(--textarea-bw-b) * -1) var(--textarea-bc-b),

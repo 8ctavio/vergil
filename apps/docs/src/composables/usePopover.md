@@ -30,7 +30,7 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 	height: 80px;
 	padding: 10px;
 	border: 1px solid var(--c-grey-border-subtle);
-	border-radius: var(--g-radius);
+	border-radius: var(--g-radius-lg);
 	background-color: var(--c-bg);
 	& > .placeholder {
 		width: 100%;
@@ -62,7 +62,7 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 	height: 80px;
 	padding: 10px;
 	border: 1px solid var(--c-grey-border-subtle);
-	border-radius: var(--g-radius);
+	border-radius: var(--g-radius-lg);
 	background-color: var(--c-bg);
 	& > .placeholder {
 		width: 100%;

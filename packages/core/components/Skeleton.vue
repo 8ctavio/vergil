@@ -38,7 +38,7 @@ defineProps({
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: #C0C0C0;
     animation: pulse 1s var(--bezier-sine-in-out) infinite alternate;
 }

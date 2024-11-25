@@ -108,7 +108,7 @@ defineProps({
         align-self: center;
         width: calc(1em * var(--font-size-scale-icon));
         height: calc(1em * var(--font-size-scale-icon));
-        border-radius: var(--g-radius);
+        border-radius: var(--g-radius-full, var(--g-radius-md));
         border: 2px solid var(--c-grey-border-subtle);
         transition: border-color 150ms;
 
@@ -161,7 +161,7 @@ defineProps({
 :is(.checkbox, .radio).card {
     row-gap: var(--g-gap-sm);
     padding: var(--g-gap-lg) var(--g-gap-xl);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     box-shadow: inset 0 0 0 var(--toggle-bw, 1px) var(--toggle-bc, var(--c-grey-border-subtle));
     transition: box-shadow 150ms;
@@ -194,7 +194,7 @@ defineProps({
 /*-------- LIST --------*/
 :is(.checkbox, .radio).list {
     padding: var(--g-gap-md) var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     box-shadow: inset 0 0 0 var(--toggle-bw, 0) var(--toggle-bc, transparent);
     transition: background-color 150ms, color 150ms, box-shadow 150ms;
@@ -229,7 +229,7 @@ defineProps({
 /*-------- TOGGLE --------*/
 :is(.checkbox, .radio).toggle {
     padding: var(--g-gap-md) var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg-alt);
     color: var(--c-grey-text-1);
     transition: background-color 150ms, color 150ms;

@@ -47,7 +47,7 @@ defineProps({
     --placeholder-pattern-gap: 8px;
     position: relative;
     border: 1.5px dashed var(--c-grey-border-regular);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background: repeating-linear-gradient(
         -45deg,
         var(--c-grey-border-subtle),

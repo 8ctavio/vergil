@@ -82,7 +82,7 @@ function EmbeddedTable({ data }) {
     line-height: var(--line-height-text);
     padding: var(--g-gap-lg) var(--g-gap-xl);
     gap: var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-lg);
 
 	display: grid;
 	grid-template-columns: max-content 1fr;

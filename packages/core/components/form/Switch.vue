@@ -194,7 +194,7 @@ const model = useModel(props.modelValue)
         border-width: calc(var(--base) * 0.5 * (1 - var(--ratio)));
         border-style: solid;
         border-color: transparent;
-        border-radius: var(--g-radius);
+        border-radius: var(--g-radius-full, var(--g-radius-md));
         background-color: var(--c-grey-soft-4);
         transition: background-color 150ms;
 

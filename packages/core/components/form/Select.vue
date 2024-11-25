@@ -542,7 +542,7 @@ function updateOptions(modelValue) {
     flex-direction: column;
     gap: var(--g-gap-xs);
     width: 100%;
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-md);
     border: 1px solid var(--c-grey-border-subtle);
     background-color: var(--c-bg);
     box-shadow: 2px 2px 3px var(--c-box-shadow);

@@ -141,7 +141,7 @@ const valueWidth = computed(() => props.max.length)
         display: flex;
         align-items: center;
         width: 100%;
-        border-radius: var(--g-radius);
+        border-radius: var(--g-radius-full, var(--g-radius-md));
 
         &.fixedProgress {
             --fixed-progress: 15%;
@@ -202,7 +202,7 @@ const valueWidth = computed(() => props.max.length)
                     transform: translateX(-50%);
                     height: var(--knob-diameter);
                     aspect-ratio: 1 / 1;
-                    border-radius: var(--g-radius);
+                    border-radius: var(--g-radius-full, var(--g-radius-md));
                     background-color: var(--c-theme-1);
                     transition: box-shadow 150ms;
                 }

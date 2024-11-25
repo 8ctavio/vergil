@@ -86,7 +86,7 @@ const { Popover, togglePopover } = usePopover({
 	grid-template-columns: repeat(3,1fr);
     gap: var(--g-gap-md);
 	padding: var(--g-gap-md);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-lg);
     border: 1px solid var(--c-grey-border-subtle);
     background-color: var(--c-bg);
     box-shadow: 2px 2px 3px var(--c-box-shadow);

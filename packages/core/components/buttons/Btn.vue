@@ -106,7 +106,7 @@ defineProps({
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md) var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--btn-c-1);
     color: var(--btn-c-text-1);
     box-shadow: inset 0 calc(var(--btn-bw-b) * -1) var(--btn-c-border-b),

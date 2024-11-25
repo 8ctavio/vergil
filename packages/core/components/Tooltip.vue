@@ -67,7 +67,7 @@ const { Popover } = usePopover({
 	text-align: center;
 	width: max-content;
 	padding: var(--g-gap-sm) var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     border: 1px solid var(--c-grey-border-subtle);
     background-color: var(--c-bg);
     box-shadow: 1px 1px 2px var(--c-box-shadow);

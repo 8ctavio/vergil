@@ -148,17 +148,28 @@ p, h1, h2, h3 {
 :is(.size-sm, .size-md, .size-lg, .size-xl) {
     --g-gap-xs: calc(0.5 * var(--g-gap-md));
     --g-gap-sm: calc(0.8 * var(--g-gap-md));
-    --g-gap-md: calc(6px + (var(--g-size, 0) * 2px) + (var(--g-spacing, 0) * 2px));
+    --g-gap-md: calc(6px + (var(--g-size) * 2px) + (var(--g-spacing, 0) * 2px));
     --g-gap-lg: calc(2 * var(--g-gap-md));
     --g-gap-xl: calc(3 * var(--g-gap-md));
     --g-gap-2xl: calc(4 * var(--g-gap-md));
-
-    &.radius-sm { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-sm)); }
-    &.radius-md { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-md)); }
-    &.radius-lg { --g-radius: calc((1 + (var(--g-size, 0) * 0.4)) * var(--border-radius-lg)); }
 }
-.radius-none{ --g-radius: var(--border-radius-none); }
-.radius-full{ --g-radius: var(--border-radius-full); }
+
+.radius-none { --radius-coeff-a: 0 }
+.radius-sm { --radius-coeff-a: 0.75 }
+.radius-md { --radius-coeff-a: 1 }
+.radius-lg { --radius-coeff-a: 1.5 }
+.radius-full {
+    --radius-coeff-a: 1.5;
+    --g-radius-full: 9999px;
+}
+:is(.radius-none, .radius-sm, .radius-md, .radius-lg, .radius-full) {
+    --radius-coeff-b: calc(1 + (var(--g-size,0) * 0.4));
+    --g-radius-sm: calc(3px * var(--radius-coeff-a) * var(--radius-coeff-b));
+    --g-radius-md: calc(4px * var(--radius-coeff-a) * var(--radius-coeff-b));
+    --g-radius-lg: calc(6px * var(--radius-coeff-a) * var(--radius-coeff-b));
+    --g-radius-xl: calc(8px * var(--radius-coeff-a) * var(--radius-coeff-b));
+    --g-radius-2xl: calc(12px * var(--radius-coeff-a) * var(--radius-coeff-b));
+}
 
 /*------------------------------------------------------------------------------------------
 ---------------------------------------- ANIMATIONS ----------------------------------------

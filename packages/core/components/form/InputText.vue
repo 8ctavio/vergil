@@ -168,7 +168,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     column-gap: var(--g-gap-md);
     padding: 0 var(--g-gap-lg);
     width: 100%;
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     color: var(--c-text);
     box-shadow: inset 0 calc(var(--text-input-bw-b) * -1) var(--text-input-bc-b),

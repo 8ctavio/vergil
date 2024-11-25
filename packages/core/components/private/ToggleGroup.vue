@@ -175,13 +175,13 @@ function Options({ options }) {
     &.list {
         gap: var(--g-gap-xs);
         padding: var(--g-gap-sm);
-        border-radius: var(--g-radius);
+        border-radius: var(--g-radius-md);
         background-color: var(--c-bg);
     }
     &.toggle {
         gap: var(--g-gap-sm);
         padding: var(--g-gap-sm);
-        border-radius: var(--g-radius);
+        border-radius: var(--g-radius-md);
         background-color: var(--c-bg-alt);
     }
 

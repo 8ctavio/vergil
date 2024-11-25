@@ -102,7 +102,7 @@ defineProps({
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md) var(--g-gap-lg);
-    border-radius: var(--g-radius);
+    border-radius: var(--g-radius-full, var(--g-radius-md));
     column-gap: var(--g-gap-md);
 
     position: relative;
