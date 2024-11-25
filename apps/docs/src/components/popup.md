@@ -192,40 +192,6 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
 </style>
 ```
 
-## Props
-
-### Title <Badge type="tip"><pre>title: string = ''</pre></Badge>
-
-```vue-html
-<Popup title="Custom title">
-    <main class="popup-content">
-        Content    
-    </main>
-</Popup>
-```
-
-### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
-
-```vue-html
-<Popup title="Theme" :theme>
-    <main class="popup-content">
-        Content    
-    </main>
-</Popup>
-```
-
-### Disabled <Badge type="tip"><pre>disabled: boolean = false</pre></Badge>
-
-The `disable` prop disables the `Popup`'s close button.
-
-```vue-html
-<Popup title="Some title" disabled>
-    <main class="popup-content">
-        Content
-    </main>
-</Popup>
-```
-
 ## API Reference
 
 ### Props
@@ -233,14 +199,21 @@ The `disable` prop disables the `Popup`'s close button.
 | prop | type | default |
 | ---- | ---- | ------- |
 | `title` | `string` | `''` |
-| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `disabled` | `boolean` | `false` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 
 ### Function
 
 ```js
 function showPopup(component: ComponentInstance, props: object): void
 ```
+
+#### Parameters
+
+- `component`: The default import of a popup component's SFC.
+- `props`: Props object appended to `component` via the `v-bind` directive.
 
 ### Configuration options
 
@@ -249,11 +222,8 @@ The following `Popup` props' default values can be overwritten under the `popup`
 | `popup.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `theme` | ✅ |
-
-#### Parameters
-
-- `component`: The default import of a popup component's SFC.
-- `props`: Props object appended to `component` via the `v-bind` directive.
+| `size` | ✅ |
+| `radius` | ✅ |
 
 ## Styling
 

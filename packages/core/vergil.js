@@ -140,6 +140,8 @@ let template = {
         spacing: undefined,
     },
     confirm: {
+        size: undefined,
+        radius: undefined,
         confirmLabel: 'Accept',
         declineLabel: 'Cancel',
         icon: {
@@ -180,6 +182,8 @@ let template = {
     },
     popup: {
         theme: undefined,
+        size: undefined,
+        radius: undefined,
     },
     radio: {
         variant: 'classic',
@@ -226,6 +230,8 @@ let template = {
     },
     toast: {
         theme: undefined,
+        size: undefined,
+        radius: undefined,
         icon: {
             brand: undefined,
             user: undefined,

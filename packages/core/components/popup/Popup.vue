@@ -4,16 +4,26 @@ import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { onMounted } from 'vue'
 import { popupMeta, closePopup } from '.'
-import { inferTheme, isValidTheme } from '../../utilities/private'
+import { inferTheme, isValidRadius, isValidSize, isValidTheme } from '../../utilities/private'
 
 const { disabled } = defineProps({
     title: String,
+    disabled: Boolean,
     theme: {
         type: String,
         default: () => vergil.config.popup.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
-    disabled: Boolean
+    size: {
+        type: String,
+        default: () => vergil.config.popup.size ?? vergil.config.global.size,
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: () => vergil.config.popup.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
+    },
 })
 
 function handleKeyDown(e) {
@@ -28,7 +38,7 @@ onMounted(() => {
 
 <template>
     <FocusTrap
-        :class="['popup', inferTheme(theme)]"
+        :class="['popup', inferTheme(theme), `size-${size} radius-${radius}`]"
         :inert="popupMeta.isLeaving"
         :focus-on-unmount="popupMeta.focusedBefore"
         @keydown="handleKeyDown">
@@ -50,11 +60,13 @@ onMounted(() => {
 
 <style scoped>
 .popup {
-	font-size: var(--font-size-md);
+	font-size: var(--g-font-size);
+    line-height: var(--line-height-text);
+    border-radius: var(--g-radius-lg);
+
     display: flex;
     flex-direction: column;
     max-height: 95vh;
-    border-radius: var(--border-radius-lg);
     background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
@@ -66,8 +78,8 @@ onMounted(() => {
         padding: 5px;
         padding-bottom: 15px;
         background-color: var(--c-theme-soft-2);
-        border-top-left-radius: var(--border-radius-lg);
-        border-top-right-radius: var(--border-radius-lg);
+        border-top-left-radius: var(--g-radius-lg);
+        border-top-right-radius: var(--g-radius-lg);
 
         & > h1 {
             font-size: 1.5em;

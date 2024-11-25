@@ -3,7 +3,7 @@ import Icon from '../Icon.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { ref } from 'vue'
 import { vergil } from '../../vergil'
-import { inferTheme, isValidTheme } from '../../utilities/private'
+import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
     message: {
@@ -11,15 +11,25 @@ const props = defineProps({
         required: true
     },
     details: String,
+    icon: String,
+    duration: {
+        type: Number,
+        validator: v => v > 0
+    },
     theme: {
         type: String,
         default: () => vergil.config.toast.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
-    icon: String,
-    duration: {
-        type: Number,
-        validator: v => v > 0
+    size: {
+        type: String,
+        default: () => vergil.config.toast.size ?? vergil.config.global.size,
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: () => vergil.config.toast.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
     }
 })
 defineEmits(['close'])
@@ -28,7 +38,11 @@ const playState = ref('running')
 </script>
 
 <template>
-    <div :class="['toast', theme]" @mouseenter="playState = 'paused'" @mouseleave="playState = 'running'">
+    <div
+        :class="['toast', theme, `size-${size} radius-${radius}`]"
+        @mouseenter="playState = 'paused'"
+        @mouseleave="playState = 'running'"
+    >
         <Icon :code="icon || vergil.config.toast.icon[theme] || vergil.config.global.icon[theme]"/>
         <p class="toast-message" :class="{ title: details }">
             <template v-if="details">{{ message }}</template>
@@ -49,8 +63,12 @@ const playState = ref('running')
 </template>
 
 <style>
-.toast{
-    font-size: var(--font-size-md);
+.toast {
+    font-size: var(--g-font-size);
+    line-height: var(--line-height-text);
+    padding: var(--g-gap-lg);
+    border-radius: var(--g-radius-md);
+
     position: relative;
     display: grid;
     grid-template-columns: min-content auto min-content;
@@ -59,17 +77,15 @@ const playState = ref('running')
     width: max-content;
     min-width: 250px;
     max-width: 350px;
-    padding: 10px;
-    border-radius: var(--border-radius-md);
     background-color: white;
     box-shadow: 3px 3px 3px var(--c-box-shadow);
     overflow: hidden;
     cursor: default;
 
-    &:has(.toast-details){
-        padding: 12px 10px;
+    &:has(.toast-details) {
+        padding: var(--g-gap-lg);
     }
-    & > .toast-message{
+    & > .toast-message {
         align-self: center;
         font-weight: 500;
         text-align: center;
@@ -78,35 +94,35 @@ const playState = ref('running')
             text-align: left;
         }
     }
-    & > .toast-details{
+    & > .toast-details {
         grid-column-start: 2;
         line-height: 1.5;
     }
-    & > .icon{
+    & > .icon {
         line-height: normal;
         font-size: 1.5em;
         color: var(--c-theme-1);
         cursor: default;
         aspect-ratio: initial;
     }
-    & > .toast-close{
+    & > .toast-close {
         color: rgb(0 0 0 / 0.4);
         transition: color 150ms;
-        &:hover{
+        &:hover {
             color: rgb(0 0 0 / 0.7);
         }
-        & .icon{
+        & .icon {
             font-size: 1.2em;
         }
     }
-    & > .toast-progress{
+    & > .toast-progress {
         position: absolute;
         left: 0;
         bottom: 0;
         width: 100%;
-        height: var(--border-radius-md);
+        height: var(--g-radius-md);
         background-color: var(--c-theme-soft-3);
-        & > div{
+        & > div {
             width: 100%;
             height: 100%;
             background-color: var(--c-theme-1);
@@ -118,7 +134,7 @@ const playState = ref('running')
         }
     }
 }
-.dark .toast{
+.dark .toast {
     background-color: #131313;
     border: 1px solid var(--c-grey-soft-1);
     & > .toast-close {

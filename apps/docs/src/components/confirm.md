@@ -175,6 +175,8 @@ The following `confirm` parameters' default values can be overwritten under the 
 | `confirmLabel` | |
 | `declineLabel` | |
 | `icon.<theme>` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
 
 ## Examples
 

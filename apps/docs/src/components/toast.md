@@ -56,22 +56,6 @@ When the `details` prop is provided:
 Message details are displayed only if the `message` prop is specified.
 :::
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
-
-```vue
-<Toast message="Toast message" :theme/>
-```
-
-<Demo>
-    <Toast message="Toast message" theme="brand"/>
-    <Toast message="Toast message" theme="user"/>
-    <Toast message="Toast message" theme="ok"/>
-    <Toast message="Toast message" theme="info"/>
-    <Toast message="Toast message" theme="warn"/>
-    <Toast message="Toast message" theme="danger"/>
-    <Toast message="Toast message" theme="neutral"/>
-</Demo>
-
 ### Icon <Badge type="tip"><pre>icon: string</pre></Badge>
 
 ```vue
@@ -94,15 +78,33 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
     <Toast message="Check the console!" :duration="5" @close="console.timeEnd('toast-duration')"/>
 </Demo>
 
+### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
+
+```vue
+<Toast message="Toast message" :theme/>
+```
+
+<Demo>
+    <Toast message="Toast message" theme="brand"/>
+    <Toast message="Toast message" theme="user"/>
+    <Toast message="Toast message" theme="ok"/>
+    <Toast message="Toast message" theme="info"/>
+    <Toast message="Toast message" theme="warn"/>
+    <Toast message="Toast message" theme="danger"/>
+    <Toast message="Toast message" theme="neutral"/>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
 | ---- | ---- | ------- |
 | `message` | `string` | `''` |
 | `details` | `string` | `''` |
-| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `icon` | `string` | `''` |
 | `duration` | `number` | `undefined` |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 
 ### Configuration options
 
@@ -110,8 +112,10 @@ The following `Toast` props' default values can be overwritten under the `toast`
 
 | `toast.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
-| `theme` | ✅ |
 | `icon.<theme>` | ✅ |
+| `theme` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
 
 ## Toaster &#8203;
 

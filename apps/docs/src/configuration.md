@@ -105,6 +105,8 @@ interface VergilConfiguration {
         spacing: spacing;
     },
     confirm: {
+        size: size;
+        radius: radius;
         confirmLabel: string = 'Accept';
         declineLabel: string = 'Cancel';
         icon: {
@@ -145,6 +147,8 @@ interface VergilConfiguration {
     },
     popup: {
         theme: theme;
+        size: size;
+        radius: radius;
     },
     radio: {
         variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic';
@@ -191,6 +195,8 @@ interface VergilConfiguration {
     },
     toast: {
         theme: theme;
+        size: size;
+        radius: radius;
         icon: {
             brand: string;
             user: string;

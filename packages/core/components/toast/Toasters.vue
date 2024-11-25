@@ -55,7 +55,7 @@ function closeToast(position, toast){
                 :icon="toast.icon"
                 :duration="toast.duration"
                 @close="() => closeToast(position, toast)"
-                />
+            />
         </TransitionGroup>
     </div>
 </template>

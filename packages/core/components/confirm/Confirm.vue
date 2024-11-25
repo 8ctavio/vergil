@@ -4,8 +4,23 @@ import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../private/ModalTransition.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { useTemplateRef, watch, nextTick } from "vue"
+import { vergil } from "../../vergil"
 import { confirmModel } from "."
 import { FocusTrap } from '../../utilities/private'
+import { isValidRadius, isValidSize } from '../../utilities/private'
+
+defineProps({
+	size: {
+        type: String,
+        default: () => vergil.config.confirm.size ?? vergil.config.global.size,
+        validator: isValidSize
+    },
+    radius: {
+        type: String,
+        default: () => vergil.config.confirm.radius ?? vergil.config.global.radius,
+        validator: isValidRadius
+    },
+})
 
 const focusTrap = new FocusTrap()
 
@@ -75,7 +90,7 @@ watch(() => confirmModel.show, show => {
 
 <template>
 	<ModalTransition id="confirm-backdrop" :show="confirmModel.show">
-		<div id="confirm-modal" :class="confirmModel.content.theme">
+		<div id="confirm-modal" :class="[confirmModel.content.theme, `size-${size} radius-${radius}`]">
 			<Icon :code="confirmModel.content.icon"/>
 			<h1>{{ confirmModel.content.title }}</h1>
 			<p v-if="confirmModel.content.description">
@@ -92,45 +107,47 @@ watch(() => confirmModel.show, show => {
 <style>
 #confirm-backdrop { z-index: var(--z-index-confirm) }
 #confirm-modal {
-	font-size: var(--font-size-md);
+	font-size: var(--g-font-size);
+    line-height: var(--line-height-text);
+    padding: var(--g-gap-xl);
+	padding-left: calc(20px - var(--g-radius-lg));
+    border-radius: var(--g-radius-lg);
+	border-left: var(--g-radius-lg) solid var(--c-theme-1);
+
 	display: grid;
 	grid-template-columns: min-content auto;
 	column-gap: 10px;
     row-gap: 15px;
 	width: clamp(300px, 35%, 500px);
-	padding: 20px;
-	padding-left: calc(20px - var(--border-radius-lg));
-	border-radius: var(--border-radius-lg);
-	border-left: var(--border-radius-lg) solid var(--c-theme-1);
 	background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
-	& > .icon{
+	& > .icon {
 		font-size: 1.5em;
 		line-height: normal;
         color: var(--c-theme-1);
         cursor: default;
         aspect-ratio: initial;
 	}
-	& > h1{
+	& > h1 {
 		font-size: 1.2em;
         align-self: center;
         font-weight: 600;
     }
-	& > p{
+	& > p {
 		grid-column-start: 2;
         line-height: 1.5;
 		word-wrap: break-word;
     }
-	& > div{
+	& > div {
 		grid-column-start: 2;
 		display: flex;
 		justify-content: end;
 		column-gap: 10px;
     }
 }
-.dark #confirm-modal{
+.dark #confirm-modal {
     border: 1px solid var(--c-grey-soft-2);
-	border-left: var(--border-radius-lg) solid var(--c-theme-1);
+	border-left: var(--g-radius-lg) solid var(--c-theme-1);
 }
 </style>
