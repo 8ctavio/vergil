@@ -41,9 +41,6 @@ p, h1, h2, h3 {
     --font-sans: 'initial';
     --font-mono: 'initial';
 
-    /*--------------------------
-    ---------- Colors ----------
-    --------------------------*/
     /*-------- Background --------*/
     --c-bg: light-dark(#FAFAFA, #181818);
     --c-bg-alt: light-dark(#F3F3F3, #121212);
@@ -86,29 +83,15 @@ p, h1, h2, h3 {
     --component-border-bottom-width: 2.5px;
 }
 
-/*-----------------------------------------------
--------------------- GLOBALS --------------------
------------------------------------------------*/
-.size-sm {
-    --g-size: -1;
-    --g-font-size: 1.2rem;
-}
-.size-md {
-    --g-size: 0;
-    --g-font-size: 1.4rem;
-}
-.size-lg {
-    --g-size: 1;
-    --g-font-size: 1.6rem;
-}
-.size-xl {
-    --g-size: 2;
-    --g-font-size: 1.8rem;
-}
+.size-sm { --g-size: -1 }
+.size-md { --g-size: 0 }
+.size-lg { --g-size: 1 }
+.size-xl { --g-size: 2 }
 .spacing-compact { --g-spacing: -1; }
 .spacing-expanded { --g-spacing: 1; }
 
 :is(.size-xs, .size-sm, .size-md, .size-lg, .size-xl) {
+    --font-size: calc(1.4rem + (0.2rem * var(--g-size)));
     --gap-unit: calc(1px * (1 + (var(--g-size) * 0.25)) * (1 + (var(--g-spacing, 0) * 0.4)));
     --gap: calc(6 * var(--gap-unit));
 

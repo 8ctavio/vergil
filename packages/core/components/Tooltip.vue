@@ -58,7 +58,7 @@ const { Popover } = usePopover({
 
 <style>
 #popover-portal > .popover-wrapper > .tooltip {
-	font-size: var(--g-font-size);
+	font-size: var(--font-size);
     line-height: var(--line-height-text);
 	box-sizing: border-box;
 	display: flex;

@@ -42,7 +42,7 @@ defineProps({
 
 <style>
 :is(.checkbox,.radio) {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     position: relative;
     display: grid;

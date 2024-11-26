@@ -78,7 +78,7 @@ function EmbeddedTable({ data }) {
 
 <style>
 .data-list {
-	font-size: var(--g-font-size);
+	font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-2xl) var(--g-gap-3xl);
     gap: var(--g-gap-2xl);

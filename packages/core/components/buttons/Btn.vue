@@ -103,7 +103,7 @@ defineProps({
     --btn-bw: 0px;
     --btn-bw-b: 0px;
 
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md) var(--g-gap-2xl);
     border-radius: var(--g-radius-full, var(--g-radius-md));

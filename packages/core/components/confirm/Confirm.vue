@@ -107,7 +107,7 @@ watch(() => confirmModel.show, show => {
 <style>
 #confirm-backdrop { z-index: var(--z-index-confirm) }
 #confirm-modal {
-	font-size: var(--g-font-size);
+	font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-3xl);
 	padding-left: calc(20px - var(--g-radius-lg));

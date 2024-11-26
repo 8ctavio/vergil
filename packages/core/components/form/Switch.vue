@@ -104,7 +104,7 @@ const model = useModel(props.modelValue)
 
 <style>
 .switch-button {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     display: flex;
     column-gap: var(--g-gap-md);

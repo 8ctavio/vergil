@@ -34,7 +34,7 @@ defineProps({
 
 <style>
 .skeleton {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md);
     border-radius: var(--g-radius-full, var(--g-radius-md));

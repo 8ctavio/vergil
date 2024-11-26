@@ -64,7 +64,7 @@ const playState = ref('running')
 
 <style>
 .toast {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: calc(10 * var(--gap-unit));
     border-radius: var(--g-radius-md);

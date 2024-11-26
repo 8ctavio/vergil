@@ -490,13 +490,13 @@ function updateOptions(modelValue) {
             }
         }
         & > .chips {
-            font-size: calc(0.9 * var(--g-font-size));
+            font-size: calc(0.9 * var(--font-size));
             line-height: calc(var(--line-height-text) / 0.9);
             display: flex;
             flex-wrap: wrap;
             gap: var(--g-gap-xs) var(--g-gap-sm);
             & > .badge {
-                font-size: calc(0.9 * var(--g-font-size));
+                font-size: calc(0.9 * var(--font-size));
                 line-height: calc(var(--line-height-text) / 0.9);
                 column-gap: var(--g-gap-xs);
                 padding: 0 var(--g-gap-sm);
@@ -558,7 +558,7 @@ function updateOptions(modelValue) {
         }
     }
     & > .select-not-found {
-        font-size: var(--g-font-size);
+        font-size: var(--font-size);
         padding: var(--g-gap-md) var(--g-gap-2xl);
         text-align: center;
         line-height: 1.5;

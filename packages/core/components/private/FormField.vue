@@ -55,7 +55,7 @@ const props = defineProps({
 
 <style>
 .form-field {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     display: flex;
     flex-direction: column;

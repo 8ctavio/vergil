@@ -122,7 +122,7 @@ const valueWidth = computed(() => props.max.length)
     }
 }
 .slider-outer {
-    font-size: var(--g-font-size);
+    font-size: var(--font-size);
     line-height: var(--line-height-text);
     display: flex;
     column-gap: var(--g-gap-2xl);
