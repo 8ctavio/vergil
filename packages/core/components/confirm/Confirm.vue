@@ -109,16 +109,14 @@ watch(() => confirmModel.show, show => {
 #confirm-modal {
 	font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-xl);
+    padding: var(--g-gap-3xl);
 	padding-left: calc(20px - var(--g-radius-lg));
     border-radius: var(--g-radius-lg);
-    border: 1px solid light-dark(transparent, var(--c-grey-soft-2));
 	border-left: var(--g-radius-lg) solid var(--c-theme-1);
 
 	display: grid;
 	grid-template-columns: min-content auto;
-	column-gap: 10px;
-    row-gap: 15px;
+	gap: calc(14 * var(--gap-unit)) calc(10 * var(--gap-unit));
 	width: clamp(300px, 35%, 500px);
 	background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
@@ -146,5 +144,9 @@ watch(() => confirmModel.show, show => {
 		justify-content: end;
 		column-gap: 10px;
     }
+}
+:root.dark #confirm-modal {
+	border: 1px solid var(--c-grey-soft-2);
+	border-left: var(--g-radius-lg) solid var(--c-theme-1);
 }
 </style>

@@ -145,7 +145,7 @@ const floatLabelEnabled = computed(() => {
         font-size: 1em;
         font-family: var(--font-sans);
         width: 100%;
-        padding: var(--g-gap-md) var(--g-gap-lg);
+        padding: var(--g-gap-md) var(--g-gap-2xl);
         background-color: transparent;
         outline: 0 solid transparent;
         resize: none;
@@ -159,7 +159,7 @@ const floatLabelEnabled = computed(() => {
         }
         &:placeholder-shown:not(:focus) + label{
             font-size: 1em;
-            padding: var(--g-gap-md) var(--g-gap-lg);
+            padding: var(--g-gap-md) var(--g-gap-2xl);
             transform: translateY(0);
             color: var(--c-grey-1);
             font-weight: 400;

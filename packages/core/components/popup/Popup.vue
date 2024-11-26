@@ -67,7 +67,6 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     max-height: 95vh;
-    border: 1px solid light-dark(transparent, var(--c-grey-soft-2));
     background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
@@ -101,5 +100,8 @@ onMounted(() => {
         order: 2;
         overflow-y: auto;
     }
+}
+:root.dark .popup {
+    border: 1px solid var(--c-grey-soft-2);
 }
 </style>

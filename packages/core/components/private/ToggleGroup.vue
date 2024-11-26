@@ -165,11 +165,11 @@ function Options({ options }) {
     align-items: start;
 
     &.classic {
-        column-gap: var(--g-gap-xl);
+        column-gap: var(--g-gap-3xl);
         row-gap: var(--g-gap-md);
     }
     &.card {
-        column-gap: var(--g-gap-lg);
+        column-gap: var(--g-gap-2xl);
         row-gap: var(--g-gap-md);
     }
     &.list {

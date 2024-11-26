@@ -166,7 +166,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
     display: flex;
     align-items: center;
     column-gap: var(--g-gap-md);
-    padding: 0 var(--g-gap-lg);
+    padding: 0 var(--g-gap-2xl);
     width: 100%;
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
@@ -210,7 +210,7 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
         }
         &:placeholder-shown:not(:focus) + label {
             font-size: 1em;
-            padding: var(--g-gap-md) var(--g-gap-lg);
+            padding: var(--g-gap-md) var(--g-gap-2xl);
             transform: translateY(0);
             color: var(--c-grey-1);
             font-weight: 400;

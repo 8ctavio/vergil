@@ -125,7 +125,7 @@ const valueWidth = computed(() => props.max.length)
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
     display: flex;
-    column-gap: var(--g-gap-lg);
+    column-gap: var(--g-gap-2xl);
     width: 100%;
     padding: var(--g-gap-md) 0;
     color: var(--c-text);

@@ -43,14 +43,14 @@ import { DataList } from '@8ctavio/vergil/components'
 		'Class': 'SPARTAN-II',
 		'Operations': [
 			['Name', 'Location'],
-			['**TALON**', 'Eridanus Secundus'],
-			['**PHALANX**', 'Circinius IV'],
-			['**SWITCHBACK**', '[REDACTED]'],
-			['**HORIZON**', 'Cascade'],
-			['**WARM BLANKET**', 'Ascon'],
-			['**IRON FIST**', 'Miridem'],
-			['**OCEAN BREAKER**', 'Sigma Octanus IV'],
-			['**FIRST STRIKE**', 'Tau Ceti'],
+			['TALON', 'Eridanus Secundus'],
+			['PHALANX', 'Circinius IV'],
+			['SWITCHBACK', '[REDACTED]'],
+			['HORIZON', 'Cascade'],
+			['WARM BLANKET', 'Ascon'],
+			['IRON FIST', 'Miridem'],
+			['OCEAN BREAKER', 'Sigma Octanus IV'],
+			['FIRST STRIKE', 'Tau Ceti'],
 		]
 	}"/>
 </template>

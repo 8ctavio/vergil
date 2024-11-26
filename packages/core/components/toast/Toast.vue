@@ -66,7 +66,7 @@ const playState = ref('running')
 .toast {
     font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-lg);
+    padding: calc(10 * var(--gap-unit));
     border-radius: var(--g-radius-md);
 
     position: relative;
@@ -77,14 +77,13 @@ const playState = ref('running')
     width: max-content;
     min-width: 250px;
     max-width: 350px;
-    border: 1px solid light-dark(transparent, var(--c-grey-soft-1));
     background-color: light-dark(white, #131313);
     box-shadow: 3px 3px 3px var(--c-box-shadow);
     overflow: hidden;
     cursor: default;
 
     &:has(.toast-details) {
-        padding: var(--g-gap-lg);
+        padding: calc(12 * var(--gap-unit)) calc(10 * var(--gap-unit));
     }
     & > .toast-message {
         align-self: center;
@@ -134,5 +133,8 @@ const playState = ref('running')
             animation-play-state: v-bind(playState);
         }
     }
+}
+:root.dark .toast {
+    border: 1px solid var(--c-grey-soft-1);
 }
 </style>

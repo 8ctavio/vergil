@@ -157,7 +157,7 @@ defineProps({
 /*-------- CARD --------*/
 :is(.checkbox, .radio).card {
     row-gap: var(--g-gap-sm);
-    padding: var(--g-gap-lg) var(--g-gap-xl);
+    padding: var(--g-gap-2xl) var(--g-gap-3xl);
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     box-shadow: inset 0 0 0 var(--toggle-bw, 1px) var(--toggle-bc, var(--c-grey-border-subtle));
@@ -190,7 +190,7 @@ defineProps({
 
 /*-------- LIST --------*/
 :is(.checkbox, .radio).list {
-    padding: var(--g-gap-md) var(--g-gap-lg);
+    padding: var(--g-gap-md) var(--g-gap-2xl);
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     box-shadow: inset 0 0 0 var(--toggle-bw, 0) var(--toggle-bc, transparent);
@@ -225,7 +225,7 @@ defineProps({
 
 /*-------- TOGGLE --------*/
 :is(.checkbox, .radio).toggle {
-    padding: var(--g-gap-md) var(--g-gap-lg);
+    padding: var(--g-gap-md) var(--g-gap-2xl);
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg-alt);
     color: var(--c-grey-text-1);

@@ -80,8 +80,8 @@ function EmbeddedTable({ data }) {
 .data-list {
 	font-size: var(--g-font-size);
     line-height: var(--line-height-text);
-    padding: var(--g-gap-lg) var(--g-gap-xl);
-    gap: var(--g-gap-lg);
+    padding: var(--g-gap-2xl) var(--g-gap-3xl);
+    gap: var(--g-gap-2xl);
     border-radius: var(--g-radius-lg);
 
 	display: grid;
@@ -106,7 +106,7 @@ function EmbeddedTable({ data }) {
 	}
 	& > .badge {
 		justify-self: start;
-		padding: var(--g-gap-xs) var(--g-gap-lg);
+		padding: var(--g-gap-xs) var(--g-gap-2xl);
 	}
 	& > .data-list-table {
 		display: grid;

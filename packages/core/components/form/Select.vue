@@ -528,7 +528,7 @@ function updateOptions(modelValue) {
         position: absolute;
         top: 0;
         left: 0;
-        padding: var(--g-gap-md) var(--g-gap-lg);
+        padding: var(--g-gap-md) var(--g-gap-2xl);
         pointer-events: none;
         user-select: none;
         transform: translateY(0);
@@ -559,7 +559,7 @@ function updateOptions(modelValue) {
     }
     & > .select-not-found {
         font-size: var(--g-font-size);
-        padding: var(--g-gap-md) var(--g-gap-lg);
+        padding: var(--g-gap-md) var(--g-gap-2xl);
         text-align: center;
         line-height: 1.5;
         color: var(--c-grey-text-2);
@@ -585,7 +585,7 @@ function updateOptions(modelValue) {
             outline: none;
         }
         & > .checkbox {
-            padding: var(--g-gap-sm) var(--g-gap-lg);
+            padding: var(--g-gap-sm) var(--g-gap-2xl);
             &[hidden] {
                 display: none;
             }

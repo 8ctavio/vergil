@@ -108,13 +108,17 @@ p, h1, h2, h3 {
 .spacing-compact { --g-spacing: -1; }
 .spacing-expanded { --g-spacing: 1; }
 
-:is(.size-sm, .size-md, .size-lg, .size-xl) {
-    --g-gap-xs: calc(0.5 * var(--g-gap-md));
-    --g-gap-sm: calc(0.8 * var(--g-gap-md));
-    --g-gap-md: calc(6px + (var(--g-size) * 2px) + (var(--g-spacing, 0) * 2px));
-    --g-gap-lg: calc(2 * var(--g-gap-md));
-    --g-gap-xl: calc(3 * var(--g-gap-md));
-    --g-gap-2xl: calc(4 * var(--g-gap-md));
+:is(.size-xs, .size-sm, .size-md, .size-lg, .size-xl) {
+    --gap-unit: calc(1px * (1 + (var(--g-size) * 0.25)) * (1 + (var(--g-spacing, 0) * 0.4)));
+    --gap: calc(6 * var(--gap-unit));
+
+    --g-gap-xs: calc(0.5 * var(--gap));
+    --g-gap-sm: calc(0.8 * var(--gap));
+    --g-gap-md: var(--gap);
+    --g-gap-lg: calc(1.2 * var(--gap));
+    --g-gap-xl: calc(1.5 * var(--gap));
+    --g-gap-2xl: calc(2 * var(--gap));
+    --g-gap-3xl: calc(3 * var(--gap));
 }
 
 .radius-none { --radius-coeff-a: 0 }
