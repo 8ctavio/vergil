@@ -73,7 +73,7 @@ To display a table, a `data` property must be an array of string arrays (`string
 | `data` | `object` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

@@ -347,9 +347,10 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
     <RadioGroup value="0" :option-value="(_,i) => i" theme="neutral" name="theme-neutral" :options="['Neutral 1', 'Neutral 2']" label="Neutral"/>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <RadioGroup value="0" :option-value="(_,i) => i" size="xs" name="size-xs" :options="['Extra Small 1', 'Extra Small 2']" label="Extra Small"/>
     <RadioGroup value="0" :option-value="(_,i) => i" size="sm" name="size-sm" :options="['Small 1', 'Small 2']" label="Small"/>
     <RadioGroup value="0" :option-value="(_,i) => i" size="md" name="size-md" :options="['Medium 1', 'Medium 2']" label="Medium"/>
     <RadioGroup value="0" :option-value="(_,i) => i" size="lg" name="size-lg" :options="['Large 1', 'Large 2']" label="Large"/>
@@ -370,6 +371,11 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xs-compact" :options="['XS Compact 1', 'XS Compact 2']" label="XS Compact" size="xs" spacing="compact"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xs-default" :options="['XS Default 1', 'XS Default 2']" label="XS Default" size="xs"/>
+            <RadioGroup value="0" :option-value="(_,i) => i" name="xs-expanded" :options="['XS Expanded 1', 'XS Expanded 2']" label="XS Expanded" size="xs" spacing="expanded"/>
+        </div>
         <div class="row center">
             <RadioGroup value="0" :option-value="(_,i) => i" name="sm-compact" :options="['SM Compact 1', 'SM Compact 2']" label="SM Compact" size="sm" spacing="compact"/>
             <RadioGroup value="0" :option-value="(_,i) => i" name="sm-default" :options="['SM Default 1', 'SM Default 2']" label="SM Default" size="sm"/>
@@ -420,7 +426,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

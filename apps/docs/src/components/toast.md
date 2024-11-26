@@ -103,7 +103,7 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 | `icon` | `string` | `''` |
 | `duration` | `number` | `undefined` |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 
 ### Configuration options

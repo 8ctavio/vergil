@@ -129,11 +129,12 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 Changing the size mainly changes the font-size and adjusts padding accordingly.
 
 <Demo>
+    <Btn3D size="xs" label="Extra Small"/>
     <Btn3D size="sm" label="Small"/>
     <Btn3D size="md" label="Medium"/>
     <Btn3D size="lg" label="Large"/>
@@ -145,30 +146,35 @@ Changing the size mainly changes the font-size and adjusts padding accordingly.
 <Demo>
     <div class="col center">
         <div class="row center">
+            <Btn3D label="Radius" size="xs" radius="none"/>
             <Btn3D label="Radius" size="sm" radius="none"/>
             <Btn3D label="Radius" size="md" radius="none"/>
             <Btn3D label="Radius" size="lg" radius="none"/>
             <Btn3D label="Radius" size="xl" radius="none"/>
         </div>
         <div class="row center">
-            <Btn3D label="Radius" size="sm" radius="sm"/>
+            <Btn3D label="Radius" size="xs" radius="sm"/>
+            <Btn3D label="Radius" size="sm" radius="sm"/>  
             <Btn3D label="Radius" size="md" radius="sm"/>
             <Btn3D label="Radius" size="lg" radius="sm"/>
             <Btn3D label="Radius" size="xl" radius="sm"/>
         </div>
         <div class="row center">
-            <Btn3D label="Radius" size="sm" radius="md"/>
+            <Btn3D label="Radius" size="xs" radius="md"/>
+            <Btn3D label="Radius" size="sm" radius="md"/>  
             <Btn3D label="Radius" size="md" radius="md"/>
             <Btn3D label="Radius" size="lg" radius="md"/>
             <Btn3D label="Radius" size="xl" radius="md"/>
         </div>
         <div class="row center">
-            <Btn3D label="Radius" size="sm" radius="lg"/>
+            <Btn3D label="Radius" size="xs" radius="lg"/>
+            <Btn3D label="Radius" size="sm" radius="lg"/>  
             <Btn3D label="Radius" size="md" radius="lg"/>
             <Btn3D label="Radius" size="lg" radius="lg"/>
             <Btn3D label="Radius" size="xl" radius="lg"/>
         </div>
         <div class="row center">
+            <Btn3D label="Radius" size="xs" radius="full"/>
             <Btn3D label="Radius" size="sm" radius="full"/>
             <Btn3D label="Radius" size="md" radius="full"/>
             <Btn3D label="Radius" size="lg" radius="full"/>
@@ -183,6 +189,11 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
 
 <Demo>
     <div class="col center">
+        <div class="row center">
+            <Btn3D size="xs" spacing="compact" label="Compact"/>
+            <Btn3D size="xs" label="Default"/>
+            <Btn3D size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <Btn3D size="sm" spacing="compact" label="Compact"/>
             <Btn3D size="sm" label="Default"/>
@@ -260,6 +271,11 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
 <Demo>
     <div class="col center">
         <div class="row center">
+            <Btn3D label="Loading" loading size="xs" spacing="compact"/>
+            <Btn3D label="Loading" loading size="xs"/>
+            <Btn3D label="Loading" loading size="xs" spacing="expanded"/>
+        </div>
+        <div class="row center">
             <Btn3D label="Loading" loading size="sm" spacing="compact"/>
             <Btn3D label="Loading" loading size="sm"/>
             <Btn3D label="Loading" loading size="sm" spacing="expanded"/>
@@ -282,8 +298,6 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
     </div>
 </Demo>
 
-
-
 ## API Reference
 
 | prop | type | default |
@@ -299,7 +313,7 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
 | `loading` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

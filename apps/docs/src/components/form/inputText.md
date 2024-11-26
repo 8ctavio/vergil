@@ -178,12 +178,13 @@ const btnAfterProps = {
     </div>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge type="tip"><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 > Adjusts font-size and padding.
 
 <Demo>
     <div class="col center">
+        <InputText v-model="size" size="xs" class="fixed-width" placeholder="Extra Small"/>
         <InputText v-model="size" size="sm" class="fixed-width" placeholder="Small"/>
         <InputText v-model="size" size="md" class="fixed-width" placeholder="Medium"/>
         <InputText v-model="size" size="lg" class="fixed-width" placeholder="Large"/>
@@ -216,6 +217,11 @@ const btnAfterProps = {
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <InputText v-model="spacing" class="fixed-width" size="xs" spacing="compact" placeholder="Compact"/>
+            <InputText v-model="spacing" class="fixed-width" size="xs" placeholder="Default"/>
+            <InputText v-model="spacing" class="fixed-width" size="xs" spacing="expanded" placeholder="Expanded"/>
+        </div>
         <div class="row center">
             <InputText v-model="spacing" class="fixed-width" size="sm" spacing="compact" placeholder="Compact"/>
             <InputText v-model="spacing" class="fixed-width" size="sm" placeholder="Default"/>
@@ -277,7 +283,7 @@ const btnAfterProps = {
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

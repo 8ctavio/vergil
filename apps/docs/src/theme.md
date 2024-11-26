@@ -191,7 +191,7 @@ The `size` prop adjusts the size of components' font (`font-size`) and gaps (`pa
 Possible `size` values are shown below.
 
 ```ts
-type size = 'sm' | 'md' | 'lg' | 'xl'
+type size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
 
 ### The `radius` prop

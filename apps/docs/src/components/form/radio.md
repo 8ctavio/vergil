@@ -135,9 +135,10 @@ The `description` slot may be use instead. The slot content overrides the `descr
     <Radio name="theme" value="neutral" theme="neutral" label="Neutral"/>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <Radio name="size" value="xs" size="xs" label="Extra Small"/>
     <Radio name="size" value="sm" size="sm" label="Small"/>
     <Radio name="size" value="md" size="md" label="Medium"/>
     <Radio name="size" value="lg" size="lg" label="Large"/>
@@ -158,6 +159,11 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Radio name="spacing-xs" value="compact" size="xs" spacing="compact" label="Compact"/>
+            <Radio name="spacing-xs" value="deafult" size="xs" label="Default"/>
+            <Radio name="spacing-xs" value="expanded" size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <Radio name="spacing-sm" value="compact" size="sm" spacing="compact" label="Compact"/>
             <Radio name="spacing-sm" value="deafult" size="sm" label="Default"/>
@@ -216,7 +222,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

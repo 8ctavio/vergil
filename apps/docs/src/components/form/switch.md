@@ -125,9 +125,10 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
     <Switch theme="neutral" checked/>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <Switch size="xs" label-on="On" label-off="Off"/>
     <Switch size="sm" label-on="On" label-off="Off"/>
     <Switch size="md" label-on="On" label-off="Off"/>
     <Switch size="lg" label-on="On" label-off="Off"/>
@@ -148,6 +149,11 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Switch label-on="On" label-off="Off" size="xs" spacing="compact"/>
+            <Switch label-on="On" label-off="Off" size="xs"/>
+            <Switch label-on="On" label-off="Off" size="xs" spacing="expanded"/>
+        </div>
         <div class="row center">
             <Switch label-on="On" label-off="Off" size="sm" spacing="compact"/>
             <Switch label-on="On" label-off="Off" size="sm"/>
@@ -198,7 +204,7 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

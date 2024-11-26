@@ -123,12 +123,13 @@ The maximum string length that can be entered into the textarea.
     <Textarea underline theme="neutral" placeholder="Neutral"/>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge type="tip"><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 > Adjusts font-size and padding.
 
 <Demo>
     <div class="col center">
+        <Textarea v-model="size" size="xs" class="fixed-width" placeholder="Extra Small"/>
         <Textarea v-model="size" size="sm" class="fixed-width" placeholder="Small"/>
         <Textarea v-model="size" size="md" class="fixed-width" placeholder="Medium"/>
         <Textarea v-model="size" size="lg" class="fixed-width" placeholder="Large"/>
@@ -159,6 +160,11 @@ The maximum string length that can be entered into the textarea.
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Textarea v-model="spacing" class="fixed-width" size="xs" spacing="compact" placeholder="Compact"/>
+            <Textarea v-model="spacing" class="fixed-width" size="xs" placeholder="Default"/>
+            <Textarea v-model="spacing" class="fixed-width" size="xs" spacing="expanded" placeholder="Expanded"/>
+        </div>
         <div class="row center">
             <Textarea v-model="spacing" class="fixed-width" size="sm" spacing="compact" placeholder="Compact"/>
             <Textarea v-model="spacing" class="fixed-width" size="sm" placeholder="Default"/>
@@ -214,7 +220,7 @@ The maximum string length that can be entered into the textarea.
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

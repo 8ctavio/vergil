@@ -104,6 +104,10 @@ const valueWidth = computed(() => props.max.length)
 
 <style>
 .form-field.slider {
+    &.size-xs > .slider-outer > .slider-wrapper {
+        --track-height: 2.5px;
+        --knob-radius: 5px;
+    }
     &.size-sm > .slider-outer > .slider-wrapper {
         --track-height: 3.5px;
         --knob-radius: 6px;
@@ -117,8 +121,8 @@ const valueWidth = computed(() => props.max.length)
         --knob-radius: 9px;
     }
     &.size-xl > .slider-outer > .slider-wrapper {
-        --track-height: 8px;
-        --knob-radius: 10px;
+        --track-height: 7px;
+        --knob-radius: 9.5px;
     }
 }
 .slider-outer {

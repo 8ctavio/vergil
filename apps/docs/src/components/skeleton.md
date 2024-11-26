@@ -36,7 +36,7 @@ import { Skeleton } from '@8ctavio/vergil/components'
 | prop | type | default |
 | ---- | ---- | ------- |
 | `descendant` | `boolean` | |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'expanded'` | `''` |
 

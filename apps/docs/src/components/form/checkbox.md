@@ -140,9 +140,10 @@ The `description` slot may be use instead. The slot content overrides the `descr
     <Checkbox theme="neutral" label="Neutral"/>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <Checkbox size="xs" label="Extra Small"/>
     <Checkbox size="sm" label="Small"/>
     <Checkbox size="md" label="Medium"/>
     <Checkbox size="lg" label="Large"/>
@@ -163,6 +164,11 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Checkbox size="xs" spacing="compact" label="Compact"/>
+            <Checkbox size="xs" label="Default"/>
+            <Checkbox size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <Checkbox size="sm" spacing="compact" label="Compact"/>
             <Checkbox size="sm" label="Default"/>
@@ -224,7 +230,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

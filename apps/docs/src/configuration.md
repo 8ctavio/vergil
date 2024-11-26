@@ -34,7 +34,7 @@ For features or components configured through global options there are correspon
 ```ts
 type color = 'cobalt' | 'dartmouth' | 'denim' | 'emerald' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
 type radius = 'none' | 'sm' | 'md' | 'lg'
-type size = 'sm' | 'md' | 'lg' | 'xl'
+type size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type spacing = '' | 'compact' | 'expanded'
 type theme = 'brand' | 'user' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral'
 type toastPosition = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'

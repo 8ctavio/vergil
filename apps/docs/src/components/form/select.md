@@ -452,10 +452,11 @@ query => `No results for [["${query}"]]`
     </div>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
     <div class="col center">
+        <Select class="select-demo" size="xs" :options="['Option']" placeholder="Extra Small"/>
         <Select class="select-demo" size="sm" :options="['Option']" placeholder="Small"/>
         <Select class="select-demo" size="md" :options="['Option']" placeholder="Medium"/>
         <Select class="select-demo" size="lg" :options="['Option']" placeholder="Large"/>
@@ -486,6 +487,11 @@ query => `No results for [["${query}"]]`
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Select class="select-demo" size="xs" :options="['Option']" spacing="compact" placeholder="Compact"/>
+            <Select class="select-demo" size="xs" :options="['Option']" placeholder="Default"/>
+            <Select class="select-demo" size="xs" :options="['Option']" spacing="expanded" placeholder="Expanded"/>
+        </div>
         <div class="row center">
             <Select class="select-demo" size="sm" :options="['Option']" spacing="compact" placeholder="Compact"/>
             <Select class="select-demo" size="sm" :options="['Option']" placeholder="Default"/>
@@ -539,7 +545,7 @@ query => `No results for [["${query}"]]`
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

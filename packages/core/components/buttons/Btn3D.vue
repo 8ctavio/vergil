@@ -128,7 +128,7 @@ defineProps({
         outline: none;
         box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
     }
-    &:where(.size-sm.spacing-compact) {
+    &:where(.size-sm.spacing-compact, .size-xs) {
         --btn3D-elv: 4px;
         --btn3D-elv-hover: 3px;
         --btn3D-shadow-x: 4px;

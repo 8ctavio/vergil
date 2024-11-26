@@ -125,9 +125,10 @@ The `'regular'` and `true` values are equivalent.
     </div>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <VergilBadge size="xs" label="Extra Small"/>
     <VergilBadge size="sm" label="Small"/>
     <VergilBadge size="md" label="Medium"/>
     <VergilBadge size="lg" label="Large"/>
@@ -139,30 +140,35 @@ The `'regular'` and `true` values are equivalent.
 <Demo>
     <div class="col center">
         <div class="row center">
+            <VergilBadge label="Radius" size="xs" radius="none"/>
             <VergilBadge label="Radius" size="sm" radius="none"/>
             <VergilBadge label="Radius" size="md" radius="none"/>
             <VergilBadge label="Radius" size="lg" radius="none"/>
             <VergilBadge label="Radius" size="xl" radius="none"/>
         </div>
         <div class="row center">
+            <VergilBadge label="Radius" size="xs" radius="sm"/>
             <VergilBadge label="Radius" size="sm" radius="sm"/>
             <VergilBadge label="Radius" size="md" radius="sm"/>
             <VergilBadge label="Radius" size="lg" radius="sm"/>
             <VergilBadge label="Radius" size="xl" radius="sm"/>
         </div>
         <div class="row center">
+            <VergilBadge label="Radius" size="xs" radius="md"/>
             <VergilBadge label="Radius" size="sm" radius="md"/>
             <VergilBadge label="Radius" size="md" radius="md"/>
             <VergilBadge label="Radius" size="lg" radius="md"/>
             <VergilBadge label="Radius" size="xl" radius="md"/>
         </div>
         <div class="row center">
+            <VergilBadge label="Radius" size="xs" radius="lg"/>
             <VergilBadge label="Radius" size="sm" radius="lg"/>
             <VergilBadge label="Radius" size="md" radius="lg"/>
             <VergilBadge label="Radius" size="lg" radius="lg"/>
             <VergilBadge label="Radius" size="xl" radius="lg"/>
         </div>
         <div class="row center">
+            <VergilBadge label="Radius" size="xs" radius="full"/>
             <VergilBadge label="Radius" size="sm" radius="full"/>
             <VergilBadge label="Radius" size="md" radius="full"/>
             <VergilBadge label="Radius" size="lg" radius="full"/>
@@ -175,6 +181,11 @@ The `'regular'` and `true` values are equivalent.
 
 <Demo>
     <div class="col center">
+        <div class="row center">
+            <VergilBadge size="xs" spacing="compact" label="Compact"/>
+            <VergilBadge size="xs" label="Default"/>
+            <VergilBadge size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <VergilBadge size="sm" spacing="compact" label="Compact"/>
             <VergilBadge size="sm" label="Default"/>
@@ -211,7 +222,7 @@ The `'regular'` and `true` values are equivalent.
 | `squared` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

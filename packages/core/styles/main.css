@@ -83,6 +83,7 @@ p, h1, h2, h3 {
     --component-border-bottom-width: 2.5px;
 }
 
+.size-xs { --g-size: -2 }
 .size-sm { --g-size: -1 }
 .size-md { --g-size: 0 }
 .size-lg { --g-size: 1 }
@@ -113,7 +114,7 @@ p, h1, h2, h3 {
     --g-radius-full: 9999px;
 }
 :is(.radius-none, .radius-sm, .radius-md, .radius-lg, .radius-full) {
-    --radius-coeff-b: calc(1 + (var(--g-size,0) * 0.4));
+    --radius-coeff-b: calc(1 + (var(--g-size,0) * 0.2));
     --g-radius-sm: calc(3px * var(--radius-coeff-a) * var(--radius-coeff-b));
     --g-radius-md: calc(4px * var(--radius-coeff-a) * var(--radius-coeff-b));
     --g-radius-lg: calc(6px * var(--radius-coeff-a) * var(--radius-coeff-b));

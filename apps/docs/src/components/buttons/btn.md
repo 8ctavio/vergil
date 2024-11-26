@@ -274,9 +274,10 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
-### Size <Badge type="tip"><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <Btn size="xs" label="Extra Small"/>
     <Btn size="sm" label="Small"/>
     <Btn size="md" label="Medium"/>
     <Btn size="lg" label="Large"/>
@@ -288,31 +289,36 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn label="Radius" size="sm" radius="none"/>
+            <Btn label="Radius" size="xs" radius="none"/>
+            <Btn label="Radius" size="sm" radius="none"/>  
             <Btn label="Radius" size="md" radius="none"/>
             <Btn label="Radius" size="lg" radius="none"/>
             <Btn label="Radius" size="xl" radius="none"/>
         </div>
         <div class="row center">
+            <Btn label="Radius" size="xs" radius="sm"/>
             <Btn label="Radius" size="sm" radius="sm"/>
             <Btn label="Radius" size="md" radius="sm"/>
             <Btn label="Radius" size="lg" radius="sm"/>
             <Btn label="Radius" size="xl" radius="sm"/>
         </div>
         <div class="row center">
+            <Btn label="Radius" size="xs" radius="md"/>
             <Btn label="Radius" size="sm" radius="md"/>
             <Btn label="Radius" size="md" radius="md"/>
             <Btn label="Radius" size="lg" radius="md"/>
             <Btn label="Radius" size="xl" radius="md"/>
         </div>
         <div class="row center">
+            <Btn label="Radius" size="xs" radius="lg"/>
             <Btn label="Radius" size="sm" radius="lg"/>
             <Btn label="Radius" size="md" radius="lg"/>
             <Btn label="Radius" size="lg" radius="lg"/>
             <Btn label="Radius" size="xl" radius="lg"/>
         </div>
         <div class="row center">
-            <Btn label="Radius" size="sm" radius="full"/>
+            <Btn label="Radius" size="xs" radius="full"/>
+            <Btn label="Radius" size="sm" radius="full"/>  
             <Btn label="Radius" size="md" radius="full"/>
             <Btn label="Radius" size="lg" radius="full"/>
             <Btn label="Radius" size="xl" radius="full"/>
@@ -324,6 +330,11 @@ Adding `squared` sets padding to the same value on all sides.
 
 <Demo>
     <div class="col center">
+        <div class="row center">
+            <Btn size="xs" spacing="compact" label="Compact"/>
+            <Btn size="xs" label="Default"/>
+            <Btn size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <Btn size="sm" spacing="compact" label="Compact"/>
             <Btn size="sm" label="Default"/>
@@ -427,6 +438,11 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <div class="col center">
         <div class="row center">
+            <Btn label="Loading" loading size="xs" spacing="compact"/>
+            <Btn label="Loading" loading size="xs"/>
+            <Btn label="Loading" loading size="xs" spacing="expanded"/>
+        </div>
+        <div class="row center">
             <Btn label="Loading" loading size="sm" spacing="compact"/>
             <Btn label="Loading" loading size="sm"/>
             <Btn label="Loading" loading size="sm" spacing="expanded"/>
@@ -467,7 +483,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `loading` | `boolean` | `false` |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 

@@ -107,9 +107,10 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
     <Slider value="50" theme="neutral"/>
 </Demo>
 
-### Size <Badge><pre>size: ('sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
 <Demo>
+    <Slider value="50" size="xs"/>
     <Slider value="50" size="sm"/>
     <Slider value="50" size="md"/>
     <Slider value="50" size="lg"/>
@@ -130,6 +131,11 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
 
 <Demo>
     <div class="col">
+        <div class="row center">
+            <Slider value="50" display-value size="xs" spacing="compact" label="Compact"/>
+            <Slider value="50" display-value size="xs" label="Default"/>
+            <Slider value="50" display-value size="xs" spacing="expanded" label="Expanded"/>
+        </div>
         <div class="row center">
             <Slider value="50" display-value size="sm" spacing="compact" label="Compact"/>
             <Slider value="50" display-value size="sm" label="Default"/>
@@ -175,7 +181,7 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 
