@@ -44,13 +44,20 @@ import { watch, effectScope } from 'vue'
  */
 export function watchControlled(sources, callback, options = {}) {
 	let isPaused = false
-	let isDirty = options.immediate ?? false
+	let isDirty = false
+	let syncWatcher
 
 	function pause() {
-		if(!isPaused) isPaused = true
+		if(!isPaused) {
+			isPaused = true
+			syncWatcher.pause()
+		}
 	}
 	function resume() {
-		if(isPaused) isPaused = false
+		if(isPaused) {
+			if(!isDirty) syncWatcher.resume()
+			isPaused = false
+		}
 	}
 	function ignore(callback) {
 		pause()
@@ -61,15 +68,17 @@ export function watchControlled(sources, callback, options = {}) {
 	const scope = effectScope()
 	scope.run(() => {
 		if(options.flush === 'sync') {
-			watch(sources, (...args) => {
+			syncWatcher = watch(sources, (...args) => {
 				if(!isPaused) {
 					callback(...args)
 				}
 			}, options)
 		} else {
-			watch(sources, () => {
+			isDirty = options.immediate
+			syncWatcher = watch(sources, () => {
 				if(!isPaused && !isDirty) {
 					isDirty = true
+					syncWatcher.pause()
 				}
 			},{
 				flush: 'sync',
@@ -78,6 +87,7 @@ export function watchControlled(sources, callback, options = {}) {
 			watch(sources, (...args) => {
 				if(!isPaused && isDirty) {
 					callback(...args)
+					syncWatcher.resume()
 				}
 				isDirty = false
 				if(options.once) scope.stop()
