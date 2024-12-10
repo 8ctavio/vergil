@@ -1,7 +1,6 @@
 import { watch, effectScope } from 'vue'
 
 /**
- * 
  * Watcher with pause and resume controls to ignore source updates. Source updates do not trigger a paused watcher.
  * 
  * @template T
@@ -14,32 +13,32 @@ import { watch, effectScope } from 'vue'
  * 	pause: () => void;
  * 	resume: () => void;
  * 	ignore: (cb: () => void) => void;
- * } } Watch controller.
+ * } } Controlled watcher handle
  * 
  * @example
  * ```js
  * const source = ref(0)
- * const controller = watchControlled(source, v => {
+ * const watcher = watchControlled(source, v => {
  * 	console.log(`new value: ${v}`)	
  * })
  * 
- * // Normally trigger watch
+ * // Normally trigger watcher
  * source.value++ // 'new value: 1'
  * 
- * // Ignore updates while paused
- * controller.pause()
- * // Does not trigger watch
+ * // Ignore updates by pausing watcher
+ * watcher.pause()
+ * // Does not trigger watcher
  * source.value++
- * controller.resume()
+ * watcher.resume()
  * 
  * // Ignore updates with callback
- * controller.ignore(() => {
- * 	// Does not trigger watch
+ * watcher.ignore(() => {
+ * 	// Does not trigger watcher
  * 	source.value++
  * })
  * 
  * // Stop watcher
- * controller.stop()
+ * watcher.stop()
  * ```
  */
 export function watchControlled(sources, callback, options = {}) {
@@ -85,11 +84,15 @@ export function watchControlled(sources, callback, options = {}) {
 				deep: options.deep
 			})
 			watch(sources, (...args) => {
-				if(!isPaused && isDirty) {
-					callback(...args)
-					syncWatcher.resume()
+				if(isDirty) {
+					if(isPaused) {
+						isDirty = false
+					} else {
+						syncWatcher.resume()
+						isDirty = false
+						callback(...args)
+					}
 				}
-				isDirty = false
 				if(options.once) scope.stop()
 			}, options)
 		}
