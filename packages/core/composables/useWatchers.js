@@ -1,5 +1,7 @@
 import { watch, effectScope } from "vue"
 
+const isScheduled = Symbol('isScheduled')
+
 /**
  * Allows to create multiple watchers for the same source, and to pause and resume created watchers for their callbacks to ignore source updates.
  * 
@@ -50,10 +52,9 @@ import { watch, effectScope } from "vue"
 export function useWatchers(sources, { deep } = {}) {
 	const watchers = effectScope()
 	const syncWatchers = effectScope()
-	const scheduledEffects = new WeakSet()
 	let auxWatcher
 	let isPaused = false
-	let scheduledCount = 0 
+	let scheduledEffects = 0
 
 	function onUpdated(callback, options = {}) {
 		let stop
@@ -78,9 +79,12 @@ export function useWatchers(sources, { deep } = {}) {
 				const watchHandle = watch(sources, () => {
 					if(!skip) {
 						for(const effect of watchers.effects) {
-							scheduledEffects.add(effect)
+							Object.defineProperty(effect, isScheduled, {
+								value: true,
+								writable: true
+							})
 						}
-						scheduledCount = watchers.effects.length
+						scheduledEffects = watchers.effects.length
 						auxWatcher.pause()
 					}
 				}, { flush: 'sync', deep })
@@ -98,8 +102,9 @@ export function useWatchers(sources, { deep } = {}) {
 
 			watchers.run(() => {
 				const watchHandle = watch(sources, (...args) => {
-					if(scheduledEffects.delete(effect)) {
-						scheduledCount--
+					if(effect[isScheduled]) {
+						effect[isScheduled] = false
+						scheduledEffects--
 						if(!isPaused) {
 							auxWatcher.resume()
 							callback(...args)
@@ -112,8 +117,9 @@ export function useWatchers(sources, { deep } = {}) {
 
 				stop = () => {
 					watchHandle()
-					if(scheduledEffects.delete(effect)) {
-						scheduledCount--
+					if(effect[isScheduled]) {
+						effect[isScheduled] = false
+						scheduledEffects--
 					}
 					if(watchers.effects.length === 0) {
 						auxWatcher = auxWatcher?.stop()
@@ -134,7 +140,7 @@ export function useWatchers(sources, { deep } = {}) {
 		if(isPaused) {
 			syncWatchers.resume()
 			isPaused = false
-			if(watchers.effects.length > scheduledCount) {
+			if(watchers.effects.length > scheduledEffects) {
 				auxWatcher.resume()
 			}
 		}
