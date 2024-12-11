@@ -1,4 +1,4 @@
-import { watch, effectScope, getCurrentWatcher } from "vue"
+import { watch, effectScope } from "vue"
 
 /**
  * Allows to create multiple watchers for the same source, and to pause and resume created watchers for their callbacks to ignore source updates.
@@ -97,9 +97,7 @@ export function useWatchers(sources, { deep } = {}) {
 			auxWatcher[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
-				let effect
 				const watchHandle = watch(sources, (...args) => {
-					effect ??= getCurrentWatcher()
 					if(scheduledEffects.delete(effect)) {
 						scheduledCount--
 						if(!isPaused) {
@@ -109,6 +107,9 @@ export function useWatchers(sources, { deep } = {}) {
 					}
 					if(options.once) stop()
 				}, { flush: options.flush, deep })
+
+				const effect = watchers.effects.at(-1)
+
 				stop = () => {
 					watchHandle()
 					if(scheduledEffects.delete(effect)) {
