@@ -1,6 +1,6 @@
 <script setup>
 import InputText from './InputText.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { defineReactiveProperties, extendedReactive, useModel, isModel } from '../../composables'
 import { ucFirst } from '../../utilities'
@@ -40,16 +40,25 @@ const loader = ref(false)
 
 const lastSearch = ref('')
 
-async function handleSearch(){
+function handleSearch() {
     loader.value = true
     const searchQuery = model.value
-    await props.onSearch?.(searchQuery)
-    lastSearch.value = searchQuery
-    loader.value = false
+    let focused
+    queueMicrotask(() => {
+        focused = document.activeElement
+    })
+    Promise.resolve(props.onSearch?.(searchQuery)).finally(() => {
+        lastSearch.value = searchQuery
+        loader.value = false
+        nextTick(() => {
+            if(focused === document.activeElement) {
+                model.el.focus()
+            }
+        })
+    })
 }
-
-function handleEnter(){
-    if(model.value){
+function handleEnter() {
+    if(model.value) {
         handleSearch()
     } else {
         lastSearch.value = ''
@@ -57,10 +66,9 @@ function handleEnter(){
 }
 
 const icon = computed(() => {
-    return (
-        !(model.value || model.value === lastSearch.value)
-        || (model.value && model.value === lastSearch.value)
-    ) ? props.iconClear : props.iconSearch
+    return !model.value || model.value !== lastSearch.value
+        ? props.iconSearch
+        : props.iconClear
 })
 
 /**
