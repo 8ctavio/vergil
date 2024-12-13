@@ -6,7 +6,7 @@ import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { ref, computed, watch, watchEffect, useTemplateRef, onMounted } from 'vue'
+import { ref, computed, watch, watchEffect, nextTick, useTemplateRef, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
@@ -42,11 +42,11 @@ const props = defineProps({
     chips: Boolean,
     underline: {
         type: Boolean,
-        default: props => vergil.config.select[props.variant]?.underline,
+        default: () => vergil.config.select.underline,
     },
     fill: {
         type: Boolean,
-        default: props => vergil.config.select[props.variant]?.fill,
+        default: () => vergil.config.select.fill,
     },
     disabled: Boolean,
     class: [String, Object],
@@ -82,7 +82,7 @@ const props = defineProps({
     },
 })
 
-const model = useModel(props.modelValue)
+const model = useModel(props.modelValue, { deep: 1 })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
 const selected = ref(null)
@@ -119,19 +119,23 @@ watch(isOpen, () => {
         }
     }
 }, { flush: 'sync' })
+let isMounted
+watchEffect(() => {
+    if(isMounted && props.disabled) {
+        closePopover()
+    }
+})
 onMounted(() => {
-    watchEffect(() => {
-        if(props.disabled) {
-            closePopover()
-        }
-    })
+    isMounted = true
 })
 
 //-------------------- SELECT BUTTON --------------------
 function handleBtnClick(event) {
     if('value' in event.target.dataset && isMultiSelect.value) {
-        const idx = model.value.indexOf(event.target.dataset.value)
-        if(idx > -1) model.value.splice(idx,1)
+        updateSelection({
+            value: event.target.dataset.value,
+            checked: true
+        })
     } else togglePopover()
 }
 
@@ -166,29 +170,13 @@ async function handleSelectKeydown(event) {
     } else if(event.key === 'Enter') {
         if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
             event.preventDefault()
-            if(isMultiSelect.value) {
-                if(event.target.checked) {
-                    const idx = model.value.indexOf(event.target.value)
-                    if(idx > -1) model.value.splice(idx,1)
-                } else {
-                    model.value.push(event.target.value)
-                }
-            } else {
-                if(event.target.checked) {
-                    model.value = ''
-                } else {
-                    model.value = event.target.value
-                }
-            }
+            updateSelection(event.target)
         }
     } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
         if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+            closePopover()
             if(!event.target.checked) {
-                if(isMultiSelect.value) {
-                    model.value.push(event.target.value)
-                } else {
-                    model.value = event.target.value
-                }
+                updateSelection(event.target)
             }
         }
     } else if (props.filter) {
@@ -283,9 +271,33 @@ function handleFilterInput(event) {
 
 //-------------------- HANDLE SELECTION --------------------
 watch(() => props.options, () => {
-    updateOptions(model.value)
+    updateOptions(true)
 }, { flush: 'post' })
-watch(model.ref, updateOptions, { deep: 1, flush: 'post' })
+model.watchers.onUpdated(() => {
+    updateOptions()
+}, { flush: 'post' })
+function handleChange() {
+    updateOptions(true)
+}
+function updateSelection(option) {
+    model.watchers.pause()
+    if(isMultiSelect.value) {
+        const idx = model.value.indexOf(option.value)
+        if(idx > -1) {
+            if(option.checked) {
+                model.value.splice(idx,1)
+            }
+        } else if(!option.checked) {
+            model.value.push(option.value)
+        }
+    } else {
+        model.value = option.checked ? '' : option.value
+    }
+    model.watchers.resume()
+    nextTick(() => {
+        updateOptions(true)
+    })
+}
 
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
@@ -296,12 +308,12 @@ function createOptionsWalker(filter) {
             : NodeFilter.FILTER_REJECT
     })
 }
-function updateOptions(modelValue) {
-    if(Array.isArray(modelValue)) {
+function updateOptions(closeOnUpdated = false) {
+    if(Array.isArray(model.value)) {
         if(typeof selected.value !== 'object' || selected.value === null) {
             selected.value = {}
         }
-        const selectedSet = new Set(modelValue)
+        const selectedSet = new Set(model.value)
         const walker = createOptionsWalker(optionValue => {
             return selectedSet.delete(optionValue) !== (optionValue in selected.value)
         })
@@ -335,7 +347,7 @@ function updateOptions(modelValue) {
             }
         }
     } else {
-        const walker = createOptionsWalker(optionValue => modelValue === optionValue)
+        const walker = createOptionsWalker(optionValue => model.value === optionValue)
         const input = walker.nextNode()?.firstElementChild
         selected.value = input
         if(input?.checked) {
@@ -344,16 +356,7 @@ function updateOptions(modelValue) {
             }
             if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
             else updatePlaceholder()
-            /**
-             * @NOTE Ideally, only close if model changed due to user interaction.
-             *  If model changed due to a programmatic mutation, popover should
-             *  not be closed.
-             * 
-             *  Native Vue's v-model is not compatible with Vergil's approach of
-             *  ignoring model mutations inside event handlers since the handler
-             *  attached by v-model cannot be customized.
-             */
-            closePopover()
+            if(closeOnUpdated) closePopover()
         } else {
             computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
@@ -422,15 +425,15 @@ function updateOptions(modelValue) {
                     <MiniMarkup :str="placeholderNotFound(filterModel.value)"/>
                 </p>
                 <CheckboxGroup v-show="!empty"
-                    ref="select-options"
                     descendant
-                    :modelValue="model"
+                    :model-value="model"
                     :options
                     :optionValue
                     :optionLabel
                     :optionDescription
                     :disabled
                     :show-symbol="isMultiSelect"
+                    @change="handleChange"
                     variant="list"
                     tabindex="-1"
                     :options-attributes="(key,value,label,description) => ({
