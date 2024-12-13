@@ -70,11 +70,11 @@ const planets = useModel([])
 
 ### Checked value <Badge><pre>value[-checked]: (boolean | string) = true</pre></Badge>
 
-The `value-checked` prop is used both as the underlying `input[type="checkbox"]` element's `value` attribute and as the Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop.
+The `value-checked` prop is the value assigned to the `Checkbox`'s model value when it gets checked, and the value of the underlying `input[type="checkbox"]` element's `value` attribute.
 
 ### Unchecked value <Badge><pre>value-unchecked: (boolean | string) = false</pre></Badge>
 
-Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-checked` is a string, `value-unchecked` defaults to an empty string (`''`).
+The `value-unchecked` prop is the value assigned to the `Checkbox`'s model value when it gets unchecked. If `value-checked` is a string, `value-unchecked` defaults to an empty string (`''`).
 
 ### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 

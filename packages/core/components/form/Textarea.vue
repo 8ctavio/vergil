@@ -3,7 +3,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModel, isModel, watchControlled } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -71,6 +71,16 @@ const props = defineProps({
 })
 
 const model = useModel(props.modelValue)
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    if(model.el) model.el.value = modelValue
+})
+function handleInput(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    model.value = event.target.value
+    model.watchers.resume()
+    modelWatcher.resume()
+}
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -87,13 +97,13 @@ const floatLabelEnabled = computed(() => {
         <div :class="['textarea-wrapper', { underline }]">
             <textarea
                 v-bind="$attrs"
-                v-model="model.value"
                 :ref="model.refs.el"
                 :class="[`text-${textAlign}`, { resize }]"
                 :placeholder
                 :maxlength="max"
                 :rows
                 :disabled
+                @input="handleInput"
             />
             <label v-if="floatLabelEnabled">
                 <MiniMarkup :str="label"/>

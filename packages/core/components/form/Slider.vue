@@ -3,7 +3,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModel, isModel, watchControlled } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -67,6 +67,16 @@ const props = defineProps({
 })
 
 const model = useModel(props.modelValue)
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    if(model.el) model.el.value = modelValue
+})
+function handleInput(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    model.value = event.target.value
+    model.watchers.resume()
+    modelWatcher.resume()
+}
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))
 const valueWidth = computed(() => props.max.length)
@@ -82,13 +92,13 @@ const valueWidth = computed(() => props.max.length)
                 <span>&ZeroWidthSpace;</span>
                 <input
                     v-bind="$attrs"
-                    v-model.number="model.value"
-                    :ref="model.refs.el"
                     type="range"
+                    :ref="model.refs.el"
                     :min
                     :max
                     :disabled
-                    >
+                    @input="handleInput"
+                >
                 <span class="slider-track">
                     <span class="slider-progress">
                         <span class="slider-knob"/>

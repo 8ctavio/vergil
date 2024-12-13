@@ -30,7 +30,7 @@ console.log(model.value) // 'updated value'
 
 The `useModel` composable creates a *model* for a custom component. Here, a model may be understood as an encapsulation of component state and utilities to conveniently interact with it.
 
-A model should be provided to a component with special support for models created with `useModel` via the `v-model` directive. Therefore, the `useModel` composable is an alternative for two-way data binding with regular refs.
+A model should be provided to a component with special support for `useModel`-created-models via the `v-model` directive. Therefore, the `useModel` composable is an alternative for two-way data binding with regular refs.
 
 ```vue
 <script>
@@ -49,7 +49,7 @@ Besides providing some [additional features](#features), the `useModel` composab
 - **Internal**. Changes derived from user-interaction events.
 - **External**. Programmatic mutations performed outside of the component's context/scope (e.g., by the component's parent).
 
-Internal changes are typically handled with event listeners. On the other hand, the `useModel` API allows to **intercept** external programmatic mutations in order to handle them separately. See [Handle external mutations](#handle-external-mutations) for more details.
+Internal changes are typically handled with event listeners. The `useModel` API allows to register callbacks only called when external programmatic mutations are performed in order to handle them separately. See [Handle external mutations](#handle-external-mutations) for more details.
 
 Also, see [Listening to external programmatic model mutations with `defineModel`](https://github.com/vuejs/core/discussions/11250) to learn more about why the described approach to implement components is required.
 
@@ -78,12 +78,17 @@ A model returned by `useModel` is an [extendedRef](/composables/extendedRef). Se
 ## Definition
 
 ```ts
-function useModel<T>(value?: T | ExtendedRef<T>): ExtendedRef<T>
+function useModel<T>(
+    value?: T | ExtendedRef<T>,
+    options?: { deep: boolean | number }
+): ExtendedRef<T>
 ```
 
 #### Parameters
 
 - **`value`**: The initial value to create a model with or the model to wrap. Wrapped models are directly returned.
+- **options**:
+    - **`deep`**: Depth of model wrapper watchers.
 
 #### Return value
 
@@ -112,11 +117,11 @@ const { modelValue } = defineProps({
 const model = useModel(modelValue)
 ```
 
-The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` returns a wrapped version for specific use inside the custom component. However, in practice, the APIs of a model and a model wrapper are very similar.
+The `useModel` composable is analogous to the `defineModel` macro. When used with an already created model, `useModel` returns a wrapped version for specific use inside the custom component. The wrapped model includes the same properties as the regular model plus additional properties to handle external programmatic mutations.
 
 ### Nested component
 
-Consider a `Root` component that wraps another `Nested` component which supports models. The `Root` component may need to wrap the received model to perform certain operations. Then, the model could be directly passed to the `Nested` component.
+Consider a `Root` component that wraps another `Nested` component which supports models. The model wrapped in `Root` should be directly passed to `Nested` to avoid creating multiple model wrappers.
 
 ```vue
 <!-- Root -->
@@ -125,63 +130,54 @@ const { modelValue } = defineProps(/* ... */)
 const model = useModel(modelValue)
 </script>
 <template>
-    <Nested :model-value="modelValue"/>
+    <Nested :model-value="model"/>
 </template>
-```
-
-Altough this could work, two different model wrappers would be created for the same model (one for `Root` and one for `Nested`). To avoid creating multiple model wrappers, the model wrapper created in `Root` can be directly provided to `Nested`. 
-
-```diff
--    <Nested :model-value="modelValue"/>
-+    <Nested :model-value="model"/>
 ```
 
 When `useModel` receives a model wrapper, that wrapper is simply returned. Thefore, the `Nested` model implementation is not affected.
 
 ### Handle external mutations
 
-The `useModel` composable is intended to enable component implementations to separately handle [internal and external model changes](#motivation). Vergil provides two approaches to detect external programmatic mutations:
-
-#### 1. Intercept mutations
-
-The `useModel` composable allows to intercept write operations to the `value` property of models. Model wrappers have an `onMutated` callback registration method that expects a function to be called every time a `.value` assignment on the original model is intercepted. This way, the model wrapper is able to detect and separately handle external programmatic mutations, as well as to freely update the model value.
-
-:::tip IMPORTANT
-If registered, the `onMutated` callback is responsible for updating the model value.
-:::
-
-```js
-model.onMutated(v => {
-    console.log('External programmatic mutation')
-    // IMPORTANT: The callback is responsible for updating the model value
-    model.value = v
-})
-```
-
-:::warning
-The `onMutated` callback can properly intercept programmatic mutations of scalar model values (string, number, boolean). However, programmatic mutations of object model values cannot be fully intercepted since objects can be further mutated by (deeply nested) object properties.
-
-Due to this limitation, `useModel` implementation might change significantly in the future. For that reason, it is recommended to use an alternative approach to detect external programmatic mutations.
-:::
-
-#### 2. Observe mutations
+The `useModel` composable is intended to enable component implementations to separately handle [internal and external model changes](#motivation).
 
 Programmatic mutations can be easily detected with watchers. However, since the model value needs to be *internally* updated in response to user-interaction events, all model-value-subscribed watchers would be triggered by those updates, rendering them unable to distinguish between internal and external changes.
 
-The [watchControlled](/composables/watchControlled) composable can be used instead for the watcher to explicitly ignore *internal* model mutations.
+To prevent watchers from being triggered by internal changes, Vergil provides two composables: [`watchControlled`](/composables/watchControlled) and [`useWatchers`](/composables/useWatchers).
 
+In order to sync model value mutations with the component's state, the `watchControlled` composable may be used.
+
+```js
+// Core Component
+const model = useModel(modelValue)
+
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    // Sync component state with new model value
+})
+function eventHandler(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    // Sync model value with new component state
+    // Changes to model.value here don't trigger modelWatcher
+    model.watchers.resume()
+    modelWatcher.pause()
+}
+```
+
+Additionally, wrapped models include a `watchers` property, which is an instance of `useWatchers`'s returned object. All watcher callbacks attached to `model.watchers` can be used to detect external programmatic mutations if internal changes are properly ignored:
 
 ```js
 const model = useModel(modelValue)
 
-// Same signature as regular watch
-const controller = watchControlled(model.ref, () => {}) 
+// On external programmatic mutation
+model.watchers.onUpdated(modelValue => {
+    /* ... */
+})
 
 function eventHandler(event) {
-    controller.pause()
-    // Does not execute watch callback
+    model.watchers.pause()
+    // Does not execute model.watchers callbacks
     model.value = event.target.value
-    controller.resume()
+    model.watchers.resume()
 }
 ```
 
@@ -235,15 +231,3 @@ function isModel(value: any): boolean
 #### Return value
 
 `true` if `value` is a model created by `useModel`.
-
-### `isModelWrapper`
-
-> Assesses whether a value is a model wrapped by `useModel`.
-
-```js
-function isModelWrapper(value: any): boolean
-```
-
-#### Return value
-
-`true` if `value` is a model wrapped by `useModel`.

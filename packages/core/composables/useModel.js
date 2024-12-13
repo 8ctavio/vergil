@@ -1,9 +1,8 @@
 import { ref } from 'vue'
-import { extendedCustomRef } from './extendedReactivity/extendedRef'
+import { extendedRef } from './extendedReactivity/extendedRef'
 import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
+import { useWatchers } from './useWatchers'
 import { useResetValue } from "./private/useResetValue"
-
-const onMutated = Symbol('onMutated')
 
 /**
  * Assesses whether a value is a model created by `useModel`.
@@ -16,19 +15,13 @@ export function isModel(value){
 }
 
 /**
- * Assesses whether a value is a model wrapped by `useModel`.
- * 
- * @param { any } value
- * @returns { boolean } `true` if `value` is a model wrapped by `useModel`.
- */
-export function isModelWrapper(value){
-    return isModel(value) && Boolean(value?.__v_isModelWrapper)
-}
-
-/**
  * Creates or wraps a component model.
  * 
  * @param [value] - The initial value to create a model with or the model to wrap. Wrapped models are directly returned.
+ * @param { {
+ *      deep: boolean | number
+ * } } options -
+ *  - `deep`: Depth of model wrapper watchers.
  * 
  * @returns { ExtendedRef }
  * 
@@ -48,36 +41,22 @@ export function isModelWrapper(value){
  *  </template>
  *  ```
  */
-export function useModel(value){
-    // Provider (nested custom component): Return wrapped model
-    if(isModelWrapper(value)) {
-        return value
-    }
-    // Provider (custom component): Wrap model
-    else if(isModel(value)) {
-        const model = value
-        return Object.create(model, {
-            value: {
-                get: () => model.ref.value,
-                set: v => model.ref.value = v
-            },
-            onMutated: { value: model[onMutated] },
-            __v_isModelWrapper: { value: true }
-        })
-    }
-    // Consumer (parent component): Create model
-    else {
-        let mutateModel = null
-        const getResetValue = useResetValue(value)
-        const model = extendedCustomRef(getResetValue(), {
-            set: v => {
-                if(mutateModel) {
-                    mutateModel(v)
-                } else {
-                    model.ref.value = v
+export function useModel(value, { deep } = {}){
+    if(isModel(value)) {
+        if(isModel(Object.getPrototypeOf(value))) {
+            // Provider (nested custom component): Return wrapped model
+            return value
+        } else {
+            // Provider (custom component): Wrap model
+            return Object.create(value, {
+                watchers: { value: useWatchers(value.ref, { deep }) }
+            })
                 }
-            }
-        }, withDescriptor => ({
+        }
+    } else {
+        // Consumer (parent component): Create model
+        const getResetValue = useResetValue(value)
+        const model = extendedRef(getResetValue(), withDescriptor => ({
             el: ref(null),
             exposed: withDescriptor({
                 value: new ExtendedReactive(),
@@ -85,9 +64,6 @@ export function useModel(value){
             }),
             reset() {
                 model.value = getResetValue()
-            },
-            [onMutated](callback) {
-                mutateModel = (typeof callback === 'function') ? callback : null
             },
             __v_isModel: withDescriptor({
                 value: true,

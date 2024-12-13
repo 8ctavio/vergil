@@ -63,13 +63,13 @@ The `checked` prop may be used to provide an initial value without a model.
 
 ## Props
 
-### On-state value <Badge><pre>value-on: (boolean | string) = true</pre></Badge>
+### On-state value <Badge><pre>value[-on]: (boolean | string) = true</pre></Badge>
 
-Alias for Vue's [`true-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop.
+The `value-on` prop is the value assigned to the `Switch`'s model value when it gets checked, and the value of the underlying `input[type="checkbox"]` element's `value` attribute.
 
 ### Off-state value <Badge><pre>value-off: (boolean | string) = false</pre></Badge>
 
-Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#checkbox-1) prop. If `value-on` is a string, `value-off` defaults to an empty string (`''`).
+The `value-off` prop is the value assigned to the `Switch`'s model value when it gets unchecked. If `value-on` is a string, `value-off` defaults to an empty string (`''`).
 
 ### Track <Badge><pre>track: ("on" | "off")</pre></Badge>
 
@@ -189,6 +189,7 @@ Alias for Vue's [`false-value`](https://vuejs.org/guide/essentials/forms.html#ch
 | prop | type | default |
 | ---- | ---- | ------- |
 | `checked` | `boolean` | |
+| `value` | `boolean \| string` | `undefined` |
 | `value-on` | `boolean \| string` | `true` |
 | `value-off` | `boolean \| string` | `false` |
 | `track` | `'on' \| 'off'` | |

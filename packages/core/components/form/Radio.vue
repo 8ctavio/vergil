@@ -2,7 +2,7 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModel, isModel, watchControlled } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -53,16 +53,30 @@ const {
     groupDisabled,
 } = inject('radio-props', {})
 
-const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
-
 const descendant = computed(() => props.descendant || isModel(groupModel))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.radio.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
+let radio = null
 function handleTemplateRef(el) {
+    radio = el
     if(!model.el) model.el = el
+}
+
+const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    if(radio) {
+        radio.checked = modelValue === radio.value
+    }
+})
+function handleChange(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    if(event.target.checked) model.value = event.target.value
+    model.watchers.resume()
+    modelWatcher.resume()
 }
 </script>
 
@@ -80,12 +94,12 @@ function handleTemplateRef(el) {
         <template #input>
             <input
                 v-bind="$attrs"
-                v-model="model.value"
-                :ref="handleTemplateRef"
                 type="radio"
+                :ref="handleTemplateRef"
                 :name="name || groupName"
                 :disabled="disabled || groupDisabled"
-                >
+                @change="handleChange"
+            >
         </template>
         <template v-for="(_,name) in $slots" #[name]>
             <slot :name/>

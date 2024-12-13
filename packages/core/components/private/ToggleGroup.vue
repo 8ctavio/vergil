@@ -96,7 +96,7 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue)
+const model = useModel(props.modelValue, { deep: 1 })
 
 provide(`${props.type}-props`, {
     groupModel: model,

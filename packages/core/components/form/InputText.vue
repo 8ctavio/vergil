@@ -5,7 +5,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModel, isModel, watchControlled } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -85,6 +85,16 @@ const props = defineProps({
 })
 
 const model = useModel(props.modelValue)
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    if(model.el) model.el.value = modelValue
+})
+function handleInput(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    model.value = event.target.value
+    model.watchers.resume()
+    modelWatcher.resume()
+}
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -107,13 +117,13 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
                     v-bind="$attrs"
-                    v-model="model.value"
                     :ref="model.refs.el"
                     :class="`text-${textAlign}`"
                     :type
                     :placeholder
                     :maxlength="max"
                     :disabled
+                    @input="handleInput"
                 >
                 <label v-if="floatLabelEnabled">
                     <MiniMarkup :str="label"/>
@@ -127,28 +137,28 @@ const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== n
 </template>
 
 <style>
-.input-text-outer{
+.input-text-outer {
     font-size: 1em;
     display: grid;
     grid-auto-flow: column;
     width: 100%;
 
-    &:has(> .btn:first-child) > .input-text-wrapper{
+    &:has(> .btn:first-child) > .input-text-wrapper {
         --text-input-bw-l: 0px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &:has(> .btn:last-child) > .input-text-wrapper{
+    &:has(> .btn:last-child) > .input-text-wrapper {
         --text-input-bw-r: 0px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
-    & > .btn{
-        &:first-child{
+    & > .btn {
+        &:first-child {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
-        &:last-child{
+        &:last-child {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }

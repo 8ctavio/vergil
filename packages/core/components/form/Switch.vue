@@ -3,7 +3,7 @@ import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModel, isModel, watchControlled } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -12,9 +12,13 @@ defineEmits(['update:modelValue'])
 const props = defineProps({
     //----- Initial value and model -----
     checked: Boolean,
+    value: {
+        type: [String, Boolean],
+        default: undefined
+    },
     valueOn: {
         type: [String, Boolean],
-        default: true,
+        default: props => props.value ?? true
     },
     valueOff: {
         type: [String, Boolean],
@@ -67,7 +71,32 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue)
+const model = useModel(props.modelValue, { deep: 1 })
+const modelWatcher = watchControlled(model.ref, modelValue => {
+    if(model.el) {
+        model.el.checked = Array.isArray(modelValue)
+            ? modelValue.includes(props.valueOn)
+            : modelValue === props.valueOn
+    }
+}, { deep: 1 })
+function handleChange(event) {
+    modelWatcher.pause()
+    model.watchers.pause()
+    if(Array.isArray(model.value)) {
+        const idx = model.value.indexOf(props.valueOn)
+        if(idx > -1) {
+            if(!event.target.checked) {
+                model.value.splice(idx, 1)
+            }
+        } else if(event.target.checked) {
+            model.value.push(props.valueOn)
+        }
+    } else {
+        model.value = event.target.checked ? props.valueOn : props.valueOff
+    }
+    model.watchers.resume()
+    modelWatcher.resume()
+}
 </script>
 
 <template>
@@ -78,14 +107,13 @@ const model = useModel(props.modelValue)
         <label :class="['switch-button', { [`track-${track}`]: track }]" v-prevent-click-selection>
             <input
                 v-bind="$attrs"
-                v-model="model.value"
                 type="checkbox"
-                :class="{ highlight }"
-                :true-value="valueOn"
-                :false-value="valueOff"
                 :ref="model.refs.el"
+                :value="valueOn"
+                :class="{ highlight }"
                 :disabled
-                >
+                @change="handleChange"
+            >
             <label v-if="labelOff" class="switch-label-off">
                 <MiniMarkup :str="labelOff"/>
             </label>
