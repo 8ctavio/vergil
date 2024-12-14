@@ -262,7 +262,7 @@ function handleFilterInput(event) {
 
 //-------------------- HANDLE SELECTION --------------------
 watch(() => props.options, () => {
-    updateOptions(true)
+    updateOptions(true, true)
 }, { flush: 'post' })
 model.watchers.onUpdated(() => {
     updateOptions()
@@ -306,51 +306,51 @@ const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 function createOptionsWalker(filter) {
     return document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
-        return element.tagName === 'LABEL' && filter(element.firstElementChild.value)
+        return element.tagName === 'LABEL' && filter(element.firstElementChild)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
 }
-function updateOptions(closeOnUpdated = false) {
+function updateOptions(closeOnUpdated = false, resetSelection = false) {
     if(Array.isArray(model.value)) {
-        if(typeof selected.value !== 'object' || selected.value === null) {
-            selected.value = {}
+        if(typeof selected.value !== 'object' || selected.value === null || Object.getPrototypeOf(selected.value) !== Set.prototype) {
+            selected.value = new Set()
         }
-        const selectedSet = new Set(model.value)
-        const walker = createOptionsWalker(optionValue => {
-            return selectedSet.delete(optionValue) !== (optionValue in selected.value)
+        if(resetSelection) selected.value.clear()
+
+        const modelValue = new Set(model.value)
+        const walker = createOptionsWalker(option => {
+            return modelValue.delete(option.value) !== selected.value.has(option)
         })
-        if(walker.nextNode()) {
+        const updateSelection = walker.nextNode() !== null
+        if(updateSelection) {
             do {
                 const input = walker.currentNode.firstElementChild
-                if(input.checked) {
-                    selected.value[input.value] = input
-                } else {
-                    delete selected.value[input.value]
-                }
+                selected.value[input.checked ? 'add' : 'delete'](input)
             } while(walker.nextNode())
-            if(!props.chips) {
-                let placeholder = ''
-                for(const opt in selected.value) placeholder += `${selected.value[opt].dataset.label}, `
-                placeholder = placeholder.slice(0,-2)
-                if(placeholder) {
-                    virtualPlaceholder.value.innerText = placeholder
-                    const n = model.value.length
-                    const updatePlaceholder = () => {
-                        computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
-                            ? props.placeholderFallback(n)
-                            : placeholder
-                        virtualPlaceholder.value.innerText = ''
-                    }
-                    if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
-                    else updatePlaceholder()
-                } else {
-                    computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
+            triggerRef(selected)
+        }
+        if(!props.chips && (updateSelection || resetSelection)) {
+            let placeholder = ''
+            selected.value.forEach(option => placeholder += `${option.dataset.label}, `)
+            placeholder = placeholder.slice(0,-2)
+            if(placeholder) {
+                virtualPlaceholder.value.innerText = placeholder
+                const n = model.value.length
+                const updatePlaceholder = () => {
+                    computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                        ? props.placeholderFallback(n)
+                        : placeholder
+                    virtualPlaceholder.value.innerText = ''
                 }
+                if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+                else updatePlaceholder()
+            } else {
+                computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
             }
         }
     } else {
-        const walker = createOptionsWalker(optionValue => model.value === optionValue)
+        const walker = createOptionsWalker(option => model.value === option.value)
         const input = walker.nextNode()?.firstElementChild
         selected.value = input
         if(input?.checked) {
@@ -393,7 +393,7 @@ function updateOptions(closeOnUpdated = false) {
                 @keydown="handleSelectKeydown"
             >
                 <div v-if="chips && isMultiSelect && isSelected" class="chips">
-                    <Badge v-for="input in selected" :key="input.value"
+                    <Badge v-for="input of selected.values()" :key="input.value"
                         descendant
                         variant="subtle"
                         outline="subtle"
