@@ -6,7 +6,7 @@ import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { ref, computed, watch, watchEffect, nextTick, useTemplateRef, onMounted } from 'vue'
+import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
@@ -85,7 +85,7 @@ const props = defineProps({
 const model = useModel(props.modelValue, { deep: 1 })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
-const selected = ref(null)
+const selected = shallowRef(null)
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -119,15 +119,6 @@ watch(isOpen, () => {
         }
     }
 }, { flush: 'sync' })
-let isMounted
-watchEffect(() => {
-    if(isMounted && props.disabled) {
-        closePopover()
-    }
-})
-onMounted(() => {
-    isMounted = true
-})
 
 //-------------------- SELECT BUTTON --------------------
 function handleBtnClick(event) {
@@ -254,7 +245,7 @@ async function handleSelectKeydown(event) {
 }
 
 //-------------------- FILTER OPTIONS --------------------
-const empty = ref(false)
+const empty = shallowRef(false)
 function handleFilterInput(event) {
     const options = model.el.children
     const query = prune(event?.target.value ?? '')
@@ -279,6 +270,18 @@ model.watchers.onUpdated(() => {
 function handleChange() {
     updateOptions(true)
 }
+
+const setupScope = getCurrentScope()
+onMounted(() => {
+    // Await next tick since popover mount is deferred
+    nextTick(updateOptions)
+    setupScope.run(() => {
+        watchEffect(() => {
+            if(props.disabled) closePopover()
+        })
+    })
+})
+
 function updateSelection(option) {
     model.watchers.pause()
     if(isMultiSelect.value) {
@@ -300,7 +303,7 @@ function updateSelection(option) {
 }
 
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
-const computedPlaceholder = ref(floatLabelEnabled.value ? '' : props.placeholder)
+const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 function createOptionsWalker(filter) {
     return document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'LABEL' && filter(element.firstElementChild.value)

@@ -25,7 +25,7 @@ const demo4 = useModel('')
             harvest: 'Harvest'
         }"/>
     <CheckboxGroup label="Ships">
-        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn"/>
+        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn" checked/>
         <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
         <Checkbox value="forwardUntoDawn" label="Forward Unto Dawn"/>
     </CheckboxGroup>
@@ -50,7 +50,7 @@ const ships = useModel([])
 
     <!-- default slot -->
     <CheckboxGroup v-model="ships" label="Ships">
-        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn"/>
+        <Checkbox value="pillarOfAutumn" label="Pillar of Autumn" checked/>
         <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
         <Checkbox value="forwardUntoDawn" label="Forward Unto Dawn"/>
     </CheckboxGroup>

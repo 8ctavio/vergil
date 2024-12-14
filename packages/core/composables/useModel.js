@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
 import { useWatchers } from './useWatchers'
@@ -57,7 +57,7 @@ export function useModel(value, { deep } = {}){
         // Consumer (parent component): Create model
         const getResetValue = useResetValue(value)
         const model = extendedRef(getResetValue(), withDescriptor => ({
-            el: ref(null),
+            el: shallowRef(null),
             exposed: withDescriptor({
                 value: new ExtendedReactive(),
                 writable: false

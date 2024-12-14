@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, inject } from 'vue'
+import { computed, useTemplateRef, inject, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
@@ -11,6 +11,11 @@ defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
         validator: isModel
+    },
+    checked: Boolean,
+    value: {
+        type: String,
+        default: 'on'
     },
     name: String,
     label: String,
@@ -59,17 +64,21 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
-let radio = null
-function handleTemplateRef(el) {
-    radio = el
-    if(!model.el) model.el = el
+const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
+if(props.checked && model.value === '') {
+    model.value = props.value
 }
 
-const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
-const modelWatcher = watchControlled(model.ref, modelValue => {
-    if(radio) {
-        radio.checked = modelValue === radio.value
-    }
+let modelWatcher
+const radio = useTemplateRef('radio')
+const setupScope = getCurrentScope()
+onMounted(() => {
+    setupScope.run(() => {
+        modelWatcher = watchControlled(model.ref, modelValue => {
+            radio.value.checked = modelValue === radio.value.value
+        }, { immediate: true })
+    })
+    if(!model.el) model.el = radio.value
 })
 function handleChange(event) {
     modelWatcher.pause()
@@ -95,7 +104,8 @@ function handleChange(event) {
             <input
                 v-bind="$attrs"
                 type="radio"
-                :ref="handleTemplateRef"
+                ref="radio"
+                :value
                 :name="name || groupName"
                 :disabled="disabled || groupDisabled"
                 @change="handleChange"

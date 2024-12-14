@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, inject } from 'vue'
+import { computed, useTemplateRef, inject, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
@@ -65,20 +65,30 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
-let checkbox = null
-function handleTemplateRef(el) {
-    checkbox = el
-    if(!model.el) model.el = el
+const model = useModel(props.modelValue ?? groupModel ?? useModel(props.valueUnchecked), { deep: 1 })
+if(props.checked) {
+    if(Array.isArray(model.value)) {
+        if(!model.value.includes(props.valueChecked)) {
+            model.value.push(props.valueChecked)
+        }
+    } else if(model.value === props.valueUnchecked) {
+        model.value = props.valueChecked
+    }
 }
 
-const model = useModel(props.modelValue ?? groupModel ?? useModel(props.checked ? props.valueChecked : props.valueUnchecked), { deep: 1 })
-const modelWatcher = watchControlled(model.ref, modelValue => {
-    if(checkbox) {
-        checkbox.checked = Array.isArray(modelValue)
-            ? modelValue.includes(props.valueChecked)
-            : modelValue === props.valueChecked
-    }
-}, { deep: 1 })
+let modelWatcher
+const checkbox = useTemplateRef('checkbox')
+const setupScope = getCurrentScope()
+onMounted(() => {
+    setupScope.run(() => {
+        modelWatcher = watchControlled(model.ref, modelValue => {
+            checkbox.value.checked = Array.isArray(modelValue)
+                ? modelValue.includes(props.valueChecked)
+                : modelValue === props.valueChecked
+        }, { immediate: true, deep: 1 })
+    })
+    if(!model.el) model.el = checkbox.value
+})
 function handleChange(event) {
     modelWatcher.pause()
     model.watchers.pause()
@@ -113,7 +123,7 @@ function handleChange(event) {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                :ref="handleTemplateRef"
+                ref="checkbox"
                 :value="valueChecked"
                 :disabled="disabled || groupDisabled"
                 @change="handleChange"

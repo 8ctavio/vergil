@@ -2,6 +2,7 @@
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
+import { useTemplateRef, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
@@ -72,13 +73,29 @@ const props = defineProps({
 })
 
 const model = useModel(props.modelValue, { deep: 1 })
-const modelWatcher = watchControlled(model.ref, modelValue => {
-    if(model.el) {
-        model.el.checked = Array.isArray(modelValue)
-            ? modelValue.includes(props.valueOn)
-            : modelValue === props.valueOn
+if(props.checked) {
+    if(Array.isArray(model.value)) {
+        if(!model.value.includes(props.valueOn)) {
+            model.value.push(props.valueOn)
+        }
+    } else if(model.value === props.valueOff) {
+        model.value = props.valueOn
     }
-}, { deep: 1 })
+}
+
+let modelWatcher
+const checkbox = useTemplateRef('checkbox')
+const setupScope = getCurrentScope()
+onMounted(() => {
+    setupScope.run(() => {
+        modelWatcher = watchControlled(model.ref, modelValue => {
+            checkbox.value.checked = Array.isArray(modelValue)
+                ? modelValue.includes(props.valueOn)
+                : modelValue === props.valueOn
+        }, { immediate: true, deep: 1 })
+    })
+    if(!model.el) model.el = checkbox.value
+})
 function handleChange(event) {
     modelWatcher.pause()
     model.watchers.pause()
@@ -108,7 +125,7 @@ function handleChange(event) {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                :ref="model.refs.el"
+                ref="checkbox"
                 :value="valueOn"
                 :class="{ highlight }"
                 :disabled

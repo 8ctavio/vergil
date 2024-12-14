@@ -214,6 +214,8 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 | prop | type | default |
 | ---- | ---- | ------- |
+| `checked` | `boolean` | |
+| `value` | `string` | `'on'` |
 | `name` | `string` | |
 | `label` | `string` | |
 | `description` | `string` | |
