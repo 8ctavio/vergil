@@ -76,6 +76,7 @@ export default {
 					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
+					{ text: 'InputNumber', link: '/components/form/inputNumber' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
 					{ text: 'Radio', link: '/components/form/radio' },
