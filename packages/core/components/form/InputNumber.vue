@@ -114,9 +114,9 @@ function formatDisplayedString() {
 //---------- INPUT & CHANGE EVENTS HANDLERS ----------
 //----------------------------------------------------
 const eventData = {
-	valueString: '',
-	valueNumber: 0,
-	radixAction: '',
+	newString: '',
+	newNumber: 0,
+	cursorPosition: 0
 }
 function handleBeforeInput(event) {
 	const { data, inputType, target } = event
@@ -126,54 +126,136 @@ function handleBeforeInput(event) {
 		return event.preventDefault()
 
 	let newValue
+	let cursorOffset
+	let radixDeleted = false
+	let startDeleted = false
 	if(data) {
-		if(!RegExp(`^${range.min < 0 ?'-?':''}\\d*${fraction.enabled ?'\\.?\\d*':''}$`).test(data))
+		if(!reValidNumber.test(data))
 			return event.preventDefault()
 
 		if(target.value[0] === '-' && target.selectionStart === 0 && target.selectionEnd === 0)
 			target.selectionStart++
 
-		if (data[0] === '-' && target.selectionStart > 0)
-			return event.preventDefault()
+		cursorOffset = target.value.length - target.selectionEnd
+		let dataStart = 0
+		let dataEnd
+		let trailingDigits
+		let trailingEnd
 
-		if(fraction.enabled) {
-			const radixIDX = target.value.indexOf('.')
-			if(data.includes('.')) {
-				if(radixIDX === -1) {
-					eventData.radixAction = 'insert'
-				} else if (radixIDX < target.selectionStart || radixIDX >= target.selectionEnd) {
-					if(data === '.' && [target.selectionStart,target.selectionEnd].every(v => v === radixIDX)) {
-						target.selectionStart++
-					}
-					return event.preventDefault()
-				}
-			} else if(radixIDX >= target.selectionStart && radixIDX < target.selectionEnd) {
-				eventData.radixAction = 'remove'
+		if(data[0] === '-' && (range.min >= 0 || target.selectionStart > 0)) {
+			if(data.length > 1) {
+				dataStart = 1
+			} else {
+				return event.preventDefault()
 			}
 		}
 
-		newValue = target.value.slice(0,target.selectionStart) + data + target.value.slice(target.selectionEnd)
+		const dataRadix = data.indexOf('.')
+		if(fraction.enabled) {
+			const valueRadix = target.value.indexOf('.')
+			if(dataRadix > -1) {
+				if(valueRadix > -1 && (valueRadix < target.selectionStart || valueRadix >= target.selectionEnd)) {
+					if(data.length === 1 && valueRadix === target.selectionStart) {
+						target.selectionStart++
+					}
+					return event.preventDefault()
+				} else {
+					// Inserting a radix deletes thousands separators
+					if(valueRadix === -1 && props.separator) {
+						cursorOffset -= Math.trunc(cursorOffset / 4)
+					}
+					const dataFracDigits = countFractionalDigits(data, dataRadix)
+					if(dataFracDigits < fraction.maxDigits) {
+						const remainingFracDigits = fraction.maxDigits - dataFracDigits
+						if(cursorOffset > remainingFracDigits) {
+							cursorOffset = remainingFracDigits
+							if(props.separator) {
+								trailingDigits = ''
+								for(let i=target.selectionEnd; trailingDigits.length < remainingFracDigits; i++) {
+									const digit = target.value[i]
+									if(digit !== ',') trailingDigits += digit
+								}
+							} else {
+								trailingEnd = target.selectionEnd + remainingFracDigits
+							}
+						}
+					} else {
+						cursorOffset = 0
+						trailingDigits = ''
+						dataEnd = dataRadix + fraction.maxDigits + 1
+					}
+				}
+			} else if(valueRadix > -1) {
+				if(valueRadix < target.selectionStart) {
+					const fracDigitsBeforeSelectionStart = target.selectionStart - valueRadix - 1
+					const fracDigitsBeforeSelectionEnd = fracDigitsBeforeSelectionStart + data.length - dataStart
+					if(fracDigitsBeforeSelectionEnd < fraction.maxDigits) {
+						const remainingFracDigits = fraction.maxDigits - fracDigitsBeforeSelectionEnd
+						if(cursorOffset > remainingFracDigits) {
+							cursorOffset = remainingFracDigits
+							trailingEnd = target.selectionEnd + remainingFracDigits
+						}
+					} else {
+						cursorOffset = 0
+						trailingDigits = ''
+						dataEnd = fraction.maxDigits - fracDigitsBeforeSelectionStart
+					}
+				} else if(valueRadix < target.selectionEnd) {
+					radixDeleted = true
+				}
+			}
+		} else if(dataRadix > -1) {
+			dataEnd = dataRadix
+		}
+		
+		newValue = target.value.slice(0, target.selectionStart).concat(
+			(dataStart > 0 || dataEnd !== undefined) ? data.slice(dataStart,dataEnd) : data,
+			trailingDigits ?? target.value.slice(target.selectionEnd, trailingEnd)
+		)
 	} else if(inputType.startsWith('delete')) {
 		const deleteSelection = getDeleteSelection(inputType, target)
 
-		const radixIDX = target.value.indexOf('.', deleteSelection.start)
-		if(radixIDX > -1 && radixIDX < deleteSelection.end) {
-			eventData.radixAction = 'remove'
+		if(deleteSelection.start === 0) {
+			startDeleted = true
+			if(target.value[0] === '-' && range.max < 0) {
+				target.selectionStart = target.selectionEnd = 1
+				if(deleteSelection.size === 1) {
+					return event.preventDefault()
+				} else {
+					deleteSelection.start++
+				}
+			}
 		}
 
-		// Move cursor when trying to delete a single separator
-		if(deleteSelection.size === 1 && target.value[deleteSelection.start] === ',') {
-			if(deleteSelection.collapsed) {
+		if(deleteSelection.size === 1) {
+			const deleted = target.value[deleteSelection.start]
+			if(deleted === ',') {
 				if(deleteSelection.direction === 'backward') {
 					target.selectionEnd--
-					deleteSelection.start--
-					deleteSelection.end--
 				} else {
 					target.selectionStart++
-					deleteSelection.start++
-					deleteSelection.end++
 				}
-			} else return event.preventDefault()
+				
+				if(deleteSelection.collapsed) {
+					deleteSelection.start += deleteSelection.direction === 'backward' ? -1 : 1
+					deleteSelection.end = deleteSelection.start + 1
+				} else {
+					return event.preventDefault()
+				}
+			} else if(deleted === '.') {
+				radixDeleted = true
+			}
+		} else {
+			const radixIDX = target.value.indexOf('.', deleteSelection.start)
+			if(radixIDX > -1 && radixIDX < deleteSelection.end) {
+				radixDeleted = true
+			}
+		}
+
+		cursorOffset = target.value.length - deleteSelection.end
+		if(target.value[deleteSelection.end] === ',' && (deleteSelection.start === 0 || target.value[deleteSelection.start - 1] === '-')) {
+			// A separator after the delete selectionn will be removed if before the selection there is not a digit
+			cursorOffset--
 		}
 
 		newValue = target.value.slice(0,deleteSelection.start) + target.value.slice(deleteSelection.end)
@@ -181,48 +263,40 @@ function handleBeforeInput(event) {
 		return event.preventDefault()
 	}
 
-	if(props.separator) newValue = newValue.replaceAll(',','')
-	if(countFractionalDigits(newValue) > fraction.maxDigits)
-		return event.preventDefault()
-
-	eventData.valueString = newValue
-	eventData.valueNumber = Number(/\d/.test(newValue) ? newValue : 0)
+	if(props.separator) {
+		// Removing a radix inserts thousands separators
+		if(radixDeleted) {
+			cursorOffset += Math.trunc((cursorOffset - Number(startDeleted)) / 3)
+		}
+		newValue = newValue.replaceAll(',','')
+		eventData.newString = separateThousands(newValue)
+	} else {
+		eventData.newString = newValue
+	}
+	eventData.newNumber = Number(/\d/.test(newValue) ? newValue : 0)
+	eventData.cursorPosition = eventData.newString.length - cursorOffset
 }
 function handleInput(event) {
 	const { target } = event
-	
-	let cursorOffset = target.value.length - target.selectionEnd - Number(target.value[0] === ',')
-
-	if(props.separator) {
-		// Adjust cursor position since inserting/deleting a radix deletes/inserts thousands separators
-		if(eventData.radixAction === 'insert') {
-			cursorOffset -= Math.trunc(cursorOffset / 4)
-		} else if(eventData.radixAction === 'remove') {
-			cursorOffset += Math.trunc((cursorOffset - Number(target.selectionEnd === 0)) / 3)
-		}
-		eventData.radixAction = ''
-		target.value = separateThousands(eventData.valueString)
-	} else {
-		target.value = eventData.valueString
-	}
-
-	const cursorPosition = target.value.length - cursorOffset
-	target.setSelectionRange(cursorPosition, cursorPosition)
+	target.value = eventData.newString
+	target.setSelectionRange(eventData.cursorPosition, eventData.cursorPosition)
 
 	model.watchers.pause()
-	if(eventData.valueNumber < range.min) {
+	if(eventData.newNumber < range.min) {
 		model.value = range.min
-	} else if(eventData.valueNumber > range.max) {
+	} else if(eventData.newNumber > range.max) {
 		model.value = range.max
 	} else {
-		model.value = eventData.valueNumber
+		model.value = eventData.newNumber
 	}
 	model.watchers.resume()
 
-	displayedString.value = target.value
-	displayedNumber = eventData.valueNumber
+	displayedString.value = eventData.newString
+	displayedNumber = eventData.newNumber
 
-	// Note: target.value[0] === ',' and target.selectionEnd === 0 can only be true if part of the string's start is deleted
+	eventData.newString = ''
+	eventData.newNumber = 0
+	eventData.cursorPosition = 0
 }
 function handleChange(event) {
 	if(displayedNumber < range.min || displayedNumber > range.max) {
@@ -239,10 +313,10 @@ function handleChange(event) {
 		let leadingZero = ''
 		let trailingZeros = ''
 		
-		const res = /[1-9\.]/.exec(value)
-		if(res) {
-			if(res[0] === '.') {
-				radixIDX = res.index
+		const idx = value.search(/[1-9\.]/)
+		if(idx > -1) {
+			if(value[idx] === '.') {
+				radixIDX = idx
 				if(radixIDX === minus.length) {
 					leadingZero = '0'
 					if(minus) {
@@ -253,7 +327,7 @@ function handleChange(event) {
 					numStart = radixIDX - 1
 				}
 			} else {
-				numStart = res.index
+				numStart = idx
 				radixIDX = value.indexOf('.', numStart + 1)
 			}
 		}
@@ -362,6 +436,8 @@ watchEffect(() => {
 </template>
 
 <script>
+const reValidNumber = /^-?\d*\.?\d*$/
+
 /*
 	Possible inputType values:
 	
