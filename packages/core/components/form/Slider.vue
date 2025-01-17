@@ -12,17 +12,30 @@ defineEmits(['update:modelValue'])
 const props = defineProps({
     //----- Initial value and model -----
     min: {
-        type: String,
+        type: [String, Number],
         default: '0'
     },
     max: {
-        type: String,
-        default: '100'
+        type: [String, Number],
+        default: '100',
+        validator: (max, { min }) => Number(max) > Number(min)
+    },
+    virtualMin: {
+        type: Number,
+        validator: (v, { min }) => v > Number(min)
+    },
+    virtualMax: {
+        type: Number,
+        validator(virtualMax, { virtualMin, max }) {
+            return virtualMax < Number(max) && (typeof virtualMin !== 'number' || virtualMax > virtualMin) 
+        }
     },
     value: {
-        type: String,
-        default: props => props.min,
-        validator: (v, props) => Number(v) >= Number(props.min) && Number(v) <= Number(props.max)
+        type: [String, Number],
+        default: props => props.virtualMin ?? props.min,
+        validator(v, props) {
+            return Number(v) >= Number(props.virtualMin ?? props.min) && Number(v) <= Number(props.virtualMax ?? props.max)
+        }
     },
     modelValue: {
         default: props => useModel(Number(props.value)),
@@ -56,7 +69,7 @@ const props = defineProps({
     },
     radius: {
         type: String,
-        default: props => props.descendant ? undefined : vergil.config.slider.radius,
+        default: () => vergil.config.slider.radius,
         validator: isValidRadius
     },
     spacing: {
@@ -80,7 +93,14 @@ onMounted(() => {
 function handleInput(event) {
     modelWatcher.pause()
     model.watchers.pause()
-    model.value = event.target.value
+    const newValue = Number(event.target.value)
+    if(props.virtualMin && newValue < props.virtualMin) {
+        model.value = props.virtualMin
+    } else if(props.virtualMax && newValue > props.virtualMax) {
+        model.value = props.virtualMax
+    } else {
+        model.value = newValue
+    }
     model.watchers.resume()
     modelWatcher.resume()
 }

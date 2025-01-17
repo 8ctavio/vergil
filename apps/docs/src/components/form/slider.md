@@ -85,6 +85,16 @@ function formatValue(value) {
 When displaying formatted strings, consider setting the `p.slider-value` width greater than the longest displayed string's width.
 :::
 
+### Virtual range <Badge><pre>virtual-min: number</pre></Badge> <Badge><pre>virtual-max: number</pre></Badge> 
+
+```vue
+<Slider :virtual-min="20" :virtual-max="80" display-value/>
+```
+
+<Demo>
+    <Slider :virtual-min="20" :virtual-max="80" display-value/>
+</Demo>
+
 ### Fixed progress <Badge><pre>fixed-progress: boolean</pre></Badge>
 
 ```vue
@@ -126,6 +136,10 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
     <Slider value="50" radius="lg"/>
     <Slider value="50" radius="full"/>
 </Demo>
+
+:::tip NOTE
+The `Slider`'s `radius` prop is not affected by the `descendant` prop.
+:::
 
 ### Spacing <Badge><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
 
@@ -169,11 +183,13 @@ When displaying formatted strings, consider setting the `p.slider-value` width g
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `string` | `'0'` |
-| `min` | `string` | `'0'` |
-| `max` | `string` | `'100'` |
-| `display-value` | `boolean \| function` | |
-| `fixed-progress` | `boolean` | |
+| `value` | `string \| number` | `'0'` |
+| `min` | `string \| number` | `'0'` |
+| `max` | `string \| number` | `'100'` |
+| `virtualMin` | `number` | |
+| `virtualMax` | `number` | |
+| `displayValue` | `boolean \| function` | |
+| `fixedProgress` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
