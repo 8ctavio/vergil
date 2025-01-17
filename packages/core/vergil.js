@@ -132,6 +132,15 @@ let template = {
         spacing: undefined,
         squared: undefined
     },
+    calendar: {
+        locale: 'en',
+        firstWeekday: 0,
+        timeFormat: '24',
+        theme: new Option(undefined, inferTheme),
+        size: undefined,
+        radius: undefined,
+        spacing: undefined,
+    },
     checkbox: {
         variant: 'classic',
         theme: new Option(undefined, inferTheme),

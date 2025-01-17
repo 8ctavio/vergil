@@ -97,6 +97,15 @@ interface VergilConfiguration {
         spacing: spacing;
         squared: boolean;
     },
+    calendar: {
+        locale: (string | string[] | object) = 'en';
+        firstWeekday: number = 0;
+        timeFormat: ('24' | '12') = '24';
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     checkbox: {
         variant: ('classic' | 'card' | 'list' | 'toggle') = 'classic';
         theme: theme;

@@ -15,6 +15,7 @@ export { default as Toasters } from './toast/Toasters.vue'
 export { default as Tooltip } from './Tooltip.vue'
 
 //---------- Form Components ----------
+export { default as Calendar } from './form/Calendar.vue'
 export { default as Checkbox } from './form/Checkbox.vue'
 export { default as CheckboxGroup } from './form/CheckboxGroup.vue'
 export { default as InputNumber } from './form/InputNumber.vue'

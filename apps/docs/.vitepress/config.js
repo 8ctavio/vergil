@@ -74,6 +74,7 @@ export default {
 				collapsed: true,
 				items: [
 					{ text: 'Introduction', link: '/components/form/introduction' },
+					{ text: 'Calendar', link: '/components/form/calendar' },
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
 					{ text: 'InputNumber', link: '/components/form/inputNumber' },

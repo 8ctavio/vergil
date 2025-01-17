@@ -66,7 +66,7 @@ All [`InputText`](/components/form/inputText) props are available for `InputNumb
 
 ### Fraction <Badge type="tip"><pre>fraction: boolean | number | [number,number] = true</pre></Badge>
 
-The `fraction` prop controls wether to allow fractional digits, and how many digits to allow.
+The `fraction` prop controls whether to allow fractional digits, and how many digits to allow.
 
 ```vue
 <!-- No fraction -->
