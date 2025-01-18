@@ -115,7 +115,8 @@ function* generateIntegers(from, to, step = 1) {
 }
 
 function* generateYears(firstYear) {
-	for(let y=firstYear; y<(firstYear+15); y++) {
+	const lastYear = firstYear + 15
+	for(let y=firstYear; y<lastYear; y++) {
 		yield y
 	}
 }
@@ -127,19 +128,8 @@ function* generateWeekdays(firstWeekday) {
 	}
 }
 function* generateDates(displayedYear, displayedMonth, firstWeekday, modelValue, updateSelected, minDate, maxDate, disabledWeekdays, enablementDates, datesNormallyEnabled, disabled) {
-	const getDatePrefix = date => {
-		return `${padLeadingZeros(date[0], 4)}-${padLeadingZeros(date[1]+1)}-`
-	}
-	const areDatesEqual = (date1,date2) => {
-		for(let i=0; i<3; i++) {
-			if(date1[i] !== date2[i]) {
-				return false
-			}
-		}
-		return true
-	}
-
-	let firstDate, lastDate
+	const firstDate = []
+	const lastDate = []
 	const stages = {}
 	const today = normalizeCalendarDate('today')
 	const modelDate = normalizeCalendarDate(modelValue) ?? []
@@ -169,10 +159,10 @@ function* generateDates(displayedYear, displayedMonth, firstWeekday, modelValue,
 			firstDate: prevMonthLastDate - overlappedDays.prevMonth + 1,
 			lastDate: prevMonthLastDate,
 		}
-		firstDate = [...stages.prev.date, stages.prev.firstDate]
+		firstDate.push(...stages.prev.date, stages.prev.firstDate)
 	} else {
 		stages.prev = { date: null }
-		firstDate = [displayedYear, displayedMonth, 1]
+		firstDate.push(displayedYear, displayedMonth, 1)
 	}
 
 	overlappedDays.nextMonth = 7 - ((overlappedDays.prevMonth + stages.current.lastDate) % 7)
@@ -184,62 +174,67 @@ function* generateDates(displayedYear, displayedMonth, firstWeekday, modelValue,
 			firstDate: 1,
 			lastDate: overlappedDays.nextMonth,
 		}
-		lastDate = [...stages.next.date, stages.next.lastDate]
+		lastDate.push(...stages.next.date, stages.next.lastDate)
 	} else {
 		stages.next = { date: null }
-		lastDate = [displayedYear, displayedMonth, stages.current.lastDate]
+		lastDate.push(displayedYear, displayedMonth, stages.current.lastDate)
+		overlappedDays.nextMonth = 0
 	}
 
-	enablementDates = enablementDates.filter(d => {
-		if(d.length === 2) {
-			return isDateWithinRange(d[0], firstDate, lastDate) || isDateWithinRange(d[1], firstDate, lastDate)
-		} else {
-			return isDateWithinRange(d, firstDate, lastDate)
+	function getDateIndex(date) {
+		let idx = date[2] - firstDate[2]
+		const res = compareDates(date, [displayedYear, displayedMonth])
+		if(firstDate[2] > 1 && res > -1) {
+			idx += stages.prev.lastDate
 		}
-	})
-	function isEnablementDate(date) {
-		let i
-		for(i=0; i<enablementDates.length; i++) {
-			const d = enablementDates[i]
-			if(d !== null) {
-				if(d.length === 2) {
-					if(isDateWithinRange(date, ...d)) {
-						if(areDatesEqual(date, d[1]) || areDatesEqual(date, lastDate)) {
-							break
-						} else {
-							return true
-						}
+		if(res === 1) {
+			idx += stages.current.lastDate
+		}
+		return idx
+	}
+
+	const disabledDates = []
+	if(!disabled) {
+		disabledDates.length = overlappedDays.prevMonth + stages.current.lastDate + overlappedDays.nextMonth
+
+		for(const date of enablementDates) {
+			if(date.length === 2) {
+				if(compareDates(date[0], lastDate) < 1 && compareDates(date[1], firstDate) > -1) {
+					const start = compareDates(date[0], firstDate) === 1 ? getDateIndex(date[0]) : 0
+					const end = compareDates(date[1], lastDate) === -1 ? (getDateIndex(date[1]) + 1) : disabledDates.length
+					for(let i=start; i<end; i++) {
+						disabledDates[i] = true
 					}
-				} else if(areDatesEqual(date, d)) {
-					break
 				}
+			} else if(isDateWithinRange(date, firstDate, lastDate)) {
+				disabledDates[getDateIndex(date)] = true
 			}
 		}
-		if(i < enablementDates.length) {
-			if(i === enablementDates.length - 1) {
-				do enablementDates.pop()
-				while(--i >= 0 && enablementDates[i] === null) 
-			} else {
-				enablementDates[i] = null
+		if(isDateWithinRange(minDate, firstDate, lastDate)) {
+			for(let i=(getDateIndex(minDate)-1); i>=0; i--) {
+				disabledDates[i] = datesNormallyEnabled
 			}
-			return true
-		} else {
-			return false
+		}
+		if(isDateWithinRange(maxDate, firstDate, lastDate)) {
+			for(let i=(getDateIndex(maxDate)+1); i<disabledDates.length; i++) {
+				disabledDates[i] = datesNormallyEnabled
+			}
+		}
+		if(datesNormallyEnabled && disabledWeekdays) {
+			for(const weekday of disabledWeekdays) {
+				let idx = weekday - firstWeekday + (weekday < firstWeekday && 7)
+				do disabledDates[idx] = true
+				while((idx += 7) < disabledDates.length)
+			}
 		}
 	}
-	const isDateDisabled = datesNormallyEnabled
-		? (date, weekday) => (
-			isDateOutsideRange(date, minDate, maxDate)
-			|| disabledWeekdays?.includes(weekday)
-			|| isEnablementDate(date)
-		)
-		: (date) => !isEnablementDate(date)
 
-	let weekday = firstWeekday
+	let idx = 0
+	const areDatesEqual = (date1,date2) => date1[0]===date2[0] && date1[1]===date2[1] && date1[2]===date2[2]
 	for(const stage of ['prev', 'current', 'next']) {
 		const { date, firstDate, lastDate } = stages[stage]
 		if(date !== null) {
-			const datePrefix = getDatePrefix(date)
+			const datePrefix = `${padLeadingZeros(date[0],4)}-${padLeadingZeros(date[1]+1)}-`
 			for(date[2] = firstDate; date[2] <= lastDate; date[2]++) {
 				const isSelected = areDatesEqual(date, modelDate)
 				yield {
@@ -249,11 +244,10 @@ function* generateDates(displayedYear, displayedMonth, firstWeekday, modelValue,
 						ref: isSelected ? updateSelected : undefined,
 						value: datePrefix + padLeadingZeros(date[2]),
 						checked: isSelected,
-						disabled: disabled || isDateDisabled(date, weekday),
+						disabled: disabled || (datesNormallyEnabled === Boolean(disabledDates[idx++])),
 						'data-month': stage
 					}
 				}
-				weekday = weekday === 6 ? 0 : (weekday + 1)
 			}
 		}
 	}

@@ -6,7 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { useModel, toast } from '@8ctavio/vergil'
+import { useModel } from '@8ctavio/vergil'
 
 const demo1 = useModel(null)
 const demo2 = useModel(null)
@@ -14,10 +14,6 @@ const demo3 = useModel(null)
 const demo4 = useModel(null)
 const demo5 = useModel(null)
 const demo6 = useModel(null)
-
-function test() {
-    demo4.value = '2025-01-15T12:35'
-}
 </script>
 
 ## Basic Usage
