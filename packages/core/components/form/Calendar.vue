@@ -394,12 +394,20 @@ const minutes = useModel(0)
 const displayedHours = useModel('00')
 const displayedMinutes = useModel('00')
 const timePeriod = shallowRef('AM')
-const minHours = computed(() => props.hours.min ?? 0)
-const maxHours = computed(() => props.hours.max ?? 23)
-const minMinutes = computed(() => props.minutes.min ?? 0)
-const maxMinutes = computed(() => props.minutes.max ?? 59)
+const hoursMeta = computed(() => {
+	const min = props.hours.min ?? 0
+	const max = props.hours.max ?? 0
+	const step = Math.min(props.hours.step ?? 1, max - min)
+	return { min, max, step }
+})
+const minutesMeta = computed(() => {
+	const min = props.minutes.min ?? 0
+	const max = props.minutes.max ?? 0
+	const step = Math.min(props.minutes.step ?? 1, max - min)
+	return { min, max, step }
+})
 function updateHours(h, updateFormatted = true) {
-	hours.value = Math.max(minHours.value, Math.min(Number(h), maxHours.value))
+	hours.value = Math.max(hoursMeta.value.min, Math.min(Number(h), hoursMeta.value.max))
 	h = hours.value
 	const hh = padLeadingZeros(hours.value)
 	if(updateFormatted) {
@@ -418,7 +426,7 @@ function updateHours(h, updateFormatted = true) {
 	return hh
 }
 function updateMinutes(m, updateFormatted = true) {
-	minutes.value = Math.max(minMinutes.value, Math.min(Number(m), maxMinutes.value))
+	minutes.value = Math.max(minutesMeta.value.min, Math.min(Number(m), minutesMeta.value.max))
 	const mm = padLeadingZeros(minutes.value)
 	if(updateFormatted) {
 		displayedMinutes.value = mm
@@ -480,6 +488,21 @@ function handleKeydown(event) {
 				yearOffset.value--
 			} else if(key === 'ArrowRight' && (pageFirstYear.value + 14) < maxDate.value[0]) {
 				yearOffset.value++
+			}
+		}
+	} else if(event.target.tagName === 'INPUT' && event.target.type === 'text' && Object.hasOwn(event.target.dataset, 'timeControl')) {
+		const control = event.target.dataset.timeControl
+		if(key === 'ArrowUp') {
+			if(control === 'hours') {
+				updateHours(hours.value + hoursMeta.value.step)
+			} else {
+				updateMinutes(minutes.value + minutesMeta.value.step)
+			}
+		} else if(key === 'ArrowDown') {
+			if(control === 'hours') {
+				updateHours(hours.value - hoursMeta.value.step)
+			} else {
+				updateMinutes(minutes.value - minutesMeta.value.step)
 			}
 		}
 	} else if(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key)) {
@@ -868,7 +891,7 @@ if([null, NaN, ''].includes(model.value)) {
 		</div>
 		<div v-if="time && selectionMode === 'date'" class="calendar-foot">
 			<div class="calendar-time">
-				<InputText v-model="displayedHours" descendant max="2" text-align="center"
+				<InputText v-model="displayedHours" data-time-control="hours" descendant max="2" text-align="center"
 					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="event => {
@@ -888,7 +911,7 @@ if([null, NaN, ''].includes(model.value)) {
 					}"
 				/>
 				<p>:</p>
-				<InputText v-model="displayedMinutes" descendant max="2" text-align="center"
+				<InputText v-model="displayedMinutes" data-time-control="minutes" descendant max="2" text-align="center"
 					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="updateMinutes(Math.min(59, Number($event.target.value)), false)"
@@ -911,16 +934,16 @@ if([null, NaN, ''].includes(model.value)) {
 				/>
 			</div>
 			<Slider v-model="hours" descendant min="0" max="23"
-				:virtualMin="minHours > 0 ? minHours : undefined"
-				:virtualMax="maxHours < 23 ? maxHours : undefined"
-				:step="Math.min(props.hours.step ?? 1, maxHours - minHours)"
+				:virtualMin="hoursMeta.min > 0 ? hoursMeta.min : undefined"
+				:virtualMax="hoursMeta.max < 23 ? hoursMeta.max : undefined"
+				:step="hoursMeta.step"
 				@input="updateHours($event.target.value)"
 				@change="updateDateTime"
 			/>
 			<Slider v-model="minutes" descendant min="0" max="59"
-				:virtualMin="minMinutes > 0 ? minMinutes : undefined"
-				:virtualMax="maxMinutes < 59 ? maxMinutes : undefined"
-				:step="Math.min(props.minutes.step ?? 1, maxMinutes - minMinutes)"
+				:virtualMin="minutesMeta.min > 0 ? minutesMeta.min : undefined"
+				:virtualMax="minutesMeta.max < 59 ? minutesMeta.max : undefined"
+				:step="minutesMeta.step"
 				@input="updateMinutes($event.target.value)"
 				@change="updateDateTime"
 			/>
