@@ -45,30 +45,57 @@ function compareDates(date1, date2, upToMonth = false) {
 function isDateWithinRange(date, min, max, upToMonth) {
 	return (compareDates(date, min, upToMonth) > -1) && (compareDates(date, max, upToMonth) < 1)
 }
-function isDateOutsideRange(date, min, max, upToMonth) {
-	return (compareDates(date, min, upToMonth) === -1) || (compareDates(date, max, upToMonth) === 1)
-}
 
-function getDateIndex(date, firstDate) {
-	date = normalizeCalendarDate(date)
-	firstDate = normalizeCalendarDate(firstDate)
-	let idx = date[2] - firstDate[2]
-	const displayedDate = [firstDate[0], firstDate[1]]
-	if(firstDate[2] > 1) {
-		if(firstDate[1] === 11) {
-			displayedDate[0]++
-			displayedDate[1] = 0
-		} else {
-			displayedDate[1]++
-		}
-		if(compareDates(date, firstDate, true) > 0) {
-			idx += (new Date(...displayedDate, 0)).getDate()
-		}
+function getCalendarMeta(displayedYear, displayedMonth, firstWeekday) {
+	const auxDate = new Date(`${padLeadingZeros(displayedYear, 4)}-${padLeadingZeros(displayedMonth+1)}-01`)
+	const currMonthFirstWeekday = auxDate.getUTCDay()
+	auxDate.setUTCMonth(auxDate.getUTCMonth() + 1, 0)
+
+	const firstDate = []
+	const lastDate = []
+	const stages = {
+		prev: null,
+		current: {
+			date: [displayedYear, displayedMonth],
+			firstDate: 1,
+			lastDate: auxDate.getUTCDate(),
+		},
+		next: null
 	}
-	if(compareDates(date, displayedDate, true) > 0) {
-		idx += (new Date(date[0], date[1], 0)).getDate()
+	let totalDays = stages.current.lastDate
+	let extraDays
+
+	if(currMonthFirstWeekday !== firstWeekday) {
+		auxDate.setUTCDate(0)
+		const prevMonthLastDate = auxDate.getUTCDate()
+		extraDays = currMonthFirstWeekday - firstWeekday + (currMonthFirstWeekday < firstWeekday && 7)
+		totalDays += extraDays
+		stages.prev = {
+			date: [auxDate.getUTCFullYear(), auxDate.getUTCMonth()],
+			firstDate: prevMonthLastDate - extraDays + 1,
+			lastDate: prevMonthLastDate,
+		}
+		firstDate.push(...stages.prev.date, stages.prev.firstDate)
+	} else {
+		firstDate.push(...stages.current.date, stages.current.firstDate)
 	}
-	return idx
+
+	extraDays = 7 - (totalDays % 7)
+	if(extraDays < 7) {
+		totalDays += extraDays
+		stages.next = {
+			date: displayedMonth === 11
+				? [displayedYear + 1, 0]
+				: [displayedYear, displayedMonth + 1],
+			firstDate: 1,
+			lastDate: extraDays
+		}
+		lastDate.push(...stages.next.date, stages.next.lastDate)
+	} else {
+		lastDate.push(...stages.current.date, stages.current.lastDate)
+	}
+
+	return { firstDate, lastDate, stages, totalDays }
 }
 
 function focusAdjacentSibling(parent, idx, direction, columns, isWrapped = false) {
@@ -99,21 +126,6 @@ function focusFirstChild(root, isWrapped = false) {
 }
 
 //-------------------- GENERATORS --------------------
-function* generateIntegers(from, to, step = 1) {
-	let i = from
-	while(true) {
-		if(from < to) {
-			if(i > to) break
-			yield i
-			i += step
-		} else {
-			if(i < to) break
-			yield i
-			i -= step
-		}
-	}
-}
-
 function* generateYears(firstYear) {
 	const lastYear = firstYear + 15
 	for(let y=firstYear; y<lastYear; y++) {
@@ -127,128 +139,17 @@ function* generateWeekdays(firstWeekday) {
 		if(weekday === 7) weekday = 0
 	}
 }
-function* generateDates(displayedYear, displayedMonth, firstWeekday, modelValue, updateSelected, minDate, maxDate, disabledWeekdays, enablementDates, datesNormallyEnabled, disabled) {
-	const firstDate = []
-	const lastDate = []
-	const stages = {}
-	const today = normalizeCalendarDate('today')
-	const modelDate = normalizeCalendarDate(modelValue) ?? []
-	const overlappedDays = {
-		prevMonth: 0,
-		nextMonth: 0
-	}
-
-	const auxDate = new Date(`${padLeadingZeros(displayedYear, 4)}-${padLeadingZeros(displayedMonth+1)}-01`)
-	const currMonthFirstWeekday = auxDate.getUTCDay()
-	auxDate.setUTCMonth(auxDate.getUTCMonth() + 1, 0)
-
-	stages.current = {
-		date: [displayedYear, displayedMonth],
-		firstDate: 1,
-		lastDate: auxDate.getUTCDate(),
-	}
-	
-	if(currMonthFirstWeekday !== firstWeekday) {
-		auxDate.setUTCDate(0)
-		const prevMonthLastDate = auxDate.getUTCDate()
-		overlappedDays.prevMonth = currMonthFirstWeekday < firstWeekday
-			? currMonthFirstWeekday + (7 - firstWeekday)
-			: currMonthFirstWeekday - firstWeekday
-		stages.prev = {
-			date: [auxDate.getUTCFullYear(), auxDate.getUTCMonth()],
-			firstDate: prevMonthLastDate - overlappedDays.prevMonth + 1,
-			lastDate: prevMonthLastDate,
-		}
-		firstDate.push(...stages.prev.date, stages.prev.firstDate)
-	} else {
-		stages.prev = { date: null }
-		firstDate.push(displayedYear, displayedMonth, 1)
-	}
-
-	overlappedDays.nextMonth = 7 - ((overlappedDays.prevMonth + stages.current.lastDate) % 7)
-	if(overlappedDays.nextMonth < 7) {
-		stages.next = {
-			date: displayedMonth === 11
-				? [displayedYear + 1, 0]
-				: [displayedYear, displayedMonth + 1],
-			firstDate: 1,
-			lastDate: overlappedDays.nextMonth,
-		}
-		lastDate.push(...stages.next.date, stages.next.lastDate)
-	} else {
-		stages.next = { date: null }
-		lastDate.push(displayedYear, displayedMonth, stages.current.lastDate)
-		overlappedDays.nextMonth = 0
-	}
-
-	function getDateIndex(date) {
-		let idx = date[2] - firstDate[2]
-		const res = compareDates(date, [displayedYear, displayedMonth])
-		if(firstDate[2] > 1 && res > -1) {
-			idx += stages.prev.lastDate
-		}
-		if(res === 1) {
-			idx += stages.current.lastDate
-		}
-		return idx
-	}
-
-	const disabledDates = []
-	if(!disabled) {
-		disabledDates.length = overlappedDays.prevMonth + stages.current.lastDate + overlappedDays.nextMonth
-
-		for(const date of enablementDates) {
-			if(date.length === 2) {
-				if(compareDates(date[0], lastDate) < 1 && compareDates(date[1], firstDate) > -1) {
-					const start = compareDates(date[0], firstDate) === 1 ? getDateIndex(date[0]) : 0
-					const end = compareDates(date[1], lastDate) === -1 ? (getDateIndex(date[1]) + 1) : disabledDates.length
-					for(let i=start; i<end; i++) {
-						disabledDates[i] = true
-					}
-				}
-			} else if(isDateWithinRange(date, firstDate, lastDate)) {
-				disabledDates[getDateIndex(date)] = true
-			}
-		}
-		if(isDateWithinRange(minDate, firstDate, lastDate)) {
-			for(let i=(getDateIndex(minDate)-1); i>=0; i--) {
-				disabledDates[i] = datesNormallyEnabled
-			}
-		}
-		if(isDateWithinRange(maxDate, firstDate, lastDate)) {
-			for(let i=(getDateIndex(maxDate)+1); i<disabledDates.length; i++) {
-				disabledDates[i] = datesNormallyEnabled
-			}
-		}
-		if(datesNormallyEnabled && disabledWeekdays) {
-			for(const weekday of disabledWeekdays) {
-				let idx = weekday - firstWeekday + (weekday < firstWeekday && 7)
-				do disabledDates[idx] = true
-				while((idx += 7) < disabledDates.length)
-			}
-		}
-	}
-
-	let idx = 0
-	const areDatesEqual = (date1,date2) => date1[0]===date2[0] && date1[1]===date2[1] && date1[2]===date2[2]
-	for(const stage of ['prev', 'current', 'next']) {
-		const { date, firstDate, lastDate } = stages[stage]
-		if(date !== null) {
-			const datePrefix = `${padLeadingZeros(date[0],4)}-${padLeadingZeros(date[1]+1)}-`
-			for(date[2] = firstDate; date[2] <= lastDate; date[2]++) {
-				const isSelected = areDatesEqual(date, modelDate)
-				yield {
-					no: date[2],
-					isToday: areDatesEqual(date, today),
-					attrs: {
-						ref: isSelected ? updateSelected : undefined,
-						value: datePrefix + padLeadingZeros(date[2]),
-						checked: isSelected,
-						disabled: disabled || (datesNormallyEnabled === Boolean(disabledDates[idx++])),
-						'data-month': stage
-					}
-				}
-			}
+function* generateIntegers(from, to, step = 1) {
+	let i = from
+	while(true) {
+		if(from < to) {
+			if(i > to) break
+			yield i
+			i += step
+		} else {
+			if(i < to) break
+			yield i
+			i -= step
 		}
 	}
 }
@@ -586,13 +487,7 @@ function handleKeydown(event) {
 		const { target } = event
 		if(selectionMode.value === 'date') {
 			if(target.tagName === 'INPUT' && target.type === 'checkbox') {
-				focusAdjacentSibling(
-					model.el,
-					getDateIndex(target.value, model.el.firstElementChild.firstElementChild.value),
-					key.slice(5),
-					7,
-					true
-				)
+				focusAdjacentSibling(model.el, getDateIndex(normalizeCalendarDate(target.value)), key.slice(5), 7, true)
 			} else {
 				focusFirstChild(model.el, true)
 			}
@@ -649,10 +544,17 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useModel(props.modelValue)
-const selected = shallowRef(null)
+function deselectDate(date) {
+	if(![null, NaN, ''].includes(date)) {
+		const idx = getDateIndex(normalizeCalendarDate(date))
+		if(idx >= 0 && idx < model.el.childElementCount) {
+			model.el.children.item(idx).firstElementChild.checked = false
+		}
+	}
+}
 
 let modelWatcher
-modelWatcher = watchControlled(model.ref, modelValue => {
+modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 
 	} else {
@@ -662,19 +564,15 @@ modelWatcher = watchControlled(model.ref, modelValue => {
 		const modelDateComponents = normalizeCalendarDate(modelDate)
 		if(modelDateComponents !== null && isDateWithinRange(modelDateComponents, minDate.value, maxDate.value)) {
 			const formattedDate = formatCalendarDate(modelDateComponents)
-			if(selected.value) {
-				selected.value.checked = false
-				selected.value = null
-			}
-			if (model.el && isDateWithinRange(
+			if(model.el && isDateWithinRange(
 				modelDateComponents,
 				normalizeCalendarDate(model.el.firstElementChild.firstElementChild.value),
 				normalizeCalendarDate(model.el.lastElementChild.firstElementChild.value)
 			)) {
+				deselectDate(prevModelValue)
 				for(const { firstElementChild: input } of model.el.children) {
 					if(input.value === formattedDate) {
 						input.checked = true
-						selected.value = input
 						if(input.dataset.month === 'prev') {
 							selectPrevMonth()
 						} else if(input.dataset.month === 'next') {
@@ -706,7 +604,6 @@ modelWatcher = watchControlled(model.ref, modelValue => {
 				triggerRef(model.ref)
 			}
 		} else {
-			selected.value = null
 			if(props.modelModifiers.string) {
 				model.value = ''
 			} else if(props.modelModifiers.timestamp) {
@@ -733,8 +630,7 @@ function handleChange(event) {
 		// }
 	} else {
 		if(event.target.checked) {
-			if(selected.value) selected.value.checked = false
-			selected.value = event.target
+			deselectDate(model.value)
 
 			const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 			if(props.modelModifiers.string) {
@@ -751,7 +647,6 @@ function handleChange(event) {
 				selectNextMonth()
 			}
 		} else {
-			selected.value = null
 			if(props.modelModifiers.string) {
 				model.value = ''
 			} else if(props.modelModifiers.timestamp) {
@@ -763,6 +658,88 @@ function handleChange(event) {
 	}
 	model.watchers.resume()
 	modelWatcher.resume()
+}
+
+//-------------------- GENERATE DATES DATA --------------------
+let calendarMeta = null
+function getDateIndex(date) {
+	let idx = date[2] - calendarMeta.firstDate
+	const res = compareDates(date, [displayedYear.value, displayedMonth.value])
+	if(calendarMeta.prevMonthLastDate && res > -1) {
+		idx += calendarMeta.prevMonthLastDate
+	}
+	if(res === 1) {
+		idx += calendarMeta.currMonthLastDate
+	}
+	return idx
+}
+function* generateDates() {
+	const { firstDate, lastDate, stages, totalDays } = getCalendarMeta(displayedYear.value, displayedMonth.value, props.firstWeekday)
+
+	calendarMeta = {
+		firstDate: firstDate[2],
+		prevMonthLastDate: stages.prev?.lastDate,
+		currMonthLastDate: stages.current.lastDate
+	}
+
+	const disabledDates = []
+	if(!props.disabled) {
+		disabledDates.length = totalDays
+
+		for(const date of enablementDates.value) {
+			if(date.length === 2) {
+				if(compareDates(date[0], lastDate) < 1 && compareDates(date[1], firstDate) > -1) {
+					const start = compareDates(date[0], firstDate) === 1 ? getDateIndex(date[0]) : 0
+					const end = compareDates(date[1], lastDate) === -1 ? (getDateIndex(date[1]) + 1) : disabledDates.length
+					for(let i=start; i<end; i++) {
+						disabledDates[i] = true
+					}
+				}
+			} else if(isDateWithinRange(date, firstDate, lastDate)) {
+				disabledDates[getDateIndex(date)] = true
+			}
+		}
+		if(isDateWithinRange(minDate.value, firstDate, lastDate)) {
+			for(let i=(getDateIndex(minDate.value)-1); i>=0; i--) {
+				disabledDates[i] = datesNormallyEnabled.value
+			}
+		}
+		if(isDateWithinRange(maxDate.value, firstDate, lastDate)) {
+			for(let i=(getDateIndex(maxDate.value)+1); i<disabledDates.length; i++) {
+				disabledDates[i] = datesNormallyEnabled.value
+			}
+		}
+		if(datesNormallyEnabled.value && props.disabledWeekdays) {
+			for(const weekday of props.disabledWeekdays) {
+				let idx = weekday - props.firstWeekday + (weekday < props.firstWeekday && 7)
+				do disabledDates[idx] = true
+				while((idx += 7) < disabledDates.length)
+			}
+		}
+	}
+
+	let idx = 0
+	const today = normalizeCalendarDate('today')
+	const modelDate = normalizeCalendarDate(model.value) ?? []
+	const areDatesEqual = (date1,date2) => date1[0]===date2[0] && date1[1]===date2[1] && date1[2]===date2[2]
+	for(const stage of ['prev', 'current', 'next']) {
+		if(stages[stage] !== null) {
+			const { date, firstDate, lastDate } = stages[stage]
+			const datePrefix = `${padLeadingZeros(date[0], 4)}-${padLeadingZeros(date[1] + 1)}-`
+			for(date[2] = firstDate; date[2] <= lastDate; date[2]++) {
+				yield {
+					no: date[2],
+					isToday: areDatesEqual(date, today),
+					attrs: {
+						value: datePrefix + padLeadingZeros(date[2]),
+						checked: areDatesEqual(date, modelDate),
+						disabled: props.disabled || (datesNormallyEnabled.value === Boolean(disabledDates[idx++])),
+						'data-month': stage
+					}
+				}
+			}
+		}
+	}
 }
 
 //---------- INITIALIZATION ----------
@@ -851,12 +828,12 @@ if([null, NaN, ''].includes(model.value)) {
 				</p>
 			</div>
 			<div :ref="model.refs.el"
-				v-memo="[displayedYear, displayedMonth, firstWeekday, minDate, maxDate, disabledWeekdays, enablementDates, datesNormallyEnabled, disabled]"
+				v-memo="[displayedYear, displayedMonth, firstWeekday, minDate, maxDate, datesNormallyEnabled, enablementDates, disabledWeekdays, disabled]"
 				class="calendar-dates"
 				tabindex="0"
 				@change="handleChange"
 			>
-				<label v-for="date of generateDates(displayedYear, displayedMonth, firstWeekday, model.value, el => selected = el, minDate, maxDate, disabledWeekdays, enablementDates, datesNormallyEnabled, disabled)"
+				<label v-for="date of generateDates()"
 					:key="date.attrs.value"
 					:class="['calendar-date calendar-button', {
 						'calendar-today': date.isToday,
@@ -873,7 +850,7 @@ if([null, NaN, ''].includes(model.value)) {
 					pressed: m === displayedMonth
 				}]"
 				:data-month="m"
-				:disabled="isDateOutsideRange([displayedYear, m], minDate, maxDate, true)"
+				:disabled="!isDateWithinRange([displayedYear, m], minDate, maxDate, true)"
 			>
 				{{ labels.shortMonths[m] }}
 			</button>
