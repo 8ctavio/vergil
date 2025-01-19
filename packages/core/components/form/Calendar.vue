@@ -160,7 +160,7 @@ import Icon from '../Icon.vue'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { shallowRef, triggerRef, computed, useTemplateRef } from 'vue'
+import { shallowRef, triggerRef, computed, useTemplateRef, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
@@ -567,11 +567,15 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useModel(props.modelValue)
-function deselectDate(date) {
+function updateDate(date, a = false) {
 	if(![null, NaN, ''].includes(date)) {
 		const idx = getDateIndex(normalizeCalendarDate(date))
 		if(idx >= 0 && idx < model.el.childElementCount) {
-			model.el.children.item(idx).firstElementChild.checked = false
+			if(typeof a === 'function') {
+				a(model.el.children.item(idx))
+			} else {
+				model.el.children.item(idx).firstElementChild.checked = a
+			}
 		}
 	}
 }
@@ -592,7 +596,7 @@ modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 				normalizeCalendarDate(model.el.firstElementChild.firstElementChild.value),
 				normalizeCalendarDate(model.el.lastElementChild.firstElementChild.value)
 			)) {
-				deselectDate(prevModelValue)
+				updateDate(prevModelValue)
 				for(const { firstElementChild: input } of model.el.children) {
 					if(input.value === formattedDate) {
 						input.checked = true
@@ -653,7 +657,7 @@ function handleChange(event) {
 		// }
 	} else {
 		if(event.target.checked) {
-			deselectDate(model.value)
+			updateDate(model.value)
 
 			const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 			if(props.modelModifiers.string) {
@@ -741,24 +745,22 @@ function* generateDates() {
 		}
 	}
 
+	nextTick(() => {
+		updateDate(model.value, true)
+		updateDate('today', el => el.classList.add('calendar-today'))
+	})
+
 	let idx = 0
-	const today = normalizeCalendarDate('today')
-	const modelDate = normalizeCalendarDate(model.value) ?? []
-	const areDatesEqual = (date1,date2) => date1[0]===date2[0] && date1[1]===date2[1] && date1[2]===date2[2]
 	for(const stage of ['prev', 'current', 'next']) {
 		if(stages[stage] !== null) {
 			const { date, firstDate, lastDate } = stages[stage]
 			const datePrefix = `${padLeadingZeros(date[0], 4)}-${padLeadingZeros(date[1] + 1)}-`
 			for(date[2] = firstDate; date[2] <= lastDate; date[2]++) {
 				yield {
-					no: date[2],
-					isToday: areDatesEqual(date, today),
-					attrs: {
-						value: datePrefix + padLeadingZeros(date[2]),
-						checked: areDatesEqual(date, modelDate),
-						disabled: props.disabled || (datesNormallyEnabled.value === Boolean(disabledDates[idx++])),
-						'data-month': stage
-					}
+					value: datePrefix + padLeadingZeros(date[2]),
+					disabled: props.disabled || (datesNormallyEnabled.value === Boolean(disabledDates[idx++])),
+					'data-date': date[2],
+					'data-month': stage
 				}
 			}
 		}
@@ -850,20 +852,13 @@ if([null, NaN, ''].includes(model.value)) {
 					{{ labels.weekdays[weekday] }}
 				</p>
 			</div>
-			<div :ref="model.refs.el"
-				v-memo="[displayedYear, displayedMonth, firstWeekday, minDate, maxDate, datesNormallyEnabled, enablementDates, disabledWeekdays, disabled]"
-				class="calendar-dates"
-				tabindex="0"
-				@change="handleChange"
-			>
+			<div :ref="model.refs.el" class="calendar-dates" tabindex="0" @change="handleChange">
 				<label v-for="date of generateDates()"
-					:key="date.attrs.value"
-					:class="['calendar-date calendar-button', {
-						'calendar-today': date.isToday,
-					}]"
+					:key="date.value"
+					class="calendar-date calendar-button"
 				>
-					<input type="checkbox" v-bind="date.attrs" tabindex="-1"/>
-					{{ date.no }}
+					<input type="checkbox" v-bind="date" tabindex="-1"/>
+					{{ date['data-date'] }}
 				</label>
 			</div>
 		</div>
