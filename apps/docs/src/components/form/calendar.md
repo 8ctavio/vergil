@@ -14,6 +14,7 @@ const demo3 = useModel(null)
 const demo4 = useModel(null)
 const demo5 = useModel(null)
 const demo6 = useModel(null)
+const demo7 = useModel([])
 </script>
 
 ## Basic Usage
@@ -26,6 +27,12 @@ const demo6 = useModel(null)
         <div class="row center">
             <code>date.value === '{{ demo1.value?.toString().split(' (',1)[0] }}'</code>
         </div>
+        <div class="row center">
+            <Calendar v-model.string="demo7"/>
+        </div>
+        <div class="row center">
+            <code>date.value === {{ demo7.value }}</code>
+        </div>
     </div>
 </Demo>
 
@@ -34,10 +41,14 @@ const demo6 = useModel(null)
 import { Calendar } from '@8ctavio/vergil/components'
 import { useModel } from '@8ctavio/vergil'
 const date = useModel(null)
+const dates = useModel([])
 </script>
 
 <template>
+    <!-- Single Selection -->
     <Calendar v-model="date"/>
+    <!-- Multiple Selection -->
+    <Calendar v-model="dates"/>
 </template>
 ```
 

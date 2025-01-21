@@ -17,7 +17,7 @@ function normalizeCalendarDate(date, asDate = false) {
 		if(date[10] !== 'T') date += "T00:00"
 		date = new Date(date)
 	} else if(!isDate(date)) {
-		date = new Date(date)
+		date = new Date(date === null ? NaN : date)
 	}
 
 	return asDate ? date : Number.isNaN(date.getTime())
@@ -98,6 +98,49 @@ function getCalendarMeta(displayedYear, displayedMonth, firstWeekday) {
 	return { firstDate, lastDate, stages, totalDays }
 }
 
+function normalizeModelDates(model, mods, timeControls, hours, minutes, callback) {
+	const modelValue = toRaw(model.value)
+	for(let i=0; i<modelValue.length; i++) {
+		let newValue
+		const currDate = normalizeCalendarDate(modelValue[i], true)
+		const currDateComponents = normalizeCalendarDate(currDate)
+		const prevTimestamp = currDate.getTime()
+		if(currDateComponents === null) {
+			if(i === (modelValue.length - 1)) {
+				do modelValue.pop()
+				while(modelValue.length > 0 && modelValue[--i] === undefined)
+				triggerRef(model.ref)
+				break
+			}
+		} else {
+			let time = ''
+			if(timeControls) {
+				currDate.setHours(hours, minutes, 0,0)
+				time = `T${padLeadingZeros(hours)}:${padLeadingZeros(minutes)}`
+			} else {
+				currDate.setHours(0,0,0,0)
+			}
+
+			if(mods.string) {
+				newValue = formatCalendarDate(currDateComponents) + time
+			} else if(mods.timestamp) {
+				newValue = currDate.getTime()
+			} else {
+				newValue = currDate
+			}
+
+			callback(currDateComponents)
+		}
+		
+		if(!Object.is(newValue, modelValue[i])) {
+			modelValue[i] = newValue
+			triggerRef(model.ref)
+		} else if(isDate(newValue) && prevTimestamp !== newValue.getTime()) {
+			triggerRef(model.ref)
+		} 
+	}
+}
+
 function focusAdjacentSibling(parent, idx, direction, columns, isWrapped = false) {
 	if(direction === 'Left') {
 		idx--
@@ -160,7 +203,7 @@ import Icon from '../Icon.vue'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { shallowRef, triggerRef, computed, useTemplateRef, nextTick } from 'vue'
+import { shallowRef, triggerRef, computed, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
@@ -433,6 +476,35 @@ function updateMinutes(m, updateFormatted = true) {
 	}
 	return mm
 }
+function updateDateTime() {
+	function getNewModelValue(date) {
+		if(props.modelModifiers.string) {
+			return date.slice(0,10) + `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}`
+		} else if(props.modelModifiers.timestamp) {
+			return new Date(date).setHours(hours.value, minutes.value)
+		} else {
+			date.setHours(hours.value, minutes.value)
+			return date
+		}
+	}
+	if(Array.isArray(model.value) && model.value.length > 0) {
+		modelWatcher.pause()
+		model.watchers.pause()
+		for(let i=0; i<model.value.length; i++) {
+			model.value[i] = getNewModelValue(model.value[i])
+		}
+		triggerRef(model.ref)
+		model.watchers.resume()
+		modelWatcher.resume()
+	} else if(![null, NaN, ''].includes(model.value)) {
+		modelWatcher.pause()
+		model.watchers.pause()
+		model.value = getNewModelValue(model.value)
+		triggerRef(model.ref)
+		model.watchers.resume()
+		modelWatcher.resume()
+	}
+}
 
 function handleBeforeInput(event) {
 	if(event.data) {
@@ -442,24 +514,6 @@ function handleBeforeInput(event) {
 		if(/\D/.test(newValue)) {
 			event.preventDefault()
 		}
-	}
-}
-function updateDateTime() {
-	if(![null, NaN, ''].includes(model.value)) {
-		modelWatcher.pause()
-		model.watchers.pause()
-		if(props.modelModifiers.string) {
-			const date = model.value.slice(0,10)
-			model.value = date + `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}`
-		} else if(props.modelModifiers.timestamp) {
-			const date = new Date(model.value)
-			model.value = date.setHours(hours.value, minutes.value)
-		} else {
-			model.value.setHours(hours.value, minutes.value)
-			triggerRef(model.ref)
-		}
-		model.watchers.resume()
-		modelWatcher.resume()
 	}
 }
 
@@ -567,47 +621,34 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useModel(props.modelValue)
-function updateDate(date, a = false) {
-	if(![null, NaN, ''].includes(date)) {
-		const idx = getDateIndex(normalizeCalendarDate(date))
-		if(idx >= 0 && idx < model.el.childElementCount) {
-			if(typeof a === 'function') {
-				a(model.el.children.item(idx))
-			} else {
-				model.el.children.item(idx).firstElementChild.checked = a
-			}
-		}
-	}
-}
 
 let modelWatcher
 modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
+	modelWatcher?.pause()
+	model.watchers.pause()
 	if(Array.isArray(modelValue)) {
-
+		if(model.el) {
+			updateDate(prevModelValue)
+			normalizeModelDates(model, props.modelModifiers, props.time, hours.value, minutes.value, date => {
+				updateDate(date, true, true)
+			})
+		} else {
+			let earliestDate
+			normalizeModelDates(model, props.modelModifiers, props.time, hours.value, minutes.value, date => {
+				if(!earliestDate || compareDates(date, earliestDate) === -1) {
+					earliestDate = date
+				}
+			})
+			if(earliestDate) {
+				[displayedYear.value, displayedMonth.value] = earliestDate
+			}
+		}
 	} else {
-		modelWatcher?.pause()
-		model.watchers.pause()
 		const modelDate = normalizeCalendarDate(model.value, true)
 		const modelDateComponents = normalizeCalendarDate(modelDate)
 		if(modelDateComponents !== null && isDateWithinRange(modelDateComponents, minDate.value, maxDate.value)) {
-			const formattedDate = formatCalendarDate(modelDateComponents)
-			if(model.el && isDateWithinRange(
-				modelDateComponents,
-				normalizeCalendarDate(model.el.firstElementChild.firstElementChild.value),
-				normalizeCalendarDate(model.el.lastElementChild.firstElementChild.value)
-			)) {
+			if(model.el && updateDate(modelDateComponents, true, true)) {
 				updateDate(prevModelValue)
-				for(const { firstElementChild: input } of model.el.children) {
-					if(input.value === formattedDate) {
-						input.checked = true
-						if(input.dataset.month === 'prev') {
-							selectPrevMonth()
-						} else if(input.dataset.month === 'next') {
-							selectNextMonth()
-						}
-						break
-					}
-				}
 			} else {
 				[displayedYear.value, displayedMonth.value] = modelDateComponents
 			}
@@ -623,7 +664,7 @@ modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 			}
 
 			if(props.modelModifiers.string) {
-				model.value = formattedDate + time
+				model.value = formatCalendarDate(modelDateComponents) + time
 			} else if(props.modelModifiers.timestamp) {
 				model.value = modelDate.getTime()
 			} else {
@@ -639,27 +680,40 @@ modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 				model.value = null
 			}
 		}
-		model.watchers.resume()
-		modelWatcher?.resume()
 	}
-}, { immediate: true })
+	model.watchers.resume()
+	modelWatcher?.resume()
+}, { immediate: true, deep: 1 })
 function handleChange(event) {
 	modelWatcher.pause()
 	model.watchers.pause()
+	const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 	if(Array.isArray(model.value)) {
-		// const idx = model.value.indexOf(props.valueChecked)
-		// if(idx > -1) {
-		//     if(!event.target.checked) {
-		//         model.value.splice(idx, 1)
-		//     }
-		// } else if(event.target.checked) {
-		//     model.value.push(props.valueChecked)
-		// }
+		let newValue, idx
+		if(props.modelModifiers.string) {
+			newValue = event.target.value + time
+			idx = model.value.indexOf(newValue)
+		} else if(props.modelModifiers.timestamp) {
+			newValue = Date.parse(event.target.value + (time || "T00:00"))
+			idx = model.value.indexOf(newValue)
+		} else {
+			newValue = new Date(event.target.value + (time || "T00:00"))
+			const timestamp = newValue.getTime()
+			idx = model.value.findIndex(date => timestamp === date.getTime())
+		}
+		if(idx > -1) {
+		    if(!event.target.checked) {
+		        model.value.splice(idx, 1)
+				triggerRef(model.ref)
+		    }
+		} else if(event.target.checked) {
+		    model.value.push(newValue)
+			triggerRef(model.ref)
+		}
 	} else {
 		if(event.target.checked) {
 			updateDate(model.value)
 
-			const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 			if(props.modelModifiers.string) {
 				model.value = event.target.value + time
 			} else if(props.modelModifiers.timestamp) {
@@ -687,10 +741,10 @@ function handleChange(event) {
 	modelWatcher.resume()
 }
 
-//-------------------- GENERATE DATES DATA --------------------
+//-------------------- GENERATE DATES --------------------
 let calendarMeta = null
 function getDateIndex(date) {
-	let idx = date[2] - calendarMeta.firstDate
+	let idx = date[2] - calendarMeta.firstDate[2]
 	const res = compareDates(date, [displayedYear.value, displayedMonth.value])
 	if(calendarMeta.prevMonthLastDate && res > -1) {
 		idx += calendarMeta.prevMonthLastDate
@@ -700,11 +754,34 @@ function getDateIndex(date) {
 	}
 	return idx
 }
+function updateDate(date, v = false, isSingleDate) {
+	function update(date) {
+		const normalizedDate = Array.isArray(date) ? date : normalizeCalendarDate(date)
+		if(normalizedDate !== null && isDateWithinRange(normalizedDate, calendarMeta.firstDate, calendarMeta.lastDate)) {
+			const idx = getDateIndex(normalizedDate)
+			if(idx >= 0 && idx < model.el.childElementCount) {
+				if(typeof v === 'function') {
+					v(model.el.children.item(idx), normalizedDate)
+				} else {
+					model.el.children.item(idx).firstElementChild.checked = v
+				}
+				return true
+			}
+		}
+		return false
+	}
+	if(!isSingleDate && Array.isArray(date)) {
+		date.forEach(update)
+	} else {
+		return update(date)
+	}
+}
 function* generateDates() {
 	const { firstDate, lastDate, stages, totalDays } = getCalendarMeta(displayedYear.value, displayedMonth.value, props.firstWeekday)
 
 	calendarMeta = {
-		firstDate: firstDate[2],
+		firstDate,
+		lastDate,
 		prevMonthLastDate: stages.prev?.lastDate,
 		currMonthLastDate: stages.current.lastDate
 	}
@@ -768,7 +845,7 @@ function* generateDates() {
 }
 
 //---------- INITIALIZATION ----------
-if([null, NaN, ''].includes(model.value)) {
+if(Array.isArray(model.value) ? model.value.length === 0 : [null, NaN, ''].includes(model.value)) {
 	const today = normalizeCalendarDate('today')
 
 	if(props.selectedMonth || props.selectedYear) {
@@ -789,12 +866,11 @@ if([null, NaN, ''].includes(model.value)) {
 			? today
 			: minDate.value
 	}
-
-	if(props.time) {
-		const [hh, mm] = typeof props.time === 'string' ? props.time.split(':',2) : ['00', '00']
-		updateHours(hh)
-		updateMinutes(mm)
-	}
+}
+if(props.time && (Array.isArray(model.value) || [null, NaN, ''].includes(model.value))) {
+	const [hh, mm] = typeof props.time === 'string' ? props.time.split(':',2) : ['00', '00']
+	updateHours(hh)
+	updateMinutes(mm)
 }
 </script>
 
