@@ -1,3 +1,4 @@
+export * from './calendar'
 export * from './directives'
 export * from './FocusTrap'
 export * from './inferTheme'

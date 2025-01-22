@@ -1,0 +1,310 @@
+---
+outline: [2,3]
+---
+
+# DatePicker
+
+<script setup>
+import { DatePicker } from '@8ctavio/vergil/components'
+
+const btnClearProps = {
+    position: 'before',
+    variant: 'solid',
+    iconLeft: 'rocket_launch',
+    iconRight: 'rocket_launch',
+}
+</script>
+
+<style scoped>
+.date-picker {
+    width: 200px;
+}
+</style>
+
+## Basic Usage
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <DatePicker placeholder="Select Date"/>
+        </div>
+        <div class="row center">
+            <DatePicker placeholder="Select Dates" :value="[]"/>
+        </div>
+    </div>
+</Demo>
+
+```vue
+<script setup>
+import { DatePicker } from '@8ctavio/vergil/components'
+import { useModel } from '@8ctavio/vergil'
+const date = useModel(null)
+const dates = useModel([])
+</script>
+
+<template>
+    <!-- Single Selection -->
+    <DatePicker v-model="date" placeholder="Select Date"/>
+    <!-- Multiple Selection -->
+    <DatePicker v-model="dates" placeholder="Select Dates"/>
+</template>
+
+<style scoped>
+.date-pikcer {
+    width: 200px;
+}
+</style>
+```
+
+## Props
+
+All [`Calendar`](/components/form/calendar) props are available for `DatePicker`.
+
+### Placeholder <Badge><pre>placeholder: string</pre></Badge>
+
+```vue-html
+<DatePicker placeholder="Select Date"/>
+```
+
+### Placeholder fallback <Badge><pre>placeholder-fallback: (n: number) => string</pre></Badge>
+
+When multiple date selection is enabled, a string with the comma-separated, selected dates' formatted strings is displayed in the `DatePicker`'s main button. If that string overflows its container, a fallback placeholder is obtained from the `placeholder-fallback` function and displayed instead.
+
+The `placeholder-fallback` function receives as its only argument the number of selected dates.
+
+```vue-html
+<DatePicker
+    :value="[]"
+    :placeholder-fallback="n => {
+        return `Selected ${n} date${n > 1 ? 's':''}`
+    }"
+    placeholder="Select Dates"
+/>
+```
+
+<Demo>
+    <DatePicker
+        :value="[]"
+        :placeholder-fallback="n => {
+            return `Selected ${n} date${n > 1 ? 's':''}`
+        }"
+        placeholder="Select Dates"
+    />
+</Demo>
+
+The following function is used as the default `placeholder-fallback` value.
+
+```js
+n => `${n} Dates Selected`
+```
+
+### Side button's icons <Badge><pre>icon-calendar: string = 'calendar_month'</pre></Badge> <Badge><pre>icon-clear: string = 'event_busy'</pre></Badge>
+
+```vue
+<DatePicker icon-calendar="calendar_add_on" icon-clear="close"/>
+```
+
+<Demo>
+    <DatePicker placeholder="Select Date" icon-calendar="calendar_add_on" icon-clear="close"/>
+</Demo>
+
+### Clear button <Badge type="tip"><pre>btn-clear: object</pre></Badge>
+
+The `btn-clear` prop receives an object representing the props of the clear button's underlying [`Btn`](/components/buttons/btn) component.
+
+The `Btn`'s `disabled` prop is bound to the `DatePicker`'s. That is, if the `DatePicker` is disabled, the clear button will also get disabled regardless of `btnClear.disabled`.
+
+Additionally, a `position` prop can be passed through `btn-clear` to indicate the clear button's position with respect to the `DatePicker`'s main button. The `position` prop possible values are `'after'` and `'before'`, and its default value can be configured through the `sideButtonPosition` [configuration option](#configuration-options).
+
+Finally, the `Btn` prop used to display the `DatePicker`'s icons changes with `position`. If `position === 'before'`, the `iconRight` prop is reserved for the `DatePicker`'s icons. Otherwise, the `icon` prop is used.
+
+```vue
+<script setup>
+const btnClearProps = {
+    position: 'before',
+    variant: 'solid',
+    iconLeft: 'rocket_launch',
+    iconRight: 'rocket_launch', // ignored
+}
+</script>
+
+<template>
+    <DatePicker :btn-clear="btnClearProps"/>
+</template>
+```
+
+<Demo>
+    <DatePicker :btn-clear="btnClearProps"/>
+</Demo>
+
+### Float label <Badge><pre>float-label: boolean</pre></Badge>
+
+```vue
+<DatePicker label="Select date" float-label/>
+```
+
+<Demo>
+    <DatePicker label="Select date" float-label/>
+</Demo>
+
+:::tip NOTE
+`float-label` only works if the `placeholder` and `description` props are unset.
+:::
+
+### Underline <Badge><pre>underline: boolean</pre></Badge>
+
+<Demo>
+    <DatePicker placeholder="Select date" underline/>
+</Demo>
+
+### Fill <Badge><pre>fill: boolean</pre></Badge>
+
+<Demo>
+    <DatePicker placeholder="Select date" underline fill/>
+</Demo>
+
+### Theme <Badge><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
+
+<Demo>
+    <div class="row center">
+        <DatePicker theme="brand" placeholder="Brand"/>
+        <DatePicker theme="user" placeholder="User"/>
+        <DatePicker theme="ok" placeholder="Ok"/>
+        <DatePicker theme="info" placeholder="Info"/>
+        <DatePicker theme="warn" placeholder="Warn"/>
+        <DatePicker theme="danger" placeholder="Danger"/>
+        <DatePicker theme="neutral" placeholder="Neutral"/>
+    </div>
+</Demo>
+
+### Size <Badge><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
+
+<Demo>
+    <div class="col center">
+        <DatePicker size="xs" placeholder="Extra Small"/>
+        <DatePicker size="sm" placeholder="Small"/>
+        <DatePicker size="md" placeholder="Medium"/>
+        <DatePicker size="lg" placeholder="Large"/>
+        <DatePicker size="xl" placeholder="Extra Large"/>
+    </div>
+</Demo>
+
+### Radius <Badge><pre>radius: ('none' | 'sm' | 'md' | 'lg' | 'full') = 'md'</pre></Badge>
+
+<Demo>
+    <div class="row center">
+        <DatePicker placeholder="None" radius="none"/>
+        <DatePicker placeholder="Small" radius="sm"/>
+        <DatePicker placeholder="Medium" radius="md"/>
+        <DatePicker placeholder="Large" radius="lg"/>
+        <DatePicker placeholder="Full" radius="full"/>
+    </div>
+</Demo>
+
+### Spacing <Badge><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
+
+<Demo>
+    <div class="col">
+        <div class="row center">
+            <DatePicker size="xs" spacing="compact" placeholder="Compact"/>
+            <DatePicker size="xs" placeholder="Default"/>
+            <DatePicker size="xs" spacing="expanded" placeholder="Expanded"/>
+        </div>
+        <div class="row center">
+            <DatePicker size="sm" spacing="compact" placeholder="Compact"/>
+            <DatePicker size="sm" placeholder="Default"/>
+            <DatePicker size="sm" spacing="expanded" placeholder="Expanded"/>
+        </div>
+        <div class="row center">
+            <DatePicker size="md" spacing="compact" placeholder="Compact"/>
+            <DatePicker size="md" placeholder="Default"/>
+            <DatePicker size="md" spacing="expanded" placeholder="Expanded"/>
+        </div>
+        <div class="row center">
+            <DatePicker size="lg" spacing="compact" placeholder="Compact"/>
+            <DatePicker size="lg" placeholder="Default"/>
+            <DatePicker size="lg" spacing="expanded" placeholder="Expanded"/>
+        </div>
+        <div class="row center">
+            <DatePicker size="xl" spacing="compact" placeholder="Compact"/>
+            <DatePicker size="xl" placeholder="Default"/>
+            <DatePicker size="xl" spacing="expanded" placeholder="Expanded"/>
+        </div>
+    </div>
+</Demo>
+
+### Disabled <Badge><pre>disabled: boolean</pre></Badge>
+
+<Demo>
+    <DatePicker disabled placeholder="Disabled"/>
+</Demo>
+
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `value` | `Date \| null \| string \| number` | `null` |
+| `placeholder` | `string` | |
+| `placeholderFallback` | `(n: number) => string` | |
+| `iconCalendar` | `string` | `'calendar_month'` |
+| `iconClear` | `string` | `'event_busy'` |
+| `btnClear` | `object` | |
+| `label` | `string` | |
+| `hint` | `string` | |
+| `description` | `string` | |
+| `help` | `string` | |
+| `float-label` | `boolean` | |
+| `underline` | `boolean` | |
+| `fill` | `boolean` | |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
+| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+
+### Configuration options
+
+The following `DatePicker` props' default values can be overwritten under the `datePicker` root-level [configuration option](/configuration).
+
+| `datePicker.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `placeolderFallback` | |
+| `sideButtonPosition` | |
+| `underline` | |
+| `fill` | |
+| `theme` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
+| `spacing` | ✅ |
+
+## Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field date-picker">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="date-picker-wrapper">
+            <Anatomy tag="Btn" classes="btn date-picker-select">
+                <Anatomy tag="p" classes="date-picker-placeholder">
+                    <Anatomy tag="span"/>
+                </Anatomy>
+                <Anatomy slot="aside">
+                    <Anatomy tag="label"/>
+                </Anatomy>
+            </Anatomy>
+            <Anatomy tag="Btn" classes="btn date-picker-clear"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+        <Anatomy tag="Teleport" id="popover-portal">
+            <Anatomy tag="div" classes="popover-wrapper">
+                <Anatomy tag="div" classes="popover date-picker-popover">
+                    <Anatomy tag='Calendar'/>
+                </Anatomy>
+            </Anatomy>
+        </Anatomy>
+    </Anatomy>
+</Demo>

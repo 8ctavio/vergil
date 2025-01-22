@@ -1,12 +1,7 @@
 <script>
-const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
+import { hasDate, isDate, padLeadingZeros } from '../../utilities/private'
 
-function isDate(v) {
-	return Object.prototype.toString.call(v) === '[object Date]'
-}
-function padLeadingZeros(v, maxLength = 2) {
-	return String(v).padStart(maxLength, '0')
-}
+const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 
 function normalizeCalendarDate(date, asDate = false) {
 	if(date === 'today') {
@@ -496,7 +491,7 @@ function updateDateTime() {
 		triggerRef(model.ref)
 		model.watchers.resume()
 		modelWatcher.resume()
-	} else if(![null, NaN, ''].includes(model.value)) {
+	} else if(hasDate(model.value, false)) {
 		modelWatcher.pause()
 		model.watchers.pause()
 		model.value = getNewModelValue(model.value)
@@ -672,6 +667,7 @@ modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 				triggerRef(model.ref)
 			}
 		} else {
+			updateDate(prevModelValue)
 			if(props.modelModifiers.string) {
 				model.value = ''
 			} else if(props.modelModifiers.timestamp) {
@@ -845,7 +841,7 @@ function* generateDates() {
 }
 
 //---------- INITIALIZATION ----------
-if(Array.isArray(model.value) ? model.value.length === 0 : [null, NaN, ''].includes(model.value)) {
+if(!hasDate(model.value)) {
 	const today = normalizeCalendarDate('today')
 
 	if(props.selectedMonth || props.selectedYear) {
@@ -867,7 +863,7 @@ if(Array.isArray(model.value) ? model.value.length === 0 : [null, NaN, ''].inclu
 			: minDate.value
 	}
 }
-if(props.time && (Array.isArray(model.value) || [null, NaN, ''].includes(model.value))) {
+if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 	const [hh, mm] = typeof props.time === 'string' ? props.time.split(':',2) : ['00', '00']
 	updateHours(hh)
 	updateMinutes(mm)

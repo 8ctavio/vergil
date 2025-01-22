@@ -134,6 +134,16 @@ interface VergilConfiguration {
         radius: radius;
         spacing: spacing;
     },
+    datePicker: {
+        placeholderFallback: ((n: number) => string) = (n => `${n} Dates Selected`);
+        sideButtonPosition: ('before' | 'after') = 'after';
+        underline: boolean;
+        fill: boolean;
+        theme: theme;
+        size: size;
+        radius: radius;
+        spacing: spacing;
+    },
     inputSearch: {
         btnPosition: ('before' | 'after') = 'after';
     },

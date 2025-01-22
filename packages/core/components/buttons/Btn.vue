@@ -99,9 +99,7 @@ defineProps({
 .btn {
     --btn-c-icon: var(--btn-c-icon-1);
     --btn-c-border: var(--btn-c-border-1);
-    --btn-c-border-b: var(--c-theme-solid-1);
     --btn-bw: 0px;
-    --btn-bw-b: 0px;
 
     font-size: var(--font-size);
     line-height: var(--line-height-text);
@@ -109,8 +107,10 @@ defineProps({
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--btn-c-1);
     color: var(--btn-c-text-1);
-    box-shadow: inset 0 calc(var(--btn-bw-b) * -1) var(--btn-c-border-b),
-                inset 0 0 0 var(--btn-bw) var(--btn-c-border, transparent);
+    box-shadow: inset 0 calc(var(--btn-bw-b, var(--btn-bw)) * -1) var(--btn-c-border-b, var(--btn-c-border, transparent)),
+                inset 0 var(--btn-bw) var(--btn-c-border, transparent),
+                inset var(--btn-bw-l, var(--btn-bw)) 0 var(--btn-c-border, transparent),
+                inset calc(var(--btn-bw-r, var(--btn-bw)) * -1) 0 var(--btn-c-border, transparent);
 
     position: relative;
     border: none;
@@ -265,6 +265,7 @@ defineProps({
     }
     &.underline {
         --btn-bw-b: var(--component-border-bottom-width);
+        --btn-c-border-b: var(--c-theme-solid-1);
     }
     &.fill {
         transition: background-color 150ms, color 200ms, box-shadow 150ms;
