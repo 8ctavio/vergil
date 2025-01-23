@@ -98,7 +98,8 @@ interface VergilConfiguration {
         squared: boolean;
     },
     calendar: {
-        locale: (string | string[] | object) = 'en';
+        locale: (string | object) = 'en';
+        labels: object;
         firstWeekday: number = 0;
         timeFormat: ('24' | '12') = '24';
         theme: theme;
@@ -135,6 +136,8 @@ interface VergilConfiguration {
         spacing: spacing;
     },
     datePicker: {
+        format: undefined,
+        formatOptions: undefined,
         placeholderFallback: ((n: number) => string) = (n => `${n} Dates Selected`);
         sideButtonPosition: ('before' | 'after') = 'after';
         underline: boolean;

@@ -7,6 +7,11 @@ outline: [2,3]
 <script setup>
 import { DatePicker } from '@8ctavio/vergil/components'
 
+const formatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+}
 const btnClearProps = {
     position: 'before',
     variant: 'solid',
@@ -59,6 +64,52 @@ const dates = useModel([])
 ## Props
 
 All [`Calendar`](/components/form/calendar) props are available for `DatePicker`.
+
+### Date format <Badge><pre>format: object | function</pre></Badge>
+
+As an object, the `format` prop conforms to the [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) constructor's `options` object. The locales used by `Intl.DateTimeFormat` are obtained from the `Calendar`'s `locale` prop.
+
+As a function, the `format` prop itself is used to format dates. It receives as a single argument a `Date` object and should return a string — the formatted string of the received date.
+
+```vue
+<script setup>
+const formatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+}
+</script>
+
+<template>
+    <DatePicker locale="es-MX" :format="formatOptions"/>
+</template>
+```
+
+<Demo>
+    <DatePicker placeholder="Seleccionar Fecha" locale="es-MX" :format="formatOptions"/>
+</Demo>
+
+#### Default date format
+
+The `format` prop's default value is configurable through the `datePicker.format` or `datePicker.formatOptions` [configuration options](#configuration-options) (`datePicker.format` precedes `datePicker.formatOptions`).
+
+The `datePicker.format` should be a function, which is used to directly format dates. The function receives as a single argument a `Date` object and should return a string — the formatted string of the received date.
+
+```js
+datePicker: {
+    format: date => { /* ... */ }
+}
+```
+
+The `datePicker.formatOptions` may be either an object that conforms to `Intl.DateTimeFormat` constructor's `options` object, or a function that returns such object. As a function, a boolean argument is received that indicates whether time selection is enabled.
+
+```js
+datePicker: {
+    formatOptions: { /* ... */ }
+    // or
+    formatOptions: timeEnabled => ({ /* ... */ })
+}
+```
 
 ### Placeholder <Badge><pre>placeholder: string</pre></Badge>
 
@@ -244,6 +295,7 @@ const btnClearProps = {
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `Date \| null \| string \| number` | `null` |
+| `format` | `object \| (date: Date) => string` | |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
 | `iconCalendar` | `string` | `'calendar_month'` |
@@ -269,6 +321,8 @@ The following `DatePicker` props' default values can be overwritten under the `d
 
 | `datePicker.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
+| `format` | |
+| `formatOptions` | |
 | `placeolderFallback` | |
 | `sideButtonPosition` | |
 | `underline` | |

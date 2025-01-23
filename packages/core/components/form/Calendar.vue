@@ -198,7 +198,7 @@ import Icon from '../Icon.vue'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { shallowRef, triggerRef, computed, useTemplateRef, toRaw, nextTick } from 'vue'
+import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
@@ -222,7 +222,11 @@ const props = defineProps({
 
 	locale: {
 		type: [String, Object],
-		default: () => vergil.config.calendar.locale,
+		default: () => vergil.config.calendar.locale
+	},
+	labels: {
+		type: Object,
+		default: () => vergil.config.calendar.labels
 	},
 	firstWeekday: {
 		type: Number,
@@ -327,29 +331,33 @@ const props = defineProps({
 })
 
 //-------------------- LOCALIZED LABELS --------------------
-let labels = props.locale
-if(typeof props.locale === 'string') {
-	labels = {
-		weekdays: [],
-		months: [],
-		shortMonths: []
-	}
-	const auxDate = new Date()
-	const weekdayFormatter = new Intl.DateTimeFormat(props.locale, { weekday: 'short' })
-	const monthFormatter = new Intl.DateTimeFormat(props.locale, { month: 'long' })
-	const shortMonthFormatter = new Intl.DateTimeFormat(props.locale, { month: 'short' })
+const labels = computed(() => {
+	if(props.labels) {
+		return props.labels
+	} else {
+		const labels = {
+			months: [],
+			shortMonths: [],
+			shortWeekdays: [],
+		}
+		const auxDate = new Date()
+		const weekdayFormatter = new Intl.DateTimeFormat(props.locale, { weekday: 'short' })
+		const monthFormatter = new Intl.DateTimeFormat(props.locale, { month: 'long' })
+		const shortMonthFormatter = new Intl.DateTimeFormat(props.locale, { month: 'short' })
 
-	for(let i=0; i<7; i++) {
-		labels.weekdays[auxDate.getDay()] = ucFirst(weekdayFormatter.format(auxDate))
-		auxDate.setDate(auxDate.getDate() + 1)
+		for(let i=0; i<7; i++) {
+			labels.shortWeekdays[auxDate.getDay()] = ucFirst(weekdayFormatter.format(auxDate))
+			auxDate.setDate(auxDate.getDate() + 1)
+		}
+		for(let i=0; i<12; i++) {
+			const currentMonth = auxDate.getMonth()
+			labels.months[currentMonth] = ucFirst(monthFormatter.format(auxDate))
+			labels.shortMonths[currentMonth] = ucFirst(shortMonthFormatter.format(auxDate))
+			auxDate.setMonth(currentMonth + 1, 1)
+		}
+		return labels
 	}
-	for(let i=0; i<12; i++) {
-		const currentMonth = auxDate.getMonth()
-		labels.months[currentMonth] = ucFirst(monthFormatter.format(auxDate))
-		labels.shortMonths[currentMonth] = ucFirst(shortMonthFormatter.format(auxDate))
-		auxDate.setMonth(currentMonth + 1)
-	}
-}
+})
 
 //-------------------- MONTH/YEAR SELECTION --------------------
 const selectionMode = shallowRef('date')
@@ -921,7 +929,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 		<div v-show="selectionMode === 'date'" class="calendar-body">
 			<div class="calendar-week">
 				<p v-for="weekday of generateWeekdays(firstWeekday)" class="calendar-weekday">
-					{{ labels.weekdays[weekday] }}
+					{{ labels.shortWeekdays[weekday] }}
 				</p>
 			</div>
 			<div :ref="model.refs.el" class="calendar-dates" tabindex="0" @change="handleChange">

@@ -134,6 +134,7 @@ let template = {
     },
     calendar: {
         locale: 'en',
+        labels: undefined,
         firstWeekday: 0,
         timeFormat: '24',
         theme: new Option(undefined, inferTheme),
@@ -170,6 +171,8 @@ let template = {
         spacing: undefined,
     },
     datePicker: {
+        format: undefined,
+        formatOptions: undefined,
         placeholderFallback: n => `${n} Dates Selected`,
         sideButtonPosition: 'after',
         underline: undefined,

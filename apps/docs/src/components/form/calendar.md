@@ -94,20 +94,9 @@ When the `timestamp` modifier is present, the model value is handled as a [times
 
 ## Props
 
-### Locale <Badge><pre>[locale](https://vanilla-calendar.pro/docs/learn/internationalization-locale): (string | string[] | object) = 'en'</pre></Badge>
+### Locale <Badge><pre>locale: (string | object) = 'en'</pre></Badge>
 
-As a string (array), the `locale` prop behaves as the `locales` parameter of the [`DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#parameters) constructor. If more customization is required, an object of the following form can be passed instead
-
-```ts
-type locale = {
-    weekdays: string[],
-    months: string[],
-    shortMonths: string[]
-}
-```
-
-- Weekday labels are taken from the `weekdays` array, going from Sunday at index `0` to Saturday at index `6`.
-- Month (compact) labels are taken from the `months` (`shortMonths`) array, going from January at index `0` to December at index `11`.
+The `locale` prop conforms to the [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) constructor's `locales` parameter.
 
 ```vue
 <Calendar locale="es-MX"/>
@@ -116,6 +105,21 @@ type locale = {
 <Demo>
     <Calendar locale="es-MX"/>
 </Demo>
+
+### Labels <Badge><pre>labels: object</pre></Badge>
+
+If custom month/weekday labels are required, they can be specified through the `labels` prop as an object of the following form:
+
+```ts
+type labels = {
+    months: string[],
+    shortMonths: string[]
+    shortWeekdays: string[],
+}
+```
+
+- Short weekday labels are taken from the `shortWeekdays` array, going from Sunday at index `0` to Saturday at index `6`.
+- Month (short) labels are taken from the `months` (`shortMonths`) array, going from January at index `0` to December at index `11`.
 
 ### First weekday <Badge><pre>first-weekday: number = 0</pre></Badge>
 
@@ -390,7 +394,8 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `Date \| null \| string \| number` | `null` |
-| `locale` | `string \| string[] \| object` | `'en'` |
+| `locale` | `string \| object` | `'en'` |
+| `labels` | `object` | |
 | `firstWeekday` | `number` | `0` |
 | `min` | `string \| number \| Date` | `'1970-01-01'` |
 | `max` | `string \| number \| Date` | `'2131-12-31'` |
@@ -417,6 +422,7 @@ The following `Calendar` props' default values can be overwritten under the `cal
 | `calendar.<option>` | [global](/configuration#global-configuration) |
 | -------------- | :---: |
 | `locale` | |
+| `labels` | |
 | `firstWeekday` | |
 | `timeFormat` | |
 | `theme` | ✅ |

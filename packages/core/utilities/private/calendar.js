@@ -1,7 +1,9 @@
 export function hasDate(value, isArrayHint) {
 	return (typeof isArrayHint === 'boolean' ? isArrayHint : Array.isArray(value))
 		? value.length > 0
-		: ![null,NaN,''].includes(value)
+		: isDate(value)
+			|| (typeof value === 'string' && value.length > 0)
+			|| (typeof value === 'number' && !Number.isNaN(value))
 }
 
 export function isDate(v) {

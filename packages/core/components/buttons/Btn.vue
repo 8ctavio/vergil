@@ -145,7 +145,6 @@ defineProps({
         }
         &:disabled {
             --btn-c-icon: var(--c-disabled-text);
-            --btn-c-border-b: var(--c-disabled-border-3);
             cursor: not-allowed;
             color: var(--c-disabled-text);
 
@@ -156,6 +155,9 @@ defineProps({
             &:is(.solid, .soft) {
                 --btn-c-border: var(--c-disabled-border-2);
                 background-color: var(--c-disabled-2);
+            }
+            &.underline {
+                --btn-c-border-b: var(--c-disabled-border-3);
             }
         }
 
