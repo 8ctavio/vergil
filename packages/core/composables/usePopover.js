@@ -386,13 +386,15 @@ export function usePopover(options = {}) {
 					if(!(event.shiftKey ? hasTabbableBefore : hasTabbableAfter)(event.currentTarget, event.target)) {
 						const span = document.createElement('span')
 						span.setAttribute('tabindex', '-1')
-						span.addEventListener('focusin', dismissHandlers.focus.onFocusin)
-						span.addEventListener('focusout', dismissHandlers.focus.onFocusout)
 						span.style.position = 'fixed'
 						span.style.pointerEvents = 'none'
 						reference.value.after(span)
+						span.addEventListener('focusin', dismissHandlers.focus.onFocusin)
+						span.addEventListener('focusout', () => {
+							dismissHandlers.focus.onFocusout()
+							span.remove()
+						})
 						span.focus({ preventScroll: true })
-						span.remove()
 					}
 				}
 			}
