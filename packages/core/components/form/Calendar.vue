@@ -203,7 +203,7 @@ import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
-import { isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
 	//----- Model -----
@@ -547,7 +547,7 @@ function handleKeydown(event) {
 				yearOffset.value++
 			}
 		}
-	} else if(event.target.tagName === 'INPUT' && event.target.type === 'text' && Object.hasOwn(event.target.dataset, 'timeControl')) {
+	} else if(isInput(event.target, 'text') && Object.hasOwn(event.target.dataset, 'timeControl')) {
 		const control = event.target.dataset.timeControl
 		if(key === 'ArrowUp') {
 			if(control === 'hours') {
@@ -562,14 +562,11 @@ function handleKeydown(event) {
 				updateMinutes(minutes.value - minutesMeta.value.step)
 			}
 		}
-	} else if (
-		['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key)
-		&& (event.target.tagName !== 'INPUT' || event.target.type !== 'range')
-	) {
+	} else if(key.startsWith('Arrow') && !isInput(event.target, 'range') ) {
 		event.preventDefault()
 		const { target } = event
 		if(selectionMode.value === 'date') {
-			if(target.tagName === 'INPUT' && target.type === 'checkbox') {
+			if(isInput(target, 'checkbox')) {
 				focusAdjacentSibling(model.el, getDateIndex(normalizeCalendarDate(target.value)), key.slice(5), 7, true)
 			} else {
 				focusFirstChild(model.el, true)

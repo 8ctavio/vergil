@@ -10,7 +10,7 @@ import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, n
 import { vergil } from '../../vergil'
 import { useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
-import { isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -142,7 +142,7 @@ async function handleSelectKeydown(event) {
         if(await openPopover(true)) {
             let relative = 'nextElementSibling'
             let option = model.el.firstElementChild
-            if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+            if(isInput(event.target, 'checkbox')) {
                 if(event.key === 'ArrowUp')
                     relative = 'previousElementSibling'
                 option = event.target.parentElement[relative]
@@ -156,17 +156,17 @@ async function handleSelectKeydown(event) {
             option?.firstElementChild.focus()
         }
     } else if(event.key === 'Enter') {
-        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+        if(isInput(event.target, 'checkbox')) {
             event.preventDefault()
             updateSelection(event.target, true)
         }
     } else if(isTabKey(event, false)) {
-        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && !event.target.checked) {
+        if(isInput(event.target, 'checkbox') && !event.target.checked) {
             updateSelection(event.target, false)
         }
     } else if (props.filter) {
-        if(
-            (event.target.tagName !== 'INPUT' || event.target.type !== 'text')
+        if (
+            !isInput(event.target, 'text')
             && !(event.altKey || event.ctrlKey || event.metaKey)
             && (
                 (event.key.length === 1 && event.key !== ' ')

@@ -4,3 +4,7 @@ export function focusElement(element) {
         element.select?.()
     }
 }
+
+export function isInput(element, type) {
+    return element.tagName === 'INPUT' && (!type || element.type === type)
+}

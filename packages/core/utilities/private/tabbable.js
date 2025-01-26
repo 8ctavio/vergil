@@ -1,8 +1,11 @@
+import { isInput } from "."
+
 function isInert(node) {
 	do if(node.inert) return true
 	while((node = node.parentElement) !== null)
     return false
 }
+
 function isTabbableCandidate(node, backgroundChecked = false) {
 	return backgroundChecked
 		? !node.inert && node.checkVisibility()
@@ -11,14 +14,32 @@ function isTabbableCandidate(node, backgroundChecked = false) {
 			&& node.checkVisibility()
 			&& !isInert(node)
 }
-function approveTabbableCandidate(node) {
-    return node.tabIndex >= 0
-        && !node.disabled
-        && getComputedStyle(node).visibility === 'visible'
+function isTabbableRadio(element, radioGroups) {
+    if(!element.name || element.checked) {
+        return true
+    } else if(element.form) {
+        const radioNodeList = element.form.elements.namedItem(element.name)
+        return !radioNodeList.value
+    } else if(Object.hasOwn(radioGroups, element.name)) {
+        return radioGroups[element.name]
+    } else {
+        const walker = document.createTreeWalker(element.ownerDocument.body, NodeFilter.SHOW_ELEMENT, el => {
+            return isInput(el, 'radio') && el.name === element.name && el.checked
+                ? NodeFilter.FILTER_ACCEPT
+                : NodeFilter.FILTER_SKIP
+        })
+        return radioGroups[element.name] = walker.nextNode() === null
+    }
 }
-function filterTabbable(node) {
-	return isTabbableCandidate(node, true)
-		? approveTabbableCandidate(node)
+function approveTabbableCandidate(element, radioGroups) {
+    return element.tabIndex >= 0
+        && !element.disabled
+        && (!isInput(element, 'radio') || isTabbableRadio(element, radioGroups))
+        && getComputedStyle(element).visibility === 'visible'
+}
+function filterTabbable(element, radioGroups) {
+	return isTabbableCandidate(element, true)
+		? approveTabbableCandidate(element, radioGroups)
 			? NodeFilter.FILTER_ACCEPT
 			: NodeFilter.FILTER_SKIP
 		: NodeFilter.FILTER_REJECT
@@ -32,20 +53,27 @@ export function isTabbable(node) {
         && !node.disabled
         && !isInert(node)
 }
+
+function createTabbableWalker(root) {
+    const radioGroups = {}
+    return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, el => {
+        return filterTabbable(el, radioGroups)
+    })
+}
 export function getFirstTabbable(root, includeRoot = false) {
     if(!isTabbableCandidate(root))
         return null
     if(includeRoot && approveTabbableCandidate(root))
         return root
 
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
+    const walker = createTabbableWalker(root)
     return walker.nextNode()
 }
 export function getLastTabbable(root, includeRoot = false) {
     if(!isTabbableCandidate(root))
         return null
 
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
+    const walker = createTabbableWalker(root)
     while(walker.lastChild());
 
 	return walker.currentNode !== root || (includeRoot && approveTabbableCandidate(root))
@@ -53,26 +81,28 @@ export function getLastTabbable(root, includeRoot = false) {
 		: null
 }
 
-export function hasTabbableBefore(root, element) {
-    if(root === element) {
+function createAdjacentTabbableWalker(root, target) {
+    const radioGroups = {}
+    return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, el => {
+        return el === target ? NodeFilter.FILTER_ACCEPT : filterTabbable(el, radioGroups)
+    })
+}
+export function hasTabbableBefore(root, target) {
+    if(root === target) {
         return false
     } else {
-        const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, node => {
-            return node === element ? NodeFilter.FILTER_ACCEPT : filterTabbable(node)
-        })
-        return walker.nextNode() !== element
+        const walker = createAdjacentTabbableWalker(root, target)
+        return walker.nextNode() !== target
     }
 }
-export function hasTabbableAfter(root, element) {
-    if(root === element) {
-        return getFirstTabbable(element) !== null
+export function hasTabbableAfter(root, target) {
+    if(root === target) {
+        return getFirstTabbable(target) !== null
     } else {
-        const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, node => {
-            return node === element ? NodeFilter.FILTER_ACCEPT : filterTabbable(node)
-        })
+        const walker = createAdjacentTabbableWalker(root, target)
         while(walker.lastChild()) {
-            if(walker.currentNode === element) {
-                return getFirstTabbable(element) !== null
+            if(walker.currentNode === target) {
+                return getFirstTabbable(target) !== null
             }
         }
         return true
