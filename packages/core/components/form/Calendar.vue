@@ -203,7 +203,7 @@ import { vergil } from '../../vergil'
 import { useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
 	//----- Model -----
@@ -523,7 +523,7 @@ function handleBeforeInput(event) {
 //-------------------- KEYBOARD NAVIGATION --------------------
 function handleKeydown(event) {
 	const { key } = event
-	if(key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
+	if(isEscapeKey(event)) {
 		if(selectionMode.value !== 'date') {
 			selectionMode.value = 'date'
 			yearOffset.value = 0

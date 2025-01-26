@@ -7,7 +7,7 @@ import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."
 import { FocusTrap } from '../../utilities/private'
-import { isValidRadius, isValidSize } from '../../utilities/private'
+import { isValidRadius, isValidSize, isEscapeKey, isTabKey } from '../../utilities/private'
 
 defineProps({
 	size: {
@@ -34,22 +34,18 @@ function resolveConfirm(response){
 const cancelBtn = useTemplateRef('cancel-btn')
 const acceptBtn = useTemplateRef('accept-btn')
 function handleKeyDown(event) {
-	if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
+	if(isEscapeKey(event)) {
 		resolveConfirm(false)
-	} else {
-		const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
-		const focusedElement = document.activeElement
-		if(isTabKey && focusedElement) {
-			switch(event.target) {
-				case cancelBtn.value.$el:
-					event.preventDefault()
-					acceptBtn.value.$el.focus()
-					break
-				case acceptBtn.value.$el:
-					event.preventDefault()
-					cancelBtn.value.$el.focus()
-					break
-			}
+	} else if(isTabKey(event)) {
+		switch(event.target) {
+			case cancelBtn.value.$el:
+				event.preventDefault()
+				acceptBtn.value.$el.focus()
+				break
+			case acceptBtn.value.$el:
+				event.preventDefault()
+				cancelBtn.value.$el.focus()
+				break
 		}
 	}
 }

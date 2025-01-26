@@ -1,6 +1,6 @@
 <script setup>
-import { toValue, useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
-import { FocusTrap } from '../../utilities/private'
+import { useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
+import { FocusTrap, focusElement, isTabKey, isTabbable, getFirstTabbable, getLastTabbable } from '../../utilities/private'
 
 const { autofocus, focusOnUnmount } = defineProps({
     autofocus: {
@@ -13,91 +13,27 @@ const { autofocus, focusOnUnmount } = defineProps({
 const root = useTemplateRef('root')
 const focusTrap = new FocusTrap()
 
-function focus(target) {
-    const element = toValue(target)
-    if(element) {
-        element.focus({ preventScroll: true })
-        element.select?.()
-    }
-}
-
-function isInert(node) {
-    while(node !== root.value) {
-        if(node.inert) return true
-        node = node.parentElement
-    }
-    return false
-}
-function isTabbable(node) {
-    return node.isConnected
-        && node.tabIndex >= 0
-        && node.checkVisibility({ visibilityProperty: true })
-        && !node.disabled
-        && !isInert(node)
-}
-
-function isTabbableCandidate(node, backgroundChecked = false) {
-    if(backgroundChecked) return node.checkVisibility() && !node.inert
-    return node.isConnected
-        && node.checkVisibility()
-        && root.value.contains(node)
-        && !isInert(node)
-}
-function approveTabbableCandidate(node) {
-    return node.tabIndex >= 0
-        && !node.disabled
-        && getComputedStyle(node).visibility === 'visible'
-}
-function filterTabbable(node) {
-    if(!isTabbableCandidate(node, true))
-        return NodeFilter.FILTER_REJECT
-    if(approveTabbableCandidate(node))
-        return NodeFilter.FILTER_ACCEPT
-    else
-        return NodeFilter.FILTER_SKIP
-}
-function getFirstTabbable(root, includeRoot = false) {
-    if(!isTabbableCandidate(root))
-        return null
-    if(includeRoot && approveTabbableCandidate(root))
-        return root
-
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
-    return walker.nextNode()
-}
-function getLastTabbable(root, includeRoot = false) {
-    if(!isTabbableCandidate(root))
-        return null
-    if(includeRoot && approveTabbableCandidate(root))
-        return root
-
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterTabbable)
-    while(walker.lastChild());
-    return walker.currentNode === walker.root ? null : walker.currentNode
-}
-
 function handleKeyDown(event) {
-    const isTabKey = event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)
-    const focusedElement = document.activeElement
-    if(isTabKey && focusedElement) {
+    if(isTabKey(event)) {
         const root = event.currentTarget
+        const focusedElement = event.target
         const first = getFirstTabbable(root)
-        const last = getLastTabbable(root)
+        const last = first && getLastTabbable(root)
 
         if(focusedElement === root) {
             if(event.shiftKey) {
                 event.preventDefault()
-                focus(last)
+                focusElement(last)
             } else if(!first) {
                 event.preventDefault()
             }
         } else if(first) {
             if(focusedElement === last && !event.shiftKey) {
                 event.preventDefault()
-                focus(first)
+                focusElement(first)
             } else if(focusedElement === first && event.shiftKey) {
                 event.preventDefault()
-                focus(last)
+                focusElement(last)
             }
         } else {
             event.preventDefault()
@@ -106,7 +42,7 @@ function handleKeyDown(event) {
 }
 
 function focusFirst() {
-    focus(getFirstTabbable(root.value) ?? root)
+    focusElement(getFirstTabbable(root.value) ?? root.value)
 }
 let focusedBeforeBlur = null
 async function handleFocusOut(event) {
@@ -122,7 +58,7 @@ async function handleFocusOut(event) {
 function handleFocusIn(event) {
     if(focusTrap.isActive && !root.value.contains(event.target)) {
         if(focusedBeforeBlur) {
-            focus(focusedBeforeBlur)
+            focusElement(focusedBeforeBlur)
             focusedBeforeBlur = null
         } else focusFirst()
     }
@@ -139,15 +75,15 @@ onMounted(async () => {
     } else {
         const element = autofocus?.$el ?? autofocus
         if(element instanceof HTMLElement) {
-            focus(getFirstTabbable(element, true) ?? root)
+            focusElement(getFirstTabbable(element, true) ?? root.value)
         } else {
-            focus(root)
+            focusElement(root.value)
         }
     }
 })
 onUnmounted(() => {
     document.removeEventListener('focusin', handleFocusIn)
-    focus(focusOnUnmount ?? focusedBeforeTrap)
+    focusElement(focusOnUnmount ?? focusedBeforeTrap)
     focusTrap.deactivate()
 })
 </script>

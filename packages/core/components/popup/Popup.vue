@@ -4,7 +4,7 @@ import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { onMounted } from 'vue'
 import { popupMeta, closePopup } from '.'
-import { inferTheme, isValidRadius, isValidSize, isValidTheme } from '../../utilities/private'
+import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '../../utilities/private'
 
 const { disabled } = defineProps({
     title: String,
@@ -26,9 +26,8 @@ const { disabled } = defineProps({
     },
 })
 
-function handleKeyDown(e) {
-	if(e.key === 'Escape' && !(e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) && !disabled)
-        closePopup(true)
+function handleKeyDown(event) {
+	if(isEscapeKey(event) && !disabled) closePopup(true)
 }
 
 onMounted(() => {

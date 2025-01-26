@@ -1,13 +1,17 @@
 import {
-	toRef, toValue, shallowRef, shallowReadonly, computed, watchEffect,
-	h, cloneVNode ,mergeProps, withDirectives, vShow,
+	toRef, toValue, computed, shallowRef, shallowReadonly, watchEffect,
+	h, cloneVNode, isVNode, mergeProps, withDirectives, vShow,
 	Comment, Fragment, Transition, Teleport,
 	onBeforeUnmount
 } from 'vue'
 import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift, arrow as useArrow } from '@floating-ui/vue'
 import { vergil } from '../vergil'
 import { waitFor } from './waitFor'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
+import {
+	isTabKey, isEscapeKey,
+	focusElement, getFirstTabbable, hasTabbableBefore, hasTabbableAfter,
+	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
+} from '../utilities/private'
 
 const usePositionArrow = arrow => ({
 	name: 'positionArrow',
@@ -158,7 +162,7 @@ export function usePopover(options = {}) {
 	const referenceRef = shallowRef(null)
 	const reference = computed(() => referenceRef.value?.$el ?? referenceRef.value)
 	const floating = shallowRef(null)
-	
+
 	const open = shallowRef(false)
 	const isOpen = shallowRef(false)
 
@@ -296,23 +300,13 @@ export function usePopover(options = {}) {
 		 * @See [getTransitionRawChildren](https://github.com/vuejs/core/blob/76c43c6040518c93b41f60a28b224f967c007fdf/packages/runtime-core/src/components/BaseTransition.ts#L529)
 		 * @See [findNonCommentChild](https://github.com/vuejs/core/blob/76c43c6040518c93b41f60a28b224f967c007fdf/packages/runtime-core/src/components/BaseTransition.ts#L264)
 		 */
-		let reference
-		let vnodes = slots.default?.()
-		outer: while(vnodes?.length && !reference) {
-			for(const vnode of vnodes) {
+		let referenceRoot = slots.default?.()
+		outer: while(Array.isArray(referenceRoot)) {
+			for(const vnode of referenceRoot) {
 				if(vnode.type !== Comment) {
-					if(vnode.type === Fragment) {
-						vnodes = vnode.children
-					} else {
-						reference = cloneVNode(vnode, mergeProps(
-							{
-								ref: referenceRef,
-								...dismissHandlers.focus
-							},
-							trigger.value !== 'hover' && dismissHandlers.click,
-							triggerHandlers[trigger.value]
-						))
-					}
+					referenceRoot = vnode.type === Fragment
+						? vnode.children
+						: vnode
 					continue outer
 				}
 			}
@@ -350,15 +344,63 @@ export function usePopover(options = {}) {
 				}, shapes)
 			)
 		}
+
+		const referenceVNode = isVNode(referenceRoot)
+			? cloneVNode(referenceRoot, mergeProps(
+				{
+					ref: referenceRef,
+					onKeydown(event) {
+						if(isEscapeKey(event)) {
+							closePopover()
+						} else if(isTabKey(event, false)) {
+							if (
+								isOpen.value
+								&& floating.value
+								&& !hasTabbableAfter(event.currentTarget, event.target)
+							) {
+								const first = getFirstTabbable(floating.value.firstElementChild, true)
+								if(first) {
+									event.preventDefault()
+									focusElement(first)
+								}
+							}
+						}
+					}
+				}, 
+				dismissHandlers.focus,
+				trigger.value !== 'hover' && dismissHandlers.click,
+				triggerHandlers[trigger.value],
+			))
+			: null
 		const popover = h('div', mergeProps(attrs, {
 			class: [`popover ${inferTheme(theme)} size-${size} radius-${radius}`, {
 				[`spacing-${spacing}`]: spacing,
-			}]
+			}],
+			onKeydown(event) {
+				if(isEscapeKey(event)) {
+					event.stopPropagation()
+					closePopover()
+					const first = getFirstTabbable(reference.value, true)
+					if(first) focusElement(first)
+				} else if(isTabKey(event)) {
+					if(!(event.shiftKey ? hasTabbableBefore : hasTabbableAfter)(event.currentTarget, event.target)) {
+						const span = document.createElement('span')
+						span.setAttribute('tabindex', '-1')
+						span.addEventListener('focusin', dismissHandlers.focus.onFocusin)
+						span.addEventListener('focusout', dismissHandlers.focus.onFocusout)
+						span.style.position = 'fixed'
+						span.style.pointerEvents = 'none'
+						reference.value.after(span)
+						span.focus({ preventScroll: true })
+						span.remove()
+					}
+				}
+			}
 		}), popoverContent)
 		const popoverClone = withDirectives(cloneVNode(popover), [[vShow,open.value]])
 
 		return [
-			reference,
+			referenceVNode,
 			h(Teleport, {
 				to: '#popover-portal',
 				defer: true
@@ -366,9 +408,9 @@ export function usePopover(options = {}) {
 				{
 					ref: floating,
 					class: 'popover-wrapper',
-					style: floatingStyles.value,
-					...dismissHandlers.focus
+					style: floatingStyles.value
 				},
+				dismissHandlers.focus,
 				trigger.value === 'hover' ? triggerHandlers.hover : dismissHandlers.click,
 			), h(Transition, {
 				name: 'popover',

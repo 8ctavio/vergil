@@ -137,10 +137,7 @@ const search = {
     timeout: undefined
 }
 async function handleSelectKeydown(event) {
-    if(event.key === 'Escape' && !(event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)) {
-        event.stopPropagation()
-        closePopover()
-    } else if(['ArrowDown','ArrowUp'].includes(event.key)) {
+    if(['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
         if(await openPopover(true)) {
             let relative = 'nextElementSibling'
