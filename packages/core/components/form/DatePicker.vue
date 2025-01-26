@@ -214,6 +214,23 @@ watch(model.ref, (modelValue, prevModelValue) => {
 		}
 	}
 }, { deep: 1 })
+
+//-------------------- KEYBOARD NAVIGATION --------------------
+function handleKeydown(event) {
+	if(['Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+		if(event.key[0] === 'A' && !event.shiftKey) {
+			event.preventDefault()
+		}
+		const calendar = model.el.parentElement.parentElement
+		calendar.dispatchEvent(new KeyboardEvent('keydown', {
+			key: event.key,
+			ctrlKey: event.ctrlKey,
+			shiftKey: event.shiftKey,
+			altKey: event.altKey,
+			metaKey: event.metaKey
+		}))
+	}
+}
 </script>
 
 <template>
@@ -224,7 +241,9 @@ watch(model.ref, (modelValue, prevModelValue) => {
 		<Popover :class="['date-picker-popover', props.class]"
 			:theme :size :radius :spacing
 		>
-			<DatePickerWrapper :sideButtonPosition="btnClear?.position" v-slot="{ iconProp }">
+			<DatePickerWrapper :sideButtonPosition="btnClear?.position" v-slot="{ iconProp }"
+				@keydown="handleKeydown"
+			>
 				<Btn
 					:class="['date-picker-select', { selected: isSelected }]"
 					descendant
