@@ -10,7 +10,7 @@ import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, n
 import { vergil } from '../../vergil'
 import { useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -158,14 +158,11 @@ async function handleSelectKeydown(event) {
     } else if(event.key === 'Enter') {
         if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
             event.preventDefault()
-            updateSelection(event.target)
+            updateSelection(event.target, true)
         }
-    } else if(event.key === 'Tab' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-            closePopover()
-            if(!event.target.checked) {
-                updateSelection(event.target)
-            }
+    } else if(isTabKey(event, false)) {
+        if(event.target.tagName === 'INPUT' && event.target.type === 'checkbox' && !event.target.checked) {
+            updateSelection(event.target, false)
         }
     } else if (props.filter) {
         if(
@@ -279,7 +276,7 @@ onMounted(() => {
     })
 })
 
-function updateSelection(option) {
+function updateSelection(option, closeOnUpdated = false) {
     model.watchers.pause()
     if(isMultiSelect.value) {
         const idx = model.value.indexOf(option.value)
@@ -295,7 +292,7 @@ function updateSelection(option) {
     }
     model.watchers.resume()
     nextTick(() => {
-        updateOptions(true)
+        updateOptions(closeOnUpdated)
     })
 }
 
