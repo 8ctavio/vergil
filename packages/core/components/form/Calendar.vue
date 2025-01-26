@@ -562,7 +562,10 @@ function handleKeydown(event) {
 				updateMinutes(minutes.value - minutesMeta.value.step)
 			}
 		}
-	} else if(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key)) {
+	} else if (
+		['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key)
+		&& (event.target.tagName !== 'INPUT' || event.target.type !== 'range')
+	) {
 		event.preventDefault()
 		const { target } = event
 		if(selectionMode.value === 'date') {
