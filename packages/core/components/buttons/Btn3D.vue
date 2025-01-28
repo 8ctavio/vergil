@@ -76,7 +76,7 @@ defineProps({
 </template>
 
 <style>
-.btn3D{
+.btn3D {
     --btn3D-c-shadow: light-dark(rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.25));
 
     /*-------- BOX-SHADOW --------*/
@@ -116,35 +116,19 @@ defineProps({
     cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
 
-    &::selection{
+    &::selection {
         background-color: transparent;
     }
-    &:is(:hover, :focus-visible){
+    &:is(:hover, :focus-visible) {
         --btn3D-front: var(--btn3D-elv-hover);
         --btn3D-shadow-x: 3px;
         transform: translateY(var(--btn3D-elv-dif));
     }
-    &:focus-visible{
+    &:focus-visible {
         outline: none;
         box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
     }
-    &:where(.size-sm.spacing-compact, .size-xs) {
-        --btn3D-elv: 4px;
-        --btn3D-elv-hover: 3px;
-        --btn3D-shadow-x: 4px;
-        &:is(:hover, :focus-visible){
-            --btn3D-shadow-x: 2px;
-        }
-    }
-    &:where(.size-xl) {
-        --btn3D-elv: 6px;
-        --btn3D-elv-hover: 4px;
-        --btn3D-shadow-x: 6px;
-        &:is(:hover, :focus-visible){
-            --btn3D-shadow-x: 4px;
-        }
-    }
-    &:active{
+    &:active:not(.null){
         --btn3D-elv-hover: 0px;
         --btn3D-shadow-x: 0px;
         --btn3D-shadow-y: 0px;
@@ -261,6 +245,25 @@ defineProps({
             border-radius: 50%;
             animation: spin 1000ms linear infinite;
         }
+    }
+}
+
+.btn3D:where(.size-sm.spacing-compact, .size-xs),
+:where(.size-sm.spacing-compact, .size-xs) .btn3D {
+    --btn3D-elv: 4px;
+    --btn3D-elv-hover: 3px;
+    --btn3D-shadow-x: 3.5px;
+    &:is(:hover, :focus-visible){
+        --btn3D-shadow-x: 2px;
+    }
+}
+.btn3D:where(.size-xl),
+:where(.size-xl) .btn3D {
+    --btn3D-elv: 6px;
+    --btn3D-elv-hover: 4px;
+    --btn3D-shadow-x: 6px;
+    &:is(:hover, :focus-visible){
+        --btn3D-shadow-x: 4px;
     }
 }
 </style>

@@ -129,27 +129,30 @@ const valueWidth = computed(() => props.max.length)
 </template>
 
 <style>
-.form-field.slider {
-    &.size-xs > .slider-outer > .slider-wrapper {
-        --track-height: 2.5px;
-        --knob-radius: 5px;
-    }
-    &.size-sm > .slider-outer > .slider-wrapper {
-        --track-height: 3.5px;
-        --knob-radius: 6px;
-    }
-    &.size-md > .slider-outer > .slider-wrapper {
-        --track-height: 5px;
-        --knob-radius: 7px;
-    }
-    &.size-lg > .slider-outer > .slider-wrapper {
-        --track-height: 6.5px;
-        --knob-radius: 9px;
-    }
-    &.size-xl > .slider-outer > .slider-wrapper {
-        --track-height: 7px;
-        --knob-radius: 9.5px;
-    }
+.form-field.slider.size-xs > .slider-outer > .slider-wrapper,
+.size-xs .form-field.slider > .slider-outer > .slider-wrapper {
+    --track-height: 2.5px;
+    --knob-radius: 5px;
+}
+.form-field.slider.size-sm > .slider-outer > .slider-wrapper,
+.size-sm .form-field.slider > .slider-outer > .slider-wrapper {
+    --track-height: 3.5px;
+    --knob-radius: 6px;
+}
+.form-field.slider.size-md > .slider-outer > .slider-wrapper,
+.size-md .form-field.slider > .slider-outer > .slider-wrapper {
+    --track-height: 5px;
+    --knob-radius: 7px;
+}
+.form-field.slider.size-lg > .slider-outer > .slider-wrapper,
+.size-lg .form-field.slider > .slider-outer > .slider-wrapper {
+    --track-height: 6.5px;
+    --knob-radius: 9px;
+}
+.form-field.slider.size-xl > .slider-outer > .slider-wrapper,
+.size-xl .form-field.slider > .slider-outer > .slider-wrapper {
+    --track-height: 7px;
+    --knob-radius: 9.5px;
 }
 .slider-outer {
     font-size: var(--font-size);

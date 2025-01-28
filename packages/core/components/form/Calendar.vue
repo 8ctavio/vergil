@@ -1220,15 +1220,30 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 			}
 		}
 	}
+}
 
-	&.size-xs > .calendar-body {
-		--date-size: 42;
-	}
-	&.size-xs.spacing-compact > .calendar-body {
-		--date-size: 68;
-	}
-	&.size-sm.spacing-compact > .calendar-body {
-		--date-size: 54;
-	}
+.calendar.size-xs > .calendar-body,
+.size-xs .calendar > .calendar-body {
+	--date-size: 42;
+}
+.calendar.size-xs.spacing-compact > .calendar-body,
+.size-xs.spacing-compact .calendar > .calendar-body {
+	--date-size: 68;
+}
+.calendar.size-sm.spacing-compact > .calendar-body,
+.size-sm.spacing-compact .calendar > .calendar-body {
+	--date-size: 54;
+}
+.calendar.size-md.spacing-compact > .calendar-body,
+.size-md.spacing-compact .calendar > .calendar-body {
+	--date-size: 50;
+}
+.calendar.size-lg.spacing-compact > .calendar-body,
+.size-lg.spacing-compact .calendar > .calendar-body {
+	--date-size: 45;
+}
+.calendar.size-xl.spacing-compact > .calendar-body,
+.size-xl.spacing-compact .calendar > .calendar-body {
+	--date-size: 42;
 }
 </style>

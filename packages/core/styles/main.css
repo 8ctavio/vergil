@@ -83,17 +83,17 @@ p, h1, h2, h3 {
     --component-border-bottom-width: 2.5px;
 }
 
-.size-xs { --g-size: -2 }
-.size-sm { --g-size: -1 }
-.size-md { --g-size: 0 }
-.size-lg { --g-size: 1 }
-.size-xl { --g-size: 2 }
+.size-xs { --size: -2 }
+.size-sm { --size: -1 }
+.size-md { --size: 0 }
+.size-lg { --size: 1 }
+.size-xl { --size: 2 }
 .spacing-compact { --g-spacing: -1; }
 .spacing-expanded { --g-spacing: 1; }
 
 :is(.size-xs, .size-sm, .size-md, .size-lg, .size-xl) {
-    --font-size: calc(1.4rem + (0.2rem * var(--g-size)));
-    --gap-unit: calc(1px * (1 + (var(--g-size) * 0.25)) * (1 + (var(--g-spacing, 0) * 0.4)));
+    --font-size: calc(1.4rem + (0.2rem * var(--size)));
+    --gap-unit: calc(1px * (1 + (var(--size) * 0.25)) * (1 + (var(--g-spacing, 0) * 0.4)));
     --gap: calc(6 * var(--gap-unit));
 
     --g-gap-xs: calc(0.5 * var(--gap));
@@ -114,7 +114,7 @@ p, h1, h2, h3 {
     --g-radius-full: 9999px;
 }
 :is(.radius-none, .radius-sm, .radius-md, .radius-lg, .radius-full) {
-    --radius-coeff-b: calc(1 + (var(--g-size,0) * 0.2));
+    --radius-coeff-b: calc(1 + (var(--size,0) * 0.2));
     --g-radius-sm: calc(3px * var(--radius-coeff-a) * var(--radius-coeff-b));
     --g-radius-md: calc(4px * var(--radius-coeff-a) * var(--radius-coeff-b));
     --g-radius-lg: calc(6px * var(--radius-coeff-a) * var(--radius-coeff-b));
