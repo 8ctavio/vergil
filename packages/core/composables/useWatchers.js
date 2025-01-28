@@ -147,8 +147,8 @@ export function useWatchers(sources, { deep } = {}) {
 	}
 	function ignore(callback) {
 		pause()
-		callback()
-		resume()
+		try { callback() }
+		finally { resume() }
 	}
 	
 	return {

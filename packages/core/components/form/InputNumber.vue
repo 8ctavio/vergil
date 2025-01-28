@@ -1,7 +1,7 @@
 <script setup>
 import InputText from './InputText.vue'
 import { shallowRef, watchEffect } from 'vue'
-import { useModel, isModel } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { separateThousands } from '../../utilities'
 
 const props = defineProps({
@@ -73,13 +73,13 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useModel(props.modelValue)
+const model = useModelWrapper(props.modelValue)
 const displayedString = useModel('')
 let displayedNumber = 0
-model.watchers.onUpdated(modelValue => {
+model.onExternalMutation(modelValue => {
 	const modelNumber = Number(modelValue)
 	if(Number.isNaN(modelNumber)) {
-		model.watchers.ignore(() => {
+		model.update(() => {
 			if(range.min > 0) {
 				model.value = range.min
 			} else if(range.max < 0) {
@@ -89,23 +89,17 @@ model.watchers.onUpdated(modelValue => {
 			}
 		})
 	} else if(modelNumber < range.min) {
-		model.watchers.ignore(() => {
-			model.value = range.min
-		})
+		model.update(range.min)
 	} else if(modelNumber > range.max) {
-		model.watchers.ignore(() => {
-			model.value = range.max
-		})
+		model.update(range.max)
 	} else if(typeof modelValue !== 'number') {
-		model.watchers.ignore(() => {
-			model.value = modelNumber
-		})
+		model.update(modelNumber)
 	}
 	formatDisplayedString()
 }, { immediate: true })
 
 function formatDisplayedString() {
-	const displayedValue = model.value.toFixed(Math.min(Math.max(countFractionalDigits(model.value), fraction.minDigits), fraction.maxDigits))
+	const displayedValue = model.value.toFixed(clamp(countFractionalDigits(model.value), fraction.minDigits, fraction.maxDigits))
 	displayedString.value = props.separator ? separateThousands(displayedValue) : displayedValue
 	displayedNumber = model.value
 }
@@ -281,15 +275,7 @@ function handleInput(event) {
 	target.value = eventData.newString
 	target.setSelectionRange(eventData.cursorPosition, eventData.cursorPosition)
 
-	model.watchers.pause()
-	if(eventData.newNumber < range.min) {
-		model.value = range.min
-	} else if(eventData.newNumber > range.max) {
-		model.value = range.max
-	} else {
-		model.value = eventData.newNumber
-	}
-	model.watchers.resume()
+	model.update(clamp(eventData.newNumber, range.min, range.max))
 
 	displayedString.value = eventData.newString
 	displayedNumber = eventData.newNumber
@@ -354,33 +340,17 @@ function handleChange(event) {
 //------------------------------
 //---------- STEPPERS ----------
 //------------------------------
-function sum(a, b, fractionalDigits) {
-	if(!Number.isInteger(a) || !Number.isInteger(b)) {
-		const shift = 10 ** (Number.isFinite(fractionalDigits)
-			? fractionalDigits
-			: Math.max(countFractionalDigits(a), countFractionalDigits(b)) 
-		)
-		return (Math.round(a * shift) + Math.round(b * shift)) / shift
-	} else {
-		const r = a + b
-		return Number.isSafeInteger(r) ? r : (Math.sign(r)*Number.MAX_SAFE_INTEGER)
-	}
-}
 function stepUp() {
 	const result = sum(model.value, props.step, fraction.maxDigits)
 	if(result <= range.max) {
-		model.watchers.ignore(() => {
-			model.value = result
-		})
+		model.update(result)
 		formatDisplayedString()
 	}
 }
 function stepDown() {
 	const result = sum(model.value, -props.step, fraction.maxDigits)
 	if(result >= range.min) {
-		model.watchers.ignore(() => {
-			model.value = result
-		})
+		model.update(result)
 		formatDisplayedString()
 	}
 }
@@ -536,5 +506,20 @@ function countFractionalDigits(num, radixIDX) {
 	num = num.toString()
 	radixIDX ??= num.indexOf('.')
 	return radixIDX > -1 ? (num.length - radixIDX - 1) : 0
+}
+function sum(a, b, fractionalDigits) {
+	if(!Number.isInteger(a) || !Number.isInteger(b)) {
+		const shift = 10 ** (Number.isFinite(fractionalDigits)
+			? fractionalDigits
+			: Math.max(countFractionalDigits(a), countFractionalDigits(b)) 
+		)
+		return (Math.round(a * shift) + Math.round(b * shift)) / shift
+	} else {
+		const r = a + b
+		return Number.isSafeInteger(r) ? r : (Math.sign(r)*Number.MAX_SAFE_INTEGER)
+	}
+}
+function clamp(n, min, max) {
+	return Math.min(Math.max(min, n), max)
 }
 </script>

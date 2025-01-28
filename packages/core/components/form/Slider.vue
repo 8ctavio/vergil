@@ -1,9 +1,9 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed, getCurrentScope, onMounted } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel, watchControlled } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -79,20 +79,11 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue)
-
-let modelWatcher
-const setupScope = getCurrentScope()
-onMounted(() => {
-    setupScope.run(() => {
-        modelWatcher = watchControlled(model.ref, modelValue => {
-            model.el.value = modelValue
-        }, { immediate: true })
-    })
-})
-function handleInput(event) {
-    modelWatcher.pause()
-    model.watchers.pause()
+const model = useModelWrapper(props.modelValue)
+model.onExternalUpdate(modelValue => {
+    model.el.value = modelValue
+}, { onMounted: true })
+const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
     if(props.virtualMin && newValue < props.virtualMin) {
         model.value = props.virtualMin
@@ -101,9 +92,7 @@ function handleInput(event) {
     } else {
         model.value = newValue
     }
-    model.watchers.resume()
-    modelWatcher.resume()
-}
+})
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))
 const valueWidth = computed(() => props.max.length)

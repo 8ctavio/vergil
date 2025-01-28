@@ -18,7 +18,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from '../private/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, usePopover, isModel } from '../../composables'
+import { useModelWrapper, useModel, usePopover, isModel } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -101,7 +101,7 @@ const props = defineProps({
     },
 })
 
-const model = useModel(props.modelValue, { deep: 1 })
+const model = useModelWrapper(props.modelValue, { isCollection: true })
 const isSelected = computed(() => hasDate(model.value))
 const floatLabelEnabled = computed(() => {
 	return props.floatLabel

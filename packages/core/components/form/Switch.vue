@@ -2,9 +2,9 @@
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { useTemplateRef, getCurrentScope, onMounted } from 'vue'
+import { useTemplateRef, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel, watchControlled } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -72,33 +72,14 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue, { deep: 1 })
-if(props.checked) {
-    if(Array.isArray(model.value)) {
-        if(!model.value.includes(props.valueOn)) {
-            model.value.push(props.valueOn)
-        }
-    } else if(model.value === props.valueOff) {
-        model.value = props.valueOn
-    }
-}
-
-let modelWatcher
+const model = useModelWrapper(props.modelValue, { isCollection: true })
 const checkbox = useTemplateRef('checkbox')
-const setupScope = getCurrentScope()
-onMounted(() => {
-    setupScope.run(() => {
-        modelWatcher = watchControlled(model.ref, modelValue => {
-            checkbox.value.checked = Array.isArray(modelValue)
-                ? modelValue.includes(props.valueOn)
-                : modelValue === props.valueOn
-        }, { immediate: true, deep: 1 })
-    })
-    if(!model.el) model.el = checkbox.value
-})
-function handleChange(event) {
-    modelWatcher.pause()
-    model.watchers.pause()
+model.onExternalUpdate(modelValue => {
+    checkbox.value.checked = Array.isArray(modelValue)
+        ? modelValue.includes(props.valueOn)
+        : modelValue === props.valueOn
+}, { onMounted: true })
+const handleChange = model.updateDecorator(event => {
     if(Array.isArray(model.value)) {
         const idx = model.value.indexOf(props.valueOn)
         if(idx > -1) {
@@ -111,9 +92,21 @@ function handleChange(event) {
     } else {
         model.value = event.target.checked ? props.valueOn : props.valueOff
     }
-    model.watchers.resume()
-    modelWatcher.resume()
+})
+
+if(props.checked) {
+    if(Array.isArray(model.value)) {
+        if(!model.value.includes(props.valueOn)) {
+            model.value.push(props.valueOn)
+        }
+    } else if(model.value === props.valueOff) {
+        model.value = props.valueOn
+    }
 }
+onMounted(() => {
+    if(!model.el) model.el = checkbox.value
+})
+
 </script>
 
 <template>

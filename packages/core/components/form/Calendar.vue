@@ -200,7 +200,7 @@ import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel, watchControlled } from '../../composables'
+import { useModelWrapper, useModel, isModel, watchControlled } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
@@ -491,21 +491,17 @@ function updateDateTime() {
 		}
 	}
 	if(Array.isArray(model.value) && model.value.length > 0) {
-		modelWatcher.pause()
-		model.watchers.pause()
-		for(let i=0; i<model.value.length; i++) {
-			model.value[i] = getNewModelValue(model.value[i])
-		}
-		triggerRef(model.ref)
-		model.watchers.resume()
-		modelWatcher.resume()
+		model.update(() => {
+			for(let i=0; i<model.value.length; i++) {
+				model.value[i] = getNewModelValue(model.value[i])
+			}
+			triggerRef(model.ref)
+		})
 	} else if(hasDate(model.value, false)) {
-		modelWatcher.pause()
-		model.watchers.pause()
-		model.value = getNewModelValue(model.value)
-		triggerRef(model.ref)
-		model.watchers.resume()
-		modelWatcher.resume()
+		model.update(() => {
+			model.value = getNewModelValue(model.value)
+			triggerRef(model.ref)
+		})
 	}
 }
 
@@ -623,12 +619,8 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useModel(props.modelValue)
-
-let modelWatcher
-modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
-	modelWatcher?.pause()
-	model.watchers.pause()
+const model = useModelWrapper(props.modelValue, { isCollection: true })
+model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 		if(model.el) {
 			updateDate(prevModelValue)
@@ -685,12 +677,8 @@ modelWatcher = watchControlled(model.ref, (modelValue, prevModelValue) => {
 			}
 		}
 	}
-	model.watchers.resume()
-	modelWatcher?.resume()
-}, { immediate: true, deep: 1 })
-function handleChange(event) {
-	modelWatcher.pause()
-	model.watchers.pause()
+}), { immediate: true })
+const handleChange = model.updateDecorator(event => {
 	const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 	if(Array.isArray(model.value)) {
 		let newValue, idx
@@ -706,12 +694,12 @@ function handleChange(event) {
 			idx = model.value.findIndex(date => timestamp === date.getTime())
 		}
 		if(idx > -1) {
-		    if(!event.target.checked) {
-		        model.value.splice(idx, 1)
+			if(!event.target.checked) {
+				model.value.splice(idx, 1)
 				triggerRef(model.ref)
-		    }
+			}
 		} else if(event.target.checked) {
-		    model.value.push(newValue)
+			model.value.push(newValue)
 			triggerRef(model.ref)
 		}
 	} else {
@@ -741,9 +729,7 @@ function handleChange(event) {
 			}
 		}
 	}
-	model.watchers.resume()
-	modelWatcher.resume()
-}
+})
 
 //-------------------- GENERATE DATES --------------------
 let calendarMeta = null

@@ -60,8 +60,8 @@ export function watchControlled(sources, callback, options = {}) {
 	}
 	function ignore(callback) {
 		pause()
-		callback()
-		resume()
+		try { callback() }
+		finally { resume() }
 	}
 	
 	const scope = effectScope()

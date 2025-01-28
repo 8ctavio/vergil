@@ -8,7 +8,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, usePopover, isModel } from '../../composables'
+import { useModelWrapper, useModel, usePopover, isModel } from '../../composables'
 import { prune } from '../../utilities'
 import { isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -82,7 +82,7 @@ const props = defineProps({
     },
 })
 
-const model = useModel(props.modelValue, { deep: 1 })
+const model = useModelWrapper(props.modelValue, { isCollection: true })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
 const selected = shallowRef(null)
@@ -258,7 +258,7 @@ function handleFilterInput(event) {
 watch(() => props.options, () => {
     updateOptions(true, true)
 }, { flush: 'post' })
-model.watchers.onUpdated(() => {
+model.onExternalMutation(() => {
     updateOptions()
 }, { flush: 'post' })
 function handleChange() {
@@ -277,20 +277,20 @@ onMounted(() => {
 })
 
 function updateSelection(option, closeOnUpdated = false) {
-    model.watchers.pause()
-    if(isMultiSelect.value) {
-        const idx = model.value.indexOf(option.value)
-        if(idx > -1) {
-            if(option.checked) {
-                model.value.splice(idx,1)
+    model.update(() => {
+        if(isMultiSelect.value) {
+            const idx = model.value.indexOf(option.value)
+            if(idx > -1) {
+                if(option.checked) {
+                    model.value.splice(idx,1)
+                }
+            } else if(!option.checked) {
+                model.value.push(option.value)
             }
-        } else if(!option.checked) {
-            model.value.push(option.value)
+        } else {
+            model.value = option.checked ? '' : option.value
         }
-    } else {
-        model.value = option.checked ? '' : option.value
-    }
-    model.watchers.resume()
+    })
     nextTick(() => {
         updateOptions(closeOnUpdated)
     })

@@ -1,8 +1,8 @@
 <script setup>
 import InputText from './InputText.vue'
-import { ref, computed, nextTick } from 'vue'
+import { computed, shallowRef, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { defineReactiveProperties, extendedReactive, useModel, isModel } from '../../composables'
+import { useModelWrapper, useModel, isModel, defineReactiveProperties, extendedReactive } from '../../composables'
 import { ucFirst } from '../../utilities'
 
 const props = defineProps({
@@ -34,11 +34,10 @@ const props = defineProps({
 })
 const emit = defineEmits(['clear'])
 
-const model = useModel(props.modelValue)
+const model = useModelWrapper(props.modelValue)
 
-const loader = ref(false)
-
-const lastSearch = ref('')
+const loader = shallowRef(false)
+const lastSearch = shallowRef('')
 
 function handleSearch() {
     loader.value = true

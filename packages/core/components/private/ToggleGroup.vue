@@ -4,7 +4,7 @@ import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
 import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -96,7 +96,7 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue, { deep: 1 })
+const model = useModelWrapper(props.modelValue, { isCollection: true })
 
 provide(`${props.type}-props`, {
     groupModel: model,

@@ -1,7 +1,8 @@
-import { shallowRef } from 'vue'
+import { shallowRef, getCurrentScope, onMounted } from 'vue'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
 import { useWatchers } from './useWatchers'
+import { watchControlled } from './watchControlled'
 import { useResetValue } from "./private/useResetValue"
 
 /**
@@ -15,9 +16,9 @@ export function isModel(value){
 }
 
 /**
- * Creates or wraps a component model.
+ * Creates a component model.
  * 
- * @param [value] - The initial value to create a model with or the model to wrap. Wrapped models are directly returned.
+ * @param [value] - The initial value to create a model with.
  * @param { {
  *      deep: boolean | number
  * } } options -
@@ -41,20 +42,10 @@ export function isModel(value){
  *  </template>
  *  ```
  */
-export function useModel(value, { deep } = {}){
+export function useModel(value) {
     if(isModel(value)) {
-        if(isModel(Object.getPrototypeOf(value))) {
-            // Provider (nested custom component): Return wrapped model
-            return value
-        } else {
-            // Provider (custom component): Wrap model
-            return Object.create(value, {
-                watchers: { value: useWatchers(value.ref, { deep }) }
-            })
-                }
-        }
+        return value
     } else {
-        // Consumer (parent component): Create model
         const getResetValue = useResetValue(value)
         const model = extendedRef(getResetValue(), withDescriptor => ({
             el: shallowRef(null),
@@ -73,4 +64,87 @@ export function useModel(value, { deep } = {}){
         }), { configurable: false })
         return model
     }
+}
+
+export function useModelWrapper(model, { isCollection = false } = {}) {
+    if(!isModel(model))
+        return null
+
+    let proto
+    let watcher
+    if(Object.hasOwn(model, '__v_isModelWrapper')) {
+        proto = Object.getPrototypeOf(model)
+    } else {
+        const watchers = useWatchers(model.ref, {
+            deep: isCollection && 1
+        })
+        proto = Object.create(model, {
+            watchers: { value: watchers },
+            onExternalMutation: {
+                value: watchers.onUpdated,
+                enumerable: true
+            }
+        })
+    }
+
+    return Object.create(proto, {
+        onExternalUpdate: {
+            value: (cb, options = {}) => {
+                if(watcher) watcher.stop()
+                if(options.onMounted) {
+                    const setupScope = getCurrentScope()
+                    onMounted(() => {
+                        setupScope.run(() => {
+                            watcher = watchControlled(model.ref, cb, {
+                                ...options,
+                                immediate: true,
+                                deep: isCollection && 1
+                            })
+                        })
+                    })
+                } else {
+                    watcher = watchControlled(model.ref, cb, {
+                        ...options,
+                        deep: isCollection && 1
+                    })
+                }
+            },
+            enumerable: true
+        },
+        update: {
+            value: v => {
+                watcher?.pause()
+                proto.watchers.pause()
+                try {
+                    if(typeof v === 'function') {
+                        v()
+                    } else {
+                        model.value = v
+                    }
+                } finally {
+                    proto.watchers.resume()
+                    watcher?.resume()
+                }
+            },
+            enumerable: true
+        },
+        updateDecorator: {
+            value: fn => {
+                return function(...args) {
+                    watcher?.pause()
+                    proto.watchers.pause()
+                    try {
+                        return fn.apply(this, args)
+                    } finally {
+                        proto.watchers.resume()
+                        watcher?.resume()
+                    }
+                }
+            },
+            enumerable: true
+        },
+        __v_isModelWrapper: {
+            value: true
+        }
+    })
 }

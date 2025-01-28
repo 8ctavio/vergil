@@ -3,9 +3,9 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed, getCurrentScope, onMounted } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel, watchControlled } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -84,24 +84,14 @@ const props = defineProps({
     }
 })
 
-const model = useModel(props.modelValue)
+const model = useModelWrapper(props.modelValue)
 
-let modelWatcher
-const setupScope = getCurrentScope()
-onMounted(() => {
-    setupScope.run(() => {
-        modelWatcher = watchControlled(model.ref, modelValue => {
-            model.el.value = modelValue
-        }, { immediate: true })
-    })
-})
-function handleInput(event) {
-    modelWatcher.pause()
-    model.watchers.pause()
+model.onExternalUpdate(modelValue => {
+    model.el.value = modelValue
+}, { onMounted: true })
+const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
-    model.watchers.resume()
-    modelWatcher.resume()
-}
+})
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel

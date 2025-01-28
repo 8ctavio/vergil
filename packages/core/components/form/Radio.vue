@@ -1,8 +1,8 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, useTemplateRef, inject, getCurrentScope, onMounted } from 'vue'
+import { computed, useTemplateRef, inject, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, isModel, watchControlled } from '../../composables'
+import { useModelWrapper, useModel, isModel } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -64,29 +64,23 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
-const model = useModel(props.modelValue ?? groupModel ?? useModel(''))
+const model = useModelWrapper(props.modelValue ?? groupModel ?? useModel(''))
+const radio = useTemplateRef('radio')
+model.onExternalUpdate(modelValue => {
+    radio.value.checked = modelValue === radio.value.value
+}, { onMounted: true })
+function handleChange(event) {
+    if(event.target.checked) {
+        model.update(event.target.value)
+    }
+}
+
 if(props.checked && model.value === '') {
     model.value = props.value
 }
-
-let modelWatcher
-const radio = useTemplateRef('radio')
-const setupScope = getCurrentScope()
 onMounted(() => {
-    setupScope.run(() => {
-        modelWatcher = watchControlled(model.ref, modelValue => {
-            radio.value.checked = modelValue === radio.value.value
-        }, { immediate: true })
-    })
     if(!model.el) model.el = radio.value
 })
-function handleChange(event) {
-    modelWatcher.pause()
-    model.watchers.pause()
-    if(event.target.checked) model.value = event.target.value
-    model.watchers.resume()
-    modelWatcher.resume()
-}
 </script>
 
 <template>
