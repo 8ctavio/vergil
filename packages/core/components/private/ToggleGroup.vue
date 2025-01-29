@@ -5,6 +5,7 @@ import radio from '../form/Radio.vue'
 import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useModelWrapper } from '../../composables'
+import { isFunction, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -108,9 +109,9 @@ function Options({ options }) {
     if(options === null) return
     const component = { checkbox, radio }[props.type]
     function decodeOption(decoder, option, key) {
-        const decoded = typeof decoder === 'function'
+        const decoded = isFunction(decoder)
             ? decoder(option,key)
-            : typeof option === 'object' && option !== null
+            : isObject(option)
                 ? option[decoder]
                 : option
         return decoded?.toString().trim()
@@ -120,7 +121,7 @@ function Options({ options }) {
         const label = decodeOption(props.optionLabel, option, key)
         const description = decodeOption(props.optionDescription, option, key)
         return h(component, {
-            ...(typeof props.optionsAttributes === 'function'
+            ...(isFunction(props.optionsAttributes)
                 ? props.optionsAttributes(key, value, label, description)
                 : props.optionsAttributes),
             key,

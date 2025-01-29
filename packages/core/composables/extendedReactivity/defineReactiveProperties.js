@@ -1,5 +1,6 @@
 import { isRef } from 'vue'
 import { isExtendedReactive, isExtendedRef } from '.'
+import { isFunction, isObject } from '../../utilities'
 
 /**
  * Marks an object as a property descriptor.
@@ -55,11 +56,11 @@ function isDescriptor(value) {
  *  }))
  */
 export function defineReactiveProperties(object, properties = {}, options = {}){
-    if(typeof object !== 'object' || object === null)
+    if(!isObject(object))
         throw new TypeError('Invalid object')
-    if(typeof properties === 'function')
+    if(isFunction(properties))
         properties = properties(markDescriptor)
-    if(typeof properties !== 'object' || properties === null)
+    if(!isObject(properties))
         throw new TypeError('Invalid properties object')
 
 	const {
@@ -95,7 +96,7 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
 					customDescriptor.writable = descriptor.writable ?? false
 					customDescriptor.value = value
 				}
-			} else if (typeof value === 'function') {
+			} else if (isFunction(value)) {
 				customDescriptor.enumerable = descriptor.enumerable ?? false
 				customDescriptor.writable = descriptor.writable ?? false
 				customDescriptor.value = value

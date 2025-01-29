@@ -19,6 +19,7 @@ import MiniMarkup from '../private/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useModelWrapper, usePopover } from '../../composables'
+import { isFunction, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -135,21 +136,18 @@ const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 const timeEnabled = computed(() => Object.hasOwn(attrs, 'time'))
 const format = computed(() => {
-	if(typeof props.format === 'function') {
+	if(isFunction(props.format)) {
 		return props.format
-	} else if(typeof props.format === 'object' && props.format !== null) {
+	} else if(isObject(props.format)) {
 		return new Intl.DateTimeFormat(props.locale, props.format).format
-	} else if(typeof vergil.config.datePicker.format === 'function') {
+	} else if(isFunction(vergil.config.datePicker.format)) {
 		return vergil.config.datePicker.format
-	} else if(typeof vergil.config.datePicker.formatOptions === 'function') {
+	} else if(isFunction(vergil.config.datePicker.formatOptions)) {
 		return new Intl.DateTimeFormat(
 			props.locale,
 			vergil.config.datePicker.formatOptions(timeEnabled.value)
 		).format
-	} else if (
-		typeof vergil.config.datePicker.formatOptions === 'object'
-		&& vergil.config.datePicker.formatOptions !== null
-	) {
+	} else if(isObject(vergil.config.datePicker.formatOptions)) {
 		return new Intl.DateTimeFormat(
 			props.locale,
 			vergil.config.datePicker.formatOptions

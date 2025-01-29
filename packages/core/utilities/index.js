@@ -20,21 +20,6 @@ export function deburr(str){
 }
 
 /**
- * Formats numeric string as a 10-digit phone number.
- * 
- * @param { string } phone
- * @returns 10-digit phone number formatted string
- * 
- * @example
- * ```js
- * formatPhone('1234567890')  // '123 456 7890'
- * ```
- */
-export function formatPhone(phone){
-    return phone.length === 10 ? `${phone.slice(0,3)} ${phone.slice(3,6)} ${phone.slice(6)}` : phone
-}
-
-/**
  * Formats a string by applying a *formatter* function to its words and joins them with a `separator` string. A **word** is considered as a sequence of alphanumerical characters (including diacritics).
  * 
  * @param { string } str
@@ -77,21 +62,6 @@ export function prune(str){
 }
 
 /**
- * Converts a string to sentence case. Only alphanumeric characters (including diacritics) are considered.
- * 
- * @param { string } str 
- * @returns Sentence cased string
- * 
- * @example
- * ```js
- * sentenceCase('Assault on the Control Room')  // 'Assault on the control room'
- * ```
- */
-export function sentenceCase(str){
-    return formatWords(str, (word, i) => i ? word.toLowerCase() : ucFirst(word.toLowerCase()))
-}
-
-/**
  * Formats a number string by adding a `separator` string between thousands groups of the number's integer part.
  * 
  * @param { string | number } num
@@ -122,21 +92,6 @@ export function separateThousands(num, separator = ','){
  */
 export function spaceEvenly(str, separator = " "){
     return str.trim().replace(/\s+/g, separator)
-}
-
-/**
- * Converts a string to start case. Only alphanumeric characters (including diacritics) are considered.
- * 
- * @param { string } str 
- * @returns Start cased string
- * 
- * @example
- * ```js
- * startCase('high charity')  // 'High Charity'
- * ```
- */
-export function startCase(str){
-    return formatWords(str, word => ucFirst(word.toLowerCase()))
 }
 
 /**
@@ -222,6 +177,26 @@ export function everyKeyInObject(obj, keys, strict = true){
         if(strict && providedKeys.length !== requiredKeys.size) return false
         return requiredKeys.isSubsetOf(providedKeys)
     }
+}
+
+/**
+ * Assesses whether a value is a function.
+ * 
+ * @param { any } value 
+ * @returns { boolean } `true` if `value` is a function.
+ */
+export function isFunction(value){
+    return typeof value === 'function'
+}
+
+/**
+ * Assesses whether a value is an object.
+ * 
+ * @param { any } value 
+ * @returns { boolean } `true` if `value` is an object.
+ */
+export function isObject(value){
+    return value !== null && typeof value === 'object'
 }
 // #endregion
 

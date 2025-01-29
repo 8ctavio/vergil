@@ -2,6 +2,7 @@ import { customRef, getCurrentScope, onMounted } from 'vue'
 import { useWatchers } from './useWatchers'
 import { watchControlled } from './watchControlled'
 import { useModel, isModel } from './useModel'
+import { isFunction } from '../utilities'
 
 /**
  * Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
@@ -29,7 +30,7 @@ export function useModelWrapper(props, { isCollection = false } = {}) {
 	const model = isModel(props.modelValue)
 		? props.modelValue
 		: useModel(
-			typeof props['onUpdate:modelValue'] === 'function'
+			isFunction(props['onUpdate:modelValue'])
 				? customRef((track, trigger) => ({
 					get() {
 						track()
@@ -89,7 +90,7 @@ export function useModelWrapper(props, { isCollection = false } = {}) {
                 watcher?.pause()
                 proto.watchers.pause()
                 try {
-                    if(typeof v === 'function') {
+                    if(isFunction(v)) {
                         v()
                     } else {
                         model.value = v

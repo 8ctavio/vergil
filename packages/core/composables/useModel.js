@@ -2,6 +2,7 @@ import { shallowRef, toRef, isRef } from 'vue'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
 import { useResetValue } from "./private/useResetValue"
+import { isFunction } from '../utilities'
 
 /**
  * Assesses whether a value is a model created by `useModel`.
@@ -43,7 +44,7 @@ export function useModel(value, isShallow = false) {
     } else {
         const modelRef = isRef(value)
             ? value
-            : isShallow && typeof value !== 'function'
+            : isShallow && !isFunction(value)
                 ? shallowRef(value)
                 : toRef(value)
                 

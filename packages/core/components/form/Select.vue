@@ -9,7 +9,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useModelWrapper, usePopover } from '../../composables'
-import { prune } from '../../utilities'
+import { prune, isObject } from '../../utilities'
 import { isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -308,7 +308,7 @@ function createOptionsWalker(filter) {
 }
 function updateOptions(closeOnUpdated = false, resetSelection = false) {
     if(Array.isArray(model.value)) {
-        if(typeof selected.value !== 'object' || selected.value === null || Object.getPrototypeOf(selected.value) !== Set.prototype) {
+        if(!isObject(selected.value) || Object.getPrototypeOf(selected.value) !== Set.prototype) {
             selected.value = new Set()
         }
         if(resetSelection) selected.value.clear()

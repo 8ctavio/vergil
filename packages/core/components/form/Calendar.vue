@@ -201,7 +201,7 @@ import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useModelWrapper } from '../../composables'
-import { ucFirst, everyKeyInObject } from '../../utilities'
+import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -751,7 +751,7 @@ function updateDate(date, v = false, isSingleDate) {
 		if(normalizedDate !== null && isDateWithinRange(normalizedDate, calendarMeta.firstDate, calendarMeta.lastDate)) {
 			const idx = getDateIndex(normalizedDate)
 			if(idx >= 0 && idx < model.el.childElementCount) {
-				if(typeof v === 'function') {
+				if(isFunction(v)) {
 					v(model.el.children.item(idx), normalizedDate)
 				} else {
 					model.el.children.item(idx).firstElementChild.checked = v

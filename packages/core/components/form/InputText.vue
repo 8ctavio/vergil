@@ -6,6 +6,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModelWrapper } from '../../composables'
+import { isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -96,8 +97,8 @@ const floatLabelEnabled = computed(() => {
         && Boolean(props.label)
         && !(props.placeholder || props.description || props.icon || props.iconLeft || props.prefix)
 })
-const showBtnBefore = typeof props.btnBefore === 'object' && props.btnBefore !== null
-const showBtnAfter = typeof props.btnAfter === 'object' && props.btnBefore !== null
+const showBtnBefore = isObject(props.btnBefore)
+const showBtnAfter = isObject(props.btnAfter)
 </script>
 
 <template>

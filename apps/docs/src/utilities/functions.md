@@ -34,27 +34,6 @@ deburr('México')  // 'Mexico'
 ```
 
 <!---------------------------------------------------
--------------------- formatPhone --------------------
----------------------------------------------------->
-### `formatPhone`
-
-> Formats numeric string as a 10-digit phone number.
-
-```js
-function formatPhone(phone: string): string
-```
-
-#### Return value
-
-10-digit phone number formatted string.
-
-#### Examples
-
-```js
-formatPhone('1234567890')  // '123 456 7890'
-```
-
-<!---------------------------------------------------
 -------------------- formatWords --------------------
 ---------------------------------------------------->
 ### `formatWords`
@@ -94,27 +73,6 @@ Kebab cased string.
 
 ```js
 kebabCase('El Cartógrafo Silencioso')  // 'el-cartografo-silencioso'
-```
-
-<!----------------------------------------------------
--------------------- sentenceCase --------------------
------------------------------------------------------>
-### `sentenceCase`
-
-> Converts a string to sentence case. Only alphanumeric characters (including diacritics) are considered.
-
-```js
-function sentenceCase(str: string): string
-```
-
-#### Return value
-
-Sentece cased string.
-
-#### Examples
-
-```js
-sentenceCase('Assault on the Control Room')  // 'Assault on the control room'
 ```
 
 <!---------------------------------------------------------
@@ -168,27 +126,6 @@ Evenly spaced (separated) string.
 ```js
 spaceEvenly('  Jane    Doe     ')        // 'Jane Doe'
 spaceEvenly(' 123   456  789  ', '-')    // '123-456-789'
-```
-
-<!-------------------------------------------------
--------------------- startCase --------------------
--------------------------------------------------->
-### `startCase`
-
-> Converts a string to start case. Only alphanumeric characters (including diacritics) are considered.
-
-```js
-function startCase(str: string): string
-```
-
-#### Return value
-
-Start cased string.
-
-#### Examples
-
-```js
-startCase('high charity')  // 'High Charity'
 ```
 
 <!-----------------------------------------------
@@ -284,6 +221,36 @@ everyKeyInObject({ bar: '' }, {
     optional: ['foo', 'bar', 'baz']
 }) // true
 ```
+
+<!--------------------------------------------------
+-------------------- isFunction --------------------
+--------------------------------------------------->
+### `isFunction`
+
+> Assesses whether a value is a function.
+
+```js
+function isFunction(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a function.
+
+<!------------------------------------------------
+-------------------- isObject --------------------
+------------------------------------------------->
+### `isObject`
+
+> Assesses whether a value is an object.
+
+```js
+function isObject(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is an object.
 
 ## Date
 

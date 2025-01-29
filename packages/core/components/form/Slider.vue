@@ -4,6 +4,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useModelWrapper } from '../../composables'
+import { isFunction } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -121,7 +122,7 @@ const valueWidth = computed(() => props.max.length)
                 </span>
             </div>
             <p v-if="displayValue" class="slider-value">
-                <MiniMarkup :str="(typeof props.displayValue === 'function') ? props.displayValue(model.value) : model.value.toString()"/>
+                <MiniMarkup :str="(isFunction(props.displayValue)) ? props.displayValue(model.value) : model.value.toString()"/>
             </p>
         </div>
     </FormField>
