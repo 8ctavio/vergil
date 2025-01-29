@@ -6,13 +6,13 @@ outline: [2,3]
 
 <script setup>
 import { RadioGroup, Radio } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
-const demo1 = useModel('')
-const demo2 = useModel('')
-const demo3 = useModel('')
-const demo4 = useModel('')
+const demo1 = ref('')
+const demo2 = ref('')
+const demo3 = ref('')
+const demo4 = ref('')
 </script>
 
 ## Basic Usage
@@ -34,9 +34,9 @@ const demo4 = useModel('')
 ```vue
 <script setup>
 import { RadioGroup, Radio } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const vehicle = useModel('')
-const armor = useModel('mark-iv')
+import { ref } from 'vue'
+const vehicle = ref('')
+const armor = ref('mark-iv')
 </script>
 
 <template>
@@ -104,7 +104,7 @@ The following table summarizes how an option's value is inferred depending on th
                 ]"/>    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo1.value }}'</code>
+            <code>checked.value === '{{ demo1 }}'</code>
         </div>
     </div>
 </Demo>
@@ -133,7 +133,7 @@ The following table summarizes how an option's value is inferred depending on th
                 }"/>    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo2.value }}'</code>
+            <code>checked.value === '{{ demo2 }}'</code>
         </div>
     </div>
 </Demo>
@@ -185,7 +185,7 @@ As strings, these props represent an object key. If an `option` is an object, th
                 option-description="email"/>    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo3.value }}'</code>
+            <code>checked.value === '{{ demo3 }}'</code>
         </div>
     </div>
 </Demo>
@@ -229,7 +229,7 @@ As functions, these props are called for each `option`, receive the `option` and
                 :option-description="option => `@@mail@@ ${option.email}`"/>    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo4.value }}'</code>
+            <code>checked.value === '{{ demo4 }}'</code>
         </div>
     </div>
 </Demo>

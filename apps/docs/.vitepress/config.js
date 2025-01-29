@@ -71,9 +71,9 @@ export default {
 			},
 			{
 				text: 'Form Components',
+				link: '/components/form/form-components',
 				collapsed: true,
 				items: [
-					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'Calendar', link: '/components/form/calendar' },
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
@@ -99,6 +99,7 @@ export default {
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useModel', link: '/composables/useModel' },
+					{ text: 'useModelWrapper', link: '/composables/useModelWrapper' },
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
 					{ text: 'waitFor', link: '/composables/waitFor' },

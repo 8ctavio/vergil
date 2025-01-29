@@ -30,8 +30,7 @@ defineReactiveProperties(obj, withDescriptor => ({
     }),
     prop5: withDescriptor({
         value: ref(5),
-        unwrap: false,
-        readonly: true
+        unwrap: false
     })
 }))
 ```
@@ -46,10 +45,9 @@ The first argument of `defineReactiveProperties` is the object on which to defin
 
 #### Descriptors
 
-A property to be defined is described with a data or accessor [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#descriptor) object. There are, however, two additional data descriptor options available if the descriptor's `value` is a ref: `unwrap` and `readonly`.
+A property to be defined is described with a data or accessor [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#descriptor) object. There is, however, an additional `unwrap` data descriptor option available if the descriptor's `value` is a ref.
 
-- `unwrap`: If set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. Thefore, an unwrapped ref descriptor may also include custom `get` and `set` methods. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
-- `readonly`: If set to `true`, wraps the ref object with the Vue's `readonly` function. Defaults to `false`.
+If the `unwrap` option is set to `true`, the ref property will be automatically unwrapped for read and write operations. This is achieved by defining the property with an accessor descriptor. Thefore, an unwrapped ref descriptor may also include custom `get` and `set` methods. If set to `false`, the ref object itself is used as the property's `value`. Defaults to `true`.
 
 In order to specify custom descriptors, `defineReactiveProperties` must receive as its second argument a callback function that itself receives as a single argument a helper function to mark objects as property descriptors. The callback function must return an object whose entries (key-value pairs) represent the properties' names (or symbols) and descriptors, respectively.
 

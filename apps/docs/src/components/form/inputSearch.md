@@ -31,8 +31,8 @@ function clean(){
 ```vue
 <script setup>
 import { InputSearch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const search = useModel('')
+import { ref } from '@8ctavio/vergil'
+const search = ref('')
 </script>
 
 <template>

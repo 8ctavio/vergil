@@ -6,15 +6,15 @@ outline: [2,3]
 
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { ref } from 'vue'
 
-const demo1 = useModel(null)
-const demo2 = useModel(null)
-const demo3 = useModel(null)
-const demo4 = useModel(null)
-const demo5 = useModel(null)
-const demo6 = useModel(null)
-const demo7 = useModel([])
+const demo1 = ref(null)
+const demo2 = ref(null)
+const demo3 = ref(null)
+const demo4 = ref(null)
+const demo5 = ref(null)
+const demo6 = ref(null)
+const demo7 = ref([])
 </script>
 
 ## Basic Usage
@@ -25,13 +25,13 @@ const demo7 = useModel([])
             <Calendar v-model="demo1"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo1.value?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo1?.toString().split(' (',1)[0] }}'</code>
         </div>
         <div class="row center">
             <Calendar v-model.string="demo7"/>
         </div>
         <div class="row center">
-            <code>date.value === {{ demo7.value }}</code>
+            <code>date.value === {{ demo7 }}</code>
         </div>
     </div>
 </Demo>
@@ -39,9 +39,9 @@ const demo7 = useModel([])
 ```vue
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const date = useModel(null)
-const dates = useModel([])
+import { ref } from 'vue'
+const date = ref(null)
+const dates = ref([])
 </script>
 
 <template>
@@ -68,7 +68,7 @@ When the `string` modifier is present, the model value is handled as a date-only
             <Calendar v-model.string="demo2"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo2.value }}'</code>
+            <code>date.value === '{{ demo2 }}'</code>
         </div>
     </div>
 </Demo>
@@ -87,7 +87,7 @@ When the `timestamp` modifier is present, the model value is handled as a [times
             <Calendar v-model.timestamp="demo3"/>
         </div>
         <div class="row center">
-            <code>date.value === {{ demo3.value }}</code>
+            <code>date.value === {{ demo3 }}</code>
         </div>
     </div>
 </Demo>
@@ -183,7 +183,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo4" time/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo4.value?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo4?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>
@@ -198,7 +198,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo5" time="01:17"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo5.value?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo5?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>
@@ -215,7 +215,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo6" time time-format="12"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo6.value?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo6?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>

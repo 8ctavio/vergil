@@ -4,26 +4,26 @@ import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
 import { provide, toRef, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModelWrapper } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
+    //----- Model -----
     type: {
         type: String,
         required: true,
         validator: v => ['checkbox', 'radio'].includes(v)
     },
-
-    //----- Model -----
     value: {
         type: [String, Array],
         default: props => props.type === 'checkbox' ? [] : '',
     },
     modelValue: {
-        default: props => useModel(props.value),
-        validator: isModel
+        type: [String, Object],
+        default: props => props.value
     },
+    ['onUpdate:modelValue']: Function,
 
     //----- Component specific -----
     name: String,
@@ -96,7 +96,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props.modelValue, { isCollection: true })
+const model = useModelWrapper(props, { isCollection: true })
 
 provide(`${props.type}-props`, {
     groupModel: model,

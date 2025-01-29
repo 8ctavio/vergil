@@ -42,9 +42,9 @@ const btnClearProps = {
 ```vue
 <script setup>
 import { DatePicker } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const date = useModel(null)
-const dates = useModel([])
+import { ref } from 'vue'
+const date = ref(null)
+const dates = ref([])
 </script>
 
 <template>

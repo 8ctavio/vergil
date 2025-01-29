@@ -6,9 +6,9 @@ outline: [2,3]
 
 <script setup>
 import { Switch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const isOn = useModel(false)
-const skulls = useModel([])
+import { ref } from 'vue'
+const isOn = ref(false)
+const skulls = ref([])
 </script>
 
 ## Basic Usage
@@ -19,7 +19,7 @@ const skulls = useModel([])
             <Switch v-model="isOn" label="Switch"/>
         </div>
         <div class="row center">
-            <code>isOn.value === {{ isOn.value }}</code>
+            <code>isOn.value === {{ isOn }}</code>
         </div>
         <div class="row center">
             <Switch v-model="skulls" value="iron" label="Iron"/>
@@ -27,7 +27,7 @@ const skulls = useModel([])
             <Switch v-model="skulls" value="iwhbyd" label="IWHBYD "/>
         </div>
         <div class="row center">
-            <code>skulls.value === {{ skulls.value }}</code>
+            <code>skulls.value === {{ skulls }}</code>
         </div>
     </div>
 </Demo>
@@ -35,9 +35,9 @@ const skulls = useModel([])
 ```vue
 <script setup>
 import { Switch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const isOn = useModel(false)
-const skulls = useModel([])
+import { ref } from 'vue'
+const isOn = ref(false)
+const skulls = ref([])
 </script>
 
 <template>

@@ -8,21 +8,22 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, usePopover, isModel } from '../../composables'
+import { useModel, useModelWrapper, usePopover } from '../../composables'
 import { prune } from '../../utilities'
 import { isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
-    // ----- Model -----
+    //----- Model -----
     value: {
         type: [String, Array],
         default: ''
     },
     modelValue: {
-        default: props => useModel(props.value),
-        validator: isModel
+        type: [String, Object],
+        default: props => props.value
     },
+    ['onUpdate:modelValue']: Function,
 
     options : Object,
     optionValue: [String, Function],
@@ -82,7 +83,7 @@ const props = defineProps({
     },
 })
 
-const model = useModelWrapper(props.modelValue, { isCollection: true })
+const model = useModelWrapper(props, { isCollection: true })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
 const selected = shallowRef(null)

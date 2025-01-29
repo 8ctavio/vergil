@@ -2,17 +2,27 @@
 outline: [2,3]
 ---
 
-# Introduction
+# Form Components
 
 <script setup>
 import { InputText } from '@8ctavio/vergil/components'
 </script>
 
-## Component model
+## Form component `v-model`
 
-Every Vergil form field component is associated with a component model created by the `useModel` composable. See [`useModel`](/composables/useModel) to learn about component models.
+Every Vergil form field component supports the `v-model` directive. However, the `model-value` prop may also be passed a component model object created by the [`useModel`](/composables/useModel) composable.
 
-## Form field props
+```vue
+<script>
+const model = useModel(/* initial value */)
+</script>
+
+<template>
+    <FormFieldComponent v-model="model"/>
+</template>
+```
+
+## Shared props
 
 Most Vergil form field components have certain props in common, with the exception of the `Calendar`, `Checkbox`, and `Radio` components. Shared props for other components are shown below.
 
@@ -23,20 +33,6 @@ The component's initial value. This prop is ignored if the `model-value` prop is
 :::tip
 Consult each form field component's API reference for its model value type and default value.
 :::
-
-### Model value <Badge type="tip"><pre>model-value: ExtendedRef\<T\> = useModel(props.value)</pre></Badge>
-
-```vue
-<script>
-const model = useModel(/* initial value */)
-</script>
-
-<template>
-    <FormFieldComponent :model-value="model"/>
-    <!-- or -->
-    <FormFieldComponent v-model="model"/>
-</template>
-```
 
 ### Label <Badge><pre>label: string</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
@@ -73,7 +69,7 @@ Visualization of some of the previous props in a form field component.
     hint="Hint"
     description="Description"
     help="Help"
-    />
+/>
 ```
 
 <Demo>

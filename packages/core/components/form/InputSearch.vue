@@ -2,18 +2,21 @@
 import InputText from './InputText.vue'
 import { computed, shallowRef, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel, defineReactiveProperties, extendedReactive } from '../../composables'
+import { useModelWrapper, defineReactiveProperties, extendedReactive } from '../../composables'
 import { ucFirst } from '../../utilities'
 
 const props = defineProps({
-    value: {
-        type: String,
-        default: ''
-    },
-    modelValue: {
-        default: props => useModel(props.value),
-        validator: isModel
-    },
+    //----- Model -----
+	value: {
+		type: String,
+		default: ''
+	},
+	modelValue: {
+		type: [String, Object],
+		default: props => props.value
+	},
+    ['onUpdate:modelValue']: Function,
+
     iconSearch: {
         type: String,
         default: 'search'
@@ -34,7 +37,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['clear'])
 
-const model = useModelWrapper(props.modelValue)
+const model = useModelWrapper(props)
 
 const loader = shallowRef(false)
 const lastSearch = shallowRef('')

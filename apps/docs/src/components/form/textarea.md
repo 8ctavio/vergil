@@ -6,11 +6,11 @@ outline: [2,3]
 
 <script setup>
 import { Textarea } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { ref } from 'vue'
 
-const size = useModel('')
-const radius = useModel('')
-const spacing = useModel('')
+const size = ref('')
+const radius = ref('')
+const spacing = ref('')
 </script>
 
 ## Basic Usage
@@ -22,8 +22,8 @@ const spacing = useModel('')
 ```vue
 <script setup>
 import { Textarea } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const text = useModel('')
+import { ref } from 'vue'
+const text = ref('')
 </script>
 
 <template>

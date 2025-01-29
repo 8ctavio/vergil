@@ -1,18 +1,21 @@
 <script setup>
 import InputText from './InputText.vue'
 import { shallowRef, watchEffect } from 'vue'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModel, useModelWrapper } from '../../composables'
 import { separateThousands } from '../../utilities'
 
 const props = defineProps({
+	//----- Model -----
 	value: {
 		type: [Number, String],
 		default: 0
 	},
 	modelValue: {
-		default: props => useModel(props.value),
-		validator: isModel
+		type: [Number, String, Object],
+		default: props => props.value
 	},
+    ['onUpdate:modelValue']: Function,
+
 	min: {
 		type: Number,
 		default: -Infinity
@@ -73,7 +76,7 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useModelWrapper(props.modelValue)
+const model = useModelWrapper(props)
 const displayedString = useModel('')
 let displayedNumber = 0
 model.onExternalMutation(modelValue => {

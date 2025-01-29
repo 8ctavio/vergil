@@ -4,12 +4,10 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { useTemplateRef, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModelWrapper } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
-defineEmits(['update:modelValue'])
-
 const props = defineProps({
     //----- Initial value and model -----
     checked: Boolean,
@@ -26,9 +24,10 @@ const props = defineProps({
         default: props => (typeof props.valueOn === 'string') ? '' : false
     },
     modelValue: {
-        default: props => useModel(props.checked ? props.valueOn : props.valueOff),
-        validator: isModel
+        type: [String, Boolean, Object],
+        default: props => props.checked ? props.valueOn : props.valueOff,
     },
+    ['onUpdate:modelValue']: Function,
 
     track: {
         type: String,
@@ -72,7 +71,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props.modelValue, { isCollection: true })
+const model = useModelWrapper(props, { isCollection: true })
 const checkbox = useTemplateRef('checkbox')
 model.onExternalUpdate(modelValue => {
     checkbox.value.checked = Array.isArray(modelValue)

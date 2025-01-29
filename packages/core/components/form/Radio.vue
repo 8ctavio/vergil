@@ -2,16 +2,15 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, useTemplateRef, inject, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModelWrapper, isModel } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
-defineEmits(['update:modelValue'])
-
 const props = defineProps({
-    modelValue: {
-        validator: isModel
-    },
+	//----- Model -----
+    modelValue: [String, Object],
+    ['onUpdate:modelValue']: Function,
+
     checked: Boolean,
     value: {
         type: String,
@@ -64,7 +63,12 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
-const model = useModelWrapper(props.modelValue ?? groupModel ?? useModel(''))
+const model = useModelWrapper(typeof props.modelValue === 'undefined'
+    ? isModel(groupModel)
+        ? { modelValue: groupModel }
+        : { modelValue: '' }
+    : props
+)
 const radio = useTemplateRef('radio')
 model.onExternalUpdate(modelValue => {
     radio.value.checked = modelValue === radio.value.value

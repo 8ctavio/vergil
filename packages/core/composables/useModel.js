@@ -1,8 +1,6 @@
-import { shallowRef, getCurrentScope, onMounted } from 'vue'
+import { shallowRef, toRef, isRef } from 'vue'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { ExtendedReactive, isExtendedRef } from './extendedReactivity'
-import { useWatchers } from './useWatchers'
-import { watchControlled } from './watchControlled'
 import { useResetValue } from "./private/useResetValue"
 
 /**
@@ -18,11 +16,8 @@ export function isModel(value){
 /**
  * Creates a component model.
  * 
- * @param [value] - The initial value to create a model with.
- * @param { {
- *      deep: boolean | number
- * } } options -
- *  - `deep`: Depth of model wrapper watchers.
+ * @param [value] - Component model's initial value.
+ * @param [isShallow] - Whether to use `shallowRef` for the model's internal `value` ref.
  * 
  * @returns { ExtendedRef }
  * 
@@ -42,12 +37,18 @@ export function isModel(value){
  *  </template>
  *  ```
  */
-export function useModel(value) {
+export function useModel(value, isShallow = false) {
     if(isModel(value)) {
         return value
     } else {
-        const getResetValue = useResetValue(value)
-        const model = extendedRef(getResetValue(), withDescriptor => ({
+        const modelRef = isRef(value)
+            ? value
+            : isShallow && typeof value !== 'function'
+                ? shallowRef(value)
+                : toRef(value)
+                
+        const getResetValue = useResetValue(modelRef)
+        const model = extendedRef(modelRef, withDescriptor => ({
             el: shallowRef(null),
             exposed: withDescriptor({
                 value: new ExtendedReactive(),
@@ -64,87 +65,4 @@ export function useModel(value) {
         }), { configurable: false })
         return model
     }
-}
-
-export function useModelWrapper(model, { isCollection = false } = {}) {
-    if(!isModel(model))
-        return null
-
-    let proto
-    let watcher
-    if(Object.hasOwn(model, '__v_isModelWrapper')) {
-        proto = Object.getPrototypeOf(model)
-    } else {
-        const watchers = useWatchers(model.ref, {
-            deep: isCollection && 1
-        })
-        proto = Object.create(model, {
-            watchers: { value: watchers },
-            onExternalMutation: {
-                value: watchers.onUpdated,
-                enumerable: true
-            }
-        })
-    }
-
-    return Object.create(proto, {
-        onExternalUpdate: {
-            value: (cb, options = {}) => {
-                if(watcher) watcher.stop()
-                if(options.onMounted) {
-                    const setupScope = getCurrentScope()
-                    onMounted(() => {
-                        setupScope.run(() => {
-                            watcher = watchControlled(model.ref, cb, {
-                                ...options,
-                                immediate: true,
-                                deep: isCollection && 1
-                            })
-                        })
-                    })
-                } else {
-                    watcher = watchControlled(model.ref, cb, {
-                        ...options,
-                        deep: isCollection && 1
-                    })
-                }
-            },
-            enumerable: true
-        },
-        update: {
-            value: v => {
-                watcher?.pause()
-                proto.watchers.pause()
-                try {
-                    if(typeof v === 'function') {
-                        v()
-                    } else {
-                        model.value = v
-                    }
-                } finally {
-                    proto.watchers.resume()
-                    watcher?.resume()
-                }
-            },
-            enumerable: true
-        },
-        updateDecorator: {
-            value: fn => {
-                return function(...args) {
-                    watcher?.pause()
-                    proto.watchers.pause()
-                    try {
-                        return fn.apply(this, args)
-                    } finally {
-                        proto.watchers.resume()
-                        watcher?.resume()
-                    }
-                }
-            },
-            enumerable: true
-        },
-        __v_isModelWrapper: {
-            value: true
-        }
-    })
 }

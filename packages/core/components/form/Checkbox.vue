@@ -2,16 +2,12 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, useTemplateRef, inject, onMounted } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModelWrapper, isModel } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
-defineEmits(['update:modelValue'])
-
 const props = defineProps({
-    modelValue: {
-        validator: isModel
-    },
+	//----- Model -----
     checked: Boolean,
     value: {
         type: [String, Boolean],
@@ -25,6 +21,12 @@ const props = defineProps({
         type: [String, Boolean],
         default: props => (typeof props.valueChecked === 'string') ? '' : false
     },
+    modelValue: {
+        type: [Object, String, Boolean],
+        default: undefined
+    },
+    ['onUpdate:modelValue']: Function,
+
     label: String,
     description: String,
     variant: {
@@ -65,7 +67,13 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
-const model = useModelWrapper(props.modelValue ?? groupModel ?? useModel(props.valueUnchecked), { isCollection: true })
+const model = useModelWrapper(typeof props.modelValue === 'undefined'
+    ? isModel(groupModel)
+        ? { modelValue: groupModel }
+        : { modelValue: props.valueUnchecked }
+    : props,
+    { isCollection: true }
+)
 const checkbox = useTemplateRef('checkbox')
 model.onExternalUpdate(modelValue => {
     checkbox.value.checked = Array.isArray(modelValue)

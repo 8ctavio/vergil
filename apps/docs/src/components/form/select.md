@@ -6,13 +6,13 @@ outline: [2,3]
 
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
-const demo1 = useModel('')
-const demo2 = useModel('')
-const demo3 = useModel('')
-const demo4 = useModel('')
+const demo1 = ref('')
+const demo2 = ref('')
+const demo3 = ref('')
+const demo4 = ref('')
 </script>
 
 <style scoped>
@@ -56,9 +56,9 @@ const demo4 = useModel('')
 ```vue
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const difficulty = useModel('')
-const skulls = useModel([])
+import { ref } from 'vue'
+const difficulty = ref('')
+const skulls = ref([])
 </script>
 
 <template>
@@ -142,7 +142,7 @@ The following table summarizes how an option's value is inferred depending on th
             'Option 1',
             ['Option 2', 'Description 2']
         ]"/>    
-    <code>selected.value === '{{ demo1.value }}'</code>
+    <code>selected.value === '{{ demo1 }}'</code>
 </Demo>
 
 ##### Example. Options Object
@@ -165,7 +165,7 @@ The following table summarizes how an option's value is inferred depending on th
             value1: 'Option 1',
             value2: ['Option 2', 'Description 2']
         }"/>  
-    <code>selected.value === '{{ demo2.value }}'</code>
+    <code>selected.value === '{{ demo2 }}'</code>
 </Demo>
 
 ### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
@@ -208,7 +208,7 @@ As strings, these props represent an object key. If an `option` is an object, th
         option-value="id"    
         option-label="name"
         option-description="email"/>
-    <code>checked.value === '{{ demo3.value }}'</code>
+    <code>checked.value === '{{ demo3 }}'</code>
 </Demo>
 
 As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
@@ -247,7 +247,7 @@ As functions, these props are called for each `option`, receive the `option` and
         :option-value="option => kebabCase(option.name)"    
         :option-label="option => option.name.split(' ')[0]"
         :option-description="option => `@@mail@@ ${option.email}`"/>  
-    <code>checked.value === '{{ demo4.value }}'</code>
+    <code>checked.value === '{{ demo4 }}'</code>
 </Demo>
 
 The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.

@@ -200,25 +200,26 @@ import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel, watchControlled } from '../../composables'
+import { useModel, useModelWrapper } from '../../composables'
 import { ucFirst, everyKeyInObject } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
 	//----- Model -----
-	value: {
-		type: [Object, String, Number],
-		default: null
-	},
-	modelValue: {
-		default: props => useModel(props.value),
-		validator: isModel
-	},
+    value: {
+        type: [Object, String, Number],
+        default: null
+    },
+    modelValue: {
+        type: [Object, String, Number],
+        default: props => props.value
+    },
 	modelModifiers: {
 		type: Object,
 		default: () => ({})
 	},
+    ['onUpdate:modelValue']: Function,
 
 	locale: {
 		type: [String, Object],
@@ -619,7 +620,7 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useModelWrapper(props.modelValue, { isCollection: true })
+const model = useModelWrapper(props, { isCollection: true })
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 		if(model.el) {

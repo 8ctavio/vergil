@@ -1,4 +1,4 @@
-import { isRef, readonly } from 'vue'
+import { isRef } from 'vue'
 import { isExtendedReactive, isExtendedRef } from '.'
 
 /**
@@ -51,7 +51,6 @@ function isDescriptor(value) {
  *      prop5: withDescriptor({
  *          value: ref(5),
  *          unwrap: false,
- *          readonly: true
  *      })
  *  }))
  */
@@ -82,20 +81,19 @@ export function defineReactiveProperties(object, properties = {}, options = {}){
 			const customDescriptor = { configurable }
 			if (isRef(value)) {
 				customDescriptor.enumerable = descriptor.enumerable ?? (typeof property !== 'symbol')
-				const { unwrap = true, readonly: isReadOnly = false } = descriptor
-				const refProperty = isReadOnly ? readonly(value) : value
+				const { unwrap = true } = descriptor
 				if (unwrap) {
 					if(isExtendedReactive(object)) {
 						Object.defineProperty(object.refs, property, {
-							value: refProperty,
+							value,
 							enumerable: true
 						})
 					}
-					customDescriptor.get = descriptor.get ?? (() => refProperty.value)
-					customDescriptor.set = descriptor.set ?? (v => refProperty.value = v)
+					customDescriptor.get = descriptor.get ?? (() => value.value)
+					customDescriptor.set = descriptor.set ?? (v => value.value = v)
 				} else {
 					customDescriptor.writable = descriptor.writable ?? false
-					customDescriptor.value = refProperty
+					customDescriptor.value = value
 				}
 			} else if (typeof value === 'function') {
 				customDescriptor.enumerable = descriptor.enumerable ?? false

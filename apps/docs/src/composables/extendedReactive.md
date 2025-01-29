@@ -89,25 +89,25 @@ An `ExtendedReactive` object.
 import { <util> } from '@8ctavio/vergil'
 ```
 
-### `ExtendedRef`
+### `ExtendedReactive`
 
-> Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
+> Stores `refs` index of automatically unwrapped reactive properties.
 
 ```ts
-interface ExtendedRef<T,E> extends ExtendedReactive<E> {
-    ref: Ref<T>;
-    value: T;
+interface ExtendedReactive<T> {
+    refs: object;
+    [P in keyof T]: T[P];
 }
 ```
 
-### `isExtendedRef`
+### `isExtendedReactive`
 
-> Assesses whether a value is an `ExtendedRef` object.
+> Assesses whether a value is an `ExtendedReactive` object.
 
 ```js
-function isExtendedRef(value: any): boolean
+function isExtendedReactive(value: any): boolean
 ```
 
 #### Return value
 
-`true` if `value` is an `ExtendedRef`.
+`true` if `value` is an `ExtendedReactive`.

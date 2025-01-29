@@ -3,12 +3,10 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, isModel } from '../../composables'
+import { useModelWrapper } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
-defineEmits(['update:modelValue'])
-
 const props = defineProps({
     //----- Initial value and model -----
     min: {
@@ -38,9 +36,10 @@ const props = defineProps({
         }
     },
     modelValue: {
-        default: props => useModel(Number(props.value)),
-        validator: isModel
+        type: [String, Number, Object],
+        default: props => props.value,
     },
+    ['onUpdate:modelValue']: Function,
 
     displayValue: {
         type: [Boolean, Function]
@@ -79,7 +78,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props.modelValue)
+const model = useModelWrapper(props)
 model.onExternalUpdate(modelValue => {
     model.el.value = modelValue
 }, { onMounted: true })

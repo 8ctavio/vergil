@@ -6,16 +6,16 @@ outline: [2,3]
 
 <script setup>
 import { InputNumber, InputSearch, Btn } from '@8ctavio/vergil/components'
-import { useModel, toast } from '@8ctavio/vergil'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { toast } from '@8ctavio/vergil'
 
-const demo1 = useModel(0)
-const demo2 = useModel(0)
-const demo3 = useModel(0)
-const demo4 = useModel(0)
-const demo5 = useModel(0)
-const demo6 = useModel(0)
-const demo7 = useModel(0)
+const demo1 = ref(0)
+const demo2 = ref(0)
+const demo3 = ref(0)
+const demo4 = ref(0)
+const demo5 = ref(0)
+const demo6 = ref(0)
+const demo7 = ref(0)
 </script>
 
 ## Basic Usage
@@ -26,7 +26,7 @@ const demo7 = useModel(0)
             <InputNumber v-model="demo1" label="Number Input"/>
         </div>
         <div class="row center">
-            <code>num.value === {{ demo1.value }}</code>
+            <code>num.value === {{ demo1 }}</code>
         </div>
     </div>
 </Demo>
@@ -34,8 +34,8 @@ const demo7 = useModel(0)
 ```vue
 <script setup>
 import { InputNumber } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-const num = useModel(0)
+import { ref } from 'vue'
+const num = ref(0)
 </script>
 
 <template>
@@ -59,7 +59,7 @@ All [`InputText`](/components/form/inputText) props are available for `InputNumb
             <InputNumber v-model="demo2" :min="-10" :max="10"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo2.value }}</code>
+            <code>modelValue === {{ demo2 }}</code>
         </div>
     </div>
 </Demo>
@@ -79,7 +79,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <InputNumber v-model="demo3" :fraction="false"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo3.value }}</code>
+            <code>modelValue === {{ demo3 }}</code>
         </div>
     </div>
 </Demo>
@@ -95,7 +95,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <InputNumber v-model="demo4" :fraction="2"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo4.value }}</code>
+            <code>modelValue === {{ demo4 }}</code>
         </div>
     </div>
 </Demo>
@@ -111,7 +111,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <InputNumber v-model="demo5" :fraction="[2,4]"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo5.value }}</code>
+            <code>modelValue === {{ demo5 }}</code>
         </div>
     </div>
 </Demo>
@@ -138,7 +138,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <InputNumber v-model="demo6" :step="0.1"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo6.value }}</code>
+            <code>modelValue === {{ demo6 }}</code>
         </div>
     </div>
 </Demo>
@@ -156,7 +156,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <InputNumber v-model="demo7" steppers :step="0.1" text-align="center"/>
         </div>
         <div class="row center">
-            <code>modelValue === {{ demo7.value }}</code>
+            <code>modelValue === {{ demo7 }}</code>
         </div>
     </div>
 </Demo>

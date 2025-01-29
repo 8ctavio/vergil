@@ -18,7 +18,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from '../private/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useModel, usePopover, isModel } from '../../composables'
+import { useModelWrapper, usePopover } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -30,13 +30,14 @@ const props = defineProps({
         default: null
     },
     modelValue: {
-        default: props => useModel(props.value),
-        validator: isModel
+        type: [Object, String, Number],
+        default: props => props.value
     },
 	modelModifiers: {
 		type: Object,
 		default: () => ({})
 	},
+    ['onUpdate:modelValue']: Function,
 
 	//----- Calendar -----
 	locale: {
@@ -101,7 +102,7 @@ const props = defineProps({
     },
 })
 
-const model = useModelWrapper(props.modelValue, { isCollection: true })
+const model = useModelWrapper(props, { isCollection: true })
 const isSelected = computed(() => hasDate(model.value))
 const floatLabelEnabled = computed(() => {
 	return props.floatLabel
