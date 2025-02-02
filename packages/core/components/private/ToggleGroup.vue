@@ -2,9 +2,9 @@
 import FormField from './FormField.vue'
 import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
-import { provide, toRef, h } from 'vue'
+import { toRef, useTemplateRef, provide, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper } from '../../composables'
+import { useModelWrapper, useDefineElements } from '../../composables'
 import { isFunction, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
@@ -25,6 +25,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     //----- Component specific -----
     name: String,
@@ -97,7 +99,14 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props, { isCollection: true })
+const model = useModelWrapper(props, {
+    isCollection: true,
+    includeElements: false,
+    includeExposed: false
+})
+useDefineElements(props, {
+    options: useTemplateRef('options')
+})
 
 provide(`${props.type}-props`, {
     groupModel: model,
@@ -149,7 +158,7 @@ function Options({ options }) {
         >
         <div
             v-bind="$attrs"
-            :ref="model.refs.el"
+            ref="options"
             :class="['toggle-group-wrapper', variant]"
         >
             <slot>

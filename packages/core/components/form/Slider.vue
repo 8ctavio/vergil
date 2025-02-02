@@ -1,9 +1,9 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper } from '../../composables'
+import { useModelWrapper, useDefineElements } from '../../composables'
 import { isFunction } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -41,6 +41,8 @@ const props = defineProps({
         default: props => props.value,
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     displayValue: {
         type: [Boolean, Function]
@@ -80,8 +82,11 @@ const props = defineProps({
 })
 
 const model = useModelWrapper(props)
+const elements = useDefineElements(props, {
+    input: useTemplateRef('range')
+})
 model.onExternalUpdate(modelValue => {
-    model.el.value = modelValue
+    elements.input.value = modelValue
 }, { onMounted: true })
 const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
@@ -109,7 +114,7 @@ const valueWidth = computed(() => props.max.length)
                 <input
                     v-bind="$attrs"
                     type="range"
-                    :ref="model.refs.el"
+                    ref="range"
                     :min
                     :max
                     :disabled

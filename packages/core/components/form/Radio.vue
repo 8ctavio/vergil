@@ -1,8 +1,8 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, useTemplateRef, inject, onMounted } from 'vue'
+import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, isModel } from '../../composables'
+import { useModelWrapper, useDefineElements, isModelWrapper } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -10,6 +10,8 @@ const props = defineProps({
 	//----- Model -----
     modelValue: [String, Object],
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     checked: Boolean,
     value: {
@@ -57,21 +59,23 @@ const {
     groupDisabled,
 } = inject('radio-props', {})
 
-const descendant = computed(() => props.descendant || isModel(groupModel))
+const descendant = computed(() => props.descendant || isModelWrapper(groupModel))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.radio.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
 const model = useModelWrapper(typeof props.modelValue === 'undefined'
-    ? isModel(groupModel)
+    ? isModelWrapper(groupModel)
         ? { modelValue: groupModel }
         : { modelValue: '' }
     : props
 )
-const radio = useTemplateRef('radio')
+const elements = useDefineElements(props, {
+    input: useTemplateRef('radio')
+})
 model.onExternalUpdate(modelValue => {
-    radio.value.checked = modelValue === radio.value.value
+    elements.input.checked = modelValue === elements.input.value
 }, { onMounted: true })
 function handleChange(event) {
     if(event.target.checked) {
@@ -82,9 +86,6 @@ function handleChange(event) {
 if(props.checked && model.value === '') {
     model.value = props.value
 }
-onMounted(() => {
-    if(!model.el) model.el = radio.value
-})
 </script>
 
 <template>

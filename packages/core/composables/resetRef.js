@@ -1,5 +1,5 @@
 import { extendedRef } from "./extendedReactivity/extendedRef"
-import { useResetValue } from "./private/useResetValue"
+import { useResetValue } from "./private"
 
 /**
  * Returns extended ref with reset method.

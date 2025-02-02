@@ -1,8 +1,8 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, useTemplateRef, inject, onMounted } from 'vue'
+import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, isModel } from '../../composables'
+import { useModelWrapper, useDefineElements, isModelWrapper } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -26,6 +26,8 @@ const props = defineProps({
         default: undefined
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     label: String,
     description: String,
@@ -61,22 +63,24 @@ const {
     groupDisabled,
 } = inject('checkbox-props', {})
 
-const descendant = computed(() => props.descendant || isModel(groupModel))
+const descendant = computed(() => props.descendant || isModelWrapper(groupModel))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.checkbox.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.checkbox.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
 const model = useModelWrapper(typeof props.modelValue === 'undefined'
-    ? isModel(groupModel)
+    ? isModelWrapper(groupModel)
         ? { modelValue: groupModel }
         : { modelValue: props.valueUnchecked }
     : props,
     { isCollection: true }
 )
-const checkbox = useTemplateRef('checkbox')
+const elements = useDefineElements(props, {
+    input: useTemplateRef('checkbox')
+})
 model.onExternalUpdate(modelValue => {
-    checkbox.value.checked = Array.isArray(modelValue)
+    elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueChecked)
         : modelValue === props.valueChecked
 }, { onMounted: true })
@@ -104,9 +108,6 @@ if(props.checked) {
         model.value = props.valueChecked
     }
 }
-onMounted(() => {
-    if(!model.el) model.el = checkbox.value
-})
 </script>
 
 <template>

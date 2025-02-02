@@ -3,9 +3,9 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper } from '../../composables'
+import { useModelWrapper, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -21,6 +21,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     placeholder: {
         type: String,
@@ -85,8 +87,11 @@ const props = defineProps({
 })
 
 const model = useModelWrapper(props)
+const elements = useDefineElements(props, {
+    input: useTemplateRef('input')
+})
 model.onExternalUpdate(modelValue => {
-    model.el.value = modelValue
+    elements.input.value = modelValue
 }, { onMounted: true })
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
@@ -113,7 +118,7 @@ const showBtnAfter = isObject(props.btnAfter)
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
                     v-bind="$attrs"
-                    :ref="model.refs.el"
+                    ref="input"
                     :class="`text-${textAlign}`"
                     :type
                     :placeholder

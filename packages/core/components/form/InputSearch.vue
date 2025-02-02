@@ -2,7 +2,7 @@
 import InputText from './InputText.vue'
 import { computed, shallowRef, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, defineReactiveProperties, extendedReactive } from '../../composables'
+import { useModelWrapper, useDefineExposed, extendedReactive } from '../../composables'
 import { ucFirst } from '../../utilities'
 
 const props = defineProps({
@@ -16,6 +16,8 @@ const props = defineProps({
 		default: props => props.value
 	},
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     iconSearch: {
         type: String,
@@ -37,7 +39,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['clear'])
 
-const model = useModelWrapper(props)
+const model = useModelWrapper(props, { captureElements: true })
 
 const loader = shallowRef(false)
 const lastSearch = shallowRef('')
@@ -54,7 +56,7 @@ function handleSearch() {
         loader.value = false
         nextTick(() => {
             if(focused === document.activeElement) {
-                model.el.focus()
+                model.elements.input.focus()
             }
         })
     })
@@ -113,9 +115,9 @@ const btnProps = extendedReactive(withDescriptor => ({
     squared: props[`btn${btnPositionName}`]?.squared,
 }))
 
-defineReactiveProperties(model.exposed, {
+useDefineExposed(props, {
     clear() {
-        if(model.value){
+        if(model.value) {
             model.value = ''
             emit('clear')
         }

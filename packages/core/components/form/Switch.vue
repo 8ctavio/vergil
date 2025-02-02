@@ -2,9 +2,9 @@
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { useTemplateRef, onMounted } from 'vue'
+import { useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper } from '../../composables'
+import { useModelWrapper, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -28,6 +28,8 @@ const props = defineProps({
         default: props => props.checked ? props.valueOn : props.valueOff,
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     track: {
         type: String,
@@ -72,9 +74,11 @@ const props = defineProps({
 })
 
 const model = useModelWrapper(props, { isCollection: true })
-const checkbox = useTemplateRef('checkbox')
+const elements = useDefineElements(props, {
+    input: useTemplateRef('checkbox')
+})
 model.onExternalUpdate(modelValue => {
-    checkbox.value.checked = Array.isArray(modelValue)
+    elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueOn)
         : modelValue === props.valueOn
 }, { onMounted: true })
@@ -102,10 +106,6 @@ if(props.checked) {
         model.value = props.valueOn
     }
 }
-onMounted(() => {
-    if(!model.el) model.el = checkbox.value
-})
-
 </script>
 
 <template>

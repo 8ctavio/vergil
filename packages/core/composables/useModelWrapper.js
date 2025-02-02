@@ -1,8 +1,17 @@
-import { customRef, getCurrentScope, onMounted } from 'vue'
+import { customRef, provide, inject, getCurrentScope, onMounted, getCurrentInstance } from 'vue'
 import { useWatchers } from './useWatchers'
 import { watchControlled } from './watchControlled'
 import { useModel, isModel } from './useModel'
-import { isFunction } from '../utilities'
+import { isExtendedRef } from './extendedReactivity'
+import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
+import { symModelWatchers } from './private'
+import { isFunction, isObject } from '../utilities'
+
+export function isModelWrapper(value) {
+    return isObject(value)
+        && Object.hasOwn(value, '__v_isModelWrapper')
+        && isModel(Object.getPrototypeOf(value))
+}
 
 /**
  * Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
@@ -26,44 +35,70 @@ import { isFunction } from '../utilities'
  *  </script>
  *  ```
  */
-export function useModelWrapper(props, { isCollection = false } = {}) {
-	const model = isModel(props.modelValue)
-		? props.modelValue
-		: useModel(
-			isFunction(props['onUpdate:modelValue'])
-				? customRef((track, trigger) => ({
-					get() {
-						track()
-						return props.modelValue
-					},
-					set(v) {
-						props['onUpdate:modelValue'](v)
-						trigger()
-					}
-				}))
-				: props.modelValue
-		)
+export function useModelWrapper(props, options = {}) {
+    if(getCurrentInstance()) {
+        const {
+            isCollection = false,
+            captureElements = false,
+            captureExposed = false,
+            includeElements = true,
+            includeExposed = true
+        } = options
 
-    let proto
-    let watcher
-    if(Object.hasOwn(model, '__v_isModelWrapper')) {
-        proto = Object.getPrototypeOf(model)
-    } else {
-        const watchers = useWatchers(model.ref, {
-            deep: isCollection && 1
-        })
-        proto = Object.create(model, {
-            watchers: { value: watchers },
-            onExternalMutation: {
-                value: watchers.onUpdated,
-                enumerable: true
-            }
-        })
-    }
+        const modelCandidate = isObject(props.modelValue)
+            ? Object.hasOwn(props.modelValue, '__v_isModelWrapper')
+                ? Object.getPrototypeOf(props.modelValue)
+                : props.modelValue
+            : null
+        const isValidModel = modelCandidate !== null
+            && Object.hasOwn(modelCandidate, '__v_isModel')
+            && isExtendedRef(modelCandidate)
+        const model = isValidModel
+            ? modelCandidate
+            : isFunction(props['onUpdate:modelValue'])
+                ? useModel(customRef((track, trigger) => ({
+                    get() {
+                        track()
+                        return props.modelValue
+                    },
+                    set(v) {
+                        props['onUpdate:modelValue'](v)
+                        trigger()
+                    }
+                })), { extendRef: true })
+                : useModel(props.modelValue)
 
-    return Object.create(proto, {
-        onExternalUpdate: {
-            value: (cb, options = {}) => {
+        let watcher
+        let watchers = inject(symModelWatchers, undefined)
+        if(!watchers) {
+            watchers = useWatchers(model.ref, {
+                deep: isCollection && 1
+            })
+            provide(symModelWatchers, watchers)
+        }
+
+        const ignore = []
+        let elements, exposed
+        if(includeElements) {
+            elements = (captureElements && ((isValidModel && props.modelValue.elements) || props.elements)) || {}
+        } else {
+            ignore.push('elements')
+        }
+        if(includeExposed) {
+            exposed = (captureExposed && ((isValidModel && props.modelValue.exposed) || props.exposed)) || {}
+        } else {
+            ignore.push('exposed')
+        }
+        return defineReactiveProperties(Object.create(model), withDescriptor => ({
+            elements: withDescriptor({
+                value: elements,
+                writable: false
+            }),
+            exposed: withDescriptor({
+                value: exposed,
+                writable: false
+            }),
+            onExternalUpdate(cb, options = {}) {
                 if(watcher) watcher.stop()
                 if(options.onMounted) {
                     const setupScope = getCurrentScope()
@@ -83,12 +118,10 @@ export function useModelWrapper(props, { isCollection = false } = {}) {
                     })
                 }
             },
-            enumerable: true
-        },
-        update: {
-            value: v => {
+            onExternalMutation: watchers.onUpdated,
+            update(v) {
                 watcher?.pause()
-                proto.watchers.pause()
+                watchers.pause()
                 try {
                     if(isFunction(v)) {
                         v()
@@ -96,29 +129,27 @@ export function useModelWrapper(props, { isCollection = false } = {}) {
                         model.value = v
                     }
                 } finally {
-                    proto.watchers.resume()
+                    watchers.resume()
                     watcher?.resume()
                 }
             },
-            enumerable: true
-        },
-        updateDecorator: {
-            value: fn => {
+            updateDecorator(fn) {
                 return function(...args) {
                     watcher?.pause()
-                    proto.watchers.pause()
+                    watchers.pause()
                     try {
                         return fn.apply(this, args)
                     } finally {
-                        proto.watchers.resume()
+                        watchers.resume()
                         watcher?.resume()
                     }
                 }
             },
-            enumerable: true
-        },
-        __v_isModelWrapper: {
-            value: true
-        }
-    })
+            __v_isModelWrapper: withDescriptor({
+				value: true,
+				enumerable: false,
+				writable: false
+			})
+        }), { configurable: false, ignore })
+    }
 }

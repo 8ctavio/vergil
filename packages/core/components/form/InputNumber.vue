@@ -15,6 +15,8 @@ const props = defineProps({
 		default: props => props.value
 	},
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
 	min: {
 		type: Number,
@@ -76,8 +78,14 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useModelWrapper(props)
-const displayedString = useModel('')
+const model = useModelWrapper(props, {
+	captureElements: true,
+	captureExposed: true,
+})
+const displayedString = useModel('', {
+	includeElements: false,
+	includeExposed: false
+})
 let displayedNumber = 0
 model.onExternalMutation(modelValue => {
 	const modelNumber = Number(modelValue)
@@ -399,6 +407,8 @@ watchEffect(() => {
 	<InputText
 		class="input-number"
         :model-value="displayedString"
+		:elements="model.elements"
+		:exposed="model.exposed"
         :btnBefore
         :btnAfter
 		@beforeinput="handleBeforeInput"

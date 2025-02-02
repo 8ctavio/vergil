@@ -39,6 +39,8 @@ const props = defineProps({
 		default: () => ({})
 	},
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
 	//----- Calendar -----
 	locale: {
@@ -103,7 +105,11 @@ const props = defineProps({
     },
 })
 
-const model = useModelWrapper(props, { isCollection: true })
+const model = useModelWrapper(props, {
+	isCollection: true,
+	captureElements: true,
+	captureExposed: true
+})
 const isSelected = computed(() => hasDate(model.value))
 const floatLabelEnabled = computed(() => {
 	return props.floatLabel
@@ -220,8 +226,7 @@ function handleKeydown(event) {
 		if(event.key[0] === 'A' && !event.shiftKey) {
 			event.preventDefault()
 		}
-		const calendar = model.el.parentElement.parentElement
-		calendar.dispatchEvent(new KeyboardEvent('keydown', {
+		model.elements.root.dispatchEvent(new KeyboardEvent('keydown', {
 			key: event.key,
 			ctrlKey: event.ctrlKey,
 			shiftKey: event.shiftKey,

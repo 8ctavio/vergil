@@ -24,6 +24,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
     options : Object,
     optionValue: [String, Function],
@@ -83,7 +85,11 @@ const props = defineProps({
     },
 })
 
-const model = useModelWrapper(props, { isCollection: true })
+const model = useModelWrapper(props, {
+    isCollection: true,
+    captureElements: true,
+    captureExposed: true
+})
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
 const selected = shallowRef(null)
@@ -112,8 +118,8 @@ const {
 watch(isOpen, () => {
     if(props.filter) {
         if(isOpen.value) {
-            filterModel.el.focus()
-            filterModel.el.select()
+            filterModel.elements.input.focus()
+            filterModel.elements.input.select()
         } else {
             filterModel.value = ''
             handleFilterInput()
@@ -142,7 +148,7 @@ async function handleSelectKeydown(event) {
         event.preventDefault()
         if(await openPopover(true)) {
             let relative = 'nextElementSibling'
-            let option = model.el.firstElementChild
+            let option = model.elements.options.firstElementChild
             if(isInput(event.target, 'checkbox')) {
                 if(event.key === 'ArrowUp')
                     relative = 'previousElementSibling'
@@ -175,13 +181,13 @@ async function handleSelectKeydown(event) {
             )
             && await openPopover(true)
         ) {
-            filterModel.el.selectionStart = filterModel.value.length
-            filterModel.el.focus()
+            filterModel.elements.input.selectionStart = filterModel.value.length
+            filterModel.elements.input.focus()
         }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
         if(!(await openPopover(true))) return
         const key = prune(event.key)
-        const options = model.el.children
+        const options = model.elements.options.children
         const findNextOption = () => {
             const active = document.activeElement
             let beforeSelected = active?.tagName === 'INPUT'
@@ -242,7 +248,7 @@ async function handleSelectKeydown(event) {
 //-------------------- FILTER OPTIONS --------------------
 const empty = shallowRef(false)
 function handleFilterInput(event) {
-    const options = model.el.children
+    const options = model.elements.options.children
     const query = prune(event?.target.value ?? '')
     empty.value = true
     for(const option of options) {
@@ -300,7 +306,7 @@ function updateSelection(option, closeOnUpdated = false) {
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 function createOptionsWalker(filter) {
-    return document.createTreeWalker(model.el, NodeFilter.SHOW_ELEMENT, element => {
+    return document.createTreeWalker(model.elements.options, NodeFilter.SHOW_ELEMENT, element => {
         return element.tagName === 'LABEL' && filter(element.firstElementChild)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT

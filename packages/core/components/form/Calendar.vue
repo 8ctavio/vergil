@@ -200,7 +200,7 @@ import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, useModelWrapper } from '../../composables'
+import { useModel, useModelWrapper, useDefineElements } from '../../composables'
 import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
@@ -220,6 +220,8 @@ const props = defineProps({
 		default: () => ({})
 	},
     ['onUpdate:modelValue']: Function,
+    elements: Object,
+    exposed: Object,
 
 	locale: {
 		type: [String, Object],
@@ -564,9 +566,9 @@ function handleKeydown(event) {
 		const { target } = event
 		if(selectionMode.value === 'date') {
 			if(isInput(target, 'checkbox')) {
-				focusAdjacentSibling(model.el, getDateIndex(normalizeCalendarDate(target.value)), key.slice(5), 7, true)
+				focusAdjacentSibling(elements.dates, getDateIndex(normalizeCalendarDate(target.value)), key.slice(5), 7, true)
 			} else {
-				focusFirstChild(model.el, true)
+				focusFirstChild(elements.dates, true)
 			}
 		} else if(selectionMode.value === 'month') {
 			if(target.tagName === 'BUTTON' && Object.hasOwn(target.dataset, 'month')) {
@@ -621,9 +623,13 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useModelWrapper(props, { isCollection: true })
+const elements = useDefineElements(props, {
+	root: useTemplateRef('calendar'),
+	dates: useTemplateRef('dates')
+})
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
-		if(model.el) {
+		if(elements.dates) {
 			updateDate(prevModelValue)
 			normalizeModelDates(model, props.modelModifiers, props.time, hours.value, minutes.value, date => {
 				updateDate(date, true, true)
@@ -643,7 +649,7 @@ model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 		const modelDate = normalizeCalendarDate(model.value, true)
 		const modelDateComponents = normalizeCalendarDate(modelDate)
 		if(modelDateComponents !== null && isDateWithinRange(modelDateComponents, minDate.value, maxDate.value)) {
-			if(model.el && updateDate(modelDateComponents, true, true)) {
+			if(elements.dates && updateDate(modelDateComponents, true, true)) {
 				updateDate(prevModelValue)
 			} else {
 				[displayedYear.value, displayedMonth.value] = modelDateComponents
@@ -750,11 +756,11 @@ function updateDate(date, v = false, isSingleDate) {
 		const normalizedDate = Array.isArray(date) ? date : normalizeCalendarDate(date)
 		if(normalizedDate !== null && isDateWithinRange(normalizedDate, calendarMeta.firstDate, calendarMeta.lastDate)) {
 			const idx = getDateIndex(normalizedDate)
-			if(idx >= 0 && idx < model.el.childElementCount) {
+			if(idx >= 0 && idx < elements.dates.childElementCount) {
 				if(isFunction(v)) {
-					v(model.el.children.item(idx), normalizedDate)
+					v(elements.dates.children.item(idx), normalizedDate)
 				} else {
-					model.el.children.item(idx).firstElementChild.checked = v
+					elements.dates.children.item(idx).firstElementChild.checked = v
 				}
 				return true
 			}
@@ -866,7 +872,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 </script>
 
 <template>
-	<div
+	<div ref="calendar"
 		:class="['calendar', {
 			[inferTheme(theme)]: theme,
 			[`size-${size}`]: size,
@@ -919,7 +925,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					{{ labels.shortWeekdays[weekday] }}
 				</p>
 			</div>
-			<div :ref="model.refs.el" class="calendar-dates" tabindex="0" @change="handleChange">
+			<div ref="dates" class="calendar-dates" tabindex="0" @change="handleChange">
 				<label v-for="date of generateDates()"
 					:key="date.value"
 					class="calendar-date calendar-button"

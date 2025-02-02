@@ -6,19 +6,15 @@ outline: [2,3]
 
 <script setup>
 import { InputSearch, Btn } from '@8ctavio/vergil/components'
-import { useModel, toast } from '@8ctavio/vergil'
-import { onMounted } from 'vue'
+import { toast } from '@8ctavio/vergil'
 
+const exposed = {}
 async function handleSearch(){
     await new Promise(r => setTimeout(r,3000))
     toast('warn', 'Not found')
 }
 function handleClear(){
     toast('info', 'Search query cleared')
-}
-const exposeModel = useModel('')
-function clean(){
-    exposeModel.exposed.clear?.()
 }
 </script>
 
@@ -79,7 +75,7 @@ Position of the built-in search button. The prop for the button in the selected 
 
 The prop for the other button can be normally passed.
 
-```vue
+```vue-html
 <InputSearch
     btn-position="before"
     :btn-before="{
@@ -98,7 +94,7 @@ The prop for the other button can be normally passed.
             iconLeft: 'rocket_launch',
             iconRight: 'star',
         }"
-        />
+    />
 </Demo>
 
 :::info
@@ -152,21 +148,21 @@ Method to properly clear `InputSearch`'s text field.
 
 ```vue
 <script setup>
-const model = useModel('')
+const exposed = {}
 function handleClear(){
-    model.exposed.clear?.()
+    exposed.clear?.()
 }
 </script>
 
 <template>
-    <InputSearch v-model="model"/>
+    <InputSearch :exposed/>
     <Btn @click="handleClear" label="Clear"/>
 </template>
 ```
 
 <Demo>
-    <InputSearch v-model="exposeModel"/>
-    <Btn @click="clean" label="Clear"/>
+    <InputSearch :exposed/>
+    <Btn @click="() => exposed.clear?.()" label="Clear"/>
 </Demo>
 
 ## API Reference
