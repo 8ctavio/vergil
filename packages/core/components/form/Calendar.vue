@@ -200,7 +200,7 @@ import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModel, useModelWrapper, useDefineElements } from '../../composables'
+import { useModel, useDefineModel, useDefineElements } from '../../composables'
 import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
@@ -622,7 +622,7 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useModelWrapper(props, { isCollection: true })
+const model = useDefineModel(props, { isCollection: true })
 const elements = useDefineElements(props, {
 	root: useTemplateRef('calendar'),
 	dates: useTemplateRef('dates')

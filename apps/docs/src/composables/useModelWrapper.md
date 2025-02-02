@@ -2,7 +2,7 @@
 outline: [2,3]
 ---
 
-# `useModelWrapper`
+# `useDefineModel`
 
 > Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
 
@@ -18,40 +18,40 @@ const props = defineProps({
 	['onUpdate:modelValue']: Function
 })
 
-const model = useModelWrapper(props)
+const model = useDefineModel(props)
 </script>
 ```
 
 ## Description
 
-The `useModelWrapper` composable is analogous to the `defineModel` macro in that it creates an object to conveniently interact with a custom component's `modelValue` and `onUpdate:modelValue` props to support two-way data binding.
+The `useDefineModel` composable is analogous to the `defineModel` macro in that it creates an object to conveniently interact with a custom component's `modelValue` and `onUpdate:modelValue` props to support two-way data binding.
 
-However, `useModelWrapper` also support passing a *component model object* created with [`useModel`](/composables/useModel) through `modelValue`. Additionally, `useModelWrapper` internally creates a *wrapped* version of a model object which includes the same properties as the regular model plus additional methods to [handle external programmatic mutations](#handle-external-mutations).
+However, `useDefineModel` also support passing a *component model object* created with [`useModel`](/composables/useModel) through `modelValue`. Additionally, `useDefineModel` internally creates a *wrapped* version of a model object which includes the same properties as the regular model plus additional methods to [handle external programmatic mutations](#handle-external-mutations).
 
-`useModelWrapper` is designed to accept as its first argument the custom component's `props` object (the `modelValue` and `onUpdate:modelValue` props should be defined inside `defineProps`). However, a plain object with a `modelValue` property may also be provided.
+`useDefineModel` is designed to accept as its first argument the custom component's `props` object (the `modelValue` and `onUpdate:modelValue` props should be defined inside `defineProps`). However, a plain object with a `modelValue` property may also be provided.
 
 :::warning
-A model wrapper returned by `useModelWrapper` is an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+A model wrapper returned by `useDefineModel` is an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
 :::
 
 ### Motivation
 
-The `useModelWrapper` composable enables custom components implementations to separately handle model changes depending on their source. In general, component model's value changes can be originated from two distinct sources:
+The `useDefineModel` composable enables custom components implementations to separately handle model changes depending on their source. In general, component model's value changes can be originated from two distinct sources:
 
 - **Internal**. Changes derived from user-interaction events.
 - **External**. Programmatic mutations performed outside of the component's context/scope (e.g., by the component's parent).
 
-Internal changes are typically handled with event listeners. The `useModelWrapper` API allows to register callbacks only called when external programmatic mutations are performed in order to handle them separately.
+Internal changes are typically handled with event listeners. The `useDefineModel` API allows to register callbacks only called when external programmatic mutations are performed in order to handle them separately.
 
 ### Nested components
 
-Consider a `Root` component that wraps another `Nested` component, and that their models are implemented with `useModelWrapper`. The model wrapper created in `Root` should be directly passed to `Nested` to keep them linked and avoid creating multiple model wrappers.
+Consider a `Root` component that wraps another `Nested` component, and that their models are implemented with `useDefineModel`. The model wrapper created in `Root` should be directly passed to `Nested` to keep them linked and avoid creating multiple model wrappers.
 
 ```vue
 <!-- Root -->
 <script setup>
 const props = defineProps(/* ... */)
-const model = useModelWrapper(props)
+const model = useDefineModel(props)
 </script>
 <template>
 	<Nested :model-value="model"/>
@@ -62,7 +62,7 @@ const model = useModelWrapper(props)
 
 Model programmatic mutations can be easily detected with watchers. However, since the model value needs to be *internally* updated in response to user-interaction events, all model-value-subscribed watchers would be triggered by those updates, rendering them unable to distinguish between internal and external changes.
 
-To prevent watcher effects from being triggered by internal changes, `useModelWrapper` relies on two composables: [`watchControlled`](/composables/watchControlled) and [`useWatchers`](/composables/useWatchers).
+To prevent watcher effects from being triggered by internal changes, `useDefineModel` relies on two composables: [`watchControlled`](/composables/watchControlled) and [`useWatchers`](/composables/useWatchers).
 
 A model wrapper provides two methods to register watcher effects: `onExternalUpdate` and `onExternalMutation`. Both methods receive a `WatchCallback` and `WatchOptions`, and their registered callbacks are only triggered when the model value is mutated outside the component — if internal model updates are properly ignored. There are, of course, some differences between these methods:
 
@@ -126,7 +126,7 @@ defineReactiveProperties(model.exposed, withDescriptor => ({
 ## Definition
 
 ```ts
-function useModelWrapper<T>(
+function useDefineModel<T>(
 	props: {
 		value?: T;
 		modelValue?: T | ExtendedRef<T>;

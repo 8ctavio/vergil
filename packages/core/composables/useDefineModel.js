@@ -7,9 +7,9 @@ import { defineReactiveProperties } from './extendedReactivity/defineReactivePro
 import { symModelWatchers } from './private'
 import { isFunction, isObject } from '../utilities'
 
-export function isModelWrapper(value) {
+export function isInstanceModel(value) {
     return isObject(value)
-        && Object.hasOwn(value, '__v_isModelWrapper')
+        && Object.hasOwn(value, '__v_isInstanceModel')
         && isModel(Object.getPrototypeOf(value))
 }
 
@@ -31,11 +31,11 @@ export function isModelWrapper(value) {
  * 		},
  * 		['onUpdate:modelValue']: Function
  * 	})
- * 	const model = useModelWrapper(props)
+ * 	const model = useDefineModel(props)
  *  </script>
  *  ```
  */
-export function useModelWrapper(props, options = {}) {
+export function useDefineModel(props, options = {}) {
     if(getCurrentInstance()) {
         const {
             isCollection = false,
@@ -46,7 +46,7 @@ export function useModelWrapper(props, options = {}) {
         } = options
 
         const modelCandidate = isObject(props.modelValue)
-            ? Object.hasOwn(props.modelValue, '__v_isModelWrapper')
+            ? Object.hasOwn(props.modelValue, '__v_isInstanceModel')
                 ? Object.getPrototypeOf(props.modelValue)
                 : props.modelValue
             : null
@@ -145,7 +145,7 @@ export function useModelWrapper(props, options = {}) {
                     }
                 }
             },
-            __v_isModelWrapper: withDescriptor({
+            __v_isInstanceModel: withDescriptor({
 				value: true,
 				enumerable: false,
 				writable: false

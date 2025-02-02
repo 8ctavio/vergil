@@ -99,7 +99,7 @@ export default {
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useModel', link: '/composables/useModel' },
-					{ text: 'useModelWrapper', link: '/composables/useModelWrapper' },
+					{ text: 'useDefineModel', link: '/composables/useDefineModel' },
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
 					{ text: 'waitFor', link: '/composables/waitFor' },

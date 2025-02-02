@@ -4,7 +4,7 @@ import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
 import { toRef, useTemplateRef, provide, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useDefineElements } from '../../composables'
+import { useDefineModel, useDefineElements } from '../../composables'
 import { isFunction, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
@@ -99,7 +99,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props, {
+const model = useDefineModel(props, {
     isCollection: true,
     includeElements: false,
     includeExposed: false

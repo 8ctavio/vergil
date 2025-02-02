@@ -1,7 +1,7 @@
 <script setup>
 import InputText from './InputText.vue'
 import { shallowRef, watchEffect } from 'vue'
-import { useModel, useModelWrapper } from '../../composables'
+import { useModel, useDefineModel } from '../../composables'
 import { separateThousands } from '../../utilities'
 
 const props = defineProps({
@@ -78,7 +78,7 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useModelWrapper(props, {
+const model = useDefineModel(props, {
 	captureElements: true,
 	captureExposed: true,
 })

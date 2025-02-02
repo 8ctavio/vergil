@@ -4,7 +4,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useDefineElements } from '../../composables'
+import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -73,7 +73,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props, { isCollection: true })
+const model = useDefineModel(props, { isCollection: true })
 const elements = useDefineElements(props, {
     input: useTemplateRef('checkbox')
 })

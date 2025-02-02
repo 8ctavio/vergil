@@ -18,7 +18,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from '../private/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, usePopover } from '../../composables'
+import { useDefineModel, usePopover } from '../../composables'
 import { isFunction, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -105,7 +105,7 @@ const props = defineProps({
     },
 })
 
-const model = useModelWrapper(props, {
+const model = useDefineModel(props, {
 	isCollection: true,
 	captureElements: true,
 	captureExposed: true

@@ -2,7 +2,7 @@
 import InputText from './InputText.vue'
 import { computed, shallowRef, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useDefineExposed, extendedReactive } from '../../composables'
+import { useDefineModel, useDefineExposed, extendedReactive } from '../../composables'
 import { ucFirst } from '../../utilities'
 
 const props = defineProps({
@@ -39,7 +39,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['clear'])
 
-const model = useModelWrapper(props, { captureElements: true })
+const model = useDefineModel(props, { captureElements: true })
 
 const loader = shallowRef(false)
 const lastSearch = shallowRef('')

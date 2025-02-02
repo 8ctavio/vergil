@@ -3,7 +3,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed, useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useDefineElements } from '../../composables'
+import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -71,7 +71,7 @@ const props = defineProps({
     }
 })
 
-const model = useModelWrapper(props)
+const model = useDefineModel(props)
 const elements = useDefineElements(props, {
     input: useTemplateRef('textarea')
 })

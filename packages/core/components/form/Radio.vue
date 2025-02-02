@@ -2,7 +2,7 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useModelWrapper, useDefineElements, isModelWrapper } from '../../composables'
+import { useDefineModel, useDefineElements, isInstanceModel } from '../../composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -59,14 +59,14 @@ const {
     groupDisabled,
 } = inject('radio-props', {})
 
-const descendant = computed(() => props.descendant || isModelWrapper(groupModel))
+const descendant = computed(() => props.descendant || isInstanceModel(groupModel))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.radio.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
-const model = useModelWrapper(typeof props.modelValue === 'undefined'
-    ? isModelWrapper(groupModel)
+const model = useDefineModel(typeof props.modelValue === 'undefined'
+    ? isInstanceModel(groupModel)
         ? { modelValue: groupModel }
         : { modelValue: '' }
     : props
