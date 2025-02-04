@@ -115,7 +115,7 @@ const btnProps = extendedReactive(withDescriptor => ({
     squared: props[`btn${btnPositionName}`]?.squared,
 }))
 
-useDefineExposed(props, {
+useDefineExposed({
     clear() {
         if(model.value) {
             model.value = ''

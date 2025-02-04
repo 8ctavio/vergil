@@ -104,7 +104,7 @@ const model = useDefineModel(props, {
     includeElements: false,
     includeExposed: false
 })
-useDefineElements(props, {
+useDefineElements({
     options: useTemplateRef('options')
 })
 

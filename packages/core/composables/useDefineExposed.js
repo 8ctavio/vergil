@@ -1,4 +1,4 @@
-import { isRef, isReadonly, getCurrentInstance } from "vue"
+import { toRaw, isRef, isReadonly, getCurrentInstance } from "vue"
 import { hasModel, createExposer } from "./private"
 import { isFunction } from "../utilities"
 
@@ -18,8 +18,10 @@ const updateExposed = createExposer(value => {
 		}
 	}
 })
-export function useDefineExposed(props, exposed) {
-	if(getCurrentInstance()) {
+export function useDefineExposed(exposed) {
+	const instance = getCurrentInstance()
+	if(instance) {
+		const props = toRaw(instance.props)
 		const target = hasModel(props.modelValue)
 			? props.modelValue.exposed
 			: props.exposed

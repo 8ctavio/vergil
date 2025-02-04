@@ -1,4 +1,4 @@
-import { getCurrentInstance } from "vue"
+import { toRaw, getCurrentInstance } from "vue"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
 import { hasModel, createExposer } from "./private"
 
@@ -7,8 +7,10 @@ const updateElements = createExposer(value => ({
 	enumerable: true,
 	configurable: true
 }))
-export function useDefineElements(props, elements) {
-	if(getCurrentInstance()) {
+export function useDefineElements(elements) {
+	const instance = getCurrentInstance()
+	if(instance) {
+		const props = toRaw(instance.props)
 		const target = hasModel(props.modelValue)
 			? props.modelValue.elements
 			: props.elements

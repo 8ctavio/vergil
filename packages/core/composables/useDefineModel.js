@@ -1,4 +1,4 @@
-import { customRef, provide, inject, getCurrentScope, onMounted, getCurrentInstance } from 'vue'
+import { toRaw, customRef, provide, inject, getCurrentScope, onMounted, getCurrentInstance } from 'vue'
 import { useWatchers } from './useWatchers'
 import { watchControlled } from './watchControlled'
 import { useModel, isModel } from './useModel'
@@ -45,10 +45,12 @@ export function useDefineModel(props, options = {}) {
             includeExposed = true
         } = options
 
-        const modelCandidate = isObject(props.modelValue)
-            ? Object.hasOwn(props.modelValue, '__v_isInstanceModel')
-                ? Object.getPrototypeOf(props.modelValue)
-                : props.modelValue
+        const { modelValue, elements: rawElements, exposed: rawExposed } = toRaw(props)
+
+        const modelCandidate = isObject(modelValue)
+            ? Object.hasOwn(modelValue, '__v_isInstanceModel')
+                ? Object.getPrototypeOf(modelValue)
+                : modelValue
             : null
         const isValidModel = modelCandidate !== null
             && Object.hasOwn(modelCandidate, '__v_isModel')
@@ -66,7 +68,7 @@ export function useDefineModel(props, options = {}) {
                         trigger()
                     }
                 })), { extendRef: true })
-                : useModel(props.modelValue)
+                : useModel(modelValue)
 
         let watcher
         let watchers = inject(symModelWatchers, undefined)
@@ -80,12 +82,12 @@ export function useDefineModel(props, options = {}) {
         const ignore = []
         let elements, exposed
         if(includeElements) {
-            elements = (captureElements && ((isValidModel && props.modelValue.elements) || props.elements)) || {}
+            elements = (captureElements && ((isValidModel && modelValue.elements) || rawElements)) || {}
         } else {
             ignore.push('elements')
         }
         if(includeExposed) {
-            exposed = (captureExposed && ((isValidModel && props.modelValue.exposed) || props.exposed)) || {}
+            exposed = (captureExposed && ((isValidModel && modelValue.exposed) || rawExposed)) || {}
         } else {
             ignore.push('exposed')
         }

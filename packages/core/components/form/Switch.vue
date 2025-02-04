@@ -74,7 +74,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel(props, { isCollection: true })
-const elements = useDefineElements(props, {
+const elements = useDefineElements({
     input: useTemplateRef('checkbox')
 })
 model.onExternalUpdate(modelValue => {

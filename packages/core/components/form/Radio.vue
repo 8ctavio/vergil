@@ -71,7 +71,7 @@ const model = useDefineModel(typeof props.modelValue === 'undefined'
         : { modelValue: '' }
     : props
 )
-const elements = useDefineElements(props, {
+const elements = useDefineElements({
     input: useTemplateRef('radio')
 })
 model.onExternalUpdate(modelValue => {

@@ -82,7 +82,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel(props)
-const elements = useDefineElements(props, {
+const elements = useDefineElements({
     input: useTemplateRef('range')
 })
 model.onExternalUpdate(modelValue => {

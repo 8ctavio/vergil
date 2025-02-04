@@ -87,7 +87,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel(props)
-const elements = useDefineElements(props, {
+const elements = useDefineElements({
     input: useTemplateRef('input')
 })
 model.onExternalUpdate(modelValue => {
