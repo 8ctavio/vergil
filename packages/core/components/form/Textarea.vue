@@ -71,7 +71,7 @@ const props = defineProps({
     }
 })
 
-const model = useDefineModel(props)
+const model = useDefineModel()
 const elements = useDefineElements({
     input: useTemplateRef('textarea')
 })

@@ -78,7 +78,7 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useDefineModel(props, {
+const model = useDefineModel({
 	captureElements: true,
 	captureExposed: true,
 })

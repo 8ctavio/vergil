@@ -85,7 +85,7 @@ const props = defineProps({
     },
 })
 
-const model = useDefineModel(props, {
+const model = useDefineModel({
     isCollection: true,
     captureElements: true,
     captureExposed: true

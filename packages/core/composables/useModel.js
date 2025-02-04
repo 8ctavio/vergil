@@ -1,9 +1,8 @@
 import { provide, hasInjectionContext } from 'vue'
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
-import { hasModel, useResetValue, symModelWatchers } from './private'
+import { useResetValue, symModelWatchers } from './private'
 import { normalizeRef } from '../utilities/private'
-import { isObject } from '../utilities'
 
 /**
  * Assesses whether a value is a model created by `useModel`.
@@ -12,9 +11,7 @@ import { isObject } from '../utilities'
  * @returns { boolean } `true` if `value` is a model created by `useModel`.
  */
 export function isModel(value){
-    return isObject(value)
-        && Object.hasOwn(value, '__v_isModel')
-        && isExtendedRef(value)
+    return isExtendedRef(value) && Boolean(value.__v_isModel)
 }
 
 /**
@@ -42,7 +39,7 @@ export function isModel(value){
  *  ```
  */
 export function useModel(value, options = {}) {
-    if(hasModel(value)) {
+    if(isModel(value)) {
         return value
     } else {
         if(hasInjectionContext()) {

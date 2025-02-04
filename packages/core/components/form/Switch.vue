@@ -73,7 +73,7 @@ const props = defineProps({
     }
 })
 
-const model = useDefineModel(props, { isCollection: true })
+const model = useDefineModel({ isCollection: true })
 const elements = useDefineElements({
     input: useTemplateRef('checkbox')
 })

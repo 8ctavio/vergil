@@ -99,19 +99,18 @@ const props = defineProps({
     }
 })
 
-const model = useDefineModel(props, {
+const model = useDefineModel({
     isCollection: true,
     includeElements: false,
     includeExposed: false
 })
+provide(`${props.type}-group-props`, {
+    model,
+    name: toRef(() => props.name),
+    disabled: toRef(() => props.disabled),
+})
 useDefineElements({
     options: useTemplateRef('options')
-})
-
-provide(`${props.type}-props`, {
-    groupModel: model,
-    groupName: toRef(() => props.name),
-    groupDisabled: toRef(() => props.disabled),
 })
 
 function Options({ options }) {

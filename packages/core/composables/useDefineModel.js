@@ -1,17 +1,11 @@
-import { toRaw, customRef, provide, inject, getCurrentScope, onMounted, getCurrentInstance } from 'vue'
+import { toRaw, customRef, provide, inject, getCurrentInstance, getCurrentScope, onMounted } from 'vue'
 import { useWatchers } from './useWatchers'
 import { watchControlled } from './watchControlled'
-import { useModel, isModel } from './useModel'
+import { useModel } from './useModel'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
 import { symModelWatchers } from './private'
 import { isFunction, isObject } from '../utilities'
-
-export function isInstanceModel(value) {
-    return isObject(value)
-        && Object.hasOwn(value, '__v_isInstanceModel')
-        && isModel(Object.getPrototypeOf(value))
-}
 
 /**
  * Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
@@ -35,8 +29,9 @@ export function isInstanceModel(value) {
  *  </script>
  *  ```
  */
-export function useDefineModel(props, options = {}) {
-    if(getCurrentInstance()) {
+export function useDefineModel(options = {}) {
+    const instance = getCurrentInstance()
+    if(instance) {
         const {
             isCollection = false,
             captureElements = false,
@@ -45,10 +40,11 @@ export function useDefineModel(props, options = {}) {
             includeExposed = true
         } = options
 
+        const { props } = instance
         const { modelValue, elements: rawElements, exposed: rawExposed } = toRaw(props)
 
         const modelCandidate = isObject(modelValue)
-            ? Object.hasOwn(modelValue, '__v_isInstanceModel')
+            ? Object.hasOwn(modelValue, '__v_isComponentModel')
                 ? Object.getPrototypeOf(modelValue)
                 : modelValue
             : null
@@ -147,7 +143,7 @@ export function useDefineModel(props, options = {}) {
                     }
                 }
             },
-            __v_isInstanceModel: withDescriptor({
+            __v_isComponentModel: withDescriptor({
 				value: true,
 				enumerable: false,
 				writable: false

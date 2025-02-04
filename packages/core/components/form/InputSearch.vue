@@ -39,7 +39,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['clear'])
 
-const model = useDefineModel(props, { captureElements: true })
+const model = useDefineModel({ captureElements: true })
 
 const loader = shallowRef(false)
 const lastSearch = shallowRef('')

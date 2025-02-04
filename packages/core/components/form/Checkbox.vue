@@ -2,7 +2,8 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useDefineModel, useDefineElements, isInstanceModel } from '../../composables'
+import { useDefineModel, useDefineElements } from '../../composables'
+import { isObject } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -23,7 +24,12 @@ const props = defineProps({
     },
     modelValue: {
         type: [Object, String, Boolean],
-        default: undefined
+        default: props => {
+            const groupProps = inject('checkbox-group-props', {
+                model: props.valueUnchecked
+            })
+            return groupProps.model
+        }
     },
     ['onUpdate:modelValue']: Function,
     elements: Object,
@@ -58,24 +64,25 @@ const props = defineProps({
         validator: isValidSpacing
     }
 })
-const {
-    groupModel,
-    groupDisabled,
-} = inject('checkbox-props', {})
+const groupProps = inject('checkbox-group-props', null)
 
-const descendant = computed(() => props.descendant || isInstanceModel(groupModel))
+const descendant = computed(() => props.descendant || isObject(groupProps))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.checkbox.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.checkbox.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
-const model = useDefineModel(typeof props.modelValue === 'undefined'
-    ? isInstanceModel(groupModel)
-        ? { modelValue: groupModel }
-        : { modelValue: props.valueUnchecked }
-    : props,
-    { isCollection: true }
-)
+const model = useDefineModel({ isCollection: true })
+if(props.checked) {
+    if(Array.isArray(model.value)) {
+        if(!model.value.includes(props.valueChecked)) {
+            model.value.push(props.valueChecked)
+        }
+    } else if(model.value === props.valueUnchecked) {
+        model.value = props.valueChecked
+    }
+}
+
 const elements = useDefineElements({
     input: useTemplateRef('checkbox')
 })
@@ -98,16 +105,6 @@ const handleChange = model.updateDecorator(event => {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
     }
 })
-
-if(props.checked) {
-    if(Array.isArray(model.value)) {
-        if(!model.value.includes(props.valueChecked)) {
-            model.value.push(props.valueChecked)
-        }
-    } else if(model.value === props.valueUnchecked) {
-        model.value = props.valueChecked
-    }
-}
 </script>
 
 <template>
@@ -126,7 +123,7 @@ if(props.checked) {
                 type="checkbox"
                 ref="checkbox"
                 :value="valueChecked"
-                :disabled="disabled || groupDisabled"
+                :disabled="disabled || groupProps?.disabled.value"
                 @change="handleChange"
             >
         </template>

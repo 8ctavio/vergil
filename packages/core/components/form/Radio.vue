@@ -2,13 +2,20 @@
 import ToggleButton from '../private/ToggleButton.vue'
 import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { useDefineModel, useDefineElements, isInstanceModel } from '../../composables'
+import { useDefineModel, useDefineElements } from '../../composables'
+import { isObject } from '../../utilities'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
 	//----- Model -----
-    modelValue: [String, Object],
+    modelValue: {
+        type: [String, Object],
+        default: () => {
+            const groupProps = inject('radio-group-props', { model: '' })
+            return groupProps.model
+        }
+    },
     ['onUpdate:modelValue']: Function,
     elements: Object,
     exposed: Object,
@@ -53,24 +60,19 @@ const props = defineProps({
         validator: isValidSpacing
     }
 })
-const {
-    groupModel,
-    groupName,
-    groupDisabled,
-} = inject('radio-props', {})
+const groupProps = inject('radio-group-props', null)
 
-const descendant = computed(() => props.descendant || isInstanceModel(groupModel))
+const descendant = computed(() => props.descendant || isObject(groupProps))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
 const size = computed(() => props.size ?? (descendant.value ? undefined : (vergil.config.radio.size ?? vergil.config.global.size)))
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
-const model = useDefineModel(typeof props.modelValue === 'undefined'
-    ? isInstanceModel(groupModel)
-        ? { modelValue: groupModel }
-        : { modelValue: '' }
-    : props
-)
+const model = useDefineModel()
+if(props.checked && model.value === '') {
+    model.value = props.value
+}
+
 const elements = useDefineElements({
     input: useTemplateRef('radio')
 })
@@ -81,10 +83,6 @@ function handleChange(event) {
     if(event.target.checked) {
         model.update(event.target.value)
     }
-}
-
-if(props.checked && model.value === '') {
-    model.value = props.value
 }
 </script>
 
@@ -105,8 +103,8 @@ if(props.checked && model.value === '') {
                 type="radio"
                 ref="radio"
                 :value
-                :name="name || groupName"
-                :disabled="disabled || groupDisabled"
+                :name="name || groupProps?.name.value"
+                :disabled="disabled || groupProps?.disabled.value"
                 @change="handleChange"
             >
         </template>

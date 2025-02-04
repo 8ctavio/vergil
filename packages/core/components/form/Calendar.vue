@@ -622,7 +622,7 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useDefineModel(props, { isCollection: true })
+const model = useDefineModel({ isCollection: true })
 const elements = useDefineElements({
 	root: useTemplateRef('calendar'),
 	dates: useTemplateRef('dates')
