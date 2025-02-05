@@ -3,6 +3,25 @@ import { hasDate, isDate, padLeadingZeros } from '../../utilities/private'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 
+/**
+ * Cannot use `triggerRef` directly on model.ref since
+ * this stored ref is different than the ref directly
+ * passed through `v-model` (the received modelValue
+ * is not the actual ref, but a custom ref is created
+ * from modelValue and onUpdate:modelValue).
+ * 
+ * Support for regular refs in custom component's `v-model`
+ * may be removed to resolve this problem, thus removing
+ * the added overhead of `triggerModelValue`, preventing
+ * potential issues with sync watchers, and simplifying
+ * the `useDefineModel`'s implementation.
+ */
+function triggerModelValue(model) {
+	const modelValue = model.value
+	model.value = undefined
+	model.value = modelValue
+}
+
 function normalizeCalendarDate(date, asDate = false) {
 	if(date === 'today') {
 		(date = new Date()).setHours(0,0,0,0)
@@ -104,7 +123,8 @@ function normalizeModelDates(model, mods, timeControls, hours, minutes, callback
 			if(i === (modelValue.length - 1)) {
 				do modelValue.pop()
 				while(modelValue.length > 0 && modelValue[--i] === undefined)
-				triggerRef(model.ref)
+				triggerModelValue(model)
+				// triggerRef(model.ref)
 				break
 			}
 		} else {
@@ -129,9 +149,11 @@ function normalizeModelDates(model, mods, timeControls, hours, minutes, callback
 		
 		if(!Object.is(newValue, modelValue[i])) {
 			modelValue[i] = newValue
-			triggerRef(model.ref)
+			triggerModelValue(model)
+			// triggerRef(model.ref)
 		} else if(isDate(newValue) && prevTimestamp !== newValue.getTime()) {
-			triggerRef(model.ref)
+			triggerModelValue(model)
+			// triggerRef(model.ref)
 		} 
 	}
 }
@@ -498,12 +520,14 @@ function updateDateTime() {
 			for(let i=0; i<model.value.length; i++) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
-			triggerRef(model.ref)
+			triggerModelValue(model)
+			// triggerRef(model.ref)
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
-			triggerRef(model.ref)
+			triggerModelValue(model)
+			// triggerRef(model.ref)
 		})
 	}
 }
@@ -671,7 +695,8 @@ model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 				model.value = modelDate.getTime()
 			} else {
 				model.value = modelDate
-				triggerRef(model.ref)
+				triggerModelValue(model)
+				// triggerRef(model.ref)
 			}
 		} else {
 			updateDate(prevModelValue)
@@ -703,11 +728,13 @@ const handleChange = model.updateDecorator(event => {
 		if(idx > -1) {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
-				triggerRef(model.ref)
+				triggerModelValue(model)
+				// triggerRef(model.ref)
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
-			triggerRef(model.ref)
+			triggerModelValue(model)
+			// triggerRef(model.ref)
 		}
 	} else {
 		if(event.target.checked) {
