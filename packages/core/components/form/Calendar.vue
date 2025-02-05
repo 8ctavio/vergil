@@ -874,8 +874,8 @@ if(!hasDate(model.value)) {
 
 	if(props.selectedMonth || props.selectedYear) {
 		const requestedDate = [
-			Number(props.selectedYear) || today[0],
-			(Number(props.selectedMonth) - 1) || today[1]
+			props.selectedYear ? Number(props.selectedYear) : today[0],
+			props.selectedMonth ? (Number(props.selectedMonth) - 1) : today[1]
 		]
 
 		if(compareDates(requestedDate, minDate.value, true) === -1) {
