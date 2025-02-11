@@ -1,4 +1,4 @@
-import { watch, effectScope } from 'vue'
+import { watch } from 'vue'
 
 /**
  * Watcher with pause and resume controls to ignore source updates. Source updates do not trigger a paused watcher.
@@ -44,7 +44,36 @@ import { watch, effectScope } from 'vue'
 export function watchControlled(sources, callback, options = {}) {
 	let isPaused = false
 	let isDirty = false
-	let syncWatcher
+	let watcher, syncWatcher
+
+	if(options.flush === 'sync') {
+		syncWatcher = watch(sources, (...args) => {
+			if(!isPaused) callback(...args)
+		}, options)
+	} else {
+		isDirty = options.immediate
+		syncWatcher = watch(sources, () => {
+			if(!isPaused && !isDirty) {
+				isDirty = true
+				syncWatcher.pause()
+			}
+		},{
+			flush: 'sync',
+			deep: options.deep
+		})
+		watcher = watch(sources, (...args) => {
+			if(isDirty) {
+				if(isPaused) {
+					isDirty = false
+				} else {
+					syncWatcher.resume()
+					isDirty = false
+					callback(...args)
+				}
+			}
+			if(options.once) syncWatcher()
+		}, options)
+	}
 
 	function pause() {
 		if(!isPaused) {
@@ -64,39 +93,13 @@ export function watchControlled(sources, callback, options = {}) {
 		finally { resume() }
 	}
 	
-	const scope = effectScope()
-	scope.run(() => {
-		if(options.flush === 'sync') {
-			syncWatcher = watch(sources, (...args) => {
-				if(!isPaused) {
-					callback(...args)
-				}
-			}, options)
-		} else {
-			isDirty = options.immediate
-			syncWatcher = watch(sources, () => {
-				if(!isPaused && !isDirty) {
-					isDirty = true
-					syncWatcher.pause()
-				}
-			},{
-				flush: 'sync',
-				deep: options.deep
-			})
-			watch(sources, (...args) => {
-				if(isDirty) {
-					if(isPaused) {
-						isDirty = false
-					} else {
-						syncWatcher.resume()
-						isDirty = false
-						callback(...args)
-					}
-				}
-				if(options.once) scope.stop()
-			}, options)
+	return {
+		pause,
+		resume,
+		ignore,
+		stop() {
+			watcher?.()
+			syncWatcher()
 		}
-	})
-	
-	return { stop: scope.stop.bind(scope), pause, resume, ignore }
+	}
 }
