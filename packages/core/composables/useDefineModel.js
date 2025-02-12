@@ -1,4 +1,4 @@
-import { toRaw, customRef, provide, inject, getCurrentInstance, getCurrentScope, onMounted } from 'vue'
+import { toRaw, customRef, watchSyncEffect, provide, inject, getCurrentInstance, getCurrentScope, onMounted } from 'vue'
 import { useWatchers } from './useWatchers'
 import { watchControlled } from './watchControlled'
 import { useModel } from './useModel'
@@ -41,30 +41,45 @@ export function useDefineModel(options = {}) {
         } = options
 
         const { props } = instance
-        const { modelValue, elements: rawElements, exposed: rawExposed } = toRaw(props)
+        const rawProps = toRaw(props)
 
-        const modelCandidate = isObject(modelValue)
-            ? Object.hasOwn(modelValue, '__v_isComponentModel')
-                ? Object.getPrototypeOf(modelValue)
-                : modelValue
+        const modelCandidate = isObject(rawProps.modelValue)
+            ? Object.hasOwn(rawProps.modelValue, '__v_isComponentModel')
+                ? Object.getPrototypeOf(rawProps.modelValue)
+                : rawProps.modelValue
             : null
         const isValidModel = modelCandidate !== null
             && Object.hasOwn(modelCandidate, '__v_isModel')
             && isExtendedRef(modelCandidate)
         const model = isValidModel
             ? modelCandidate
-            : isFunction(props['onUpdate:modelValue'])
-                ? useModel(customRef((track, trigger) => ({
-                    get() {
-                        track()
-                        return props.modelValue
-                    },
-                    set(v) {
-                        props['onUpdate:modelValue'](v)
-                        trigger()
+            : isFunction(rawProps['onUpdate:modelValue'])
+                ? useModel(customRef((track, trigger) => {
+                    let modelValue = rawProps.modelValue
+
+                    watchSyncEffect(() => {
+                        const v = props.modelValue
+                        if(!Object.is(modelValue, v)) {
+                            modelValue = v
+                            trigger()
+                        }
+                    })
+
+                    return {
+                        get() {
+                            track()
+                            return modelValue
+                        },
+                        set(v) {
+                            if(!Object.is(modelValue, v)) {
+                                rawProps['onUpdate:modelValue'](v)
+                                modelValue = v
+                                trigger()
+                            }
+                        }
                     }
-                })), { extendRef: true })
-                : useModel(modelValue)
+                }), { extendRef: true })
+                : useModel(rawProps.modelValue)
 
         let watcher
         let watchers = inject(symModelWatchers, undefined)
@@ -78,12 +93,12 @@ export function useDefineModel(options = {}) {
         const ignore = []
         let elements, exposed
         if(includeElements) {
-            elements = (captureElements && ((isValidModel && modelValue.elements) || rawElements)) || {}
+            elements = (captureElements && ((isValidModel && rawProps.modelValue.elements) || rawProps.elements)) || {}
         } else {
             ignore.push('elements')
         }
         if(includeExposed) {
-            exposed = (captureExposed && ((isValidModel && modelValue.exposed) || rawExposed)) || {}
+            exposed = (captureExposed && ((isValidModel && rawProps.modelValue.exposed) || rawProps.exposed)) || {}
         } else {
             ignore.push('exposed')
         }
