@@ -1,4 +1,6 @@
-import { watch, effectScope } from "vue"
+import { watch, effectScope, getCurrentWatcher } from "vue"
+import { watchControlledSync } from "./private"
+import { noop } from "../utilities/private"
 
 const isScheduled = Symbol('isScheduled')
 
@@ -59,49 +61,33 @@ export function useWatchers(sources, { deep } = {}) {
 	function onUpdated(callback, options = {}) {
 		let stop
 		if(options.flush === 'sync') {
-			options.deep = deep
 			syncWatchers.run(() => {
-				const watchHandle = watch(sources, (...args) => {
+				const watcher = watch(sources, (...args) => {
 					if(!isPaused) callback(...args)
-				}, options)
-				stop = () => watchHandle()
+				}, { ...options, deep })
+				if(isPaused) watcher.pause()
+				stop = () => watcher()
 			})
 		} else {
 			if(options.immediate) {
 				if(!isPaused) {
 					watch(sources, callback, { immediate: true, once: true })
 				}
-				if(options.once) return () => {}
+				if(options.once) return noop
 			}
 			
-			if(!auxWatcher) {
-				let skip = false
-				const watchHandle = watch(sources, () => {
-					if(!skip) {
-						for(const effect of watchers.effects) {
-							Object.defineProperty(effect, isScheduled, {
-								value: true,
-								writable: true
-							})
-						}
-						scheduledEffects = watchers.effects.length
-						auxWatcher.pause()
-					}
-				}, { flush: 'sync', deep })
-				auxWatcher = {
-					pause: watchHandle.pause,
-					resume: () => {
-						skip = true
-						watchHandle.resume()
-						skip = false
-					},
-					stop: () => watchHandle()
+			auxWatcher ??= watchControlledSync(sources, () => {
+				for(const effect of watchers.effects) {
+					effect[isScheduled] = true
 				}
-			}
+				scheduledEffects = watchers.effects.length
+				auxWatcher.pause()
+			}, { deep })
 			auxWatcher[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
-				const watchHandle = watch(sources, (...args) => {
+				const watcher = watch(sources, (...args) => {
+					const effect = getCurrentWatcher()
 					if(effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--
@@ -114,9 +100,12 @@ export function useWatchers(sources, { deep } = {}) {
 				}, { flush: options.flush, deep })
 
 				const effect = watchers.effects.at(-1)
-
+				Object.defineProperty(effect, isScheduled, {
+					value: false,
+					writable: true
+				})
 				stop = () => {
-					watchHandle()
+					watcher()
 					if(effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--

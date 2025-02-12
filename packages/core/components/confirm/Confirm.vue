@@ -7,7 +7,7 @@ import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."
 import { FocusTrap } from '../../utilities/private'
-import { isValidRadius, isValidSize, isEscapeKey, isTabKey } from '../../utilities/private'
+import { isEscapeKey, isTabKey, noop, isValidRadius, isValidSize } from '../../utilities/private'
 
 defineProps({
 	size: {
@@ -27,7 +27,7 @@ const focusTrap = new FocusTrap()
 function resolveConfirm(response){
 	confirmModel.show = false
 	confirmModel.resolve(response)
-	confirmModel.resolve = () => {}
+	confirmModel.resolve = noop
 	confirmModel.waitingConfirmation = false
 }
 

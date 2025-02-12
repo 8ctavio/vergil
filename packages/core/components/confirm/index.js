@@ -1,12 +1,12 @@
 import { shallowReactive } from 'vue'
 import { vergil } from '../../vergil'
-import { inferTheme } from "../../utilities/private"
+import { inferTheme, noop } from "../../utilities/private"
 
 const confirmModel = shallowReactive({
     show: false,
     content: {},
     waitingConfirmation: false,
-    resolve: () => {}
+    resolve: noop
 })
 
 async function confirm(theme, {
@@ -15,8 +15,8 @@ async function confirm(theme, {
     confirmLabel = vergil.config.confirm.confirmLabel,
     declineLabel = vergil.config.confirm.declineLabel,
     icon,
-    onConfirmed = () => {},
-    onDeclined = () => {}
+    onConfirmed = noop,
+    onDeclined = noop
 }){
     theme = inferTheme(theme)
     if(!confirmModel.waitingConfirmation){

@@ -7,3 +7,5 @@ export * from './inferTheme'
 export * from './reactivity'
 export * from './tabbable'
 export * from './validators'
+
+export const noop = () => {}
