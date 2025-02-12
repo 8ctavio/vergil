@@ -23,9 +23,7 @@ export function useDefineExposed(exposed) {
 	const instance = getCurrentInstance()
 	if(instance) {
 		const props = toRaw(instance.props)
-		const target = isModel(props.modelValue)
-			? props.modelValue.exposed
-			: props.exposed
+		const target = (isModel(props.modelValue) && props.modelValue.exposed) || props.exposed
 		updateExposed(target, exposed)
 	}
 }

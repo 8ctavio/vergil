@@ -12,9 +12,7 @@ export function useDefineElements(elements) {
 	const instance = getCurrentInstance()
 	if(instance) {
 		const props = toRaw(instance.props)
-		const target = isModel(props.modelValue)
-			? props.modelValue.elements
-			: props.elements
+		const target = (isModel(props.modelValue) && props.modelValue.elements) || props.elements
 		elements = extendedReactive(elements)
 		updateElements(target, elements.refs)
 		return elements

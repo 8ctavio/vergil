@@ -32,21 +32,25 @@ import { isFunction, isObject } from '../utilities'
 export function useDefineModel(options = {}) {
     const instance = getCurrentInstance()
     if(instance) {
-        const {
-            isCollection = false,
-            captureElements = false,
-            captureExposed = false,
-            includeElements = true,
-            includeExposed = true
-        } = options
+        const { isCollection = false } = options
+        const capture = {
+            elements: options.captureElements ?? false,
+            exposed: options.captureExposed ?? false,
+        }
+        const include = {
+            elements: options.includeElements ?? true,
+            exposed: options.includeExposed ?? true,
+        }
 
         const { props } = instance
         const rawProps = toRaw(props)
+        const { modelValue } = rawProps
 
-        const modelCandidate = isObject(rawProps.modelValue)
-            ? Object.hasOwn(rawProps.modelValue, '__v_isComponentModel')
-                ? Object.getPrototypeOf(rawProps.modelValue)
-                : rawProps.modelValue
+        let mayBeComponentModel = false
+        const modelCandidate = isObject(modelValue)
+            ? (mayBeComponentModel = Object.hasOwn(modelValue, '__v_isComponentModel'))
+                ? Object.getPrototypeOf(modelValue)
+                : modelValue
             : null
         const isValidModel = modelCandidate !== null
             && Object.hasOwn(modelCandidate, '__v_isModel')
@@ -55,12 +59,12 @@ export function useDefineModel(options = {}) {
             ? modelCandidate
             : isFunction(rawProps['onUpdate:modelValue'])
                 ? useModel(customRef((track, trigger) => {
-                    let modelValue = rawProps.modelValue
+                    let value = modelValue
 
                     watchSyncEffect(() => {
                         const v = props.modelValue
-                        if(!Object.is(modelValue, v)) {
-                            modelValue = v
+                        if(!Object.is(value, v)) {
+                            value = v
                             trigger()
                         }
                     })
@@ -68,18 +72,22 @@ export function useDefineModel(options = {}) {
                     return {
                         get() {
                             track()
-                            return modelValue
+                            return value
                         },
                         set(v) {
-                            if(!Object.is(modelValue, v)) {
+                            if(!Object.is(value, v)) {
                                 rawProps['onUpdate:modelValue'](v)
-                                modelValue = v
+                                value = v
                                 trigger()
                             }
                         }
                     }
-                }), { extendRef: true })
-                : useModel(rawProps.modelValue)
+                }), { extendRef: true, includeElements: false, includeExposed: false })
+                : useModel(modelValue, {
+                    isShallow: true,
+                    includeElements: false,
+                    includeExposed: false,
+                })
 
         let watcher
         let watchers = inject(symModelWatchers, undefined)
@@ -90,27 +98,7 @@ export function useDefineModel(options = {}) {
             provide(symModelWatchers, watchers)
         }
 
-        const ignore = []
-        let elements, exposed
-        if(includeElements) {
-            elements = (captureElements && ((isValidModel && rawProps.modelValue.elements) || rawProps.elements)) || {}
-        } else {
-            ignore.push('elements')
-        }
-        if(includeExposed) {
-            exposed = (captureExposed && ((isValidModel && rawProps.modelValue.exposed) || rawProps.exposed)) || {}
-        } else {
-            ignore.push('exposed')
-        }
-        return defineReactiveProperties(Object.create(model), withDescriptor => ({
-            elements: withDescriptor({
-                value: elements,
-                writable: false
-            }),
-            exposed: withDescriptor({
-                value: exposed,
-                writable: false
-            }),
+        const componentModel = defineReactiveProperties(Object.create(model), withDescriptor => ({
             onExternalUpdate(cb, options = {}) {
                 if(watcher) watcher.stop()
                 if(options.onMounted) {
@@ -163,6 +151,28 @@ export function useDefineModel(options = {}) {
 				enumerable: false,
 				writable: false
 			})
-        }), { configurable: false, ignore })
+        }), { configurable: false })
+
+        for(const key of ['elements', 'exposed']) {
+            const descriptor = { writable: false }
+            if(include[key]) {
+                if(capture[key] && isValidModel) {
+                    if(mayBeComponentModel && Object.hasOwn(modelValue, key)) {
+                        descriptor.value = modelValue[key] ?? rawProps[key] ?? {}
+                    } else if(!Object.hasOwn(model, key)) {
+                        descriptor.value = rawProps[key] ?? {}
+                    }
+                } else {
+                    descriptor.value = {}
+                }
+            } else {
+                descriptor.value = null
+            }
+            if(Object.hasOwn(descriptor, 'value')) {
+                Object.defineProperty(componentModel, key, descriptor)
+            }
+        }
+
+        return componentModel
     }
 }
