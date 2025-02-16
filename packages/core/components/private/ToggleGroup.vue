@@ -1,7 +1,36 @@
-<script setup>
-import FormField from './FormField.vue'
+<script>
 import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
+
+function decodeOption(decoder, option, key) {
+    const decoded = isFunction(decoder)
+        ? decoder(option,key)
+        : isObject(option)
+            ? option[decoder]
+            : option
+    return decoded?.toString().trim()
+}
+function createOptionVNode(props, option, key) {
+    const component = { checkbox, radio }[props.type]
+    const value = decodeOption(props.optionValue, option, key)
+    const label = decodeOption(props.optionLabel, option, key)
+    const description = decodeOption(props.optionDescription, option, key)
+    return h(component, {
+        ...(isFunction(props.optionsAttributes)
+            ? props.optionsAttributes(key, value, label, description)
+            : props.optionsAttributes),
+        key,
+        value,
+        label,
+        description,
+        variant: props.variant,
+        showSymbol: props.showSymbol,
+    })
+}
+</script>
+
+<script setup>
+import FormField from './FormField.vue'
 import { toRef, useTemplateRef, provide, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
@@ -114,38 +143,16 @@ useDefineElements({
 })
 
 function Options({ options }) {
-    if(options === null) return
-    const component = { checkbox, radio }[props.type]
-    function decodeOption(decoder, option, key) {
-        const decoded = isFunction(decoder)
-            ? decoder(option,key)
-            : isObject(option)
-                ? option[decoder]
-                : option
-        return decoded?.toString().trim()
-    }
-    function createOptionVNode(option, key) {
-        const value = decodeOption(props.optionValue, option, key)
-        const label = decodeOption(props.optionLabel, option, key)
-        const description = decodeOption(props.optionDescription, option, key)
-        return h(component, {
-            ...(isFunction(props.optionsAttributes)
-                ? props.optionsAttributes(key, value, label, description)
-                : props.optionsAttributes),
-            key,
-            value,
-            label,
-            description,
-            variant: props.variant,
-            showSymbol: props.showSymbol,
-        })
-    }
-    if(Array.isArray(options)) {
-        return options.map(createOptionVNode)
-    } else {
-        return Object.entries(options).map(([key, option]) => {
-            return createOptionVNode(option, key)
-        })
+    if(options !== null) {
+        if(Array.isArray(options)) {
+            return options.map((option, idx) => {
+                return createOptionVNode(props, option, idx)
+            })
+        } else {
+            return Object.entries(options).map(([key, option]) => {
+                return createOptionVNode(props, option, key)
+            })
+        }
     }
 }
 </script>
