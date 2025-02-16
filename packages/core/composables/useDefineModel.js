@@ -1,4 +1,4 @@
-import { toRaw, customRef, watchSyncEffect, watch, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
+import { customRef, toRaw, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
@@ -88,6 +88,7 @@ export function useDefineModel(options = {}) {
                     }
                 }), { extendRef: true, includeElements: false, includeExposed: false })
                 : useModel(modelValue, {
+                    shallow: true,
                     includeElements: false,
                     includeExposed: false,
                 })

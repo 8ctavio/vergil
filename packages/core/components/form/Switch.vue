@@ -2,7 +2,7 @@
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { useTemplateRef } from 'vue'
+import { triggerRef, isShallow, useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
@@ -74,6 +74,19 @@ const props = defineProps({
 })
 
 const model = useDefineModel({ isCollection: true })
+if(props.checked) {
+    if(Array.isArray(model.value)) {
+        if(!model.value.includes(props.valueOn)) {
+            model.value.push(props.valueOn)
+            if(isShallow(model.ref)) {
+                triggerRef(model.ref)
+            }
+        }
+    } else if(model.value === props.valueOff) {
+        model.value = props.valueOn
+    }
+}
+
 const elements = useDefineElements({
     input: useTemplateRef('checkbox')
 })
@@ -88,24 +101,20 @@ const handleChange = model.updateDecorator(event => {
         if(idx > -1) {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
+                if(isShallow(model.ref)) {
+                    triggerRef(model.ref)
+                }
             }
         } else if(event.target.checked) {
             model.value.push(props.valueOn)
+            if(isShallow(model.ref)) {
+                triggerRef(model.ref)
+            }
         }
     } else {
         model.value = event.target.checked ? props.valueOn : props.valueOff
     }
 })
-
-if(props.checked) {
-    if(Array.isArray(model.value)) {
-        if(!model.value.includes(props.valueOn)) {
-            model.value.push(props.valueOn)
-        }
-    } else if(model.value === props.valueOff) {
-        model.value = props.valueOn
-    }
-}
 </script>
 
 <template>

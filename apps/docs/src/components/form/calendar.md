@@ -6,7 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 
 const demo1 = shallowRef(null)
 const demo2 = shallowRef(null)
@@ -14,7 +14,7 @@ const demo3 = shallowRef(null)
 const demo4 = shallowRef(null)
 const demo5 = shallowRef(null)
 const demo6 = shallowRef(null)
-const demo7 = shallowRef([])
+const demo7 = ref([])
 </script>
 
 ## Basic Usage
@@ -41,7 +41,7 @@ const demo7 = shallowRef([])
 import { Calendar } from '@8ctavio/vergil/components'
 import { shallowRef } from 'vue'
 const date = shallowRef(null)
-const dates = shallowRef([])
+const dates = ref([])
 </script>
 
 <template>

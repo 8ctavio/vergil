@@ -123,8 +123,7 @@ function normalizeModelDates(model, mods, timeControls, hours, minutes, callback
 			if(i === (modelValue.length - 1)) {
 				do modelValue.pop()
 				while(modelValue.length > 0 && modelValue[--i] === undefined)
-				triggerModelValue(model)
-				// triggerRef(model.ref)
+				triggerRef(model.ref)
 				break
 			}
 		} else {
@@ -220,7 +219,7 @@ import Icon from '../Icon.vue'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
+import { computed, shallowRef, triggerRef, isShallow, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, useDefineElements } from '../../composables'
 import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
@@ -520,8 +519,9 @@ function updateDateTime() {
 			for(let i=0; i<model.value.length; i++) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
-			triggerModelValue(model)
-			// triggerRef(model.ref)
+			if(isShallow(model.ref)) {
+				triggerRef(model.ref)
+			}
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
@@ -728,13 +728,15 @@ const handleChange = model.updateDecorator(event => {
 		if(idx > -1) {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
-				triggerModelValue(model)
-				// triggerRef(model.ref)
+				if(isShallow(model.ref)) {
+					triggerRef(model.ref)
+				}
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
-			triggerModelValue(model)
-			// triggerRef(model.ref)
+			if(isShallow(model.ref)) {
+				triggerRef(model.ref)
+			}
 		}
 	} else {
 		if(event.target.checked) {

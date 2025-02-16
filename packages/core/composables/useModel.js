@@ -42,19 +42,19 @@ export function useModel(value, options = {}) {
         return value
     } else {
         const {
+            shallow = false,
             extendRef = false,
-            isShallow = false,
             includeElements = true,
             includeExposed = true,
         } = options
     
         let getResetValue
         if(extendRef) {
-            value = normalizeRef(value, isShallow)
+            value = normalizeRef(value, shallow)
             getResetValue = useResetValue(value.value)
         } else {
             getResetValue = useResetValue(value)
-            value = normalizeRef(getResetValue(), isShallow)
+            value = normalizeRef(getResetValue(), shallow)
         }
         
         const model = extendedRef(value, withDescriptor => ({

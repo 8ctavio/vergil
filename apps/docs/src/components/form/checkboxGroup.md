@@ -8,7 +8,6 @@ outline: [2,3]
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
-import { useModel } from '@8ctavio/vergil'
 
 const planets = {
     earth: 'Earth',
