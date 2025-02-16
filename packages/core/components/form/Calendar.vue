@@ -219,7 +219,7 @@ import Icon from '../Icon.vue'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { computed, shallowRef, triggerRef, isShallow, useTemplateRef, toRaw, nextTick } from 'vue'
+import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, useDefineElements } from '../../composables'
 import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
@@ -519,9 +519,7 @@ function updateDateTime() {
 			for(let i=0; i<model.value.length; i++) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
-			if(isShallow(model.ref)) {
-				triggerRef(model.ref)
-			}
+			model.triggerIfShallow()
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
@@ -728,15 +726,11 @@ const handleChange = model.updateDecorator(event => {
 		if(idx > -1) {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
-				if(isShallow(model.ref)) {
-					triggerRef(model.ref)
-				}
+				model.triggerIfShallow()
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
-			if(isShallow(model.ref)) {
-				triggerRef(model.ref)
-			}
+			model.triggerIfShallow()
 		}
 	} else {
 		if(event.target.checked) {

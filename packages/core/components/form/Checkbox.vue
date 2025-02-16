@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, triggerRef, isShallow, useTemplateRef, inject } from 'vue'
+import { computed, useTemplateRef, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -77,9 +77,7 @@ if(props.checked) {
     if(Array.isArray(model.value)) {
         if(!model.value.includes(props.valueChecked)) {
             model.value.push(props.valueChecked)
-            if(isShallow(model.ref)) {
-                triggerRef(model.ref)
-            }
+            model.triggerIfShallow()
         }
     } else if(model.value === props.valueUnchecked) {
         model.value = props.valueChecked
@@ -100,15 +98,11 @@ const handleChange = model.updateDecorator(event => {
         if(idx > -1) {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
-                if(isShallow(model.ref)) {
-                    triggerRef(model.ref)
-                }
+                model.triggerIfShallow()
             }
         } else if(event.target.checked) {
             model.value.push(props.valueChecked)
-            if(isShallow(model.ref)) {
-                triggerRef(model.ref)
-            }
+            model.triggerIfShallow()
         }
     } else {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked

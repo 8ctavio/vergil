@@ -6,7 +6,7 @@ import Badge from '../Badge.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { shallowRef, triggerRef, isShallow, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
+import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, usePopover } from '../../composables'
 import { prune, isObject } from '../../utilities'
@@ -290,15 +290,11 @@ function updateSelection(option, closeOnUpdated = false) {
             if(idx > -1) {
                 if(option.checked) {
                     model.value.splice(idx,1)
-                    if(isShallow(model.ref)) {
-                        triggerRef(model.ref)
-                    }
+                    model.triggerIfShallow()
                 }
             } else if(!option.checked) {
                 model.value.push(option.value)
-                if(isShallow(model.ref)){
-                    triggerRef(model.ref)
-                }
+                model.triggerIfShallow()
             }
         } else {
             model.value = option.checked ? '' : option.value

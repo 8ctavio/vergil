@@ -1,4 +1,4 @@
-import { customRef, toRaw, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
+import { toRaw, customRef, triggerRef, isShallow, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
@@ -95,11 +95,15 @@ export function useDefineModel(options = {}) {
 
         let modelMeta = modelMap.get(model)
         if(!modelMeta) {
-            modelMeta = {
+            modelMap.set(model, modelMeta = {
                 hasInteractiveCtx: false,
                 resetInteractiveCtx: false,
-            }
-            modelMap.set(model, modelMeta)
+                triggerIfShallow() {
+                    if(isShallow(model.ref)) {
+                        triggerRef(model.ref)
+                    }
+                }
+            })
         }
 
         const [onModelUpdate, controller] = useModelWatchers(model, modelMeta, isCollection)
@@ -229,6 +233,7 @@ export function useDefineModel(options = {}) {
                     model.value = v
                 }
             }),
+            triggerIfShallow: modelMeta.triggerIfShallow,
 
             onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
                 if(isFunction(cb)) {
