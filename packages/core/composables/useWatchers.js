@@ -69,16 +69,14 @@ export function useWatchers(sources, { deep } = {}) {
 				stop = () => watcher()
 			})
 		} else {
-			if(options.immediate) {
-				if(!isPaused) {
-					watch(sources, callback, { immediate: true, once: true })
-				}
+			if(options.immediate && !isPaused) {
+				watch(sources, callback, { immediate: true, once: true })
 				if(options.once) return noop
 			}
 			
 			if(!auxWatcher) {
 				effectScope(true).run(() => {
-					auxWatcher = watchControlledSync(sources, (v) => {
+					auxWatcher = watchControlledSync(sources, () => {
 						for(const effect of watchers.effects) {
 							effect[isScheduled] = true
 						}
@@ -98,9 +96,9 @@ export function useWatchers(sources, { deep } = {}) {
 						if(!isPaused) {
 							auxWatcher.resume()
 							callback(...args)
+							if(options.once) stop()
 						}
 					}
-					if(options.once) stop()
 				}, { flush: options.flush, deep })
 
 				const effect = watchers.effects.at(-1)

@@ -1,16 +1,15 @@
 import { toRaw, customRef, watchSyncEffect, watch, nextTick, getCurrentScope, getCurrentInstance, onMounted } from 'vue'
-import { useModel, useWatchers } from '.'
+import { useModel } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
-import { watchControlledSync } from './private'
+import { useModelWatchers, watchControlledSync } from './private'
 import { isFunction, isObject } from '../utilities'
 import { noop } from '../utilities/private'
 
 const modelMap = new WeakMap()
-const symInternal = {
-    trigger: Symbol('internal:triggerCbs'),
-    hasSyncCbs: Symbol('internal:hasSyncCbs'),
-}
+const symExt_controller = Symbol('external:controller')
+const symInt_trigger = Symbol('internal:triggerCbs')
+const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
 
 /**
  * Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
@@ -92,6 +91,17 @@ export function useDefineModel(options = {}) {
                     includeElements: false,
                     includeExposed: false,
                 })
+
+        let modelMeta = modelMap.get(model)
+        if(!modelMeta) {
+            modelMeta = {
+                hasInteractiveCtx: false,
+                resetInteractiveCtx: false,
+            }
+            modelMap.set(model, modelMeta)
+        }
+
+        const [onModelUpdate, controller] = useModelWatchers(model, modelMeta, isCollection)
         
         const internalCallbacks = {
             sync: [],
@@ -126,7 +136,7 @@ export function useDefineModel(options = {}) {
             if(internalFlags.triggerSyncCbs) {
                 let currentModel = componentModel
                 while(currentModel = currentModel.parent) {
-                    currentModel[symInternal.trigger]('sync', newValue, oldValue)
+                    currentModel[symInt_trigger]('sync', newValue, oldValue)
                 }
             } else {
                 internalSensor.pause()
@@ -140,28 +150,19 @@ export function useDefineModel(options = {}) {
                 const newValue = model.value
                 let currentModel = componentModel
                 while(currentModel = currentModel.parent) {
-                    currentModel[symInternal.trigger](flush, newValue, oldValue)
+                    currentModel[symInt_trigger](flush, newValue, oldValue)
                 }
             }, { flush })
         }
 
-        const watchers = useWatchers(model.ref, { deep: isCollection && 1 })
-        let modelMeta = modelMap.get(model)
-        if(!modelMeta) {
-            modelMeta = {
-                hasInteractiveCtx: false,
-                resetInteractiveCtx: false,
-            }
-            modelMap.set(model, modelMeta)
-        }
         function updateDecorator(fn) {
             return isFunction(fn) ? function(...args) {
-                // Pause parent component model watchers
+                // Pause parent component models
                 let currentModel = componentModel
                 internalFlags.triggerSyncCbs = false
                 do {
-                    currentModel.watchers.pause()
-                    internalFlags.triggerSyncCbs ||= currentModel[symInternal.hasSyncCbs]
+                    currentModel[symExt_controller].pause()
+                    internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
                 } while(currentModel = currentModel.parent)
                 // Set hasInteractiveCtx flag
                 if(!modelMeta.hasInteractiveCtx) {
@@ -196,22 +197,16 @@ export function useDefineModel(options = {}) {
                             modelMeta.hasInteractiveCtx = false
                         })
                     }
-                    // Resume parent component model watchers
+                    // Resume parent component models
                     currentModel = componentModel
-                    do currentModel.watchers.resume()
+                    do currentModel[symExt_controller].resume()
                     while(currentModel = currentModel.parent)
                 }
             } : noop
         }
-        
         const componentModel = defineReactiveProperties(Object.create(model), withDescriptor => ({
             parent: withDescriptor({
                 value: mayBeComponentModel && isValidModel ? props.modelValue : null,
-                enumerable: false,
-                writable: false
-            }),
-            watchers: withDescriptor({
-                value: watchers,
                 enumerable: false,
                 writable: false
             }),
@@ -228,27 +223,25 @@ export function useDefineModel(options = {}) {
             onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
                 if(isFunction(cb)) {
                     if(isOnMounted) {
-                        let stop
-                        const setupScope = getCurrentScope()
-                        onMounted(() => {
-                            setupScope.run(() => {{
-                                stop = watchers.onUpdated((v,u,c) => {
-                                    cb(v, u, !modelMeta.hasInteractiveCtx, c)
-                                }, { ...options, immediate: true })
-                            }})
-                        })
-                        return () => {
-                            if(instance.isMounted) {
-                                stop()
-                            } else {
-                                onMounted(stop)
+                        const instance = getCurrentInstance()
+                        if(instance) {
+                            let stop
+                            const setupScope = getCurrentScope()
+                            onMounted(() => {
+                                setupScope.run(() => {{
+                                    stop = onModelUpdate(cb, { ...options, immediate: true })
+                                }})
+                            })
+                            return () => {
+                                if(instance.isMounted) {
+                                    stop()
+                                } else {
+                                    onMounted(stop)
+                                }
                             }
                         }
-                    } else {
-                        return watchers.onUpdated((v,u,c) => {
-                            cb(v, u, !modelMeta.hasInteractiveCtx, c)
-                        }, options)
                     }
+                    return onModelUpdate(cb, options)
                 } else {
                     return noop
                 }
@@ -293,12 +286,17 @@ export function useDefineModel(options = {}) {
                 }
             },
 
-            [symInternal.trigger](flush, newValue, oldValue) {
+            [symExt_controller]: withDescriptor({
+                value: controller,
+                enumerable: false,
+                writable: false
+            }),
+            [symInt_trigger](flush, newValue, oldValue) {
                 for(const cb of internalCallbacks[flush]) {
                     if(isFunction(cb)) cb(newValue, oldValue)
                 }
             },
-            [symInternal.hasSyncCbs]: withDescriptor({
+            [symInt_hasSyncCbs]: withDescriptor({
                 get() {
                     return internalFlags.hasSyncCbs
                 }
