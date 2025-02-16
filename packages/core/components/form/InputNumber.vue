@@ -87,7 +87,7 @@ const displayedString = useModel('', {
 	includeExposed: false
 })
 let displayedNumber = 0
-model.onExternalMutation(modelValue => {
+model.onExternalUpdate(modelValue => {
 	const modelNumber = Number(modelValue)
 	if(Number.isNaN(modelNumber)) {
 		model.update(() => {

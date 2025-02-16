@@ -9,21 +9,40 @@ import { RadioGroup, Radio } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
+const vehicles = {
+    mongoose: 'Mongoose',
+    warthog: 'Warthog',
+    scorpion: 'Scorpion'
+}
+
 const demo1 = ref('')
 const demo2 = ref('')
 const demo3 = ref('')
 const demo4 = ref('')
+
+const options1 = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+const options2 = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+const options3 = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
 </script>
 
 ## Basic Usage
 
 <Demo>
-    <RadioGroup name="vehicles" label="Vehicles"
-        :options="{
-            mongoose: 'Mongoose',
-            warthog: 'Warthog',
-            scorpion: 'Scorpion'
-        }"/>
+    <RadioGroup name="vehicles" :options="vehicles" label="Vehicles"/>
     <RadioGroup value="mark-iv" name="armor" label="Armor">
         <Radio value="mark-iv" label="Mark IV"/>
         <Radio value="mark-v" label="Mark V" theme="user"/>
@@ -35,18 +54,20 @@ const demo4 = ref('')
 <script setup>
 import { RadioGroup, Radio } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
+
 const vehicle = ref('')
 const armor = ref('mark-iv')
+
+const vehicleOptions = {
+    mongoose: 'Mongoose',
+    warthog: 'Warthog',
+    scorpion: 'Scorpion'
+}
 </script>
 
 <template>
     <!-- options prop: Radio value-label pairs -->
-    <RadioGroup v-model="vehicle" name="vehicles" label="Vehicles"
-        :options="{
-            mongoose: 'Mongoose',
-            warthog: 'Warthog',
-            scorpion: 'Scorpion'
-        }"/>
+    <RadioGroup v-model="vehicle" :options="vehicleOptions" name="vehicles" label="Vehicles"/>
 
     <!-- default slot -->
     <RadioGroup v-model="armor" name="armor" label="Armor">
@@ -82,26 +103,23 @@ The following table summarizes how an option's value is inferred depending on th
 
 ##### Example. Options Array
 
-```vue-html
-<RadioGroup
-    v-model="checked"
-    :options="[
-        'Option 1',
-        ['Option 2', 'Description 2']
-    ]"
-/>
+```vue
+<script setup>
+const options = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+</script>
+
+<template>
+    <RadioGroup v-model="checked" :options/>
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <RadioGroup
-                v-model="demo1"
-                label="Options array"
-                :options="[
-                    'Option 1',
-                    ['Option 2', 'Description 2']
-                ]"/>    
+            <RadioGroup v-model="demo1" :options="options1" label="Options array"/>    
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo1 }}'</code>
@@ -111,26 +129,23 @@ The following table summarizes how an option's value is inferred depending on th
 
 ##### Example. Options Object
 
-```vue-html
-<RadioGroup
-    v-model="checked"
-    :options="{
-        value1: 'Option 1',
-        value2: ['Option 2', 'Description 2']
-    }"
-/>
+```vue
+<script setup>
+const options = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+</script>
+
+<template>
+    <RadioGroup v-model="checked" :options/>
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <RadioGroup
-                v-model="demo2"
-                label="Options object"
-                :options="{
-                    value1: 'Option 1',
-                    value2: ['Option 2', 'Description 2']
-                }"/>    
+            <RadioGroup v-model="demo2" :options="options2" label="Options object"/>    
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo2 }}'</code>
@@ -148,41 +163,36 @@ The `option-value`, `option-label`, and `option-description` props allow to spec
 
 As strings, these props represent an object key. If an `option` is an object, the resulting value/label/description is obtained by accessing that object with the provided key.
 
-```vue-html
-<RadioGroup
-    v-model="checked"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    option-value="id"    
-    option-label="name"
-    option-description="email"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <RadioGroup v-model="checked" :options
+        option-value="id"    
+        option-label="name"
+        option-description="email"
+    />
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <RadioGroup
-                v-model="demo3"
-                :options="[{
-                    id: '123',
-                    name: 'Abc Def',
-                    email: 'abd.def@vergil.com'
-                },{
-                    id: '456',
-                    name: 'Uvw Xyz',
-                    email: 'uvw.xyz@vergil.com'
-                }]"
+            <RadioGroup v-model="demo3" :options="options3"
                 option-value="id"    
                 option-label="name"
-                option-description="email"/>    
+                option-description="email"
+            />    
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo3 }}'</code>
@@ -192,41 +202,36 @@ As strings, these props represent an object key. If an `option` is an object, th
 
 As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
-```vue-html
-<RadioGroup
-    v-model="checked"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    :option-value="option => kebabCase(option.name)"    
-    :option-label="option => option.name.split(' ')[0]"
-    :option-description="option => `@@mail@@ ${option.email}`"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <RadioGroup v-model="checked" :options
+        :option-value="option => kebabCase(option.name)"    
+        :option-label="option => option.name.split(' ')[0]"
+        :option-description="option => `@@mail@@ ${option.email}`"
+    />
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <RadioGroup
-                v-model="demo4"
-                :options="[{
-                    id: '123',
-                    name: 'Abc Def',
-                    email: 'abd.def@vergil.com'
-                },{
-                    id: '456',
-                    name: 'Uvw Xyz',
-                    email: 'uvw.xyz@vergil.com'
-                }]"
+            <RadioGroup v-model="demo4" :options="options3"
                 :option-value="option => kebabCase(option.name)"    
                 :option-label="option => option.name.split(' ')[0]"
-                :option-description="option => `@@mail@@ ${option.email}`"/>    
+                :option-description="option => `@@mail@@ ${option.email}`"
+            />    
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo4 }}'</code>

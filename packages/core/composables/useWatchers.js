@@ -1,4 +1,4 @@
-import { watch, effectScope, getCurrentWatcher } from "vue"
+import { watch, effectScope, onScopeDispose, getCurrentWatcher } from "vue"
 import { watchControlledSync } from "./private"
 import { noop } from "../utilities/private"
 
@@ -76,13 +76,17 @@ export function useWatchers(sources, { deep } = {}) {
 				if(options.once) return noop
 			}
 			
-			auxWatcher ??= watchControlledSync(sources, () => {
-				for(const effect of watchers.effects) {
-					effect[isScheduled] = true
-				}
-				scheduledEffects = watchers.effects.length
-				auxWatcher.pause()
-			}, { deep })
+			if(!auxWatcher) {
+				effectScope(true).run(() => {
+					auxWatcher = watchControlledSync(sources, (v) => {
+						for(const effect of watchers.effects) {
+							effect[isScheduled] = true
+						}
+						scheduledEffects = watchers.effects.length
+						auxWatcher.pause()
+					}, { deep })
+				})
+			}
 			auxWatcher[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
@@ -115,6 +119,7 @@ export function useWatchers(sources, { deep } = {}) {
 					}
 				}
 			})
+			onScopeDispose(stop, true)
 		}
 		return stop
 	}

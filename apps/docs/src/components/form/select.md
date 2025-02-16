@@ -9,10 +9,44 @@ import { Select } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
+const difficulties = {
+    easy: 'Easy',
+    normal: 'Normal',
+    heroic: 'Heroic',
+    legendary: 'Legendary'
+}
+const skulls = {
+    anger: 'Anger',
+    blind: 'Blind',
+    catch: 'Catch',
+    ghost: 'Ghost',
+}
+
 const demo1 = ref('')
 const demo2 = ref('')
 const demo3 = ref('')
 const demo4 = ref('')
+
+const options1 = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+const options2 = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+const options3 = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+const options4 = ['The Fall of Reach', 'The Flood', 'First Strike']
+const options5 = ['abc','uvw','xyz']
+const options6 = ['Option']
 </script>
 
 <style scoped>
@@ -34,22 +68,12 @@ const demo4 = ref('')
         <Select class="select-demo"
             label="Difficulty"
             placeholder="Choose difficulty"
-            :options="{
-                easy: 'Easy',
-                normal: 'Normal',
-                heroic: 'Heroic',
-                legendary: 'Legendary'
-            }"/>
+            :options="difficulties"/>
         <Select class="select-demo"
             :value="[]"
             label="Skulls"
             placeholder="Select skulls"
-            :options="{
-                anger: 'Anger',
-                blind: 'Blind',
-                catch: 'Catch',
-                ghost: 'Ghost',
-            }"/>
+            :options="skulls"/>
     </div>
 </Demo>
 
@@ -57,8 +81,22 @@ const demo4 = ref('')
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
+
 const difficulty = ref('')
+const difficultyOptions = {
+    easy: 'Easy',
+    normal: 'Normal',
+    heroic: 'Heroic',
+    legendary: 'Legendary'
+}
+
 const skulls = ref([])
+const skullOptions = {
+    anger: 'Anger',
+    blind: 'Blind',
+    catch: 'Catch',
+    ghost: 'Ghost',
+}
 </script>
 
 <template>
@@ -66,26 +104,18 @@ const skulls = ref([])
     <Select
         class="select-demo"
         v-model="difficulty"
+        :options="difficultyOptions"
         label="Difficulty"
         placeholder="Choose difficulty"
-        :options="{
-            easy: 'Easy',
-            normal: 'Normal',
-            heroic: 'Heroic',
-            legendary: 'Legendary'
-        }"/>
+    />
     <!-- Multiple Selection -->
     <Select
         class="select-demo"
         v-model="skulls"
+        :options="skullOptions"
         label="Skulls"
         placeholder="Select skulls"
-        :options="{
-            anger: 'Anger',
-            blind: 'Blind',
-            catch: 'Catch',
-            ghost: 'Ghost',
-        }"/>
+    />
 </template>
 
 <style scoped>
@@ -124,47 +154,49 @@ The following table summarizes how an option's value is inferred depending on th
 
 ##### Example. Options Array
 
-```vue-html
-<Select
-    v-model="selected"
-    :options="[
-        'Option 1',
-        ['Option 2', 'Description 2']
-    ]"
-/>
+```vue
+<script setup>
+const options = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+</script>
+
+<template>
+    <Select v-model="selected" :options/>
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         v-model="demo1"
+        :options="options1"
         placeholder="Options array"
-        :options="[
-            'Option 1',
-            ['Option 2', 'Description 2']
-        ]"/>    
+    />    
     <code>selected.value === '{{ demo1 }}'</code>
 </Demo>
 
 ##### Example. Options Object
 
-```vue-html
-<Select
-    v-model="selected"
-    :options="{
-        value1: 'Option 1',
-        value2: ['Option 2', 'Description 2']
-    }"
-/>
+```vue
+<script setup>
+const options = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+</script>
+
+<template>
+    <Select v-model="selected" :options/>
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         v-model="demo2"
+        :options="options2"
         placeholder="Options object"
-        :options="{
-            value1: 'Option 1',
-            value2: ['Option 2', 'Description 2']
-        }"/>  
+    />  
     <code>selected.value === '{{ demo2 }}'</code>
 </Demo>
 
@@ -174,79 +206,77 @@ The `option-value`, `option-label`, and `option-description` props allow to spec
 
 As strings, these props represent an object key. If an `option` is an object, the resulting value/label/description is obtained by accessing that object with the provided key.
 
-```vue-html
-<Select
-    v-model="selected"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    option-value="id"    
-    option-label="name"
-    option-description="email"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <Select
+        v-model="selected"
+        :options
+        option-value="id"    
+        option-label="name"
+        option-description="email"
+    />
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         v-model="demo3"
-        placeholder="Select option"
-        :options="[{
-            id: '123',
-            name: 'Abc Def',
-            email: 'abd.def@vergil.com'
-        },{
-            id: '456',
-            name: 'Uvw Xyz',
-            email: 'uvw.xyz@vergil.com'
-        }]"
+        :options="options3"
         option-value="id"    
         option-label="name"
-        option-description="email"/>
+        option-description="email"
+        placeholder="Select option"
+    />
     <code>checked.value === '{{ demo3 }}'</code>
 </Demo>
 
 As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
-```vue-html
-<Select
-    v-model="selected"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    :option-value="option => kebabCase(option.name)"    
-    :option-label="option => option.name.split(' ')[0]"
-    :option-description="option => `@@mail@@ ${option.email}`"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <Select
+        v-model="selected"
+        :options
+        :option-value="option => kebabCase(option.name)"    
+        :option-label="option => option.name.split(' ')[0]"
+        :option-description="option => `@@mail@@ ${option.email}`"
+    />
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         v-model="demo4"
-        placeholder="Select option"
-        :options="[{
-            id: '123',
-            name: 'Abc Def',
-            email: 'abd.def@vergil.com'
-        },{
-            id: '456',
-            name: 'Uvw Xyz',
-            email: 'uvw.xyz@vergil.com'
-        }]"
+        :options="options3"
         :option-value="option => kebabCase(option.name)"    
         :option-label="option => option.name.split(' ')[0]"
-        :option-description="option => `@@mail@@ ${option.email}`"/>  
+        :option-description="option => `@@mail@@ ${option.email}`"
+        placeholder="Select option"
+    />
     <code>checked.value === '{{ demo4 }}'</code>
 </Demo>
 
@@ -278,21 +308,25 @@ When selecting multiple options, the selected options are displayed in the selec
 
 The `placeholder-fallback` function receives as its only argument the number of selected options.
 
-```vue-html
-<Select
-    :value="[]"
-    :options="['The Fall of Reach', 'The Flood', 'First Strike']"
-    :placeholder-fallback="n => {
-        return `${n} Option${n > 1 ? 's':''} Selected`
-    }"
-    placeholder="Select option"
-/>
+```vue
+<script setup>
+const options = ['The Fall of Reach', 'The Flood', 'First Strike']
+</script>
+
+<template>
+    <Select :value="[]" :options
+        :placeholder-fallback="n => {
+            return `${n} Option${n > 1 ? 's':''} Selected`
+        }"
+        placeholder="Select option"
+    />
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         :value="[]"
-        :options="['The Fall of Reach', 'The Flood', 'First Strike']"
+        :options="options4"
         :placeholder-fallback="n => {
             return `${n} Option${n > 1 ? 's':''} Selected`
         }"
@@ -312,17 +346,19 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 
 ### Filter <Badge><pre>filter: boolean</pre></Badge>
 
-```vue-html
-<Select
-    :options="['abc','uvw','xyz']"
-    placeholder="Select option"
-    filter
-/>
+```vue
+<script setup>
+const options = ['abc','uvw','xyz']
+</script>
+
+<template>
+    <Select :options filter placeholder="Select option"/>
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
-        :options="['abc','uvw','xyz']"
+        :options="options5"
         placeholder="Select option"
         filter
     />
@@ -332,17 +368,20 @@ The `placeholder-fallback` prop only takes effect in multiple selection mode.
 
 The `filter-input` prop is an object of props forwarded to the filter's `InputText` component.
 
-```vue-html
-<Select
-    :options="['Option']"
-    placeholder="Select option"
-    filter
-    :filter-input="{
-        placeholder: 'Filter users',
-        icon: 'person_search',
-        max: '10'
-    }"
-/>
+```vue
+<script setup>
+const options = ['Option']
+</script>
+
+<template>
+    <Select :options filter placeholder="Select option"
+        :filter-input="{
+            placeholder: 'Filter users',
+            icon: 'person_search',
+            max: '10'
+        }"
+    />
+</template>
 ```
 
 <Demo>
@@ -366,20 +405,23 @@ The filter's default placeholder can be configured through the `placeholderFilte
 
 The `placeholder-not-found` prop is used to obtain a placeholder to display when the `Select`'s filter input yields no results. The passed function receives as a single argument the filter input's query.
 
-```vue-html
-<Select
-    :options="['Option']"
-    placeholder="Select option"
-    filter
-    :placeholder-not-found="query => {
-        return `@@search_off@@\nCould not find [['${query}']]`
-    }"
-/>
+```vue
+<script setup>
+const options = ['Option']
+</script>
+
+<template>
+    <Select :options filter placeholder="Select option"
+        :placeholder-not-found="query => {
+            return `@@search_off@@\nCould not find [['${query}']]`
+        }"
+    />
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
-        :options="['Option']"
+        :options="options6"
         placeholder="Select option"
         filter
         :placeholder-not-found="query => `@@search_off@@\nCould not find [['${query}']]`"
@@ -394,19 +436,25 @@ query => `No results for [["${query}"]]`
 
 ### Chips <Badge><pre>chips: boolean</pre></Badge> <Badge type="warning">Only for multiple selection</Badge>
 
-```vue-html
-<Select
-    :value="[]"
-    :options="['abc','uvw','xyz']"
-    placeholder="Select option"
-    chips
-/>
+```vue
+<script setup>
+const options = ['abc','uvw','xyz']
+</script>
+
+<template>
+    <Select
+        :value="[]"
+        :options
+        chips
+        placeholder="Select option"
+    />
+</template>
 ```
 
 <Demo>
     <Select class="select-demo"
         :value="[]"
-        :options="['abc','uvw','xyz']"
+        :options="options5"
         placeholder="Select option"
         chips
     />
@@ -415,7 +463,13 @@ query => `No results for [["${query}"]]`
 ### Float label <Badge><pre>float-label: boolean</pre></Badge>
 
 ```vue
-<Select label="Select option" float-label :options="['Option']"/>
+<script setup>
+const options = ['Option']
+</script>
+
+<template>
+    <Select label="Select option" float-label :options/>
+</template>
 ```
 
 <Demo>

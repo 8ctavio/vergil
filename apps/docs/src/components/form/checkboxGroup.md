@@ -8,22 +8,42 @@ outline: [2,3]
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
 import { ref } from 'vue'
 import { kebabCase } from '@8ctavio/vergil/utilities'
+import { useModel } from '@8ctavio/vergil'
+
+const planets = {
+    earth: 'Earth',
+    reach: 'Reach',
+    harvest: 'Harvest'
+}
 
 const demo1 = ref('')
 const demo2 = ref('')
 const demo3 = ref('')
 const demo4 = ref('')
+
+const options1 = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+const options2 = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+const options3 = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
 </script>
 
 ## Basic Usage
 
 <Demo>
-    <CheckboxGroup label="Planets"
-        :options="{
-            earth: 'Earth',
-            reach: 'Reach',
-            harvest: 'Harvest'
-        }"/>
+    <CheckboxGroup label="Planets" :options="planets"/>
     <CheckboxGroup label="Ships">
         <Checkbox value="pillarOfAutumn" label="Pillar of Autumn" checked/>
         <Checkbox value="inAmberClad" label="In Amber Clad" theme="user"/>
@@ -37,16 +57,17 @@ import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
 import { ref } from '@8ctavio/vergil'
 const planets = ref([])
 const ships = ref([])
+
+const planetOptions = {
+    earth: 'Earth',
+    reach: 'Reach',
+    harvest: 'Harvest'
+}
 </script>
 
 <template>
     <!-- options prop: Checkbox value-label pairs -->
-    <CheckboxGroup v-model="planets" label="Planets"
-        :options="{
-            earth: 'Earth',
-            reach: 'Reach',
-            harvest: 'Harvest'
-        }"/>
+    <CheckboxGroup v-model="planets" :options="planetOptions" label="Planets"/>
 
     <!-- default slot -->
     <CheckboxGroup v-model="ships" label="Ships">
@@ -82,26 +103,23 @@ The following table summarizes how an option's value is inferred depending on th
 
 ##### Example. Options Array
 
-```vue-html
-<CheckboxGroup
-    v-model="checked"
-    :options="[
-        'Option 1',
-        ['Option 2', 'Description 2']
-    ]"
-/>
+```vue
+<script setup>
+const options = [
+    'Option 1',
+    ['Option 2', 'Description 2']
+]
+</script>
+
+<template>
+    <CheckboxGroup v-model="checked" :options/>
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <CheckboxGroup
-                v-model="demo1"
-                label="Options array"
-                :options="[
-                    'Option 1',
-                    ['Option 2', 'Description 2']
-                ]"/>    
+            <CheckboxGroup v-model="demo1" :options="options1" label="Options array"/>
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo1 }}'</code>
@@ -111,26 +129,23 @@ The following table summarizes how an option's value is inferred depending on th
 
 ##### Example. Options Object
 
-```vue-html
-<CheckboxGroup
-    v-model="checked"
-    :options="{
-        value1: 'Option 1',
-        value2: ['Option 2', 'Description 2']
-    }"
-/>
+```vue
+<script setup>
+const options = {
+    value1: 'Option 1',
+    value2: ['Option 2', 'Description 2']
+}
+</script>
+
+<template>
+    <CheckboxGroup v-model="checked" :options/>
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <CheckboxGroup
-                v-model="demo2"
-                label="Options object"
-                :options="{
-                    value1: 'Option 1',
-                    value2: ['Option 2', 'Description 2']
-                }"/>    
+            <CheckboxGroup v-model="demo2" :options="options2" label="Options object"/>
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo2 }}'</code>
@@ -148,41 +163,36 @@ The `option-value`, `option-label`, and `option-description` props allow to spec
 
 As strings, these props represent an object key. If an `option` is an object, the resulting value/label/description is obtained by accessing that object with the provided key.
 
-```vue-html
-<CheckboxGroup
-    v-model="checked"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    option-value="id"    
-    option-label="name"
-    option-description="email"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <CheckboxGroup v-model="checked" :options
+        option-value="id"    
+        option-label="name"
+        option-description="email"
+    />
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <CheckboxGroup
-                v-model="demo3"
-                :options="[{
-                    id: '123',
-                    name: 'Abc Def',
-                    email: 'abd.def@vergil.com'
-                },{
-                    id: '456',
-                    name: 'Uvw Xyz',
-                    email: 'uvw.xyz@vergil.com'
-                }]"
+            <CheckboxGroup v-model="demo3" :options="options3"
                 option-value="id"    
                 option-label="name"
-                option-description="email"/>    
+                option-description="email"
+            />    
         </div>
         <div class="row center">
             <code>checked.value === '{{ demo3 }}'</code>
@@ -192,38 +202,32 @@ As strings, these props represent an object key. If an `option` is an object, th
 
 As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
 
-```vue-html
-<CheckboxGroup
-    v-model="checked"
-    :options="[{
-        id: '123',
-        name: 'Abc Def',
-        email: 'abd.def@vergil.com'
-    },{
-        id: '456',
-        name: 'Uvw Xyz',
-        email: 'uvw.xyz@vergil.com'
-    }]"
-    :option-value="option => kebabCase(option.name)"    
-    :option-label="option => option.name.split(' ')[0]"
-    :option-description="option => `@@mail@@ ${option.email}`"
-/>
+```vue
+<script setup>
+const options = [{
+    id: '123',
+    name: 'Abc Def',
+    email: 'abc.def@vergil.com'
+},{
+    id: '456',
+    name: 'Uvw Xyz',
+    email: 'uvw.xyz@vergil.com'
+}]
+</script>
+
+<template>
+    <CheckboxGroup v-model="checked" :options
+        :option-value="option => kebabCase(option.name)"    
+        :option-label="option => option.name.split(' ')[0]"
+        :option-description="option => `@@mail@@ ${option.email}`"
+    />
+</template>
 ```
 
 <Demo>
     <div class="col">
         <div class="row center">
-            <CheckboxGroup
-                v-model="demo4"
-                :options="[{
-                    id: '123',
-                    name: 'Abc Def',
-                    email: 'abd.def@vergil.com'
-                },{
-                    id: '456',
-                    name: 'Uvw Xyz',
-                    email: 'uvw.xyz@vergil.com'
-                }]"
+            <CheckboxGroup v-model="demo4" :options="options3"
                 :option-value="option => kebabCase(option.name)"    
                 :option-label="option => option.name.split(' ')[0]"
                 :option-description="option => `@@mail@@ ${option.email}`"/>    

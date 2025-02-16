@@ -265,8 +265,8 @@ function handleFilterInput(event) {
 watch(() => props.options, () => {
     updateOptions(true, true)
 }, { flush: 'post' })
-model.onExternalMutation(() => {
-    updateOptions()
+model.onExternalUpdate((v, u, isProgrammatic) => {
+    updateOptions(!isProgrammatic)
 }, { flush: 'post' })
 function handleChange() {
     updateOptions(true)

@@ -1,7 +1,6 @@
-import { provide, hasInjectionContext } from 'vue'
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
-import { useResetValue, symModelWatchers } from './private'
+import { useResetValue } from './private'
 import { normalizeRef } from '../utilities/private'
 
 /**
@@ -42,9 +41,6 @@ export function useModel(value, options = {}) {
     if(isModel(value)) {
         return value
     } else {
-        if(hasInjectionContext()) {
-            provide(symModelWatchers, undefined)
-        }
         const {
             extendRef = false,
             isShallow = false,
@@ -61,31 +57,28 @@ export function useModel(value, options = {}) {
             value = normalizeRef(getResetValue(), isShallow)
         }
         
-        const proto = extendedRef(value, withDescriptor => {
-            const extension = {
-                reset() {
-                    proto.value = getResetValue()
-                },
-                __v_isModel: withDescriptor({
-                    value: true,
-                    enumerable: false,
-                    writable: false
-                })
-            }
-            if(includeElements) {
-                extension.elements = withDescriptor({
-                    value: {},
-                    writable: false
-                })
-            }
-            if(includeExposed) {
-                extension.exposed = withDescriptor({
-                    value: {},
-                    writable: false
-                })
-            }
-            return extension
-        }, { configurable: false })
-        return proto
+        const model = extendedRef(value, withDescriptor => ({
+            reset() {
+                model.value = getResetValue()
+            },
+            __v_isModel: withDescriptor({
+                value: true,
+                enumerable: false,
+                writable: false
+            })
+        }), { configurable: false })
+        if(includeElements) {
+            Object.defineProperty(model, 'elements', {
+                value: {},
+                enumerable: true
+            })
+        }
+        if(includeExposed) {
+            Object.defineProperty(model, 'exposed', {
+                value: {},
+                enumerable: true
+            })
+        }
+        return model
     }
 }
