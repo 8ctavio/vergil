@@ -1,4 +1,4 @@
-import { toRaw, customRef, watchSyncEffect, watch, nextTick, getCurrentScope, getCurrentInstance, onMounted } from 'vue'
+import { toRaw, customRef, watchSyncEffect, watch, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
@@ -204,6 +204,15 @@ export function useDefineModel(options = {}) {
                 }
             } : noop
         }
+
+        const instanceScope = getCurrentScope()
+        onScopeDispose(() => {
+            internalCallbacks.pre.length = 0
+            internalCallbacks.post.length = 0
+            internalCallbacks.sync.length = 0
+            internalFlags.hasSyncCbs = false
+        })
+
         const componentModel = defineReactiveProperties(Object.create(model), withDescriptor => ({
             parent: withDescriptor({
                 value: mayBeComponentModel && isValidModel ? props.modelValue : null,
@@ -228,9 +237,9 @@ export function useDefineModel(options = {}) {
                             let stop
                             const setupScope = getCurrentScope()
                             onMounted(() => {
-                                setupScope.run(() => {{
+                                setupScope.run(() => {
                                     stop = onModelUpdate(cb, { ...options, immediate: true })
-                                }})
+                                })
                             })
                             return () => {
                                 if(instance.isMounted) {
@@ -273,6 +282,9 @@ export function useDefineModel(options = {}) {
                         if(flush === 'sync' && callbacks.length === 0) {
                             internalFlags.hasSyncCbs = false
                         }
+                    }
+                    if(instanceScope !== getCurrentInstance()) {
+                        onScopeDispose(stop, true)
                     }
                     return stop
                 } else {
