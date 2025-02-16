@@ -1,6 +1,5 @@
-import isPlainObject from "is-plain-obj"
 import { onMounted, onUnmounted } from "vue"
-import { isFunction } from "../../utilities"
+import { isFunction, isPlainObject } from "../../utilities"
 
 export function createExposer(callback) {
     return function(target, source) {

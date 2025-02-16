@@ -198,6 +198,20 @@ export function isFunction(value){
 export function isObject(value){
     return value !== null && typeof value === 'object'
 }
+
+/**
+ * Assesses whether a value is a plain object.
+ * 
+ * @param { any } value 
+ * @returns { boolean } `true` if `value` is a plain object.
+ */
+export function isPlainObject(value) {
+    if(value === null || typeof value !== 'object' || Object.hasOwn(value, Symbol.toStringTag))
+        return false
+
+	const proto = Object.getPrototypeOf(value)
+    return proto === Object.prototype || proto === null
+}
 // #endregion
 
 //----------------------------------------------

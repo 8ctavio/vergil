@@ -252,6 +252,21 @@ function isObject(value: any): boolean
 
 `true` if `value` is an object.
 
+<!-----------------------------------------------------
+-------------------- isPlainObject --------------------
+------------------------------------------------------>
+### `isPlainObject`
+
+> Assesses whether a value is a plain object.
+
+```js
+function isPlainObject(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a plain object.
+
 ## Date
 
 <!----------------------------------------------------

@@ -1,4 +1,4 @@
-import isPlainObject from 'is-plain-obj'
+import { isPlainObject } from './utilities'
 import { inferTheme } from './utilities/private'
 
 class Option {
