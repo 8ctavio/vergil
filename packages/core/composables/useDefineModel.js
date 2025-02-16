@@ -266,18 +266,12 @@ export function useDefineModel(options = {}) {
                     }
                     const stop = () => {
                         const callbacks = internalCallbacks[flush]
-                        for(let i=0; i<callbacks[i]; i++) {
-                            if(callbacks[i] === cb) {
-                                callbacks[i] = undefined
-                                if(i === callbacks[i].length - 1) {
-                                    do callbacks[i].pop()
-                                    while(--i > 0 && callbacks[i] === undefined)
-                                }
-                                if(flush === 'sync' && callbacks.length === 0) {
-                                    internalFlags.hasSyncCbs = false
-                                }
-                                break
-                            }
+                        const idx = callbacks.indexOf(cb)
+                        if(idx > -1) {
+                            callbacks.splice(idx, 1)
+                        }
+                        if(flush === 'sync' && callbacks.length === 0) {
+                            internalFlags.hasSyncCbs = false
                         }
                     }
                     return stop
@@ -293,7 +287,7 @@ export function useDefineModel(options = {}) {
             }),
             [symInt_trigger](flush, newValue, oldValue) {
                 for(const cb of internalCallbacks[flush]) {
-                    if(isFunction(cb)) cb(newValue, oldValue)
+                    cb(newValue, oldValue)
                 }
             },
             [symInt_hasSyncCbs]: withDescriptor({
