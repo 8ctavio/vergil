@@ -31,7 +31,7 @@ function createOptionVNode(props, option, key) {
 
 <script setup>
 import FormField from './FormField.vue'
-import { toRef, useTemplateRef, provide, h } from 'vue'
+import { toRef, provide, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isFunction, isObject } from '../../utilities'
@@ -138,9 +138,7 @@ provide(`${props.type}-group-props`, {
     name: toRef(() => props.name),
     disabled: toRef(() => props.disabled),
 })
-useDefineElements({
-    options: useTemplateRef('options')
-})
+useDefineElements(['options'])
 
 function Options({ options }) {
     if(options !== null) {

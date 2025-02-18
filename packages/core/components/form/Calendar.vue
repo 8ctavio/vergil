@@ -645,10 +645,7 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useDefineModel({ isCollection: true })
-const elements = useDefineElements({
-	root: useTemplateRef('calendar'),
-	dates: useTemplateRef('dates')
-})
+const elements = useDefineElements(['root', 'dates'])
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 		if(elements.dates) {
@@ -895,7 +892,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 </script>
 
 <template>
-	<div ref="calendar"
+	<div ref="root"
 		:class="['calendar', {
 			[inferTheme(theme)]: theme,
 			[`size-${size}`]: size,

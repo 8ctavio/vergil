@@ -2,7 +2,6 @@
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { useTemplateRef } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
@@ -85,9 +84,7 @@ if(props.checked) {
     }
 }
 
-const elements = useDefineElements({
-    input: useTemplateRef('checkbox')
-})
+const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueOn)
@@ -120,7 +117,7 @@ const handleChange = model.updateDecorator(event => {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                ref="checkbox"
+                ref="input"
                 :value="valueOn"
                 :class="{ highlight }"
                 :disabled

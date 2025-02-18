@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, useTemplateRef, inject } from 'vue'
+import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -73,9 +73,7 @@ if(props.checked && model.value === '') {
     model.value = props.value
 }
 
-const elements = useDefineElements({
-    input: useTemplateRef('radio')
-})
+const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = modelValue === elements.input.value
 }, { onMounted: true })
@@ -101,7 +99,7 @@ function handleChange(event) {
             <input
                 v-bind="$attrs"
                 type="radio"
-                ref="radio"
+                ref="input"
                 :value
                 :name="name || groupProps?.name.value"
                 :disabled="disabled || groupProps?.disabled.value"

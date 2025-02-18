@@ -3,7 +3,7 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon.vue'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed, useTemplateRef } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -87,9 +87,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel()
-const elements = useDefineElements({
-    input: useTemplateRef('input')
-})
+const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })

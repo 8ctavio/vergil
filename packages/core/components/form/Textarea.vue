@@ -1,7 +1,7 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed, useTemplateRef } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
@@ -72,9 +72,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel()
-const elements = useDefineElements({
-    input: useTemplateRef('textarea')
-})
+const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })
@@ -97,7 +95,7 @@ const floatLabelEnabled = computed(() => {
         <div :class="['textarea-wrapper', { underline }]">
             <textarea
                 v-bind="$attrs"
-                ref="textarea"
+                ref="input"
                 :class="[`text-${textAlign}`, { resize }]"
                 :placeholder
                 :maxlength="max"

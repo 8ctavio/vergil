@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, useTemplateRef, inject } from 'vue'
+import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -84,9 +84,7 @@ if(props.checked) {
     }
 }
 
-const elements = useDefineElements({
-    input: useTemplateRef('checkbox')
-})
+const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueChecked)
@@ -124,7 +122,7 @@ const handleChange = model.updateDecorator(event => {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                ref="checkbox"
+                ref="input"
                 :value="valueChecked"
                 :disabled="disabled || groupProps?.disabled.value"
                 @change="handleChange"
