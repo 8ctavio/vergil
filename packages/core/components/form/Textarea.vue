@@ -95,7 +95,7 @@ const floatLabelEnabled = computed(() => {
         <div :class="['textarea-wrapper', { underline }]">
             <textarea
                 v-bind="$attrs"
-                ref="input"
+                :ref="elements.refs.input"
                 :class="[`text-${textAlign}`, { resize }]"
                 :placeholder
                 :maxlength="max"

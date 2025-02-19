@@ -1,47 +1,60 @@
-import { toRaw, useTemplateRef, getCurrentInstance, onUnmounted } from "vue"
+import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
 import { isModel } from "./useModel"
-import { isPlainObject } from "../utilities"
+import { extendedReactive } from "./extendedReactivity/extendedReactive"
+import { isFunction } from "../utilities"
+import { definedInstances, definedElements, symTrigger} from "./private"
 
-const definedElements = new WeakSet()
+const symHasInstance = Symbol('hasInstance')
 export function useDefineElements(keys) {
 	const instance = getCurrentInstance()
-	if(instance && !definedElements.has(instance) && Array.isArray(keys)) {
-		definedElements.add(instance)
-
-		const props = toRaw(instance.props)
-		const target = (isModel(props.modelValue) && props.modelValue.elements) || props.elements
-		const isValidTarget = isPlainObject(target)
-		let aux = isValidTarget ? target : {}
-
-		const elements = {}
-		for(const key of keys) {
-			const element = useTemplateRef(key)
-			Object.defineProperty(elements, key, {
-				get() { return element._value },
-				enumerable: true,
-			})
-			Object.defineProperty(aux, key, {
-				get() { return element._value },
-				enumerable: true,
-				configurable: true
-			})
-		}
-		aux = undefined
-
-		onUnmounted(() => {
-			definedElements.delete(instance)
-			if(isValidTarget) {
-				for(const key of keys) {
-					Object.defineProperty(target, key, {
-						value: undefined,
-						writable: false,
-						enumerable: true,
-						configurable: true
-					})
-				}
-			}
+	if(instance && Array.isArray(keys)) {
+		let instMeta = definedInstances.get(instance)
+		if(!instMeta) definedInstances.set(instMeta = {
+			definedElements: false,
+			definedExposed: false
 		})
-		
-		return elements
+
+		if(!instMeta.definedElements) {
+			const props = toRaw(instance.props)
+			const elementsProxy = (isModel(props.modelValue) && props.modelValue.elements) || props.elements
+			const elements = definedElements.get(elementsProxy) ?? extendedReactive({})
+			if(!elements[symHasInstance]) {
+				instMeta.definedElements = true
+				if(Object.hasOwn(elements, symHasInstance)) {
+					elements[symHasInstance] = true
+				} else {
+					Object.defineProperty(elements, symHasInstance, {
+						value: true,
+						writable: true
+					})
+
+					const ignore = ['__v_skip', 'refs']
+					for(const key of keys) {
+						if(typeof key !== 'string' || ignore.includes(key))
+							continue
+	
+						Object.defineProperty(elements.refs, key, {
+							value: shallowRef(null),
+							writable: false,
+							enumerable: true,
+							configurable: true
+						})
+						Object.defineProperty(elements, key, {
+							get() { return this.refs[key].value },
+							enumerable: true
+						})
+					}
+					if(isFunction(elements[symTrigger])) {
+						elements[symTrigger]()
+						delete elements[symTrigger]
+					}
+				}
+				onUnmounted(() => {
+					elements[symHasInstance] = false
+				})
+				return elements
+			}
+		}
 	}
+	return null
 }

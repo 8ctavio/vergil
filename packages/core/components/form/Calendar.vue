@@ -892,7 +892,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 </script>
 
 <template>
-	<div ref="root"
+	<div :ref="elements.refs.root"
 		:class="['calendar', {
 			[inferTheme(theme)]: theme,
 			[`size-${size}`]: size,
@@ -945,7 +945,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					{{ labels.shortWeekdays[weekday] }}
 				</p>
 			</div>
-			<div ref="dates" class="calendar-dates" tabindex="0" @change="handleChange">
+			<div :ref="elements.refs.dates" class="calendar-dates" tabindex="0" @change="handleChange">
 				<label v-for="date of generateDates()"
 					:key="date.value"
 					class="calendar-date calendar-button"

@@ -1,6 +1,11 @@
 import { onMounted, onUnmounted } from "vue"
 import { isFunction, isPlainObject } from "../../utilities"
 
+export const symTrigger = Symbol('trigger')
+export const definedInstances = new WeakMap()
+export const definedElements = new WeakMap()
+export const definedExposed = new WeakMap()
+
 export function createExposer(callback) {
     return function(target, source) {
         if(isPlainObject(target)) {

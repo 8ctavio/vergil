@@ -116,7 +116,7 @@ const showBtnAfter = isObject(props.btnAfter)
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
                     v-bind="$attrs"
-                    ref="input"
+                    :ref="elements.refs.input"
                     :class="`text-${textAlign}`"
                     :type
                     :placeholder

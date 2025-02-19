@@ -1,5 +1,6 @@
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
+import { useElements } from './'
 import { useResetValue } from './private'
 import { normalizeRef } from '../utilities/private'
 
@@ -69,7 +70,7 @@ export function useModel(value, options = {}) {
         }), { configurable: false })
         if(includeElements) {
             Object.defineProperty(model, 'elements', {
-                value: {},
+                value: useElements(),
                 enumerable: true
             })
         }

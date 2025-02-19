@@ -99,7 +99,7 @@ function handleChange(event) {
             <input
                 v-bind="$attrs"
                 type="radio"
-                ref="input"
+                :ref="elements.refs.input"
                 :value
                 :name="name || groupProps?.name.value"
                 :disabled="disabled || groupProps?.disabled.value"

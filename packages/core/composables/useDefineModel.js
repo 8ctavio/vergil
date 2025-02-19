@@ -1,5 +1,5 @@
 import { toRaw, customRef, triggerRef, isShallow, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
-import { useModel } from '.'
+import { useModel, useElements } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
 import { useModelWatchers, watchControlledSync } from './private'
@@ -37,13 +37,17 @@ export function useDefineModel(options = {}) {
     const instance = getCurrentInstance()
     if(instance) {
         const { isCollection = false } = options
-        const capture = {
-            elements: options.captureElements ?? false,
-            exposed: options.captureExposed ?? false,
-        }
-        const include = {
-            elements: options.includeElements ?? true,
-            exposed: options.includeExposed ?? true,
+        const resources = {
+            elements: {
+                include: options.includeElements ?? true,
+                capture: options.captureElements ?? false,
+                create: useElements,
+            },
+            exposed: {
+                include: options.includeExposed ?? true,
+                capture: options.captureExposed ?? false,
+                create: () => {},
+            }
         }
 
         const { props } = instance
@@ -323,15 +327,15 @@ export function useDefineModel(options = {}) {
 
         for(const key of ['elements', 'exposed']) {
             const descriptor = { writable: false }
-            if(include[key]) {
-                if(capture[key] && isValidModel) {
+            if(resources[key].include) {
+                if(resources[key].capture && isValidModel) {
                     if(mayBeComponentModel && Object.hasOwn(modelValue, key)) {
-                        descriptor.value = modelValue[key] ?? rawProps[key] ?? {}
+                        descriptor.value = modelValue[key] ?? rawProps[key] ?? resources[key].create()
                     } else if(!Object.hasOwn(model, key)) {
-                        descriptor.value = rawProps[key] ?? {}
+                        descriptor.value = rawProps[key] ?? resources[key].create()
                     }
                 } else {
-                    descriptor.value = {}
+                    descriptor.value = resources[key].create()
                 }
             } else {
                 descriptor.value = null

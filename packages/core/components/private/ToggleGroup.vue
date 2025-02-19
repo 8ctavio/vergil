@@ -138,7 +138,7 @@ provide(`${props.type}-group-props`, {
     name: toRef(() => props.name),
     disabled: toRef(() => props.disabled),
 })
-useDefineElements(['options'])
+const elements = useDefineElements(['options'])
 
 function Options({ options }) {
     if(options !== null) {
@@ -162,7 +162,7 @@ function Options({ options }) {
         >
         <div
             v-bind="$attrs"
-            ref="options"
+            :ref="elements.refs.options"
             :class="['toggle-group-wrapper', variant]"
         >
             <slot>
