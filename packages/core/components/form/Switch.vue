@@ -72,7 +72,9 @@ const props = defineProps({
     }
 })
 
+const elements = useDefineElements(['input'])
 const model = useDefineModel({ isCollection: true })
+
 if(props.checked) {
     if(Array.isArray(model.value)) {
         if(!model.value.includes(props.valueOn)) {
@@ -84,7 +86,6 @@ if(props.checked) {
     }
 }
 
-const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueOn)

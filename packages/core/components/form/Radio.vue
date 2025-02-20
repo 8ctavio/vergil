@@ -68,12 +68,13 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.radio.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
+const elements = useDefineElements(['input'])
 const model = useDefineModel()
+
 if(props.checked && model.value === '') {
     model.value = props.value
 }
 
-const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = modelValue === elements.input.value
 }, { onMounted: true })

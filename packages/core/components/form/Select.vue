@@ -87,6 +87,7 @@ const props = defineProps({
 
 const model = useDefineModel({
     isCollection: true,
+    includeElements: true,
     captureElements: true,
     captureExposed: true
 })
@@ -100,7 +101,7 @@ const floatLabelEnabled = computed(() => {
         && !(props.placeholder || props.description)
 })
 
-const filterModel = useModel('')
+const filterModel = useModel('', { includeExposed: false })
 
 //-------------------- POPOVER --------------------
 const {

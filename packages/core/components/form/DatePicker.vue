@@ -107,6 +107,7 @@ const props = defineProps({
 
 const model = useDefineModel({
 	isCollection: true,
+	includeElements: true,
 	captureElements: true,
 	captureExposed: true
 })

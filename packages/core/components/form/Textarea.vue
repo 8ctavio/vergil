@@ -71,8 +71,9 @@ const props = defineProps({
     }
 })
 
-const model = useDefineModel()
 const elements = useDefineElements(['input'])
+
+const model = useDefineModel()
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })

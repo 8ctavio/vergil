@@ -459,10 +459,10 @@ function handleArrowNext() {
 }
 
 //-------------------- TIME SELECTION --------------------
-const hours = useModel(0)
-const minutes = useModel(0)
-const displayedHours = useModel('00')
-const displayedMinutes = useModel('00')
+const hours = useModel(0, { includeElements: false, includeExposed: false })
+const minutes = useModel(0, { includeElements: false, includeExposed: false })
+const displayedHours = useModel('00', { includeElements: false, includeExposed: false })
+const displayedMinutes = useModel('00', { includeElements: false, includeExposed: false })
 const timePeriod = shallowRef('AM')
 const hoursMeta = computed(() => {
 	const min = props.hours.min ?? 0
@@ -644,8 +644,8 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useDefineModel({ isCollection: true })
 const elements = useDefineElements(['root', 'dates'])
+const model = useDefineModel({ isCollection: true })
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 		if(elements.dates) {

@@ -72,7 +72,9 @@ const size = computed(() => props.size ?? (descendant.value ? undefined : (vergi
 const radius = computed(() => props.radius ?? (descendant.value ? undefined : (vergil.config.checkbox.radius ?? vergil.config.global.radius)))
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
+const elements = useDefineElements(['input'])
 const model = useDefineModel({ isCollection: true })
+
 if(props.checked) {
     if(Array.isArray(model.value)) {
         if(!model.value.includes(props.valueChecked)) {
@@ -84,7 +86,6 @@ if(props.checked) {
     }
 }
 
-const elements = useDefineElements(['input'])
 model.onExternalUpdate(modelValue => {
     elements.input.checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueChecked)

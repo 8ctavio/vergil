@@ -36,20 +36,11 @@ const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
 export function useDefineModel(options = {}) {
     const instance = getCurrentInstance()
     if(instance) {
-        const { isCollection = false } = options
-        const resources = {
-            elements: {
-                include: options.includeElements ?? true,
-                capture: options.captureElements ?? false,
-                create: useElements,
-            },
-            exposed: {
-                include: options.includeExposed ?? true,
-                capture: options.captureExposed ?? false,
-                create: () => {},
-                create: useExposed,
-            }
-        }
+        const {
+            isCollection = false,
+            includeElements = false,
+            includeExposed = false
+        } = options
 
         const { props } = instance
         const rawProps = toRaw(props)
@@ -326,20 +317,26 @@ export function useDefineModel(options = {}) {
 			})
         }), { configurable: false })
 
+        const resources = {
+            elements: {
+                capture: options.captureElements ?? false,
+                getDefault: includeElements ? useElements : () => null,
+            },
+            exposed: {
+                capture: options.captureExposed ?? false,
+                getDefault: includeExposed ? useExposed : () => null,
+            }
+        }
         for(const key of ['elements', 'exposed']) {
             const descriptor = { writable: false }
-            if(resources[key].include) {
-                if(resources[key].capture && isValidModel) {
-                    if(mayBeComponentModel && Object.hasOwn(modelValue, key)) {
-                        descriptor.value = modelValue[key] ?? rawProps[key] ?? resources[key].create()
-                    } else if(!Object.hasOwn(model, key)) {
-                        descriptor.value = rawProps[key] ?? resources[key].create()
-                    }
-                } else {
-                    descriptor.value = resources[key].create()
+            if(resources[key].capture) {
+                if(isValidModel && mayBeComponentModel && Object.hasOwn(modelValue, key)) {
+                    descriptor.value = modelValue[key] ?? rawProps[key] ?? resources[key].getDefault()
+                } else if(!Object.hasOwn(model, key)) {
+                    descriptor.value = rawProps[key] ?? resources[key].getDefault()
                 }
             } else {
-                descriptor.value = null
+                descriptor.value = resources[key].getDefault()
             }
             if(Object.hasOwn(descriptor, 'value')) {
                 Object.defineProperty(componentModel, key, descriptor)

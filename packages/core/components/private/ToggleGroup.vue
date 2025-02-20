@@ -128,11 +128,7 @@ const props = defineProps({
     }
 })
 
-const model = useDefineModel({
-    isCollection: true,
-    includeElements: false,
-    includeExposed: false
-})
+const model = useDefineModel({ isCollection: true })
 provide(`${props.type}-group-props`, {
     model,
     name: toRef(() => props.name),
