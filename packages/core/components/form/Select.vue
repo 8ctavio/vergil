@@ -25,7 +25,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
     options : Object,
     optionValue: [String, Function],
@@ -88,8 +87,7 @@ const props = defineProps({
 const model = useDefineModel({
     isCollection: true,
     includeElements: true,
-    captureElements: true,
-    captureExposed: true
+    captureElements: true
 })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))

@@ -22,7 +22,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
     placeholder: {
         type: String,

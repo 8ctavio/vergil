@@ -16,7 +16,6 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
 	min: {
 		type: Number,
@@ -78,10 +77,7 @@ watchEffect(() => {
 //---------------------------
 //---------- MODEL ----------
 //---------------------------
-const model = useDefineModel({
-	captureElements: true,
-	captureExposed: true,
-})
+const model = useDefineModel({ captureElements: true })
 const displayedString = useModel('', {
 	includeElements: false,
 	includeExposed: false
@@ -408,7 +404,6 @@ watchEffect(() => {
 		class="input-number"
         :model-value="displayedString"
 		:elements="model.elements"
-		:exposed="model.exposed"
         :btnBefore
         :btnAfter
 		@beforeinput="handleBeforeInput"

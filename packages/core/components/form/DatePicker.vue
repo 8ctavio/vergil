@@ -40,7 +40,6 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
 	//----- Calendar -----
 	locale: {
@@ -108,8 +107,7 @@ const props = defineProps({
 const model = useDefineModel({
 	isCollection: true,
 	includeElements: true,
-	captureElements: true,
-	captureExposed: true
+	captureElements: true
 })
 const isSelected = computed(() => hasDate(model.value))
 const floatLabelEnabled = computed(() => {

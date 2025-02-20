@@ -242,7 +242,6 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
 	locale: {
 		type: [String, Object],
@@ -353,6 +352,8 @@ const props = defineProps({
         validator: isValidSpacing
     }
 })
+
+const elements = useDefineElements(['root', 'dates'])
 
 //-------------------- LOCALIZED LABELS --------------------
 const labels = computed(() => {
@@ -644,7 +645,6 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const elements = useDefineElements(['root', 'dates'])
 const model = useDefineModel({ isCollection: true })
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {

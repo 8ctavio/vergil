@@ -55,7 +55,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
     //----- Component specific -----
     name: String,
@@ -128,13 +127,14 @@ const props = defineProps({
     }
 })
 
+const elements = useDefineElements(['options'])
+
 const model = useDefineModel({ isCollection: true })
 provide(`${props.type}-group-props`, {
     model,
     name: toRef(() => props.name),
     disabled: toRef(() => props.disabled),
 })
-const elements = useDefineElements(['options'])
 
 function Options({ options }) {
     if(options !== null) {

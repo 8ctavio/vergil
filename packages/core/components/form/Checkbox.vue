@@ -33,7 +33,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     elements: Object,
-    exposed: Object,
 
     label: String,
     description: String,
