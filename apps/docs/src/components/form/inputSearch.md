@@ -7,8 +7,9 @@ outline: [2,3]
 <script setup>
 import { InputSearch, Btn } from '@8ctavio/vergil/components'
 import { toast } from '@8ctavio/vergil'
+import { useExposed } from '@8ctavio/vergil'
 
-const exposed = {}
+const exposed = useExposed()
 async function handleSearch(){
     await new Promise(r => setTimeout(r,3000))
     toast('warn', 'Not found')
@@ -148,7 +149,9 @@ Method to properly clear `InputSearch`'s text field.
 
 ```vue
 <script setup>
-const exposed = {}
+import { useExposed } from '@8ctavio/vergil'
+
+const exposed = useExposed()
 function handleClear(){
     exposed.clear?.()
 }

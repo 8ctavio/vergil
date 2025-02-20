@@ -2,9 +2,8 @@ import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
 import { isModel } from "./useModel"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
 import { isFunction } from "../utilities"
-import { definedInstances, definedElements, symTrigger} from "./private"
+import { definedInstances, definedElements, symTrigger, symHasInstance} from "./private"
 
-const symHasInstance = Symbol('hasInstance')
 export function useDefineElements(keys) {
 	const instance = getCurrentInstance()
 	if(instance && Array.isArray(keys)) {

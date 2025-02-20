@@ -1,29 +1,50 @@
-import { toRaw, isRef, isReadonly, getCurrentInstance } from "vue"
+import { toRaw, getCurrentInstance, onUnmounted } from "vue"
 import { isModel } from "./useModel"
-import { createExposer } from "./private"
-import { isFunction } from "../utilities"
+import { isFunction, isPlainObject } from "../utilities"
+import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./private"
 
-const updateExposed = createExposer(value => {
-	if(isRef(value) && !isReadonly(value)) {
-		return {
-			get() { return value.value },
-			enumerable: true,
-			configurable: true
-		}
-	} else {
-		return {
-			value,
-			writable: false,
-			enumerable: !isFunction(value),
-			configurable: true
-		}
-	}
-})
-export function useDefineExposed(exposed) {
+export function useDefineExposed(source) {
 	const instance = getCurrentInstance()
-	if(instance) {
-		const props = toRaw(instance.props)
-		const target = (isModel(props.modelValue) && props.modelValue.exposed) || props.exposed
-		updateExposed(target, exposed)
+	if(instance && isPlainObject(source)) {
+		let instMeta = definedInstances.get(instance)
+		if(!instMeta) definedInstances.set(instMeta = {
+			definedElements: false,
+			definedExposed: false
+		})
+
+		if(!instMeta.definedExposed) {
+			const props = toRaw(instance.props)
+			const exposedProxy = (isModel(props.modelValue) && props.modelValue.exposed) || props.exposed
+			const exposed = definedExposed.get(exposedProxy)
+			if(exposed && !exposed[symHasInstance]) {
+				instMeta.definedExposed = true
+				Object.defineProperty(exposed, symHasInstance, {
+					value: true,
+					writable: true
+				})
+				const keys = Object.keys(source)
+				for(const key of keys) {
+					Object.defineProperty(exposed, key, {
+						value: source[key],
+						writable: false,
+						enumerable: !isFunction(source[key]),
+						configurable: true
+					})
+				}
+				exposed[symTrigger]()
+				onUnmounted(() => {
+					exposed[symHasInstance] = false
+					for(const key of keys) {
+						Object.defineProperty(exposed, key, {
+							value: undefined,
+							writable: false,
+							enumerable: !isFunction(exposed[key]),
+							configurable: true
+						})
+					}
+					exposed[symTrigger]()
+				})
+			}
+		}
 	}
 }

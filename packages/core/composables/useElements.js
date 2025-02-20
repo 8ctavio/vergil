@@ -1,8 +1,7 @@
 import { shallowRef } from "vue"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
-import { definedElements, symTrigger } from "./private"
+import { definedElements, symTrigger, getTrue } from "./private"
 
-const getTrue = () => true
 /**
  * @TODO add functions for the update handler methods
  * to display a warning message during development

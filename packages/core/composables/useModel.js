@@ -1,6 +1,6 @@
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
-import { useElements } from './'
+import { useElements, useExposed } from './'
 import { useResetValue } from './private'
 import { normalizeRef } from '../utilities/private'
 
@@ -76,7 +76,7 @@ export function useModel(value, options = {}) {
         }
         if(includeExposed) {
             Object.defineProperty(model, 'exposed', {
-                value: {},
+                value: useExposed(),
                 enumerable: true
             })
         }

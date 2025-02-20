@@ -1,5 +1,5 @@
 import { toRaw, customRef, triggerRef, isShallow, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
-import { useModel, useElements } from '.'
+import { useModel, useElements, useExposed } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
 import { useModelWatchers, watchControlledSync } from './private'
@@ -47,6 +47,7 @@ export function useDefineModel(options = {}) {
                 include: options.includeExposed ?? true,
                 capture: options.captureExposed ?? false,
                 create: () => {},
+                create: useExposed,
             }
         }
 
