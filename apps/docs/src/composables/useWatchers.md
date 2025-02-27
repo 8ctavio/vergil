@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `useWatchers`
 
-> Allows to create multiple watchers for the same source, and to pause and resume created watchers for their callbacks to ignore source updates.
+> Allows to create multiple watchers for the same source and to pause and resume them to ignore source updates.
 
 ## Usage
 
@@ -48,14 +48,14 @@ function useWatchers<T>(
     sources: WatchSource<T>,
     options: { deep: boolean | number }
 ): {
-	onUpdated: (
-        callback: WatchCallback<T>,
-        options: WatchOptions
-    ) => (() => void);
+    stop: () => void;
     pause: () => void;
     resume: () => void;
     ignore: (cb: () => void) => void;
-    stop: () => void;
+    onUpdated: (
+        callback: WatchCallback<T>,
+        options: WatchOptions
+    ) => (() => void);
 }
 ```
 

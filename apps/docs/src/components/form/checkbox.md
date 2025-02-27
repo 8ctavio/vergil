@@ -6,10 +6,16 @@ outline: [2,3]
 
 <script setup>
 import { Checkbox } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
-const checked = ref(false)
-const planet = ref('')
-const planets = ref([])
+import { useModel } from '@8ctavio/vergil'
+const checked = useModel(false)
+const planet = useModel('', {
+    includeExposed: false,
+    includeElements: false,
+})
+const planets = useModel([], {
+    includeExposed: false,
+    includeElements: false,
+})
 </script>
 
 ## Basic Usage
@@ -20,7 +26,7 @@ const planets = ref([])
             <Checkbox v-model="checked" label="Checkbox"/>
         </div>
         <div class="row center">
-            <code>checked.value === {{ checked }}</code>
+            <code>checked.value === {{ checked.value }}</code>
         </div>
         <div class="row center">
             <Checkbox v-model="planet" value="earth" label="Earth"/>
@@ -28,7 +34,7 @@ const planets = ref([])
             <Checkbox v-model="planet" value="harvest" label="Harvest"/>
         </div>
         <div class="row center">
-            <code>planet.value === '{{ planet }}'</code>
+            <code>planet.value === '{{ planet.value }}'</code>
         </div>
         <div class="row center">
             <Checkbox v-model="planets" value="arcadia" label="Arcadia"/>
@@ -36,7 +42,7 @@ const planets = ref([])
             <Checkbox v-model="planets" value="sanghelios" label="Sanghelios"/>
         </div>
         <div class="row center">
-            <code>planets.value === {{ planets }}</code>
+            <code>planets.value === {{ planets.value }}</code>
         </div>
     </div>
 </Demo>
@@ -215,6 +221,29 @@ The `description` slot may be use instead. The slot content overrides the `descr
     </div>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | `<input[type="checkbox"]>` | `Checkbox`'s underlying input element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="label" classes="checkbox">
+        <Anatomy tag='input[type="checkbox"]'/>
+        <Anatomy tag="span" classes="toggle-button">
+            <Anatomy tag="svg" classes="toggle-check"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-label">
+            <Anatomy tag='slot name="default"'/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-description">
+            <Anatomy tag='slot name="description"'/>
+        </Anatomy>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -245,20 +274,3 @@ The following `Checkbox` props' default values can be overwritten under the `che
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="label" classes="checkbox">
-        <Anatomy tag='input[type="checkbox"]'/>
-        <Anatomy tag="span" classes="toggle-button">
-            <Anatomy tag="svg" classes="toggle-check"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="toggle-label">
-            <Anatomy tag='slot name="default"'/>
-        </Anatomy>
-        <Anatomy tag="p" classes="toggle-description">
-            <Anatomy tag='slot name="description"'/>
-        </Anatomy>
-    </Anatomy>
-</Demo>

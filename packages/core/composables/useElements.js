@@ -27,6 +27,28 @@ import { definedElements, symTrigger, getTrue } from "./private"
  * const elements = useElements(InpuText)
  * ```
  */
+
+/**
+ * Creates a read-only, shallow-ref-unwrapping object to consume component-exposed HTML elements. 
+ * 
+ * @returns { object } A read-only, shallow-ref-unwrapping object to be provided through an `elements` prop to a component with proper `useElements` support.
+ * 
+ * @example
+ *  ```vue
+ *  <script setup>
+ *  const elements = useElements()
+ *  onMounted(() => {
+ *  	// Access component's exposed elements
+ *  	console.log(elements.someHTMLElement)
+ *  })
+ *  </script>
+ * 
+ *  <template>
+ *      <!-- Provide `elements` for component to expose elements -->
+ *      <Component :elements/>
+ *  </template>
+ *  ```
+ */
 export function useElements() {
 	const dep = shallowRef().dep
 	let track = dep.track.bind(dep)
@@ -43,9 +65,9 @@ export function useElements() {
 				const descriptor = Object.getOwnPropertyDescriptor(target, property)
 				return descriptor && (Object.hasOwn(descriptor, 'value') || descriptor.get)
 					? target[property].value
-					: undefined
+					: null
 			} else {
-				return undefined
+				return null
 			}
 		},
 		set: getTrue,

@@ -576,6 +576,49 @@ const options = ['Option']
     <Select class="select-demo" disabled placeholder="Disabled" underline/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `options` | <code class="vp-code-nowrap"><div.toggle-group-wrapper></code> | `CheckboxGroup`'s wrapper of underlying `Checkbox` components. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field select">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="Btn" classes="btn select-button">
+            <Anatomy tag="p" classes="select-placeholder">
+                <Anatomy tag="span"/>
+            </Anatomy>
+            <Anatomy tag="div" classes="chips">
+                <Anatomy tag='Badge.badge v-for="(label,value) in selected'>
+                    <Anatomy tag="button">
+                        <Anatomy tag="Icon" classes="icon"/>
+                    </Anatomy>
+                </Anatomy>
+            </Anatomy>
+            <Anatomy slot="aside">
+                <Anatomy tag="label"/>
+            </Anatomy>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+        <Anatomy tag="Teleport" id="popover-portal">
+            <Anatomy tag="div" classes="popover-wrapper">
+                <Anatomy tag="div" classes="popover select-popver">
+                    <Anatomy tag='Input' classes="input-text"/>
+                    <Anatomy tag='p' classes="select-not-found"/>
+                    <Anatomy tag='CheckboxGroup' classes="checkbox-group"/>
+                </Anatomy>
+            </Anatomy>
+        </Anatomy>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -618,40 +661,3 @@ The following `Select` props' default values can be overwritten under the `selec
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field select">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="Btn" classes="btn select-button">
-            <Anatomy tag="p" classes="select-placeholder">
-                <Anatomy tag="span"/>
-            </Anatomy>
-            <Anatomy tag="div" classes="chips">
-                <Anatomy tag='Badge.badge v-for="(label,value) in selected'>
-                    <Anatomy tag="button">
-                        <Anatomy tag="Icon" classes="icon"/>
-                    </Anatomy>
-                </Anatomy>
-            </Anatomy>
-            <Anatomy slot="aside">
-                <Anatomy tag="label"/>
-            </Anatomy>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-        <Anatomy tag="Teleport" id="popover-portal">
-            <Anatomy tag="div" classes="popover-wrapper">
-                <Anatomy tag="div" classes="popover select-popver">
-                    <Anatomy tag='Input' classes="input-text"/>
-                    <Anatomy tag='p' classes="select-not-found"/>
-                    <Anatomy tag='CheckboxGroup' classes="checkbox-group"/>
-                </Anatomy>
-            </Anatomy>
-        </Anatomy>
-    </Anatomy>
-</Demo>

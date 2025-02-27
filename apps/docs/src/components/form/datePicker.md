@@ -290,6 +290,44 @@ const btnClearProps = {
     <DatePicker disabled placeholder="Disabled"/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `root` | `<div.calendar>` | `Calendar`'s root div container. |
+| `dates` | `<div.calendar-dates>` | `Calendar`'s date button elements' wrapper |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field date-picker">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="date-picker-wrapper">
+            <Anatomy tag="Btn" classes="btn date-picker-select">
+                <Anatomy tag="p" classes="date-picker-placeholder">
+                    <Anatomy tag="span"/>
+                </Anatomy>
+                <Anatomy slot="aside">
+                    <Anatomy tag="label"/>
+                </Anatomy>
+            </Anatomy>
+            <Anatomy tag="Btn" classes="btn date-picker-clear"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+        <Anatomy tag="Teleport" id="popover-portal">
+            <Anatomy tag="div" classes="popover-wrapper">
+                <Anatomy tag="div" classes="popover date-picker-popover">
+                    <Anatomy tag='Calendar'/>
+                </Anatomy>
+            </Anatomy>
+        </Anatomy>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -331,34 +369,3 @@ The following `DatePicker` props' default values can be overwritten under the `d
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field date-picker">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="date-picker-wrapper">
-            <Anatomy tag="Btn" classes="btn date-picker-select">
-                <Anatomy tag="p" classes="date-picker-placeholder">
-                    <Anatomy tag="span"/>
-                </Anatomy>
-                <Anatomy slot="aside">
-                    <Anatomy tag="label"/>
-                </Anatomy>
-            </Anatomy>
-            <Anatomy tag="Btn" classes="btn date-picker-clear"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-        <Anatomy tag="Teleport" id="popover-portal">
-            <Anatomy tag="div" classes="popover-wrapper">
-                <Anatomy tag="div" classes="popover date-picker-popover">
-                    <Anatomy tag='Calendar'/>
-                </Anatomy>
-            </Anatomy>
-        </Anatomy>
-    </Anatomy>
-</Demo>

@@ -18,6 +18,10 @@
     background-color: var(--vp-c-bg);
 }
 
+.vp-code-nowrap {
+    text-wrap-mode: nowrap;
+}
+
 .vp-doc h4{
     margin-top: 18px;
 }

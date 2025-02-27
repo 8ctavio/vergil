@@ -196,10 +196,33 @@ The maximum string length that can be entered into the textarea.
 </Demo>
 
 <style>
-    .fixed-width{
-        width: 150px;
-    }
+.fixed-width{
+    width: 150px;
+}
 </style>
+
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | <code class="vp-code-nowrap">\<textarea\></code>| `Textarea`'s underlying textarea element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field textarea">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="textarea-wrapper">
+            <Anatomy tag="textarea"/>
+            <Anatomy tag="label"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
 
 ## API Reference
 
@@ -235,20 +258,3 @@ The following `Textarea` props' default values can be overwritten under the `tex
 | `size` | ✅ |
 | `radius` | ✅ |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field textarea">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="textarea-wrapper">
-            <Anatomy tag="textarea"/>
-            <Anatomy tag="label"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>

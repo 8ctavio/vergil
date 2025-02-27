@@ -179,6 +179,39 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
     <Slider disabled value="50" display-value/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | <code class="vp-code-nowrap"><input[type="range"]></code>| `Slider`'s underlying input element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field slider">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="slider-outer">
+            <Anatomy tag="div" classes="slider-wrapper">
+                <Anatomy tag='span'/>
+                <Anatomy tag='input[type="range"]'/>
+                <Anatomy tag="span" classes="slider-track">
+                    <Anatomy tag="span" classes="slider-progress">
+                        <Anatomy tag="span" classes="switch-knob"/>
+                    </Anatomy>
+                </Anatomy>
+                <Anatomy tag='label'/>
+            </Anatomy>
+            <Anatomy tag='p' classes="slider-value"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
+
+
 ## API Reference
 
 | prop | type | default |
@@ -211,32 +244,6 @@ The following `Slider` props' default values can be overwritten under the `slide
 | `size` | ✅ |
 | `radius` | |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field slider">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="slider-outer">
-            <Anatomy tag="div" classes="slider-wrapper">
-                <Anatomy tag='span'/>
-                <Anatomy tag='input[type="range"]'/>
-                <Anatomy tag="span" classes="slider-track">
-                    <Anatomy tag="span" classes="slider-progress">
-                        <Anatomy tag="span" classes="switch-knob"/>
-                    </Anatomy>
-                </Anatomy>
-                <Anatomy tag='label'/>
-            </Anatomy>
-            <Anatomy tag='p' classes="slider-value"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>
 
 <style>
 .slider.formatted > .slider-outer > .slider-value {

@@ -3,6 +3,21 @@ import { isModel } from "./useModel"
 import { isFunction, isPlainObject } from "../utilities"
 import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./private"
 
+/**
+ * Defines component's exposed data.
+ * 
+ * @param { object } source - Plain object whose own enumerable, string-keyed properties are to be exposed.
+ * 
+ * @example
+ *  ```js
+ *  defineProps({
+ *  	exposed: Object
+ *  })
+ *  useDefineExposed({
+ *  	// Properties to expose
+ *  })
+ *  ```
+ */
 export function useDefineExposed(source) {
 	const instance = getCurrentInstance()
 	if(instance && isPlainObject(source)) {

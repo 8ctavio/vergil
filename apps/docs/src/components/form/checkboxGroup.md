@@ -6,7 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
+import { useModel } from '@8ctavio/vergil'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
 const planets = {
@@ -15,10 +15,10 @@ const planets = {
     harvest: 'Harvest'
 }
 
-const demo1 = ref('')
-const demo2 = ref('')
-const demo3 = ref('')
-const demo4 = ref('')
+const demo1 = useModel('')
+const demo2 = useModel('')
+const demo3 = useModel('')
+const demo4 = useModel('')
 
 const options1 = [
     'Option 1',
@@ -121,7 +121,7 @@ const options = [
             <CheckboxGroup v-model="demo1" :options="options1" label="Options array"/>
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo1 }}'</code>
+            <code>checked.value === '{{ demo1.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -147,7 +147,7 @@ const options = {
             <CheckboxGroup v-model="demo2" :options="options2" label="Options object"/>
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo2 }}'</code>
+            <code>checked.value === '{{ demo2.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -194,7 +194,7 @@ const options = [{
             />    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo3 }}'</code>
+            <code>checked.value === '{{ demo3.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -232,7 +232,7 @@ const options = [{
                 :option-description="option => `@@mail@@ ${option.email}`"/>    
         </div>
         <div class="row center">
-            <code>checked.value === '{{ demo4 }}'</code>
+            <code>checked.value === '{{ demo4.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -400,6 +400,30 @@ As a function, `options-attributes` is called for each option, receives the comp
     <CheckboxGroup value="Disabled 1" :options="['Disabled 1', 'Disabled 2']" label="Disabled" disabled/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `options` | <code class="vp-code-nowrap"><div.toggle-group-wrapper></code> | Wrapper of underlying `Checkbox` components. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field checkbox-group">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="toggle-group-wrapper">
+            <Anatomy tag='slot name="default"'>
+                <Anatomy tag='Checkbox v-for="(text,value) in options"'/>
+            </Anatomy>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -427,21 +451,3 @@ As a function, `options-attributes` is called for each option, receives the comp
 ### Configuration options
 
 The `CheckboxGroup` is configured through the `Checkbox` configuration options.
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field checkbox-group">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="toggle-group-wrapper">
-            <Anatomy tag='slot name="default"'>
-                <Anatomy tag='Checkbox v-for="(text,value) in options"'/>
-            </Anatomy>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>

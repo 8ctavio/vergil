@@ -1,6 +1,6 @@
+import { useElements, useExposed } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
-import { useElements, useExposed } from './'
 import { useResetValue } from './private'
 import { normalizeRef } from '../utilities/private'
 
@@ -18,7 +18,15 @@ export function isModel(value){
  * Creates a component model.
  * 
  * @param [value] - Component model's initial value.
- * @param [isShallow] - Whether to use `shallowRef` for the model's internal `value` ref.
+ * @param { {
+ *      shallow: boolean;
+ *      extendRef: boolean;
+ *      includeElements: boolean;
+ *      includeExposed: boolean;
+ * } } options -
+ *  - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
+ *  - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
+ *  - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `true`.
  * 
  * @returns { ExtendedRef }
  * 

@@ -161,20 +161,13 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
     </div>
 </Demo>
 
-## API Reference
+## Elements
 
-| prop | type | default |
+| element | tag | description |
 | ---- | ---- | ------- |
-| `value` | `number \| string` | `0` |
-| `min` | `number` | `-Infinity` |
-| `max` | `number` | `Infinity` |
-| `fraction` | `boolean \| number \| [number,number]` | `true` |
-| `separator` | `boolean` | `true` |
-| `step` | `number` | `1` |
-| `steppers` | `boolean` | |
-| `disabled` | `boolean` | |
+| `input` | <code class="vp-code-nowrap"><input[type="text"]></code>| `InputNumber`'s underlying input element. |
 
-## Anatomy
+### Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="form-field input-text input-number">
@@ -188,7 +181,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
             <Anatomy tag="div" classes="input-text-wrapper">
                 <Anatomy tag="Icon" classes="icon"/>
                 <Anatomy tag="p"/>
-                <Anatomy tag="input"/>
+                <Anatomy tag='input[type="text"]'/>
                 <Anatomy tag="label"/>
                 <Anatomy tag="p"/>
                 <Anatomy tag="Icon" classes="icon"/>
@@ -198,3 +191,16 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>
 </Demo>
+
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `value` | `number \| string` | `0` |
+| `min` | `number` | `-Infinity` |
+| `max` | `number` | `Infinity` |
+| `fraction` | `boolean \| number \| [number,number]` | `true` |
+| `separator` | `boolean` | `true` |
+| `step` | `number` | `1` |
+| `steppers` | `boolean` | |
+| `disabled` | `boolean` | |

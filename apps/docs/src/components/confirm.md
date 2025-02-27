@@ -117,9 +117,9 @@ const confirmed = await confirm('check', {
 
 if(confirmed === true) {
     // User confirmed request
-} else if(confirmed === false){
+} else if(confirmed === false) {
     // User declined request
-} else{
+} else {
     // User tried to open a Confirm component before responding a previous request
 }
 ```

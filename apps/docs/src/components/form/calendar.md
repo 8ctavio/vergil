@@ -6,15 +6,15 @@ outline: [2,3]
 
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { ref, shallowRef } from 'vue'
+import { useModel } from '@8ctavio/vergil'
 
-const demo1 = shallowRef(null)
-const demo2 = shallowRef(null)
-const demo3 = shallowRef(null)
-const demo4 = shallowRef(null)
-const demo5 = shallowRef(null)
-const demo6 = shallowRef(null)
-const demo7 = ref([])
+const demo1 = useModel(null, { shallow: true })
+const demo2 = useModel(null, { shallow: true })
+const demo3 = useModel(null, { shallow: true })
+const demo4 = useModel(null, { shallow: true })
+const demo5 = useModel(null, { shallow: true })
+const demo6 = useModel(null, { shallow: true })
+const demo7 = useModel([])
 </script>
 
 ## Basic Usage
@@ -25,13 +25,13 @@ const demo7 = ref([])
             <Calendar v-model="demo1"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo1?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo1.value?.toString().split(' (',1)[0] }}'</code>
         </div>
         <div class="row center">
             <Calendar v-model.string="demo7"/>
         </div>
         <div class="row center">
-            <code>date.value === {{ demo7 }}</code>
+            <code>date.value === {{ demo7.value }}</code>
         </div>
     </div>
 </Demo>
@@ -68,7 +68,7 @@ When the `string` modifier is present, the model value is handled as a date-only
             <Calendar v-model.string="demo2"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo2 }}'</code>
+            <code>date.value === '{{ demo2.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -87,7 +87,7 @@ When the `timestamp` modifier is present, the model value is handled as a [times
             <Calendar v-model.timestamp="demo3"/>
         </div>
         <div class="row center">
-            <code>date.value === {{ demo3 }}</code>
+            <code>date.value === {{ demo3.value }}</code>
         </div>
     </div>
 </Demo>
@@ -183,7 +183,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo4" time/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo4?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo4.value?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>
@@ -198,7 +198,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo5" time="01:17"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo5?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo5.value?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>
@@ -215,7 +215,7 @@ When using the `string` model value modifier, dates are handled in the date-time
             <Calendar v-model="demo6" time time-format="12"/>
         </div>
         <div class="row center">
-            <code>date.value === '{{ demo6?.toString().split(' (',1)[0] }}'</code>
+            <code>date.value === '{{ demo6.value?.toString().split(' (',1)[0] }}'</code>
         </div>
     </div>
 </Demo>
@@ -389,48 +389,14 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
     <Calendar disabled/>
 </Demo>
 
-## API Reference
+## Elements
 
-| prop | type | default |
+| element | tag | description |
 | ---- | ---- | ------- |
-| `value` | `Date \| null \| string \| number` | `null` |
-| `locale` | `string \| object` | `'en'` |
-| `labels` | `object` | |
-| `firstWeekday` | `number` | `0` |
-| `min` | `string \| number \| Date` | `'1970-01-01'` |
-| `max` | `string \| number \| Date` | `'2131-12-31'` |
-| `selectedMonth` | `string` | |
-| `selectedYear` | `string` | |
-| `time` | `boolean \| string` | |
-| `timeFormat` | `string` | `'24'` |
-| `hours` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 23, step: 1 }` |
-| `minutes` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 59, step: 1 }` |
-| `disabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
-| `enabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
-| `disabledWeekdays` | `number[]` | |
-| `disabled` | `boolean` | |
-| `descendant` | `boolean` | |
-| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
-| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
-| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `root` | `<div.calendar>` | `Calendar`'s root div container. |
+| `dates` | `<div.calendar-dates>` | Date button elements' wrapper |
 
-### Configuration options
-
-The following `Calendar` props' default values can be overwritten under the `calendar` root-level [configuration option](/configuration).
-
-| `calendar.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `locale` | |
-| `labels` | |
-| `firstWeekday` | |
-| `timeFormat` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
-
-## Anatomy
+### Anatomy
 
 <Demo>
     <Anatomy tag="div" classes="calendar">
@@ -474,3 +440,44 @@ The following `Calendar` props' default values can be overwritten under the `cal
         </Anatomy>
     </Anatomy>
 </Demo>
+
+## API Reference
+
+| prop | type | default |
+| ---- | ---- | ------- |
+| `value` | `Date \| null \| string \| number` | `null` |
+| `locale` | `string \| object` | `'en'` |
+| `labels` | `object` | |
+| `firstWeekday` | `number` | `0` |
+| `min` | `string \| number \| Date` | `'1970-01-01'` |
+| `max` | `string \| number \| Date` | `'2131-12-31'` |
+| `selectedMonth` | `string` | |
+| `selectedYear` | `string` | |
+| `time` | `boolean \| string` | |
+| `timeFormat` | `string` | `'24'` |
+| `hours` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 23, step: 1 }` |
+| `minutes` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 59, step: 1 }` |
+| `disabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
+| `enabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
+| `disabledWeekdays` | `number[]` | |
+| `disabled` | `boolean` | |
+| `descendant` | `boolean` | |
+| [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
+| `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+
+### Configuration options
+
+The following `Calendar` props' default values can be overwritten under the `calendar` root-level [configuration option](/configuration).
+
+| `calendar.<option>` | [global](/configuration#global-configuration) |
+| -------------- | :---: |
+| `locale` | |
+| `labels` | |
+| `firstWeekday` | |
+| `timeFormat` | |
+| `theme` | ✅ |
+| `size` | ✅ |
+| `radius` | ✅ |
+| `spacing` | ✅ |

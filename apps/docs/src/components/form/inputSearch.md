@@ -152,7 +152,7 @@ Method to properly clear `InputSearch`'s text field.
 import { useExposed } from '@8ctavio/vergil'
 
 const exposed = useExposed()
-function handleClear(){
+function handleClear() {
     exposed.clear?.()
 }
 </script>
@@ -166,6 +166,37 @@ function handleClear(){
 <Demo>
     <InputSearch :exposed/>
     <Btn @click="() => exposed.clear?.()" label="Clear"/>
+</Demo>
+
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | <code class="vp-code-nowrap"><input[type="text"]></code>| `InputSearch`'s underlying input element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field input-text input-search">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="input-text-outer">
+            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="div" classes="input-text-wrapper">
+                <Anatomy tag="Icon" classes="icon"/>
+                <Anatomy tag="p"/>
+                <Anatomy tag='input[type="text"]'/>
+                <Anatomy tag="label"/>
+                <Anatomy tag="p"/>
+                <Anatomy tag="Icon" classes="icon"/>
+            </Anatomy>
+            <Anatomy tag="Btn" classes="btn"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
 </Demo>
 
 ## API Reference
@@ -185,28 +216,3 @@ The following `InputSearch` props' default values can be overwritten under the `
 | `btnPosition` | |
 
 Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field input-text input-search">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="input-text-outer">
-            <Anatomy tag="Btn" classes="btn"/>
-            <Anatomy tag="div" classes="input-text-wrapper">
-                <Anatomy tag="Icon" classes="icon"/>
-                <Anatomy tag="p"/>
-                <Anatomy tag="input"/>
-                <Anatomy tag="label"/>
-                <Anatomy tag="p"/>
-                <Anatomy tag="Icon" classes="icon"/>
-            </Anatomy>
-            <Anatomy tag="Btn" classes="btn"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>

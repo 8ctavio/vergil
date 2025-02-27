@@ -193,14 +193,14 @@ function everyKeyInObject(
 #### Parameters
 
 - **`obj`** — Object to perform key verification on.
-- **`required`** —  Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
+- **`keys`** —  Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
 - **`strict`** — Whether non-required keys are allowed. If optional keys are specified, object's non-required keys must be `optional` keys. Defaults to `true`.
 
 #### Return value
 
 - `if(optional.length && strict)`: Whether all required keys are a subset of object keys and all object's non-required keys are a subset of optional keys.
-- `else if(strict)`: Whether all required keys are a subset of object keys.
-- `else`: Whether all required keys are are equal to the object keys.
+- `else if(strict)`: Whether all required keys are are equal to the object keys.
+- `else`: Whether all required keys are a subset of object keys.
 
 #### Examples
 

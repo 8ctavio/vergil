@@ -4,148 +4,225 @@ outline: [2,3]
 
 # `useDefineModel`
 
-> Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
+> Defines a bidirectional model-value bond between a (provided) model and a component, and creates a model wrapper with additional utilities to separately handle internal and external model value mutations.
 
 ## Usage
 
 ```vue
 <script setup>
-const props = defineProps({
+defineProps({
 	modelValue: {
-		type: [String, Object],
-		default: ''
+		type: [ModelValueType, Object],
+		default: defaultModelValue
 	},
 	['onUpdate:modelValue']: Function
 })
 
-const model = useDefineModel(props)
+const model = useDefineModel()
 </script>
 ```
 
 ## Description
 
-The `useDefineModel` composable is analogous to the `defineModel` macro in that it creates an object to conveniently interact with a custom component's `modelValue` and `onUpdate:modelValue` props to support two-way data binding.
+The `useDefineModel` composable is analogous to the `defineModel` macro in that it creates an object to conveniently interact with component props to establish a model-component bond through the model's value.
 
-However, `useDefineModel` also support passing a *component model object* created with [`useModel`](/composables/useModel) through `modelValue`. Additionally, `useDefineModel` internally creates a *wrapped* version of a model object which includes the same properties as the regular model plus additional methods to [handle external programmatic mutations](#handle-external-mutations).
+However, `useDefineModel` is primarly designed to support *component model objects* created by the [`useModel`](/composables/useModel) composable and received through the `model-value` prop. Thus, the recommended approach to bind a model with a component implementing `useDefineModel` is by providing a model object via the `v-model` directive. Nevertheless, `useDefineModel` still supports for regular refs to instead be provided through `v-model`.
 
-`useDefineModel` is designed to accept as its first argument the custom component's `props` object (the `modelValue` and `onUpdate:modelValue` props should be defined inside `defineProps`). However, a plain object with a `modelValue` property may also be provided.
-
-:::warning
-A model wrapper returned by `useDefineModel` is an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+:::tip NOTE
+Components implementing `useDefineModel` need to manually define the `modelValue` and `onUpdate:modelValue` props.
 :::
 
-### Motivation
+The `useDefineModel` composable accepts as a single argument an `options` object (see [Parameters](#parameters)) and returns a *wrapped* version of a provided model (if not provided, a model is created internally), which has access to the regular model properties and includes additional methods to [separately handle internal and external model value updates](#handle-internal-and-external-model-value-updates).
 
-The `useDefineModel` composable enables custom components implementations to separately handle model changes depending on their source. In general, component model's value changes can be originated from two distinct sources:
+:::warning
+A model wrapper returned by `useDefineModel` is still an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+:::
 
-- **Internal**. Changes derived from user-interaction events.
-- **External**. Programmatic mutations performed outside of the component's context/scope (e.g., by the component's parent).
+:::info
+For brevity, custom components that implement `useDefineModel` to support bidirectional model-value binding will be referred to as **Form Field Components (FFC)**.
+:::
 
-Internal changes are typically handled with event listeners. The `useDefineModel` API allows to register callbacks only called when external programmatic mutations are performed in order to handle them separately.
+### Nesting models
 
-### Nested components
-
-Consider a `Root` component that wraps another `Nested` component, and that their models are implemented with `useDefineModel`. The model wrapper created in `Root` should be directly passed to `Nested` to keep them linked and avoid creating multiple model wrappers.
+Some FFC implementations may require to share their underlying model object with other nested FFCs. In order to further pass models down an FFC tree, model wrappers created by `useDefineModel` should be directly provided through the `model-value` prop of child FFCs. `useDefineModel` is able to properly identify and handle provided model wrappers.
 
 ```vue
 <!-- Root -->
 <script setup>
-const props = defineProps(/* ... */)
-const model = useDefineModel(props)
+defineProps(/* ... */)
+const model = useDefineModel()
 </script>
+
+<template>
+	<!-- Directly provide model wrapper -->
+	<Nested :model-value="model"/>
+</template>
+```
+
+### Handle internal and external model value updates
+
+The `useDefineModel`'s API allows to separately handle internal and external model value updates. Here, internal and external refer to *where*, in relation to an FFC's context/scope, is a model-value update performed. Three types of model value updates are considered:
+
+- **Local**: Updates performed *within* an FFC's own scope.
+- **Internal**: Updates performed in any *nested* FFC.
+- **External**: Updates performed anywhere *outside* an FFC's scope; in particular: in ancestor, sibling, or sibling's descendant scopes.
+
+:::tip
+To illustrate, consider the following "scope" tree where all scopes can access the same model. The type of update the `Reference` scope would perceive when a given scope updates the model value is hinted in parenthesis.
+
+<Demo>
+	<Anatomy tag="App (external)">
+		<Anatomy tag="Root (external)">
+			<Anatomy tag="Reference (local)">
+				<Anatomy tag="Nested (internal)"/>
+			</Anatomy>
+			<Anatomy tag="Sibling (external)">
+				<Anatomy tag="Nested (external)"/>
+			</Anatomy>
+		</Anatomy>
+	</Anatomy>
+</Demo>
+:::
+
+The following two requirements must be met for FFCs to properly identify model value update types:
+
+1. In order to share an FFC's underlying model with other child FFCs, child components must be provided with the parent component's model wrapper created by `useDefineModel` (see [Nesting models](#nesting-models)).
+2. The `model.update` or `model.updateDecorator` methods included in a FFC's model wrapper must be used to perform local model value updates.
+
+:::tip
+In general, an FFC's local model value updates should always be performed with `model.update` or `model.updateDecorator` to ensure proper behavior.
+:::
+
+The `model.update` method receives as a single argument a value to assign to the model's value. However, sometimes multiple model-value assignments (or write operations) need to be performed consecutively. When this is the case, `model.update` may receive instead a callback function where (synchronous) model value updates can be normally performed and which is immediately invoked. Similarly, the `model.updateDecorator` method receives a callback where the model value can be normally updated; but instead of immediately executing the callback, a new function that wraps the callback is created.
+
+```js
+model.update(newValue)
+model.update(() => {
+	model.value = newValue
+})
+const eventHandler = model.updateDecorator(event => {
+	model.value = event.target.value
+})
+```
+
+Then, if these requisites are satisfied, the `model.onInternalUpdate` and `model.onExternalUpdate` methods included in model wrappers can be used to handle internal and external model value updates, respectively. Both of these methods register callbacks to be executed when a corresponding model update is detected. They accept two parameters: the callback function and an `options` object. The configuration options they have in common are `immediate`, `once`, and `flush`, which all share the same possible values and behavior as the corresponding watcher options. Both methods return a function to unregister the provided callback. On the other hand, the arguments received by their registered callbacks are different, and `model.onExternalUpdate` accepts an additional configuration option.
+
+#### `model.onInternalUpdate`
+
+Callbacks registered with `model.onInternalUpdate` receive two arguments: the new and old model values.
+
+```js
+model.onInternalUpdate((newModelValue, oldModelValue) => {
+	/* ... */
+})
+```
+
+#### `model.onExternalUpdate`
+
+Callbacks registered with `model.onExternalUpdate` receive four arguments, the first two being the new and old model values. Since `onExternalUpdate` is implemented with `watch`, the `onCleanup` function is passed as the fourth argument. An additional `isProgrammatic` boolean is passed as the third argument; it indicates whether the model value update was performed *programmatically*.
+
+Conceptually, a model value update is considered programmatic if it is performed outside an FFC tree, which corresponds to the scope where an FFC is being consumed rather than implemented. Comparatively, model value updates performed anywhere inside an FFC tree may be considered *interactive* in the sense that they (directly or indirectly) originate from user interaction with the rendered template of FFCs.
+
+Once again, the beforementioned requirements must be fulfilled in order for model value updates to be properly identified as programmatic. In practice, model value updates not performed with `model.update` or `model.updateDecorator` will be perceived as programmatic.
+
+```js
+model.onExternalUpdate((newModelValue, oldModelValue, isProgrammatic) => {
+	/* ... */
+})
+```
+
+Additionally, `onExternalUpdate` accepts an `onMounted` boolean configuration option. When set to true, the callback's registration and immediate execution are deferred until the FFC is mounted.
+
+### Including exposed data
+
+Similar to regular models, model wrappers provided to a child FFC may include `exposed` and `elements` properties to consume the child FFC's exposed data and elements, respectively (see [`model.exposed`](/composables/useModel#model-exposed)). Altough these properties are absent by default, the `useDefineModel`'s `includeExposed` and `includeElements` boolean options can be used to include corresponding `exposed` and `elements` objects into a model wrapper.
+
+```vue
+<script setup>
+defineProps(/* ... */)
+const model = useDefineModel({
+	includeExposed: true,
+	includeElements: true
+})
+onMounted(() => {
+	// Nested's exposed data and elements are made available
+	// through model.exposed and model.elements, respectively.
+    console.log(model.exposed.someProperty)
+    console.log(model.elements.someHTMLElement)
+})
+</script>
+
 <template>
 	<Nested :model-value="model"/>
 </template>
 ```
 
-### Handle external mutations
+:::tip
+A model wrapper should only set `includeExposed` or `includeElements` to `true` if it will be provided to a nested FFC whose exposed data or elements are required.
+:::
 
-Model programmatic mutations can be easily detected with watchers. However, since the model value needs to be *internally* updated in response to user-interaction events, all model-value-subscribed watchers would be triggered by those updates, rendering them unable to distinguish between internal and external changes.
+### Capturing exposed data
 
-To prevent watcher effects from being triggered by internal changes, `useDefineModel` relies on two composables: [`watchControlled`](/composables/watchControlled) and [`useWatchers`](/composables/useWatchers).
+In order to support Vergil's API to consume component exposed data (see [`useExposed`](/composables/useExposed#description)), components may expose their data by implementing the [`useDefineExposed`](/composables/useDefineExposed) and [`useDefineElements`](/composables/useDefineElements) composables. These composables expect for a component to receive, via a model or `exposed` and `elements` props, corresponding `exposed` and `elements` objects through which the component's exposed data and elements are respectively made available.
 
-A model wrapper provides two methods to register watcher effects: `onExternalUpdate` and `onExternalMutation`. Both methods receive a `WatchCallback` and `WatchOptions`, and their registered callbacks are only triggered when the model value is mutated outside the component — if internal model updates are properly ignored. There are, of course, some differences between these methods:
+Sometimes, however, an FFC may not expose data of its own, but directly exposes the data of a child FFC instead. For this purpose, a model wrapper may *capture* its FFC's received `exposed` and `elements` objects to "redirect" them to a child FFC, which in turn exposes its data into the captured objects.
 
-- `onExternalUpdate` can only register one effect per component instance. Subsequent calls stop the previous watcher, and creates a new one. `onExternalMutation` is similar to a regular `watch` in that multiple callbacks can be registered.
-- `onExernalUpdate` accepts an additiona option: `{ onMounted: boolean; }`. When `onMounted` is set to `true`, the effect is created on the `onMounted` life-cycle hook with `immediate: true`.
-- If a component model object is shared between components (see [Nested components](#nested-components)), `onExternalMutation` is only triggered when the model value is mutated outside those components.
-
-As previously mentioned, in order for the `onExternalUpdate` and `onExternalMutation` effects to be skipped, internal updates should properly be ignored. Two model wrapper methods are provided for this end: `update` and `updateDecorator`.
-
-The `update` method accepts as a single argument the value to update the model's value with. Additionally, to perform more elaborate operations, a function may be passed instead: synchronous model value updates inside the function are properly ignored. Similarly, the `updateDecorator` method accepts a function and modifies it so that synchronous model value updates are properly ignored.
-
-```js
-model.onExternalUpdate(modelValue => {
-	/* ... */
-})
-model.onExternalMutation(modelValue => {
-	/* ... */
-})
-
-// Do not execute model.onExternalUpdate/Mutation callbacks
-model.update(newValue)
-model.update(() => {
-	model.value = newValue
-})
-const handler = model.updateDecorator(event => {
-	model.value = event.target.value
-})
-```
-
-### Reference a DOM element
-
-The `el` property present on a model is intented to store a reference to a component's DOM element instance. A model can easily get a DOM component reference with a template ref and the `refs` index.
+A model wrapper can capture `exposed` and `elements` objects by setting the `useDefineModel`'s `captureExposed` and `captureElements` options to `true`. In practice, captured objects are simply attached to corresponding model wrapper's `exposed` and `elements` properties. Thus, a model wrapper may normally access captured objects and be provided to a child FFC.
 
 ```vue
-<element :ref="model.refs.el"/>
+<script setup>
+defineProps(/* ... */)
+const model = useDefineModel({
+	captureExposed: true,
+	captureElements: true
+})
+</script>
+
+<template>
+	<!--
+	Nested's exposed data and elements are made available
+	to captured `exposed` and `elements` objects.
+	-->
+	<Nested :model-value="model"/>
+</template>
 ```
 
-### Expose data
-
-In order to expose component data such as methods and properties to make them available for the parent component, `defineReactiveProperties` should be used to define additional properties on the model's `exposed` property:
-
-```js
-import { useModel, defineReactiveProperties } from '@8ctavio/vergil'
-
-const props = defineProps(/* ... */)
-const model = useModel(props)
-
-function method(){ /* ... */ }
-const property = ref(/* ... */)
-
-// Expose data
-defineReactiveProperties(model.exposed, withDescriptor => ({
-	method,
-	property: withDescriptor({
-		value: property,
-		readonly: true
-	})
-}))
-```
+:::tip
+When `captureExposed` or `captureElements` are set to `true`, a model wrapper *attempts* to capture the corresponding objects provided to its FFC; but if none are received, the fallback values used for the model wrapper's `exposed` and `elements` properties are respectively determined by the `includeExposed` and `includeElements`  options: If an *`include`* option is set to `true`, the corresponding fallback value is an internally created `exposed` or `elements` object, and `null` otherwise.
+:::
 
 ## Definition
 
 ```ts
-function useDefineModel<T>(
-	props: {
-		value?: T;
-		modelValue?: T | ExtendedRef<T>;
-		['onUpdate:modelValue']: () => void;
-	},
-	options?: {
-		isCollection?: boolean;
-	}
-): ExtendedRef<T>
+function useDefineModel<T>(options?: {
+	isCollection?: boolean;
+	includeExposed?: boolean;
+	captureExposed?: boolean;
+	includeElements?: boolean;
+	captureElements?: boolean;
+}): ExtendedRef<T>
 ```
 
 #### Parameters
 
-- **props**:
-	- **`value`**: model defaul value.
-	- **`modelValue`**: model value or component model object.
 - **options**:
-	- **`isCollection`**: Whether the model value may be a collection-like data type (e.g., array, object).
+	- **`isCollection`**: Whether the model value may be a collection-like data type (e.g., array, object). Defaults to `false`.
+	- **`includeExposed`/`includeElements`**: Whether to include into the model wrapper an `exposed`/`elements` object. Defaults to `false`.
+	- **`captureExposed`/`captureElements`**: Whether to attach into the model wrapper the `exposed`/`elements` object provided to its associated component (either through a model or the `exposed`/`elements` prop). Defaults to `false`.
 
 #### Return value
 
-An `ExtendedRef` object.
+An `ExtendedRef` object. Additional included methods are:
+
+- `onInternalUpdate`
+- `onExternalUpdate`
+- `update`
+- `updateDecorator`
+- `triggerIfShallow`: Triggers the underlying model's `ref` object if shallow. This utility method helps implement components that support models with underlying shallow refs.
+	```js
+	model.triggerIfShallow()
+	// same as
+	if(isShallow(model.ref)) {
+		triggerRef(model.ref)
+	}
+	```

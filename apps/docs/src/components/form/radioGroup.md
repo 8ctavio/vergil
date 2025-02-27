@@ -410,6 +410,30 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
     <RadioGroup value="Disabled 1" :options="['Disabled 1', 'Disabled 2']" label="Disabled" disabled/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `options` | <code class="vp-code-nowrap"><div.toggle-group-wrapper></code> | Wrapper of underlying `Radio` components. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field radio-group">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="toggle-group-wrapper">
+            <Anatomy tag='slot name="default"'>
+                <Anatomy tag='Radio v-for="(text,value) in options"'/>
+            </Anatomy>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -438,21 +462,3 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 ### Configuration options
 
 The `RadioGroup` is configured through the `Radio` configuration options.
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field radio-group">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="toggle-group-wrapper">
-            <Anatomy tag='slot name="default"'>
-                <Anatomy tag='Radio v-for="(text,value) in options"'/>
-            </Anatomy>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>

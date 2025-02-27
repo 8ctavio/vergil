@@ -4,6 +4,23 @@ import { noop } from "../../utilities/private"
 
 const isScheduled = Symbol('isScheduled')
 
+/**
+ * Allows to create multiple model watchers and to pause and resume them to ignore model updates.
+ * 
+ * @template T
+ * @param { ExtendedRef<T> } model
+ * @param { object } modelMeta
+ * @param { boolean } [isCollection]
+ * 
+ * @returns { [
+*	onModelUpdate: (callback: WatchCallback<T>, options: WatchOptions) => (() => void),
+ * 	{
+ * 		stop: () => void;
+ * 		pause: () => void;
+ * 		resume: () => void;
+ * 	}
+ * ] } Model watcher controller
+ */
 export function useModelWatchers(model, modelMeta, isCollection = false) {
 	const composableScope = getCurrentScope()
 	const watchers = effectScope(true)

@@ -5,18 +5,18 @@ import { noop } from "../utilities/private"
 const isScheduled = Symbol('isScheduled')
 
 /**
- * Allows to create multiple watchers for the same source, and to pause and resume created watchers for their callbacks to ignore source updates.
+ * Allows to create multiple watchers for the same source and to pause and resume them to ignore source updates.
  * 
  * @template T
  * @param { WatchSource<T> } sources
  * @param { { deep: boolean | number } } options
  * 
  * @returns { {
- * 	onUpdated: (callback: WatchCallback<T>, options: WatchOptions) => (() => void);
+ * 	stop: () => void;
  * 	pause: () => void;
  * 	resume: () => void;
  * 	ignore: (cb: () => void) => void;
- * 	stop: () => void;
+ *	onUpdated: (callback: WatchCallback<T>, options: WatchOptions) => (() => void);
  * } } Watchers handle
  * 
  * @example
@@ -25,7 +25,7 @@ const isScheduled = Symbol('isScheduled')
  * const watchers = useWatchers(source)
  * 
  * // Register callbacks
- * watchers.create(v => {
+ * watchers.onUpdated(v => {
  * 	console.log(`new value: ${v}`)
  * })
  * watchers.onUpdated((v,u) => {

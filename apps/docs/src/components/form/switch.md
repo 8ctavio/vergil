@@ -184,6 +184,36 @@ The `value-off` prop is the value assigned to the `Switch`'s model value when it
     <Switch disabled label-on="On" label-off="Off"/>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | `<input[type="checkbox"]>` | `Switch`'s underlying input element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="div" classes="form-field switch">
+        <Anatomy tag="div" classes="form-field-label-wrapper">
+            <Anatomy tag="label" classes="form-field-label"/>
+            <Anatomy tag="span" classes="form-field-hint"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-description"/>
+        <Anatomy tag="div" classes="switch-button">
+            <Anatomy tag='input[type="checkbox"]'/>
+            <Anatomy tag='label' classes="switch-label-off"/>
+            <Anatomy tag="span" classes="switch-track">
+                <Anatomy tag="span" classes="switch-knob">
+                    <Anatomy tag='Icon' classes="icon switch-icon-off"/>
+                    <Anatomy tag='Icon' classes="icon switch-icon-on"/>
+                </Anatomy>
+            </Anatomy>
+            <Anatomy tag='label' classes="switch-label-on"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="form-field-details form-field-help"/>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -219,27 +249,3 @@ The following `Switch` props' default values can be overwritten under the `switc
 | `size` | ✅ |
 | `radius` | |
 | `spacing` | ✅ |
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="div" classes="form-field switch">
-        <Anatomy tag="div" classes="form-field-label-wrapper">
-            <Anatomy tag="label" classes="form-field-label"/>
-            <Anatomy tag="span" classes="form-field-hint"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="div" classes="switch-button">
-            <Anatomy tag='input[type="checkbox"]'/>
-            <Anatomy tag='label' classes="switch-label-off"/>
-            <Anatomy tag="span" classes="switch-track">
-                <Anatomy tag="span" classes="switch-knob">
-                    <Anatomy tag='Icon' classes="icon switch-icon-off"/>
-                    <Anatomy tag='Icon' classes="icon switch-icon-on"/>
-                </Anatomy>
-            </Anatomy>
-            <Anatomy tag='label' classes="switch-label-on"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="form-field-details form-field-help"/>
-    </Anatomy>
-</Demo>

@@ -2,8 +2,34 @@ import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
 import { isModel } from "./useModel"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
 import { isFunction } from "../utilities"
-import { definedInstances, definedElements, symTrigger, symHasInstance} from "./private"
+import { definedInstances, definedElements, symTrigger, symHasInstance } from "./private"
 
+/**
+ * Defines component's exposed element property names and creates corresponding shallowRefs to reference exposed HTML elements.
+ * 
+ * @param { string[] } keys - String array whose elements represent exposed element property names.
+ * 
+ * @example
+ *  ```vue
+ *  <script setup>
+ *  defineProps({
+ *  	elements: Object
+ *  })
+ *  const elements = useDefineElements(['root', 'input'])
+ *  onMounted(() => {
+ *  	console.log(elements.root) // HTMLDivElement
+ *  	console.log(elements.input) // HTMLInputElement
+ *  })
+ *  </script>
+ * 
+ *  <template>
+ *  	<!-- Reference exposed elements with `ref` attribute -->
+ *  	<div :ref="elements.refs.root">
+ *  		<input :ref="elements.refs.input"/>
+ *  	</div>
+ *  </template>
+ *  ```
+ */
 export function useDefineElements(keys) {
 	const instance = getCurrentInstance()
 	if(instance && Array.isArray(keys)) {

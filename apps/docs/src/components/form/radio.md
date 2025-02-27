@@ -210,6 +210,29 @@ The `description` slot may be use instead. The slot content overrides the `descr
     </div>
 </Demo>
 
+## Elements
+
+| element | tag | description |
+| ---- | ---- | ------- |
+| `input` | `<input[type="radio"]>` | `Radio`'s underlying input element. |
+
+### Anatomy
+
+<Demo>
+    <Anatomy tag="label" classes="radio">
+        <Anatomy tag='input[type="radio"]'/>
+        <Anatomy tag="span" classes="toggle-button">
+            <Anatomy tag="svg" classes="toggle-radio"/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-label">
+            <Anatomy tag='slot name="default"'/>
+        </Anatomy>
+        <Anatomy tag="p" classes="toggle-description">
+            <Anatomy tag='slot name="description"'/>
+        </Anatomy>
+    </Anatomy>
+</Demo>
+
 ## API Reference
 
 | prop | type | default |
@@ -244,20 +267,3 @@ The following `Radio` props' default values can be overwritten under the `radio`
 :::tip
 For the `'classic'` variant the `radius` global configuration option is ignored. If the `radio` component configuration option is not set, the `'full'` value is applied.
 :::
-
-## Anatomy
-
-<Demo>
-    <Anatomy tag="label" classes="radio">
-        <Anatomy tag='input[type="radio"]'/>
-        <Anatomy tag="span" classes="toggle-button">
-            <Anatomy tag="svg" classes="toggle-radio"/>
-        </Anatomy>
-        <Anatomy tag="p" classes="toggle-label">
-            <Anatomy tag='slot name="default"'/>
-        </Anatomy>
-        <Anatomy tag="p" classes="toggle-description">
-            <Anatomy tag='slot name="description"'/>
-        </Anatomy>
-    </Anatomy>
-</Demo>

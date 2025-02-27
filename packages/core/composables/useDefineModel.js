@@ -12,24 +12,32 @@ const symInt_trigger = Symbol('internal:triggerCbs')
 const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
 
 /**
- * Creates component a model wrapper to conveniently implement component's two-way data binding and handle external programmatic mutations.
+ * Defines a bidirectional model-value bond between a (provided) model and a component, and creates a model wrapper with additional utilities to separately handle internal and external model value mutations.
  * 
- * @param { object } [props] - Component props. The `modelValue`, `onUpdated:modelValue`, and `value` are read from the props object.
- * @param { boolean } [options.isCollection] - Whether the model value may be a collection-like data type (e.g., array, object).
+ * @param { {
+ *      isCollection: boolean;
+ *      includeExposed: boolean;
+ *      captureExposed: boolean;
+ *      includeElements: boolean;
+ *      captureElements: boolean;
+ * } } options -
+ *  - `isCollection`: Whether the model value may be a collection-like data type (e.g., array, object). Defaults to `false`.
+ *  - `includeExposed`/`includeElements`: Whether to include into the model wrapper an `exposed`/`elements` object. Defaults to `false`.
+ *  - `captureExposed`/`captureElements`: Whether to attach into the model wrapper the `exposed`/`elements` object provided to its associated component (either through a model or the `exposed`/`elements` prop). Defaults to `false`.
  * 
  * @returns { ExtendedRef }
  * 
  * @example
  *  ```vue
  *  <script setup>
- * 	const props = defineProps({
- * 		modelValue: {
- * 			type: [String, Object],
- * 			default: ''
- * 		},
- * 		['onUpdate:modelValue']: Function
- * 	})
- * 	const model = useDefineModel(props)
+ *  defineProps({
+ *      modelValue: {
+ *          type: [ModelValueType, Object],
+ *          default: defaultModelValue
+ *      },
+ *      ['onUpdate:modelValue']: Function
+ *  })
+ *  const model = useDefineModel()
  *  </script>
  *  ```
  */
@@ -136,7 +144,7 @@ export function useDefineModel(options = {}) {
             }
             if(internalFlags.triggerSyncCbs) {
                 let currentModel = componentModel
-                while(currentModel = currentModel.parent) {
+                while(currentModel = currentModel.__parent) {
                     currentModel[symInt_trigger]('sync', newValue, oldValue)
                 }
             } else {
@@ -148,9 +156,9 @@ export function useDefineModel(options = {}) {
         for(const flush of ['pre', 'post']) {
             watch(internalSignal, oldValue => {
                 internalFlags.sensorTriggered = false
-                const newValue = model.value
+                const newValue = model.ref.value
                 let currentModel = componentModel
-                while(currentModel = currentModel.parent) {
+                while(currentModel = currentModel.__parent) {
                     currentModel[symInt_trigger](flush, newValue, oldValue)
                 }
             }, { flush })
@@ -164,7 +172,7 @@ export function useDefineModel(options = {}) {
                 do {
                     currentModel[symExt_controller].pause()
                     internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
-                } while(currentModel = currentModel.parent)
+                } while(currentModel = currentModel.__parent)
                 // Set hasInteractiveCtx flag
                 if(!modelMeta.hasInteractiveCtx) {
                     modelMeta.hasInteractiveCtx = true
@@ -201,7 +209,7 @@ export function useDefineModel(options = {}) {
                     // Resume parent component models
                     currentModel = componentModel
                     do currentModel[symExt_controller].resume()
-                    while(currentModel = currentModel.parent)
+                    while(currentModel = currentModel.__parent)
                 }
             } : noop
         }
@@ -215,7 +223,7 @@ export function useDefineModel(options = {}) {
         })
 
         const componentModel = defineReactiveProperties(Object.create(model), withDescriptor => ({
-            parent: withDescriptor({
+            __parent: withDescriptor({
                 value: mayBeComponentModel && isValidModel ? props.modelValue : null,
                 enumerable: false,
                 writable: false
@@ -226,7 +234,7 @@ export function useDefineModel(options = {}) {
                 if(isFunction(v)) {
                     v()
                 } else {
-                    model.value = v
+                    model.ref.value = v
                 }
             }),
             triggerIfShallow: modelMeta.triggerIfShallow,
@@ -260,7 +268,7 @@ export function useDefineModel(options = {}) {
             onInternalUpdate(cb, options = {}) {
                 if(isFunction(cb)) {
                     if(options.immediate) {
-                        cb(model.value, undefined)
+                        cb(model.ref.value, undefined)
                         if(options.once) return
                     }
                     if(options.once) {

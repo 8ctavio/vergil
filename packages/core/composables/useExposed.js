@@ -1,6 +1,28 @@
 import { shallowRef, unref, markRaw } from "vue"
 import { definedExposed, symTrigger, getTrue } from "./private"
 
+/**
+ * Creates a read-only, shallow-ref-unwrapping object to consume component exposed data. 
+ * 
+ * @returns { object } A read-only, shallow-ref-unwrapping object to be provided through an `exposed` prop to a component with proper `useExposed` support.
+ * 
+ * @example
+ *  ```vue
+ *  <script setup>
+ *  const exposed = useExposed()
+ *  onMounted(() => {
+ *  	// Access component's exposed data
+ *  	console.log(exposed.someProperty)
+ *  	exposed.someMethod()
+ *  })
+ *  </script>
+ * 
+ *  <template>
+ *      <!-- Provide `exposed` for component to expose data -->
+ *      <Component :exposed/>
+ *  </template>
+ *  ```
+ */
 export function useExposed() {
 	const dep = shallowRef().dep
 	const track = dep.track.bind(dep)

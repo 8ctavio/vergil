@@ -71,9 +71,9 @@ export default {
 			},
 			{
 				text: 'Form Components',
-				link: '/components/form/form-components',
 				collapsed: true,
 				items: [
+					{ text: 'Introduction', link: '/components/form/introduction' },
 					{ text: 'Calendar', link: '/components/form/calendar' },
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
@@ -98,13 +98,22 @@ export default {
 					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
+					{ text: 'useElements', link: '/composables/useElements' },
+					{ text: 'useExposed', link: '/composables/useExposed' },
 					{ text: 'useModel', link: '/composables/useModel' },
-					{ text: 'useDefineModel', link: '/composables/useDefineModel' },
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
 					{ text: 'waitFor', link: '/composables/waitFor' },
 					{ text: 'watchControlled', link: '/composables/watchControlled' },
 					{ text: 'watchUntil', link: '/composables/watchUntil' },
+					{
+						text: 'Component Impl.',
+						items: [
+							{ text: 'useDefineElements', link: '/composables/useDefineElements' },
+							{ text: 'useDefineExposed', link: '/composables/useDefineExposed' },
+							{ text: 'useDefineModel', link: '/composables/useDefineModel' },
+						]
+					},
 				]
 			},
 			{
