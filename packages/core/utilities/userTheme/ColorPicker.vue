@@ -4,7 +4,7 @@ import { useId } from 'vue'
 import { usePopover } from '../../composables'
 import { ucFirst } from '..'
 import { isValidColor } from '../private'
-import { userThemeColor, setUserThemeColor } from '.'
+import { userThemeColor } from '.'
 
 const name = useId()
 const { position } = defineProps({
@@ -32,7 +32,7 @@ const { Popover, togglePopover } = usePopover({
 </script>
 
 <template>
-	<Popover class="user-theme-color-picker" @change="setUserThemeColor($event.target.value)">
+	<Popover class="user-theme-color-picker" @change="userThemeColor = $event.target.value">
 		<Btn
 			variant="subtle"
 			ghost

@@ -98,26 +98,13 @@ Therefore, to change a `theme`'s color palette, simply rename the color palette-
 
 ### User theme
 
-The special `'user'` `theme` value allows to style components with a user-selected color palette. Every other `theme` is static in the sense that their color palette cannot be modified during runtime. Conversely, Vergil provides an API to programmatically update the color palette `'user'` themed components are styled with.
-
-#### API
+The special `'user'` `theme` value allows to style components with a user-selected color palette. Every other `theme` is static in the sense that their color palette cannot be modified during runtime. Conversely, Vergil provides an `userThemeColor` ref to update the color palette `'user'` themed components are styled with.
 
 ```js
-import {
-    setUserThemeColor,
-    userThemeColor
-} from '@8ctavio/vergil/utilities/userTheme'
+import { userThemeColor } from '@8ctavio/vergil/utilities/userTheme'
 ```
 
-The `setUserThemeColor` function and `userThemeColor` ref help update the `'user'` theme color palette.
-
-```ts
-type color = 'cobalt' | 'dartmouth' | 'denim' | 'emerald' | 'grey' | 'indigo' | 'moss' | 'red' | 'sky' | 'teal' | 'wine' | 'yellow'
-function setUserThemeColor(color: color): void
-const userThemeColor: Ref<color>
-```
-
-The `setUserThemeColor` function updates the user theme color palette. It only accepts available color palette names. The developer must ensure used color palettes are properly imported. The `userThemeColor` ref contains the current user theme color palette.
+Only available color palette names may be assigned to `userThemeColor`. The developer must ensure used color palettes are properly imported.
 
 :::tip
 Click on the <Icon code="style"/> icon in the navigation bar to update the user theme color palette.

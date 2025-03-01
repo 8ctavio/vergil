@@ -1,11 +1,11 @@
 import { vergil } from '../vergil'
-import { setUserThemeColor } from '../utilities/userTheme'
+import { userThemeColor } from '../utilities/userTheme'
 
 const plugin = {
-    install(app, options){
+    install(app, options) {
         vergil.init(options)
-        if(vergil.config.userTheme.enable){
-            setUserThemeColor(localStorage.getItem('user-theme-color') ?? vergil.config.userTheme.default)
+        if(vergil.config.userTheme.enable) {
+            userThemeColor.value = localStorage.getItem('user-theme-color') ?? vergil.config.userTheme.default
         }
     }
 }

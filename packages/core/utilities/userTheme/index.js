@@ -1,4 +1,4 @@
-import { ref, readonly } from 'vue'
+import { customRef } from 'vue'
 import { vergil } from '../../vergil'
 import { isValidColor } from '../private'
 
@@ -23,20 +23,27 @@ const cssVars = [
     '--c-user-4',
 ]
 
-const userThemeColor = ref('')
-const userThemeColorCopy = readonly(userThemeColor)
-function setUserThemeColor(color){
-    if(!isValidColor(color)) color = vergil.config.userTheme.default
-    cssVars.forEach(v => {
-        document.documentElement.style.setProperty(v, `var(${v.replace('user', color)})`)
-    })
-    localStorage.setItem('user-theme-color', color)
-    userThemeColor.value = color
-}
-
-export {
-    setUserThemeColor,
-    userThemeColorCopy as userThemeColor
-}
+export const userThemeColor = customRef((track, trigger) => {
+    let color = ''
+    return {
+        get() {
+            track()
+            return color
+        },
+        set(c) {
+            if(!isValidColor(c)) {
+                c = vergil.config.userTheme.default
+            }
+            if(color !== c) {
+                cssVars.forEach(v => {
+                    document.documentElement.style.setProperty(v, `var(${v.replace('user', c)})`)
+                })
+                localStorage.setItem('user-theme-color', c)
+                color = c
+                trigger()
+            }
+        }
+    }
+})
 
 export { default as ColorPicker } from './ColorPicker.vue'
