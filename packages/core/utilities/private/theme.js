@@ -1,34 +1,31 @@
-export function inferTheme(theme){
-    if(['brand'].includes(theme))
+export function inferTheme(theme) {
+    if(theme === 'brand')
         return 'brand'
-    if(['user'].includes(theme))
+    if(theme === 'user')
         return 'user'
-    if(['ok', 'success', 'check'].includes(theme))
+    if(theme === 'ok' || theme === 'success' || theme === 'check')
         return 'ok'    
-    if(['info', 'help', 'tip'].includes(theme))
+    if(theme === 'info' || theme === 'help' || theme === 'tip')
         return 'info'
-    if(['warn', 'warning', 'caution'].includes(theme))
+    if(theme === 'warn' || theme === 'warning' || theme === 'caution')
         return 'warn'
-    if(['danger', 'error'].includes(theme))  
+    if(theme === 'danger' || theme === 'error')
         return 'danger'
     return 'neutral'
 }
 
-export const isValidColor = v => ['cobalt', 'dartmouth', 'denim', 'emerald', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow'].includes(v)
-export const isValidRadius = v => ['none', 'sm', 'md', 'lg', 'full'].includes(v)
-export const isValidSize = v => ['xs', 'sm', 'md', 'lg', 'xl'].includes(v)
-export const isValidSpacing = v => ['', 'compact', 'expanded'].includes(v)
-export function isValidTheme(theme){
-    return [
-        'brand',
-        'user',
-        'ok', 'success', 'check',
-        'info', 'help', 'tip',
-        'warn', 'warning', 'caution',
-        'danger', 'error',
-        'neutral'
-    ].includes(theme)
-}
+export const isValidTheme = Array.prototype.includes.bind([
+    'brand',
+    'user',
+    'ok', 'success', 'check',
+    'info', 'help', 'tip',
+    'warn', 'warning', 'caution',
+    'danger', 'error',
+    'neutral'
+])
+export const isValidRadius = Array.prototype.includes.bind(['none', 'sm', 'md', 'lg', 'full'])
+export const isValidSize = Array.prototype.includes.bind(['xs', 'sm', 'md', 'lg', 'xl'])
+export const isValidSpacing = Array.prototype.includes.bind(['', 'compact', 'expanded'])
 export function isValidVariant(c,v){
     switch(c){
         case 'Btn':
@@ -38,4 +35,5 @@ export function isValidVariant(c,v){
     }
 }
 
-export const isValidPlacement = v => ['top','top-start','top-end','right','right-start','right-end','bottom','bottom-start','bottom-end','left','left-start','left-end'].includes(v)
+export const isValidColor = Array.prototype.includes.bind(['cobalt', 'dartmouth', 'denim', 'emerald', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow'])
+export const isValidPlacement = Array.prototype.includes.bind(['top','top-start','top-end','right','right-start','right-end','bottom','bottom-start','bottom-end','left','left-start','left-end'])
