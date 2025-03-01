@@ -215,7 +215,7 @@ function* generateIntegers(from, to, step = 1) {
 </script>
 
 <script setup>
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'

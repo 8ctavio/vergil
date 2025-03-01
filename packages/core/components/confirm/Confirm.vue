@@ -1,5 +1,5 @@
 <script setup>
-import Icon from "../Icon.vue"
+import Icon from "../Icon"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../private/ModalTransition.vue'
 import MiniMarkup from "../private/MiniMarkup"

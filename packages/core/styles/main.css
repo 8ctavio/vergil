@@ -151,3 +151,6 @@ p, h1, h2, h3 {
     line-height: 0;
     vertical-align: -0.175em;
 }
+
+/*---------- Icon ----------*/
+.icon::selection{ background-color: transparent; }

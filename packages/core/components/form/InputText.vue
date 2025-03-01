@@ -1,6 +1,6 @@
 <script setup>
 import Btn from '../buttons/Btn.vue'
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'

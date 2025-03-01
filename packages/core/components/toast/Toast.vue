@@ -1,5 +1,5 @@
 <script setup>
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import MiniMarkup from "../private/MiniMarkup"
 import { ref } from 'vue'
 import { vergil } from '../../vergil'

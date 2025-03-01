@@ -3,7 +3,7 @@ import CheckboxGroup from './CheckboxGroup.vue'
 import InputText from './InputText.vue'
 import Btn from '../buttons/Btn.vue'
 import Badge from '../Badge.vue'
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'

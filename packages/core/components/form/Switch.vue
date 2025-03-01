@@ -1,5 +1,5 @@
 <script setup>
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'

@@ -1,4 +1,4 @@
-import Icon from '../Icon.vue'
+import Icon from '../Icon'
 import { h } from 'vue'
 
 function parseMiniMarkup(str){
