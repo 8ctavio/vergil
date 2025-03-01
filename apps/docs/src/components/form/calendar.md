@@ -443,6 +443,8 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `Date \| null \| string \| number` | `null` |
@@ -454,7 +456,7 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 | `selectedMonth` | `string` | |
 | `selectedYear` | `string` | |
 | `time` | `boolean \| string` | |
-| `timeFormat` | `string` | `'24'` |
+| `timeFormat` | `'24' \| '12'` | `'24'` |
 | `hours` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 23, step: 1 }` |
 | `minutes` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 59, step: 1 }` |
 | `disabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
@@ -469,15 +471,15 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 
 ### Configuration options
 
-The following `Calendar` props' default values can be overwritten under the `calendar` root-level [configuration option](/configuration).
+`Calendar`'s [configuration options](/configuration) allow to overwrite some `Calendar` props' default values and may be overwritten under the `calendar` root-level configuration option.
 
-| `calendar.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `locale` | |
-| `labels` | |
-| `firstWeekday` | |
-| `timeFormat` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `calendar.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------- | ---- | ------- | :------: |
+| `locale` | `string \| object` | `'en'` | |
+| `labels` |`object` | | |
+| `firstWeekday` |`number` | `0` | |
+| `timeFormat` | `'24' \| '12'` | `'24'` | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

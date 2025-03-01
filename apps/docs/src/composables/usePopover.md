@@ -211,9 +211,9 @@ Arrow's background and border colors can be defined through the arrow's svg `fil
 
 ## Configuration options
 
-The following `usePopover` options' default values can be overwritten under the `popover` root-level [configuration option](/configuration).
+Popover [configuration options](/configuration) allow to overwrite some `usePopover` options' default values and may be overwritten under the `popover` root-level configuration option.
 
-| `popover.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `padding` | |
-| `delay` | |
+| `popover.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------ | ---- | ------- | :------: |
+| `padding` | `number` | `6` | |
+| `delay` | `number` | `400` | |

@@ -33,6 +33,8 @@ import { Skeleton } from '@8ctavio/vergil/components'
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `descendant` | `boolean` | |
@@ -42,13 +44,13 @@ import { Skeleton } from '@8ctavio/vergil/components'
 
 ### Configuration options
 
-The following `Skeleton` props' default values can be overwritten under the `skeleton` root-level [configuration option](/configuration).
+`Skeleton`'s [configuration options](/configuration) allow to overwrite some `Skeleton` props' default values and may be overwritten under the `skeleton` root-level configuration option.
 
-| `skeleton.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `skeleton.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------- | ---- | ------- | :------: |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 ## Anatomy
 

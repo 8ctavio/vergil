@@ -194,6 +194,8 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `number \| string` | `0` |

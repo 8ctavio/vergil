@@ -44,6 +44,8 @@ Material Symbols icon code.
 ```
 
 ## API Reference
+ 
+### Props
 
 | prop | type | default |
 | ---- | ---- | ------- |

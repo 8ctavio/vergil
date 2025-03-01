@@ -211,6 +211,8 @@ The `'regular'` and `true` values are equivalent.
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
@@ -228,17 +230,17 @@ The `'regular'` and `true` values are equivalent.
 
 ### Configuration options
 
-The following `Badge` props' default values can be overwritten under the `badge` root-level [configuration option](/configuration).
+`Badge`'s [configuration options](/configuration) allow to overwrite some `Badge` props' default values and may be overwritten under the `badge` root-level configuration option.
 
-| `badge.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `variant` | |
-| `<variant>.outline` | |
-| `squared` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `badge.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ---------------- | ---- | ------- | :------: |
+| `variant` | `'soft' \| 'outline' \| 'solid'` | `'soft'` | |
+| `<variant>.outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | | |
+| `squared` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 ## Anatomy
 

@@ -50,20 +50,7 @@ Every `theme` should have a color palette assigned.
 
 ### Color palettes
 
-Vergil provides several [color palettes](https://github.com/8ctavio/vergil/tree/main/packages/core/styles/colors) that can be assigned to `theme`s. Available color palettes are listed next:
-
-- `grey`
-- `emerald`
-- `dartmouth`
-- `moss`
-- `teal`
-- `sky`
-- `denim`
-- `cobalt`
-- `indigo`
-- `wine`
-- `red`
-- `yellow`
+Vergil provides several [color palettes](https://github.com/8ctavio/vergil/tree/main/packages/core/styles/colors) that can be assigned to `theme`s. Available color palettes are: `grey`, `emerald`, `dartmouth`, `moss`, `teal`, `sky`, `denim`, `cobalt`, `indigo`, `wine`, `red`, and `yellow`.
 
 A color palette may be imported as shown below.
 
@@ -136,13 +123,15 @@ The `setUserThemeColor` function updates the user theme color palette. It only a
 Click on the <Icon code="style"/> icon in the navigation bar to update the user theme color palette.
 :::
 
-#### Default theme
+#### [Configuration options](/configuration)
 
-By default, the user theme is set to `'moss'`. This can be overwrriten through the `userTheme.default` [configuration option](/configuration).
+- **Disable user theme**. User theme is enabled by default. If for the project being developed is not desired to use the user theme, it can be disabled by setting the `userTheme.enable` configuration option to `false`.
+- **Default theme**. By default, the user theme is set to `'moss'`. This can be overwritten through the `userTheme.default` configuration option.
 
-#### Disable user theme
-
-User theme is enabled by default. If for the project being developed is not desired to use the user theme, it can be disabled by setting the `userTheme.enable` [configuration option](/configuration) to `false`.
+| `userTheme.<option>` | type | default |
+| -------------------- | ---- | ------- |
+| `enable` | `boolean` | `true` |
+| `default` | `color` | `'moss'` |
 
 ### `ColorPicker` component
 

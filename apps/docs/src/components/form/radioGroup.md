@@ -436,6 +436,8 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |

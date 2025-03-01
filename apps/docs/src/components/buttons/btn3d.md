@@ -300,6 +300,8 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | `''` |
@@ -319,17 +321,17 @@ Spacing refers to a `Btn3D`'s default padding and gap (for a given size). Changi
 
 ### Configuration options
 
-The following `Btn3D` props' default values can be overwritten under the `btn3D` root-level [configuration option](/configuration).
+`Btn3D`'s [configuration options](/configuration) allow to overwrite some `Btn3D` props' default values and may be overwritten under the `btn3D` root-level configuration option.
 
-| `btn3D.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `variant` | |
-| `<variant>.outline` | |
-| `squared` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `btn3D.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ---------------- | ---- | ------- | :------: |
+| `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` | |
+| `<variant>.outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | | |
+| `squared` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 ## Anatomy
 

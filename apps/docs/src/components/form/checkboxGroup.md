@@ -426,6 +426,8 @@ As a function, `options-attributes` is called for each option, receives the comp
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `array \| string` | `[]` |

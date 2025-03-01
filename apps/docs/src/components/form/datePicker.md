@@ -330,6 +330,8 @@ const btnClearProps = {
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `Date \| null \| string \| number` | `null` |
@@ -355,17 +357,17 @@ const btnClearProps = {
 
 ### Configuration options
 
-The following `DatePicker` props' default values can be overwritten under the `datePicker` root-level [configuration option](/configuration).
+`DatePicker`'s [configuration options](/configuration) allow to overwrite some `DatePicker` props' default values and may be overwritten under the `datePicker` root-level configuration option.
 
-| `datePicker.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `format` | |
-| `formatOptions` | |
-| `placeolderFallback` | |
-| `sideButtonPosition` | |
-| `underline` | |
-| `fill` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `datePicker.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| --------------------- | ---- | ------- | :------: |
+| `format` | `object \| (date: Date) => string` | | |
+| `formatOptions` | `object \| (timeEnabled: boolean) => object` | | |
+| `placeholderFallback` | `(n: number) => string` | <code>n => \`${n} Dates Selected\`</code> | |
+| `sideButtonPosition` | `'before' \| 'after'` | `'after'` | |
+| `underline` | `boolean` | | |
+| `fill` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

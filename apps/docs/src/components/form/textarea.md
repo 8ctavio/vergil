@@ -226,6 +226,8 @@ The maximum string length that can be entered into the textarea.
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
@@ -249,12 +251,12 @@ The maximum string length that can be entered into the textarea.
 
 ### Configuration options
 
-The following `Textarea` props' default values can be overwritten under the `textarea` root-level [configuration option](/configuration).
+`Textarea`'s [configuration options](/configuration) allow to overwrite some `Textarea` props' default values and may be overwritten under the `textarea` root-level configuration option.
 
-| `textarea.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `underline` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `textarea.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| -------------------- | ---- | ------- | :------: |
+| `underline` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

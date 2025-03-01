@@ -201,6 +201,8 @@ function handleClear() {
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `icon-search` | `string` | `'search'` |
@@ -209,10 +211,10 @@ function handleClear() {
 
 ### Configuration options
 
-The following `InputSearch` props' default values can be overwritten under the `inputSearch` root-level [configuration option](/configuration).
+`InputSearch`'s [configuration options](/configuration) allow to overwrite some `InputSearch` props' default values and may be overwritten under the `inputSearch` root-level configuration option.
 
-| `inputSearch.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `btnPosition` | |
+| `inputSearch.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ---------------------- | ---- | ------- | :------: |
+| `btnPosition` | `'before' \| 'after'` | `'after'` | |
 
 Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).

@@ -467,6 +467,8 @@ Adding `squared` sets padding to the same value on all sides.
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `label` | `string` | |
@@ -489,20 +491,20 @@ Adding `squared` sets padding to the same value on all sides.
 
 ### Configuration options
 
-The following `Btn` props' default values can be overwritten under the `btn` root-level [configuration option](/configuration).
+`Btn`'s [configuration options](/configuration) allow to overwrite some `Btn` props' default values and may be overwritten under the `btn` root-level configuration option.
 
-| `btn.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `variant` | |
-| `<variant>.ghost` | |
-| `<variant>.outline` | |
-| `<variant>.underline` | |
-| `<variant>.fill` | |
-| `squared` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `btn.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| -------------- | ---- | ------- | :------: |
+| `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` | |
+| `<variant>.ghost` | `boolean \| 'transparent' \| 'translucent'` | | |
+| `<variant>.outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | | |
+| `<variant>.underline` | `boolean` | | |
+| `<variant>.fill` | `boolean` | | |
+| `squared` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 ## Anatomy
 

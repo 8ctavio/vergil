@@ -621,6 +621,8 @@ const options = ['Option']
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string \| array` | `''` |
@@ -648,16 +650,16 @@ const options = ['Option']
 
 ### Configuration options
 
-The following `Select` props' default values can be overwritten under the `select` root-level [configuration option](/configuration).
+`Select`'s [configuration options](/configuration) allow to overwrite some `Select` props' default values and may be overwritten under the `select` root-level configuration option.
 
-| `select.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `placeholderFallback` | |
-| `placeholderNotFound` | |
-| `placeholderFilter` | |
-| `underline` | |
-| `fill` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `select.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ----------------- | ---- | ------- | :------: |
+| `placeholderFallback` | `(n: number) => string` | <code>n => \`${n} Selected\`</code> | |
+| `placeholderNotFound` | `(query: string) => string` | <code>query => \`No results for [["${query}"]]\`</code> | |
+| `placeholderFilter` | `string` | `'Filter'` | |
+| `underline` | `boolean` | | |
+| `fill` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

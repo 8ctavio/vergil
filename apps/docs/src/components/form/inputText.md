@@ -291,6 +291,8 @@ const btnAfterProps = {
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string` | `''` |
@@ -320,12 +322,12 @@ const btnAfterProps = {
 
 ### Configuration options
 
-The following `InputText` props' default values can be overwritten under the `inputText` root-level [configuration option](/configuration).
+`InputText`'s [configuration options](/configuration) allow to overwrite some `InputText` props' default values and may be overwritten under the `inputText` root-level configuration option.
 
-| `inputText.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `underline` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `inputText.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| -------------------- | ---- | ------- | :------: |
+| `underline` | `boolean` | | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

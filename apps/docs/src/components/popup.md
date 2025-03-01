@@ -63,7 +63,7 @@ Create popup components inside a `components/popups` directory.
 
 ### Show Popup
 
-A popup component can be displayed programmatically with the `showPopup` function. It receives the popup component instance.
+A popup component can be displayed programmatically with the `showPopup` function. It receives an imported popup component object.
 
 ```js
 import PopupComponent from '@/components/popups/PopupComponent.vue'
@@ -88,7 +88,7 @@ In the following demo, two popup components have a button to change between comp
 
 ### Popup props and events
 
-The `showPopup` function receives two parameters. First one is the popup component instance, i.e., the popup to show. The second is an object with prop values and event handlers for `props` and `events` defined in the popup component.
+The `showPopup` function receives two parameters. First one is the popup component object, i.e., the popup to show. The second is an object with prop values and event handlers for `props` and `events` defined in the popup component.
 
 Thus, `defineProps` and `defineEmits` should be normally used in a popup component for two-way communication between the component and the API (`showPopup`).
 
@@ -194,6 +194,17 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
 
 ## API Reference
 
+### `showPopup`
+
+```js
+function showPopup(component: Component, props: object): void
+```
+
+#### Parameters
+
+- `component`: A component object.
+- `props`: Props object appended to `component` via the `v-bind` directive.
+
 ### Props
 
 | prop | type | default |
@@ -204,26 +215,15 @@ The recommended practice to define `Popup` content, is to add a `main.popup-cont
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 
-### Function
-
-```js
-function showPopup(component: ComponentInstance, props: object): void
-```
-
-#### Parameters
-
-- `component`: The default import of a popup component's SFC.
-- `props`: Props object appended to `component` via the `v-bind` directive.
-
 ### Configuration options
 
-The following `Popup` props' default values can be overwritten under the `popup` root-level [configuration option](/configuration).
+`Popup`'s [configuration options](/configuration) allow to overwrite some `Popup` props' default values and may be overwritten under the `popup` root-level configuration option.
 
-| `popup.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
+| `popup.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ---------------- | ---- | ------- | :------: |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
 
 ## Styling
 

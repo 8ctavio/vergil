@@ -216,6 +216,8 @@ The `value-off` prop is the value assigned to the `Switch`'s model value when it
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `checked` | `boolean` | |
@@ -241,11 +243,11 @@ The `value-off` prop is the value assigned to the `Switch`'s model value when it
 
 ### Configuration options
 
-The following `Switch` props' default values can be overwritten under the `switch` root-level [configuration option](/configuration).
+`Switch`'s [configuration options](/configuration) allow to overwrite some `Switch` props' default values and may be overwritten under the `switch` root-level configuration option.
 
-| `switch.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | |
-| `spacing` | ✅ |
+| `switch.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ----------------- | ---- | ------- | :------: |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | `'full'` | |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

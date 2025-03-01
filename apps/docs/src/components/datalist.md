@@ -68,6 +68,8 @@ To display a table, a `data` property must be an array of string arrays (`string
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `data` | `object` | |
@@ -79,14 +81,14 @@ To display a table, a `data` property must be an array of string arrays (`string
 
 ### Configuration options
 
-The following `DataList` props' default values can be overwritten under the `datalist` root-level [configuration option](/configuration).
+`Datalist`'s [configuration options](/configuration) allow to overwrite some `Datalist` props' default values and may be overwritten under the `datalist` root-level configuration option.
 
-| `datalist.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
+| `datalist.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------- | ---- | ------- | :------: |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 ## Anatomy
 

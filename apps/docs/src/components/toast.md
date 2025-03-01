@@ -96,6 +96,8 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `message` | `string` | `''` |
@@ -108,14 +110,14 @@ The `duration` prop specifies the number of **seconds** elapsed since `Toast` is
 
 ### Configuration options
 
-The following `Toast` props' default values can be overwritten under the `toast` root-level [configuration option](/configuration).
+`Toast`'s [configuration options](/configuration) allow to overwrite some `Toast` props' default values and may be overwritten under the `toast` root-level configuration option.
 
-| `toast.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `icon.<theme>` | ✅ |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
+| `toast.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| -------------------- | ---- | ------- | :------: |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| [`icon.<theme>`](/theme#the-theme-prop) | `string` | | ✅ |
 
 ## Toaster &#8203;
 
@@ -191,12 +193,17 @@ toast({ message: 'Please remain calm!' })
 
 ### Configuration options
 
-The following `toast` parameters' default values can be overwritten under the `toaster` root-level [configuration option](/configuration).
+`Toaster`'s [configuration options](/configuration) allow to overwrite some `toast` parameters' default values and may be overwritten under the `toaster` root-level configuration option. Additionally, only required toaster positions may be specified under `toaster.positions`.
 
-- `position`
-- `duration`
+```ts
+type toastPosition = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
+```
 
-Additionally, only the toaster positions to be used may be specified under `toaster.positions`.
+| `toaster.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| -------------------- | ---- | ------- | :------: |
+| `positions` | `toastPosition[]` | `['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end']` | |
+| `default` | `toastPosition` | `'bottom-end'` | |
+| `duration` | `number` | `6` | |
 
 ### Examples
 
@@ -215,7 +222,6 @@ toast(theme, message[theme])
     <Btn label="Danger" @click="toast('danger', 'Error!')"/>
     <Btn label="Neutral" @click="toast('neutral', 'Notification')"/>
 </Demo>
-
 
 #### Different positions
 

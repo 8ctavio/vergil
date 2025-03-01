@@ -214,6 +214,8 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `string \| number` | `'0'` |
@@ -236,14 +238,14 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 
 ### Configuration options
 
-The following `Slider` props' default values can be overwritten under the `slider` root-level [configuration option](/configuration).
+`Slider`'s [configuration options](/configuration) allow to overwrite some `Slider` props' default values and may be overwritten under the `slider` root-level configuration option.
 
-| `slider.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | |
-| `spacing` | ✅ |
+| `slider.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ----------------- | ---- | ------- | :------: |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | `'full'` | |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |
 
 <style>
 .slider.formatted > .slider-outer > .slider-value {

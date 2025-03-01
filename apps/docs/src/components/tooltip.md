@@ -140,6 +140,8 @@ If a Tooltip's parent has position `fixed`, use `position: 'fixed'`.
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `text` | `string` | |
@@ -153,10 +155,10 @@ If a Tooltip's parent has position `fixed`, use `position: 'fixed'`.
 
 ### Configuration options
 
-The following `Tooltip` props' default values can be overwritten under the `tooltip` root-level [configuration option](/configuration).
+`Tooltip`'s [configuration options](/configuration) allow to overwrite some `Tooltip` props' default values and may be overwritten under the `tooltip` root-level configuration option.
 
-| `tooltip.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `arrow` | |
-| `offset` | |
-| `placement` | |
+| `tooltip.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------ | ---- | ------- | :------: |
+| `arrow` | `boolean` | `false` | |
+| `offset` | `(arror: boolean) => number` | `arrow => arrow ? 2 : 5` | |
+| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'right' \| 'right-start' \| 'right-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end'` | `'top'` | |

@@ -235,6 +235,8 @@ The `description` slot may be use instead. The slot content overrides the `descr
 
 ## API Reference
 
+### Props
+
 | prop | type | default |
 | ---- | ---- | ------- |
 | `checked` | `boolean` | |
@@ -244,26 +246,23 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `description` | `string` | |
 | `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
 | `showSymbol` | `boolean` | |
+| `radioRadius` |  `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
-| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 
 ### Configuration options
 
-The following `Radio` props' default values can be overwritten under the `radio` root-level [configuration option](/configuration).
+`Radio`'s [configuration options](/configuration) allow to overwrite some `Radio` props' default values and may be overwritten under the `radio` root-level configuration option.
 
-| `radio.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `variant` | |
-| `radioRadius` | |
-| `theme` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
-| `spacing` | ✅ |
-
-:::tip
-For the `'classic'` variant the `radius` global configuration option is ignored. If the `radio` component configuration option is not set, the `'full'` value is applied.
-:::
+| `radio.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ---------------- | ---- | ------- | :------: |
+| `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` | |
+| `radioRadius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` | |
+| `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
+| `spacing` | [`spacing`](/theme#the-spacing-prop) | | ✅ |

@@ -168,15 +168,15 @@ Thus, if important operations are performed when the user declines a request, st
 
 ### Configuration options
 
-The following `confirm` parameters' default values can be overwritten under the `confirm` root-level [configuration option](/configuration).
+[Configuration options](/configuration) defined under the `confirm` root-level configuration property allow to overwrite some `confirm`'s API default values. 
 
-| `confirm.<option>` | [global](/configuration#global-configuration) |
-| -------------- | :---: |
-| `confirmLabel` | |
-| `declineLabel` | |
-| `icon.<theme>` | ✅ |
-| `size` | ✅ |
-| `radius` | ✅ |
+| `confirm.<option>` | type | default | [global](/configuration#global-configuration-options) |
+| ------------------ | ---- | ------- | :------: |
+| `confirmLabel` | `string` | `'Accept'` | |
+| `declineLabel` | `string` | `'Cancel'` | |
+| [`icon.<theme>`](/theme#the-theme-prop) | `string` | | ✅ |
+| `size` | [`size`](/theme#the-size-prop) | | ✅ |
+| `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
 
 ## Examples
 
