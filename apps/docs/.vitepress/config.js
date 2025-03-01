@@ -122,7 +122,6 @@ export default {
 				items: [
 					{ text: 'Functions', link: '/utilities/functions' },
 					{ text: 'Regex', link: '/utilities/regex' },
-					{ text: 'Error handling', link: '/utilities/error-handling' },
 				]
 			}
 		],

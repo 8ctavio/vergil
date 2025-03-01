@@ -23,15 +23,15 @@ hero:
 
 features:
   - title: Components
-    details: Styled, ready to use UI components
+    details: Styled, ready to use UI components and new APIs to consume component-exposed data
   - title: Composables
     details: Harness Vue's composition and reactivity APIs with refined composables
+  - title: Component models
+    details: Convenient API to establish bidirectional model-component bonds
   - title: Utilities
-    details: Comprehensive set of utility functions and constants
+    details: Various utility functions and constants
   - title: Theme
     details: Carefully designed theme with accessible color palettes
   - title: Configurable
     details: Customize default configuration options
-  - title: Error handling
-    details: Pragmatic convention for server and client error handling
 ---
