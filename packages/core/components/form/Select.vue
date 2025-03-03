@@ -1,5 +1,5 @@
 <script setup>
-import CheckboxGroup from './CheckboxGroup.vue'
+import CheckboxGroup from './CheckboxGroup'
 import InputText from './InputText.vue'
 import Btn from '../buttons/Btn.vue'
 import Badge from '../Badge.vue'
