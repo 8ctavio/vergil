@@ -150,10 +150,10 @@ let template = {
         spacing: undefined,
     },
     confirm: {
-        size: undefined,
-        radius: undefined,
         confirmLabel: 'Accept',
         declineLabel: 'Cancel',
+        size: undefined,
+        radius: undefined,
         icon: {
             brand:undefined,
             user: undefined,

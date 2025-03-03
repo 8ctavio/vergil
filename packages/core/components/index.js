@@ -2,17 +2,14 @@
 export { default as Badge } from './Badge.vue'
 export { default as Btn } from './buttons/Btn.vue'
 export { default as Btn3D } from './buttons/Btn3D.vue'
-export { default as Confirm } from './confirm/Confirm.vue'
 export { default as DataList } from './DataList.vue'
 export { default as Icon } from './Icon'
 export { default as Placeholder } from './Placeholder.vue'
-export { default as PopoverPortal } from './PopoverPortal.vue'
 export { default as Popup } from './popup/Popup.vue'
-export { default as PopupBackdrop } from './popup/PopupBackdrop.vue'
 export { default as Skeleton } from './Skeleton.vue'
 export { default as Toast } from './toast/Toast.vue'
-export { default as Toasters } from './toast/Toasters.vue'
 export { default as Tooltip } from './Tooltip.vue'
+export { default as Vergil } from './Vergil'
 
 //---------- Form Components ----------
 export { default as Calendar } from './form/Calendar.vue'

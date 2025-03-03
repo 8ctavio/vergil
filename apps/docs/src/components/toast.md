@@ -129,16 +129,17 @@ When a `Toast` is added to a toaster, already mounted `Toast`s are displaced to 
 
 ### Mount toasters
 
-First, it is required to add the `Toasters` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+Toasters may be enabled by passing the `toaster` boolean prop to the [`Vergil`](/components/Vergil) component.
 
 ```vue
 <script setup>
-import { Toasters } from '@8ctavio/vergil/components'
+import { Vergil } from '@8ctavio/vergil/components'
 </script>
 
 <template>
-    <AppLayout/>
-    <Toasters/>
+    <Vergil toaster>
+        <AppLayout/>
+    </Vergil>
 </template>
 ```
 
@@ -244,10 +245,7 @@ toast({
 </Demo>
 
 <style>
-.demo .toast p{
-    margin: 0;
-}
-.positions{
+.positions {
     display: grid;
     grid-template-columns: repeat(3,auto);    
     justify-content: space-between;

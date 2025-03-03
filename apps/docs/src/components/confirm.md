@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Confirm
 
-> The Confirm component raises a request as a message inside a modal window for the user, prompts the user to make a choice, and waits for the user's response.
+> The `Confirm` component raises a request as a message inside a modal window for the user, prompts the user to make a choice, and waits for the user's response.
 
 ## Demo
 
@@ -81,18 +81,20 @@ A request must be either confirmed or declined by the user. For this purpose, th
 
 ## Usage
 
-First, it is required to add the `Confirm` component somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+First, `Confirm` must be enabled by passing the `confirm` boolean prop to the [`Vergil`](/components/Vergil) component.
 
 ```vue
 <script setup>
-import { Confirm } from '@8ctavio/vergil/components'
+import { Vergil } from '@8ctavio/vergil/components'
 </script>
 
 <template>
-    <AppLayout/>
-    <Confirm/>
+    <Vergil confirm>
+        <AppLayout/>
+    </Vergil>
 </template>
 ```
+
 :::tip
 `Confirm`'s backdrop `z-index` value is by default set to `30` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::

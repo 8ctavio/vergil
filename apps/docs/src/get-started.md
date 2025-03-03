@@ -39,6 +39,22 @@ app.use(vergil)
 
 The plugin also allows to override Vergil's default configuration. To learn more about Vergil's configuration see the [Configuration](/configuration.md) section.
 
+## Root component
+
+An application using Vergil should be wrapped with the [`Vergil`](/components/vergil) component to globally enable the use of some components. In particular, `Vergil` enables popovers; other components may be enabled through props.
+
+```vue
+<script setup>
+import { Vergil } from '@8ctavio/vergil/components'
+</script>
+
+<template>
+    <Vergil>
+        <AppLayout/>
+    </Vergil>
+</template>
+```
+
 ## Styles
 
 To import Vergil's default theme in the project being worked on, add the following lines at the beginning of the project's main css file.

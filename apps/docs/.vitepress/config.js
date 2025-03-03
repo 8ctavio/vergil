@@ -67,6 +67,7 @@ export default {
 					{ text: 'Skeleton', link: '/components/skeleton' },
 					{ text: 'Toast', link: '/components/toast' },
 					{ text: 'Tooltip', link: '/components/tooltip' },
+					{ text: 'Vergil', link: '/components/vergil' },
 				]
 			},
 			{

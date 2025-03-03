@@ -6,25 +6,14 @@ import MiniMarkup from "../private/MiniMarkup"
 import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."
-import { FocusTrap } from '../../utilities/private'
-import { isEscapeKey, isTabKey, noop, isValidRadius, isValidSize } from '../../utilities/private'
+import { FocusTrap, isEscapeKey, isTabKey, noop } from '../../utilities/private'
 
-defineProps({
-	size: {
-        type: String,
-        default: () => vergil.config.confirm.size ?? vergil.config.global.size,
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: () => vergil.config.confirm.radius ?? vergil.config.global.radius,
-        validator: isValidRadius
-    },
-})
+const size = vergil.config.confirm.size ?? vergil.config.global.size
+const radius = vergil.config.confirm.radius ?? vergil.config.global.radius
 
 const focusTrap = new FocusTrap()
 
-function resolveConfirm(response){
+function resolveConfirm(response) {
 	confirmModel.show = false
 	confirmModel.resolve(response)
 	confirmModel.resolve = noop

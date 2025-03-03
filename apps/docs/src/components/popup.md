@@ -21,23 +21,24 @@ import { showPopup } from '@8ctavio/vergil'
 
 ## Usage
 
-### Popup Backdrop &#8203;
+### Popup backdrop &#8203;
 
-In order to display popups as modal windows, the `PopupBackdrop` component must be mounted somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+In order to display popups as modal windows, the `popup` boolean prop must be passed to the [`Vergil`](/components/Vergil) component.
 
 ```vue
 <script setup>
-import { PopupBackdrop } from '@8ctavio/vergil/components'
+import { Vergil } from '@8ctavio/vergil/components'
 </script>
 
 <template>
-    <AppLayout/>
-    <PopupBackdrop/>
+    <Vergil popup>
+        <AppLayout/>
+    </Vergil>
 </template>
 ```
 
 :::tip
-`PopupBackdrop` `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+The popups' backdrop `z-index` value is by default set to `10` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ### Popup components

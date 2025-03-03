@@ -86,22 +86,12 @@ Lastly, the `usePopover` composable returns an `isOpen` ref with a boolean value
 
 ## Usage
 
-### `PopoverPortal`
+### Popover Portal &#8203;
 
-A Popover's floating element is teleported to a `div#popover-portal` element rendered by the `PopoverPortal` component. Therefore, it is first required to add `PopoverPortal` somewhere in the app's template. It's recommended to place it as a direct child of the application's container.
+A Popover's floating element is teleported to a `div#popover-portal` element, which is automatically mounted by the [`Vergil`](/components/vergil) component.
 
-```vue
-<script setup>
-import { PopoverPortal } from '@8ctavio/vergil/components'
-</script>
-
-<template>
-    <AppLayout/>
-    <PopoverPortal/>
-</template>
-```
 :::tip
-`PopoverPortal`'s container `z-index` value is by default set to `20` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
+The popover portal container's `z-index` value is by default set to `20` through a css variable. See [Styles](/get-started.md#styles) on the Get Started guide to learn how to overwrite Vergil's css variables.
 :::
 
 ### `Popover`
