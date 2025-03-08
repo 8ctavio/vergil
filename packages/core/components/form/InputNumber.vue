@@ -49,7 +49,6 @@ const props = defineProps({
 	steppers: Boolean,
 	btnBefore: Object,
     btnAfter: Object,
-	disabled: Boolean,
 })
 
 //---------- Value & Fractional Digits Ranges ----------
