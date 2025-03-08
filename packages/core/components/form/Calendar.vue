@@ -979,7 +979,10 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 		</div>
 		<div v-if="time && selectionMode === 'date'" class="calendar-foot">
 			<div class="calendar-time">
-				<InputText v-model="displayedHours" data-time-control="hours" descendant max="2" text-align="center"
+				<InputText v-model="displayedHours" descendant data-time-control="hours"
+					text-align="center"
+					max="2"
+					:disabled
 					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="event => {
@@ -999,7 +1002,10 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					}"
 				/>
 				<p>:</p>
-				<InputText v-model="displayedMinutes" data-time-control="minutes" descendant max="2" text-align="center"
+				<InputText v-model="displayedMinutes" descendant data-time-control="minutes"
+					text-align="center"
+					max="2"
+					:disabled
 					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="updateMinutes(Math.min(59, Number($event.target.value)), false)"
@@ -1008,7 +1014,11 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 						updateDateTime()
 					}"
 				/>
-				<Btn v-if="timeFormat === '12'" :label="timePeriod" variant="soft" outline ghost descendant
+				<Btn v-if="timeFormat === '12'"
+					descendant
+					:label="timePeriod"
+					:disabled
+					variant="soft" outline ghost
 					@click="() => {
 						if(timePeriod === 'AM') {
 							timePeriod = 'PM'
@@ -1025,6 +1035,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 				:virtualMin="hoursMeta.min > 0 ? hoursMeta.min : undefined"
 				:virtualMax="hoursMeta.max < 23 ? hoursMeta.max : undefined"
 				:step="hoursMeta.step"
+				:disabled
 				@input="updateHours($event.target.value)"
 				@change="updateDateTime"
 			/>
@@ -1032,6 +1043,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 				:virtualMin="minutesMeta.min > 0 ? minutesMeta.min : undefined"
 				:virtualMax="minutesMeta.max < 59 ? minutesMeta.max : undefined"
 				:step="minutesMeta.step"
+				:disabled
 				@input="updateMinutes($event.target.value)"
 				@change="updateDateTime"
 			/>
@@ -1223,8 +1235,8 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					}
 				}
 			}
-			&:has(+ .slider > .slider-outer > .slider-wrapper > input:hover) > .input-text:first-of-type > .input-text-outer > .input-text-wrapper,
-			&:has(~ .slider:last-of-type > .slider-outer > .slider-wrapper > input:hover) > .input-text:last-of-type > .input-text-outer > .input-text-wrapper {
+			&:has(+ .slider > .slider-outer > .slider-wrapper > input:not(:disabled):hover) > .input-text:first-of-type > .input-text-outer > .input-text-wrapper,
+			&:has(~ .slider:last-of-type > .slider-outer > .slider-wrapper > input:not(:disabled):hover) > .input-text:last-of-type > .input-text-outer > .input-text-wrapper {
 				outline: 2px solid var(--c-theme-outline);
 				background-color: var(--c-theme-soft-1);
     			transition: background-color 150ms, box-shadow 150ms, outline 50ms;

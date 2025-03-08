@@ -382,11 +382,11 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 ### Disabled <Badge><pre>disabled: boolean</pre></Badge>
 
 ```vue
-<Calendar disabled/>
+<Calendar disabled time time-format="12"/>
 ```
 
 <Demo>
-    <Calendar disabled/>
+    <Calendar disabled time time-format="12"/>
 </Demo>
 
 ## Elements
