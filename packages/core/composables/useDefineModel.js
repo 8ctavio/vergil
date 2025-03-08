@@ -90,9 +90,15 @@ export function useDefineModel(options = {}) {
                             }
                         }
                     }
-                }), { extendRef: true, includeElements: false, includeExposed: false })
+                }), {
+                    extendRef: true,
+                    validator: rawProps.validator,
+                    includeElements: false,
+                    includeExposed: false
+                })
                 : useModel(modelValue, {
                     shallow: true,
+                    validator: rawProps.validator,
                     includeElements: false,
                     includeExposed: false,
                 })

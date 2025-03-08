@@ -1,5 +1,6 @@
 import { shallowRef, unref, markRaw } from "vue"
-import { definedExposed, symTrigger, getTrue } from "./private"
+import { definedExposed, symTrigger } from "./private"
+import { getTrue } from "../utilities/private"
 
 /**
  * Creates a read-only, shallow-ref-unwrapping object to consume component exposed data. 

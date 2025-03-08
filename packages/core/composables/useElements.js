@@ -1,6 +1,7 @@
 import { shallowRef } from "vue"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
-import { definedElements, symTrigger, getTrue } from "./private"
+import { definedElements, symTrigger } from "./private"
+import { getTrue } from "../utilities/private"
 
 /**
  * @TODO add functions for the update handler methods
