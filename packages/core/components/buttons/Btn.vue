@@ -269,6 +269,10 @@ defineProps({
         --btn-bw-b: var(--component-border-bottom-width);
         --btn-c-border-b: var(--c-theme-solid-1);
     }
+    &.invalid {
+        --btn-bw: 1px;
+        --btn-c-border-1: var(--c-theme-solid-1);
+    }
     &.fill {
         transition: background-color 150ms, color 200ms, box-shadow 150ms;
         & > .btn-content > .icon {

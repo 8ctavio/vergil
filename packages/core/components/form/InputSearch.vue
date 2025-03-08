@@ -90,6 +90,7 @@ const icon = computed(() => {
 const btnPositionFlag = props.btnPosition === 'after'
 const btnPositionName = ucFirst(props.btnPosition)
 const btnProps = extendedReactive(withDescriptor => ({
+    type: 'button',
     iconLeft: btnPositionFlag ? icon : props[`btn${btnPositionName}`]?.iconLeft,
     iconRight: btnPositionFlag ? props[`btn${btnPositionName}`]?.iconRight : icon,
     loading: loader,

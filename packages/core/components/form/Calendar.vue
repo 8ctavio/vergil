@@ -219,10 +219,10 @@ import Icon from '../Icon'
 import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
-import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
+import { isRef, computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, useDefineElements } from '../../composables'
-import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
+import { debounce, ucFirst, everyKeyInObject, isFunction } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
 import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
@@ -241,6 +241,7 @@ const props = defineProps({
 		default: () => ({})
 	},
     ['onUpdate:modelValue']: Function,
+    validator: Function,
     elements: Object,
 
 	locale: {
@@ -477,6 +478,7 @@ const minutesMeta = computed(() => {
 	const step = Math.min(props.minutes.step ?? 1, max - min)
 	return { min, max, step }
 })
+
 function updateHours(h, updateFormatted = true) {
 	hours.value = Math.max(hoursMeta.value.min, Math.min(Number(h), hoursMeta.value.max))
 	h = hours.value
@@ -504,7 +506,7 @@ function updateMinutes(m, updateFormatted = true) {
 	}
 	return mm
 }
-function updateDateTime() {
+function updateDateTime(lazyValidation = false) {
 	function getNewModelValue(date) {
 		if(props.modelModifiers.string) {
 			return date.slice(0,10) + `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}`
@@ -521,12 +523,18 @@ function updateDateTime() {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
 			model.triggerIfShallow()
+			if(model.error) {
+				(lazyValidation ? validateTimeLazy : validateTimeEager)()
+			}
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
 			triggerModelValue(model)
 			// triggerRef(model.ref)
+			if(model.error) {
+				(lazyValidation ? validateTimeLazy : validateTimeEager)()
+			}
 		})
 	}
 }
@@ -577,12 +585,14 @@ function handleKeydown(event) {
 			} else {
 				updateMinutes(minutes.value + minutesMeta.value.step)
 			}
+			updateDateTime(true)
 		} else if(key === 'ArrowDown') {
 			if(control === 'hours') {
 				updateHours(hours.value - hoursMeta.value.step)
 			} else {
 				updateMinutes(minutes.value - minutesMeta.value.step)
 			}
+			updateDateTime(true)
 		}
 	} else if(key.startsWith('Arrow') && !isInput(event.target, 'range') ) {
 		event.preventDefault()
@@ -724,10 +734,12 @@ const handleChange = model.updateDecorator(event => {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
 				model.triggerIfShallow()
+				if(model.error) model.validate()
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
 			model.triggerIfShallow()
+			if(model.error) model.validate()
 		}
 	} else {
 		if(event.target.checked) {
@@ -755,8 +767,18 @@ const handleChange = model.updateDecorator(event => {
 				model.value = null
 			}
 		}
+		if(model.error) model.validate()
 	}
 })
+
+const validateTimeLazy = debounce(model.validate, 300)
+const validateTimeEager = debounce(model.validate, 350, { eager: true })
+if(isRef(model.refs.errors)) {
+    watch(model.errors, () => {
+        validateTimeLazy.cancel()
+        validateTimeEager.cancel()
+    }, { flush: 'sync' })
+}
 
 //-------------------- GENERATE DATES --------------------
 let calendarMeta = null
@@ -889,12 +911,17 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 	updateHours(hh)
 	updateMinutes(mm)
 }
+
+const themeClass = computed(() => {
+	return model.error && !props.disabled
+		? 'invalid' + (props.theme ? ' danger' : '')
+		: props.theme && inferTheme(props.theme)
+})
 </script>
 
 <template>
 	<div :ref="elements.refs.root"
-		:class="['calendar', {
-			[inferTheme(theme)]: theme,
+		:class="['calendar', themeClass, {
 			[`size-${size}`]: size,
 			[`radius-${radius}`]: radius,
 			[`spacing-${spacing}`]: spacing,
@@ -902,7 +929,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 		@keydown="handleKeydown"
 	>
 		<div class="calendar-head">
-			<button v-show="selectionMode !== 'month'" class="calendar-arrow calendar-button"
+			<button v-show="selectionMode !== 'month'" type="button" class="calendar-arrow calendar-button"
 				:disabled="
 					disabled
 					|| (selectionMode === 'date' && displayedYear === minDate[0] && displayedMonth === minDate[1])
@@ -914,6 +941,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 			</button>
 			<div>
 				<button
+					type="button"
 					:class="['calendar-button', { pressed: selectionMode === 'month' }]"
 					:disabled
 					@click="toggleMonthSelection"
@@ -921,6 +949,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					{{ labels.months[displayedMonth] }}
 				</button>
 				<button
+					type="button"
 					:class="['calendar-button', { pressed: selectionMode === 'year' }]"
 					:disabled
 					@click="toggleYearSelection"
@@ -928,7 +957,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					{{ displayedYear }}
 				</button>
 			</div>
-			<button v-show="selectionMode !== 'month'" class="calendar-arrow calendar-button"
+			<button v-show="selectionMode !== 'month'" type="button" class="calendar-arrow calendar-button"
 				:disabled="
 					disabled
 					|| (selectionMode === 'date' && displayedYear === maxDate[0] && displayedMonth === maxDate[1])
@@ -981,6 +1010,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 			<div class="calendar-time">
 				<InputText v-model="displayedHours" descendant data-time-control="hours"
 					text-align="center"
+					form="null"
 					max="2"
 					:disabled
 					@focusin="e => e.target.select()"
@@ -1004,6 +1034,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 				<p>:</p>
 				<InputText v-model="displayedMinutes" descendant data-time-control="minutes"
 					text-align="center"
+					form="null"
 					max="2"
 					:disabled
 					@focusin="e => e.target.select()"
@@ -1015,6 +1046,7 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					}"
 				/>
 				<Btn v-if="timeFormat === '12'"
+					type="button"
 					descendant
 					:label="timePeriod"
 					:disabled
@@ -1031,21 +1063,21 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 					}"
 				/>
 			</div>
-			<Slider v-model="hours" descendant min="0" max="23"
+			<Slider v-model="hours" form="null" descendant min="0" max="23"
 				:virtualMin="hoursMeta.min > 0 ? hoursMeta.min : undefined"
 				:virtualMax="hoursMeta.max < 23 ? hoursMeta.max : undefined"
 				:step="hoursMeta.step"
 				:disabled
 				@input="updateHours($event.target.value)"
-				@change="updateDateTime"
+				@change="updateDateTime()"
 			/>
-			<Slider v-model="minutes" descendant min="0" max="59"
+			<Slider v-model="minutes" form="null" descendant min="0" max="59"
 				:virtualMin="minutesMeta.min > 0 ? minutesMeta.min : undefined"
 				:virtualMax="minutesMeta.max < 59 ? minutesMeta.max : undefined"
 				:step="minutesMeta.step"
 				:disabled
 				@input="updateMinutes($event.target.value)"
-				@change="updateDateTime"
+				@change="updateDateTime()"
 			/>
 		</div>
 	</div>
@@ -1066,6 +1098,9 @@ if(props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) {
 	background-color: var(--c-bg);
     color: var(--c-text);
 
+	&.invalid {
+        box-shadow: inset 0 0 0 1px var(--c-theme-solid-1);
+	}
 	& :not(input[type="text"])::selection {
 		background-color: transparent;
 	}

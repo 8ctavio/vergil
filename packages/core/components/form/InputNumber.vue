@@ -78,10 +78,12 @@ watchEffect(() => {
 //---------------------------
 const model = useDefineModel({ captureElements: true })
 const displayedString = useModel('', {
+	validator: model,
 	includeElements: false,
 	includeExposed: false
 })
 let displayedNumber = 0
+
 model.onExternalUpdate(modelValue => {
 	const modelNumber = Number(modelValue)
 	if(Number.isNaN(modelNumber)) {
@@ -260,7 +262,10 @@ function handleBeforeInput(event) {
 
 		newValue = target.value.slice(0,deleteSelection.start) + target.value.slice(deleteSelection.end)
 	} else if(inputType.startsWith('insert')) {
-		return event.preventDefault()
+		if(inputType !== 'insertLineBreak') {
+			event.preventDefault()
+		}
+		return
 	}
 
 	if(props.separator) {

@@ -1,10 +1,10 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed } from 'vue'
+import { isRef, computed, watch } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isFunction } from '../../utilities'
+import { debounce, isFunction } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -41,6 +41,8 @@ const props = defineProps({
         default: props => props.value,
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     displayValue: {
@@ -80,12 +82,14 @@ const props = defineProps({
     }
 })
 
+const model = useDefineModel()
 const elements = useDefineElements(['input'])
 
-const model = useDefineModel()
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })
+
+const validateInput = debounce(model.validate, 300)
 const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
     if(props.virtualMin && newValue < props.virtualMin) {
@@ -95,7 +99,15 @@ const handleInput = model.updateDecorator(event => {
     } else {
         model.value = newValue
     }
+    if(model.error) {
+        validateInput()
+    }
 })
+if(isRef(model.errors)) {
+    watch(model.errors, () => {
+        validateInput.cancel()
+    }, { flush: 'sync' })
+}
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))
 const valueWidth = computed(() => props.max.length)
@@ -105,6 +117,7 @@ const valueWidth = computed(() => props.max.length)
     <FormField :class="['slider', props.class]"
         :label :hint :description :help
         :theme :size :radius :spacing
+        :showErrors :errors="model.errors"
     >
         <div class="slider-outer">
             <div :class="['slider-wrapper', { fixedProgress }]">
@@ -118,7 +131,7 @@ const valueWidth = computed(() => props.max.length)
                     :disabled
                     @input="handleInput"
                 >
-                <span class="slider-track">
+                <span :class="['slider-track', { invalid: model.error }]">
                     <span class="slider-progress">
                         <span class="slider-knob"/>
                     </span>
@@ -223,6 +236,9 @@ const valueWidth = computed(() => props.max.length)
             border-radius: inherit;
             background-color: var(--c-grey-soft-4);
 
+            &.invalid {
+                background-color: var(--c-theme-soft-4);
+            }
             & > .slider-progress {
                 position: absolute;
                 left: 0;

@@ -54,6 +54,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     //----- Component specific -----
@@ -155,7 +157,8 @@ function Options({ options }) {
     <FormField :class="[`${type}-group`, props.class]"
         :label :hint :description :help
         :theme :size :radius :spacing
-        >
+        :showErrors :errors="model.errors"
+    >
         <div
             v-bind="$attrs"
             :ref="elements.refs.options"

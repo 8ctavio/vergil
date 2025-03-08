@@ -17,6 +17,7 @@ const props = defineProps({
         }
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
     elements: Object,
 
     checked: Boolean,
@@ -80,8 +81,15 @@ model.onExternalUpdate(modelValue => {
 function handleChange(event) {
     if(event.target.checked) {
         model.update(event.target.value)
+        if(model.error) model.validate()
     }
 }
+
+const themeClass = computed(() => {
+	return model.error
+		? 'invalid' + (theme.value ? ' danger' : '')
+		: theme.value && inferTheme(theme.value)
+})
 </script>
 
 <template>
@@ -89,8 +97,7 @@ function handleChange(event) {
         :variant
         :showSymbol
         :radius="radioRadius"
-        :class="[props.class, {
-            [inferTheme(theme)]: theme,
+        :class="[props.class, themeClass, {
             [`size-${size}`]: size,
             [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing

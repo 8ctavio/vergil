@@ -1,6 +1,6 @@
 <script setup>
 import MiniMarkup from './MiniMarkup'
-import { vPreventClickSelection } from '../../utilities/private';
+import { vPreventClickSelection } from '../../utilities/private'
 
 defineProps({
     type: {
@@ -19,9 +19,7 @@ defineProps({
     <label :class="[type, variant]" v-prevent-click-selection>
         <slot name="input"/>
         <span v-if="variant === 'classic' || showSymbol"
-            :class="['toggle-button', {
-                [`radius-${radius}`]: radius
-            }]">
+            :class="['toggle-button', radius && `radius-${radius}`]">
             <svg v-if="type === 'checkbox'" class="toggle-check" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
                 <path d="m382-388 321-321q19-19 45-19t45 19q19 19 19 45t-19 45L427-253q-19 19-45 19t-45-19L167-423q-19-19-19-45t19-45q19-19 45-19t45 19l125 125Z"/>
             </svg>
@@ -55,6 +53,10 @@ defineProps({
         &:hover > .toggle-button,
         & > input:focus-visible + .toggle-button {
             border-color: rgb(var(--rgb-grey-border) / 0.40);
+        }
+        &.invalid:hover > .toggle-button,
+        &.invalid > input:focus-visible + .toggle-button {
+            border-color: var(--c-theme-border-regular);
         }
     }
 
@@ -131,6 +133,9 @@ defineProps({
             grid-row-start: 2;
         }
     }
+    &.invalid > .toggle-button {
+        border-color: var(--c-theme-border-subtle);
+    }
 
     &:not(.card) > .toggle-description {
         font-size: 0.9em;
@@ -142,7 +147,8 @@ defineProps({
 
 /*-------- CLASSIC --------*/
 :is(.checkbox, .radio).classic {
-    &:hover > .toggle-button {
+    &:hover > .toggle-button,
+    &.invalid > .toggle-button {
         border-color: var(--c-theme-solid-1);
     }
     & > input:focus-visible + .toggle-button {
@@ -164,11 +170,16 @@ defineProps({
     transition: box-shadow 150ms;
 
     &:hover {
-        --toggle-bc: var(--c-grey-border-regular);
+        --toggle-bc: var(--c-theme-border-regular);
+    }
+    &.invalid {
+        color: var(--c-theme-text-2);
+        --toggle-bc: var(--c-theme-border-regular);
     }
     &:has(> input:focus-visible) {
-        --toggle-bc: var(--c-grey-border-regular);
+        --toggle-bc: var(--c-theme-border-regular);
         background-color: var(--c-theme-soft-2);
+        &.invalid { --toggle-bc: var(--c-theme-solid-1) }
     }
     &:has(> input:checked) {
         --toggle-bw: 1.5px;
@@ -200,6 +211,9 @@ defineProps({
         --toggle-bw: 0.8px;
         --toggle-bc: var(--c-grey-border-subtle);
         background-color: var(--c-grey-soft-1);
+        &:where(.invalid) {
+            background-color: var(--c-theme-soft-1);
+        }
     }
     &:has(> input:focus-visible) {
         outline: 2px solid var(--c-theme-outline);
@@ -209,6 +223,10 @@ defineProps({
         --toggle-bc: var(--c-theme-border-subtle);
         background-color: var(--c-theme-soft-2);
     }
+    &:is(label).invalid {
+        --toggle-bw: 1px;
+        --toggle-bc: var(--c-theme-solid-1);
+    } 
     &:has(> input:disabled) {
         --toggle-bw: 0px;
         background-color: var(--c-disabled-1);
@@ -233,6 +251,13 @@ defineProps({
 
     &:hover {
         color: var(--c-text);
+    }
+    &.invalid {
+        color: var(--c-theme-text-1);
+        box-shadow: inset 0 0 0 1px var(--c-theme-solid-1);
+        &:where(:hover) {
+            color: var(--c-theme-text-2);
+        }
     }
     &:has(> input:focus-visible) {
         background-color: var(--c-grey-soft-2);

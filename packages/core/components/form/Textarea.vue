@@ -1,9 +1,10 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed } from 'vue'
+import { isRef, computed, watch } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
+import { debounce } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -18,6 +19,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     placeholder: {
@@ -70,15 +73,25 @@ const props = defineProps({
     }
 })
 
+const model = useDefineModel()
 const elements = useDefineElements(['input'])
 
-const model = useDefineModel()
-model.onExternalUpdate(modelValue => {
+model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
+
+const validateInput = debounce(model.validate, 300)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
+    if(model.error) {
+        validateInput()
+    }
 })
+if(isRef(model.refs.errors)) {
+    watch(model.errors, () => {
+        validateInput.cancel()
+    }, { flush: 'sync' })
+}
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -91,8 +104,9 @@ const floatLabelEnabled = computed(() => {
     <FormField :class="['textarea', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :theme :size :radius :spacing
+        :showErrors :errors="model.errors"
     >
-        <div :class="['textarea-wrapper', { underline }]">
+        <div :class="['textarea-wrapper', { underline, invalid: model.error }]">
             <textarea
                 v-bind="$attrs"
                 :ref="elements.refs.input"
@@ -111,8 +125,9 @@ const floatLabelEnabled = computed(() => {
 </template>
 
 <style>
-.textarea-wrapper{
-    --textarea-bw-b: 0.5px;
+.textarea-wrapper {
+    --textarea-bw: 0.8px;
+    --textarea-bw-b: var(--textarea-bw);
     --textarea-bc: var(--c-grey-border-subtle);
     --textarea-bc-b: var(--c-grey-border-subtle);
 
@@ -126,30 +141,38 @@ const floatLabelEnabled = computed(() => {
     background-color: var(--c-bg);
     color: var(--c-text);
     box-shadow: inset 0 calc(var(--textarea-bw-b) * -1) var(--textarea-bc-b),
-                inset 0 0.5px var(--textarea-bc),
-                inset 0.5px 0 var(--textarea-bc),
-                inset -0.5px 0 var(--textarea-bc);
+                inset 0 var(--textarea-bw) var(--textarea-bc),
+                inset var(--textarea-bw) 0 var(--textarea-bc),
+                inset calc(-1 * var(--textarea-bw)) 0 var(--textarea-bc);
     outline: 0 solid transparent;
     transition: background-color 150ms, box-shadow 150ms;
 
-    &:has(textarea:focus-visible){
+    &:has(textarea:focus-visible) {
         outline: 2px solid var(--c-theme-outline);
     }
-    &:has(textarea:disabled){
+    &:has(textarea:disabled) {
         --textarea-bc: var(--c-disabled-border-2);
-        --textarea-bc-b: var(--c-disabled-border-3);
+        --textarea-bc-b: var(--c-disabled-border-2);
         color: var(--c-disabled-text);
         background-color: var(--c-disabled-1);
+        &.underline {
+            --textarea-bc-b: var(--c-disabled-border-3);
+        }
         & > textarea{
             cursor: not-allowed;
         }
+    }
+    &.invalid {
+        --textarea-bw: 1px;
+        --textarea-bc: var(--c-theme-solid-1);
+        --textarea-bc-b: var(--c-theme-solid-1);
     }
     &.underline {
         --textarea-bw-b: var(--component-border-bottom-width);
         --textarea-bc-b: var(--c-theme-solid-1);
     }
 
-    & > textarea{
+    & > textarea {
         font-size: 1em;
         font-family: var(--font-sans);
         width: 100%;

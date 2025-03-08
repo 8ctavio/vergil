@@ -32,6 +32,7 @@ const props = defineProps({
         }
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
     elements: Object,
 
     label: String,
@@ -97,14 +98,23 @@ const handleChange = model.updateDecorator(event => {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
+                if(model.error) model.validate()
             }
         } else if(event.target.checked) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
+            if(model.error) model.validate()
         }
     } else {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
+        if(model.error) model.validate()
     }
+})
+
+const themeClass = computed(() => {
+	return model.error
+		? 'invalid' + (theme.value ? ' danger' : '')
+		: theme.value && inferTheme(theme.value)
 })
 </script>
 
@@ -112,8 +122,7 @@ const handleChange = model.updateDecorator(event => {
     <ToggleButton type="checkbox" :label :description
         :variant
         :showSymbol
-        :class="[props.class, {
-            [inferTheme(theme)]: theme,
+        :class="[props.class, themeClass, {
             [`size-${size}`]: size,
             [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing

@@ -39,6 +39,8 @@ const props = defineProps({
 		default: () => ({})
 	},
     ['onUpdate:modelValue']: Function,
+	validator: Function,
+	showErrors: Boolean,
     elements: Object,
 
 	//----- Calendar -----
@@ -240,16 +242,21 @@ function handleKeydown(event) {
 	<FormField :class="['date-picker', props.class]"
 		:label :hint :description :help :float-label="floatLabelEnabled"
 		:theme :size :radius :spacing
+		:showErrors :errors="model.errors"
 	>
 		<Popover :class="['date-picker-popover', props.class]"
-			:theme :size :radius :spacing
+			:theme="model.error ? 'danger' : theme" :size :radius :spacing
 		>
 			<DatePickerWrapper :sideButtonPosition="btnClear?.position" v-slot="{ iconProp }"
 				@keydown="handleKeydown"
 			>
 				<Btn
-					:class="['date-picker-select', { selected: isSelected }]"
+					:class="['date-picker-select', {
+						selected: isSelected,
+						invalid: model.error
+					}]"
 					descendant
+					type="button"
 					ghost="translucent"
 					outline="subtle"
 					:fill
@@ -270,6 +277,7 @@ function handleKeydown(event) {
 				</Btn>
 				<Btn
 					v-bind="btnClear"
+					type="button"
 					class="date-picker-clear"
 					descendant
 					:variant="btnClear?.variant ?? 'subtle'"
@@ -288,6 +296,9 @@ function handleKeydown(event) {
 								} else {
 									model.value = null
 								}
+							}
+							if(model.error) {
+								model.validate()
 							}
 						} else {
 							togglePopover()
@@ -392,6 +403,11 @@ function handleKeydown(event) {
 }
 
 #popover-portal > .popover-wrapper > .date-picker-popover > .calendar {
-    box-shadow: 2px 2px 3px var(--c-box-shadow);
+    --calendar-bw: 0px;
+	box-shadow: 2px 2px 3px var(--c-box-shadow),
+				inset 0 0 0 var(--calendar-bw) var(--c-theme-solid-1);
+	&.invalid {
+		--calendar-bw: 1px;
+	}
 }
 </style>

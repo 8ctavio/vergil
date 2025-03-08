@@ -24,6 +24,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     options : Object,
@@ -290,13 +292,16 @@ function updateSelection(option, closeOnUpdated = false) {
                 if(option.checked) {
                     model.value.splice(idx,1)
                     model.triggerIfShallow()
+                    if(model.error) model.validate()
                 }
             } else if(!option.checked) {
                 model.value.push(option.value)
                 model.triggerIfShallow()
+                if(model.error) model.validate()
             }
         } else {
             model.value = option.checked ? '' : option.value
+            if(model.error) model.validate()
         }
     })
     nextTick(() => {
@@ -373,6 +378,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
     <FormField :class="['select', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :theme :size :radius :spacing
+        :showErrors :errors="model.errors"
     >
         <Popover :class="['select-popover', props.class]"
             :theme :size :radius :spacing
@@ -380,8 +386,10 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
         >
             <Btn
                 v-bind="$attrs"
+                type="button"
                 :class="['select-button', {
-                    selected: isSelected
+                    selected: isSelected,
+                    invalid: model.error
                 }]"
                 descendant
                 ghost="translucent"
@@ -402,7 +410,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                         :squared="false"
                         >
                         {{ input.dataset.label }}
-                        <button :data-value="input.value">
+                        <button type="button" :data-value="input.value">
                             <Icon code="cancel"/>
                         </button>
                     </Badge>

@@ -27,6 +27,8 @@ const props = defineProps({
         default: props => props.checked ? props.valueOn : props.valueOff,
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     track: {
@@ -97,13 +99,16 @@ const handleChange = model.updateDecorator(event => {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
+                if(model.error) model.validate()
             }
         } else if(event.target.checked) {
             model.value.push(props.valueOn)
             model.triggerIfShallow()
+            if(model.error) model.validate()
         }
     } else {
         model.value = event.target.checked ? props.valueOn : props.valueOff
+        if(model.error) model.validate()
     }
 })
 </script>
@@ -112,7 +117,8 @@ const handleChange = model.updateDecorator(event => {
     <FormField :class="['switch', props.class]"
         :label :hint :description :help
         :theme :size :radius :spacing
-        >
+        :showErrors :errors="model.errors"
+    >
         <label :class="['switch-button', { [`track-${track}`]: track }]" v-prevent-click-selection>
             <input
                 v-bind="$attrs"
@@ -126,7 +132,7 @@ const handleChange = model.updateDecorator(event => {
             <label v-if="labelOff" class="switch-label-off">
                 <MiniMarkup :str="labelOff"/>
             </label>
-            <span class="switch-track">
+            <span :class="['switch-track', { invalid: model.error }]">
                 <span class="switch-knob">
                     <Icon :code="iconOff" class="switch-icon-off"/>
                     <Icon :code="iconOn" class="switch-icon-on"/>
@@ -179,6 +185,7 @@ const handleChange = model.updateDecorator(event => {
         
         & > .switch-track {
             background-color: var(--c-disabled-1);
+            box-shadow: none;
             & > .switch-knob {
                 background-color: var(--c-disabled-border-3);
             }
@@ -235,6 +242,13 @@ const handleChange = model.updateDecorator(event => {
         background-color: var(--c-grey-soft-4);
         transition: background-color 150ms;
 
+        &.invalid {
+            background-color: var(--c-theme-soft-4);
+            box-shadow: 0 0 0 1px var(--c-theme-solid-1);
+            & > .switch-knob {
+                background-color: var(--c-theme-solid-1);
+            }
+        }
         & > .switch-knob {
             position: absolute;
             left: 0;

@@ -3,10 +3,10 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { computed } from 'vue'
+import { isRef, computed, watch, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isObject } from '../../utilities'
+import { debounce, isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -21,6 +21,8 @@ const props = defineProps({
         default: props => props.value
     },
     ['onUpdate:modelValue']: Function,
+    validator: Function,
+    showErrors: Boolean,
     elements: Object,
 
     placeholder: {
@@ -85,15 +87,34 @@ const props = defineProps({
     }
 })
 
+const model = useDefineModel()
 const elements = useDefineElements(['input'])
 
-const model = useDefineModel()
-model.onExternalUpdate(modelValue => {
+model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
+
+const validateInput = debounce(model.validate, 300)
+const validateEnter = debounce(model.validate, 350, { eager: true })
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
+    if(model.error) {
+        validateInput()
+    }
 })
+if(isRef(model.refs.errors)) {
+    watch(model.errors, () => {
+        validateInput.cancel()
+        validateEnter.cancel()
+    }, { flush: 'sync' })
+    onMounted(() => {
+        elements.input.addEventListener('keydown', event => {
+            if(event.key === 'Enter' && model.error) {
+                validateEnter()
+            }
+        }, { passive: true })
+    })
+}
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -108,10 +129,11 @@ const showBtnAfter = isObject(props.btnAfter)
     <FormField :class="['input-text', props.class]"
         :label :hint :description :help :float-label="floatLabelEnabled"
         :theme :size :radius :spacing
+        :showErrors :errors="model.errors"
     >
         <div class="input-text-outer">
             <Btn v-if="showBtnBefore" v-bind="btnBefore" descendant :disabled="disabled || btnBefore.disabled"/>
-            <div :class="['input-text-wrapper', { underline }]">
+            <div :class="['input-text-wrapper', { underline, invalid: model.error }]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
@@ -164,9 +186,10 @@ const showBtnAfter = isObject(props.btnAfter)
     }
 }
 .input-text-wrapper {
-    --text-input-bw-l: 0.8px;
-    --text-input-bw-r: 0.8px;
-    --text-input-bw-b: 0.8px;
+    --text-input-bw: 0.8px;
+    --text-input-bw-l: var(--text-input-bw);
+    --text-input-bw-r: var(--text-input-bw);
+    --text-input-bw-b: var(--text-input-bw);
     --text-input-bc: var(--c-grey-border-subtle);
     --text-input-bc-b: var(--c-grey-border-subtle);
 
@@ -181,7 +204,7 @@ const showBtnAfter = isObject(props.btnAfter)
     background-color: var(--c-bg);
     color: var(--c-text);
     box-shadow: inset 0 calc(var(--text-input-bw-b) * -1) var(--text-input-bc-b),
-                inset 0 0.8px var(--text-input-bc),
+                inset 0 var(--text-input-bw) var(--text-input-bc),
                 inset var(--text-input-bw-l) 0 var(--text-input-bc),
                 inset calc(var(--text-input-bw-r) * -1) 0 var(--text-input-bc);
     outline: 0 solid transparent;
@@ -193,12 +216,20 @@ const showBtnAfter = isObject(props.btnAfter)
     }
     &:has(input:disabled){
         --text-input-bc: var(--c-disabled-border-2);
-        --text-input-bc-b: var(--c-disabled-border-3);
+        --text-input-bc-b: var(--c-disabled-border-2);
         color: var(--c-disabled-text);
         background-color: var(--c-disabled-1);
+        &.underline {
+            --text-input-bc-b: var(--c-disabled-border-3);
+        }
         & > input{
             cursor: not-allowed;
         }
+    }
+    &.invalid {
+        --text-input-bw: 1px;
+        --text-input-bc: var(--c-theme-solid-1);
+        --text-input-bc-b: var(--c-theme-solid-1);
     }
     &.underline {
         --text-input-bw-b: var(--component-border-bottom-width);

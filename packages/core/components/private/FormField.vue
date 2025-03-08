@@ -1,5 +1,6 @@
 <script setup>
 import MiniMarkup from "./MiniMarkup"
+import { isRef, computed } from 'vue'
 import { inferTheme } from "../../utilities/private"
 
 const props = defineProps({
@@ -20,16 +21,22 @@ const props = defineProps({
         default: '',
     },
     floatLabel: Boolean,
+    errors: Object,
+    showErrors: Boolean,
     theme: String,
     size: String,
     radius: String,
     spacing: String,
 })
+
+const errors = props.errors
+const error = isRef(errors)
+    ? computed(() => Array.isArray(errors.value) && errors.value.length > 0)
+    : false
 </script>
 
 <template>
-    <div :class="['form-field', {
-        [inferTheme(theme)]: theme,
+    <div :class="['form-field', theme && (error ? 'danger' : inferTheme(theme)), {
         [`size-${size}`]: size,
         [`radius-${radius}`]: radius,
         [`spacing-${spacing}`]: spacing,
@@ -47,7 +54,17 @@ const props = defineProps({
             <MiniMarkup :str="description"/>
         </p>
         <slot/>
-        <p v-if="help" class="form-field-details form-field-help">
+        <template v-if="showErrors && error">
+            <p v-if="errors.length === 1" class="form-field-details form-field-error">
+                {{ errors[0] }}
+            </p>
+            <ul v-else class="form-field-details form-field-error">
+                <li v-for="error of errors">
+                    {{ error }}
+                </li>
+            </ul>
+        </template>
+        <p v-else-if="help" class="form-field-details form-field-help">
             <MiniMarkup :str="help"/>
         </p>
     </div>
@@ -81,6 +98,16 @@ const props = defineProps({
     & > .form-field-details {
         font-size: 0.9em;
         color: var(--c-grey-text-1);
+    }
+    & > ul.form-field-error {
+        margin: 0;
+        padding-left: var(--g-gap-3xl);
+        & > li:nth-child(n + 2) {
+            margin-top: var(--g-gap-sm);
+        }
+    }
+    & > .form-field-error {
+        color: var(--c-theme-text-1);
     }
 }
 </style>
