@@ -193,7 +193,7 @@ function everyKeyInObject(
 #### Parameters
 
 - **`obj`** — Object to perform key verification on.
-- **`keys`** —  Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
+- **`keys`** — Expected `required` and `optional` keys to be present in the object. Optional keys verification is only performed for `strict = true`. As an array, `keys` represents the required keys only.
 - **`strict`** — Whether non-required keys are allowed. If optional keys are specified, object's non-required keys must be `optional` keys. Defaults to `true`.
 
 #### Return value
@@ -221,21 +221,6 @@ everyKeyInObject({ bar: '' }, {
     optional: ['foo', 'bar', 'baz']
 }) // true
 ```
-
-<!--------------------------------------------------
--------------------- isFunction --------------------
---------------------------------------------------->
-### `isFunction`
-
-> Assesses whether a value is a function.
-
-```js
-function isFunction(value: any): boolean
-```
-
-#### Return value
-
-`true` if `value` is a function.
 
 <!------------------------------------------------
 -------------------- isObject --------------------
@@ -266,6 +251,51 @@ function isPlainObject(value: any): boolean
 #### Return value
 
 `true` if `value` is a plain object.
+
+## Function
+
+<!--------------------------------------------------
+-------------------- isFunction --------------------
+--------------------------------------------------->
+### `isFunction`
+
+> Assesses whether a value is a function.
+
+```js
+function isFunction(value: any): boolean
+```
+
+#### Return value
+
+`true` if `value` is a function.
+
+<!------------------------------------------------
+-------------------- debounce --------------------
+------------------------------------------------->
+### `debounce`
+
+> Creates a debounced function.
+
+```js
+function debounce(
+    fn: function,
+    delay: number,
+    options?: {
+        eager?: boolean;
+    }
+): function
+```
+
+#### Parameters
+
+- **`fn`** — Function to debounce.
+- **`delay`** — Time in milliseconds to wait before executing `fn` since the debounced function's last call.
+- `options`
+    - **`eager`** — When set to `true`, `fn` is executed as soon as the debounced function is called *if* `fn` is not scheduled and `delay` milliseconds have elapsed since `fn`'s last execution (or `fn` has not been executed). Defaults to `false`.
+
+#### Return value
+
+Debounced function with `cancel` method to cancel scheduled `fn` execution.
 
 ## Date
 
