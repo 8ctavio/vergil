@@ -1,4 +1,4 @@
-import { isRef, isShallow, triggerRef, customRef, getCurrentInstance, onScopeDispose } from 'vue'
+import { isShallow, triggerRef, customRef, getCurrentInstance, onScopeDispose } from 'vue'
 import { useElements, useExposed, defineReactiveProperties } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
@@ -44,7 +44,7 @@ export function useModel(value, options = {}) {
         const {
             shallow = false,
             extendRef = false,
-            validator = null,
+            validator,
             includeElements = true,
             includeExposed = true,
         } = options
@@ -71,18 +71,7 @@ export function useModel(value, options = {}) {
         }), { configurable: false })
         
         let useDebouncedValidate = getNoop
-        if(isModel(validator)) {
-            defineReactiveProperties(model, withDescriptor => ({
-                error: withDescriptor({ get: isRef(validator.errors) ? getError : getFalse }),
-                errors: withDescriptor({
-                    value: validator.errors,
-                    unwrap: false
-                }),
-                validate: validator.validate,
-                clear: validator.clear,
-            }), { configurable: false })
-            useDebouncedValidate = privateModelMap.get(validator).useDebouncedValidate
-        } else if(isFunction(validator)) {
+        if(isFunction(validator)) {
             let error, checkpoint
             const cancelHandlers = []
             const lastValidation = {
