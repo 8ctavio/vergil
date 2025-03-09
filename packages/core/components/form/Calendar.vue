@@ -524,7 +524,7 @@ function updateDateTime(lazyValidation = false) {
 			}
 			model.triggerIfShallow()
 			if(model.error) {
-				(lazyValidation ? validateTimeLazy : validateTimeEager)()
+				(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 			}
 		})
 	} else if(hasDate(model.value, false)) {
@@ -533,7 +533,7 @@ function updateDateTime(lazyValidation = false) {
 			triggerModelValue(model)
 			// triggerRef(model.ref)
 			if(model.error) {
-				(lazyValidation ? validateTimeLazy : validateTimeEager)()
+				(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 			}
 		})
 	}
@@ -656,6 +656,9 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useDefineModel({ isCollection: true })
+const validateDebouncedLazy = model.useDebouncedValidate(300)
+const validateDebouncedEager = model.useDebouncedValidate(350, { eager: true })
+
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
 		if(elements.dates) {
@@ -770,15 +773,6 @@ const handleChange = model.updateDecorator(event => {
 		if(model.error) model.validate()
 	}
 })
-
-const validateTimeLazy = debounce(model.validate, 300)
-const validateTimeEager = debounce(model.validate, 350, { eager: true })
-if(isRef(model.refs.errors)) {
-    watch(model.errors, () => {
-        validateTimeLazy.cancel()
-        validateTimeEager.cancel()
-    }, { flush: 'sync' })
-}
 
 //-------------------- GENERATE DATES --------------------
 let calendarMeta = null

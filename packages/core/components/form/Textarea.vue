@@ -1,10 +1,9 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { isRef, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { debounce } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -80,18 +79,13 @@ model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = debounce(model.validate, 300)
+const validateInput = model.useDebouncedValidate(300)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
     if(model.error) {
         validateInput()
     }
 })
-if(isRef(model.refs.errors)) {
-    watch(model.errors, () => {
-        validateInput.cancel()
-    }, { flush: 'sync' })
-}
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel

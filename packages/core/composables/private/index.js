@@ -1,4 +1,4 @@
 export * from './exposed'
-export * from './useModelWatchers'
+export * from './model'
 export * from './useResetValue'
 export * from './watchControlledSync'

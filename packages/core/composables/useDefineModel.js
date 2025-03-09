@@ -1,12 +1,11 @@
-import { toRaw, customRef, triggerRef, isShallow, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
+import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel, useElements, useExposed } from '.'
 import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
-import { useModelWatchers, watchControlledSync } from './private'
+import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
 import { isFunction, isObject } from '../utilities'
 import { noop } from '../utilities/private'
 
-const modelMap = new WeakMap()
 const symExt_controller = Symbol('external:controller')
 const symInt_trigger = Symbol('internal:triggerCbs')
 const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
@@ -102,21 +101,9 @@ export function useDefineModel(options = {}) {
                     includeElements: false,
                     includeExposed: false,
                 })
+        const privateModel = privateModelMap.get(model)
 
-        let modelMeta = modelMap.get(model)
-        if(!modelMeta) {
-            modelMap.set(model, modelMeta = {
-                hasInteractiveCtx: false,
-                resetInteractiveCtx: false,
-                triggerIfShallow() {
-                    if(isShallow(model.ref)) {
-                        triggerRef(model.ref)
-                    }
-                }
-            })
-        }
-
-        const [onModelUpdate, controller] = useModelWatchers(model, modelMeta, isCollection)
+        const [onModelUpdate, controller] = useModelWatchers(model, privateModel, isCollection)
         
         const internalCallbacks = {
             sync: [],
@@ -180,9 +167,9 @@ export function useDefineModel(options = {}) {
                     internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
                 } while(currentModel = currentModel.__parent)
                 // Set hasInteractiveCtx flag
-                if(!modelMeta.hasInteractiveCtx) {
-                    modelMeta.hasInteractiveCtx = true
-                    modelMeta.resetInteractiveCtx = true
+                if(!privateModel.hasInteractiveCtx) {
+                    privateModel.hasInteractiveCtx = true
+                    privateModel.resetInteractiveCtx = true
                 }
                 // Resume internalSensor to fire parent componet models'
                 // internal-update-callbacks if a model value change is detected
@@ -206,10 +193,10 @@ export function useDefineModel(options = {}) {
                         internalSensor.pause()
                     }
                     // Reset hasInteractiveCtx flag
-                    if(modelMeta.resetInteractiveCtx) {
-                        modelMeta.resetInteractiveCtx = false
+                    if(privateModel.resetInteractiveCtx) {
+                        privateModel.resetInteractiveCtx = false
                         nextTick(() => {
-                            modelMeta.hasInteractiveCtx = false
+                            privateModel.hasInteractiveCtx = false
                         })
                     }
                     // Resume parent component models
@@ -243,7 +230,8 @@ export function useDefineModel(options = {}) {
                     model.ref.value = v
                 }
             }),
-            triggerIfShallow: modelMeta.triggerIfShallow,
+            triggerIfShallow: privateModel.triggerIfShallow,
+            useDebouncedValidate: privateModel.useDebouncedValidate,
 
             onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
                 if(isFunction(cb)) {

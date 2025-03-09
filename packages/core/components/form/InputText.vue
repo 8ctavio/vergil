@@ -3,10 +3,10 @@ import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { isRef, computed, watch, onMounted } from 'vue'
+import { isRef, computed, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { debounce, isObject } from '../../utilities'
+import { isObject } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -94,19 +94,15 @@ model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = debounce(model.validate, 300)
-const validateEnter = debounce(model.validate, 350, { eager: true })
+const validateInput = model.useDebouncedValidate(300)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
     if(model.error) {
         validateInput()
     }
 })
-if(isRef(model.refs.errors)) {
-    watch(model.errors, () => {
-        validateInput.cancel()
-        validateEnter.cancel()
-    }, { flush: 'sync' })
+if(isRef(model.errors)) {
+    const validateEnter = model.useDebouncedValidate(350, { eager: true })
     onMounted(() => {
         elements.input.addEventListener('keydown', event => {
             if(event.key === 'Enter' && model.error) {

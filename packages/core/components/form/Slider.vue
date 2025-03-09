@@ -1,10 +1,10 @@
 <script setup>
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
-import { isRef, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { debounce, isFunction } from '../../utilities'
+import { isFunction } from '../../utilities'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 defineOptions({ inheritAttrs: false })
@@ -89,7 +89,7 @@ model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = debounce(model.validate, 300)
+const validateInput = model.useDebouncedValidate(300)
 const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
     if(props.virtualMin && newValue < props.virtualMin) {
@@ -103,11 +103,6 @@ const handleInput = model.updateDecorator(event => {
         validateInput()
     }
 })
-if(isRef(model.errors)) {
-    watch(model.errors, () => {
-        validateInput.cancel()
-    }, { flush: 'sync' })
-}
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))
 const valueWidth = computed(() => props.max.length)

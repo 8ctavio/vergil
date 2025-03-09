@@ -4,16 +4,18 @@ import { noop } from "../../utilities/private"
 
 const isScheduled = Symbol('isScheduled')
 
+export const privateModelMap = new WeakMap()
+
 /**
  * Allows to create multiple model watchers and to pause and resume them to ignore model updates.
  * 
  * @template T
  * @param { ExtendedRef<T> } model
- * @param { object } modelMeta
+ * @param { object } privateModel
  * @param { boolean } [isCollection]
  * 
  * @returns { [
-*	onModelUpdate: (callback: WatchCallback<T>, options: WatchOptions) => (() => void),
+ *	onModelUpdate: (callback: WatchCallback<T>, options: WatchOptions) => (() => void),
  * 	{
  * 		stop: () => void;
  * 		pause: () => void;
@@ -21,7 +23,7 @@ const isScheduled = Symbol('isScheduled')
  * 	}
  * ] } Model watcher controller
  */
-export function useModelWatchers(model, modelMeta, isCollection = false) {
+export function useModelWatchers(model, privateModel, isCollection = false) {
 	const composableScope = getCurrentScope()
 	const watchers = effectScope(true)
 	const syncWatchers = effectScope(true)
@@ -34,7 +36,7 @@ export function useModelWatchers(model, modelMeta, isCollection = false) {
 		if(options.flush === 'sync') {
 			syncWatchers.run(() => {
 				const watcher = watch(model.ref, (v,u,c) => {
-					if(!isPaused) callback(v, u, !modelMeta.hasInteractiveCtx, c)
+					if(!isPaused) callback(v, u, !privateModel.hasInteractiveCtx, c)
 				}, { ...options, deep: isCollection && 1 })
 				if(isPaused) watcher.pause()
 				stop = () => watcher()
@@ -66,7 +68,7 @@ export function useModelWatchers(model, modelMeta, isCollection = false) {
 						scheduledEffects--
 						if(!isPaused) {
 							auxWatcher.resume()
-							callback(v, u, !modelMeta.hasInteractiveCtx, c)
+							callback(v, u, !privateModel.hasInteractiveCtx, c)
 							if(options.once) stop()
 						}
 					}
