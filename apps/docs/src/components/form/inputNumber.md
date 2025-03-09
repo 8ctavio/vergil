@@ -206,3 +206,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
 | `step` | `number` | `1` |
 | `steppers` | `boolean` | |
 | `disabled` | `boolean` | |
+
+### Configuration options
+
+`InputNumber`'s [configuration options](/configuration) options are inherited from [`InputText`](/components/form/inputText#configuration-options).
