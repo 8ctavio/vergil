@@ -1006,8 +1006,8 @@ const themeClass = computed(() => {
 					text-align="center"
 					form="null"
 					max="2"
+					autoselect
 					:disabled
-					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="event => {
 						const newValue = Number(event.target.value)
@@ -1030,8 +1030,8 @@ const themeClass = computed(() => {
 					text-align="center"
 					form="null"
 					max="2"
+					autoselect
 					:disabled
-					@focusin="e => e.target.select()"
 					@beforeinput="handleBeforeInput"
 					@input="updateMinutes(Math.min(59, Number($event.target.value)), false)"
 					@change="() => {

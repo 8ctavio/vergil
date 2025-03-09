@@ -78,7 +78,7 @@ The maximum string length that can be entered into the text input.
     </div>
 </Demo>
 
-### Type <Badge type="tip"><pre>type: ('text' | 'password') = 'text'</pre></Badge>
+### Type <Badge><pre>type: ('text' | 'password') = 'text'</pre></Badge>
 
 ```vue
 <InputText type='text' placeholder="Username"/>
@@ -90,7 +90,19 @@ The maximum string length that can be entered into the text input.
     <InputText type='password' placeholder="Password"/>
 </Demo>
 
-### Prefix and Suffix <Badge type="tip"><pre>prefix: string</pre></Badge> <Badge type="tip"><pre>suffix: string</pre></Badge>
+### Autoselect <Badge><pre>boolean</pre></Badge>
+
+Selects `InputText`'s text when focused.
+
+```vue
+<InputText value="Focus me!" autoselect/>
+```
+
+<Demo>
+    <InputText value="Focus me!" autoselect/>
+</Demo>
+
+### Prefix and Suffix <Badge><pre>prefix: string</pre></Badge> <Badge type="tip"><pre>suffix: string</pre></Badge>
 
 ```vue
 <InputText prefix="Prefix" suffix="Suffix"/>
@@ -300,6 +312,7 @@ const btnAfterProps = {
 | `max` | `string` | |
 | `text-align` | `'left' \| 'center' \| 'right'` | `'left'` |
 | `type` | `'text' \| 'password'` | `'text'` |
+| `autoselect` | `boolean` | |
 | `prefix` | `string` | |
 | `suffix` | `string` | |
 | `icon` | `string` | |

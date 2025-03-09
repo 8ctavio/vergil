@@ -27,6 +27,7 @@ const props = defineProps({
         default: 'text',
         validator: v => ['text', 'password'].includes(v),
     },
+    autoselect: Boolean,
     prefix: String,
     suffix: String,
     icon: String,
@@ -101,6 +102,7 @@ const floatLabelEnabled = computed(() => {
                     :placeholder
                     :maxlength="max"
                     :disabled
+                    @[autoselect&&'focusin']="event => event.target.select()"
                 >
                 <label v-if="floatLabelEnabled">
                     <MiniMarkup :str="label"/>
