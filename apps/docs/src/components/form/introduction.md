@@ -45,7 +45,7 @@ onMounted(() => {
 
 ## Shared props
 
-Most Vergil form field components, except from the `Calendar`, `Checkbox`, and `Radio` components, have certain props in common. Most notably, the `value` prop may be used to set a component's initial value when `v-model` is not used.
+Most Vergil form field components, except for the `Calendar`, `Checkbox`, and `Radio` components, have certain props in common. Most notably, the `value` prop may be used to set a component's initial value when `v-model` is not used.
 
 :::tip
 - The `value` prop is ignored if the `model-value` prop is passed.

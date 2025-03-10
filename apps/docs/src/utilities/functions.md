@@ -115,7 +115,7 @@ function spaceEvenly(str: string, separator: string = ' '): string
 #### Parameters
 
 - **`str`**
-- **`separator`** — String to replace white space characters with.
+- **`separator`** — String to replace whitespace characters with.
 
 #### Return value
 

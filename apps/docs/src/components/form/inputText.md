@@ -170,6 +170,18 @@ const btnAfterProps = {
 `float-label` only works if the `placeholder`, `description`, `prefix`, and `icon[-left]` props are unset.
 :::
 
+### Space evenly <Badge><pre>boolean</pre></Badge>
+
+When set to `true`, `InputText`'s value is trimmed and consecutive whitespace characters (`/\s+/`) are replaced with a single space character (`" "`) when the `Enter` key is pressed or the element loses focus.
+
+```vue
+<InputText space-evenly/>
+```
+
+<Demo>
+    <InputText space-evenly placeholder="Space evenly"/>
+</Demo>
+
 ### Underline <Badge type="tip"><pre>underline: boolean</pre></Badge>
 
 <Demo>
@@ -324,7 +336,8 @@ const btnAfterProps = {
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
-| `float-label` | `boolean` | |
+| `floatLabel` | `boolean` | |
+| `spaceEvenly` | `boolean` | |
 | `underline` | `boolean` | |
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |

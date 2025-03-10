@@ -91,7 +91,7 @@ export function separateThousands(num, separator = ','){
  * ```
  */
 export function spaceEvenly(str, separator = " "){
-    return str.trim().replace(/\s+/g, separator)
+    return str.trim().replaceAll(/\s{2,}|[^\S ]/g, separator)
 }
 
 /**

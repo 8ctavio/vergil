@@ -45,7 +45,7 @@ const num = ref(0)
 
 ## Props
 
-All [`InputText`](/components/form/inputText) props are available for `InputNumber`.
+All [`InputText`](/components/form/inputText) props, except for `space-evenly`, are available for `InputNumber`.
 
 ### Value range <Badge type="tip"><pre>min: number = -Infinity</pre></Badge> <Badge type="tip"><pre>max: number = Infinity</pre></Badge>
 
