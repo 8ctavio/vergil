@@ -12,7 +12,7 @@ import { isRef } from 'vue'
  * 
  * @example
  * ```js
- * deburr('México')  // 'Mexico'
+ * deburr('México') // 'Mexico'
  * ```
  */
 export function deburr(str){
@@ -39,7 +39,7 @@ export function formatWords(str, formatter, separator = " "){
  * 
  * @example
  * ```js
- * kebabCase('El Cartógrafo Silencioso')  // 'el-cartografo-silencioso'
+ * kebabCase('El Cartógrafo Silencioso') // 'el-cartografo-silencioso'
  * ```
  */
 export function kebabCase(str){
@@ -54,7 +54,7 @@ export function kebabCase(str){
  * 
  * @example
  * ```js
- * prune(' Verdad  y   Reconciliación   ')  // 'verdad y reconciliacion'
+ * prune(' Verdad  y   Reconciliación   ') // 'verdad y reconciliacion'
  * ```
  */
 export function prune(str){
@@ -70,7 +70,7 @@ export function prune(str){
  * 
  * @example
  * ```js
- * separateThousands(123456789)  // '123,456,789'
+ * separateThousands(123456789) // '123,456,789'
  * ```
  */
 export function separateThousands(num, separator = ','){
@@ -86,8 +86,8 @@ export function separateThousands(num, separator = ','){
  * 
  * @example
  * ```js
- * spaceEvenly('  Jane    Doe     ')        // 'Jane Doe'
- * spaceEvenly(' 123   456  789  ', '-')    // '123-456-789'
+ * spaceEvenly('  Guilty    Spark     ') // 'Guilty Spark'
+ * spaceEvenly(' 123   456  789  ', '-') // '123-456-789'
  * ```
  */
 export function spaceEvenly(str, separator = " "){
@@ -112,7 +112,7 @@ export function ucFirst(str){
  * 
  * @example
  * ```js
- * words('Zacatecas, Zacatecas, México')  // ['Zacatecas', 'Zacatecas', 'México]
+ * words("A Day At The Beach") // ["A", "Day", "At", "The", "Beach"]
  * ```
  */
 export function words(str){

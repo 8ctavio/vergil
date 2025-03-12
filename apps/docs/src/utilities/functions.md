@@ -30,7 +30,7 @@ The given string without diacritics.
 #### Examples
 
 ```js
-deburr('México')  // 'Mexico'
+deburr('México') // 'Mexico'
 ```
 
 <!---------------------------------------------------
@@ -72,7 +72,7 @@ Kebab cased string.
 #### Examples
 
 ```js
-kebabCase('El Cartógrafo Silencioso')  // 'el-cartografo-silencioso'
+kebabCase('El Cartógrafo Silencioso') // 'el-cartografo-silencioso'
 ```
 
 <!---------------------------------------------------------
@@ -98,7 +98,7 @@ Thousands separated number string.
 #### Examples
 
 ```js
-separateThousands(123456789)  // '123,456,789'
+separateThousands(123456789) // '123,456,789'
 ```
 
 <!---------------------------------------------------
@@ -124,8 +124,8 @@ Evenly spaced (separated) string.
 #### Examples
 
 ```js
-spaceEvenly('  Jane    Doe     ')        // 'Jane Doe'
-spaceEvenly(' 123   456  789  ', '-')    // '123-456-789'
+spaceEvenly('  Guilty    Spark     ') // 'Guilty Spark'
+spaceEvenly(' 123   456  789  ', '-') // '123-456-789'
 ```
 
 <!-----------------------------------------------
@@ -146,7 +146,7 @@ The given string with its first character capitalized.
 #### Examples
 
 ```js
-ucFirst('vergil')  // 'Vergil'
+ucFirst('vergil') // 'Vergil'
 ```
 
 <!---------------------------------------------
@@ -167,7 +167,7 @@ Array of words.
 #### Examples
 
 ```js
-words('Zacatecas, Zacatecas, México')  // ['Zacatecas', 'Zacatecas', 'México]
+words("A Day At The Beach") // ["A", "Day", "At", "The", "Beach"]
 ```
 
 ## Object
