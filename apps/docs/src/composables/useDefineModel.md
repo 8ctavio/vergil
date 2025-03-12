@@ -1,5 +1,5 @@
 ---
-outline: [2,3]
+outline: [2,4]
 ---
 
 # `useDefineModel`
@@ -15,7 +15,8 @@ defineProps({
 		type: [ModelValueType, Object],
 		default: defaultModelValue
 	},
-	['onUpdate:modelValue']: Function
+	['onUpdate:modelValue']: Function,
+	validator: Function
 })
 
 const model = useDefineModel()
@@ -28,14 +29,14 @@ The `useDefineModel` composable is analogous to the `defineModel` macro in that 
 
 However, `useDefineModel` is primarly designed to support *component model objects* created by the [`useModel`](/composables/useModel) composable and received through the `model-value` prop. Thus, the recommended approach to bind a model with a component implementing `useDefineModel` is by providing a model object via the `v-model` directive. Nevertheless, `useDefineModel` still supports for regular refs to instead be provided through `v-model`.
 
-:::tip NOTE
-Components implementing `useDefineModel` need to manually define the `modelValue` and `onUpdate:modelValue` props.
-:::
-
-The `useDefineModel` composable accepts as a single argument an `options` object (see [Parameters](#parameters)) and returns a *wrapped* version of a provided model (if not provided, a model is created internally), which has access to the regular model properties and includes additional methods to [separately handle internal and external model value updates](#handle-internal-and-external-model-value-updates).
+The `useDefineModel` composable accepts as a single argument an `options` object (see [Parameters](#parameters)) and returns a *wrapped* version of a provided model, which has access to the regular model properties and includes additional methods to [separately handle internal and external model value updates](#handle-internal-and-external-model-value-updates). If, however, a model is not provided, `useDefineModel` creates one internally with a `validator` function taken from the component's `validator` prop to support [model-value validation](/composables/useModel#validation-and-error-handling).
 
 :::warning
 A model wrapper returned by `useDefineModel` is still an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+:::
+
+:::tip NOTE
+Components implementing `useDefineModel` need to manually define the `modelValue`, `onUpdate:modelValue`, and `validator` props.
 :::
 
 :::info
@@ -225,4 +226,9 @@ An `ExtendedRef` object. Additional included methods are:
 	if(isShallow(model.ref)) {
 		triggerRef(model.ref)
 	}
+	```
+- `useDebouncedValidate`: Creates a debounced version of the `model.validate` method. Receives two parameters, `delay` and `options`, corresponding to those of the [`debounce`](/utilities/functions#debounce) function. Additionally, the `cancel` method of created debounced functions is automatically called when the model's value is validated (with `model.validate`) or model errors are cleared (with `model.clear`).
+	```js
+	const debouncedValidate = model.useDebouncedValidate(300)
+	debouncedValidate() // debounced validation
 	```

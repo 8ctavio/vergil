@@ -253,6 +253,8 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

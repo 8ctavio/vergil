@@ -73,6 +73,104 @@ model.reset()
 console.log(model.value) // 'initial value'
 ```
 
+### Validation and error handling
+
+Models support an API to validate their model-values and handle validation errors. A `validator` function is used to peform model-value validation and collect encountered validation errors into an array. A validation error is simply an error message string.
+
+A model can be provided its own `validator` function through the `useModel`'s [`options`](#definition) object. In addition, a model includes a shallowRef [`errors`](#model-errors) property with an array where its `validator` collects errors into. Thus, this `errors` array is emptied just before the model's `validator` is invoked.
+
+A `validator` function receives three parameters:
+
+- `value`: The model's value to validate.
+- `error`: A function to register a validation error; it receives as its single argument an error message string. In practice, `error` simply *pushes* a validation error into the underlying model's `errors` array.
+- `checkpoint`: A function to preemptively exit `validator` if errors have already been collected. This allows to control which errors can be collected together. In practice, if at least one error has been collected when `checkpoint` is called, an (internally handled) exception is thrown to exit `validator`.
+
+To illustrate, consider the example below. The errors `'Error 1.1'` and `'Error 3.1'` may only be present into the model's `errors` individually; on the other hand, `'Error 2.1'` and `'Error 2.2'` could be simultaneously collected.
+
+```js
+const model = useModel('', {
+    validator(value, error, checkpoint) {
+        if(test1(value)) {
+            error('Error 1.1')
+        }
+        checkpoint()
+
+        if(test2(value)) {
+            error('Error 2.1')
+        } if(test3(value)) {
+            error('Error 2.2')
+        }
+        checkpoint()
+
+        if(test4(value)) {
+            error('Error 3.1')
+        }
+    }
+})
+```
+
+:::warning
+A model's value should not be mutated inside that model's validator.
+:::
+
+Models include a few methods (presented below) to directly interact with their validators and error arrays. Some Vergil form components may use these methods to perform model-value validation upon user interaction.
+
+:::tip
+See the [introduction](/components/form/introduction) to Vergil's form components to learn how they interact with the model's validation and error handling API.
+:::
+
+### `model.errors`
+
+The `errors` property stores a (non-unwrapped) readonly shallowRef which in turn stores an array where a provided model's `validator` function collects validation errors into (see [Validation and error handling](#validation-and-error-handling)).
+
+The `model.errors` shallowRef is always triggered internally when the [`model.validate`](#model-validate) and [`model.clear`](#model-clear) methods are called.
+
+```js
+watch(model.errors, () => {
+    // model-value validated or errors cleared
+})
+```
+
+### `model.error`
+
+The `model.error` property is a readonly accessor property that returns a trackable boolean indicating whether there are validation errors in the `model.errors.value` array.
+
+```js
+watchEffect(() => {
+    const hasErrors = model.error
+})
+```
+
+### `model.validate`
+
+The `validate` method allows to invoke a model's `validator` function: it first empties the model's `errors` array and then calls the provided `validator`. If no validation errors are collected, `validate` returns `true`, and `false` otherwise.
+
+If a model-value is revalidated and has not changed since the last validation, however, `validate` does not invoke `validator` but simply returns the previous validation result. Nevertheless, `model.validate` accepts a single `force` boolean argument to force the execution of `validator` if required.
+
+```js
+const model = useModel('', { validator: () => { /* ... */ } })
+let isValid
+isValid = model.validate()      // validator executed
+isValid = model.validate()      // validator not executed
+isValid = model.validate(true)  // validator forced to execute
+```
+
+### `model.clear`
+
+The `clear` method simply empties the underlying model's `errors` array.
+
+```js
+const model = useModel(0, {
+    validator(value, error) {
+        error('Invalid')
+    }
+})
+model.validate()
+console.log(model.error) // true
+model.clear()
+console.log(model.error) // false
+```
+
 ### `model.exposed`
 
 Vue's conventional way of consuming exposed component data is by means of the `useTemplateRef` composable and the special `ref` attribute. Vergil, on the other hand, provides an analogous API for this same purpose (see [`useExposed`](/composables/useExposed)), whereby components support an `exposed` prop that expects an `exposed` object returned by the `useExposed` composable. 
@@ -141,6 +239,11 @@ function useModel<T>(
     options?: {
         shallow: boolean;
         extendRef: boolean;
+        validator: (
+            value: T,
+            error: (msg: string) => void,
+            checkpoint: () => void
+        ) => void;
         includeElements: boolean;
         includeExposed: boolean;
     }
@@ -162,6 +265,7 @@ function useModel<T>(
     const model = useModel(v, { extendRef: true })
     console.log(v === model.ref) // true
     ```
+    - `validator`: Function to peform model-value validation and collect encountered validation errors (see [Validation and error handling](#validation-and-error-handling)).
     - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `true`.
     
     ```js

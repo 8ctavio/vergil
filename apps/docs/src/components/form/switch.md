@@ -230,16 +230,19 @@ The `value-off` prop is the value assigned to the `Switch`'s model value when it
 | `highlight` | `boolean` | |
 | `icon-on` | `string` | |
 | `icon-off` | `string` | |
+| `disabled` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
-| `disabled` | `boolean` | |
+| `showErrros` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

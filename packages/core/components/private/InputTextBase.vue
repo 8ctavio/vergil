@@ -10,8 +10,6 @@ import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
-	showErrors: Boolean,
-
     placeholder: {
         type: String,
         default: ''
@@ -47,6 +45,7 @@ const props = defineProps({
     hint: String,
     description: String,
     help: String,
+	showErrors: Boolean,
     floatLabel: Boolean,
 
     //----- Global -----

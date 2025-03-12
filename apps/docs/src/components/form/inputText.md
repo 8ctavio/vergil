@@ -332,19 +332,22 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
 | `icon-right` | `string` | |
 | `btn-before` | `object` | |
 | `btn-after` | `object` | |
+| `spaceEvenly` | `boolean` | |
+| `underline` | `boolean` | |
+| `disabled` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
+| `showErrros` | `boolean` | |
 | `floatLabel` | `boolean` | |
-| `spaceEvenly` | `boolean` | |
-| `underline` | `boolean` | |
-| `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

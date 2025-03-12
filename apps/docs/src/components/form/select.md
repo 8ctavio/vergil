@@ -635,18 +635,21 @@ const options = ['Option']
 | `filter` | `boolean` | |
 | `placeholderNotFound` | `(query: string) => string` | |
 | `chips` | `boolean` | |
+| `underline` | `boolean` | |
+| `disabled` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
+| `showErrros` | `boolean` | |
 | `float-label` | `boolean` | |
-| `underline` | `boolean` | |
-| `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

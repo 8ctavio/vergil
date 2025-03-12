@@ -19,7 +19,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
-    showErrors: Boolean,
     elements: Object,
 
     placeholder: {
@@ -46,6 +45,7 @@ const props = defineProps({
     hint: String,
     description: String,
     help: String,
+    showErrors: Boolean,
     floatLabel: Boolean,
 
     //----- Global -----

@@ -28,7 +28,6 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
-    showErrors: Boolean,
     elements: Object,
 
     track: {
@@ -48,6 +47,7 @@ const props = defineProps({
     hint: String,
     description: String,
     help: String,
+    showErrors: Boolean,
     
     //----- Global -----
     descendant: Boolean,

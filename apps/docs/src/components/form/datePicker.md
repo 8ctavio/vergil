@@ -341,19 +341,22 @@ const btnClearProps = {
 | `iconCalendar` | `string` | `'calendar_month'` |
 | `iconClear` | `string` | `'event_busy'` |
 | `btnClear` | `object` | |
+| `underline` | `boolean` | |
+| `fill` | `boolean` | |
+| `disabled` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
-| `float-label` | `boolean` | |
-| `underline` | `boolean` | |
-| `fill` | `boolean` | |
-| `disabled` | `boolean` | |
+| `showErrros` | `boolean` | |
+| `floatLabel` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

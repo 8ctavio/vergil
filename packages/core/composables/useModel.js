@@ -28,11 +28,17 @@ export function isModel(value){
  * @param { {
  *      shallow: boolean;
  *      extendRef: boolean;
+ *      validator: (
+ *          value: T,
+ *          error: (msg: string) => void,
+ *          checkpoint: () => void
+ *      ) => void;
  *      includeElements: boolean;
  *      includeExposed: boolean;
  * } } options -
  *  - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
  *  - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
+ *  - `validator`: Function to peform model-value validation and collect encountered validation errors.
  *  - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `true`.
  * 
  * @returns { ExtendedRef }

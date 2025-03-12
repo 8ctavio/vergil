@@ -205,7 +205,6 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
 | `separator` | `boolean` | `true` |
 | `step` | `number` | `1` |
 | `steppers` | `boolean` | |
-| `disabled` | `boolean` | |
 
 ### Configuration options
 

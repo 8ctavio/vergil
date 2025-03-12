@@ -5,7 +5,22 @@ outline: [2,3]
 # Form Components
 
 <script setup>
-import { InputText } from '@8ctavio/vergil/components'
+import { InputText, CheckboxGroup } from '@8ctavio/vergil/components'
+import { useModel } from '@8ctavio/vergil'
+
+const planetOptions = {
+    earth: 'Earth',
+    reach: 'Reach',
+    harvest: 'Harvest'
+}
+const planets = useModel(['earth'], {
+    validator(value, error) {
+        if(!value.includes('reach')) {
+            error('Remember Reach')
+        }
+    }
+})
+planets.validate()
 </script>
 
 ## Component models
@@ -21,6 +36,24 @@ const model = useModel(/* initial value */)
     <FormFieldComponent v-model="model"/>
 </template>
 ```
+
+Nevertheless, `v-model` is not required for FFCs to properly work. To the contrary, when a model is absent, FFCs create one internally and may still receive initial values and validator functions in compliance with the `useModel`'s API:
+
+- Different FFCs may define their own method to receive initial model-values, but typically, a `value` prop is supported for this purpose (see [Shared props](#shared-props)).
+- On the other hand, to support [model-value validation](/composables/useModel#validation-and-error-handling), all FFCs support a `validator` prop through which a `validator` function may be provided.
+    ```vue
+    <FormFieldComponent :validator="() => { /* ... */ }"/>
+    ```
+
+:::tip NOTE
+These alternative methods to provide model values and validators are only resorted to if a model is not provided with `v-model`.
+:::
+
+### Model-value validation
+
+FFCs provided with a `validator` function are able to automatically validate their model-values upon user interaction. In general, the events that trigger model-value validation are different for each FFC.
+
+FFCs perform automatic model-value validation in a *lazy* or *optimistic* manner, that is, only while there are current validation errors. Therefore, models should first validate their values programmatically to reveal possible validation errors.
 
 ## Exposed data
 
@@ -74,4 +107,18 @@ For illustration, a component using the beforementioned shared props is displaye
         description="Description"
         help="Help"
     />
+</Demo>
+
+In addition, these components also accept a `show-errors` boolean prop to display a model's validation errors.
+
+```vue
+<CheckboxGroup show-errors :validator="(value, error) => {
+    if(!value.includes('reach')) {
+        error('Remember Reach')
+    }
+}">
+```
+
+<Demo>
+    <CheckboxGroup v-model="planets" :options="planetOptions" show-errors direction="row"/>
 </Demo>

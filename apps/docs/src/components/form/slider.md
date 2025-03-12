@@ -225,16 +225,19 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 | `virtualMax` | `number` | |
 | `displayValue` | `boolean \| function` | |
 | `fixedProgress` | `boolean` | |
+| `disabled` | `boolean` | |
 | `label` | `string` | |
 | `hint` | `string` | |
 | `description` | `string` | |
 | `help` | `string` | |
-| `disabled` | `boolean` | |
+| `showErrros` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `validator` | `function` | |
+| `elements` | `object` | |
 
 ### Configuration options
 

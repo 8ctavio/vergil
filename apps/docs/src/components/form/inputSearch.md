@@ -208,6 +208,7 @@ function handleClear() {
 | `icon-search` | `string` | `'search'` |
 | `icon-clear` | `string` | `'search_off'` |
 | `btn-position` | `'before' \| 'after'` | `'after'` |
+| `exposed` | `object` | |
 
 ### Configuration options
 
