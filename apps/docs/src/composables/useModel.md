@@ -175,11 +175,13 @@ console.log(model.error) // false
 
 Vue's conventional way of consuming exposed component data is by means of the `useTemplateRef` composable and the special `ref` attribute. Vergil, on the other hand, provides an analogous API for this same purpose (see [`useExposed`](/composables/useExposed)), whereby components support an `exposed` prop that expects an `exposed` object returned by the `useExposed` composable. 
 
-In addition, however, an `exposed` object may instead be provided to a component through a model. By default, models include an `exposed` property which stores an `exposed` object returned by `useExposed`. Component exposed data will be made available to this model's `exposed` object, if present.
+In addition, however, an `exposed` object may instead be provided to a component through a model, which has precedence over the `exposed` prop. Component exposed data is made available to a model's `exposed` object, if present.
+
+By default, models do not include an `exposed` object. The `useModel`'s `includeExposed` option (see [Parameters](#parameters)) may be used to append an `exposed` property which stores an `exposed` object returned by `useExposed`.
 
 ```vue
 <script setup>
-const model = useModel()
+const model = useModel(0, { includeExposed: true })
 onMounted(() => {
     console.log(model.exposed.property) // Read exposed properties
     model.exposed.method() // Call exposed methods
@@ -203,11 +205,13 @@ Each Vergil's form component documents the shape of exposed data, if any.
 
 Vergil's alternative API to consume component exposed data also allows to exclusively and separately consume component element's `HTMLElement` objects (see [`useElements`](/composables/useElements)). For this, and analogous to `useExposed`, the `useElements` composable returns an `elements` object to be provided to a component's `elements` prop.
 
-In the same way as with exposed data, `elements` may be provided through a model. By default, models include an `elements` property storing an `elements` object returned by `useElements`. Component elements will be made available to this model's `elements` object, if present.
+In the same way as with exposed data, `elements` may be provided through a model (which precedes the `elements` prop). Component elements are made available to a model's `elements` object, if present.
+
+By default, models do not include an `elements` object. The `useModel`'s `includeElements` option (see [Parameters](#parameters)) may be used to append an `elements` property which stores an `elements` object returned by `useElements`.
  
 ```vue
 <script setup>
-const model = useModel()
+const model = useModel(0, { includeElements: true })
 onMounted(() => {
     console.log(model.elements.input) // an HTMLElement
 })
@@ -229,7 +233,7 @@ Each Vergil's form component documents its exposed elements, if any.
 
 ### Component model sharing
 
-Component models are mainly designed to be provided to a single component. Nevertheless, is possible and supported to share a model between multiple components, if required. To achieve this, both the model's `exposed` and `elements` objects need to be excluded so that conflicts where different components try to expose data into the same model are prevented. These objects may be excluded through the `includeExposed` and `includeElements` [configuration options](#parameters).
+Component models are mainly designed to be provided to a single component. Nevertheless, is possible and supported to share a model between multiple components, if required. To achieve this, the model's `exposed` and `elements` objects must not be included so that conflicts where different components try to expose data into the same model are prevented. The inclusion of these objects is controlled by the `includeExposed` and `includeElements` [configuration options](#parameters).
 
 ## Definition
 
@@ -237,15 +241,15 @@ Component models are mainly designed to be provided to a single component. Never
 function useModel<T>(
     value?: T | Ref<T>,
     options?: {
-        shallow: boolean;
-        extendRef: boolean;
         validator: (
             value: T,
             error: (msg: string) => void,
             checkpoint: () => void
         ) => void;
-        includeElements: boolean;
+        shallow: boolean;
+        extendRef: boolean;
         includeExposed: boolean;
+        includeElements: boolean;
     }
 ): ExtendedRef<T>
 ```
@@ -254,31 +258,22 @@ function useModel<T>(
 
 - **`value`**: Component model's initial value.
 - **`options`**:
-    - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
-    ```js
-    const model = useModel(0, { shallow: true })
-    console.log(isShallow(model.ref)) // true
-    ```
-    - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
-    ```js
-    const v = ref(0)
-    const model = useModel(v, { extendRef: true })
-    console.log(v === model.ref) // true
-    ```
     - `validator`: Function to peform model-value validation and collect encountered validation errors (see [Validation and error handling](#validation-and-error-handling)).
-    - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `true`.
-    
-    ```js
-    const model = useModel(0, {
-        includeExposed: false,
-        includeElements: false,
-    })
-    console.log(model.exposed) // undefined
-    console.log(model.elements) // undefined
-    ```
-    :::tip
-    It is recommended to exclude `exposed`/`elements` if it will not be used.
-    :::
+    - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
+        ```js
+        const model = useModel(0, { shallow: true })
+        console.log(isShallow(model.ref)) // true
+        ```
+    - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
+        ```js
+        const v = ref(0)
+        const model = useModel(v, { extendRef: true })
+        console.log(v === model.ref) // true
+        ```
+    - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `false`.
+        :::tip
+        It is recommended to avoid including the `exposed`/`elements` object if it will not be used.
+        :::
 
 #### Return value
 

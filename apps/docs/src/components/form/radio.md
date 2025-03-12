@@ -6,8 +6,8 @@ outline: [2,3]
 
 <script setup>
 import { Radio } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
-const vehicles = ref('')
+import { useModel } from '@8ctavio/vergil'
+const vehicles = useModel('')
 </script>
 
 ## Basic Usage
@@ -20,7 +20,7 @@ const vehicles = ref('')
             <Radio v-model="vehicles" name="vehicles" value="scorpion" label="Scorpion"/>
         </div>
         <div class="row center">
-            <code>vehicles.value === '{{vehicles}}'</code>
+            <code>vehicles.value === '{{ vehicles.value }}'</code>
         </div>
     </div>
 </Demo>
@@ -28,8 +28,8 @@ const vehicles = ref('')
 ```vue
 <script setup>
 import { Radio } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
-const vehicles = ref('')
+import { useModel } from '@8ctavio/vergil'
+const vehicles = useModel('')
 </script>
 
 <template>

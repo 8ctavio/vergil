@@ -89,18 +89,8 @@ export function useDefineModel(options = {}) {
                             }
                         }
                     }
-                }), {
-                    extendRef: true,
-                    validator: rawProps.validator,
-                    includeElements: false,
-                    includeExposed: false
-                })
-                : useModel(modelValue, {
-                    shallow: true,
-                    validator: rawProps.validator,
-                    includeElements: false,
-                    includeExposed: false,
-                })
+                }), { extendRef: true, validator: rawProps.validator })
+                : useModel(modelValue, { shallow: true, validator: rawProps.validator })
         const privateModel = privateModelMap.get(model)
 
         const [onModelUpdate, controller] = useModelWatchers(model, privateModel, isCollection)

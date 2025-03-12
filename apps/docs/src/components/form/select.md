@@ -6,7 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
+import { useModel } from '@8ctavio/vergil'
 import { kebabCase } from '@8ctavio/vergil/utilities'
 
 const difficulties = {
@@ -22,10 +22,10 @@ const skulls = {
     ghost: 'Ghost',
 }
 
-const demo1 = ref('')
-const demo2 = ref('')
-const demo3 = ref('')
-const demo4 = ref('')
+const demo1 = useModel('', { shallow: true })
+const demo2 = useModel('', { shallow: true })
+const demo3 = useModel('', { shallow: true })
+const demo4 = useModel('', { shallow: true })
 
 const options1 = [
     'Option 1',
@@ -173,7 +173,7 @@ const options = [
         :options="options1"
         placeholder="Options array"
     />    
-    <code>selected.value === '{{ demo1 }}'</code>
+    <code>selected.value === '{{ demo1.value }}'</code>
 </Demo>
 
 ##### Example. Options Object
@@ -197,7 +197,7 @@ const options = {
         :options="options2"
         placeholder="Options object"
     />  
-    <code>selected.value === '{{ demo2 }}'</code>
+    <code>selected.value === '{{ demo2.value }}'</code>
 </Demo>
 
 ### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
@@ -239,7 +239,7 @@ const options = [{
         option-description="email"
         placeholder="Select option"
     />
-    <code>checked.value === '{{ demo3 }}'</code>
+    <code>checked.value === '{{ demo3.value }}'</code>
 </Demo>
 
 As functions, these props are called for each `option`, receive the `option` and its `key` (index for arrays) as arguments, and their return value becomes the resulting value/label/description.
@@ -277,7 +277,7 @@ const options = [{
         :option-description="option => `@@mail@@ ${option.email}`"
         placeholder="Select option"
     />
-    <code>checked.value === '{{ demo4 }}'</code>
+    <code>checked.value === '{{ demo4.value }}'</code>
 </Demo>
 
 The following functions are the default values for the `option-value`, `option-label`, and `option-description` props.

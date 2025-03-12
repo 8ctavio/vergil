@@ -39,7 +39,7 @@ export function isModel(value){
  *  - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
  *  - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
  *  - `validator`: Function to peform model-value validation and collect encountered validation errors.
- *  - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `true`.
+ *  - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `false`.
  * 
  * @returns { ExtendedRef }
  */
@@ -48,11 +48,11 @@ export function useModel(value, options = {}) {
         return value
     } else {
         const {
+            validator,
             shallow = false,
             extendRef = false,
-            validator,
-            includeElements = true,
-            includeExposed = true,
+            includeExposed = false,
+            includeElements = false,
         } = options
     
         let getResetValue
@@ -171,15 +171,15 @@ export function useModel(value, options = {}) {
             useDebouncedValidate
         })
 
-        if(includeElements) {
-            Object.defineProperty(model, 'elements', {
-                value: useElements(),
-                enumerable: true
-            })
-        }
         if(includeExposed) {
             Object.defineProperty(model, 'exposed', {
                 value: useExposed(),
+                enumerable: true
+            })
+        }
+        if(includeElements) {
+            Object.defineProperty(model, 'elements', {
+                value: useElements(),
                 enumerable: true
             })
         }

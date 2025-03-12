@@ -101,7 +101,7 @@ const floatLabelEnabled = computed(() => {
         && !(props.placeholder || props.description)
 })
 
-const filterModel = useModel('', { includeExposed: false })
+const filterModel = useModel('', { includeElements: true })
 
 //-------------------- POPOVER --------------------
 const {

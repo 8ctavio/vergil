@@ -189,7 +189,7 @@ const model = useDefineModel({
 ```
 
 :::tip
-When `captureExposed` or `captureElements` are set to `true`, a model wrapper *attempts* to capture the corresponding objects provided to its FFC; but if none are received, the fallback values used for the model wrapper's `exposed` and `elements` properties are respectively determined by the `includeExposed` and `includeElements`  options: If an *`include`* option is set to `true`, the corresponding fallback value is an internally created `exposed` or `elements` object, and `null` otherwise.
+When `captureExposed` or `captureElements` are set to `true`, a model wrapper *attempts* to capture the corresponding objects provided to its FFC; but if none are received, the fallback values used for the model wrapper's `exposed` and `elements` properties are respectively determined by the `includeExposed` and `includeElements`  options: If an *`includeX`* option is set to `true`, the corresponding fallback value is an internally created `exposed` or `elements` object, and `null` otherwise.
 :::
 
 ## Definition

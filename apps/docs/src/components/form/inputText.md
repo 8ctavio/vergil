@@ -6,11 +6,11 @@ outline: [2,3]
 
 <script setup>
 import { InputText, Btn } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
+import { useModel } from '@8ctavio/vergil'
 
-const size = ref('')
-const radius = ref('')
-const spacing = ref('')
+const size = useModel('')
+const radius = useModel('')
+const spacing = useModel('')
 
 const btnBeforeProps = {
     icon: 'bolt'
@@ -29,8 +29,8 @@ const btnAfterProps = {
 ```vue
 <script setup>
 import { InputText } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
-const text = ref('')
+import { useModel } from '@8ctavio/vergil'
+const text = useModel('')
 </script>
 
 <template>

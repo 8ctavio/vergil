@@ -6,8 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { InputSearch, Btn } from '@8ctavio/vergil/components'
-import { toast } from '@8ctavio/vergil'
-import { useExposed } from '@8ctavio/vergil'
+import { useExposed, toast } from '@8ctavio/vergil'
 
 const exposed = useExposed()
 async function handleSearch(){
@@ -28,8 +27,8 @@ function handleClear(){
 ```vue
 <script setup>
 import { InputSearch } from '@8ctavio/vergil/components'
-import { ref } from '@8ctavio/vergil'
-const search = ref('')
+import { useModel } from '@8ctavio/vergil'
+const search = useModel('')
 </script>
 
 <template>

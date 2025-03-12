@@ -22,8 +22,8 @@ function formatValue(value){
 ```vue
 <script setup>
 import { Slider } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
-const progress = ref(80)
+import { useModel } from '@8ctavio/vergil'
+const progress = useModel(80)
 </script>
 
 <template>

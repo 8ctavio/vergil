@@ -14,7 +14,7 @@ const demo3 = useModel(null, { shallow: true })
 const demo4 = useModel(null, { shallow: true })
 const demo5 = useModel(null, { shallow: true })
 const demo6 = useModel(null, { shallow: true })
-const demo7 = useModel([])
+const demo7 = useModel([], { shallow: true })
 </script>
 
 ## Basic Usage
@@ -39,9 +39,9 @@ const demo7 = useModel([])
 ```vue
 <script setup>
 import { Calendar } from '@8ctavio/vergil/components'
-import { shallowRef } from 'vue'
-const date = shallowRef(null)
-const dates = ref([])
+import { useModel } from '@8ctavio/vergil'
+const date = useModel(null, { shallow: true })
+const dates = useModel([])
 </script>
 
 <template>

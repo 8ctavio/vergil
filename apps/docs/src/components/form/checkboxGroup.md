@@ -15,10 +15,10 @@ const planets = {
     harvest: 'Harvest'
 }
 
-const demo1 = useModel('')
-const demo2 = useModel('')
-const demo3 = useModel('')
-const demo4 = useModel('')
+const demo1 = useModel('', { shallow: true })
+const demo2 = useModel('', { shallow: true })
+const demo3 = useModel('', { shallow: true })
+const demo4 = useModel('', { shallow: true })
 
 const options1 = [
     'Option 1',
@@ -53,9 +53,9 @@ const options3 = [{
 ```vue
 <script setup>
 import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
-import { ref } from '@8ctavio/vergil'
-const planets = ref([])
-const ships = ref([])
+import { useModel } from '@8ctavio/vergil'
+const planets = useModel([])
+const ships = useModel([])
 
 const planetOptions = {
     earth: 'Earth',
