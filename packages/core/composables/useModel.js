@@ -6,6 +6,7 @@ import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
 import { normalizeRef, shallowCopy, looselyEqual, noop, getTrue, getFalse, uniqueKey } from '../utilities/private'
 
+const validationError = Object.preventExtensions({})
 const getNoop = () => noop
 function getError() {
     return this.errors.value.length > 0
@@ -96,7 +97,7 @@ export function useModel(value, options = {}) {
                         }
                         checkpoint = () => {
                             if(errors.length > 0) {
-                                throw uniqueKey
+                                throw validationError
                             }
                         }
                         return {
@@ -114,7 +115,7 @@ export function useModel(value, options = {}) {
                         try {
                             validator(modelValue, error, checkpoint)
                         } catch(error) {
-                            if(error !== uniqueKey) {
+                            if(error !== validationError) {
                                 throw error
                             }
                         }
