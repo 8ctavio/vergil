@@ -7,7 +7,7 @@
     font-size: 0.625rem; /* 10px */
     font-family: var(--font-sans);
     font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-    scrollbar-color: rgb(from light-dark(black,white) r g b / 0.2) var(--c-bg-alt);
+    scrollbar-color: light-dark(#B0B0B0, #757575) var(--c-bg-alt);
 
     & ::selection {
         background-color: var(--c-theme-soft-2);
