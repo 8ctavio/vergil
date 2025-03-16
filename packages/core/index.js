@@ -1,5 +1,5 @@
-//---------- Composables ----------
 export * from './composables'
+export * from './functions'
 
 //---------- Component APIs ----------
 export { confirm } from './components/confirm'
