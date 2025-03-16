@@ -118,7 +118,7 @@ const floatLabelEnabled = computed(() => {
 .input-text-outer {
     font-size: 1em;
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: auto 1fr auto;
     width: 100%;
 
     &:has(> .btn:first-child) > .input-text-wrapper {
@@ -152,6 +152,7 @@ const floatLabelEnabled = computed(() => {
 
     font-size: 1em;
     position: relative;
+    grid-column-start: 2;
     display: flex;
     align-items: center;
     column-gap: var(--g-gap-md);
