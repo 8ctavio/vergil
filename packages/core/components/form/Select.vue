@@ -130,7 +130,7 @@ watch(isOpen, () => {
 
 //-------------------- SELECT BUTTON --------------------
 function handleBtnClick(event) {
-    if('value' in event.target.dataset && isMultiSelect.value) {
+    if(Object.hasOwn(event.target.dataset, 'value') && isMultiSelect.value) {
         updateSelection({
             value: event.target.dataset.value,
             checked: true

@@ -1,4 +1,4 @@
-import { isPlainObject } from './utilities'
+import { isObject, isPlainObject } from './utilities'
 import { inferTheme } from './utilities/private'
 
 class Option {
@@ -7,10 +7,13 @@ class Option {
         this.modifier = modifier
     }
 }
+function isOption(o) {
+    return isObject(o) && Object.getPrototypeOf(o) === Option.prototype
+}
 
 function createConfig(template, options = {}) {
     const descriptors = Object.create(null)
-    for(const option in template) {
+    for(const option of Object.keys(template)) {
         if(isPlainObject(template[option])) {
             descriptors[option] = createConfig(template[option], options[option])
         } else {
@@ -18,11 +21,11 @@ function createConfig(template, options = {}) {
                 configurable: false,
                 enumerable: true,
                 writable: true,
-                value: Option.prototype.isPrototypeOf(template[option])
-                    ? (option in options)
+                value: isOption(template[option])
+                    ? Object.hasOwn(options, option)
                         ? template[option].modifier(options[option])
                         : template[option].default
-                    : (option in options)
+                    : Object.hasOwn(options, option)
                         ? options[option]
                         : template[option]
             }
