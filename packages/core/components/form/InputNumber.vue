@@ -3,6 +3,7 @@ import InputTextBase from '../private/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { separateThousands } from '../../utilities'
+import { clamp } from '../../utilities/private'
 
 const props = defineProps({
 	//----- Model -----
@@ -431,9 +432,6 @@ watchEffect(() => {
 <script>
 const reValidNumber = /^-?\d*\.?\d*$/
 
-function clamp(n, min, max) {
-	return Math.min(Math.max(min, n), max)
-}
 function countFractionalDigits(num, radixIDX) {
 	num = num.toString()
 	radixIDX ??= num.indexOf('.')

@@ -4,7 +4,7 @@ import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
-import { normalizeRef, shallowCopy, looselyEqual, noop, getTrue, getFalse, uniqueKey } from '../utilities/private'
+import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, getFalse, uniqueKey } from '../utilities/private'
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
@@ -147,8 +147,7 @@ export function useModel(value, options = {}) {
                     const debounced = debounce(model.validate, delay, options)
                     cancelHandlers.push(debounced.cancel)
                     onScopeDispose(() => {
-                        const idx = cancelHandlers.indexOf(debounced.cancel)
-                        cancelHandlers.splice(idx,1)
+                        pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
                     })
                     return debounced
                 }

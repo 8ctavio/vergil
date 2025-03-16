@@ -224,7 +224,7 @@ import { vergil } from '../../vergil'
 import { useModel, useDefineModel, useDefineElements } from '../../composables'
 import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
 import { inferTheme } from '../../utilities/private'
-import { isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { clamp, isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
 
 const props = defineProps({
 	//----- Model -----
@@ -480,7 +480,7 @@ const minutesMeta = computed(() => {
 })
 
 function updateHours(h, updateFormatted = true) {
-	hours.value = Math.max(hoursMeta.value.min, Math.min(Number(h), hoursMeta.value.max))
+	hours.value = clamp(Number(h), hoursMeta.value.min, hoursMeta.value.max)
 	h = hours.value
 	const hh = padLeadingZeros(hours.value)
 	if(updateFormatted) {
@@ -499,7 +499,7 @@ function updateHours(h, updateFormatted = true) {
 	return hh
 }
 function updateMinutes(m, updateFormatted = true) {
-	minutes.value = Math.max(minutesMeta.value.min, Math.min(Number(m), minutesMeta.value.max))
+	minutes.value = clamp(Number(m), minutesMeta.value.min, minutesMeta.value.max)
 	const mm = padLeadingZeros(minutes.value)
 	if(updateFormatted) {
 		displayedMinutes.value = mm
