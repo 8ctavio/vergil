@@ -44,7 +44,7 @@ function getNestedModel(modelGroup, path) {
 	throw new ReferenceError(`No model found at ModelGroup's '${path}' path`)
 }
 
-export let validableModelGroup
+export let validationContext
 export class ModelGroup {
 	#validator
 	#isValid
@@ -56,8 +56,14 @@ export class ModelGroup {
 
 		let shouldCleanup = false
 		if(isFunction(validator)) {
-			if (!validableModelGroup) {
-				validableModelGroup = this
+			if (!validationContext) {
+				validationContext = {
+					modelGroup: this,
+					validate: this.validate.bind(this),
+					handleValidation: (eager = false) => {
+						if (eager || this.error) this.validate()
+					}
+				}
 				shouldCleanup = true
 			}
 			this.#validator = validator
@@ -83,7 +89,7 @@ export class ModelGroup {
 			markRaw(this)
 			Object.freeze(this)
 		} finally {
-			if (shouldCleanup) validableModelGroup = undefined
+			if (shouldCleanup) validationContext = undefined
 		}
 	}
 

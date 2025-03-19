@@ -33,6 +33,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     label: String,
@@ -98,16 +99,16 @@ const handleChange = model.updateDecorator(event => {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
-                model.handleValidation()
+                model.handleValidation(props.eagerValidation)
             }
         } else if(event.target.checked) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
-            model.handleValidation()
+            model.handleValidation(props.eagerValidation)
         }
     } else {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
-        model.handleValidation()
+        model.handleValidation(props.eagerValidation)
     }
 })
 

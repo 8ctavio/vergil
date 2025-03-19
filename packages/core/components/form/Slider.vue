@@ -42,6 +42,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     displayValue: {
@@ -99,7 +100,7 @@ const handleInput = model.updateDecorator(event => {
     } else {
         model.value = newValue
     }
-    validateInput()
+    validateInput(props.eagerValidation)
 })
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))

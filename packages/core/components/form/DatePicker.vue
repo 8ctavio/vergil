@@ -40,6 +40,7 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
 	validator: Function,
+	eagerValidation: Boolean,
     elements: Object,
 
 	//----- Calendar -----
@@ -297,7 +298,7 @@ function handleKeydown(event) {
 									model.value = null
 								}
 							}
-							model.handleValidation()
+							model.handleValidation(props.eagerValidation)
 						} else {
 							togglePopover()
 						}
@@ -310,6 +311,7 @@ function handleKeydown(event) {
 					descendant
 					:model-value="model"
 					:modelModifiers
+					:eagerValidation
 					:locale
 				/>
 			</template>

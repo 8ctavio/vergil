@@ -242,6 +242,7 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
     validator: Function,
+	eagerValidation: Boolean,
     elements: Object,
 
 	locale: {
@@ -523,14 +524,14 @@ function updateDateTime(lazyValidation = false) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
 			model.triggerIfShallow()
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
+			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
 			triggerModelValue(model)
 			// triggerRef(model.ref)
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
+			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
 		})
 	}
 }
@@ -733,12 +734,12 @@ const handleChange = model.updateDecorator(event => {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
 				model.triggerIfShallow()
-				model.handleValidation()
+				model.handleValidation(props.eagerValidation)
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
 			model.triggerIfShallow()
-			model.handleValidation()
+			model.handleValidation(props.eagerValidation)
 		}
 	} else {
 		if(event.target.checked) {
@@ -766,7 +767,7 @@ const handleChange = model.updateDecorator(event => {
 				model.value = null
 			}
 		}
-		model.handleValidation()
+		model.handleValidation(props.eagerValidation)
 	}
 })
 

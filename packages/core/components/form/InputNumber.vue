@@ -17,6 +17,7 @@ const props = defineProps({
 	},
     ['onUpdate:modelValue']: Function,
 	validator: Function,
+	eagerValidation: Boolean,
     elements: Object,
 
 	min: {
@@ -292,7 +293,7 @@ function handleInput(event) {
 	model.update(clamp(eventData.newNumber, range.min, range.max))
 	elements.input.value = eventData.newString
 	displayedNumber = eventData.newNumber
-	validateDebouncedLazy()
+	validateDebouncedLazy(props.eagerValidation)
 
 	eventData.newString = ''
 	eventData.newNumber = 0
@@ -359,7 +360,7 @@ function stepUp(lazyValidation = false) {
 	if(result <= range.max) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
+		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
 	}
 }
 function stepDown(lazyValidation = false) {
@@ -367,7 +368,7 @@ function stepDown(lazyValidation = false) {
 	if(result >= range.min) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
+		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
 	}
 }
 function handleKeydown(event) {
@@ -380,7 +381,7 @@ function handleKeydown(event) {
 		stepDown(true)
 	} else if(key === 'Enter') {
 		handleChange(event)
-		validateDebouncedEager()
+		validateDebouncedEager(props.eagerValidation)
 	}
 }
 

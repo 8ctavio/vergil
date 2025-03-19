@@ -5,7 +5,7 @@ import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
 import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities/private'
-import { validableModelGroup } from '../functions/ModelGroup'  
+import { validationContext } from '../functions/ModelGroup'  
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
@@ -120,7 +120,7 @@ export function useModel(value, options = {}) {
 		
 		let handleValidation = noop
 		let useDebouncedValidation = getNoop
-		if(isFunction(validator)) {
+		if (isFunction(validator)) {
 			const lastValidation = {
 				value: uniqueKey,
 				result: undefined,
@@ -148,14 +148,24 @@ export function useModel(value, options = {}) {
                     return lastValidation.result
 				}
 			}, { configurable: false })
-			
-            const validationTarget = validableModelGroup ?? model
-            handleValidation = () => {
-                if (validationTarget.error) validationTarget.validate()
+        } else {
+            defineReactiveProperties(model, {
+                validate: getTrue
+            }, { configurable: false })
+        }
+
+        if (isFunction(validator) || validationContext) {
+            let validationTarget = model
+            let validate = model.validate
+            if (validationContext) {
+                validationTarget = validationContext.modelGroup
+                validate = validationContext.validate
+                handleValidation = validationContext.handleValidation 
+            } else {
+                handleValidation = (eager = false) => {
+                    if (eager || model.error) model.validate()
+                }
             }
-            const validate = validableModelGroup
-                ? validationTarget.validate.bind(validationTarget)
-                : validationTarget.validate
             useDebouncedValidation = (delay, options) => {
                 if(getCurrentInstance()) {
                     const debounced = debounce(validate, delay, options)
@@ -163,15 +173,11 @@ export function useModel(value, options = {}) {
                     onScopeDispose(() => {
                         pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
                     })
-                    return () => {
-                        if (validationTarget.error) debounced()
+                    return (eager = false) => {
+                        if (eager || validationTarget.error) debounced()
                     }
                 }
             }
-        } else {
-            defineReactiveProperties(model, {
-                validate: getTrue
-            }, { configurable: false })
         }
 
         privateModelMap.set(model, {

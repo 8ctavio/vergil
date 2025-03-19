@@ -18,6 +18,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     checked: Boolean,
@@ -81,7 +82,7 @@ model.onExternalUpdate(modelValue => {
 function handleChange(event) {
     if(event.target.checked) {
         model.update(event.target.value)
-        model.handleValidation()
+        model.handleValidation(props.eagerValidation)
     }
 }
 

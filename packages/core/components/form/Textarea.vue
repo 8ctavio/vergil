@@ -19,6 +19,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     placeholder: {
@@ -82,7 +83,7 @@ model.onExternalUpdate((modelValue) => {
 const validateInput = model.useDebouncedValidation(300)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
-    validateInput()
+    validateInput(props.eagerValidation)
 })
 
 const floatLabelEnabled = computed(() => {

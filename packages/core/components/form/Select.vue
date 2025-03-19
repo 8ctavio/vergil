@@ -25,6 +25,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     options : Object,
@@ -292,16 +293,16 @@ function updateSelection(option, closeOnUpdated = false) {
                 if(option.checked) {
                     model.value.splice(idx,1)
                     model.triggerIfShallow()
-                    model.handleValidation()
+                    model.handleValidation(props.eagerValidation)
                 }
             } else if(!option.checked) {
                 model.value.push(option.value)
                 model.triggerIfShallow()
-                model.handleValidation()
+                model.handleValidation(props.eagerValidation)
             }
         } else {
             model.value = option.checked ? '' : option.value
-            model.handleValidation()
+            model.handleValidation(props.eagerValidation)
         }
     })
     nextTick(() => {
@@ -440,6 +441,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                 <CheckboxGroup v-show="!empty"
                     descendant
                     :model-value="model"
+                    :eagerValidation
                     :options
                     :optionValue
                     :optionLabel

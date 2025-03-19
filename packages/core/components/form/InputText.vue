@@ -16,6 +16,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     spaceEvenly: Boolean,
@@ -35,7 +36,7 @@ model.onExternalUpdate(modelValue => {
 
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
-    validateInput()
+    validateInput(props.eagerValidation)
 })
 
 let oldValue
@@ -44,7 +45,7 @@ function handleEnter(event) {
         evenlySpaceInputValue(event.target)
         oldValue = event.target.value
     }
-    validateEnter()
+    validateEnter(props.eagerValidation)
 }
 function onFocus(event) {
     oldValue = event.target.value
