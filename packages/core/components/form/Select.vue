@@ -292,16 +292,16 @@ function updateSelection(option, closeOnUpdated = false) {
                 if(option.checked) {
                     model.value.splice(idx,1)
                     model.triggerIfShallow()
-                    if(model.error) model.validate()
+                    model.handleValidation()
                 }
             } else if(!option.checked) {
                 model.value.push(option.value)
                 model.triggerIfShallow()
-                if(model.error) model.validate()
+                model.handleValidation()
             }
         } else {
             model.value = option.checked ? '' : option.value
-            if(model.error) model.validate()
+            model.handleValidation()
         }
     })
     nextTick(() => {

@@ -89,7 +89,7 @@ model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = model.useDebouncedValidate(300)
+const validateInput = model.useDebouncedValidation(300)
 const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
     if(props.virtualMin && newValue < props.virtualMin) {
@@ -99,9 +99,7 @@ const handleInput = model.updateDecorator(event => {
     } else {
         model.value = newValue
     }
-    if(model.error) {
-        validateInput()
-    }
+    validateInput()
 })
 
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))

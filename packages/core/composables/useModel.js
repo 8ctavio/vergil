@@ -4,7 +4,8 @@ import { isExtendedRef } from './extendedReactivity'
 import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
-import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, getFalse, uniqueKey } from '../utilities/private'
+import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities/private'
+import { validableModelGroup } from '../functions/ModelGroup'  
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
@@ -65,52 +66,70 @@ export function useModel(value, options = {}) {
             value = normalizeRef(getResetValue(), shallow)
         }
 
-        const model = extendedRef(value, withDescriptor => ({
-            reset() {
-                model.ref.value = getResetValue()
-                model.clear()
-            },
-            __v_isModel: withDescriptor({
-                value: true,
-                enumerable: false,
-                writable: false
-            })
-        }), { configurable: false })
-        
-        let useDebouncedValidate = getNoop
-        if(isFunction(validator)) {
-            let error, checkpoint
-            const cancelHandlers = []
-            const lastValidation = {
-                value: uniqueKey,
-                result: undefined,
-            }
-            defineReactiveProperties(model, withDescriptor => ({
-                error: withDescriptor({ get: getError }),
-                errors: withDescriptor({
-                    value: customRef(track => {
-                        const errors = []
-                        error = msg => {
-                            if(typeof msg === 'string' && msg.length > 0) {
-                                errors.push(msg)
-                            }
+		let error, checkpoint
+		const cancelHandlers = []
+		const model = extendedRef(value, withDescriptor => ({
+			reset() {
+				model.ref.value = getResetValue()
+			},
+            error: withDescriptor({ get: getError }),
+            errors: withDescriptor({
+                value: customRef(track => {
+                    const errors = []
+                    error = message => {
+                        if(typeof message === 'string' && message.length > 0) {
+                            errors.push(message)
                         }
-                        checkpoint = () => {
-                            if(errors.length > 0) {
-                                throw validationError
-                            }
+                    }
+                    checkpoint = () => {
+                        if(errors.length > 0) {
+                            throw validationError
                         }
-                        return {
-                            get: () => (track(), errors),
-                            set: noop
-                        }
-                    }),
-                    unwrap: false
+                    }
+                    return {
+                        get: () => (track(), errors),
+                        set: noop
+                    }
                 }),
-                validate(force = false) {
-                    const modelValue = model.value
-                    if(force || !looselyEqual(modelValue, lastValidation.value)) {
-                        const errors = model.errors.value
+                unwrap: false
+            }),
+			clear() {
+				model.errors._value.length = 0
+				for(const cancel of cancelHandlers) {
+					cancel()
+				}
+				triggerRef(model.errors)
+			},
+			__v_isModel: withDescriptor({
+				value: true,
+				enumerable: false,
+				writable: false
+			})
+		}), { configurable: false })
+		/**
+		 * Required to force trigger of watcher callbacks
+		 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245
+		 */
+		model.errors.__v_isShallow = true
+		/**
+		 * Run ref/errors value getter to initialize _value if it's a customRef
+		 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts#L308
+		 */
+		model.ref.value
+		model.errors.value
+		
+		let handleValidation = noop
+		let useDebouncedValidation = getNoop
+		if(isFunction(validator)) {
+			const lastValidation = {
+				value: uniqueKey,
+				result: undefined,
+			}
+			defineReactiveProperties(model, {
+				validate(force = false, trigger = true) {
+					const modelValue = model.ref._value
+					if(force || !looselyEqual(modelValue, lastValidation.value)) {
+                        const errors = model.errors._value
                         errors.length = 0
                         try {
                             validator(modelValue, error, checkpoint)
@@ -125,39 +144,34 @@ export function useModel(value, options = {}) {
                     for(const cancel of cancelHandlers) {
                         cancel()
                     }
-                    triggerRef(model.errors)
+                    if (trigger) triggerRef(model.errors)
                     return lastValidation.result
-                },
-                clear() {
-                    model.errors.value.length = 0
-                    for(const cancel of cancelHandlers) {
-                        cancel()
-                    }
-                    triggerRef(model.errors)
-                },
-            }), { configurable: false })
-            /**
-             * Required to force trigger of watcher callbacks
-             * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245
-             */
-            model.errors.__v_isShallow = true
-
-            useDebouncedValidate = (delay, options) => {
+				}
+			}, { configurable: false })
+			
+            const validationTarget = validableModelGroup ?? model
+            handleValidation = () => {
+                if (validationTarget.error) validationTarget.validate()
+            }
+            const validate = validableModelGroup
+                ? validationTarget.validate.bind(validationTarget)
+                : validationTarget.validate
+            useDebouncedValidation = (delay, options) => {
                 if(getCurrentInstance()) {
-                    const debounced = debounce(model.validate, delay, options)
+                    const debounced = debounce(validate, delay, options)
                     cancelHandlers.push(debounced.cancel)
                     onScopeDispose(() => {
                         pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
                     })
-                    return debounced
+                    return () => {
+                        if (validationTarget.error) debounced()
+                    }
                 }
-            } 
+            }
         } else {
-            defineReactiveProperties(model, withDescriptor => ({
-                error: withDescriptor({ get: getFalse }),
-                validate: getTrue,
-                clear: noop,
-            }), { configurable: false })
+            defineReactiveProperties(model, {
+                validate: getTrue
+            }, { configurable: false })
         }
 
         privateModelMap.set(model, {
@@ -168,7 +182,8 @@ export function useModel(value, options = {}) {
                     triggerRef(model.ref)
                 }
             },
-            useDebouncedValidate
+            handleValidation,
+            useDebouncedValidation
         })
 
         if(includeExposed) {

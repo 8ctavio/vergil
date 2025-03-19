@@ -1,6 +1,6 @@
 <script setup>
 import InputTextBase from '../private/InputTextBase.vue'
-import { isRef, computed, provide } from 'vue'
+import { computed, provide } from 'vue'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { spaceEvenly } from '../../utilities'
 
@@ -26,8 +26,8 @@ const elements = useDefineElements(['input'])
 provide('model', model)
 provide('elements', elements)
 
-const validateInput = model.useDebouncedValidate(300)
-const validateEnter = model.useDebouncedValidate(350, { eager: true })
+const validateInput = model.useDebouncedValidation(300)
+const validateEnter = model.useDebouncedValidation(350, { eager: true })
 
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
@@ -35,22 +35,16 @@ model.onExternalUpdate(modelValue => {
 
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
-    if(model.error) {
-        validateInput()
-    }
+    validateInput()
 })
 
 let oldValue
 function handleEnter(event) {
-    if(props.spaceEvenly) {
-        if(event.target.value !== oldValue) {
-            evenlySpaceInputValue(event.target)
-            oldValue = event.target.value
-        }
-        if(model.error) {
-            validateEnter()
-        }
+    if(props.spaceEvenly && event.target.value !== oldValue) {
+        evenlySpaceInputValue(event.target)
+        oldValue = event.target.value
     }
+    validateEnter()
 }
 function onFocus(event) {
     oldValue = event.target.value
@@ -98,15 +92,12 @@ function evenlySpaceInputValue(input) {
 const spaceEvenlyHandlers = computed(() => {
     return props.spaceEvenly ? { onFocus, onBlur } : null
 })
-const enterEventName = computed(() => {
-    return props.spaceEvenly || isRef(model.errors) ? 'keydown' : undefined
-})
 </script>
 
 <template>
     <InputTextBase
         @input="handleInput"
-        @[enterEventName].passive.enter="handleEnter"
+        @keydown.passive.enter="handleEnter"
         v-bind="spaceEvenlyHandlers"
     />
 </template>

@@ -81,7 +81,7 @@ model.onExternalUpdate(modelValue => {
 function handleChange(event) {
     if(event.target.checked) {
         model.update(event.target.value)
-        if(model.error) model.validate()
+        model.handleValidation()
     }
 }
 

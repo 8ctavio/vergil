@@ -1,1 +1,1 @@
-export * from './ModelGroup'
+export { ModelGroup } from './ModelGroup'

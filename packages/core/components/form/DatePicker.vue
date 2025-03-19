@@ -297,9 +297,7 @@ function handleKeydown(event) {
 									model.value = null
 								}
 							}
-							if(model.error) {
-								model.validate()
-							}
+							model.handleValidation()
 						} else {
 							togglePopover()
 						}

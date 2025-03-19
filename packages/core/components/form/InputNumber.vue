@@ -81,8 +81,8 @@ watchEffect(() => {
 let displayedNumber = 0
 const model = useDefineModel()
 const elements = useDefineElements(['input'])
-const validateDebouncedLazy = model.useDebouncedValidate(300)
-const validateDebouncedEager = model.useDebouncedValidate(350, { eager: true })
+const validateDebouncedLazy = model.useDebouncedValidation(300)
+const validateDebouncedEager = model.useDebouncedValidation(350, { eager: true })
 
 provide('model', model)
 provide('elements', elements)
@@ -292,9 +292,7 @@ function handleInput(event) {
 	model.update(clamp(eventData.newNumber, range.min, range.max))
 	elements.input.value = eventData.newString
 	displayedNumber = eventData.newNumber
-	if(model.error) {
-        validateDebouncedLazy()
-    }
+	validateDebouncedLazy()
 
 	eventData.newString = ''
 	eventData.newNumber = 0
@@ -361,9 +359,7 @@ function stepUp(lazyValidation = false) {
 	if(result <= range.max) {
 		model.update(result)
 		formatDisplayedString()
-		if(model.error) {
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
-		}
+		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 	}
 }
 function stepDown(lazyValidation = false) {
@@ -371,9 +367,7 @@ function stepDown(lazyValidation = false) {
 	if(result >= range.min) {
 		model.update(result)
 		formatDisplayedString()
-		if(model.error) {
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
-		}
+		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 	}
 }
 function handleKeydown(event) {
@@ -386,9 +380,7 @@ function handleKeydown(event) {
 		stepDown(true)
 	} else if(key === 'Enter') {
 		handleChange(event)
-		if(model.error) {
-			validateDebouncedEager()
-		}
+		validateDebouncedEager()
 	}
 }
 

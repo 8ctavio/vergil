@@ -16,8 +16,9 @@ const error = computed(() => props.fields.error)
 
 function handleSubmit(event) {
 	event.preventDefault()
-	if(props.fields.validate()) {
-		emit('submit', event, props.fields.getPayload())
+	const [isValid, payload] = props.fields.validate(true)
+	if(isValid) {
+		emit('submit', event, payload)
 	} else {
 		emit('error', event)
 	}

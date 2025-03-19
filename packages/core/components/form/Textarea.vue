@@ -79,12 +79,10 @@ model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = model.useDebouncedValidate(300)
+const validateInput = model.useDebouncedValidation(300)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
-    if(model.error) {
-        validateInput()
-    }
+    validateInput()
 })
 
 const floatLabelEnabled = computed(() => {

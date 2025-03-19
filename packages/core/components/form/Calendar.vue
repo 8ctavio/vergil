@@ -523,18 +523,14 @@ function updateDateTime(lazyValidation = false) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
 			model.triggerIfShallow()
-			if(model.error) {
-				(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
-			}
+			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
 			triggerModelValue(model)
 			// triggerRef(model.ref)
-			if(model.error) {
-				(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
-			}
+			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)()
 		})
 	}
 }
@@ -656,8 +652,8 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useDefineModel({ isCollection: true })
-const validateDebouncedLazy = model.useDebouncedValidate(300)
-const validateDebouncedEager = model.useDebouncedValidate(350, { eager: true })
+const validateDebouncedLazy = model.useDebouncedValidation(300)
+const validateDebouncedEager = model.useDebouncedValidation(350, { eager: true })
 
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
@@ -737,12 +733,12 @@ const handleChange = model.updateDecorator(event => {
 			if(!event.target.checked) {
 				model.value.splice(idx, 1)
 				model.triggerIfShallow()
-				if(model.error) model.validate()
+				model.handleValidation()
 			}
 		} else if(event.target.checked) {
 			model.value.push(newValue)
 			model.triggerIfShallow()
-			if(model.error) model.validate()
+			model.handleValidation()
 		}
 	} else {
 		if(event.target.checked) {
@@ -770,7 +766,7 @@ const handleChange = model.updateDecorator(event => {
 				model.value = null
 			}
 		}
-		if(model.error) model.validate()
+		model.handleValidation()
 	}
 })
 

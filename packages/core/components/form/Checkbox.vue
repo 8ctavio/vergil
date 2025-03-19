@@ -98,16 +98,16 @@ const handleChange = model.updateDecorator(event => {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
-                if(model.error) model.validate()
+                model.handleValidation()
             }
         } else if(event.target.checked) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
-            if(model.error) model.validate()
+            model.handleValidation()
         }
     } else {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
-        if(model.error) model.validate()
+        model.handleValidation()
     }
 })
 

@@ -221,7 +221,8 @@ export function useDefineModel(options = {}) {
                 }
             }),
             triggerIfShallow: privateModel.triggerIfShallow,
-            useDebouncedValidate: privateModel.useDebouncedValidate,
+            handleValidation: privateModel.handleValidation,
+            useDebouncedValidation: privateModel.useDebouncedValidation,
 
             onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
                 if(isFunction(cb)) {
