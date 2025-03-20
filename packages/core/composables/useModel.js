@@ -5,7 +5,7 @@ import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
 import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities/private'
-import { validationContext } from '../functions/ModelGroup'  
+import { groupValidationCtx } from '../functions/ModelGroup'  
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
@@ -154,13 +154,13 @@ export function useModel(value, options = {}) {
             }, { configurable: false })
         }
 
-        if (isFunction(validator) || validationContext) {
+        if (isFunction(validator) || groupValidationCtx) {
             let validationTarget = model
             let validate = model.validate
-            if (validationContext) {
-                validationTarget = validationContext.modelGroup
-                validate = validationContext.validate
-                handleValidation = validationContext.handleValidation 
+            if (groupValidationCtx) {
+                validationTarget = groupValidationCtx.modelGroup
+                validate = groupValidationCtx.validate
+                handleValidation = groupValidationCtx.handleValidation 
             } else {
                 handleValidation = (eager = false) => {
                     if (eager || model.error) model.validate()

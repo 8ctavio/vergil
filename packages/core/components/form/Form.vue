@@ -1,30 +1,7 @@
-<script setup>
-import { Badge } from '..'
-import { computed, h, mergeProps } from 'vue'
-import { ModelGroup } from '../../functions'
-import { ucFirst } from '../../utilities'
-import { pull } from '../../utilities/private'
+<script>
+import { h, mergeProps } from 'vue'
 
-const props = defineProps({
-	fields: ModelGroup,
-	showErrors: [Boolean, Array],
-	badgeProps: Object
-})
-const emit = defineEmits(['submit', 'error'])
-
-const error = computed(() => props.fields.error)
-
-function handleSubmit(event) {
-	event.preventDefault()
-	const [isValid, payload] = props.fields.validate(true)
-	if(isValid) {
-		emit('submit', event, payload)
-	} else {
-		emit('error', event)
-	}
-}
-
-function Errors() {
+function Errors(props) {
 	const { showErrors } = props
 	if(showErrors) {
 		let filter
@@ -85,12 +62,35 @@ function Errors() {
 }
 </script>
 
+<script setup>
+import { Badge } from '..'
+import { computed } from 'vue'
+import { ModelGroup } from '../../functions'
+import { ucFirst } from '../../utilities'
+import { pull } from '../../utilities/private'
+
+const props = defineProps({
+	fields: ModelGroup,
+	showErrors: [Boolean, Array],
+	badgeProps: Object
+})
+const emit = defineEmits(['submit', 'invalid'])
+
+function handleSubmit(event) {
+	event.preventDefault()
+	const [isValid, payload] = props.fields.validate(true)
+	emit(isValid ? 'submit' : 'invalid', event, payload)
+}
+
+const error = computed(() => props.fields.error)
+</script>
+
 <template>
 	<form class="form" @submit="handleSubmit">
 		<div class="form-fields">
 			<slot/>
 		</div>
-		<Errors/>
+		<Errors v-bind="props"/>
 		<slot name="submit" :error/>
 	</form>
 </template>
