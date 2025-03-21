@@ -1,6 +1,7 @@
 <script setup>
 import InputTextBase from '../private/InputTextBase.vue'
 import { computed, provide } from 'vue'
+import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { spaceEvenly } from '../../utilities'
 
@@ -20,6 +21,17 @@ const props = defineProps({
     elements: Object,
 
     spaceEvenly: Boolean,
+
+	//----- Debounced validation -----
+    preventEnterValidation: Boolean,
+	validationDelay: {
+		type: Number,
+		default: () => vergil.config.inputText.validationDelay ?? vergil.config.global.validationDelay,
+	},
+	validationCooldown: {
+		type: Number,
+		default: () => vergil.config.inputText.validationCooldown ?? vergil.config.global.validationCooldown,
+	},
 })
 
 const model = useDefineModel()
@@ -27,8 +39,8 @@ const elements = useDefineElements(['input'])
 provide('model', model)
 provide('elements', elements)
 
-const validateInput = model.useDebouncedValidation(300)
-const validateEnter = model.useDebouncedValidation(350, { eager: true })
+const validateInput = model.useDebouncedValidation(props.validationDelay)
+const validateEnter = model.useDebouncedValidation(props.validationCooldown, { eager: true })
 
 model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
@@ -45,7 +57,9 @@ function handleEnter(event) {
         evenlySpaceInputValue(event.target)
         oldValue = event.target.value
     }
-    validateEnter(props.eagerValidation)
+	if (!(event.target.form || props.preventEnterValidation)) {
+		validateEnter(props.eagerValidation)
+	}
 }
 function onFocus(event) {
     oldValue = event.target.value

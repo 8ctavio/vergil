@@ -58,6 +58,12 @@ const props = defineProps({
     description: String,
     help: String,
     showErrors: Boolean,
+
+    //----- Debounced validation -----
+    validationDelay: {
+        type: Number,
+        default: () => vergil.config.slider.validationDelay ?? vergil.config.global.validationDelay,
+    },
     
     //----- Global -----
     descendant: Boolean,
@@ -90,7 +96,7 @@ model.onExternalUpdate(modelValue => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = model.useDebouncedValidation(300)
+const validateInput = model.useDebouncedValidation(props.validationDelay)
 const handleInput = model.updateDecorator(event => {
     const newValue = Number(event.target.value)
     if(props.virtualMin && newValue < props.virtualMin) {

@@ -49,6 +49,12 @@ const props = defineProps({
     showErrors: Boolean,
     floatLabel: Boolean,
 
+    //----- Debounced validation -----
+    validationDelay: {
+        type: Number,
+        default: () => vergil.config.textarea.validationDelay ?? vergil.config.global.validationDelay,
+    },
+
     //----- Global -----
     descendant: Boolean,
     theme: {
@@ -80,7 +86,7 @@ model.onExternalUpdate((modelValue) => {
     elements.input.value = modelValue
 }, { onMounted: true })
 
-const validateInput = model.useDebouncedValidation(300)
+const validateInput = model.useDebouncedValidation(props.validationDelay)
 const handleInput = model.updateDecorator(event => {
     model.value = event.target.value
     validateInput(props.eagerValidation)

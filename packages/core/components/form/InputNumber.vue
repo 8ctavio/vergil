@@ -1,6 +1,7 @@
 <script setup>
 import InputTextBase from '../private/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
+import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { separateThousands } from '../../utilities'
 import { clamp } from '../../utilities/private'
@@ -52,6 +53,17 @@ const props = defineProps({
 	steppers: Boolean,
 	btnBefore: Object,
     btnAfter: Object,
+
+	//----- Debounced validation -----
+    preventEnterValidation: Boolean,
+	validationDelay: {
+		type: Number,
+		default: () => vergil.config.inputNumber.validationDelay ?? vergil.config.global.validationDelay,
+	},
+	validationCooldown: {
+		type: Number,
+		default: () => vergil.config.inputNumber.validationCooldown ?? vergil.config.global.validationCooldown,
+	},
 })
 
 //---------- Value & Fractional Digits Ranges ----------
@@ -82,8 +94,8 @@ watchEffect(() => {
 let displayedNumber = 0
 const model = useDefineModel()
 const elements = useDefineElements(['input'])
-const validateDebouncedLazy = model.useDebouncedValidation(300)
-const validateDebouncedEager = model.useDebouncedValidation(350, { eager: true })
+const validateWithDelay = model.useDebouncedValidation(props.validationDelay)
+const validateWithCooldown = model.useDebouncedValidation(props.validationCooldown, { eager: true })
 
 provide('model', model)
 provide('elements', elements)
@@ -293,7 +305,7 @@ function handleInput(event) {
 	model.update(clamp(eventData.newNumber, range.min, range.max))
 	elements.input.value = eventData.newString
 	displayedNumber = eventData.newNumber
-	validateDebouncedLazy(props.eagerValidation)
+	validateWithDelay(props.eagerValidation)
 
 	eventData.newString = ''
 	eventData.newNumber = 0
@@ -360,7 +372,7 @@ function stepUp(lazyValidation = false) {
 	if(result <= range.max) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
+		(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 	}
 }
 function stepDown(lazyValidation = false) {
@@ -368,7 +380,7 @@ function stepDown(lazyValidation = false) {
 	if(result >= range.min) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
+		(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 	}
 }
 function handleKeydown(event) {
@@ -381,7 +393,9 @@ function handleKeydown(event) {
 		stepDown(true)
 	} else if(key === 'Enter') {
 		handleChange(event)
-		validateDebouncedEager(props.eagerValidation)
+		if (!(event.target.form || props.preventEnterValidation)) {
+			validateWithCooldown(props.eagerValidation)
+		}
 	}
 }
 

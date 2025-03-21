@@ -5,12 +5,12 @@ import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { debounce, isFunction } from '../utilities'
 import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities/private'
-import { groupValidationCtx } from '../functions/ModelGroup'  
+import { groupValidationCtx } from '../functions/ModelGroup'
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
 function getError() {
-    return this.errors.value.length > 0
+	return this.errors.value.length > 0
 }
 
 /**
@@ -19,8 +19,8 @@ function getError() {
  * @param { any } value
  * @returns { boolean } `true` if `value` is a model created by `useModel`.
  */
-export function isModel(value){
-    return isExtendedRef(value) && Boolean(value.__v_isModel)
+export function isModel(value) {
+	return isExtendedRef(value) && Boolean(value.__v_isModel)
 }
 
 /**
@@ -46,25 +46,25 @@ export function isModel(value){
  * @returns { ExtendedRef }
  */
 export function useModel(value, options = {}) {
-    if(isModel(value)) {
-        return value
-    } else {
-        const {
-            validator,
-            shallow = false,
-            extendRef = false,
-            includeExposed = false,
-            includeElements = false,
-        } = options
-    
-        let getResetValue
-        if(extendRef) {
-            value = normalizeRef(value, shallow)
-            getResetValue = useResetValue(value.value)
-        } else {
-            getResetValue = useResetValue(value)
-            value = normalizeRef(getResetValue(), shallow)
-        }
+	if (isModel(value)) {
+		return value
+	} else {
+		const {
+			validator,
+			shallow = false,
+			extendRef = false,
+			includeExposed = false,
+			includeElements = false,
+		} = options
+
+		let getResetValue
+		if (extendRef) {
+			value = normalizeRef(value, shallow)
+			getResetValue = useResetValue(value.value)
+		} else {
+			getResetValue = useResetValue(value)
+			value = normalizeRef(getResetValue(), shallow)
+		}
 
 		let error, checkpoint
 		const cancelHandlers = []
@@ -72,30 +72,30 @@ export function useModel(value, options = {}) {
 			reset() {
 				model.ref.value = getResetValue()
 			},
-            error: withDescriptor({ get: getError }),
-            errors: withDescriptor({
-                value: customRef(track => {
-                    const errors = []
-                    error = message => {
-                        if(typeof message === 'string' && message.length > 0) {
-                            errors.push(message)
-                        }
-                    }
-                    checkpoint = () => {
-                        if(errors.length > 0) {
-                            throw validationError
-                        }
-                    }
-                    return {
-                        get: () => (track(), errors),
-                        set: noop
-                    }
-                }),
-                unwrap: false
-            }),
+			error: withDescriptor({ get: getError }),
+			errors: withDescriptor({
+				value: customRef(track => {
+					const errors = []
+					error = message => {
+						if (typeof message === 'string' && message.length > 0) {
+							errors.push(message)
+						}
+					}
+					checkpoint = () => {
+						if (errors.length > 0) {
+							throw validationError
+						}
+					}
+					return {
+						get: () => (track(), errors),
+						set: noop
+					}
+				}),
+				unwrap: false
+			}),
 			clear() {
 				model.errors._value.length = 0
-				for(const cancel of cancelHandlers) {
+				for (const cancel of cancelHandlers) {
 					cancel()
 				}
 				triggerRef(model.errors)
@@ -117,7 +117,7 @@ export function useModel(value, options = {}) {
 		 */
 		model.ref.value
 		model.errors.value
-		
+
 		let handleValidation = noop
 		let useDebouncedValidation = getNoop
 		if (isFunction(validator)) {
@@ -128,82 +128,86 @@ export function useModel(value, options = {}) {
 			defineReactiveProperties(model, {
 				validate(force = false, trigger = true) {
 					const modelValue = model.ref._value
-					if(force || !looselyEqual(modelValue, lastValidation.value)) {
-                        const errors = model.errors._value
-                        errors.length = 0
-                        try {
-                            validator(modelValue, error, checkpoint)
-                        } catch(error) {
-                            if(error !== validationError) {
-                                throw error
-                            }
-                        }
-                        lastValidation.value = shallowCopy(modelValue)
-                        lastValidation.result = errors.length === 0
-                    }
-                    for(const cancel of cancelHandlers) {
-                        cancel()
-                    }
-                    if (trigger) triggerRef(model.errors)
-                    return lastValidation.result
+					if (force || !looselyEqual(modelValue, lastValidation.value)) {
+						const errors = model.errors._value
+						errors.length = 0
+						try {
+							validator(modelValue, error, checkpoint)
+						} catch (error) {
+							if (error !== validationError) {
+								throw error
+							}
+						}
+						lastValidation.value = shallowCopy(modelValue)
+						lastValidation.result = errors.length === 0
+					}
+					for (const cancel of cancelHandlers) {
+						cancel()
+					}
+					if (trigger) triggerRef(model.errors)
+					return lastValidation.result
 				}
 			}, { configurable: false })
-        } else {
-            defineReactiveProperties(model, {
-                validate: getTrue
-            }, { configurable: false })
-        }
+		} else {
+			defineReactiveProperties(model, {
+				validate: getTrue
+			}, { configurable: false })
+		}
 
-        if (isFunction(validator) || groupValidationCtx) {
-            let validationTarget = model
-            let validate = model.validate
-            if (groupValidationCtx) {
-                validationTarget = groupValidationCtx.modelGroup
-                validate = groupValidationCtx.validate
-                handleValidation = groupValidationCtx.handleValidation 
-            } else {
-                handleValidation = (eager = false) => {
-                    if (eager || model.error) model.validate()
-                }
-            }
-            useDebouncedValidation = (delay, options) => {
-                if(getCurrentInstance()) {
-                    const debounced = debounce(validate, delay, options)
-                    cancelHandlers.push(debounced.cancel)
-                    onScopeDispose(() => {
-                        pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
-                    })
-                    return (eager = false) => {
-                        if (eager || validationTarget.error) debounced()
-                    }
-                }
-            }
-        }
+		if (isFunction(validator) || groupValidationCtx) {
+			let validationTarget = model
+			let validate = model.validate
+			if (groupValidationCtx) {
+				validationTarget = groupValidationCtx.modelGroup
+				validate = groupValidationCtx.validate
+				handleValidation = groupValidationCtx.handleValidation
+			} else {
+				handleValidation = (eager = false) => {
+					if (eager || model.error) model.validate()
+				}
+			}
+			useDebouncedValidation = (delay, options) => {
+				if (getCurrentInstance()) {
+					if (delay > 0) {
+						const debounced = debounce(validate, delay, options)
+						cancelHandlers.push(debounced.cancel)
+						onScopeDispose(() => {
+							pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
+						})
+						return (eager = false) => {
+							if (eager || validationTarget.error) debounced()
+						}
+					} else {
+						return handleValidation
+					}
+				}
+			}
+		}
 
-        privateModelMap.set(model, {
-            hasInteractiveCtx: false,
-            resetInteractiveCtx: false,
-            triggerIfShallow() {
-                if(isShallow(model.ref)) {
-                    triggerRef(model.ref)
-                }
-            },
-            handleValidation,
-            useDebouncedValidation
-        })
+		privateModelMap.set(model, {
+			hasInteractiveCtx: false,
+			resetInteractiveCtx: false,
+			triggerIfShallow() {
+				if (isShallow(model.ref)) {
+					triggerRef(model.ref)
+				}
+			},
+			handleValidation,
+			useDebouncedValidation
+		})
 
-        if(includeExposed) {
-            Object.defineProperty(model, 'exposed', {
-                value: useExposed(),
-                enumerable: true
-            })
-        }
-        if(includeElements) {
-            Object.defineProperty(model, 'elements', {
-                value: useElements(),
-                enumerable: true
-            })
-        }
-        return model
-    }
+		if (includeExposed) {
+			Object.defineProperty(model, 'exposed', {
+				value: useExposed(),
+				enumerable: true
+			})
+		}
+		if (includeElements) {
+			Object.defineProperty(model, 'elements', {
+				value: useElements(),
+				enumerable: true
+			})
+		}
+		return model
+	}
 }

@@ -62,6 +62,8 @@ export const vergil = Object.create(null, {
 
 let template = {
     global: {
+        validationDelay: 300,
+        validationCooldown: 350,
         theme: new Option('brand', inferTheme),
         size: 'md',
         radius: 'md',
@@ -140,6 +142,8 @@ let template = {
         labels: undefined,
         firstWeekday: 0,
         timeFormat: '24',
+        validationDelay: undefined,
+        validationCooldown: undefined,
         theme: new Option(undefined, inferTheme),
         size: undefined,
         radius: undefined,
@@ -185,11 +189,20 @@ let template = {
         radius: undefined,
         spacing: undefined,
     },
+    form: {
+        validationCooldown: undefined,
+    },
+    inputNumber: {
+        validationDelay: undefined,
+        validationCooldown: undefined,
+    },
     inputSearch: {
         btnPosition: 'after',
     },
     inputText: {
         underline: false,
+        validationDelay: undefined,
+        validationCooldown: undefined,
         theme: new Option(undefined, inferTheme),
         size: undefined,
         radius: undefined,
@@ -235,6 +248,7 @@ let template = {
         spacing: undefined,
     },
     slider: {
+        validationDelay: undefined,
         theme: new Option(undefined, inferTheme),
         size: undefined,
         radius: 'full',
@@ -248,6 +262,7 @@ let template = {
     },
     textarea: {
         underline: false,
+        validationDelay: undefined,
         theme: new Option(undefined, inferTheme),
         size: undefined,
         radius: undefined,

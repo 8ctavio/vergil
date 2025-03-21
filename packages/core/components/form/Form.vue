@@ -1,5 +1,6 @@
 <script>
 import { h, mergeProps } from 'vue'
+import { ucFirst } from '../../utilities'
 
 function Errors(props) {
 	const { showErrors } = props
@@ -64,25 +65,34 @@ function Errors(props) {
 
 <script setup>
 import { Badge } from '..'
-import { computed } from 'vue'
+import { vergil } from '../../vergil'
 import { ModelGroup } from '../../functions'
-import { ucFirst } from '../../utilities'
+import { debounce } from '../../utilities'
 import { pull } from '../../utilities/private'
 
 const props = defineProps({
 	fields: ModelGroup,
+	validationCooldown: {
+		type: Number,
+		default: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown,
+	},
 	showErrors: [Boolean, Array],
 	badgeProps: Object
 })
 const emit = defineEmits(['submit', 'invalid'])
 
-function handleSubmit(event) {
-	event.preventDefault()
+const validate = event => {
 	const [isValid, payload] = props.fields.validate(true)
 	emit(isValid ? 'submit' : 'invalid', event, payload)
 }
+const handleValidation = props.validationCooldown > 0
+	? debounce(validate, props.validationCooldown, { eager: true })
+	: validate
 
-const error = computed(() => props.fields.error)
+function handleSubmit(event) {
+	event.preventDefault()
+	handleValidation(event)
+}
 </script>
 
 <template>
@@ -91,7 +101,7 @@ const error = computed(() => props.fields.error)
 			<slot/>
 		</div>
 		<Errors v-bind="props"/>
-		<slot name="submit" :error/>
+		<slot name="submit"/>
 	</form>
 </template>
 

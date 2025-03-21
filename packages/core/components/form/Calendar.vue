@@ -331,7 +331,17 @@ const props = defineProps({
 	},
 	disabled: Boolean,
 
-	//----- Global -----
+	//----- Debounced validation -----
+	validationDelay: {
+		type: Number,
+		default: () => vergil.config.calendar.validationDelay ?? vergil.config.global.validationDelay,
+	},
+	validationCooldown: {
+		type: Number,
+		default: () => vergil.config.calendar.validationCooldown ?? vergil.config.global.validationCooldown,
+	},
+
+	//----- Theme -----
 	descendant: Boolean,
     theme: {
         type: String,
@@ -524,14 +534,14 @@ function updateDateTime(lazyValidation = false) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
 			model.triggerIfShallow()
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
+			(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
 			triggerModelValue(model)
 			// triggerRef(model.ref)
-			(lazyValidation ? validateDebouncedLazy : validateDebouncedEager)(props.eagerValidation)
+			(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 		})
 	}
 }
@@ -653,8 +663,8 @@ const enablementDates = computed(() => {
 
 //-------------------- MODEL --------------------
 const model = useDefineModel({ isCollection: true })
-const validateDebouncedLazy = model.useDebouncedValidation(300)
-const validateDebouncedEager = model.useDebouncedValidation(350, { eager: true })
+const validateWithDelay = model.useDebouncedValidation(props.validationDelay)
+const validateWithCooldown = model.useDebouncedValidation(props.validationCooldown, { eager: true })
 
 model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 	if(Array.isArray(modelValue)) {
