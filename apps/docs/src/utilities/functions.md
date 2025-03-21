@@ -279,7 +279,7 @@ function isFunction(value: any): boolean
 ```js
 function debounce(
     fn: function,
-    delay: number,
+    minWait: number,
     options?: {
         eager?: boolean;
     }
@@ -289,9 +289,9 @@ function debounce(
 #### Parameters
 
 - **`fn`** — Function to debounce.
-- **`delay`** — Time in milliseconds to wait before executing `fn` since the debounced function's last call.
+- **`minWait`** — Time in milliseconds to wait before executing `fn` since the debounced function's last call.
 - `options`
-    - **`eager`** — When set to `true`, `fn` is executed as soon as the debounced function is called *if* `fn` is not scheduled and `delay` milliseconds have elapsed since `fn`'s last execution (or `fn` has not been executed). Defaults to `false`.
+    - **`eager`** — When set to `true`, `fn` is executed as soon as the debounced function is called *if* `fn` is not scheduled and `minWait` milliseconds have elapsed since `fn`'s last execution (or `fn` has not been executed). Defaults to `false`.
 
 #### Return value
 

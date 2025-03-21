@@ -99,6 +99,7 @@ export default {
 					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
 					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
+					{ text: 'useDebounce', link: '/composables/useDebounce' },
 					{ text: 'useElements', link: '/composables/useElements' },
 					{ text: 'useExposed', link: '/composables/useExposed' },
 					{ text: 'useModel', link: '/composables/useModel' },

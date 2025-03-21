@@ -222,27 +222,27 @@ export function isFunction(value){
  * Creates a debounced function.
  * 
  * @param { function } fn - Function to debounce. 
- * @param { number } delay - Time in milliseconds to wait before executing `fn` since the debounced function's last call.
- * @param { boolean } [options.eager] - When set to `true`, `fn` is executed as soon as the debounced function is called *if* `fn` is not scheduled and `delay` milliseconds have elapsed since `fn`'s last execution (or `fn` has not been executed). Defaults to `false`.
+ * @param { number } minWait - Time in milliseconds to wait before executing `fn` since the debounced function's last call.
+ * @param { boolean } [options.eager] - When set to `true`, `fn` is executed as soon as the debounced function is called *if* `fn` is not scheduled and `minWait` milliseconds have elapsed since `fn`'s last execution (or `fn` has not been executed). Defaults to `false`.
  * 
  * @returns { function } Debounced function with `cancel` method to cancel scheduled `fn` execution.
  */
-export function debounce(fn, delay, options = {}) {
+export function debounce(fn, minWait, options = {}) {
     const { eager = false } = options
     
-    let debounced, timeout
+    let debounced, delay
     if(eager) {
         let cooldown
         const task = (thisArg, args) => {
             fn.apply(thisArg, args)
             clearTimeout(cooldown)
-            cooldown = setTimeout(() => cooldown = undefined, delay)
-            timeout = undefined
+            cooldown = setTimeout(() => cooldown = undefined, minWait)
+            delay = undefined
         }
         debounced = function(...args) {
-            if(timeout || cooldown) {
-                clearTimeout(timeout)
-                timeout = setTimeout(task, delay, this, args)
+            if(delay || cooldown) {
+                clearTimeout(delay)
+                delay = setTimeout(task, minWait, this, args)
             } else {
                 task(this, args)
             }
@@ -250,11 +250,11 @@ export function debounce(fn, delay, options = {}) {
     } else {
         const task = Function.prototype.apply.bind(fn)
         debounced = function(...args) {
-            clearTimeout(timeout)
-            timeout = setTimeout(task, delay, this, args)
+            clearTimeout(delay)
+            delay = setTimeout(task, minWait, this, args)
         }
     }
-    debounced.cancel = () => timeout = void clearTimeout(timeout)
+    debounced.cancel = () => delay = void clearTimeout(delay)
     return debounced
 }
 // #endregion
