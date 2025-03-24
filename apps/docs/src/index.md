@@ -18,8 +18,8 @@ hero:
       text: Composables
       link: composables/defineReactiveProperties
     - theme: alt
-      text: Utilities
-      link: utilities/functions
+      text: Functions
+      link: functions/isModel
 
 features:
   - title: Components

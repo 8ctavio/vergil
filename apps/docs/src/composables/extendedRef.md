@@ -45,7 +45,7 @@ The `extendedRef` composable employs [`defineReactiveProperties`](/composables/d
 
 ### Additional features
 
-The `extendedRef` composable does not directly modifies a ref object, but creates and returns an [`ExtendedRef`](/utilities/classes#extendedref) object instance which extends the [`ExtendedReactive`](/utilities/classes#extendedreactive) class. Therefore, a `refs` index is also available in an extendedRef.
+The `extendedRef` composable does not directly modifies a ref object, but creates and returns an [`ExtendedRef`](#extendedref-1) object instance which extends the [`ExtendedReactive`](/composables/extendedReactive#extendedreactive-1) class. Therefore, a `refs` index is also available in an extendedRef.
 
 `ExtendedRef` defines two additional properties: `value` and `ref`. The `ref` property stores the extendedRef's underlying ref object. The `value` property, on the other hand, is defined with accessors (getter and setter) to read from and write to that inner ref's value.
 

@@ -125,16 +125,9 @@ export default {
 				items: [
 					{ text: 'isModel', link: '/functions/isModel' },
 					{ text: 'ModelGroup', link: '/functions/ModelGroup' },
+					{ text: 'Utilities', link: '/functions/utilities' }
 				]
 			},
-			{
-				text: 'Utilities',
-				collapsed: true,
-				items: [
-					{ text: 'Functions', link: '/utilities/functions' },
-					{ text: 'Regex', link: '/utilities/regex' },
-				]
-			}
 		],
 
 		socialLinks: [

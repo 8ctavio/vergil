@@ -43,7 +43,7 @@ const extendedB = extendedReactive(withDescriptor => ({
 
 ## Description
 
-The `extendedReactive` composable creates a new [`ExtendedReactive`](/utilities/classes#extendedreactive) object instance, defines on it the specified properties with [`defineReactiveProperties`](/composables/defineReactiveProperties), and returns it.
+The `extendedReactive` composable creates a new [`ExtendedReactive`](#extendedreactive-1) object instance, defines on it the specified properties with [`defineReactiveProperties`](/composables/defineReactiveProperties), and returns it.
 
 The `extendedReactive`'s parameters correspond to the `properties` and `options` parameters of `defineReactiveProperties`, respectively. See [Property Definition](/composables/defineReactiveProperties#property-definition) to learn how to define properties.
 
