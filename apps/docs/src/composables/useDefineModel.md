@@ -227,8 +227,15 @@ An `ExtendedRef` object. Additional included methods are:
 		triggerRef(model.ref)
 	}
 	```
-- `useDebouncedValidate`: Creates a debounced version of the `model.validate` method. Receives two parameters, `delay` and `options`, corresponding to those of the [`debounce`](/utilities/functions#debounce) function. Additionally, the `cancel` method of created debounced functions is automatically called when the model's value is validated (with `model.validate`) or model errors are cleared (with `model.clear`).
+- `handleValidation`: Validates its associated *validation target* if it has errors. The validation target is the model if it does not belong to a [ModelGroup](/functions/modelgroup) or its ModelGroup ancestors do not have [group validators](/functions/modelgroup#model-group-validation). Otherwise, the validation target is the model's eldest ModelGroup ancestor with a group validator. In addition, `handleValidation` accepts a single boolean `eager` parameter that defaults to `false`; when set to `true`, the validation target is validated even if it does not have errors. The following is an approximation of this method's implementation.
 	```js
-	const debouncedValidate = model.useDebouncedValidate(300)
-	debouncedValidate() // debounced validation
+	handleValidation = (eager = false) => {
+		if (eager || validationTarget.error) validationTarget.validate()
+	}
+	```
+	This utility method helps to handle a component's model validation in response to component interaction.
+- `useDebouncedValidation`: Creates a method similar to `handleValidation`, but where the validation target's validation is debounced. Receives two parameters, `minWait` and `options`, corresponding to those of the [`debounce`](/utilities/functions#debounce) function. Additionally, the created debounced function's `cancel` method is automatically called when the model's value is validated (with `model.validate`) or model errors are cleared (with `model.clear`).
+	```js
+	const handleDebouncedValidation = model.useDebouncedValidation(300)
+	handleDebouncedValidation() // debounced validation
 	```

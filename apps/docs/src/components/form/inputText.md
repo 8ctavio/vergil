@@ -276,6 +276,10 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
     <InputText disabled placeholder="Disabled" underline/>
 </Demo>
 
+### Enter validation <Badge><pre>prevent-enter-validation: boolean</pre></Badge>
+
+By default, `InputText`'s is automatically validated when the `keydown` event is fired with the `'Enter'` key. However, validation on enter-key press, is disabled if the underlying `input` element belongs to a `form` element, or if the `prevent-enter-validation` prop is set to `true`.
+
 <style>
 .fixed-width{
     width: 150px;
@@ -347,7 +351,11 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
+| `preventEnterValidation` | `boolean` | |
+| `validationDelay` | `number` | `300` |
+| `validationCooldown` | `number` | `350` |
 
 ### Configuration options
 
@@ -356,6 +364,8 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
 | `inputText.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | -------------------- | ---- | ------- | :------: |
 | `underline` | `boolean` | | |
+| `validationDelay` | `number` | | ✅ |
+| `validationCooldown` | `number` | | ✅ |
 | `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
 | `size` | [`size`](/theme#the-size-prop) | | ✅ |
 | `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |

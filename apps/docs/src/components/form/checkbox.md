@@ -259,6 +259,7 @@ The `description` slot may be use instead. The slot content overrides the `descr
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
 ### Configuration options

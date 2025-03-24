@@ -8,7 +8,7 @@ function Errors(props) {
 		let filter
 		if(Array.isArray(showErrors)) {
 			const fieldPaths = [...showErrors]
-			filter = (path, isGroup, actions) => {
+			filter = (actions, path, isGroup) => {
 				if(isGroup) {
 					const subPath = path + '.'
 					for(let i=0; i<fieldPaths.length; i++) {
@@ -71,7 +71,10 @@ import { debounce } from '../../utilities'
 import { pull } from '../../utilities/private'
 
 const props = defineProps({
-	fields: ModelGroup,
+	fields: {
+		type: ModelGroup,
+		required: true
+	},
 	validationCooldown: {
 		type: Number,
 		default: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown,

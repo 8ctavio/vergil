@@ -451,6 +451,7 @@ As a function, `options-attributes` is called for each option, receives the comp
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
 ### Configuration options

@@ -57,11 +57,21 @@ Nevertheless, `v-model` is not required for FFCs to properly work. To the contra
 These alternative methods to provide model values and validators are only resorted to if a model is not provided with `v-model`.
 :::
 
-### Model-value validation
+### Model (group) validation
 
-FFCs provided with a `validator` function are able to automatically validate their model-values upon user interaction. In general, the events that trigger model-value validation are different for each FFC.
+FFCs may be considered to have an associated *validation target*. This validation target is the FFC's model if it does not belong to a [ModelGroup](/functions/modelgroup) or its ModelGroup ancestors do not have [group validators](/functions/modelgroup#model-group-validation). Otherwise, the validation target is the model's eldest ModelGroup ancestor with a group validator.
 
-FFCs perform automatic model-value validation in a *lazy* or *optimistic* manner, that is, only while there are current validation errors. Therefore, models should first validate their values programmatically to reveal possible validation errors.
+FFCs automatically validate their validation targets upon user interaction. In general, the events that trigger validation are different for each FFC.
+
+By default, FFCs automatic validation is performed in a *lazy* or *optimistic* manner, that is, only while the validation target has errors. Therefore, validation should first be performed programmatically to reveal possible validation errors.
+
+Conversely, FFCs support an `eager-validation` boolean prop that allows them to perform validation in an *eager* or *pessimistic* manner such that validation is always performed upon user interaction, regardless of whether errors have been previously encountered.
+
+### Debounced validation
+
+Some FFCs' automatic validation may be debounced for certain interactions. Moreover, validation debouncing may be lazy or eager (see [`debounce`](/utilities/functions#debounce)) depending on the event that triggered it. Typically, lazy debouncing is performed for `'input'` events, while eager debouncing is used for `'change'` or `'keydown'`-with-`'Enter'`-key events.
+
+FFCs that perform lazy or eager validation debouncing accept, respectively, `validation-delay` and `validation-cooldown` props to adjust the corresponding, underlying debounced function's [`minWait`](/utilities/functions#debounce) parameter.
 
 ## Exposed data
 

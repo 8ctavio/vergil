@@ -356,6 +356,7 @@ const btnClearProps = {
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
 ### Configuration options

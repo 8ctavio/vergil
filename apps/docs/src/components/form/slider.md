@@ -237,7 +237,9 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
+| `validationDelay` | `number` | `300` |
 
 ### Configuration options
 
@@ -245,6 +247,7 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 
 | `slider.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | ----------------- | ---- | ------- | :------: |
+| `validationDelay` | `number` | | ✅ |
 | `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
 | `size` | [`size`](/theme#the-size-prop) | | ✅ |
 | `radius` | [`radius`](/theme#the-radius-prop) | `'full'` | |

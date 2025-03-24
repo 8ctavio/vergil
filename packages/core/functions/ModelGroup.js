@@ -14,14 +14,14 @@ function* generateModelErrors(filter, path = '', clearance = 0) {
 		const value = this[field]
 		const fullPath = (path && (path + ".")) + field
 		if(value instanceof ModelGroup) {
-			const action = !isFunction(filter) || (clearance === 2 ? 2 : filter(fullPath, true, filterActions))
+			const action = !isFunction(filter) || (clearance === 2 ? 2 : filter(filterActions, fullPath, true, value))
 			if(action === 1 || action === 2) {
 				yield* generateModelErrors.call(value, filter, fullPath, action)
 			} else if(action) {
 				yield* generateModelErrors.call(value, filter, fullPath)
 			}
 		} else {
-			const include = !isFunction(filter) || clearance > 0 || filter(fullPath, false, filterActions)
+			const include = !isFunction(filter) || clearance > 0 || filter(filterActions, fullPath, false, value)
 			if(include && value.error) {
 				yield [value.errors.value, field, fullPath, value]
 			}
@@ -45,6 +45,10 @@ function getNestedModel(modelGroup, path) {
 }
 
 export let groupValidationCtx
+
+/**
+ * Creates a collection of component models
+ */
 export class ModelGroup {
 	#validator
 	#isValid
@@ -105,22 +109,6 @@ export class ModelGroup {
 			this[field].reset()
 		}
 	}
-	get error() {
-		for(const field of Object.keys(this)) {
-			if (this[field].error) return true
-		}
-		return false
-	}
-	clear() {
-		for(const field of Object.keys(this)) {
-			this[field].clear()
-		}
-	}
-	forErrors(callback, filter) {
-		for(const args of generateModelErrors.call(this, filter)) {
-			callback(...args)
-		}
-	}
 	getPayload() {
 		const payload = {}
 		for(const field of Object.keys(this)) {
@@ -135,7 +123,6 @@ export class ModelGroup {
 		return payload
 	}
 	validate(includePayload = false) {
-		console.log('validating...')
 		let result = true
 		const hasValidator = isFunction(this.#validator)
 		if(includePayload || hasValidator) {
@@ -195,6 +182,22 @@ export class ModelGroup {
 				result = this[field].validate() && result
 			}
 			return result
+		}
+	}
+	clear() {
+		for(const field of Object.keys(this)) {
+			this[field].clear()
+		}
+	}
+	get error() {
+		for(const field of Object.keys(this)) {
+			if (this[field].error) return true
+		}
+		return false
+	}
+	forErrors(callback, filter) {
+		for(const args of generateModelErrors.call(this, filter)) {
+			callback(...args)
 		}
 	}
 }

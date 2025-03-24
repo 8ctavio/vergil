@@ -242,6 +242,7 @@ The `value-off` prop is the value assigned to the `Switch`'s model value when it
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
 ### Configuration options

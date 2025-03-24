@@ -36,6 +36,8 @@ Global configuration options may be overwritten under the `global` root-level co
 
 | `global.<option>` | type | default |
 | ----------------- | ---- | ------- |
+| `validationDelay` | `number` | `300` |
+| `validationCooldown` | `number` | `350` |
 | `theme` | [`theme`](/theme#the-theme-prop) | `'brand'` |
 | `size` | [`size`](/theme#the-size-prop) | `'md'` |
 | `radius` | [`radius`](/theme#the-radius-prop) | `'md'` |

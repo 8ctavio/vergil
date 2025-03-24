@@ -155,21 +155,22 @@ export function useModel(value, options = {}) {
 		}
 
 		if (isFunction(validator) || groupValidationCtx) {
-			let validationTarget = model
-			let validate = model.validate
+			let validationTarget, validate
 			if (groupValidationCtx) {
 				validationTarget = groupValidationCtx.modelGroup
 				validate = groupValidationCtx.validate
 				handleValidation = groupValidationCtx.handleValidation
 			} else {
+				validationTarget = model
+				validate = model.validate
 				handleValidation = (eager = false) => {
 					if (eager || model.error) model.validate()
 				}
 			}
-			useDebouncedValidation = (delay, options) => {
+			useDebouncedValidation = (minWait, options) => {
 				if (getCurrentInstance()) {
-					if (delay > 0) {
-						const debounced = debounce(validate, delay, options)
+					if (minWait > 0) {
+						const debounced = debounce(validate, minWait, options)
 						cancelHandlers.push(debounced.cancel)
 						onScopeDispose(() => {
 							pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))

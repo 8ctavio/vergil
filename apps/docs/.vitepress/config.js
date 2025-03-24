@@ -79,6 +79,7 @@ export default {
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
 					{ text: 'DatePicker', link: '/components/form/datePicker' },
+					{ text: 'Form', link: '/components/form/form' },
 					{ text: 'InputNumber', link: '/components/form/inputNumber' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
@@ -116,6 +117,13 @@ export default {
 							{ text: 'useDefineModel', link: '/composables/useDefineModel' },
 						]
 					},
+				]
+			},
+			{
+				text: 'Functions',
+				collapsed: true,
+				items: [
+					{ text: 'ModelGroup', link: '/functions/ModelGroup' },
 				]
 			},
 			{

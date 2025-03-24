@@ -250,8 +250,9 @@ The maximum string length that can be entered into the textarea.
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
-
+| `validationDelay` | `number` | `300` |
 
 ### Configuration options
 
@@ -260,6 +261,7 @@ The maximum string length that can be entered into the textarea.
 | `textarea.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | -------------------- | ---- | ------- | :------: |
 | `underline` | `boolean` | | |
+| `validationDelay` | `number` | | ✅ |
 | `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
 | `size` | [`size`](/theme#the-size-prop) | | ✅ |
 | `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |

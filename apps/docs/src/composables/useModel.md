@@ -145,7 +145,7 @@ watchEffect(() => {
 
 The `validate` method allows to invoke a model's `validator` function: it first empties the model's `errors` array and then calls the provided `validator`. If no validation errors are collected, `validate` returns `true`, and `false` otherwise.
 
-If a model-value is revalidated and has not changed since the last validation, however, `validate` does not invoke `validator` but simply returns the previous validation result. Nevertheless, `model.validate` accepts a single `force` boolean argument to force the execution of `validator` if required.
+If a model-value is revalidated and has not changed since the last validation, however, `validate` does not invoke `validator` but simply returns the previous validation result. Nevertheless, `model.validate` accepts as its first parameter a `force` boolean argument to force the execution of `validator` if required.
 
 ```js
 const model = useModel('', { validator: () => { /* ... */ } })
@@ -154,6 +154,8 @@ isValid = model.validate()      // validator executed
 isValid = model.validate()      // validator not executed
 isValid = model.validate(true)  // validator forced to execute
 ```
+
+The `model.validate` second argument is a `trigger` boolean to indicate whether to trigger the `model.errors` ref, and defaults to `true`.
 
 ### `model.clear`
 

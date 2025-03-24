@@ -462,6 +462,7 @@ The `name` prop is used as the `name` attribute for all the `RadioGroup`'s `Radi
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
 ### Configuration options

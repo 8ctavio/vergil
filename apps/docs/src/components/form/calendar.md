@@ -469,7 +469,10 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
 | `validator` | `function` | |
+| `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
+| `validationDelay` | `number` | `300` |
+| `validationCooldown` | `number` | `350` |
 
 ### Configuration options
 
@@ -481,6 +484,8 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 | `labels` |`object` | | |
 | `firstWeekday` |`number` | `0` | |
 | `timeFormat` | `'24' \| '12'` | `'24'` | |
+| `validationDelay` | `number` | | ✅ |
+| `validationCooldown` | `number` | | ✅ |
 | `theme` | [`theme`](/theme#the-theme-prop) | | ✅ |
 | `size` | [`size`](/theme#the-size-prop) | | ✅ |
 | `radius` | [`radius`](/theme#the-radius-prop) | | ✅ |
