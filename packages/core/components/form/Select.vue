@@ -9,8 +9,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, usePopover } from '../../composables'
-import { prune, isObject } from '../../utilities'
-import { isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

@@ -34,8 +34,7 @@ import FormField from './FormField.vue'
 import { provide, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isFunction, isObject } from '../../utilities'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
+import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

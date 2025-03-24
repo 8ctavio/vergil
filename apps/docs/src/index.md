@@ -29,7 +29,7 @@ features:
   - title: Component models
     details: Convenient API to establish bidirectional model-component bonds
   - title: Utilities
-    details: Various utility functions and constants
+    details: Various utility functions
   - title: Theme
     details: Carefully designed theme with accessible color palettes
   - title: Configurable

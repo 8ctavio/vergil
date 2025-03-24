@@ -1,5 +1,5 @@
 <script>
-import { hasDate, isDate, padLeadingZeros } from '../../utilities/private'
+import { hasDate, isDate, padLeadingZeros } from '../../utilities'
 
 function DatePickerWrapper(props, { slots }) {
 	const position = props.sideButtonPosition ?? vergil.config.datePicker.sideButtonPosition
@@ -19,8 +19,7 @@ import MiniMarkup from '../private/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, usePopover } from '../../composables'
-import { isFunction, isObject } from '../../utilities'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()

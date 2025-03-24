@@ -5,8 +5,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
-import { isObject } from '../../utilities'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

@@ -1,5 +1,5 @@
 import { shallowRef, toRef, isRef } from 'vue'
-import { isFunction } from '..'
+import { isFunction } from './public'
 
 export function normalizeRef(value, shallow = false) {
 	return isRef(value)

@@ -3,8 +3,7 @@ import ToggleButton from '../private/ToggleButton.vue'
 import { toRef, computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isObject } from '../../utilities'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities/private'
+import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

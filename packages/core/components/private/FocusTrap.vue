@@ -1,6 +1,6 @@
 <script setup>
 import { useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
-import { FocusTrap, focusElement, isTabKey, isTabbable, getFirstTabbable, getLastTabbable } from '../../utilities/private'
+import { FocusTrap, focusElement, isTabKey, isTabbable, getFirstTabbable, getLastTabbable } from '../../utilities'
 
 const { autofocus, focusOnUnmount } = defineProps({
     autofocus: {

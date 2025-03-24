@@ -1,6 +1,6 @@
 <script setup>
 import { vergil } from '../vergil'
-import { isValidRadius, isValidSize, isValidSpacing } from '../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing } from '../utilities'
 
 defineProps({
     descendant: Boolean,

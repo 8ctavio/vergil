@@ -1,5 +1,5 @@
-import { isWatchSource } from '../utilities'
 import { watchUntil } from './watchUntil'
+import { isWatchSource } from '../utilities'
 
 /**
  * Watches `source` until a condition is fulfilled. The condition can be specified as a chained method.

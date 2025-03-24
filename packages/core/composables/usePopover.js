@@ -11,7 +11,7 @@ import {
 	isTabKey, isEscapeKey,
 	focusElement, getFirstTabbable, hasTabbableBefore, hasTabbableAfter,
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
-} from '../utilities/private'
+} from '../utilities'
 
 const usePositionArrow = arrow => ({
 	name: 'positionArrow',

@@ -4,7 +4,7 @@ import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { onMounted } from 'vue'
 import { popupMeta, closePopup } from '.'
-import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '../../utilities/private'
+import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '../../utilities'
 
 const { disabled } = defineProps({
     title: String,

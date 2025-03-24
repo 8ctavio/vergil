@@ -4,7 +4,7 @@ import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities/private'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

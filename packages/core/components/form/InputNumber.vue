@@ -3,8 +3,7 @@ import InputTextBase from '../private/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { separateThousands } from '../../utilities'
-import { clamp } from '../../utilities/private'
+import { separateThousands, clamp } from '../../utilities'
 
 const props = defineProps({
 	//----- Model -----

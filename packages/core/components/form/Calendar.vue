@@ -1,5 +1,5 @@
 <script>
-import { hasDate, isDate, padLeadingZeros } from '../../utilities/private'
+import { hasDate, isDate, padLeadingZeros } from '../../utilities'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 
@@ -222,9 +222,10 @@ import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, useDefineElements } from '../../composables'
-import { ucFirst, everyKeyInObject, isFunction } from '../../utilities'
-import { inferTheme } from '../../utilities/private'
-import { clamp, isInput, isEscapeKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import {
+	isFunction, ucFirst, everyKeyInObject, clamp, isInput, isEscapeKey,
+	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
+} from '../../utilities'
 
 const props = defineProps({
 	//----- Model -----

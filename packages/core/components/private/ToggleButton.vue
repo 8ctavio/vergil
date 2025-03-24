@@ -1,6 +1,6 @@
 <script setup>
 import MiniMarkup from './MiniMarkup'
-import { vPreventClickSelection } from '../../utilities/private'
+import { vPreventClickSelection } from '../../utilities'
 
 defineProps({
     type: {

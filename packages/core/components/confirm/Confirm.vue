@@ -6,7 +6,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."
-import { FocusTrap, isEscapeKey, isTabKey, noop } from '../../utilities/private'
+import { FocusTrap, isEscapeKey, isTabKey, noop } from '../../utilities'
 
 const size = vergil.config.confirm.size ?? vergil.config.global.size
 const radius = vergil.config.confirm.radius ?? vergil.config.global.radius

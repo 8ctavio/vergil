@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { vergil } from '../../vergil'
-import { inferTheme } from "../../utilities/private"
+import { inferTheme } from "../../utilities"
 
 const toasters = reactive({})
 function toast(...args){

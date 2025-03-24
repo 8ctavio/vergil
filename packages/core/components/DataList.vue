@@ -3,7 +3,7 @@ import Badge from './Badge.vue'
 import MiniMarkup from './private/MiniMarkup'
 import { ref, h } from 'vue'
 import { vergil } from '../vergil'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities/private'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities'
 
 defineProps({
 	data: Object,

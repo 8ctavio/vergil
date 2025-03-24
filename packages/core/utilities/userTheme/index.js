@@ -1,6 +1,6 @@
 import { customRef } from 'vue'
 import { vergil } from '../../vergil'
-import { isValidColor } from '../private'
+import { isValidColor } from '..'
 
 const cssVars = [
     '--c-user-solid-1',

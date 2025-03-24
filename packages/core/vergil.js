@@ -1,5 +1,4 @@
-import { isObject, isPlainObject } from './utilities'
-import { inferTheme } from './utilities/private'
+import { inferTheme, isObject, isPlainObject } from './utilities'
 
 class Option {
     constructor(value, modifier = v => v) {

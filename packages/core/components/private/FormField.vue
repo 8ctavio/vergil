@@ -1,7 +1,7 @@
 <script setup>
 import MiniMarkup from "./MiniMarkup"
 import { isRef, computed } from 'vue'
-import { inferTheme } from "../../utilities/private"
+import { inferTheme } from "../../utilities"
 
 const props = defineProps({
     label: {

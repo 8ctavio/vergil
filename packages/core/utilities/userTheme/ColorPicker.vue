@@ -2,8 +2,7 @@
 import { Btn, Radio } from '../../components'
 import { useId } from 'vue'
 import { usePopover } from '../../composables'
-import { ucFirst } from '..'
-import { isValidColor } from '../private'
+import { ucFirst, isValidColor } from '..'
 import { userThemeColor } from '.'
 
 const name = useId()

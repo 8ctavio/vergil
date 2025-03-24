@@ -3,8 +3,7 @@ import { useModel, useElements, useExposed } from '.'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
 import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
 import { isModel } from '../functions'
-import { isFunction, isObject } from '../utilities'
-import { noop } from '../utilities/private'
+import { isFunction, isObject, noop } from '../utilities'
 
 const symExt_controller = Symbol('external:controller')
 const symInt_trigger = Symbol('internal:triggerCbs')

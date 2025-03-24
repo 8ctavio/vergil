@@ -1,6 +1,6 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
 import { watchControlledSync } from "./watchControlledSync"
-import { noop } from "../../utilities/private"
+import { noop } from "../../utilities"
 
 const isScheduled = Symbol('isScheduled')
 

@@ -4,8 +4,7 @@ import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isFunction } from '../../utilities'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities/private'
+import { isFunction, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

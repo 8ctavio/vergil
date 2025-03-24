@@ -5,8 +5,7 @@ import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
 import { isModel } from '../functions'
 import { groupValidationCtx } from '../functions/ModelGroup'
-import { debounce, isFunction } from '../utilities'
-import { normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities/private'
+import { debounce, isFunction, normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities'
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop

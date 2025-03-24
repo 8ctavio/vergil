@@ -1,4 +1,4 @@
-import { isPlainObject } from ".."
+import { isPlainObject } from "./public"
 import { isDate } from "./calendar"
 
 export const uniqueKey = Object.preventExtensions({})

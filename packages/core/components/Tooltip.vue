@@ -2,7 +2,7 @@
 import MiniMarkup from './private/MiniMarkup'
 import { vergil } from '../vergil'
 import { usePopover } from '../composables'
-import { isValidPlacement } from '../utilities/private'
+import { isValidPlacement } from '../utilities'
 
 const { arrow, delay, padding, placement, position, offset, trigger } = defineProps({
 	text: String,
