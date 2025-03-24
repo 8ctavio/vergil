@@ -1,5 +1,5 @@
 import { toRaw, getCurrentInstance, onUnmounted } from "vue"
-import { isModel } from "./useModel"
+import { isModel } from "../functions"
 import { isFunction, isPlainObject } from "../utilities"
 import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./private"
 

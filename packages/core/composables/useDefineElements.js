@@ -1,6 +1,6 @@
 import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
-import { isModel } from "./useModel"
 import { extendedReactive } from "./extendedReactivity/extendedReactive"
+import { isModel } from "../functions"
 import { isFunction } from "../utilities"
 import { definedInstances, definedElements, symTrigger, symHasInstance } from "./private"
 

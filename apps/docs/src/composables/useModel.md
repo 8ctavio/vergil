@@ -280,23 +280,3 @@ function useModel<T>(
 #### Return value
 
 An `ExtendedRef` object.
-
-## Utilities
-
-### Usage
-
-```js
-import { <util> } from '@8ctavio/vergil'
-```
-
-### `isModel`
-
-> Assesses whether a value is a model created by `useModel`.
-
-```js
-function isModel(value: any): boolean
-```
-
-#### Return value
-
-`true` if `value` is a model created by `useModel`.

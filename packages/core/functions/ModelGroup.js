@@ -1,5 +1,6 @@
 import { triggerRef, markRaw, toRaw } from 'vue'
-import { useModel, isModel } from "../composables"
+import { useModel } from "../composables"
+import { isModel } from '.'
 import { isObject, isPlainObject, isFunction } from "../utilities"
 
 let validationData = null

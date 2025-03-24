@@ -1,8 +1,8 @@
 import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel, useElements, useExposed } from '.'
-import { isExtendedRef } from './extendedReactivity'
 import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
 import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
+import { isModel } from '../functions'
 import { isFunction, isObject } from '../utilities'
 import { noop } from '../utilities/private'
 
@@ -59,9 +59,7 @@ export function useDefineModel(options = {}) {
                 ? Object.getPrototypeOf(modelValue)
                 : modelValue
             : null
-        const isValidModel = modelCandidate !== null
-            && Object.hasOwn(modelCandidate, '__v_isModel')
-            && isExtendedRef(modelCandidate)
+        const isValidModel = isModel(modelCandidate, true)
         const model = isValidModel
             ? modelCandidate
             : isFunction(rawProps['onUpdate:modelValue'])

@@ -123,6 +123,7 @@ export default {
 				text: 'Functions',
 				collapsed: true,
 				items: [
+					{ text: 'isModel', link: '/functions/isModel' },
 					{ text: 'ModelGroup', link: '/functions/ModelGroup' },
 				]
 			},
