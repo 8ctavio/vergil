@@ -31,7 +31,7 @@ function createOptionVNode(props, option, key) {
 
 <script setup>
 import FormField from './FormField.vue'
-import { toRef, provide, h } from 'vue'
+import { provide, h } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isFunction, isObject } from '../../utilities'
@@ -55,6 +55,7 @@ const props = defineProps({
     },
     ['onUpdate:modelValue']: Function,
     validator: Function,
+    eagerValidation: Boolean,
     elements: Object,
 
     //----- Component specific -----
@@ -134,8 +135,9 @@ const elements = useDefineElements(['options'])
 const model = useDefineModel({ isCollection: true })
 provide(`${props.type}-group-props`, {
     model,
-    name: toRef(() => props.name),
-    disabled: toRef(() => props.disabled),
+    get name() { return props.name },
+    get eagerValidation() { return props.eagerValidation },
+    get disabled() { return props.disabled },
 })
 
 function Options({ options }) {

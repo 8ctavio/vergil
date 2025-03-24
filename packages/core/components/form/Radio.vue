@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, inject } from 'vue'
+import { toRef, computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -71,6 +71,7 @@ const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : 
 
 const elements = useDefineElements(['input'])
 const model = useDefineModel()
+const eagerValidation = toRef(() => props.eagerValidation || Boolean(groupProps?.eagerValidation))
 
 if(props.checked && model.value === '') {
     model.value = props.value
@@ -82,7 +83,7 @@ model.onExternalUpdate(modelValue => {
 function handleChange(event) {
     if(event.target.checked) {
         model.update(event.target.value)
-        model.handleValidation(props.eagerValidation)
+        model.handleValidation(eagerValidation.value)
     }
 }
 
@@ -109,8 +110,8 @@ const themeClass = computed(() => {
                 type="radio"
                 :ref="elements.refs.input"
                 :value
-                :name="name || groupProps?.name.value"
-                :disabled="disabled || groupProps?.disabled.value"
+                :name="name || groupProps?.name"
+                :disabled="disabled || groupProps?.disabled"
                 @change="handleChange"
             >
         </template>

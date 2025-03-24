@@ -1,6 +1,6 @@
 <script setup>
 import ToggleButton from '../private/ToggleButton.vue'
-import { computed, inject } from 'vue'
+import { toRef, computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject } from '../../utilities'
@@ -75,6 +75,7 @@ const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : 
 
 const elements = useDefineElements(['input'])
 const model = useDefineModel({ isCollection: true })
+const eagerValidation = toRef(() => props.eagerValidation || Boolean(groupProps?.eagerValidation))
 
 if(props.checked) {
     if(Array.isArray(model.value)) {
@@ -99,16 +100,16 @@ const handleChange = model.updateDecorator(event => {
             if(!event.target.checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
-                model.handleValidation(props.eagerValidation)
+                model.handleValidation(eagerValidation.value)
             }
         } else if(event.target.checked) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
-            model.handleValidation(props.eagerValidation)
+            model.handleValidation(eagerValidation.value)
         }
     } else {
         model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
-        model.handleValidation(props.eagerValidation)
+        model.handleValidation(eagerValidation.value)
     }
 })
 
@@ -134,7 +135,7 @@ const themeClass = computed(() => {
                 type="checkbox"
                 :ref="elements.refs.input"
                 :value="valueChecked"
-                :disabled="disabled || groupProps?.disabled.value"
+                :disabled="disabled || groupProps?.disabled"
                 @change="handleChange"
             >
         </template>
