@@ -75,7 +75,7 @@ Position of the built-in search button. The prop for the button in the selected 
 
 The prop for the other button can be normally passed.
 
-```vue-html
+```vue
 <InputSearch
     btn-position="before"
     :btn-before="{
@@ -96,10 +96,6 @@ The prop for the other button can be normally passed.
         }"
     />
 </Demo>
-
-:::info
-The `btn-position` prop does not support reactive values.
-:::
 
 ## Events
 

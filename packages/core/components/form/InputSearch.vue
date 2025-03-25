@@ -1,8 +1,8 @@
 <script setup>
 import InputText from './InputText.vue'
-import { computed, shallowRef, nextTick } from 'vue'
+import { shallowRef, triggerRef, computed, watchEffect, nextTick } from 'vue'
 import { vergil } from '../../vergil'
-import { useDefineModel, useDefineExposed, extendedReactive } from '../../composables'
+import { useDefineModel, useDefineExposed } from '../../composables'
 import { ucFirst } from '../../utilities'
 
 const props = defineProps({
@@ -78,24 +78,26 @@ const icon = computed(() => {
         : props.iconClear
 })
 
-/**
- * @Note reactive btnPosition
- *  const btnProps = shallowRef({})
- *  watch(() => props.btnPosition, p => {
- *      btnProps.value = {
- *          // Add updated properties
- *      }
- *  })
- */
-const btnPositionFlag = props.btnPosition === 'after'
-const btnPositionName = ucFirst(props.btnPosition)
-const btnProps = extendedReactive(withDescriptor => ({
-    type: 'button',
-    iconLeft: btnPositionFlag ? icon : props[`btn${btnPositionName}`]?.iconLeft,
-    iconRight: btnPositionFlag ? props[`btn${btnPositionName}`]?.iconRight : icon,
-    loading: loader,
-    onClick: withDescriptor({
-        value() {
+const btnData = {}
+const btnDataSignal = shallowRef(btnData)
+watchEffect(() => {
+    const position = props.btnPosition
+    btnData.searchBtnProp = `btn${ucFirst(position)}`
+    btnData.normalBtnProp = position === 'before' ? 'btnAfter' : 'btnBefore'
+    btnData.normalBtnProps = props[btnData.normalBtnProp]
+    triggerRef(btnDataSignal)
+})
+
+const searchBtnProps = computed(() => {
+    const position = props.btnPosition
+    const btnProps = props[`btn${ucFirst(position)}`] ?? {}
+    btnProps.variant ??= 'subtle'
+    btnProps.outline ??= 'subtle'
+    const searchBtnProps = {
+        ...btnProps,
+        type: 'button',
+        icon: undefined,
+        onClick() {
             if(model.value){
                 if(model.value === lastSearch.value){
                     emit('clear')
@@ -107,17 +109,29 @@ const btnProps = extendedReactive(withDescriptor => ({
             } else {
                 lastSearch.value = ''
             }
+        }
+    }
+
+    /**
+     * Since icon and loader change frequently, it is desired to
+     * prevent creating search button props objects every time they
+     * change. Ideally, there would be better support for ref
+     * objects. Instead, accessor getters are defined to manually
+     * unwrap refs.
+     */
+    Object.defineProperties(searchBtnProps, {
+        [position === 'after' ? 'iconLeft' : 'iconRight']: {
+            get: () => icon.value,
+            enumerable: true
         },
-        enumerable: true
-    }),
-    label: props[`btn${btnPositionName}`]?.label,
-    variant: props[`btn${btnPositionName}`]?.variant ?? 'subtle',
-    ghost: props[`btn${btnPositionName}`]?.ghost,
-    outline: props[`btn${btnPositionName}`]?.outline ?? 'subtle',
-    underline: props[`btn${btnPositionName}`]?.underline,
-    fill: props[`btn${btnPositionName}`]?.fill,
-    squared: props[`btn${btnPositionName}`]?.squared,
-}))
+        loading: {
+            get: () => loader.value,
+            enumerable: true
+        }
+    })
+
+    return searchBtnProps
+})
 
 useDefineExposed({
     clear() {
@@ -134,8 +148,8 @@ useDefineExposed({
     <InputText
         class="input-search"
         :model-value="model"
-        :btn-before="btnPositionFlag ? btnBefore : btnProps"
-        :btn-after="btnPositionFlag ? btnProps : btnAfter"
+        :[btnDataSignal.searchBtnProp]="searchBtnProps"
+        :[btnDataSignal.normalBtnProp]="btnDataSignal.normalBtnProps"
         :disabled="disabled || loader"
         @keyup.enter="handleEnter"
     />
