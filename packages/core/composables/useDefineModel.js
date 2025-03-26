@@ -1,9 +1,8 @@
 import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel, useElements, useExposed } from '.'
-import { defineReactiveProperties } from './extendedReactivity/defineReactiveProperties'
-import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
 import { isModel } from '../functions'
 import { isFunction, isObject, noop } from '../utilities'
+import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
 
 const symExt_controller = Symbol('external:controller')
 const symInt_trigger = Symbol('internal:triggerCbs')
@@ -40,299 +39,304 @@ const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
  *  ```
  */
 export function useDefineModel(options = {}) {
-    const instance = getCurrentInstance()
-    if(instance) {
-        const {
-            isCollection = false,
-            includeElements = false,
-            includeExposed = false
-        } = options
+	const instance = getCurrentInstance()
+	if (!instance) return
+	const {
+		isCollection = false,
+		includeElements = false,
+		includeExposed = false
+	} = options
 
-        const { props } = instance
-        const rawProps = toRaw(props)
-        const { modelValue } = rawProps
+	const { props } = instance
+	const rawProps = toRaw(props)
+	const { modelValue } = rawProps
 
-        let mayBeComponentModel = false
-        const modelCandidate = isObject(modelValue)
-            ? (mayBeComponentModel = Object.hasOwn(modelValue, '__v_isComponentModel'))
-                ? Object.getPrototypeOf(modelValue)
-                : modelValue
-            : null
-        const isValidModel = isModel(modelCandidate, true)
-        const model = isValidModel
-            ? modelCandidate
-            : isFunction(rawProps['onUpdate:modelValue'])
-                ? useModel(customRef((track, trigger) => {
-                    let value = modelValue
+	let mayBeComponentModel = false
+	const modelCandidate = isObject(modelValue)
+		? (mayBeComponentModel = Object.hasOwn(modelValue, '__v_isComponentModel'))
+			? Object.getPrototypeOf(modelValue)
+			: modelValue
+		: null
+	const isValidModel = isModel(modelCandidate, true)
+	const model = isValidModel
+		? modelCandidate
+		: isFunction(rawProps['onUpdate:modelValue'])
+			? useModel(customRef((track, trigger) => {
+				let value = modelValue
 
-                    watchSyncEffect(() => {
-                        const v = props.modelValue
-                        if(!Object.is(value, v)) {
-                            value = v
-                            trigger()
-                        }
-                    })
+				watchSyncEffect(() => {
+					const v = props.modelValue
+					if (!Object.is(value, v)) {
+						value = v
+						trigger()
+					}
+				})
 
-                    return {
-                        get() {
-                            track()
-                            return value
-                        },
-                        set(v) {
-                            if(!Object.is(value, v)) {
-                                rawProps['onUpdate:modelValue'](v)
-                                value = v
-                                trigger()
-                            }
-                        }
-                    }
-                }), { extendRef: true, validator: rawProps.validator })
-                : useModel(modelValue, { shallow: true, validator: rawProps.validator })
-        const privateModel = privateModelMap.get(model)
+				return {
+					get() {
+						track()
+						return value
+					},
+					set(v) {
+						if (!Object.is(value, v)) {
+							rawProps['onUpdate:modelValue'](v)
+							value = v
+							trigger()
+						}
+					}
+				}
+			}), { extendRef: true, validator: rawProps.validator })
+			: useModel(modelValue, { shallow: true, validator: rawProps.validator })
+	const privateModel = privateModelMap.get(model)
 
-        const [onModelUpdate, controller] = useModelWatchers(model, privateModel, isCollection)
-        
-        const internalCallbacks = {
-            sync: [],
-            pre: [],
-            post: []
-        }
-        const internalFlags = {
-            sensorActive: false,
-            sensorReset: false,
-            sensorTriggered: false,
-            triggerSyncCbs: false,
-            hasSyncCbs: false,
-        }
-        const internalSignal = customRef((track, trigger) => {
-            let oldValue
-            return {
-                get() {
-                    track()
-                    return oldValue 
-                },
-                set(v) {
-                    oldValue = v
-                    trigger()
-                }
-            }
-        })
-        const internalSensor = watchControlledSync(model.ref, (newValue, oldValue) => {
-            if(!internalFlags.sensorTriggered) {
-                internalFlags.sensorTriggered = true
-                internalSignal.value = oldValue
-            }
-            if(internalFlags.triggerSyncCbs) {
-                let currentModel = componentModel
-                while(currentModel = currentModel.__parent) {
-                    currentModel[symInt_trigger]('sync', newValue, oldValue)
-                }
-            } else {
-                internalSensor.pause()
-            }
-        }, { deep: isCollection && 1 })
+	const [onModelUpdate, controller] = useModelWatchers(model, privateModel, isCollection)
 
-        internalSensor.pause()
-        for(const flush of ['pre', 'post']) {
-            watch(internalSignal, oldValue => {
-                internalFlags.sensorTriggered = false
-                const newValue = model.ref.value
-                let currentModel = componentModel
-                while(currentModel = currentModel.__parent) {
-                    currentModel[symInt_trigger](flush, newValue, oldValue)
-                }
-            }, { flush })
-        }
+	const internalCallbacks = {
+		sync: [],
+		pre: [],
+		post: []
+	}
+	const internalFlags = {
+		sensorActive: false,
+		sensorReset: false,
+		sensorTriggered: false,
+		triggerSyncCbs: false,
+		hasSyncCbs: false,
+	}
+	const internalSignal = customRef((track, trigger) => {
+		let oldValue
+		return {
+			get() {
+				track()
+				return oldValue
+			},
+			set(v) {
+				oldValue = v
+				trigger()
+			}
+		}
+	})
+	const internalSensor = watchControlledSync(model.ref, (newValue, oldValue) => {
+		if (!internalFlags.sensorTriggered) {
+			internalFlags.sensorTriggered = true
+			internalSignal.value = oldValue
+		}
+		if (internalFlags.triggerSyncCbs) {
+			let currentModel = componentModel
+			while (currentModel = currentModel.__parent) {
+				currentModel[symInt_trigger]('sync', newValue, oldValue)
+			}
+		} else {
+			internalSensor.pause()
+		}
+	}, { deep: isCollection && 1 })
 
-        function updateDecorator(fn) {
-            return isFunction(fn) ? function(...args) {
-                // Pause parent component models
-                let currentModel = componentModel
-                internalFlags.triggerSyncCbs = false
-                do {
-                    currentModel[symExt_controller].pause()
-                    internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
-                } while(currentModel = currentModel.__parent)
-                // Set hasInteractiveCtx flag
-                if(!privateModel.hasInteractiveCtx) {
-                    privateModel.hasInteractiveCtx = true
-                    privateModel.resetInteractiveCtx = true
-                }
-                // Resume internalSensor to fire parent componet models'
-                // internal-update-callbacks if a model value change is detected
-                if(!internalFlags.sensorTriggered || internalFlags.triggerSyncCbs) {
-                    internalFlags.sensorActive = true
-                    internalSensor.resume()
-                }
-                try {
-                    return fn.apply(this, args)
-                } finally {
-                    // Pause internalSensor while not in use
-                    if(internalFlags.sensorActive) {
-                        internalFlags.sensorActive = false
-                        if(!internalFlags.sensorReset && internalFlags.sensorTriggered) {
-                            internalFlags.sensorReset = true
-                            nextTick(() => {
-                                internalFlags.sensorTriggered = false
-                                internalFlags.sensorReset = false
-                            })
-                        }
-                        internalSensor.pause()
-                    }
-                    // Reset hasInteractiveCtx flag
-                    if(privateModel.resetInteractiveCtx) {
-                        privateModel.resetInteractiveCtx = false
-                        nextTick(() => {
-                            privateModel.hasInteractiveCtx = false
-                        })
-                    }
-                    // Resume parent component models
-                    currentModel = componentModel
-                    do currentModel[symExt_controller].resume()
-                    while(currentModel = currentModel.__parent)
-                }
-            } : noop
-        }
+	internalSensor.pause()
+	for (const flush of ['pre', 'post']) {
+		watch(internalSignal, oldValue => {
+			internalFlags.sensorTriggered = false
+			const newValue = model.ref.value
+			let currentModel = componentModel
+			while (currentModel = currentModel.__parent) {
+				currentModel[symInt_trigger](flush, newValue, oldValue)
+			}
+		}, { flush })
+	}
 
-        const instanceScope = getCurrentScope()
-        onScopeDispose(() => {
-            internalCallbacks.pre.length = 0
-            internalCallbacks.post.length = 0
-            internalCallbacks.sync.length = 0
-            internalFlags.hasSyncCbs = false
-        })
+	function updateDecorator(fn) {
+		return isFunction(fn) ? function(...args) {
+			// Pause parent component models
+			let currentModel = componentModel
+			internalFlags.triggerSyncCbs = false
+			do {
+				currentModel[symExt_controller].pause()
+				internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
+			} while (currentModel = currentModel.__parent)
+			// Set hasInteractiveCtx flag
+			if (!privateModel.hasInteractiveCtx) {
+				privateModel.hasInteractiveCtx = true
+				privateModel.resetInteractiveCtx = true
+			}
+			// Resume internalSensor to fire parent componet models'
+			// internal-update-callbacks if a model value change is detected
+			if (!internalFlags.sensorTriggered || internalFlags.triggerSyncCbs) {
+				internalFlags.sensorActive = true
+				internalSensor.resume()
+			}
+			try {
+				return fn.apply(this, args)
+			} finally {
+				// Pause internalSensor while not in use
+				if (internalFlags.sensorActive) {
+					internalFlags.sensorActive = false
+					if (!internalFlags.sensorReset && internalFlags.sensorTriggered) {
+						internalFlags.sensorReset = true
+						nextTick(() => {
+							internalFlags.sensorTriggered = false
+							internalFlags.sensorReset = false
+						})
+					}
+					internalSensor.pause()
+				}
+				// Reset hasInteractiveCtx flag
+				if (privateModel.resetInteractiveCtx) {
+					privateModel.resetInteractiveCtx = false
+					nextTick(() => {
+						privateModel.hasInteractiveCtx = false
+					})
+				}
+				// Resume parent component models
+				currentModel = componentModel
+				do currentModel[symExt_controller].resume()
+				while (currentModel = currentModel.__parent)
+			}
+		} : noop
+	}
 
-        const componentModel = defineReactiveProperties(Object.create(model), withDescriptor => ({
-            __parent: withDescriptor({
-                value: mayBeComponentModel && isValidModel ? props.modelValue : null,
-                enumerable: false,
-                writable: false
-            }),
+	const instanceScope = getCurrentScope()
+	onScopeDispose(() => {
+		internalCallbacks.pre.length = 0
+		internalCallbacks.post.length = 0
+		internalCallbacks.sync.length = 0
+		internalFlags.hasSyncCbs = false
+	})
 
-            updateDecorator,
-            update: updateDecorator(v => {
-                if(isFunction(v)) {
-                    v()
-                } else {
-                    model.ref.value = v
-                }
-            }),
-            triggerIfShallow: privateModel.triggerIfShallow,
-            handleValidation: privateModel.handleValidation,
-            useDebouncedValidation: privateModel.useDebouncedValidation,
+	const componentModel = Object.defineProperties(Object.create(model), {
+		updateDecorator: {
+			value: updateDecorator,
+			enumerable: true
+		},
+		update: {
+			value: updateDecorator(v => {
+				if (isFunction(v)) {
+					v()
+				} else {
+					model.ref.value = v
+				}
+			}),
+			enumerable: true
+		},
+		onExternalUpdate: {
+			value: function(cb, { onMounted: isOnMounted, ...options } = {}) {
+				if (isFunction(cb)) {
+					if (isOnMounted) {
+						const instance = getCurrentInstance()
+						if (instance) {
+							let stop
+							const setupScope = getCurrentScope()
+							onMounted(() => {
+								setupScope.run(() => {
+									stop = onModelUpdate(cb, { ...options, immediate: true })
+								})
+							})
+							return () => {
+								if (instance.isMounted) {
+									stop()
+								} else {
+									onMounted(stop)
+								}
+							}
+						}
+					}
+					return onModelUpdate(cb, options)
+				} else {
+					return noop
+				}
+			},
+			enumerable: true
+		},
+		onInternalUpdate: {
+			value: function(cb, options = {}) {
+				if (isFunction(cb)) {
+					if (options.immediate) {
+						cb(model.ref.value, undefined)
+						if (options.once) return
+					}
+					if (options.once) {
+						const _cb = cb
+						cb = (...args) => {
+							_cb(...args)
+							stop()
+						}
+					}
+					const flush = ['sync', 'post'].includes(options.flush) ? options.flush : 'pre'
+					internalCallbacks[flush].push(cb)
+					if (flush === 'sync') {
+						internalFlags.hasSyncCbs ||= true
+					}
+					const stop = () => {
+						const callbacks = internalCallbacks[flush]
+						const idx = callbacks.indexOf(cb)
+						if (idx > -1) {
+							callbacks.splice(idx, 1)
+						}
+						if (flush === 'sync' && callbacks.length === 0) {
+							internalFlags.hasSyncCbs = false
+						}
+					}
+					if (instanceScope !== getCurrentInstance()) {
+						onScopeDispose(stop, true)
+					}
+					return stop
+				} else {
+					return noop
+				}
+			},
+			enumerable: true
+		},
+		triggerIfShallow: {
+			value: privateModel.triggerIfShallow,
+			enumerable: true
+		},
+		handleValidation: {
+			value: privateModel.handleValidation,
+			enumerable: true
+		},
+		useDebouncedValidation: {
+			value: privateModel.useDebouncedValidation,
+			enumerable: true
+		},
 
-            onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
-                if(isFunction(cb)) {
-                    if(isOnMounted) {
-                        const instance = getCurrentInstance()
-                        if(instance) {
-                            let stop
-                            const setupScope = getCurrentScope()
-                            onMounted(() => {
-                                setupScope.run(() => {
-                                    stop = onModelUpdate(cb, { ...options, immediate: true })
-                                })
-                            })
-                            return () => {
-                                if(instance.isMounted) {
-                                    stop()
-                                } else {
-                                    onMounted(stop)
-                                }
-                            }
-                        }
-                    }
-                    return onModelUpdate(cb, options)
-                } else {
-                    return noop
-                }
-            },
-            onInternalUpdate(cb, options = {}) {
-                if(isFunction(cb)) {
-                    if(options.immediate) {
-                        cb(model.ref.value, undefined)
-                        if(options.once) return
-                    }
-                    if(options.once) {
-                        const _cb = cb
-                        cb = (...args) => {
-                            _cb(...args)
-                            stop()
-                        }
-                    }
-                    const flush = ['sync', 'post'].includes(options.flush) ? options.flush : 'pre'
-                    internalCallbacks[flush].push(cb)
-                    if(flush === 'sync') {
-                        internalFlags.hasSyncCbs ||= true
-                    }
-                    const stop = () => {
-                        const callbacks = internalCallbacks[flush]
-                        const idx = callbacks.indexOf(cb)
-                        if(idx > -1) {
-                            callbacks.splice(idx, 1)
-                        }
-                        if(flush === 'sync' && callbacks.length === 0) {
-                            internalFlags.hasSyncCbs = false
-                        }
-                    }
-                    if(instanceScope !== getCurrentInstance()) {
-                        onScopeDispose(stop, true)
-                    }
-                    return stop
-                } else {
-                    return noop
-                }
-            },
+		[symExt_controller]: { value: controller },
+		[symInt_trigger]: {
+			value: (flush, newValue, oldValue) => {
+				for (const cb of internalCallbacks[flush]) {
+					cb(newValue, oldValue)
+				}
+			}
+		},
+		[symInt_hasSyncCbs]: {
+			get: () => internalFlags.hasSyncCbs
+		},
+		__parent: { value: mayBeComponentModel && isValidModel ? props.modelValue : null },
+		__v_isComponentModel: { value: true }
+	})
 
-            [symExt_controller]: withDescriptor({
-                value: controller,
-                enumerable: false,
-                writable: false
-            }),
-            [symInt_trigger](flush, newValue, oldValue) {
-                for(const cb of internalCallbacks[flush]) {
-                    cb(newValue, oldValue)
-                }
-            },
-            [symInt_hasSyncCbs]: withDescriptor({
-                get() {
-                    return internalFlags.hasSyncCbs
-                }
-            }),
+	const resources = {
+		elements: {
+			capture: options.captureElements ?? false,
+			getDefault: includeElements ? useElements : () => null,
+		},
+		exposed: {
+			capture: options.captureExposed ?? false,
+			getDefault: includeExposed ? useExposed : () => null,
+		}
+	}
+	for (const key of ['elements', 'exposed']) {
+		const descriptor = { writable: false }
+		if (resources[key].capture) {
+			if (isValidModel && mayBeComponentModel && Object.hasOwn(modelValue, key)) {
+				descriptor.value = modelValue[key] ?? rawProps[key] ?? resources[key].getDefault()
+			} else if (!Object.hasOwn(model, key)) {
+				descriptor.value = rawProps[key] ?? resources[key].getDefault()
+			}
+		} else {
+			descriptor.value = resources[key].getDefault()
+		}
+		if (Object.hasOwn(descriptor, 'value')) {
+			Object.defineProperty(componentModel, key, descriptor)
+		}
+	}
 
-            __v_isComponentModel: withDescriptor({
-				value: true,
-				enumerable: false,
-				writable: false
-			})
-        }), { configurable: false })
-
-        const resources = {
-            elements: {
-                capture: options.captureElements ?? false,
-                getDefault: includeElements ? useElements : () => null,
-            },
-            exposed: {
-                capture: options.captureExposed ?? false,
-                getDefault: includeExposed ? useExposed : () => null,
-            }
-        }
-        for(const key of ['elements', 'exposed']) {
-            const descriptor = { writable: false }
-            if(resources[key].capture) {
-                if(isValidModel && mayBeComponentModel && Object.hasOwn(modelValue, key)) {
-                    descriptor.value = modelValue[key] ?? rawProps[key] ?? resources[key].getDefault()
-                } else if(!Object.hasOwn(model, key)) {
-                    descriptor.value = rawProps[key] ?? resources[key].getDefault()
-                }
-            } else {
-                descriptor.value = resources[key].getDefault()
-            }
-            if(Object.hasOwn(descriptor, 'value')) {
-                Object.defineProperty(componentModel, key, descriptor)
-            }
-        }
-
-        return componentModel
-    }
+	return componentModel
 }
