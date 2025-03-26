@@ -371,7 +371,7 @@ function stepUp(lazyValidation = false) {
 	if(result <= range.max) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
+		;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 	}
 }
 function stepDown(lazyValidation = false) {
@@ -379,7 +379,7 @@ function stepDown(lazyValidation = false) {
 	if(result >= range.min) {
 		model.update(result)
 		formatDisplayedString()
-		(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
+		;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 	}
 }
 function handleKeydown(event) {

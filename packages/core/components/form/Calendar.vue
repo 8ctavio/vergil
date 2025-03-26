@@ -535,14 +535,14 @@ function updateDateTime(lazyValidation = false) {
 				model.value[i] = getNewModelValue(model.value[i])
 			}
 			model.triggerIfShallow()
-			(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
+			;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 		})
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
 			triggerModelValue(model)
 			// triggerRef(model.ref)
-			(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
+			;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 		})
 	}
 }
