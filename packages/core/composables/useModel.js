@@ -1,9 +1,8 @@
 import { isShallow, triggerRef, customRef, getCurrentInstance, onScopeDispose } from 'vue'
 import { useElements, useExposed } from '.'
-import { ExtendedRef } from './extendedReactivity'
-import { extendedRef } from './extendedReactivity/extendedRef'
 import { privateModelMap, useResetValue } from './private'
-import { isModel } from '../functions'
+import { extendedRef } from '../reactivity'
+import { isModel, markDescriptor, dataDescriptor } from '../functions'
 import { groupValidationCtx } from '../functions/ModelGroup'
 import { debounce, isFunction, normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities'
 
@@ -87,12 +86,13 @@ export function useModel(value, options = {}) {
 		}
 	}
 
-	const model = extendedRef(value, withDescriptor => ({
+	const model = extendedRef(value, {
 		reset() {
 			model.ref.value = getResetValue()
 		},
-		error: withDescriptor({ get: getError }),
-		errors: withDescriptor({
+		error: markDescriptor({ get: getError }),
+		errors: markDescriptor({
+			unwrap: false,
 			value: customRef(track => {
 				const errors = []
 				error = message => {
@@ -109,8 +109,7 @@ export function useModel(value, options = {}) {
 					get: () => (track(), errors),
 					set: noop
 				}
-			}),
-			unwrap: false
+			})
 		}),
 		validate,
 		clear() {
@@ -120,12 +119,8 @@ export function useModel(value, options = {}) {
 			}
 			triggerRef(model.errors)
 		},
-		__v_isModel: withDescriptor({
-			value: true,
-			enumerable: false,
-			writable: false
-		})
-	}), { configurable: false })
+		__v_isModel: dataDescriptor(true, false, false)
+	}, { configurable: false, writable: false })
 	/**
 	 * Required to force trigger of watcher callbacks
 	 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245

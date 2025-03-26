@@ -1,7 +1,3 @@
-export * from './extendedReactivity'
-export * from './extendedReactivity/defineReactiveProperties'
-export * from './extendedReactivity/extendedReactive'
-export * from './extendedReactivity/extendedRef'
 export * from './resetRef'
 export * from './useDebounce'
 export * from './useDefineElements'

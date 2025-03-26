@@ -107,7 +107,7 @@ const themeClass = computed(() => {
             <input
                 v-bind="$attrs"
                 type="radio"
-                :ref="elements.refs.input"
+                :ref="elements.getRef('input')"
                 :value
                 :name="name || groupProps?.name"
                 :disabled="disabled || groupProps?.disabled"

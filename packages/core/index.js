@@ -1,4 +1,5 @@
 export * from './composables'
+export * from './reactivity'
 export * from './functions'
 
 //---------- Component APIs ----------

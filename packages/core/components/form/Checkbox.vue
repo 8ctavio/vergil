@@ -132,7 +132,7 @@ const themeClass = computed(() => {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                :ref="elements.refs.input"
+                :ref="elements.getRef('input')"
                 :value="valueChecked"
                 :disabled="disabled || groupProps?.disabled"
                 @change="handleChange"

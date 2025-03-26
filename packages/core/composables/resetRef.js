@@ -1,4 +1,4 @@
-import { extendedRef } from "./extendedReactivity/extendedRef"
+import { extendedRef } from "../reactivity"
 import { useResetValue } from "./private"
 
 /**
@@ -28,6 +28,6 @@ export function resetRef(reference){
         reset() {
             extended.value = getResetValue()
         }
-    }, { configurable: false })
+    }, { configurable: false, writable: false })
     return extended
 }

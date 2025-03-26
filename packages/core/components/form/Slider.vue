@@ -124,7 +124,7 @@ const valueWidth = computed(() => props.max.length)
                 <input
                     v-bind="$attrs"
                     type="range"
-                    :ref="elements.refs.input"
+                    :ref="elements.getRef('input')"
                     :min
                     :max
                     :disabled

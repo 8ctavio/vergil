@@ -1,7 +1,7 @@
 import { shallowRef } from "vue"
-import { extendedReactive } from "./extendedReactivity/extendedReactive"
-import { definedElements, symTrigger } from "./private"
+import { entangled } from "../reactivity"
 import { getTrue } from "../utilities"
+import { definedElements, symTrigger } from "./private"
 
 /**
  * @TODO add functions for the update handler methods
@@ -53,20 +53,17 @@ import { getTrue } from "../utilities"
 export function useElements() {
 	const dep = shallowRef().dep
 	let track = dep.track.bind(dep)
-	const elements = extendedReactive({
-		[symTrigger]: () => {
+	const elements = entangled({
+		[symTrigger]() {
 			dep.trigger()
 			track = undefined
 		}
-	})
-	const elementsProxy = new Proxy(elements.refs, {
+	}, { writable: false, enumerable: false })
+	const elementsProxy = new Proxy(elements, {
 		get(target, property) {
-			if(typeof property === 'string') {
+			if (typeof property === 'string') {
 				track?.()
-				const descriptor = Object.getOwnPropertyDescriptor(target, property)
-				return descriptor && (Object.hasOwn(descriptor, 'value') || descriptor.get)
-					? target[property].value
-					: null
+				return target[property] ?? null
 			} else {
 				return null
 			}

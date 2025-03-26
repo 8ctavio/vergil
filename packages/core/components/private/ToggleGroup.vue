@@ -162,7 +162,7 @@ function Options({ options }) {
     >
         <div
             v-bind="$attrs"
-            :ref="elements.refs.options"
+            :ref="elements.getRef('options')"
             :class="['toggle-group-wrapper', variant]"
         >
             <slot>
