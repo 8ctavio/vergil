@@ -1052,7 +1052,7 @@ const themeClass = computed(() => {
 					descendant
 					:label="timePeriod"
 					:disabled
-					variant="soft" outline ghost
+					variant="soft" outline mask="ghost"
 					@click="() => {
 						if(timePeriod === 'AM') {
 							timePeriod = 'PM'

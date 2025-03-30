@@ -392,7 +392,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                     invalid: model.error
                 }]"
                 descendant
-                ghost="translucent"
+                mask="form-field"
                 outline="subtle"
                 icon-right="keyboard_arrow_down"
                 :fill
@@ -463,18 +463,8 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
 
 <style>
 .select > .select-button.btn {
-    font-weight: 400;
-    overflow: visible;
-
     &:hover > .btn-content > .chips > .badge {
         box-shadow: none;
-    }
-    &:disabled {
-        --btn-c-border: var(--c-disabled-border-1);
-        background-color: var(--c-disabled-1);
-    }
-    &.ghost-translucent {
-        --btn-c-1: var(--c-bg);
     }
     &.selected {
         --btn-c-text-1: var(--c-text);

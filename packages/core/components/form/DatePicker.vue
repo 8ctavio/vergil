@@ -257,7 +257,7 @@ function handleKeydown(event) {
 					}]"
 					descendant
 					type="button"
-					ghost="translucent"
+					mask="form-field"
 					outline="subtle"
 					:fill
 					:underline
@@ -346,17 +346,8 @@ function handleKeydown(event) {
 	}
 	& > .date-picker-select {
 		flex-grow: 1;
-		font-weight: 400;
-		overflow: visible;
 		z-index: 1;
 
-		&:disabled {
-			--btn-c-border: var(--c-disabled-border-1);
-			background-color: var(--c-disabled-1);
-		}
-		&.ghost-translucent {
-			--btn-c-1: var(--c-bg);
-		}
 		&.selected {
 			--btn-c-text-1: var(--c-text);
 			& > label {

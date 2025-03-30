@@ -66,7 +66,7 @@ Position of the built-in search button. The prop for the button in the selected 
 
 - `label`
 - `variant`
-- `ghost`
+- `mask`
 - `outline`
 - `underline`
 - `fill`

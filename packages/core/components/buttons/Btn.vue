@@ -11,10 +11,10 @@ defineProps({
         default: () => vergil.config.btn.variant,
         validator: v => isValidVariant('Btn', v)
     },
-    ghost: {
-        type: [Boolean, String],
-        default: props => vergil.config.btn[props.variant]?.ghost,
-        validator: v => (typeof v === 'boolean') || ['transparent', 'translucent'].includes(v)
+    mask: {
+        type: String,
+        default: props => vergil.config.btn[props.variant]?.mask,
+        validator: v => ['ghost', 'form-field'].includes(v)
     },
     outline: {
         type: [Boolean, String],
@@ -65,8 +65,7 @@ defineProps({
 
 <template>
     <button
-        :class="['btn', variant, {
-            ghost,
+        :class="['btn', variant, mask && `masked mask-${mask}`, {
             underline,
             fill,
             squared,
@@ -75,12 +74,11 @@ defineProps({
             [`size-${size}`]: size,
             [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing,
-            [`ghost-${ghost === true ? 'transparent' : ghost}`]: ghost,
             [`outline-${outline === true ? 'regular' : outline}`]: outline,
         }]"
         :disabled="disabled || loading"
     >
-        <span v-if="ghost" class="btn-backdrop"/>
+        <span v-if="mask" class="btn-backdrop"/>
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>
@@ -117,7 +115,6 @@ defineProps({
     font-weight: 500;
     outline: 0 solid transparent;
     cursor: pointer;
-    overflow: hidden;
     transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
     &:not(.loading) {
@@ -148,26 +145,27 @@ defineProps({
             cursor: not-allowed;
             color: var(--c-disabled-text);
 
-            &.subtle {
-                --btn-c-border: var(--c-disabled-border-1);
-                background-color: var(--c-disabled-1);
-            }
             &:is(.solid, .soft) {
                 --btn-c-border: var(--c-disabled-border-2);
                 background-color: var(--c-disabled-2);
+            }
+            &.subtle, &.mask-form-field {
+                --btn-c-border: var(--c-disabled-border-1);
+                background-color: var(--c-disabled-1);
             }
             &.underline {
                 --btn-c-border-b: var(--c-disabled-border-3);
             }
         }
 
-        &.ghost-transparent {
+        &.mask-ghost {
             --btn-c-1: transparent;
             --btn-c-text-1: var(--c-theme-text-1);
             --btn-c-icon-1: var(--c-theme-1);
         }
-        &.ghost-translucent {
-            --btn-c-1: rgb(var(--rgb-grey-border) / 0.05);
+        &.mask-form-field {
+            font-weight: 400;
+            --btn-c-1: var(--c-bg);
             --btn-c-text-1: var(--c-grey-text-2);
             --btn-c-icon-1: var(--c-grey-1);
         }
@@ -196,7 +194,7 @@ defineProps({
         --btn-c-text-2: var(--c-theme-text-4);
         --btn-c-icon-1: var(--c-theme-text-3);
         --btn-c-icon-2: var(--c-theme-text-3);
-        &.ghost {
+        &.masked {
             --btn-c-2: var(--c-theme-solid-1);
             --btn-c-3: var(--c-theme-solid-2);
         }
@@ -209,7 +207,7 @@ defineProps({
         --btn-c-1: var(--c-theme-soft-2);
         --btn-c-2: var(--c-theme-soft-3);
         --btn-c-3: var(--c-theme-soft-4);
-        &.ghost {
+        &.masked {
             --btn-c-2: var(--c-theme-soft-2);
             --btn-c-3: var(--c-theme-soft-3);
         }
@@ -218,7 +216,7 @@ defineProps({
         --btn-c-1: var(--c-theme-soft-1);
         --btn-c-2: var(--c-theme-soft-2);
         --btn-c-3: var(--c-theme-soft-3);
-        &.ghost {
+        &.masked {
             --btn-c-2: var(--c-theme-soft-1);
             --btn-c-3: var(--c-theme-soft-2);
         }
@@ -243,7 +241,7 @@ defineProps({
         &:where(.soft, .subtle) {
             --btn-c-border-2: var(--c-theme-border-subtle);
         }
-        &:where(.ghost-translucent) {
+        &:where(.mask-form-field) {
             --btn-c-border-1: var(--c-grey-border-subtle);
         }
     }
@@ -252,7 +250,7 @@ defineProps({
         &:where(.soft, .subtle) {
             --btn-c-border-2: var(--c-theme-border-regular);
         }
-        &:where(.ghost-translucent) {
+        &:where(.mask-form-field) {
             --btn-c-border-1: var(--c-grey-border-regular);
         }
     }
@@ -261,7 +259,7 @@ defineProps({
         &:where(.soft, .subtle) {
             --btn-c-border-2: var(--c-theme-1);
         }
-        &:where(.ghost-translucent) {
+        &:where(.mask-form-field) {
             --btn-c-border-1: var(--c-grey-1);
         }
     }

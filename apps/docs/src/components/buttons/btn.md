@@ -44,35 +44,38 @@ Simple `Btn` text content can be specified through the default slot or the `labe
     <Btn variant="subtle" label="Subtle"/>
 </Demo>
 
-### Ghost <Badge><pre>ghost: (boolean | 'transparent' | 'translucent')</pre></Badge>
-
-The `'transparent'` value is equivalent to `ghost = true`.
+### Mask <Badge><pre>mask: ('ghost' | 'form-field')</pre></Badge>
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn ghost label="Transparent" variant="solid"/>
-            <Btn ghost label="Transparent" variant="soft"/>
-            <Btn ghost label="Transparent" variant="subtle"/>    
+            <Btn mask="ghost" label="Ghost" variant="solid"/>
+            <Btn mask="ghost" label="Ghost" variant="soft"/>
+            <Btn mask="ghost" label="Ghost" variant="subtle"/>    
         </div>
         <div class="row center">
-            <Btn ghost="translucent" label="Translucent" variant="solid"/>
-            <Btn ghost="translucent" label="Translucent" variant="soft"/>
-            <Btn ghost="translucent" label="Translucent" variant="subtle"/>  
+            <Btn mask="form-field" label="Form Field" variant="solid"/>
+            <Btn mask="form-field" label="Form Field" variant="soft"/>
+            <Btn mask="form-field" label="Form Field" variant="subtle"/>  
         </div>
     </div>
 </Demo>
 
 ### Outline <Badge><pre>outline: (boolean | 'subtle' | 'regular' | 'strong')</pre></Badge>
 
-The `'regular'` and `true` values are equivalent. For the `solid` variant, only `ghost` buttons are affected.
+The `'regular'` and `true` values are equivalent. For the `solid` variant, only buttons with `mask` are affected.
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn variant="solid" outline="subtle" label="Subtle" ghost/>
-            <Btn variant="solid" outline="regular" label="Regular" ghost/>
-            <Btn variant="solid" outline="strong" label="Strong" ghost/>
+            <Btn variant="solid" outline="subtle" label="Subtle" mask="ghost"/>
+            <Btn variant="solid" outline="regular" label="Regular" mask="ghost"/>
+            <Btn variant="solid" outline="strong" label="Strong" mask="ghost"/>
+        </div>
+        <div class="row center">
+            <Btn variant="solid" outline="subtle" label="Subtle" mask="form-field"/>
+            <Btn variant="solid" outline="regular" label="Regular" mask="form-field"/>
+            <Btn variant="solid" outline="strong" label="Strong" mask="form-field"/>
         </div>
         <div class="row center">
             <Btn variant="soft" outline="subtle" label="Subtle"/>
@@ -87,36 +90,36 @@ The `'regular'` and `true` values are equivalent. For the `solid` variant, only 
     </div>
 </Demo>
 
-### Fill <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre></Badge>
+### Fill <Badge><pre>fill: boolean</pre></Badge> <Badge type="warning">only for *masked* buttons</Badge>
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn fill ghost="transparent" variant="solid" label="Hover me!"/>
-            <Btn fill ghost="transparent" variant="soft" label="Hover me!"/>
-            <Btn fill ghost="transparent" variant="subtle" label="Hover me!"/>
+            <Btn fill mask="ghost" variant="solid" label="Hover me!"/>
+            <Btn fill mask="ghost" variant="soft" label="Hover me!"/>
+            <Btn fill mask="ghost" variant="subtle" label="Hover me!"/>
         </div>
         <div class="row center">
-            <Btn fill ghost="translucent" variant="solid" label="Hover me!"/>
-            <Btn fill ghost="translucent" variant="soft" label="Hover me!"/>
-            <Btn fill ghost="translucent" variant="subtle" label="Hover me!"/>
+            <Btn fill mask="form-field" variant="solid" label="Hover me!"/>
+            <Btn fill mask="form-field" variant="soft" label="Hover me!"/>
+            <Btn fill mask="form-field" variant="subtle" label="Hover me!"/>
         </div>
     </div>
 </Demo>
 
-### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for <pre>ghost</pre></Badge>
+### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for *masked* buttons</Badge>
 
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn underline fill ghost="transparent" variant="solid" label="Underline"/>
-            <Btn underline fill ghost="transparent" variant="soft" label="Underline"/>
-            <Btn underline fill ghost="transparent" variant="subtle" label="Underline"/>
+            <Btn underline fill mask="ghost" variant="solid" label="Underline"/>
+            <Btn underline fill mask="ghost" variant="soft" label="Underline"/>
+            <Btn underline fill mask="ghost" variant="subtle" label="Underline"/>
         </div>
         <div class="row center">
-            <Btn underline fill ghost="translucent" variant="solid" label="Underline"/>
-            <Btn underline fill ghost="translucent" variant="soft" label="Underline"/>
-            <Btn underline fill ghost="translucent" variant="subtle" label="Underline"/>
+            <Btn underline fill mask="form-field" variant="solid" label="Underline"/>
+            <Btn underline fill mask="form-field" variant="soft" label="Underline"/>
+            <Btn underline fill mask="form-field" variant="subtle" label="Underline"/>
         </div>
     </div>
 </Demo>
@@ -131,7 +134,7 @@ The `'regular'` and `true` values are equivalent. For the `solid` variant, only 
     <Btn icon="rocket_launch" theme="brand" variant="solid"/>
     <Btn icon="rocket_launch" theme="brand" variant="soft"/>
     <Btn icon="rocket_launch" theme="brand" variant="subtle" outline="subtle"/>
-    <Btn icon="rocket_launch" theme="brand" variant="soft" ghost/>
+    <Btn icon="rocket_launch" theme="brand" variant="soft" mask="ghost"/>
 </Demo>
 
 ### Icon Right <Badge><pre>icon-right: string</pre></Badge>
@@ -245,31 +248,31 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <div class="col">
         <div class="row center">
-            <Btn variant="solid" ghost outline theme="brand" label="Brand"/>
-            <Btn variant="solid" ghost outline theme="user" label="User"/>
-            <Btn variant="solid" ghost outline theme="ok" label="Ok"/>
-            <Btn variant="solid" ghost outline theme="info" label="Info"/>
-            <Btn variant="solid" ghost outline theme="warn" label="Warn"/>
-            <Btn variant="solid" ghost outline theme="danger" label="Danger"/>
-            <Btn variant="solid" ghost outline theme="neutral" label="Neutral"/>
+            <Btn variant="solid" mask="ghost" outline theme="brand" label="Brand"/>
+            <Btn variant="solid" mask="ghost" outline theme="user" label="User"/>
+            <Btn variant="solid" mask="ghost" outline theme="ok" label="Ok"/>
+            <Btn variant="solid" mask="ghost" outline theme="info" label="Info"/>
+            <Btn variant="solid" mask="ghost" outline theme="warn" label="Warn"/>
+            <Btn variant="solid" mask="ghost" outline theme="danger" label="Danger"/>
+            <Btn variant="solid" mask="ghost" outline theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="soft" ghost outline theme="brand" label="Brand"/>
-            <Btn variant="soft" ghost outline theme="user" label="User"/>
-            <Btn variant="soft" ghost outline theme="ok" label="Ok"/>
-            <Btn variant="soft" ghost outline theme="info" label="Info"/>
-            <Btn variant="soft" ghost outline theme="warn" label="Warn"/>
-            <Btn variant="soft" ghost outline theme="danger" label="Danger"/>
-            <Btn variant="soft" ghost outline theme="neutral" label="Neutral"/>
+            <Btn variant="soft" mask="ghost" outline theme="brand" label="Brand"/>
+            <Btn variant="soft" mask="ghost" outline theme="user" label="User"/>
+            <Btn variant="soft" mask="ghost" outline theme="ok" label="Ok"/>
+            <Btn variant="soft" mask="ghost" outline theme="info" label="Info"/>
+            <Btn variant="soft" mask="ghost" outline theme="warn" label="Warn"/>
+            <Btn variant="soft" mask="ghost" outline theme="danger" label="Danger"/>
+            <Btn variant="soft" mask="ghost" outline theme="neutral" label="Neutral"/>
         </div>
         <div class="row center">
-            <Btn variant="subtle" ghost outline="subtle" theme="brand" label="Brand"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="user" label="User"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="ok" label="Ok"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="info" label="Info"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="warn" label="Warn"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="danger" label="Danger"/>
-            <Btn variant="subtle" ghost outline="subtle" theme="neutral" label="Neutral"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="brand" label="Brand"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="user" label="User"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="ok" label="Ok"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="info" label="Info"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="warn" label="Warn"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="danger" label="Danger"/>
+            <Btn variant="subtle" mask="ghost" outline="subtle" theme="neutral" label="Neutral"/>
         </div>
     </div>
 </Demo>
@@ -385,9 +388,9 @@ Adding `squared` sets padding to the same value on all sides.
 <Demo>
     <div class="col center">
         <div class="row center">
-            <Btn loading label="Loading" ghost variant="solid"/>
-            <Btn loading label="Loading" ghost variant="soft"/>
-            <Btn loading label="Loading" ghost variant="subtle"/>
+            <Btn loading label="Loading" mask="ghost" variant="solid"/>
+            <Btn loading label="Loading" mask="ghost" variant="soft"/>
+            <Btn loading label="Loading" mask="ghost" variant="subtle"/>
         </div>
         <div class="row center">
             <Btn loading label="Loading" outline="subtle" variant="solid"/>
@@ -473,7 +476,7 @@ Adding `squared` sets padding to the same value on all sides.
 | ---- | ---- | ------- |
 | `label` | `string` | |
 | `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` |
-| `ghost` | `boolean \| 'transparent' \| 'translucent'` | |
+| `mask` | `'ghost' \| 'form-field'` | |
 | `outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | |
 | `underline` | `boolean` | |
 | `fill` | `boolean` | |
@@ -496,7 +499,7 @@ Adding `squared` sets padding to the same value on all sides.
 | `btn.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | -------------- | ---- | ------- | :------: |
 | `variant` | `'solid' \| 'soft' \| 'subtle'` | `'solid'` | |
-| `<variant>.ghost` | `boolean \| 'transparent' \| 'translucent'` | | |
+| `<variant>.mask` | `'ghost' \| 'form-field'` | | |
 | `<variant>.outline` | `boolean \| 'subtle' \| 'regular' \| 'strong'` | | |
 | `<variant>.underline` | `boolean` | | |
 | `<variant>.fill` | `boolean` | | |

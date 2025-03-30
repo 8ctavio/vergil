@@ -98,19 +98,19 @@ let template = {
     btn: {
         variant: 'solid',
         solid: {
-            ghost: undefined,
+            mask: undefined,
             outline: undefined,
             underline: undefined,
             fill: undefined,
         },
         soft: {
-            ghost: undefined,
+            mask: undefined,
             outline: undefined,
             underline: undefined,
             fill: undefined,
         },
         subtle: {
-            ghost: undefined,
+            mask: undefined,
             outline: undefined,
             underline: undefined,
             fill: undefined,

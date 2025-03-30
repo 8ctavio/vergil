@@ -34,7 +34,7 @@ const { Popover, togglePopover } = usePopover({
 	<Popover class="user-theme-color-picker" @change="userThemeColor = $event.target.value">
 		<Btn
 			variant="subtle"
-			ghost
+			mask="ghost"
 			icon="style"
 			size="lg"
 			spacing="compact"
