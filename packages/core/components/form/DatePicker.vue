@@ -324,19 +324,20 @@ function handleKeydown(event) {
 	width: 100%;
 
 	&:has(> .date-picker-clear:first-child) > .date-picker-select {
-        --btn-bw-l: 0px;
+		margin-left: calc(var(--btn-bw) * -1);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
     &:has(> .date-picker-clear:last-child) > .date-picker-select {
-        --btn-bw-r: 0px;
+		margin-right: calc(var(--btn-bw) * -1);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
 	& > .date-picker-clear {
 		flex-shrink: 0;
 		&:first-child {
-            border-top-right-radius: 0;
+			z-index: 1;
+			border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
         &:last-child {
@@ -346,7 +347,6 @@ function handleKeydown(event) {
 	}
 	& > .date-picker-select {
 		flex-grow: 1;
-		z-index: 1;
 
 		&.selected {
 			--btn-c-text-1: var(--c-text);

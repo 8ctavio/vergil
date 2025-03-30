@@ -105,10 +105,8 @@ defineProps({
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--btn-c-1);
     color: var(--btn-c-text-1);
-    box-shadow: inset 0 calc(var(--btn-bw-b, var(--btn-bw)) * -1) var(--btn-c-border-b, var(--btn-c-border, transparent)),
-                inset 0 var(--btn-bw) var(--btn-c-border, transparent),
-                inset var(--btn-bw-l, var(--btn-bw)) 0 var(--btn-c-border, transparent),
-                inset calc(var(--btn-bw-r, var(--btn-bw)) * -1) 0 var(--btn-c-border, transparent);
+    box-shadow: inset 0 calc(var(--btn-bw-b, 0px) * -1) var(--btn-c-border-b, transparent),
+                inset 0 0 0 var(--btn-bw) var(--btn-c-border, transparent);
 
     position: relative;
     border: none;

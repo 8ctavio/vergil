@@ -121,17 +121,18 @@ const floatLabelEnabled = computed(() => {
     width: 100%;
 
     &:has(> .btn:first-child) > .input-text-wrapper {
-        --text-input-bw-l: 0px;
+		margin-left: calc(var(--text-input-bw) * -1);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
     &:has(> .btn:last-child) > .input-text-wrapper {
-        --text-input-bw-r: 0px;
+		margin-right: calc(var(--text-input-bw) * -1);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
     & > .btn {
         &:first-child {
+            z-index: 1;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -143,11 +144,7 @@ const floatLabelEnabled = computed(() => {
 }
 .input-text-wrapper {
     --text-input-bw: 0.8px;
-    --text-input-bw-l: var(--text-input-bw);
-    --text-input-bw-r: var(--text-input-bw);
-    --text-input-bw-b: var(--text-input-bw);
     --text-input-bc: var(--c-grey-border-subtle);
-    --text-input-bc-b: var(--c-grey-border-subtle);
 
     font-size: 1em;
     position: relative;
@@ -156,22 +153,19 @@ const floatLabelEnabled = computed(() => {
     align-items: center;
     column-gap: var(--g-gap-md);
     padding: 0 var(--g-gap-2xl);
-    width: 100%;
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background-color: var(--c-bg);
     color: var(--c-text);
-    box-shadow: inset 0 calc(var(--text-input-bw-b) * -1) var(--text-input-bc-b),
-                inset 0 var(--text-input-bw) var(--text-input-bc),
-                inset var(--text-input-bw-l) 0 var(--text-input-bc),
-                inset calc(var(--text-input-bw-r) * -1) 0 var(--text-input-bc);
+    box-shadow: inset 0 calc(var(--text-input-bw-b, 0px) * -1) var(--text-input-bc-b, transparent),
+                inset 0 0 0 var(--text-input-bw) var(--text-input-bc, transparent);
+
     outline: 0 solid transparent;
-    z-index: 1;
     transition: background-color 150ms, box-shadow 150ms;
 
-    &:has(input:focus-visible){
+    &:has(input:focus-visible) {
         outline: 2px solid var(--c-theme-outline);
     }
-    &:has(input:disabled){
+    &:has(input:disabled) {
         --text-input-bc: var(--c-disabled-border-2);
         --text-input-bc-b: var(--c-disabled-border-2);
         color: var(--c-disabled-text);
@@ -179,7 +173,7 @@ const floatLabelEnabled = computed(() => {
         &.underline {
             --text-input-bc-b: var(--c-disabled-border-3);
         }
-        & > input{
+        & > input {
             cursor: not-allowed;
         }
     }
