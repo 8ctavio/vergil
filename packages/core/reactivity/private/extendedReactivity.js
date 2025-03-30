@@ -131,5 +131,8 @@ export class ExtendedRef extends Entangled {
 	set value(v) {
 		this.ref.value = v
 	}
+	[Symbol.toPrimitive]() {
+		return this.ref.value
+	}
 }
 Object.defineProperty(ExtendedRef.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })

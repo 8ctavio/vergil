@@ -98,13 +98,23 @@ watch(() => extended.value, callback) // getter also works
 
 **2. extendedRefs are not unwrapped in SFC templates.**
 
-To access an extendedRef's inner ref value in SFC templates, full `.value` notation is required. This is a requirement in order for extended properties to be accessible in the template.
+To access an extendedRef's inner ref value in SFC templates, full `.value` notation is typically necessary. This is a requirement in order for extended properties to be accessible in the template.
 
 ```vue
 <template>
     <p>value: {{ extended.value }}</p>
     <button @click="extended.reset">reset</button>
 </template>
+```
+
+Nevertheless, extendedRefs implement a `Symbol.toPrimitive` method that simply unwraps their underlying refs. Thus, for situations where an extendedRef would be coerced to a primitive, `.value` notation might be omitted.
+
+```diff
+ <template>
+-    <p>value: {{ extended.value }}</p>
++    <p>value: {{ extended }}</p>
+     <button @click="extended.reset">reset</button>
+ </template>
 ```
 
 ## Definition
