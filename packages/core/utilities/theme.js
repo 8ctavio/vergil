@@ -26,6 +26,7 @@ export const isValidTheme = Array.prototype.includes.bind([
 export const isValidRadius = Array.prototype.includes.bind(['none', 'sm', 'md', 'lg', 'full'])
 export const isValidSize = Array.prototype.includes.bind(['xs', 'sm', 'md', 'lg', 'xl'])
 export const isValidSpacing = Array.prototype.includes.bind(['', 'compact', 'expanded'])
+
 export function isValidVariant(c,v){
     switch(c){
         case 'Btn':

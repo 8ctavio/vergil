@@ -387,3 +387,47 @@ function isWatchSource(value: any): boolean
 #### Return value
 
 `true` if `value` is a valid watch source.
+
+## Theme
+
+### `inferTheme`
+
+```js
+function inferTheme(theme: string): string
+```
+
+#### Return value
+
+If `theme` is a [valid theme name or alias](/theme#the-theme-prop), returns the corresponding theme name. Otherwise, returns `'neutral'`.
+
+### `isValidTheme`
+
+> Assesses whether the provided value is a [valid theme name or alias](/theme#the-theme-prop).
+
+```js
+function isValidTheme(value: any): boolean
+```
+
+### `isValidRadius`
+
+> Assesses whether the provided value is a [valid theme radius value](/theme#the-radius-prop).
+
+```js
+function isValidRadius(value: any): boolean
+```
+
+### `isValidSize`
+
+> Assesses whether the provided value is a [valid theme size value](/theme#the-size-prop).
+
+```js
+function isValidSize(value: any): boolean
+```
+
+### `isValidSpacing`
+
+> Assesses whether the provided value is a [valid theme spacing value](/theme#the-spacing-prop).
+
+```js
+function isValidSpacing(value: any): boolean
+```

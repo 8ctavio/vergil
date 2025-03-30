@@ -325,3 +325,4 @@ export function getDayStart(tzo, timestamp = Date.now()){
 // #endregion
 
 export { isWatchSource } from './reactivity'
+export { inferTheme, isValidTheme, isValidRadius, isValidSize, isValidSpacing } from './theme'
