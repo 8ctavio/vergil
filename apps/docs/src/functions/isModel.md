@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { isModel } from '@8ctavio/vergil'
+import { isModel, useModel } from '@8ctavio/vergil'
 
 console.log(isModel(useModel())) // true
 ```
@@ -17,7 +17,7 @@ console.log(isModel(useModel())) // true
 ## Definition
 
 ```ts
-function isModel<T>(value: any, self: boolean): boolean
+function isModel(value: any, self: boolean): boolean
 ```
 
 #### Parameters

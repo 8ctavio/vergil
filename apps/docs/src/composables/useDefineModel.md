@@ -32,7 +32,7 @@ However, `useDefineModel` is primarly designed to support *component model objec
 The `useDefineModel` composable accepts as a single argument an `options` object (see [Parameters](#parameters)) and returns a *wrapped* version of a provided model, which has access to the regular model properties and includes additional methods to [separately handle internal and external model value updates](#handle-internal-and-external-model-value-updates). If, however, a model is not provided, `useDefineModel` creates one internally with a `validator` function taken from the component's `validator` prop to support [model-value validation](/composables/useModel#validation-and-error-handling).
 
 :::warning
-A model wrapper returned by `useDefineModel` is still an [extendedRef](/composables/extendedRef). See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
+A model wrapper returned by `useDefineModel` is still an [extendedRef](/reactivity/extendedRef). See [Difference with ref](/reactivity/extendedRef#difference-with-ref) to learn the main pragmatic differences with regular refs.
 :::
 
 :::tip NOTE

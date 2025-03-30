@@ -1,39 +1,40 @@
 import { Entangled } from "./private"
 
 /**
- * Creates an object whose ref properties are unwrapped by default.
+ * Creates an object whose ref properties are automatically unwrapped by default.
  * 
  * @template T
- * @param { T } [properties] - The properties to define into the entangled object. If a property value is a descriptor-marked object, it is used as the descriptor with which to define the property; otherwise, the provided property value becomes the entangled defined property value.
+ * @param { T } [properties] - Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
  * @param { object } [options] - Additional options.
  * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
- * @param { boolean } [options.configurable] - Default `configurable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.enumerable] - Default `enumerable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.writable] - Default `writable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { string[] } [options.ignore] - Array of property keys to ignore from the `properties` object.
+ * @param { boolean } [options.configurable] - Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.enumerable] - Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.writable] - Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { string[] } [options.ignore] - Array of `properties` property keys not to be defined on the underlying entangled object.
  * 
  * @returns { Entangled }
  * 
  * @example
  *  // Define regular or ref properties
- *  const entangledA = entangled({
+ *  const _entangled = entangled({
  *      prop1: 1,
  *      prop2: ref(2)
  *  })
- *  // Ref properties are unwrapped by default
- *  console.log(entangledA.prop1) // 1
- *  console.log(entangledA.prop2) // 2
  * 
- *  // Configure properties
- *  const entangledB = entangled({
- *      prop1: 1,
- *      prop2: markDescriptor({
- *          value: 2,
+ *  // Ref properties are unwrapped by default
+ *  console.log(_entangled.prop1) // 1
+ *  console.log(_entangled.prop2) // 2
+ * 
+ *  // Extend entangled and configure properties
+ *  _entangled.extend({
+ *      prop3: 3,
+ *      prop4: markDescriptor({
+ *          value: 4,
  *          writable: false,
  *          enumerable: false
  *      }),
- *      prop3: markDescriptor({
- *          value: ref(3),
+ *      prop5: markDescriptor({
+ *          value: ref(5),
  *          unwrap: false
  *      })
  *  })

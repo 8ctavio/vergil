@@ -48,7 +48,7 @@ All Vergil form components support models created by `useModel`. See the [introd
 
 The `useModel` composable accepts two parameters: `value` and `options`, where `value` is the initial model-value and `options` is an object whose properties further configure `useModel`'s behavior (see [Parameters](#parameters)).
 
-A model returned by `useModel` is an [extendedRef](/composables/extendedRef). The model's value is stored in the extendedRef's underlying `ref` object. Thus, the model value is accessible through the extendedRef's `value` property.
+A model returned by `useModel` is an [extendedRef](/reactivity/extendedRef). The model's value is stored in the extendedRef's underlying `ref` object. Thus, the model value is accessible through the extendedRef's `value` property.
 
 ```js
 const model = useModel()
@@ -57,7 +57,7 @@ model.value = v // Write model value
 ```
 
 :::warning
-See [Difference with ref](/composables/extendedRef#difference-with-ref) to learn the main pragmatic differences between extended and regular refs.
+See [Difference with ref](/reactivity/extendedRef#difference-with-ref) to learn the main pragmatic differences between extended and regular refs.
 :::
 
 Additional model features to conveniently interact with components' state are presented below.

@@ -25,8 +25,8 @@ onMounted(() => {
 
 <template>
 	<!-- Reference exposed elements with `ref` attribute -->
-	<div :ref="elements.refs.root">
-		<input :ref="elements.refs.input"/>
+	<div :ref="elements.getRef('root')">
+		<input :ref="elements.getRef('input')"/>
 	</div>
 </template>
 ```
@@ -37,12 +37,12 @@ The `useDefineElements` composable allows to define and expose component's HTML 
 
 A component implementing `useDefineModel` should be provided with an `elements` object either through the `elements` prop or a component model (see [`useDefineModel`](/composables/useDefineModel)). Thus, the `elements` prop should be properly defined.
 
-`useDefineElements` receives as its only argument a `keys` string array whose elements represent property names through which `elements` objects may access corresponding exposed HTML elements. Internally, shallowRefs (with `null` value) are created as required for each element to expose, and should be directly provided through the `ref` attribute to reference corresponding HTML element objects. For this purpose, `useDefineElements` creates and returns an [`extendedReactive`](/composables/extendedReactive) object where shallowRefs are defined with their associated property name and unwrapped; thus, shallowRef objects are accessible through the extendedReactive's `refs` property (see [extendedReactive's additional features](/composables/extendedReactive#additional-features)).
+`useDefineElements` receives as its only argument a `keys` string array whose elements represent property names through which `elements` objects may access corresponding exposed HTML elements. Internally, shallowRefs (with `null` value) are created as required for each element to expose, and should be directly provided through the `ref` attribute to reference corresponding HTML element objects. For this purpose, `useDefineElements` creates and returns an [entangled](/reactivity/entangled) object where shallowRefs are defined with their associated property name and unwrapped; thus, shallowRef objects may be retrieved by the entangled's `getRef` method (see [entangled's ref unwrapping](/reactivity/entangled#ref-unwrapping)).
 
 ```js
 const elements = useDefineElements(['input'])
-elements.refs.input // input's shallowRef object
 elements.input // unwrapped input's shallowRef object
+elements.getRef('input') // input's shallowRef object
 ```
 
 :::warning

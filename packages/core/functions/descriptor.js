@@ -1,7 +1,7 @@
 import { isObject } from "../utilities"
 
 /**
- * Assesses whether an object has been marked as a descriptor.
+ * Assesses whether an object has been marked as a descriptor (with `markDescriptor`).
  * 
  * @param { any } value
  * 
@@ -18,7 +18,7 @@ export function isDescriptor(value) {
  * 
  * @param { object } value - Object to be marked as a descriptor.
  * 
- * @returns { object } Object marked as a descriptor.
+ * @returns { object } Descriptor-marked object.
  */
 export function markDescriptor(value) {
 	if (isObject(value)) {

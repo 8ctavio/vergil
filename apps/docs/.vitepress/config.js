@@ -92,13 +92,17 @@ export default {
 				]
 			},
 			{
+				text: 'Reactivity',
+				collapsed: true,
+				items: [
+					{ text: 'entangled', link: '/reactivity/entangled' },
+					{ text: 'extendedRef', link: '/reactivity/extendedRef' },
+				]
+			},
+			{
 				text: 'Composables',
 				collapsed: true,
 				items: [
-					{ text: 'defineReactiveProperties', link: '/composables/defineReactiveProperties' },
-					{ text: 'extendedReactive', link: '/composables/extendedReactive' },
-					{ text: 'extendedCustomRef', link: '/composables/extendedCustomRef' },
-					{ text: 'extendedRef', link: '/composables/extendedRef' },
 					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useDebounce', link: '/composables/useDebounce' },
 					{ text: 'useElements', link: '/composables/useElements' },
@@ -123,6 +127,8 @@ export default {
 				text: 'Functions',
 				collapsed: true,
 				items: [
+					{ text: 'Descriptor', link: '/functions/descriptor' },
+					{ text: 'Extended reactivity', link: '/functions/extendedReactivity' },
 					{ text: 'isModel', link: '/functions/isModel' },
 					{ text: 'ModelGroup', link: '/functions/ModelGroup' },
 					{ text: 'Utilities', link: '/functions/utilities' }

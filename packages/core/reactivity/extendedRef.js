@@ -5,33 +5,37 @@ import { ExtendedRef } from "./private"
  * 
  * @template T,E
  * @param { T | (() => T) | Ref<T> | ExtendedRef<T,F> } value - Value to normalize into the ref to be extended.
- * @param { E } [extension] - Extension object whose keys represent the names or symbols of the properties to be defined while its values represent the properties' initial values or descriptors.
+ * @param { E } [extension] - Extension object whose keys represent the names or symbols of extendedRef properties to be defined, while its values represent those properties' initial values or descriptors.
  * @param { object } [options] - Additional options.
- * @param { boolean } [options.get] - Custom `value` getter function.
- * @param { boolean } [options.set] - Custom `value` setter function.
+ * @param { () => any } [options.get] - Custom extendedRef's `value` getter function.
+ * @param { (value: any) => void } [options.set] - Custom extendedRef's `value` setter function.
  * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
- * @param { boolean } [options.configurable] - Default `configurable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.enumerable] - Default `enumerable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.writable] - Default `writable` option value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { string[] } [options.ignore] - Array of property keys to ignore from the `properties` object.
+ * @param { boolean } [options.configurable] - Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.enumerable] - Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.writable] - Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { string[] } [options.ignore] - Array of `extension` property keys not to be defined on the underlying extendedRef object. object.
  * 
  * @returns { ExtendedRef }
  * 
  * @example
- *	const extendedA = extendedRef(0, { extra: '' })
- *	// read and write inner reactive value normally
- *	extendedA.value = 8
- *	console.log(extendedA.value)
- *	// read and write extended properties
- *	extendedA.extra = 'some value'
- *	console.log(extendedA.extra)
- *	
- *	// Configure extended properties
- *	const extendedB = extendedRef(0, {
- *		extra1: 1,
- *		extra2: markDescriptor({ value: 2, writable: false, enumerable: false }),
- *		extra3: markDescriptor({ value: ref(3), unwrap: false })
- *	})
+ *  const extended = extendedRef(0, { extra1: 0 })
+ *  // normally read and write inner reactive value
+ *  extended.value = extended.value + 8
+ *  // read and write extended properties
+ *  extended.extra1 = extended.extra1 + 1
+ *  // create and configure properties
+ *  extended.extend({
+ *  	extra2: 2,
+ *  	extra3: markDescriptor({
+ *  		value: 3,
+ *  		enumerable: false,
+ *  		writable: false
+ *  	}),
+ *  	extra4: markDescriptor({
+ *  		value: ref(4),
+ *  		unwrap: false
+ *  	})
+ *  })
  */
 export function extendedRef(value, extension, options = {}) {
 	const { get, set, ...extensionOptions } = options

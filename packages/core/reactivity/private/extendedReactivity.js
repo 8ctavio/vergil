@@ -5,12 +5,17 @@ import { pull } from '../../utilities'
 let shouldUnwrap = true
 let isUnwrappedRef = false
 
-/** Allows to define unwrapped ref properties. */
+/** Allows to define automatically unwrapped ref properties. */
 export class Entangled {
 	constructor() {
 		markRaw(this)
 	}
 
+	/**
+	 * @param { string | symbol } key - An auto-unwrapped ref property key.
+	 * 
+	 * @returns { Ref | undefined }
+	 */
 	getRef(key) {
 		shouldUnwrap = false
 		isUnwrappedRef = false
@@ -21,6 +26,19 @@ export class Entangled {
 			shouldUnwrap = true
 		}
 	}
+
+	/**
+	 * @template T
+	 * @param { T } extension - Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
+	 * @param { object } [options] - Additional options.
+	 * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
+	 * @param { boolean } [options.configurable] - Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { boolean } [options.enumerable] - Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { boolean } [options.writable] - Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { string[] } [options.ignore] - Array of `extension` property keys not to be defined on the underlying entangled object.
+	 * 
+	 * @returns { Entangled }
+	 */
 	extend(extension, options = {}) {
 		const {
 			defaults = true,
