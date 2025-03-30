@@ -381,9 +381,9 @@ Start-of-day timestamp of the target-timezone-date with the provided timestamp.
 > Assesses whether a value is a valid watch source.
 
 ```js
-function isWatchSource(mayBeWatchSource: any): boolean
+function isWatchSource(value: any): boolean
 ```
 
 #### Return value
 
-`true` if `mayBeWatchSource` is a valid watch source.
+`true` if `value` is a valid watch source.

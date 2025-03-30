@@ -1,5 +1,3 @@
-import { isRef } from 'vue'
-
 //------------------------------------------------
 //-------------------- STRING --------------------
 //------------------------------------------------
@@ -326,17 +324,4 @@ export function getDayStart(tzo, timestamp = Date.now()){
 }
 // #endregion
 
-//----------------------------------------------------
-//-------------------- REACTIVITY --------------------
-//----------------------------------------------------
-// #region
-/**
- * Assesses whether a value is a valid watch source.
- * 
- * @param { any } mayBeWatchSource 
- * @returns { boolean } `true` if `mayBeWatchSource` is a valid watch source.
- */
-export function isWatchSource(mayBeWatchSource){
-    return isRef(mayBeWatchSource) || (typeof mayBeWatchSource === 'function')
-}
-// #endregion
+export { isWatchSource } from './reactivity'

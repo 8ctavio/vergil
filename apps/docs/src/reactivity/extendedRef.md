@@ -76,6 +76,14 @@ extended.value = extended.value
 // custom setter
 ```
 
+Similarly, an `extendedRef`-exclusive `shallow` boolean option may be set to `true` for an extendedRef's regular ref to be created with `shallowRef`.
+
+```js
+const extended = extendedRef(undefined, null, { shallow: true })
+
+console.log(isShallow(extended.ref)) // true
+```
+
 ### Difference with ref
 
 Even though an extendedRef attempts to emulate a regular ref, they do not always behave in the same way since extendedRefs are not ref objects. Pragmatically, there are two major differences between extended and regular refs:
@@ -124,6 +132,7 @@ function extendedRef<T,E>(
     value: T | (() => T) | Ref<T> | ExtendedRef<T,F>,
     extension?: E,
     options?: {
+        shallow?: boolean;
         get?: () => any;
         set?: (value: any) => void;
         defaults?: boolean;
@@ -140,6 +149,7 @@ function extendedRef<T,E>(
 - **`value`**: Value to normalize into the ref to be extended.
 - **`extension`**: Extension object whose keys represent the names or symbols of extendedRef properties to be defined, while its values represent those properties' initial values or descriptors (see [property definition](/reactivity/entangled#property-definition)).
 - **`options`**:
+    - `shallow`: Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
     - `get`: Custom extendedRef's `value` getter function.
     - `set`: Custom extendedRef's `value` setter function.
     - `defaults`: Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.

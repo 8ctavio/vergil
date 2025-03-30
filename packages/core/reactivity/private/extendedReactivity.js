@@ -1,6 +1,6 @@
-import { isRef, toRef, markRaw } from 'vue'
+import { isRef, markRaw } from 'vue'
 import { isDescriptor } from '../../functions'
-import { pull } from '../../utilities'
+import { normalizeRef, pull } from '../../utilities'
 
 let shouldUnwrap = true
 let isUnwrappedRef = false
@@ -113,10 +113,10 @@ Object.defineProperty(Entangled.prototype, Symbol.toStringTag, { value: 'Entangl
 
 /** Stores a ref object and defines `value` accessor methods to read from and write to that ref's value. */
 export class ExtendedRef extends Entangled {
-	constructor(value, { get, set } = {}) {
+	constructor(value, { shallow = false, get, set } = {}) {
 		super()
 		Object.defineProperty(this, 'ref', {
-			value: toRef(value)
+			value: normalizeRef(value, shallow)
 		})
 		if (get || set) {
 			Object.defineProperty(this, 'value', {

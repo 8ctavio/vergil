@@ -7,6 +7,7 @@ import { ExtendedRef } from "./private"
  * @param { T | (() => T) | Ref<T> | ExtendedRef<T,F> } value - Value to normalize into the ref to be extended.
  * @param { E } [extension] - Extension object whose keys represent the names or symbols of extendedRef properties to be defined, while its values represent those properties' initial values or descriptors.
  * @param { object } [options] - Additional options.
+ * @param { boolean } [options.shallow] - Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
  * @param { () => any } [options.get] - Custom extendedRef's `value` getter function.
  * @param { (value: any) => void } [options.set] - Custom extendedRef's `value` setter function.
  * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
@@ -38,10 +39,10 @@ import { ExtendedRef } from "./private"
  *  })
  */
 export function extendedRef(value, extension, options = {}) {
-	const { get, set, ...extensionOptions } = options
+	const { shallow, get, set, ...extensionOptions } = options
 	const extended = value instanceof ExtendedRef
 		? value
-		: new ExtendedRef(value, { get, set })
+		: new ExtendedRef(value, { shallow, get, set })
 	if (extension) extended.extend(extension, extensionOptions)
 	return extended
 }
