@@ -1,2 +1,6 @@
 export * from './entangled'
 export * from './extendedRef'
+export * from './resetRef'
+export * from './waitFor'
+export * from './watchControlled'
+export * from './watchUntil'

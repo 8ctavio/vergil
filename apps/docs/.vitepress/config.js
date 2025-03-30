@@ -97,22 +97,22 @@ export default {
 				items: [
 					{ text: 'entangled', link: '/reactivity/entangled' },
 					{ text: 'extendedRef', link: '/reactivity/extendedRef' },
+					{ text: 'resetRef', link: '/reactivity/resetRef' },
+					{ text: 'waitFor', link: '/reactivity/waitFor' },
+					{ text: 'watchControlled', link: '/reactivity/watchControlled' },
+					{ text: 'watchUntil', link: '/reactivity/watchUntil' },
 				]
 			},
 			{
 				text: 'Composables',
 				collapsed: true,
 				items: [
-					{ text: 'resetRef', link: '/composables/resetRef' },
 					{ text: 'useDebounce', link: '/composables/useDebounce' },
 					{ text: 'useElements', link: '/composables/useElements' },
 					{ text: 'useExposed', link: '/composables/useExposed' },
 					{ text: 'useModel', link: '/composables/useModel' },
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
-					{ text: 'waitFor', link: '/composables/waitFor' },
-					{ text: 'watchControlled', link: '/composables/watchControlled' },
-					{ text: 'watchUntil', link: '/composables/watchUntil' },
 					{
 						text: 'Component Impl.',
 						items: [

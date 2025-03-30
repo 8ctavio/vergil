@@ -1,5 +1,5 @@
-import { extendedRef } from "../reactivity"
-import { useResetValue } from "./private"
+import { extendedRef } from "."
+import { useResetValue } from "../composables/private"
 
 /**
  * Returns extended ref with reset method.

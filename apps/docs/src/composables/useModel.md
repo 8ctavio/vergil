@@ -279,4 +279,4 @@ function useModel<T>(
 
 #### Return value
 
-An `ExtendedRef` object.
+An extendedRef object.

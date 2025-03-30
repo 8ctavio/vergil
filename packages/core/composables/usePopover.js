@@ -6,7 +6,7 @@ import {
 } from 'vue'
 import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift, arrow as useArrow } from '@floating-ui/vue'
 import { vergil } from '../vergil'
-import { waitFor } from './waitFor'
+import { waitFor } from '../reactivity'
 import {
 	isTabKey, isEscapeKey,
 	focusElement, getFirstTabbable, hasTabbableBefore, hasTabbableAfter,

@@ -1,8 +1,9 @@
 import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel, useElements, useExposed } from '.'
+import { privateModelMap, useModelWatchers } from './private'
+import { watchControlledSync } from '../reactivity/private'
 import { isModel } from '../functions'
 import { isFunction, isObject, noop } from '../utilities'
-import { privateModelMap, useModelWatchers, watchControlledSync } from './private'
 
 const symExt_controller = Symbol('external:controller')
 const symInt_trigger = Symbol('internal:triggerCbs')

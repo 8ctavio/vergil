@@ -213,7 +213,7 @@ function useDefineModel<T>(options?: {
 
 #### Return value
 
-An `ExtendedRef` object. Additional included methods are:
+An extendedRef object. Additional included methods are:
 
 - `onInternalUpdate`
 - `onExternalUpdate`

@@ -1,4 +1,4 @@
-import { watchUntil } from './watchUntil'
+import { watchUntil } from '.'
 import { isWatchSource } from '../utilities'
 
 /**

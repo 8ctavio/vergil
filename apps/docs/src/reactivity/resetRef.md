@@ -4,7 +4,7 @@ outline: [2,3]
 
 # `resetRef`
 
-> Returns extended ref with reset method.
+> Returns extendedRef with reset method.
 
 ## Usage
 
@@ -34,8 +34,8 @@ function resetRef<T>(reference: T | Ref<T> | () => T): ExtendedRef
 
 #### Parameters
 
-- **`reference`**: The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
+- **`reference`**: The extendedRef's initial and reset values. A ref or getter can be used for a dynamic reset value.
 
 #### Return value
 
-An `ExtendedRef` object with a `reset` method.
+An extendedRef object with a `reset` method.
