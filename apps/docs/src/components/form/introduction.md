@@ -45,6 +45,22 @@ useModel([], { shallow: true })
 ```
 :::
 
+:::warning
+shallowRefs directly provided through `v-model` are not fully supported by FFCs whose model-values are objects; models should be provided instead:
+
+```diff
+<script setup>
+- const model = shallowRef(someObject)
++ const model = useModel(someObject, { shallow: true })
+</script>
+
+<template>
+    <Component v-model="model"/>
+</template>
+```
+:::
+
+
 Nevertheless, `v-model` is not required for FFCs to properly work. To the contrary, when a model is absent, FFCs create one internally and may still receive initial values and validator functions in compliance with the `useModel`'s API:
 
 - Different FFCs may define their own method to receive initial model-values, but typically, a `value` prop is supported for this purpose (see [Shared props](#shared-props)).

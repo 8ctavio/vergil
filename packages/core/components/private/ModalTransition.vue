@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 
-const isLeaving = ref(false)
+const isLeaving = shallowRef(false)
 
 defineOptions({ inheritAttrs: false })
 defineProps({ show: Boolean })
@@ -14,7 +14,7 @@ defineExpose({ isLeaving })
 			<Transition v-show="show" name="modal-window" appear mode="out-in"
 				@before-leave="isLeaving = true"
 				@after-leave="isLeaving = false"
-				>
+			>
 				<slot/>
 			</Transition>
 		</div>

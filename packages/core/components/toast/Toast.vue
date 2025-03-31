@@ -1,7 +1,7 @@
 <script setup>
 import Icon from '../Icon'
 import MiniMarkup from "../private/MiniMarkup"
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import { vergil } from '../../vergil'
 import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '../../utilities'
 
@@ -34,7 +34,7 @@ const props = defineProps({
 })
 defineEmits(['close'])
 const theme = inferTheme(props.theme)
-const playState = ref('running')
+const playState = shallowRef('running')
 </script>
 
 <template>

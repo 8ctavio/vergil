@@ -80,9 +80,9 @@ const options6 = ['Option']
 ```vue
 <script setup>
 import { Select } from '@8ctavio/vergil/components'
-import { ref } from 'vue'
+import { useModel } from '@8ctavio/vergil'
 
-const difficulty = ref('')
+const difficulty = useModel('')
 const difficultyOptions = {
     easy: 'Easy',
     normal: 'Normal',
@@ -90,7 +90,7 @@ const difficultyOptions = {
     legendary: 'Legendary'
 }
 
-const skulls = ref([])
+const skulls = useModel([])
 const skullOptions = {
     anger: 'Anger',
     blind: 'Blind',

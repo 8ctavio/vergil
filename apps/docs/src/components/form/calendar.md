@@ -54,6 +54,10 @@ const dates = useModel([])
 
 ## Modifiers
 
+:::warning
+If no modifier is used, `Calendar` does not support regular refs directly provided through `v-model`.
+:::
+
 ### String
 
 When the `string` modifier is present, the model value is handled as a date-only-form string (`"YYYY-MM-DD"`) of the [date time string format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format).

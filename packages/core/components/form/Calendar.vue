@@ -3,25 +3,6 @@ import { hasDate, isDate, padLeadingZeros } from '../../utilities'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 
-/**
- * Cannot use `triggerRef` directly on model.ref since
- * this stored ref is different than the ref directly
- * passed through `v-model` (the received modelValue
- * is not the actual ref, but a custom ref is created
- * from modelValue and onUpdate:modelValue).
- * 
- * Support for regular refs in custom component's `v-model`
- * may be removed to resolve this problem, thus removing
- * the added overhead of `triggerModelValue`, preventing
- * potential issues with sync watchers, and simplifying
- * the `useDefineModel`'s implementation.
- */
-function triggerModelValue(model) {
-	const modelValue = model.value
-	model.value = undefined
-	model.value = modelValue
-}
-
 function normalizeCalendarDate(date, asDate = false) {
 	if(date === 'today') {
 		(date = new Date()).setHours(0,0,0,0)
@@ -148,11 +129,9 @@ function normalizeModelDates(model, mods, timeControls, hours, minutes, callback
 		
 		if(!Object.is(newValue, modelValue[i])) {
 			modelValue[i] = newValue
-			triggerModelValue(model)
-			// triggerRef(model.ref)
+			triggerRef(model.ref)
 		} else if(isDate(newValue) && prevTimestamp !== newValue.getTime()) {
-			triggerModelValue(model)
-			// triggerRef(model.ref)
+			triggerRef(model.ref)
 		} 
 	}
 }
@@ -540,8 +519,7 @@ function updateDateTime(lazyValidation = false) {
 	} else if(hasDate(model.value, false)) {
 		model.update(() => {
 			model.value = getNewModelValue(model.value)
-			triggerModelValue(model)
-			// triggerRef(model.ref)
+			triggerRef(model.ref)
 			;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
 		})
 	}
@@ -711,8 +689,7 @@ model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue) => {
 				model.value = modelDate.getTime()
 			} else {
 				model.value = modelDate
-				triggerModelValue(model)
-				// triggerRef(model.ref)
+				triggerRef(model.ref)
 			}
 		} else {
 			updateDate(prevModelValue)

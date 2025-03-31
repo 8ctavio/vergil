@@ -1,7 +1,7 @@
 <script setup>
 import Badge from './Badge.vue'
 import MiniMarkup from './private/MiniMarkup'
-import { ref, h } from 'vue'
+import { shallowRef, h } from 'vue'
 import { vergil } from '../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities'
 
@@ -30,7 +30,7 @@ defineProps({
     }
 })
 
-const columns = ref(0)
+const columns = shallowRef(0)
 function EmbeddedTable({ data }) {
 	columns.value = `repeat(${data[0].length},1fr)`
 	const rows = []
