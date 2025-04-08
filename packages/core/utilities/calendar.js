@@ -1,3 +1,8 @@
+/**
+ * @param { any } value 
+ * @param { boolean } [isArrayHint] 
+ * @returns { boolean }
+ */
 export function hasDate(value, isArrayHint) {
 	return (typeof isArrayHint === 'boolean' ? isArrayHint : Array.isArray(value))
 		? value.length > 0
@@ -6,10 +11,18 @@ export function hasDate(value, isArrayHint) {
 			|| (typeof value === 'number' && !Number.isNaN(value))
 }
 
-export function isDate(v) {
-	return Object.prototype.toString.call(v) === '[object Date]'
+/**
+ * @param { unknown } value
+ * @returns { value is Date }
+ */
+export function isDate(value) {
+	return Object.prototype.toString.call(value) === '[object Date]'
 }
 
-export function padLeadingZeros(v, maxLength = 2) {
-	return String(v).padStart(maxLength, '0')
+/**
+ * @param { unknown } value
+ * @param { number } [maxLength = 2]
+ */
+export function padLeadingZeros(value, maxLength = 2) {
+	return String(value).padStart(maxLength, '0')
 }

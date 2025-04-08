@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"checkJs": true,
+		"target": "ESNext",
+		"moduleResolution": "bundler",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"strict": true,
+		"erasableSyntaxOnly": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+	}
+}
