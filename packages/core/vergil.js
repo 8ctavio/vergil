@@ -1,29 +1,34 @@
 import { inferTheme, isObject, isPlainObject } from './utilities'
 
-class Option {
-    constructor(value, modifier = v => v) {
-        this.default = value
-        this.modifier = modifier
-    }
-}
-function isOption(o) {
-    return isObject(o) && Object.getPrototypeOf(o) === Option.prototype
-}
+/** @import { VergilConfig, PartialVergilConfig } from './types' */
 
+/**
+ * @param { Record<string, unknown> } template 
+ * @param { Record<string, unknown> } [options = {}] 
+ * @returns { {
+ *     value: Record<string, unknown>;
+ *     configurable: false;
+ *     enumerable: true;
+ *     writable: false;
+ * } }
+ */
 function createConfig(template, options = {}) {
     const descriptors = Object.create(null)
-    for(const option of Object.keys(template)) {
-        if(isPlainObject(template[option])) {
-            descriptors[option] = createConfig(template[option], options[option])
+    for (const option of Object.keys(template)) {
+        if (isPlainObject(template[option])) {
+            descriptors[option] = createConfig(
+                template[option],
+                /** @type { Record<string, unknown> | undefined } */ (options[option])
+            )
         } else {
             descriptors[option] = {
                 configurable: false,
                 enumerable: true,
                 writable: true,
-                value: isOption(template[option])
+                value: hasModifier(template[option])
                     ? Object.hasOwn(options, option)
-                        ? template[option].modifier(options[option])
-                        : template[option].default
+                        ? /** @type { OptionWithModifier } */(template[option]).modifier(options[option])
+                        : /** @type { OptionWithModifier } */(template[option]).default
                     : Object.hasOwn(options, option)
                         ? options[option]
                         : template[option]
@@ -38,7 +43,13 @@ function createConfig(template, options = {}) {
     }
 }
 
-export const vergil = Object.create(null, {
+/**
+ * @type { {
+ *     config: VergilConfig;
+ *     init(options: PartialVergilConfig): void
+ * } }
+ */
+export const vergil = Object.defineProperties(/** @type { typeof vergil } */ ({}), {
     config: {
         value: null,
         writable: true,
@@ -46,24 +57,74 @@ export const vergil = Object.create(null, {
         configurable: false,
     },
     init: {
+        /** @param { Record<string, unknown> } options */
         value(options) {
-            if(vergil.config === null) {
+            if (vergil.config === null) {
                 Object.defineProperty(
                     vergil,
                     'config',
                     createConfig(template, options)
                 )
+                // @ts-expect-error
                 template = null
             }
         }
     }
 })
 
+/**
+ * @template [T=unknown]
+ * @typedef { {
+ *     default: T;
+ *     modifier(value: unknown): T;
+ *     [Symbol.toStringTag]: 'OptionWithModifier';
+ * } } OptionWithModifier
+ */
+
+/**
+ * @template V
+ * @template { (...args: any) => any } M
+ * @param { V } value
+ * @param { M } modifier
+ * @returns { OptionWithModifier<V | ReturnType<M>> }
+ */
+function withModifier(value, modifier) {
+    return {
+        default: value,
+        modifier,
+        [Symbol.toStringTag]: 'OptionWithModifier'
+    }
+}
+
+/**
+ * @template T
+ * @param { T } option
+ * @returns { options is T extends OptionWithModifier ? T : never }
+ */
+function hasModifier(option) {
+    return isObject(option) && option[Symbol.toStringTag] === 'OptionWithModifier'
+}
+
+/**
+ * @template { object } T
+ * @typedef { {
+ *     [K in keyof T]: T[K] extends object
+ *         ? T[K] extends Function
+ *             ? T[K] | OptionWithModifier<T[K]>
+ *             : MayHaveModifier<T[K]>
+ *         : T[K] | OptionWithModifier<T[K]>
+ * } } MayHaveModifier
+ */
+
+/**
+ * @typedef { { [K in keyof VergilConfig]: MayHaveModifier<VergilConfig[K]> } } VergilConfigSpec
+ * @type { VergilConfigSpec }
+ */
 let template = {
     global: {
         validationDelay: 300,
         validationCooldown: 350,
-        theme: new Option('brand', inferTheme),
+        theme: withModifier('brand', inferTheme),
         size: 'md',
         radius: 'md',
         spacing: '',
@@ -89,7 +150,7 @@ let template = {
         subtle: {
             outline: undefined
         },
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -115,7 +176,7 @@ let template = {
             underline: undefined,
             fill: undefined,
         },
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -129,8 +190,7 @@ let template = {
         subtle: {
             outline: undefined
         },
-        bordered: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -143,14 +203,14 @@ let template = {
         timeFormat: '24',
         validationDelay: undefined,
         validationCooldown: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
     },
     checkbox: {
         variant: 'classic',
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -171,7 +231,7 @@ let template = {
         }
     },
     datalist: {
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -183,7 +243,7 @@ let template = {
         sideButtonPosition: 'after',
         underline: undefined,
         fill: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -202,13 +262,13 @@ let template = {
         underline: false,
         validationDelay: undefined,
         validationCooldown: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
     },
     placeholder: {
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -225,7 +285,7 @@ let template = {
     radio: {
         variant: 'classic',
         radioRadius: 'full',
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -236,7 +296,7 @@ let template = {
         placeholderFilter: 'Filter',
         underline: undefined,
         fill: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,
@@ -248,13 +308,13 @@ let template = {
     },
     slider: {
         validationDelay: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: 'full',
         spacing: undefined,
     },
     switch: {
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: 'full',
         spacing: undefined,
@@ -262,7 +322,7 @@ let template = {
     textarea: {
         underline: false,
         validationDelay: undefined,
-        theme: new Option(undefined, inferTheme),
+        theme: withModifier(undefined, inferTheme),
         size: undefined,
         radius: undefined,
         spacing: undefined,

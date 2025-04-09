@@ -3,6 +3,7 @@
 		"checkJs": true,
 		"target": "ESNext",
 		"moduleResolution": "bundler",
+		"moduleDetection": "force",
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"strict": true,

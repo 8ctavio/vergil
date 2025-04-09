@@ -1,10 +1,4 @@
-/**
- * @typedef { 'brand' | 'user' | 'ok' | 'info' | 'warn' | 'danger' | 'neutral' } Theme
- * @typedef { Theme | 'success' | 'check' | 'help' | 'tip' | 'warning' | 'caution' | 'error' } ThemeAlias
- * @typedef { 'xs' | 'sm' | 'md' | 'lg' | 'xl' } Size
- * @typedef { 'none' | 'sm' | 'md' | 'lg' | 'full' } Radius
- * @typedef { '' | 'compact' | 'expanded' } Spacing
- */
+/** @import { Theme, ThemeAlias, Size, Radius, Spacing } from '../types' */
 
 /**
  * @template { string } T
@@ -19,6 +13,14 @@
  *     : 'neutral'
  * }
  */
+
+/**
+ * Required for ReturnType<typeof inferTheme> to yield Theme.
+ * @overload
+ * @param { string } theme
+ * @returns { Theme }
+ */
+
 /**
  * @param { string } theme 
  * @returns { Theme }
