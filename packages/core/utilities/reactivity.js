@@ -3,6 +3,7 @@ import { isFunction } from './public'
 
 /**
  * @import { Ref, ShallowRef, MaybeRefOrGetter, WatchSource } from "vue"
+ * @import { NormalizeRef } from '../types'
  */
 
 /**
@@ -22,13 +23,8 @@ export function isWatchSource(value) {
  * @overload
  * 
  * @param { T } value 
- * @param { S } [shallow] 
- * @returns { T extends Ref
- *     ? T
- *     : T extends () => infer V
- *         ? Readonly<Ref<V>>
- *         : S extends true ? ShallowRef<T> : Ref<T>
- * }
+ * @param { S } [shallow = false] 
+ * @returns { NormalizeRef<T,S> }
  */
 
 /**

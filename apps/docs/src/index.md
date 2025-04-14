@@ -16,10 +16,10 @@ hero:
       link: components/badge
     - theme: alt
       text: Composables
-      link: composables/defineReactiveProperties
+      link: composables/useDebounce
     - theme: alt
       text: Functions
-      link: functions/isModel
+      link: functions/Descriptor
 
 features:
   - title: Components

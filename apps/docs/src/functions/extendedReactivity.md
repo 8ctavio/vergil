@@ -14,8 +14,8 @@ import { <fn> } from '@8ctavio/vergil'
 
 > Assesses whether a value is an entangled object.
 
-```js
-function isEntangled(value: any): boolean
+```ts
+function isEntangled<T>(value: T): value is T extends Entangled ? T : never
 ```
 
 #### Return value
@@ -26,8 +26,8 @@ function isEntangled(value: any): boolean
 
 > Assesses whether a value is an extendedRef object.
 
-```js
-function isExtendedRef(value: any): boolean
+```ts
+function isExtendedRef<T>(value: T): value is T extends ExtendedRef ? T : never
 ```
 
 #### Return value

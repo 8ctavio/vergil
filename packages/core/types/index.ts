@@ -1,3 +1,7 @@
+export * from './descriptor'
+export * from './Entangled'
+export * from './ExtendedRef'
+export * from './reactivity'
 export * from './theme'
 export * from './utils'
 export * from './vergil'

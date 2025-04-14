@@ -2,41 +2,47 @@ import { isRef, markRaw } from 'vue'
 import { isDescriptor } from '../../functions'
 import { normalizeRef, pull } from '../../utilities'
 
+/**
+ * @import { Ref, MaybeRef } from 'vue'
+ * @import { Entangled, ExtendedRef } from '../../types'
+ */
+
 let shouldUnwrap = true
 let isUnwrappedRef = false
 
-/** Allows to define automatically unwrapped ref properties. */
-export class Entangled {
+/**
+ * Allows to define automatically unwrapped ref properties.
+ * @implements { Entangled }
+ */
+export class EntangledImpl {
 	constructor() {
 		markRaw(this)
 	}
 
 	/**
-	 * @param { string | symbol } key - An auto-unwrapped ref property key.
-	 * 
-	 * @returns { Ref | undefined }
+	 * @this { { [key: PropertyKey]: unknown } }
+	 * @param { PropertyKey } key - An auto-unwrapped ref property key.
+	 * @returns { Ref<unknown> | undefined }
 	 */
 	getRef(key) {
 		shouldUnwrap = false
 		isUnwrappedRef = false
 		try {
 			const v = this[key]
-			return isUnwrappedRef ? v : undefined
+			return isUnwrappedRef ? /** @type { Ref } */(v) : undefined
 		} finally {
 			shouldUnwrap = true
 		}
 	}
 
 	/**
-	 * @template T
-	 * @param { T } extension - Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
-	 * @param { object } [options] - Additional options.
-	 * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
-	 * @param { boolean } [options.configurable] - Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { boolean } [options.enumerable] - Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { boolean } [options.writable] - Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { string[] } [options.ignore] - Array of `extension` property keys not to be defined on the underlying entangled object.
-	 * 
+	 * @param { Record<PropertyKey, unknown> } extension	- Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
+	 * @param { object } [options]							- Additional options.
+	 * @param { boolean } [options.defaults]				- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
+	 * @param { boolean } [options.configurable]			- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+	 * @param { PropertyKey[] } [options.ignore]			- Array of `extension` property keys not to be defined on the underlying entangled object.
 	 * @returns { Entangled }
 	 */
 	extend(extension, options = {}) {
@@ -49,7 +55,7 @@ export class Entangled {
 		} = options
 
 		ignore.push('__v_skip')
-		if (this instanceof ExtendedRef) ignore.push('ref', 'value')
+		if (this instanceof ExtendedRefImpl) ignore.push('ref', 'value')
 
 		for (const getKeys of [Object.getOwnPropertyNames, Object.getOwnPropertySymbols]) {
 			for (const key of getKeys(extension)) {
@@ -59,8 +65,19 @@ export class Entangled {
 					continue
 				}
 
+				/**
+				 * @typedef { {
+				 *     value?: unknown;
+				 *     writable?: boolean;
+				 *     enumerable?: boolean;
+				 *     configurable?: boolean;
+				 *     get?: () => unknown;
+				 *     set?: (v: unknown) => void;
+				 *     unwrap?: boolean;
+				 * } } EntangledDescriptor
+				 */
 				const v = extension[key]
-				const descriptor = isDescriptor(v) ? v : { value: v }
+				const descriptor = /** @type { EntangledDescriptor } */ (isDescriptor(v) ? v : { value: v })
 
 				const initDescriptor = !Object.hasOwn(this, key)
 				if (initDescriptor) {
@@ -74,7 +91,7 @@ export class Entangled {
 					}
 					if (isRef(descriptor.value) && descriptor.unwrap != false) {
 						const _ref = descriptor.value
-						const customGet = descriptor.get
+						const customGet = /** @type { (shouldUnwrap: boolean) => MaybeRef } */ (descriptor.get)
 						Object.defineProperty(this, key, {
 							get: customGet === undefined
 								? () => {
@@ -109,14 +126,29 @@ export class Entangled {
 		return this
 	}
 }
-Object.defineProperty(Entangled.prototype, Symbol.toStringTag, { value: 'Entangled' })
+Object.defineProperty(EntangledImpl.prototype, Symbol.toStringTag, { value: 'Entangled' })
 
-/** Stores a ref object and defines `value` accessor methods to read from and write to that ref's value. */
-export class ExtendedRef extends Entangled {
+/**
+ * Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
+ * @implements { ExtendedRef }
+ */
+export class ExtendedRefImpl extends EntangledImpl {
+	ref = /** @type { Ref } */ (/** @type { unknown } */ (undefined))
+
+	/**
+	 * @param { unknown } value 
+	 * @param { object } [options]
+	 * @param { boolean } [options.shallow = false]
+	 * @param { () => unknown } [options.get]
+	 * @param { (v: unknown) => void } [options.set]
+	 */
 	constructor(value, { shallow = false, get, set } = {}) {
 		super()
 		Object.defineProperty(this, 'ref', {
-			value: normalizeRef(value, shallow)
+			value: normalizeRef(value, shallow),
+			writable: false,
+			enumerable: false,
+			configurable: false
 		})
 		if (get || set) {
 			Object.defineProperty(this, 'value', {
@@ -135,4 +167,4 @@ export class ExtendedRef extends Entangled {
 		return this.ref.value
 	}
 }
-Object.defineProperty(ExtendedRef.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })
+Object.defineProperty(ExtendedRefImpl.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })

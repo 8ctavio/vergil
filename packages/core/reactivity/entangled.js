@@ -1,17 +1,26 @@
-import { Entangled } from "./private"
+import { EntangledImpl } from "./private"
+
+/** @import { Entangled, EntangledExtension, EntangledOptions } from '../types' */
+
+/**
+ * @template { Record<PropertyKey, unknown> } [T = {}]
+ * @template { EntangledOptions } [O = {}]
+ * @overload
+ * @param { T } [properties]
+ * @param { O } [options]
+ * @returns { Entangled<EntangledExtension<T,O>> }
+ */
 
 /**
  * Creates an object whose ref properties are automatically unwrapped by default.
  * 
- * @template T
- * @param { T } [properties] - Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
- * @param { object } [options] - Additional options.
- * @param { boolean } [options.defaults] - Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
- * @param { boolean } [options.configurable] - Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.enumerable] - Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.writable] - Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { string[] } [options.ignore] - Array of `properties` property keys not to be defined on the underlying entangled object.
- * 
+ * @param { Record<PropertyKey, unknown> } [properties]	- Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
+ * @param { object } [options]
+ * @param { boolean } [options.defaults]				- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
+ * @param { boolean } [options.configurable]			- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { PropertyKey[] } [options.ignore]			- Array of `properties` property keys not to be defined on the underlying entangled object.
  * @returns { Entangled }
  * 
  * @example
@@ -40,7 +49,7 @@ import { Entangled } from "./private"
  *  })
  */
 export function entangled(properties, options) {
-	const _entangled = new Entangled()
+	const _entangled = new EntangledImpl()
 	if (properties) _entangled.extend(properties, options)
 	return _entangled
 }

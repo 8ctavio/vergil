@@ -44,7 +44,7 @@ deburr('México') // 'Mexico'
 function formatWords(
     str: string,
     formatter: (word: string, idx: number) => string,
-    separator: string = ' '
+    separator?: string
 ): string
 ```
 
@@ -108,13 +108,13 @@ prune(' Verdad  y   Reconciliación   ') // 'verdad y reconciliacion'
 > Formats a number string by adding a `separator` string between thousands groups of the number's integer part.
 
 ```ts
-function separateThousands(num: string | number, separator: string = ','): string
+function separateThousands(num: string | number, separator?: string): string
 ```
 
 #### Parameters
 
 - **`num`**
-- **`separator`** — String to place between thousands groups.
+- **`separator`** — String to place between thousands groups. Defaults to `','`.
 
 #### Return value
 
@@ -134,13 +134,13 @@ separateThousands(123456789) // '123,456,789'
 > Trims a string and replaces consecutive white space characters (`/\s+/`) with a single space character (`" "`) or a custom separator string.
 
 ```ts
-function spaceEvenly(str: string, separator: string = ' '): string
+function spaceEvenly(str: string, separator?: string): string
 ```
 
 #### Parameters
 
 - **`str`**
-- **`separator`** — String to replace whitespace characters with.
+- **`separator`** — String to replace whitespace characters with. Defaults to `' '`.
 
 #### Return value
 
@@ -211,7 +211,7 @@ function everyKeyInObject(
         required?: string[];
         optional?: string[];
     },
-    strict?: boolean = true
+    strict?: boolean
 ): boolean
 ```
 
@@ -337,7 +337,7 @@ Debounced function with `cancel` method to cancel scheduled `fn` execution.
 > Offset a timestamp and/or convert its time unit.
 
 ```ts
-function getTimestamp(options: {
+function getTimestamp(options?: {
     from?: number;
     unit?: 'ms' | 's';
     offset?: {
@@ -346,7 +346,7 @@ function getTimestamp(options: {
         h?: number;
         d?: number;
     }
-} = {}): number
+}): number
 ```
 
 #### Parameters
@@ -390,12 +390,12 @@ getTimestamp({
 > Gets a start of day timestamp (00:00:00.000) of another timestamps' date in a given timezone.
 
 ```ts
-function getDayStart(tzo: number, timestamp: number = Date.now()): number
+function getDayStart(tzo: number, timestamp?: number): number
 ```
 
 #### Parameters
 
-- **`tzo`** — Timezone offset in minutes.
+- **`tzo`** — Timezone offset in minutes. Defaults to `Date.now()`.
 - **`timestamp`** — Reference timestamp in milliseconds.
 
 #### Return value

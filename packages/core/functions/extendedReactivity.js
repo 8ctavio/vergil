@@ -1,23 +1,25 @@
-import { Entangled, ExtendedRef } from "../reactivity/private"
+import { EntangledImpl, ExtendedRefImpl } from "../reactivity/private"
+
+/** @import { Entangled, ExtendedRef } from '../types' */
 
 /**
  * Assesses whether a value is an entangled object.
  * 
- * @param { any } value
- * 
- * @returns { boolean } `true` if `value` is an entangled object, and `false` otherwise.
+ * @template T
+ * @param { T } value
+ * @returns { value is T extends Entangled ? T : never } `true` if `value` is an entangled object, and `false` otherwise.
  */
 export function isEntangled(value) {
-	return value instanceof Entangled
+	return value instanceof EntangledImpl
 }
 
 /**
  * Assesses whether a value is an extendedRef object.
  * 
- * @param { any } value
- * 
- * @returns { boolean } `true` if `value` is an extendedRef object, and `false` otherwise.
+ * @template T
+ * @param { T } value
+ * @returns { value is T extends ExtendedRef ? T : never } `true` if `value` is an extendedRef object, and `false` otherwise.
  */
 export function isExtendedRef(value) {
-	return value instanceof ExtendedRef
+	return value instanceof ExtendedRefImpl
 }

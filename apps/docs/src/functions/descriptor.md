@@ -14,8 +14,8 @@ import { <fn> } from '@8ctavio/vergil'
 
 > Marks an object as a property descriptor.
 
-```js
-function markDescriptor(value: object): object
+```ts
+function markDescriptor<T extends object>(value: T): DescriptorMarked<T>
 ```
 
 #### Parameters
@@ -30,8 +30,10 @@ Descriptor-marked object.
 
 > Assesses whether an object as been marked as a descriptor (with `markDescriptor`).
 
-```js
-function isDescriptor(value: any): boolean
+```ts
+function isDescriptor<T>(value: value): value is T extends object
+	? DescriptorMarked<T>
+	: never
 ```
 
 #### Return value
@@ -42,8 +44,18 @@ function isDescriptor(value: any): boolean
 
 > Creates a descriptor-marked object with `value`, `writable`, `enumerable`, and `configurable` properties.
 
-```js
-function dataDescriptor(value?: any, writable?: boolean, enumerable?: boolean, configurable?: boolean): object
+```ts
+function dataDescriptor(
+	value?: unknown,
+	writable?: boolean,
+	enumerable?: boolean,
+	configurable?: boolean
+): DescriptorMarked<{
+	value: unknown;
+	writable?: boolean;
+	enumerable?: boolean;
+	configurable?: boolean;
+}>
 ```
 
 #### Return value

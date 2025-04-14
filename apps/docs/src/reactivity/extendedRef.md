@@ -128,20 +128,35 @@ Nevertheless, extendedRefs implement a `Symbol.toPrimitive` method that simply u
 ## Definition
 
 ```ts
-function extendedRef<T,E>(
-    value: T | (() => T) | Ref<T> | ExtendedRef<T,F>,
+function extendedRef<
+    T extends MaybeRefOrGetter | ExtendedRef,
+    U = T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>
+    E extends Record<PropertyKey, unknown> | null = {}
+    O extends ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U> = {}
+>(
+    value: T,
     extension?: E,
-    options?: {
-        shallow?: boolean;
-        get?: () => any;
-        set?: (value: any) => void;
-        defaults?: boolean;
-        configurable?: boolean;
-        enumerable?: boolean;
-        writable?: boolean;
-        ignore?: (string | symbol)[];
-    }
-): ExtendedRef<T, E | E extends F>
+    options?: O
+): T extends ExtendedRef<infer R, never, infer F>
+    ? ExtendedRef<R, U, F & E, O>
+    : ExtendedRef<T, U, E, O>
+
+type ExtendedRefOptions<T = unknown, U = T> = {
+	shallow?: boolean;
+	get?: () => T;
+	set?: (value: U) => void;
+} & EntangledOptions
+
+type ExtendedRef<
+	T extends MaybeRefOrGetter = unknown,
+	U = UnwrapRef<T>,
+	E extends object = {},
+	O extends ExtendedRefOptions<UnwrapRef<T>, U> = {}
+> = {
+	get value(): UnwrapRef<T>;
+	set value(v: U);
+	ref: NormalizeRef<T, O>
+} & Entangled<E>
 ```
 
 #### Parameters
