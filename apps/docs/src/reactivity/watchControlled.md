@@ -37,16 +37,26 @@ watcher.stop()
 
 ## Definition
 
-```js
-function watchController<T>(
-    sources: WatchSource<T>,
+```ts
+// Single watch source
+function watchControlled<T>(
+    source: WatchSource<T>,
     callback: WatchCallback<T>,
-    options: WatchOptions
-): {
+    options?: WatchOptions;
+): WatchControlledHandle
+
+// Multiple watch source
+function watchControlled<T>(
+    source: WatchSource<T>[],
+    callback: WatchCallback<T[]>,
+    options?: WatchOptions;
+): WatchControlledHandle
+
+type WatchControlledHandle = {
     stop: () => void;
     pause: () => void;
     resume: () => void;
-    ignore: (cb: () => void) => void;
+    ignore: (callback: () => void) => void;
 }
 ```
 

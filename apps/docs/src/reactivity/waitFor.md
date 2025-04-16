@@ -24,16 +24,45 @@ await waitFor(src).not.toBe(null)
 
 ## Definition
 
-```js
-function waitFor(
-    source: WatchSource,
-    options: {
-        timeout: number = 0;
-        signal: AbortSignal;
-        deep: number;
-        flush: 'pre' | 'post' | 'sync';
-    }
-): ConditionMethods
+```ts
+// Single watch source
+function waitFor<T>(
+    source: WatchSource<T>,
+    options?: WaitForOptions;
+): WaitForMethods_SingleSource<T>
+
+// Multiple watch sources
+function waitFor<T>(
+    source: WatchSource<T>[],
+    options?: WaitForOptions;
+): WaitForMethods_MultiSource<T>
+
+type WaitForOptions = {
+    timeout?: number;
+    signal?: AbortSignal;
+    deep?: boolean | number;
+    flush?: 'pre' | 'post' | 'sync';
+}
+
+type WaitForMethods_SingleSource<S, F extends boolean = true> = {
+    toMatch(condition: WatchCallback): Promise<S | undefined>;
+    toBe<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>;
+    toBeIn<T extends unknown[]>(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>;
+    toBeTruthy(): Promise<S | undefined>;
+    toBeNaN(): Promise<S | undefined>;
+    toContain<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>;
+} & (F extends true ? {
+    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>;
+    get not(): WaitForMethods_SingleSource<S, false>
+} : {})
+
+type WaitForMethods_MultiSource<S, F extends boolean = true> = {
+    toMatch(condition: WatchCallback): Promise<S[] | undefined>;
+    toBeEqual(): Promise<S[] | undefined>;
+} & (F extends true ? {
+    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S[] | (S | T)[] | undefined>;
+    get not(): WaitForMethods_MultiSource<S, false>
+} : {})
 ```
 
 #### Parameters
@@ -46,16 +75,16 @@ function waitFor(
 
 Condition methods. Available methods are:
 
-- `.toMatch(condition: ~WatchCallback)`
-- `.toChange(nTimes: number)`
+- `.toMatch`
+- `.toChange`
 - For a single watch source:
-    - `.toBe(equalTo: any)`
-    - `.toBeIn(arr: Array)`
-    - `.toBeTruthy()`
-    - `.toBeNaN()`
-    - `.toContain(value: any)`
-- For two or more watch sources:
-    - `toBeEqual()`
+    - `.toBe`
+    - `.toBeIn`
+    - `.toBeTruthy`
+    - `.toBeNaN`
+    - `.toContain`
+- For watch source array:
+    - `toBeEqual`
 
 Additionally, condition methods (except for `.toChange`) can be prefixed with `.not` in order to negate the condition.
 

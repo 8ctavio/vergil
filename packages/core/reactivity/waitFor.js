@@ -2,49 +2,27 @@ import { watchUntil } from '.'
 import { isWatchSource } from '../utilities'
 
 /**
+ * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
+ * @import { WatcherSource, WatchUntilOptions, WaitForMethods, AllWaitForMethods } from '../types'
+ */
+
+/**
+ * @template T
+ * @template { Omit<WatchUntilOptions, 'fulfill'> } O
+ * @overload
+ * @param { WatcherSource<T> } source
+ * @param { O } [options]
+ * 
+ * @returns { WaitForMethods<T,O> } 
+ */
+
+/**
  * Watches `source` until a condition is fulfilled. The condition can be specified as a chained method.
  * 
- * @param { WatchSource<T> } source 
- * @param { {
- *      timeout: number;
- *      signal: AbortSignal;
- *      deep: number;
- *      flush: 'pre' | 'post' | 'sync';
- * } } options -
- *  - `timeout`: Duration of watcher timeout in milliseconds. If set and condition is not fulfilled after `timeout` milliseconds, the watcher stops.
- *  - `signal`: `AbortSignal` to abort watcher with a corresponding [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
- * @returns { {
- *      toBe: (value: any) => Promise<T>;
- *      toBeEqual: () => Promise<T>;
- *      toBeIn: (arr: Array) => Promise<T>;
- *      toBeNaN: () => Promise<T>;
- *      toBeTruthy: () => Promise<T>;
- *      toChange: (n: number) => Promise<T>;
- *      toContain: (value: any) => Promise<T>;
- *      toMatch: (condition: function) => Promise<T>;
- *      not: {
- *          toBe: (value: any) => Promise<T>;
- *          toBeEqual: () => Promise<T>;
- *          toBeIn: (arr: Array) => Promise<T>;
- *          toBeNaN: () => Promise<T>;
- *          toBeTruthy: () => Promise<T>;
- *          toContain: (value: any) => Promise<T>;
- *          toMatch: (condition: function) => Promise<T>;
- *      };
- * } } 
- * Condition methods. Available methods are:
- *  - `.toMatch(condition: WatchCallback)`
- *  - `.toChange(nTimes: number)`
- *  - For a single watch source:
- *      - `.toBe(equalTo: any)`
- *      - `.toBeIn(arr: Array)`
- *      - `.toBeTruthy()`
- *      - `.toBeNaN()`
- *      - `.toContain(value: any)`
- *  - For two or more watch sources:
- *      - `toBeEqual()`
+ * @param { WatchSource | WatchSource[] } source 
+ * @param { Omit<WatchUntilOptions, 'fulfill'> } [options]
  * 
- * Additionally, condition methods (except for `.toChange`) can be prefixed with `.not` in order to negate the condition.
+ * @returns { WaitForMethods }
  * 
  * @example
  * ```js
@@ -60,59 +38,68 @@ import { isWatchSource } from '../utilities'
  * ```
  */
 export function waitFor(source, options) {
-    return methodsGenerator(source, { ...options, fulfill: true })
+	return methodsGenerator(source, { ...options, fulfill: true })
 }
 
+/**
+ * @param { WatchSource | WatchSource[] } source
+ * @param { WatchUntilOptions & { fulfill: boolean } } options
+ * @returns { WaitForMethods }
+ */
 function methodsGenerator(source, options) {
-    function toMatch(condition) {
-        return watchUntil(source, condition, options)
-    }
+	watchUntil(source, () => undefined, options)
 
-    const methods = { toMatch }
+	/** @param { WatchCallback } condition */
+	function toMatch(condition) {
+		return watchUntil(source, condition, options)
+	}
 
-    if(options.fulfill) methods.toChange = (times = 1) => {
-        let cont = 0
-        if(isWatchSource(times)) {
-            const sources = Array.isArray(source) ? [times, ...source] : [times, source]
-            return watchUntil(sources, ([newTimes], [oldTimes]) => {
-                if(newTimes === oldTimes) cont++
-                return cont > newTimes
-            }, options)
-        } else {
-            return toMatch(() => ++cont > times)
-        }
-    }
+	/** @type { Partial<WaitForMethods<WatchSource> & WaitForMethods<WatchSource[]>> } */
+	const methods = { toMatch }
 
-    // Two or more watch sources
-    if(Array.isArray(source) && source.length > 1) {
-        methods.toBeEqual = () => watchUntil(source, ([v1,...v2]) => v2.every(v => v === v1), options)
-    }
-    // One watch source
-    else {
-        methods.toBe = value => {
-            return isWatchSource(value)
-                ? watchUntil([source, value], ([src,v]) => src === v, options)
-                : toMatch(src => src === value)
-        }
-        methods.toBeIn = value => {
-            return isWatchSource(value)
-                ? watchUntil([source, value], ([src,v]) => Array.isArray(v) && v.includes(src), options)
-                : toMatch(src => value.includes(src))
-        }
-        methods.toBeTruthy = () => toMatch(Boolean)
-        methods.toBeNaN = () => toMatch(Number.isNaN)
-        methods.toContain = value => {
-            return isWatchSource(value)
-                ? watchUntil([source, value], ([src,v]) => Array.isArray(src) && src.includes(v), options)
-                : toMatch(src => src.includes(value))
-        }
-    }
+	if (options.fulfill) methods.toChange = ((times = 1) => {
+		let cont = 0
+		if (isWatchSource(times)) {
+			const sources = Array.isArray(source) ? [times, ...source] : [times, source]
+			return watchUntil(sources, ([newTimes], [oldTimes]) => {
+				if (newTimes === oldTimes) cont++
+				return cont > newTimes
+			}, options)
+		} else {
+			return toMatch(() => ++cont > times)
+		}
+	})
 
-    if(options.fulfill) Object.defineProperty(methods, 'not', {
-        get(){
-            return methodsGenerator(source, { ...options, fulfill: false })
-        }
-    })
+	if (Array.isArray(source)) {
+		methods.toBeEqual = () => watchUntil(source, ([v1, ...v2]) => v2.every(v => v === v1), options)
+	} else {
+		/** @param { MaybeRefOrGetter } value */
+		methods.toBe = value => {
+			return isWatchSource(value)
+				? watchUntil([source, value], ([src, v]) => src === v, options)
+				: toMatch(src => src === value)
+		}
+		/** @param { MaybeRefOrGetter<unknown[]> } value */
+		methods.toBeIn = value => {
+			return isWatchSource(value)
+				? watchUntil([source, value], ([src, v]) => Array.isArray(v) && v.includes(src), options)
+				: toMatch(src => value.includes(src))
+		}
+		methods.toBeTruthy = () => toMatch(Boolean)
+		methods.toBeNaN = () => toMatch(Number.isNaN)
+		/** @param { MaybeRefOrGetter } value */
+		methods.toContain = value => {
+			return isWatchSource(value)
+				? watchUntil([source, value], ([src, v]) => Array.isArray(src) && src.includes(v), options)
+				: toMatch(src => src.includes(value))
+		}
+	}
 
-    return methods
+	if (options.fulfill) Object.defineProperty(methods, 'not', {
+		get() {
+			return methodsGenerator(source, { ...options, fulfill: false })
+		}
+	})
+
+	return /** @type { WaitForMethods } */ (methods)
 }

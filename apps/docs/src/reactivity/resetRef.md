@@ -29,7 +29,7 @@ console.log(num.value) // 8
 ## Definition
 
 ```ts
-function resetRef<T>(reference: T | Ref<T> | () => T): ExtendedRef
+function resetRef<T>(reference: MaybeRefOrGetter<T>): ExtendedRef<T,T,{ reset: () => void }>
 ```
 
 #### Parameters

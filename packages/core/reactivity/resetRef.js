@@ -2,11 +2,21 @@ import { extendedRef } from "."
 import { useResetValue } from "../composables/private"
 
 /**
+ * @import { MaybeRefOrGetter } from 'vue'
+ * @import { ExtendedRef, ExtendedRefExtension } from '../types'
+ */
+
+/**
+ * @template T
+ * @overload
+ * @param { MaybeRefOrGetter<T> } reference
+ * @returns { ExtendedRef<T, T, ExtendedRefExtension<{ reset: () => void }>> }
+ */
+
+/**
  * Returns extended ref with reset method.
  * 
- * @template T
- * @param { T | Ref<T> | () => T } reference - The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
- * 
+ * @param { MaybeRefOrGetter } reference - The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
  * @returns { ExtendedRef }
  * 
  * @example
@@ -22,7 +32,7 @@ import { useResetValue } from "../composables/private"
  *  num.reset()
  *  console.log(num.value) // 8
  */
-export function resetRef(reference){
+export function resetRef(reference) {
     const getResetValue = useResetValue(reference)
     const extended = extendedRef(getResetValue(), {
         reset() {

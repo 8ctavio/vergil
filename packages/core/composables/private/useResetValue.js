@@ -1,6 +1,15 @@
 import { isRef, toValue, toRaw } from 'vue'
 import { isObject } from '../../utilities'
 
+/**
+ * @import { MaybeRefOrGetter } from 'vue'
+ */
+
+/**
+ * @template T
+ * @param { MaybeRefOrGetter<T> } reference
+ * @returns { () => T }
+ */
 export function useResetValue(reference) {
     reference = isRef(reference) || !isObject(reference)
         ? reference

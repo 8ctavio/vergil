@@ -1,25 +1,43 @@
 import { watch } from 'vue'
 
 /**
+ * @import { WatchSource, WatchCallback, WatchOptions, WatchHandle } from 'vue'
+ * @import { WatcherSource, WatcherCallback } from '../types'
+ */
+
+/**
+ * @typedef { object } WatchControlledHandle
+ * @property { () => void } stop	- Stops watcher.
+ * @property { () => void } pause	- Pauses watcher. Source updates do not trigger paused watchers.
+ * @property { () => void } resume	- Resumes watcher.
+ * @property { (callback: () => void) => void } ignore - Pauses watcher, runs provided callback, and resumes watcher.
+ */
+
+/**
+ * @template T
+ * @template { boolean } [Immediate = false]
+ * @overload
+ * @param { WatcherSource<T> } source					
+ * @param { WatcherCallback<T,Immediate> } callback
+ * @param { WatchOptions<Immediate> } [options = {}]
+ * 
+ * @returns { WatchControlledHandle } 
+ */
+
+/**
  * Watcher with pause and resume controls to ignore source updates. Source updates do not trigger a paused watcher.
  * 
- * @template T
- * @param { WatchSource<T> } sources
- * @param { WatchCallback<T> } callback
- * @param { WatchOptions } options
+ * @param { WatchSource | WatchSource[] } source
+ * @param { WatchCallback } callback
+ * @param { WatchOptions } [options = {}]
  * 
- * @returns { {
- * 	stop: () => void;
- * 	pause: () => void;
- * 	resume: () => void;
- * 	ignore: (cb: () => void) => void;
- * } } Controlled watcher handle
+ * @returns { WatchControlledHandle } Controlled watcher handle
  * 
  * @example
  * ```js
  * const source = ref(0)
  * const watcher = watchControlled(source, v => {
- * 	console.log(`new value: ${v}`)	
+ *     console.log(`new value: ${v}`)	
  * })
  * 
  * // Normally trigger watcher
@@ -33,37 +51,41 @@ import { watch } from 'vue'
  * 
  * // Ignore updates with callback
  * watcher.ignore(() => {
- * 	// Does not trigger watcher
- * 	source.value++
+ *     // Does not trigger watcher
+ *     source.value++
  * })
  * 
  * // Stop watcher
  * watcher.stop()
  * ```
  */
-export function watchControlled(sources, callback, options = {}) {
+export function watchControlled(source, callback, options = {}) {
 	let isPaused = false
+	/** @type { boolean | undefined } */
 	let isDirty = false
-	let watcher, syncWatcher
+	/** @type { WatchHandle } */
+	let watcher
+	/** @type { WatchHandle } */
+	let syncWatcher
 
-	if(options.flush === 'sync') {
-		syncWatcher = watch(sources, (...args) => {
-			if(!isPaused) callback(...args)
+	if (options.flush === 'sync') {
+		syncWatcher = watch(source, (...args) => {
+			if (!isPaused) callback(...args)
 		}, options)
 	} else {
 		isDirty = options.immediate
-		syncWatcher = watch(sources, () => {
-			if(!isPaused && !isDirty) {
+		syncWatcher = watch(source, () => {
+			if (!isPaused && !isDirty) {
 				isDirty = true
 				syncWatcher.pause()
 			}
-		},{
+		}, {
 			flush: 'sync',
 			deep: options.deep
 		})
-		watcher = watch(sources, (...args) => {
-			if(isDirty) {
-				if(isPaused) {
+		watcher = watch(source, (...args) => {
+			if (isDirty) {
+				if (isPaused) {
 					isDirty = false
 				} else {
 					syncWatcher.resume()
@@ -71,28 +93,29 @@ export function watchControlled(sources, callback, options = {}) {
 					callback(...args)
 				}
 			}
-			if(options.once) syncWatcher()
+			if (options.once) syncWatcher()
 		}, options)
 	}
 
 	function pause() {
-		if(!isPaused) {
+		if (!isPaused) {
 			isPaused = true
 			syncWatcher.pause()
 		}
 	}
 	function resume() {
-		if(isPaused) {
-			if(!isDirty) syncWatcher.resume()
+		if (isPaused) {
+			if (!isDirty) syncWatcher.resume()
 			isPaused = false
 		}
 	}
+	/** @param { () => void } callback */
 	function ignore(callback) {
 		pause()
 		try { callback() }
 		finally { resume() }
 	}
-	
+
 	return {
 		pause,
 		resume,
