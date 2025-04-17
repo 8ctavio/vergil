@@ -37,14 +37,19 @@ const debounced = useDebounce(() => {
 
 ## Definition
 
-```js
+```ts
+interface Debounced {
+    (this: unknown, ...args: unknown[]): void;
+    cancel: () => void;
+}
+
 function useDebounce(
-    fn: function,
+    fn: Function,
     minWait: MaybeRefOrGetter<number>,
     options?: {
         eager?: MaybeRefOrGetter<boolean>;
     }
-): function
+): Debounced
 ```
 
 #### Parameters

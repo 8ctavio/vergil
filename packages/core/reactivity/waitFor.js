@@ -54,8 +54,7 @@ function methodsGenerator(source, options) {
 		return watchUntil(source, condition, options)
 	}
 
-	/** @type { Partial<WaitForMethods<WatchSource> & WaitForMethods<WatchSource[]>> } */
-	const methods = { toMatch }
+	const methods = /** @type { WaitForMethods<WatchSource> & WaitForMethods<WatchSource[]> } */ ({ toMatch })
 
 	if (options.fulfill) methods.toChange = ((times = 1) => {
 		let cont = 0
@@ -101,5 +100,5 @@ function methodsGenerator(source, options) {
 		}
 	})
 
-	return /** @type { WaitForMethods } */ (methods)
+	return methods
 }

@@ -1,4 +1,4 @@
-import type { Ref, ShallowRef, MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
+import type { Ref, ShallowRef, MaybeRefOrGetter, WatchSource, WatchCallback, WatchOptions } from 'vue'
 import type { MaybeUndefined, Includes } from '.'
 
 export type NormalizeRef<T, S extends boolean = false> = T extends Ref
@@ -78,3 +78,21 @@ export type WaitForMethods<
 		toContain(value: MaybeRefOrGetter): Promise<unknown>
 	}
 )
+
+export interface WatchControlledSyncHandle {
+	stop(): void;
+	pause(): void;
+	resume(): void;
+}
+
+export interface WatchControlledHandle extends WatchControlledSyncHandle {
+	ignore(callback: () => void): void;
+}
+
+export interface WatchersHandle<T = unknown> extends WatchControlledHandle {
+	onUpdated<Immediate extends boolean = false>(
+		callback: WatcherCallback<T, Immediate>,
+		options?: Omit<WatchOptions<Immediate>, 'deep'>
+	): () => void;
+	onUpdated(callback: WatchCallback, options?: Omit<WatchOptions, 'deep'>): () => void;
+}

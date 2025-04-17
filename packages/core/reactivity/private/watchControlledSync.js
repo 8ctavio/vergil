@@ -2,14 +2,7 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions } from 'vue'
- * @import { WatcherSource, WatcherCallback } from '../../types'
- */
-
-/**
- * @typedef { object } WatchControlledSyncHandle
- * @property { () => void } stop
- * @property { () => void } pause
- * @property { () => void } resume
+ * @import { WatcherSource, WatcherCallback, WatchControlledSyncHandle } from '../../types'
  */
 
 /**

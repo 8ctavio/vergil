@@ -43,25 +43,40 @@ watchers.stop()
 
 ## Definition
 
-```js
+```ts
+// Single watch source
 function useWatchers<T>(
-    sources: WatchSource<T>,
-    options: { deep: boolean | number }
-): {
-    stop: () => void;
-    pause: () => void;
-    resume: () => void;
-    ignore: (cb: () => void) => void;
-    onUpdated: (
-        callback: WatchCallback<T>,
-        options: WatchOptions
-    ) => (() => void);
+    source: WatchSource<T>,
+    options?: { deep?: boolean | number }
+): WatchControlledHandle & {
+    onUpdated(
+        callback: WatchCallback<T, T | undefined>,
+        options?: Omit<WatchOptions, 'deep'>
+    ): () => void;
+}
+
+// Multiple watch sources
+function useWatchers<T>(
+    source: WatchSource<T>[],
+    options?: { deep?: boolean | number }
+): WatchControlledHandle & {
+    onUpdated(
+        callback: WatchCallback<T[], (T | undefined)[]>,
+        options?: Omit<WatchOptions, 'deep'>
+    ): () => void;
+}
+
+type WatchControlledHandle = {
+    stop(): void;
+    pause(): void;
+    resume(): void;
+    ignore(callback: () => void): void;
 }
 ```
 
 #### Parameters
 
-- **`sources`**: Reactive sources to watch.
+- **`source`**: Source or array of sources to watch.
 - **`options`**
     - `deep`: Whether to deeply watch sources.
 
@@ -69,7 +84,7 @@ function useWatchers<T>(
 
 An object with the following methods:
 
-- `onUpdated`: Creates a new watcher for `sources`. It accepts as arguments the watcher's callback function and options object; the `deep` option is taken from `useWatchers` options. The `onUpdated`'s returned function stops the created watcher.
+- `onUpdated`: Creates a new watcher for `source`. It accepts as arguments the watcher's callback function and options object; the `deep` option is taken from `useWatchers` options. The `onUpdated`'s returned function stops the created watcher.
 - `pause`: Pauses watchers. Source updates do not trigger paused watcher callbacks.
 - `resume`: Resumes watchers.
 - `ignore`: Pauses watchers, runs provided callback, and resumes watchers.

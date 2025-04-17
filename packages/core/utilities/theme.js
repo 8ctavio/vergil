@@ -17,12 +17,12 @@
 /**
  * Required for ReturnType<typeof inferTheme> to yield Theme.
  * @overload
- * @param { string } theme
+ * @param { unknown } theme
  * @returns { Theme }
  */
 
 /**
- * @param { string } theme 
+ * @param { unknown } theme 
  * @returns { Theme }
  */
 export function inferTheme(theme) {

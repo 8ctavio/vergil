@@ -2,22 +2,31 @@ import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher 
 import { watchControlledSync } from "../reactivity/private"
 import { noop } from "../utilities"
 
+/**
+ * @import { WatchSource, WatchCallback, WatchOptions, EffectScope, ReactiveEffect } from 'vue'
+ * @import { WatcherSource, WatchersHandle, WatchControlledSyncHandle } from '../types'
+ */
+
 const isScheduled = Symbol('isScheduled')
+
+/**
+ * @typedef { ReactiveEffect & { [isScheduled]?: boolean } } WatcherEffect
+ */
+
+/**
+ * @template T
+ * @overload
+ * @param { WatcherSource<T> } source					
+ * @param { { deep?: boolean | number } } [options = {}]
+ * @returns { WatchersHandle<T> } 
+ */
 
 /**
  * Allows to create multiple watchers for the same source and to pause and resume them to ignore source updates.
  * 
- * @template T
- * @param { WatchSource<T> } sources
- * @param { { deep: boolean | number } } options
- * 
- * @returns { {
- * 	stop: () => void;
- * 	pause: () => void;
- * 	resume: () => void;
- * 	ignore: (cb: () => void) => void;
- *	onUpdated: (callback: WatchCallback<T>, options: WatchOptions) => (() => void);
- * } } Watchers handle
+ * @param { WatchSource | WatchSource[] } source
+ * @param { { deep?: boolean | number } } [options = {}]
+ * @returns { WatchersHandle }
  * 
  * @example
  * ```js
@@ -51,102 +60,108 @@ const isScheduled = Symbol('isScheduled')
  * watchers.stop()
  * ```
  */
-export function useWatchers(sources, { deep } = {}) {
+export function useWatchers(source, { deep } = {}) {
 	const composableScope = getCurrentScope()
-	const watchers = effectScope(true)
+	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
+	/** @type { WatchControlledSyncHandle | void } */
 	let auxWatcher
 	let isPaused = false
 	let scheduledEffects = 0
 
+	/**
+	 * @param { WatchCallback } callback
+	 * @param { Omit<WatchOptions, 'deep'> } [options = {}]
+	 */
 	function onUpdated(callback, options = {}) {
-		let stop
-		if(options.flush === 'sync') {
+		let stop = noop
+		if (options.flush === 'sync') {
 			syncWatchers.run(() => {
-				const watcher = watch(sources, (...args) => {
-					if(!isPaused) callback(...args)
+				const watcher = watch(source, (...args) => {
+					if (!isPaused) callback(...args)
 				}, { ...options, deep })
-				if(isPaused) watcher.pause()
+				if (isPaused) watcher.pause()
 				stop = () => watcher()
 			})
 		} else {
-			if(options.immediate && !isPaused) {
-				watch(sources, callback, { immediate: true, once: true })
-				if(options.once) return noop
+			if (options.immediate && !isPaused) {
+				watch(source, callback, { immediate: true, once: true })
+				if (options.once) return stop
 			}
-			
-			if(!auxWatcher) {
+
+			if (!auxWatcher) {
 				effectScope(true).run(() => {
-					auxWatcher = watchControlledSync(sources, () => {
-						for(const effect of watchers.effects) {
+					auxWatcher = watchControlledSync(source, () => {
+						for (const effect of watchers.effects) {
 							effect[isScheduled] = true
 						}
 						scheduledEffects = watchers.effects.length
-						auxWatcher.pause()
+						;/** @type { WatchControlledSyncHandle } */(auxWatcher).pause()
 					}, { deep })
 				})
 			}
-			auxWatcher[isPaused ? 'pause' : 'resume']()
+			/** @type { WatchControlledSyncHandle } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
-				const watcher = watch(sources, (...args) => {
-					const effect = getCurrentWatcher()
-					if(effect[isScheduled]) {
+				const watcher = watch(source, (...args) => {
+					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
+					if (effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--
-						if(!isPaused) {
-							auxWatcher.resume()
+						if (!isPaused) {
+							/** @type { WatchControlledSyncHandle } */(auxWatcher).resume()
 							callback(...args)
-							if(options.once) stop()
+							if (options.once) stop()
 						}
 					}
 				}, { flush: options.flush, deep })
 
-				const effect = watchers.effects.at(-1)
+				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
 				Object.defineProperty(effect, isScheduled, {
 					value: false,
 					writable: true
 				})
 				stop = () => {
 					watcher()
-					if(effect[isScheduled]) {
+					if (effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--
 					}
-					if(watchers.effects.length === 0) {
+					if (watchers.effects.length === 0) {
 						auxWatcher = auxWatcher?.stop()
 					}
 				}
 			})
 		}
-		if(composableScope !== getCurrentScope()) {
+		if (composableScope !== getCurrentScope()) {
 			onScopeDispose(stop, true)
 		}
 		return stop
 	}
 	function pause() {
-		if(!isPaused) {
+		if (!isPaused) {
 			isPaused = true
 			syncWatchers.pause()
 			auxWatcher?.pause()
 		}
 	}
 	function resume() {
-		if(isPaused) {
+		if (isPaused) {
 			syncWatchers.resume()
 			isPaused = false
-			if(watchers.effects.length > scheduledEffects) {
-				auxWatcher.resume()
+			if (watchers.effects.length > scheduledEffects) {
+				/** @type { WatchControlledSyncHandle } */(auxWatcher).resume()
 			}
 		}
 	}
+	/** @param { () => void } callback */
 	function ignore(callback) {
 		pause()
 		try { callback() }
 		finally { resume() }
 	}
 	function stop() {
-		for(const effect of watchers.effects) {
+		for (const effect of watchers.effects) {
 			effect[isScheduled] = false
 		}
 		scheduledEffects = 0
@@ -156,12 +171,12 @@ export function useWatchers(sources, { deep } = {}) {
 	}
 
 	onScopeDispose(stop, true)
-	
+
 	return {
-		onUpdated,
+		stop,
 		pause,
 		resume,
 		ignore,
-		stop
+		onUpdated,
 	}
 }

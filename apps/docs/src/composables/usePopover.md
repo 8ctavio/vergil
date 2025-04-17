@@ -143,22 +143,35 @@ The `Popover` component attributes are applied to the `div.popover` element. The
 ## Definition
 
 ```ts
-function usePopover<T>(options?: {
-	arrow: boolean | { border: number };
-	closeBehavior: 'unmount' | 'hide';
-	delay: number;
-	offset: number;
-	padding: number;
-	placement: 'top' | 'top-start' | 'top-end' | 'right' | 'right-start' | 'right-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end';
-	position: 'absolute' | 'fixed'
-	resize: boolean;
-	trigger: 'click' | 'hover';
+function usePopover(options?: {
+	arrow?: boolean | { border: number };
+	closeBehavior?: MaybeRefOrGetter<'unmount' | 'hide'>;
+	delay?: MaybeRefOrGetter<number>;
+	offset?: number;
+	padding?: number;
+	placement?: MaybeRefOrGetter<Placement>;
+	position?: MaybeRefOrGetter<'absolute' | 'fixed'>;
+	resize?: MaybeRefOrGetter<boolean>;
+	trigger?: MaybeRefOrGetter<'click' | 'hover'>;
 }): {
-	Popover: function,
-	openPopover: (waitUntilOpened: boolean) => Promise<boolean>;
-	closePopover: () => void;
-	togglePopover: () => void;
-	isOpen: Ref<boolean>;
+	Popover: (props: PopoverProps, ctx: SetupContext) => (VNode | null)[];
+	openPopover(waitUntilOpened?: boolean): Promise<boolean>;
+	closePopover(): void;
+	togglePopover(): void;
+	isOpen: Readonly<ShallowRef<boolean>>;
+}
+
+type Placement = 
+	| 'top' | 'top-start' | 'top-end'
+	| 'right' | 'right-start' | 'right-end'
+	| 'bottom' | 'bottom-start' | 'bottom-end'
+	| 'left' | 'left-start' | 'left-end'
+
+type PopoverProps = {
+	theme?: Theme;
+	size?: Size;
+	radius?: Radius;
+	spacing?: Spacing;
 }
 ```
 
@@ -197,7 +210,7 @@ Arrow's background and border colors can be defined through the arrow's svg `fil
 - **`openPopover`**: Opens `Popover`. Returns a Promise that resolves to `false` if the opening operation gets aborted by calling `closePopover`, and to `true` otherwise.
 - **`closePopover`**: Closes `Popover`.
 - **`togglePopover`**: Toggle `Popover`'s open state.
-- **`isOpen`**: Whether the `Popover` is open.
+- **`isOpen`**: Boolean ref indicating whether the `Popover` is open.
 
 ## Configuration options
 

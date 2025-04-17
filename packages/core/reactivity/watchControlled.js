@@ -2,15 +2,7 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions, WatchHandle } from 'vue'
- * @import { WatcherSource, WatcherCallback } from '../types'
- */
-
-/**
- * @typedef { object } WatchControlledHandle
- * @property { () => void } stop	- Stops watcher.
- * @property { () => void } pause	- Pauses watcher. Source updates do not trigger paused watchers.
- * @property { () => void } resume	- Resumes watcher.
- * @property { (callback: () => void) => void } ignore - Pauses watcher, runs provided callback, and resumes watcher.
+ * @import { WatcherSource, WatcherCallback, WatchControlledHandle } from '../types'
  */
 
 /**

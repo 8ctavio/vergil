@@ -45,7 +45,7 @@ function watchControlled<T>(
     options?: WatchOptions;
 ): WatchControlledHandle
 
-// Multiple watch source
+// Multiple watch sources
 function watchControlled<T>(
     source: WatchSource<T>[],
     callback: WatchCallback<T[]>,
@@ -53,10 +53,10 @@ function watchControlled<T>(
 ): WatchControlledHandle
 
 type WatchControlledHandle = {
-    stop: () => void;
-    pause: () => void;
-    resume: () => void;
-    ignore: (callback: () => void) => void;
+    stop(): void;
+    pause(): void;
+    resume(): void;
+    ignore(callback: () => void): void;
 }
 ```
 
