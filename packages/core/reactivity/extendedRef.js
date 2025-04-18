@@ -2,7 +2,7 @@ import { ExtendedRefImpl } from "./private"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'
- * @import { ExtendedRef, ExtendedRefExtension, ExtendedRefOptions } from '../types'
+ * @import { ExtendedRef, ExtendedRefOptions, Prettify } from '../types'
  */
 
 /**
@@ -15,9 +15,9 @@ import { ExtendedRefImpl } from "./private"
  * @param { E } [extension]
  * @param { O } [options = {}]
  * @returns {(
- *     T extends ExtendedRef<infer R, never, infer F>
- *         ? ExtendedRef<R, U, ExtendedRefExtension<F & E, O>, O>
- *         : ExtendedRef<T, U, ExtendedRefExtension<E, O>, O>
+ *     T extends ExtendedRef<infer R, never, infer D>
+ *         ? ExtendedRef<R, U, Prettify<D & E>, O>
+ *         : ExtendedRef<T, U, E, O>
  * )}
  */
 

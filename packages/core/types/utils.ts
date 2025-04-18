@@ -1,4 +1,4 @@
-export type Prettify<T extends object> = { [K in keyof T]: T[K] } & {}
+export type Prettify<T> = { [K in keyof T]: T[K] } & {}
 
 export type MaybeUndefined<T, U extends boolean> = U extends true ? T | undefined : T
 

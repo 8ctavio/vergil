@@ -1,6 +1,6 @@
 import { EntangledImpl } from "./private"
 
-/** @import { Entangled, EntangledExtension, EntangledOptions } from '../types' */
+/** @import { Entangled, EntangledOptions } from '../types' */
 
 /**
  * @template { Record<PropertyKey, unknown> } [T = {}]
@@ -8,7 +8,7 @@ import { EntangledImpl } from "./private"
  * @overload
  * @param { T } [properties]
  * @param { O } [options]
- * @returns { Entangled<EntangledExtension<T,O>> }
+ * @returns { Entangled<T,O> }
  */
 
 /**

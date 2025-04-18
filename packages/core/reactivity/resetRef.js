@@ -3,14 +3,14 @@ import { useResetValue } from "../composables/private"
 
 /**
  * @import { MaybeRefOrGetter } from 'vue'
- * @import { ExtendedRef, ExtendedRefExtension } from '../types'
+ * @import { ExtendedRef } from '../types'
  */
 
 /**
  * @template T
  * @overload
  * @param { MaybeRefOrGetter<T> } reference
- * @returns { ExtendedRef<T, T, ExtendedRefExtension<{ reset: () => void }>> }
+ * @returns { ExtendedRef<T, T, { reset: () => void }> }
  */
 
 /**

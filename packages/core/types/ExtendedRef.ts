@@ -1,5 +1,5 @@
 import type { MaybeRefOrGetter, UnwrapRef } from "vue"
-import type { Entangled, EntangledExtension, EntangledOptions, NormalizeRef } from "."
+import type { Entangled, EntangledOptions, NormalizeRef } from "."
 
 export type ExtendedRefOptions<T = unknown, U = T> = {
 	shallow?: boolean;
@@ -7,16 +7,10 @@ export type ExtendedRefOptions<T = unknown, U = T> = {
 	set?: (value: U) => void;
 } & EntangledOptions
 
-export type ExtendedRefExtension<
-	E extends object,
-	O extends ExtendedRefOptions = {},
-	I extends PropertyKey = never
-> = EntangledExtension<E, O, 'ref' | 'value' | I>
-
 export type ExtendedRef<
 	T extends MaybeRefOrGetter = unknown,
 	U = UnwrapRef<T>,
-	E extends object = {},
+	E extends Record<PropertyKey, unknown> = {},
 	O extends ExtendedRefOptions<UnwrapRef<T>, U> = {}
 > = {
 	get value(): UnwrapRef<T>;
@@ -27,4 +21,4 @@ export type ExtendedRef<
 			: false
 		: false
 	>
-} & Entangled<EntangledExtension<E,O, 'ref' | 'value'>>
+} & Entangled<Omit<E, 'ref' | 'value'>, O>

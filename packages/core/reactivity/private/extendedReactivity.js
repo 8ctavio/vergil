@@ -43,7 +43,6 @@ export class EntangledImpl {
 	 * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
 	 * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
 	 * @param { PropertyKey[] } [options.ignore]			- Array of `extension` property keys not to be defined on the underlying entangled object.
-	 * @returns { Entangled }
 	 */
 	extend(extension, options = {}) {
 		const {
