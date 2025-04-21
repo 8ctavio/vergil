@@ -164,24 +164,21 @@ entangled({
 ## Definition
 
 ```ts
-function entangled<
-    T extends Record<PropertyKey, unknown> = {},
-    O extends EntangledOptions = {}
->(
+function entangled<T extends Record<PropertyKey, unknown> = {}>(
     properties?: T,
-    options?: O
+    options?: EntangledOptions
 ): Entangled<T>
 
-type EntangledOptions = {
+interface EntangledOptions {
     defaults?: boolean;
     configurable?: boolean;
-    enumberable?: boolean;
+    enumerable?: boolean;
     writable?: boolean;
     ignore?: PropertyKey[];
 }
 
-type Entangled<T extends object = object> = T & {
-    getRef(key: PropertyKey): Ref<unknown> | undefined
+type Entangled<E extends Record<PropertyKey, unknown>> = EntangledExtension<E> & {
+    getRef(key: PropertyKey): Ref | undefined
     extend(extension: Record<PropertyKey, unknown>, options?: EntangledOptions): object
 }
 ```

@@ -4,11 +4,11 @@ import { EntangledImpl } from "./private"
 
 /**
  * @template { Record<PropertyKey, unknown> } [T = {}]
- * @template { EntangledOptions } [O = {}]
+ * @template { PropertyKey } [Ignore = never]
  * @overload
  * @param { T } [properties]
- * @param { O } [options]
- * @returns { Entangled<T,O> }
+ * @param { EntangledOptions<Ignore> } [options]
+ * @returns { Entangled<T, Ignore> }
  */
 
 /**

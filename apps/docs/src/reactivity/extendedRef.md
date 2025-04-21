@@ -130,33 +130,31 @@ Nevertheless, extendedRefs implement a `Symbol.toPrimitive` method that simply u
 ```ts
 function extendedRef<
     T extends MaybeRefOrGetter | ExtendedRef,
-    U = T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>
-    E extends Record<PropertyKey, unknown> | null = {}
-    O extends ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U> = {}
+    U = T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>,
+    Extension extends Record<PropertyKey, unknown> | null = {}
 >(
     value: T,
-    extension?: E,
-    options?: O
-): T extends ExtendedRef<infer R, never, infer F>
-    ? ExtendedRef<R, U, F & E, O>
-    : ExtendedRef<T, U, E, O>
+    extension?: Extension,
+    options?: ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U>
+): T extends ExtendedRef<infer R, infer V, infer E>
+    ? ExtendedRef<R, V, E & Extension>
+    : ExtendedRef<T, U, Extension>
 
-type ExtendedRefOptions<T = unknown, U = T> = {
+interface ExtendedRefOptions<T = unknown, U = T> extends EntangledOptions {
 	shallow?: boolean;
 	get?: () => T;
 	set?: (value: U) => void;
-} & EntangledOptions
+}
 
 type ExtendedRef<
 	T extends MaybeRefOrGetter = unknown,
 	U = UnwrapRef<T>,
-	E extends object = {},
-	O extends ExtendedRefOptions<UnwrapRef<T>, U> = {}
+	Extension extends Record<PropertyKey, unknown> = {},
 > = {
 	get value(): UnwrapRef<T>;
 	set value(v: U);
-	ref: NormalizeRef<T, O>
-} & Entangled<E>
+	ref: ToRef<T>
+} & Entangled<Omit<Extension, 'ref' | 'value'>>
 ```
 
 #### Parameters

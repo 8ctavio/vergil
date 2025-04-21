@@ -8,16 +8,17 @@ import { ExtendedRefImpl } from "./private"
 /**
  * @template { MaybeRefOrGetter | ExtendedRef } T
  * @template [U = T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>]
- * @template { Record<PropertyKey, unknown> | null } [E = {}]
- * @template { ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U> } [O = {}]
+ * @template { Record<PropertyKey, unknown> | null } [Extension = {}]
+ * @template { boolean } [Shallow = false]
+ * @template { PropertyKey } [Ignore = never]
  * @overload
  * @param { T } value
- * @param { E } [extension]
- * @param { O } [options = {}]
+ * @param { Extension } [extension]
+ * @param { ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U, Shallow, Ignore> } [options = {}]
  * @returns {(
- *     T extends ExtendedRef<infer R, never, infer D>
- *         ? ExtendedRef<R, U, Prettify<D & E>, O>
- *         : ExtendedRef<T, U, E, O>
+ *     T extends ExtendedRef<infer R, infer V, infer E, infer S>
+ *         ? ExtendedRef<R, V, Prettify<E & Extension>, S, Ignore>
+ *         : ExtendedRef<T, U, Extension, Shallow, Ignore>
  * )}
  */
 
