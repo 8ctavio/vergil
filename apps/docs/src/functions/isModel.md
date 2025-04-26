@@ -17,14 +17,14 @@ console.log(isModel(useModel())) // true
 ## Definition
 
 ```ts
-function isModel(value: any, self: boolean): boolean
+function isModel(value: unknown, self?: boolean): value is Model
 ```
 
 #### Parameters
 
-- **`value`**: Value to test.
+- **`value`**
 - **`self`**: When set to `true`, ensures that `value` is a model created by [`useModel`](/composables/useModel), as opposed to an object that extends a model. Defaults to `false`.
 
 #### Return value
 
-`true` if `value` is a component model.
+`true` if `value` is a component model, and `false` otherwise.

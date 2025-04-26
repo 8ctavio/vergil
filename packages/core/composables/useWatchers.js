@@ -4,7 +4,7 @@ import { noop } from "../utilities"
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions, EffectScope, ReactiveEffect } from 'vue'
- * @import { WatcherSource, WatchersHandle, WatchControlledSyncHandle } from '../types'
+ * @import { WatcherSource, WatchersHandle, WatchControls } from '../types'
  */
 
 const isScheduled = Symbol('isScheduled')
@@ -64,7 +64,7 @@ export function useWatchers(source, { deep } = {}) {
 	const composableScope = getCurrentScope()
 	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
-	/** @type { WatchControlledSyncHandle | void } */
+	/** @type { WatchControls | void } */
 	let auxWatcher
 	let isPaused = false
 	let scheduledEffects = 0
@@ -96,11 +96,11 @@ export function useWatchers(source, { deep } = {}) {
 							effect[isScheduled] = true
 						}
 						scheduledEffects = watchers.effects.length
-						;/** @type { WatchControlledSyncHandle } */(auxWatcher).pause()
+						;/** @type { WatchControls } */(auxWatcher).pause()
 					}, { deep })
 				})
 			}
-			/** @type { WatchControlledSyncHandle } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
+			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
 				const watcher = watch(source, (...args) => {
@@ -109,7 +109,7 @@ export function useWatchers(source, { deep } = {}) {
 						effect[isScheduled] = false
 						scheduledEffects--
 						if (!isPaused) {
-							/** @type { WatchControlledSyncHandle } */(auxWatcher).resume()
+							/** @type { WatchControls } */(auxWatcher).resume()
 							callback(...args)
 							if (options.once) stop()
 						}
@@ -150,7 +150,7 @@ export function useWatchers(source, { deep } = {}) {
 			syncWatchers.resume()
 			isPaused = false
 			if (watchers.effects.length > scheduledEffects) {
-				/** @type { WatchControlledSyncHandle } */(auxWatcher).resume()
+				/** @type { WatchControls } */(auxWatcher).resume()
 			}
 		}
 	}

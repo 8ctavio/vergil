@@ -9,8 +9,8 @@ export interface EntangledOptions<Ignore extends PropertyKey = never> {
     ignore?: Ignore[];
 }
 
-type EntangledExtension<E extends object, Ignore extends PropertyKey> = {
-    [K in Exclude<keyof E, Ignore>]: E[K] extends Ref<infer V>
+type EntangledExtension<E extends object, Ignore extends PropertyKey> = Omit<{
+    [K in keyof E]: E[K] extends Ref<infer V>
         ? V
         : E[K] extends DescriptorMarked<infer D>
             ? 'value' extends keyof D
@@ -27,7 +27,7 @@ type EntangledExtension<E extends object, Ignore extends PropertyKey> = {
                         : undefined
                     : undefined
             : E[K]
-}
+}, Ignore>
 
 type UnwrapExtension<T> = 
     T extends ExtendedRef<never, never, infer E> ? E :

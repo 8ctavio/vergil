@@ -6,33 +6,52 @@ import { isModel, markDescriptor, dataDescriptor } from '../functions'
 import { groupValidationCtx } from '../functions/ModelGroup'
 import { debounce, isFunction, normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '../utilities'
 
+/**
+ * @import { Ref, UnwrapRef, MaybeRefOrGetter } from 'vue'
+ * @import { Model, ModelOptions } from '../types'
+ */
+
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
+
+/** @this { Model } */
 function getError() {
 	return this.errors.value.length > 0
 }
 
 /**
+ * @template { MaybeRefOrGetter<unknown> } T
+ * @template { boolean } [Shallow = false]
+ * @template { boolean } [ExtendRef = false]
+ * @template { boolean } [IncludeExposed = false]
+ * @template { boolean } [IncludeElements = false]
+ * @overload
+ * @param { T } [value]
+ * @param { ModelOptions<UnwrapRef<T>, Shallow, ExtendRef, IncludeExposed, IncludeElements> } [options = {}]
+ * @returns { Model<
+ *     ExtendRef extends true ? T : UnwrapRef<T>,
+ *     Shallow,
+ *     IncludeExposed,
+ *     IncludeElements
+ * > }
+ */
+
+/**
  * Creates a component model.
  * 
- * @param [value] - Component model's initial value.
- * @param { {
- *      shallow: boolean;
- *      extendRef: boolean;
- *      validator: (
- *          value: T,
- *          error: (msg: string) => void,
- *          checkpoint: () => void
- *      ) => void;
- *      includeElements: boolean;
- *      includeExposed: boolean;
- * } } options -
- *  - `shallow`: Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
- *  - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
- *  - `validator`: Function to peform model-value validation and collect encountered validation errors.
- *  - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `false`.
+ * @param { MaybeRefOrGetter<unknown> } [value] - Component model's initial value.
+ * @param { object } [options = {}]
+ * @param { boolean } [options.shallow = false] - Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
+ * @param { boolean } [options.extendRef = false] - If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
+ * @param { (
+ *     value: unknown,
+ *     error: (msg: string) => void,
+ *     checkpoint: () => void
+ * ) => void } [options.validator] - Function to peform model-value validation and collect encountered validation errors.
+ * @param { boolean } [options.includeExposed = false] - Whether to include the `exposed` object into the model. Defaults to `false`.
+ * @param { boolean } [options.includeElements = false] - Whether to include the `elements` object into the model. Defaults to `false`.
  * 
- * @returns { ExtendedRef }
+ * @returns { Model }
  */
 export function useModel(value, options = {}) {
 	if (isModel(value)) return value
@@ -48,24 +67,31 @@ export function useModel(value, options = {}) {
 	let getResetValue
 	if (extendRef) {
 		value = normalizeRef(value, shallow)
-		getResetValue = useResetValue(value.value)
+		getResetValue = useResetValue(/** @type { Ref } */(value).value)
 	} else {
 		getResetValue = useResetValue(value)
 		value = normalizeRef(getResetValue(), shallow)
 	}
 
+	/** @type { (force?: boolean, trigger?: boolean) => boolean } */
 	let validate = getTrue
-	let error, checkpoint
+	/** @type { (msg: string) => void } */
+	let error
+	/** @type { () => void } */
+	let checkpoint
+	/** @type { (() => void)[] } */
 	const cancelHandlers = []
 
 	if (isFunction(validator)) {
 		const lastValidation = {
 			value: uniqueKey,
-			result: undefined,
+			result: false,
 		}
 		validate = (force = false, trigger = true) => {
+			// @ts-expect-error
 			const modelValue = model.ref._value
 			if (force || !looselyEqual(modelValue, lastValidation.value)) {
+				// @ts-expect-error
 				const errors = model.errors._value
 				errors.length = 0
 				try {
@@ -92,8 +118,9 @@ export function useModel(value, options = {}) {
 		},
 		error: markDescriptor({ get: getError }),
 		errors: markDescriptor({
-			unwrap: false,
+			unwrap: /** @type { const } */ (false),
 			value: customRef(track => {
+				/** @type { string[] } */
 				const errors = []
 				error = message => {
 					if (typeof message === 'string' && message.length > 0) {
@@ -113,6 +140,7 @@ export function useModel(value, options = {}) {
 		}),
 		validate,
 		clear() {
+			// @ts-expect-error
 			model.errors._value.length = 0
 			for (const cancel of cancelHandlers) {
 				cancel()
@@ -125,6 +153,7 @@ export function useModel(value, options = {}) {
 	 * Required to force trigger of watcher callbacks
 	 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245
 	 */
+	// @ts-expect-error
 	model.errors.__v_isShallow = true
 	/**
 	 * Run ref/errors value getter to initialize _value if it's a customRef
@@ -147,6 +176,7 @@ export function useModel(value, options = {}) {
 	}
 
 	let handleValidation = noop
+	/** @type { (minWait: number, options?: object) => unknown } */
 	let useDebouncedValidation = getNoop
 	if (isFunction(validator) || groupValidationCtx) {
 		let validationTarget, validate

@@ -25,7 +25,7 @@ planets.validate()
 
 ## Component models
 
-Every Vergil Form Field Component (FFC) supports establishing a bidirectional component-model bond with the `v-model` directive. However, altough directly passing a regular ref to `v-model` is supported, Vergil FFCs are designed and implemented to support *component models* created by the [`useModel`](/composables/useModel) composable (see [`useDefineModel`](/composables/useDefineModel)). Therefore, the recommended approach to use Vergil FFC's `v-model` is to directly pass a model object.
+Every Vergil Form Field Component (FFC) supports establishing a bidirectional component-model bond with the `v-model` directive. However, although directly passing a regular ref to `v-model` is supported, Vergil FFCs are designed and implemented to support *component models* created by the [`useModel`](/composables/useModel) composable (see [`useDefineModel`](/composables/useDefineModel)). Therefore, the recommended approach to use Vergil FFC's `v-model` is to directly pass a model object.
 
 ```vue
 <script setup>

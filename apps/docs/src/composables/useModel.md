@@ -90,21 +90,14 @@ To illustrate, consider the example below. The errors `'Error 1.1'` and `'Error 
 ```js
 const model = useModel('', {
     validator(value, error, checkpoint) {
-        if(test1(value)) {
-            error('Error 1.1')
-        }
+        if (test1(value)) error('Error 1.1')
         checkpoint()
 
-        if(test2(value)) {
-            error('Error 2.1')
-        } if(test3(value)) {
-            error('Error 2.2')
-        }
+        if (test2(value)) error('Error 2.1')
+        if (test3(value)) error('Error 2.2')
         checkpoint()
 
-        if(test4(value)) {
-            error('Error 3.1')
-        }
+        if (test4(value)) error('Error 3.1')
     }
 })
 ```
@@ -240,20 +233,35 @@ Component models are mainly designed to be provided to a single component. Never
 ## Definition
 
 ```ts
-function useModel<T>(
-    value?: T | Ref<T>,
-    options?: {
-        validator: (
-            value: T,
-            error: (msg: string) => void,
-            checkpoint: () => void
-        ) => void;
-        shallow: boolean;
-        extendRef: boolean;
-        includeExposed: boolean;
-        includeElements: boolean;
-    }
-): ExtendedRef<T>
+function useModel<T extends MaybeRefOrGetter>(
+    value?: T,
+    options?: ModelOptions<UnwrapRef<T>>
+): Model<T | UnwrapRef<T>>
+
+interface ModelOptions<T> {
+    validator?: (
+        value: T,
+        error: (msg: string) => void,
+        checkpoint: () => void
+    ) => void;
+    shallow?: boolean;
+    extendRef?: boolean;
+    includeExposed?: boolean;
+    includeElements?: boolean;
+}
+
+type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRef<T>, {
+    reset(): void;
+    get error(): boolean;
+    errors: DescriptorMarked<{
+        value: ShallowRef<string[]>;
+        unwrap: false;
+    }>;
+    validate(force?: boolean, trigger?: boolean): boolean | undefined;
+    clear(): void;
+    exposed?: Exposed;
+    elements?: Elements;
+}>
 ```
 
 #### Parameters

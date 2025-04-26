@@ -53,7 +53,7 @@ elements.getRef('input') // input's shallowRef object
 ## Definition
 
 ```ts
-function useDefineElements(keys: string[]): void
+function useDefineElements(keys: readonly string[]): Entangled<Record<string, ShallowRef<HTMLElement | null>>>
 ```
 
 #### Parameters

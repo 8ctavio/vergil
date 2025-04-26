@@ -2,7 +2,8 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions } from 'vue'
- * @import { WatcherSource, WatcherCallback, WatchControlledSyncHandle } from '../../types'
+ * @import { WatcherSource, WatcherCallback, WatchControls } from '../../types'
+ * @typedef { WatchControls } WatchControlledSyncHandle 
  */
 
 /**

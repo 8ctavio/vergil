@@ -6,7 +6,7 @@ import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./
 /**
  * Defines component's exposed data.
  * 
- * @param { object } source - Plain object whose own enumerable, string-keyed properties are to be exposed.
+ * @param { Record<string, unknown> } source - Plain object whose own enumerable, string-keyed properties are to be exposed.
  * 
  * @example
  *  ```js
@@ -22,7 +22,7 @@ export function useDefineExposed(source) {
 	const instance = getCurrentInstance()
 	if(instance && isPlainObject(source)) {
 		let instMeta = definedInstances.get(instance)
-		if(!instMeta) definedInstances.set(instMeta = {
+		if(!instMeta) definedInstances.set(instance, instMeta = {
 			definedElements: false,
 			definedExposed: false
 		})

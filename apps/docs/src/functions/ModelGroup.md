@@ -32,7 +32,7 @@ const modelGroup = new ModelGroup({
 
 The `ModelGroup` class creates an object of component models that allows to perform bulk operations with them. The `ModelGroup`'s constructor accepts two parameters: `fields` and `validator`.
 
-The `fields` parameter expects an object whose own enumerable string-keyed properties are mapped into the `ModelGroup`'s created object instance as model objects with the same property names. The `fields` property values must be *model specification objects* which are internally used to create corresponding models with the [`useModel`](/composables/useModel) composable; a model specification object's `value` property and the rest of the object are used, respectively, as the `useModel`'s `value` and `options` parameters. Therefore, in general, an specification object of the form `{ value, ...options }` is transformed into the model `useModel(value, options)`.
+The `fields` parameter expects an object whose own enumerable string-keyed properties are mapped into the `ModelGroup`'s created object instance as model objects with the same property names. The `fields` property values must be *model specification objects* which are internally used to create corresponding models with the [`useModel`](/composables/useModel) composable; a model specification object's `value` property and the rest of the properties are used, respectively, as the `useModel`'s `value` and `options` parameters. Therefore, in general, an specification object of the form `{ value, ...options }` is transformed into the model `useModel(value, options)`.
 
 ```js
 new ModelGroup({
@@ -156,7 +156,7 @@ Additionally, `forErrors` accepts as a second argument a `filter` function to ex
 
 The type of object passed to, and the value returned by the `filter` function determine how a model or model group is filtered. If a model is received, either `actions.SKIP` or `actions.ACCEPT` should be returned to respectively skip or include a model in the `forErrors` iteration. On the other hand, when `filter` is passed a ModelGroup object, multiple descendant models may be affected by the returned `actions` property:
 
-- `SKIP`: All ModelGroup's descendant models are excluded from the iteration (, this implies that no ModelGroup's nested object is further passed to `filter`).
+- `SKIP`: All ModelGroup's descendant models are excluded from the iteration (this implies that no ModelGroup's nested object is further passed to `filter`).
 - `ACCEPT`: All ModelGroup's child objects continue to be passed to `filter`. 
 - `ACCEPT_CHILDREN`: All ModelGroup's child models are included in the iteration (only child ModelGroups continue to be passed to `filter`).
 - `ACCEPT_DESCENDANTS`: All ModelGroup's descendant models are included in the iteration (no ModelGroup's descendant object is further passed to `filter`).
@@ -170,26 +170,18 @@ When `forErrors` is called, `errors` refs of models included in the iteration ca
 ```ts
 class ModelGroup {
     constructor(
-        fields: object,
-        validator: (
-            payload: object,
-            error: (path: string, message: string) => void,
-            isValid: (path: string) => boolean,
-        ) => void
-    )
+        fields: ModelGroupFields,
+        validator?: ModelGroupValidator
+    ): ModelGroupInstance
 
     static nested(
-        fields: object,
-        validator: (
-            payload: object,
-            error: (path: string, message: string) => void,
-            isValid: (path: string) => boolean,
-        ) => void
-    )
+        fields: ModelGroupFields,
+        validator?: ModelGroupValidator
+    ): ModelGroupSpec
 
     reset(): void
-    getPayload(): object
-    validate(includePayload: boolean): boolean | [boolean, object]
+    getPayload(): ModelGroupPayload
+    validate(includePayload?: boolean): boolean | [boolean, ModelGroupPayload]
     clear(): void
     get error(): boolean
     forErrors(
@@ -200,16 +192,46 @@ class ModelGroup {
             model: Model
         ) => void,
         filter: (
-            actions: {
-                SKIP: boolean;
-                ACCEPT: boolean;
-                ACCEPT_CHILDREN: number;
-                ACCEPT_DESCENDANTS: number;
-            },
+            actions: FilterActions,
             path: string,
             isGroup: boolean,
             value: Model | ModelGroup
-        ) => boolean | numbers
+        ) => FilterActions[keyof FilterActions]
     ): void
+}
+
+type ModelGroupPayload = Record<string, unknown>
+
+type ModelGroupValidator = (
+    payload: Record<string, unknown>,
+    error: (path: string, msg: string) => void,
+    isValid: (path: string) => boolean
+) => void
+
+type FilterActions = {
+    SKIP: false;
+    ACCEPT: true;
+    ACCEPT_CHILDREN: 1;
+    ACCEPT_DESCENDANTS: 2;
+}
+
+type ModelGroupInternal = {
+    readonly __modelGroup: true;
+    readonly __validator: ModelGroupValidator;
+}
+
+type ModelGroupFields = {
+    [Key: string]: ModelSpec | (ModelGroupFields & ModelGroupInternal)
+}
+
+type ModelGroupSpec<F extends ModelGroupFields> = F & ModelGroupInternal
+
+interface ModelSpec<T> extends ModelOptions<T> {
+    value: T;
+    formLabel?: string;
+}
+
+type ModelGroupInstance<F extends ModelGroupFields> = ModelGroup & {
+    [K in keyof F]: Model | ModelGroupInstance;
 }
 ```

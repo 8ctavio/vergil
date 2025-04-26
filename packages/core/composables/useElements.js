@@ -30,9 +30,13 @@ import { definedElements, symTrigger } from "./private"
  */
 
 /**
+ * @import { Elements } from '../types'
+ */
+
+/**
  * Creates a read-only, shallow-ref-unwrapping object to consume component-exposed HTML elements. 
  * 
- * @returns { object } A read-only, shallow-ref-unwrapping object to be provided through an `elements` prop to a component with proper `useElements` support.
+ * @returns { Elements } A read-only, shallow-ref-unwrapping object to be provided through an `elements` prop to a component with proper `useElements` support.
  * 
  * @example
  *  ```vue
@@ -51,6 +55,7 @@ import { definedElements, symTrigger } from "./private"
  *  ```
  */
 export function useElements() {
+	// @ts-expect-error
 	const dep = shallowRef().dep
 	let track = dep.track.bind(dep)
 	const elements = entangled({
@@ -59,7 +64,7 @@ export function useElements() {
 			track = undefined
 		}
 	}, { writable: false, enumerable: false })
-	const elementsProxy = new Proxy(elements, {
+	const elementsProxy = new Proxy(/** @type { Elements } */(/** @type { unknown } */ (elements)), {
 		get(target, property) {
 			if (typeof property === 'string') {
 				track?.()

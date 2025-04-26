@@ -69,7 +69,7 @@ The `useDefineModel`'s API allows to separately handle internal and external mod
 - **External**: Updates performed anywhere *outside* an FFC's scope; in particular: in ancestor, sibling, or sibling's descendant scopes.
 
 :::tip
-To illustrate, consider the following "scope" tree where all scopes can access the same model. The type of update the `Reference` scope would perceive when a given scope updates the model value is hinted in parenthesis.
+To illustrate, consider the following component tree where all components have access to the same model. The type of update `Reference` would perceive when a given component updates the model value is hinted in parenthesis.
 
 <Demo>
 	<Anatomy tag="App (external)">
@@ -136,7 +136,7 @@ Additionally, `onExternalUpdate` accepts an `onMounted` boolean configuration op
 
 ### Including exposed data
 
-Similar to regular models, model wrappers provided to a child FFC may include `exposed` and `elements` properties to consume the child FFC's exposed data and elements, respectively (see [`model.exposed`](/composables/useModel#model-exposed)). Altough these properties are absent by default, the `useDefineModel`'s `includeExposed` and `includeElements` boolean options can be used to include corresponding `exposed` and `elements` objects into a model wrapper.
+Similar to regular models, model wrappers provided to a child FFC may include `exposed` and `elements` properties to consume the child FFC's exposed data and elements, respectively (see [`model.exposed`](/composables/useModel#model-exposed)). Although these properties are absent by default, the `useDefineModel`'s `includeExposed` and `includeElements` boolean options can be used to include corresponding `exposed` and `elements` objects into a model wrapper.
 
 ```vue
 <script setup>
@@ -195,13 +195,45 @@ When `captureExposed` or `captureElements` are set to `true`, a model wrapper *a
 ## Definition
 
 ```ts
-function useDefineModel<T>(options?: {
+function useDefineModel<T>(options?: DefineModelOptions): ModelWrapper<T>
+
+interface DefineModelOptions {
 	isCollection?: boolean;
 	includeExposed?: boolean;
 	captureExposed?: boolean;
 	includeElements?: boolean;
 	captureElements?: boolean;
-}): ExtendedRef<T>
+}
+
+type ModelWrapper<T> = {
+	updateDecorator<F extends Function>(fn: F): F;
+	update(v: unknown): void;
+	onExternalUpdate(
+		callback: ExternalModelUpdateCallback,
+		options?: Omit<WatchOptions, 'deep'> & { onMounted?: boolean }
+	): () => void;
+	onInternalUpdate(
+		callback: InternalModelUpdateCallback,
+		options?: Omit<WatchOptions, 'deep'>
+	): () => void;
+	exposed: Exposed | null | undefined;
+	elements: Elements | null | undefined;
+	triggerIfShallow(): void;
+	handleValidation(eager?: boolean): void;
+	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void;
+} & Omit<Model<T>, 'exposed' | 'elements'>
+
+type InternalModelUpdateCallback<T> = (
+	value: T,
+	oldValue: T | undefined
+) => any;
+
+type ExternalModelUpdateCallback<T> = (
+	value: T,
+	oldValue: T | undefined,
+	isProgrammatic: boolean,
+	onCleanup: OnCleanup
+) => any;
 ```
 
 #### Parameters
@@ -223,7 +255,7 @@ An extendedRef object. Additional included methods are:
 	```js
 	model.triggerIfShallow()
 	// same as
-	if(isShallow(model.ref)) {
+	if (isShallow(model.ref)) {
 		triggerRef(model.ref)
 	}
 	```

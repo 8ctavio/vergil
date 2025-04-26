@@ -27,7 +27,7 @@ export function markDescriptor(value) {
 export function isDescriptor(value) {
 	return isObject(value)
 		&& Object.hasOwn(value, '__descriptor')
-		&& value.__descriptor === true
+		&& /** @type { Record<string, unknown> } */(value).__descriptor === true
 }
 
 /**

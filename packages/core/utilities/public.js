@@ -160,7 +160,7 @@ export function everyKeyInObject(obj, keys, strict = true) {
  * Assesses whether a value is an object.
  * 
  * @param { unknown } value 
- * @returns { value is Record<PropertyKey, unknown> } `true` if `value` is an object, and `false` otherwise.
+ * @returns { value is object } `true` if `value` is an object, and `false` otherwise.
  */
 export function isObject(value) {
 	return value !== null && typeof value === 'object'
@@ -170,7 +170,7 @@ export function isObject(value) {
  * Assesses whether a value is a plain object.
  * 
  * @param { unknown } value 
- * @returns { value is Record<PropertyKey, unknown> } `true` if `value` is a plain object, and `false` otherwise.
+ * @returns { value is object } `true` if `value` is a plain object, and `false` otherwise.
  */
 export function isPlainObject(value) {
 	if (value === null || typeof value !== 'object' || Object.hasOwn(value, Symbol.toStringTag))

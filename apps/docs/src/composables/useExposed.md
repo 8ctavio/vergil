@@ -66,7 +66,9 @@ On the other hand, the main drawback of `useExposed` is that an `exposed` object
 ## Definition
 
 ```ts
-function useExposed<T>(): T
+type Exposed = Readonly<Record<string, any>>
+
+function useExposed(): Exposed
 ```
 
 #### Return value

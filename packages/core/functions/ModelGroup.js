@@ -3,38 +3,75 @@ import { useModel } from "../composables"
 import { isModel } from '.'
 import { isObject, isPlainObject, isFunction } from "../utilities"
 
+/**
+ * @import { ShallowRef } from 'vue'
+ * @import { ModelGroupInstance, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../types'
+ */
+
+/**
+ * @type { null | {
+ *     shouldForce: boolean;
+ *     shouldTrigger: boolean;
+ *     refsToTrigger: ShallowRef<string[]>[]
+ * } }
+ */
 let validationData = null
+
 const filterActions = Object.freeze({
 	SKIP: false,
 	ACCEPT: true,
 	ACCEPT_CHILDREN: 1,
 	ACCEPT_DESCENDANTS: 2,
 })
+
+/**
+ * @typedef { typeof filterActions } FilterActions
+ * @typedef {(
+ *     (actions: FilterActions, path: string, isGroup: boolean, value: Model | ModelGroup) => FilterActions[keyof FilterActions]
+ * )} ModelFilter
+ */
+
+/**
+ * @this { ModelGroup }
+ * @param { ModelFilter } filter
+ * @param { string } [path = '']
+ * @param { 0 | 1 | 2 } [clearance = 0]
+ * @returns { Generator<[string[], string, string, Model]> }
+ */
 function* generateModelErrors(filter, path = '', clearance = 0) {
-	for(const field of Object.keys(this)) {
-		const value = this[field]
+	for (const field of Object.keys(this)) {
+		// @ts-expect-error
+		const value = /** @type { Model | ModelGroup } */ (this[field])
 		const fullPath = (path && (path + ".")) + field
-		if(value instanceof ModelGroup) {
+		if (value instanceof ModelGroup) {
 			const action = !isFunction(filter) || (clearance === 2 ? 2 : filter(filterActions, fullPath, true, value))
-			if(action === 1 || action === 2) {
+			if (action === 1 || action === 2) {
 				yield* generateModelErrors.call(value, filter, fullPath, action)
-			} else if(action) {
+			} else if (action) {
 				yield* generateModelErrors.call(value, filter, fullPath)
 			}
 		} else {
 			const include = !isFunction(filter) || clearance > 0 || filter(filterActions, fullPath, false, value)
-			if(include && value.error) {
+			if (include && value.error) {
 				yield [value.errors.value, field, fullPath, value]
 			}
 		}
 	}
 }
+
+/**
+ * @param { ModelGroup } modelGroup
+ * @param { string } path
+ * @returns { Model }
+ */
 function getNestedModel(modelGroup, path) {
 	if (typeof path === 'string') {
+		/** @type { ModelGroup | Model | null } */
 		let model = modelGroup
-		for(const field of path.split('.')) {
-			if(Object.hasOwn(model, field)) {
-				model = model[field]
+		for (const field of path.split('.')) {
+			if (Object.hasOwn(/** @type { ModelGroup } */(model), field)) {
+				// @ts-expect-error
+				model = /** @type { Model | ModelGroup } */ (model[field])
 			} else {
 				model = null
 				break
@@ -45,6 +82,13 @@ function getNestedModel(modelGroup, path) {
 	throw new ReferenceError(`No model found at ModelGroup's '${path}' path`)
 }
 
+/**
+ * @type { undefined | {
+ *     modelGroup: ModelGroup;
+ *     validate: ModelGroup['validate'];
+ *     handleValidation: (eager?: boolean) => void;
+ * } }
+ */
 export let groupValidationCtx
 
 /**
@@ -54,39 +98,65 @@ export class ModelGroup {
 	#validator
 	#isValid
 
+	/**
+	 * @template { ModelGroupFields } [F = {}]
+	 * @overload
+	 * @param { F } fields
+	 * @returns { ModelGroupInstance<F, false> }
+	 */
+
+	/**
+	 * @template { ModelGroupFields } [F = {}]
+	 * @overload
+	 * @param { F } fields
+	 * @param { ModelGroupValidator<F> } validator
+	 * @returns { ModelGroupInstance<F, true> }
+	 */
+
+	/**
+	 * @param { ModelGroupFields } fields
+	 * @param { ModelGroupValidator } [validator]
+	 */
 	constructor(fields, validator) {
-		if(!isPlainObject(fields)) {
+		if (!isPlainObject(fields)) {
 			throw new TypeError(`Argument must be a plain object; received ${Object.prototype.toString.call(fields)}`)
 		}
 
 		let shouldCleanup = false
-		if(isFunction(validator)) {
+		if (isFunction(validator)) {
 			if (!groupValidationCtx) {
 				groupValidationCtx = {
 					modelGroup: this,
+					// @ts-expect-error
 					validate: this.validate.bind(this),
 					handleValidation: (eager = false) => {
+						// @ts-expect-error
 						if (eager || this.error) this.validate()
 					}
 				}
 				shouldCleanup = true
 			}
 			this.#validator = validator
+			/** @param { string } path */
+			// @ts-expect-error
 			this.#isValid = path => getNestedModel(this, path).errors._value.length === 0
 		}
 		try {
-			for(const field of Object.keys(fields)) {
+			for (const field of Object.keys(fields)) {
 				const value = fields[field]
-				if(isObject(value)) {
-					if(Object.hasOwn(value, '__modelGroup') && value.__modelGroup) {
-						const { __validator, ...nestedFields } = value
+				if (isObject(value)) {
+					if (Object.hasOwn(value, '__modelGroup') && /** @type { ModelGroupSpec } */ (value).__modelGroup === true) {
+						const { __validator, ...nestedFields } = /** @type { ModelGroupSpec } */ (value)
+						// @ts-expect-error
 						this[field] = new ModelGroup(nestedFields, __validator)
 					} else {
-						const { value: modelValue, formLabel, ...options } = value
+						const { value: modelValue, formLabel, ...options } = /** @type { ModelSpec } */ (value)
 						const model = useModel(modelValue, options)
-						if(formLabel) {
+						if (formLabel) {
+							// @ts-expect-error
 							Object.defineProperty(model.errors._value, '_formLabel', { value: formLabel })
 						}
+						// @ts-expect-error
 						this[field] = model
 					}
 				}
@@ -98,37 +168,69 @@ export class ModelGroup {
 		}
 	}
 
+	/**
+	 * @template { ModelGroupFields } [F = {}]
+	 * @param { F } fields
+	 * @param { ModelGroupValidator } [validator]
+	 * @returns { ModelGroupSpec<F> }
+	 */
 	static nested(fields, validator) {
-		return Object.defineProperties(fields, {
-			__modelGroup: { value: true },
-			__validator: { value: validator }
-		})
+		return /** @type { ModelGroupSpec<F> } */ (
+			Object.defineProperties(fields, {
+				__modelGroup: { value: true },
+				__validator: { value: validator }
+			})
+		)
 	}
 
 	reset() {
-		for(const field of Object.keys(this)) {
+		for (const field of Object.keys(this)) {
+			// @ts-expect-error
 			this[field].reset()
 		}
 	}
+
+	/**
+	 * @template { ModelGroupFields } F
+	 * @overload
+	 * @this { ModelGroupInstance<F> }
+	 * @returns { ModelGroupPayload<F> }
+	 */
 	getPayload() {
+		/** @type { Record<string, unknown> } */
 		const payload = {}
-		for(const field of Object.keys(this)) {
-			const value = this[field]
+		for (const field of Object.keys(this)) {
+			// @ts-expect-error
+			const value = /** @type { Model | ModelGroup } */ (this[field])
 			Object.defineProperty(payload, field, {
 				value: value instanceof ModelGroup
+					// @ts-expect-error
 					? value.getPayload()
+					// @ts-expect-error
 					: toRaw(value.ref._value),
 				enumerable: true
 			})
 		}
 		return payload
 	}
+
+	/**
+	 * @template { ModelGroupFields } F
+	 * @template { boolean } [IncludePayload = false]
+	 * @template { boolean } [HasValidator = false]
+	 * @overload
+	 * @this { ModelGroupInstance<F, HasValidator> }
+	 * @param { IncludePayload } [includePayload]
+	 * @returns {(
+	 *     true extends IncludePayload | HasValidator ? [boolean, ModelGroupPayload<F>] : boolean
+	 * )}
+	 */
 	validate(includePayload = false) {
 		let result = true
 		const hasValidator = isFunction(this.#validator)
-		if(includePayload || hasValidator) {
+		if (includePayload || hasValidator) {
 			let shouldCleanup = false
-			if(hasValidator && !validationData) {
+			if (hasValidator && !validationData) {
 				shouldCleanup = true
 				validationData = {
 					shouldForce: true,
@@ -137,10 +239,13 @@ export class ModelGroup {
 				}
 			}
 			try {
+				/** @type { ModelGroupPayload } */
 				const payload = {}
-				for(const field of Object.keys(this)) {
-					const value = this[field]
-					if(value instanceof ModelGroup) {
+				for (const field of Object.keys(this)) {
+					// @ts-expect-error
+					const value = /** @type { Model | ModelGroup } */ (this[field])
+					if (value instanceof ModelGroup) {
+						// @ts-expect-error
 						const [groupResult, groupPayload] = value.validate(true)
 						result &&= groupResult
 						Object.defineProperty(payload, field, {
@@ -148,56 +253,71 @@ export class ModelGroup {
 							enumerable: true
 						})
 					} else {
-						if(validationData) {
+						if (validationData) {
 							result = value.validate(validationData.shouldForce, validationData.shouldTrigger) && result
 							validationData.refsToTrigger.push(value.errors)
 						} else {
 							result = value.validate() && result
 						}
 						Object.defineProperty(payload, field, {
+							// @ts-expect-error
 							value: toRaw(value.ref._value),
 							enumerable: true
 						})
 					}
 				}
-				if(hasValidator) {
+				if (hasValidator) {
+					/**
+					 * @param { string } path
+					 * @param { string } message
+					 */
 					const error = (path, message) => {
-						if(typeof message === 'string' && message.length > 0) {
+						if (typeof message === 'string' && message.length > 0) {
+							// @ts-expect-error
 							getNestedModel(this, path).errors._value.push(message)
 							result &&= false
 						}
 					}
-					this.#validator(payload, error, this.#isValid)
+					/** @type { ModelGroupValidator } */(this.#validator)(payload, error, /** @type { (path: string) => boolean } */ (this.#isValid))
 				}
 				return includePayload ? [result, payload] : result
 			} finally {
-				if(shouldCleanup) {
-					for(const errors of validationData.refsToTrigger) {
+				if (shouldCleanup) {
+					for (const errors of /** @type { Exclude<typeof validationData, null> } */ (validationData).refsToTrigger) {
 						triggerRef(errors)
 					}
 					validationData = null
 				}
 			}
 		} else {
-			for(const field of Object.keys(this)) {
+			for (const field of Object.keys(this)) {
+				// @ts-expect-error
 				result = this[field].validate() && result
 			}
 			return result
 		}
 	}
+
 	clear() {
-		for(const field of Object.keys(this)) {
+		for (const field of Object.keys(this)) {
+			// @ts-expect-error
 			this[field].clear()
 		}
 	}
 	get error() {
-		for(const field of Object.keys(this)) {
+		for (const field of Object.keys(this)) {
+			// @ts-expect-error
 			if (this[field].error) return true
 		}
 		return false
 	}
+
+	/**
+	 * @param { (errors: string[], field: string, path: string, model: Model) => void } callback
+	 * @param { ModelFilter } filter
+	 */
 	forErrors(callback, filter) {
-		for(const args of generateModelErrors.call(this, filter)) {
+		for (const args of generateModelErrors.call(this, filter)) {
 			callback(...args)
 		}
 	}

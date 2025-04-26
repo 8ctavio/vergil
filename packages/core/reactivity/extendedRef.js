@@ -28,14 +28,14 @@ import { ExtendedRefImpl } from "./private"
  * @param { MaybeRefOrGetter | ExtendedRef } value				- Value to normalize into the ref to be extended.
  * @param { Record<PropertyKey, unknown> | null } [extension]	- Extension object whose keys represent the names or symbols of extendedRef properties to be defined, while its values represent those properties' initial values or descriptors.
  * @param { object } [options]
- * @param { boolean } [options.shallow]				- Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
- * @param { () => unknown } [options.get]			- Custom extendedRef's `value` getter function.
- * @param { (value: any) => void } [options.set]	- Custom extendedRef's `value` setter function.
- * @param { boolean } [options.defaults]			- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
- * @param { boolean } [options.configurable]		- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.enumerable]			- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.writable]			- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { PropertyKey[] } [options.ignore]		- Array of `extension` property keys not to be defined on the underlying extendedRef object. object.
+ * @param { boolean } [options.shallow]					- Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
+ * @param { () => unknown } [options.get]				- Custom extendedRef's `value` getter function.
+ * @param { (value: unknown) => void } [options.set]	- Custom extendedRef's `value` setter function.
+ * @param { boolean } [options.defaults]				- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
+ * @param { boolean } [options.configurable]			- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
+ * @param { PropertyKey[] } [options.ignore]			- Array of `extension` property keys not to be defined on the underlying extendedRef object. object.
  * @returns { ExtendedRef }
  * 
  * @example

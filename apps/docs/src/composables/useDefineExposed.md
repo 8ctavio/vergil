@@ -35,7 +35,7 @@ The `useDefineExposed` composable receives as its only argument a `source` objec
 ## Definition
 
 ```ts
-function useDefineExposed(source: object): void
+function useDefineExposed(source: Record<string, unknown>): void
 ```
 
 #### Parameters

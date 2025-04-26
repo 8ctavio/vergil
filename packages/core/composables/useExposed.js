@@ -3,9 +3,13 @@ import { definedExposed, symTrigger } from "./private"
 import { getTrue } from "../utilities"
 
 /**
+ * @import { Exposed } from '../types'
+ */
+
+/**
  * Creates a read-only, shallow-ref-unwrapping object to consume component exposed data. 
  * 
- * @returns { object } A read-only, shallow-ref-unwrapping object to be provided through an `exposed` prop to a component with proper `useExposed` support.
+ * @returns { Exposed } A read-only, shallow-ref-unwrapping object to be provided through an `exposed` prop to a component with proper `useExposed` support.
  * 
  * @example
  *  ```vue
@@ -25,12 +29,14 @@ import { getTrue } from "../utilities"
  *  ```
  */
 export function useExposed() {
+	// @ts-expect-error
 	const dep = shallowRef().dep
 	const track = dep.track.bind(dep)
 	const exposed = markRaw({
 		[symTrigger]: dep.trigger.bind(dep)
 	})
 	const exposedProxy = new Proxy(exposed, {
+		/** @param { Record<PropertyKey, unknown> } target */
 		get(target, property) {
 			if(typeof property === 'string') {
 				track()

@@ -51,7 +51,7 @@ Since reading defined `elements` properties unwraps underlying element refs, rea
 ```js
 const exposed = useExposed()
 watch(() => exposed.someHTMLElement, el => {
-	if(el === null) {
+	if (el === null) {
 		// Element is unmounted
 	} else {
 		// Element is mounted
@@ -64,7 +64,9 @@ In addition, an `elements` object may also be provided to a component through a 
 ## Definition
 
 ```ts
-function useElements<T>(): T
+function useElements(): Elements
+
+type Elements = Readonly<Record<string, HTMLElement | null>>
 ```
 
 #### Return value

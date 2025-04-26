@@ -27,7 +27,7 @@ export function toInteger(n) {
 }
 
 /**
- * @param { any[] } arr
+ * @param { unknown[] } arr
  * @param { number } idx
  * @returns { void }
  */
@@ -87,7 +87,10 @@ export function looselyEqual(a, b) {
 		const keys = Object.keys(a)
 		if (keys.length !== Object.keys(b).length) return false
 		for (const key of keys) {
-			if (!(Object.hasOwn(b, key) && looselyEqual(a[key], b[key]))) {
+			if (!(Object.hasOwn(b, key) && looselyEqual(
+				/** @type { Record<string, unknown> } */(a)[key],
+				/** @type { Record<string, unknown> } */(b)[key]
+			))) {
 				return false
 			}
 		}

@@ -17,7 +17,7 @@ function createConfig(template, options = {}) {
     for (const option of Object.keys(template)) {
         if (isPlainObject(template[option])) {
             descriptors[option] = createConfig(
-                template[option],
+                /** @type { Record<string, unknown> } */ (template[option]),
                 /** @type { Record<string, unknown> | undefined } */ (options[option])
             )
         } else {
@@ -102,7 +102,8 @@ function withModifier(value, modifier) {
  * @returns { options is T extends OptionWithModifier ? T : never }
  */
 function hasModifier(option) {
-    return isObject(option) && option[Symbol.toStringTag] === 'OptionWithModifier'
+    return isObject(option)
+        && /** @type { Record<PropertyKey, unknown> } */ (option)[Symbol.toStringTag] === 'OptionWithModifier'
 }
 
 /**

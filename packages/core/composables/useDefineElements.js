@@ -5,9 +5,22 @@ import { isFunction } from "../utilities"
 import { definedInstances, definedElements, symTrigger, symHasInstance } from "./private"
 
 /**
+ * @import { ShallowRef } from 'vue'
+ * @import { Entangled, InternalElements } from '../types'
+ */
+
+/**
+ * @template { string } K
+ * @overload
+ * @param { K[] } keys
+ * @returns { Entangled<Record<K, ShallowRef<HTMLElement | null>>> }
+ */
+
+/**
  * Defines component's exposed element property names and creates corresponding shallowRefs to reference exposed HTML elements.
  * 
- * @param { string[] } keys - String array whose elements represent exposed element property names.
+ * @param { readonly string[] } keys - String array whose elements represent exposed element property names.
+ * @returns { Entangled<Record<string, ShallowRef<HTMLElement | null>>> | null }
  * 
  * @example
  *  ```vue
@@ -34,7 +47,7 @@ export function useDefineElements(keys) {
 	const instance = getCurrentInstance()
 	if(instance && Array.isArray(keys)) {
 		let instMeta = definedInstances.get(instance)
-		if (!instMeta) definedInstances.set(instMeta = {
+		if (!instMeta) definedInstances.set(instance, instMeta = {
 			definedElements: false,
 			definedExposed: false
 		})
@@ -42,7 +55,7 @@ export function useDefineElements(keys) {
 		if (!instMeta.definedElements) {
 			const props = toRaw(instance.props)
 			const elementsProxy = (isModel(props.modelValue) && props.modelValue.elements) || props.elements
-			const elements = definedElements.get(elementsProxy) ?? entangled()
+			const elements = /** @type { InternalElements } */ (definedElements.get(elementsProxy) ?? entangled())
 			if (!elements[symHasInstance]) {
 				instMeta.definedElements = true
 				if (Object.hasOwn(elements, symHasInstance)) {
@@ -53,10 +66,11 @@ export function useDefineElements(keys) {
 						writable: true
 					})
 
+					/** @type { Record<string, ShallowRef<HTMLElement | null>> } */
 					const extension = {}
 					for(const key of keys) {
 						if (typeof key === 'string' && key !== '__v_skip') {
-							extension[key] = shallowRef(false)
+							extension[key] = shallowRef(null)
 						}
 					}
 					elements.extend(extension, { defaults: false })

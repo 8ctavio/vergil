@@ -79,13 +79,13 @@ export type WaitForMethods<
 	}
 )
 
-export interface WatchControlledSyncHandle {
+export interface WatchControls {
 	stop(): void;
 	pause(): void;
 	resume(): void;
 }
 
-export interface WatchControlledHandle extends WatchControlledSyncHandle {
+export interface WatchControlledHandle extends WatchControls {
 	ignore(callback: () => void): void;
 }
 

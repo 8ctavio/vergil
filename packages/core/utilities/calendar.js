@@ -1,11 +1,11 @@
 /**
- * @param { any } value 
+ * @param { unknown } value 
  * @param { boolean } [isArrayHint] 
  * @returns { boolean }
  */
 export function hasDate(value, isArrayHint) {
 	return (typeof isArrayHint === 'boolean' ? isArrayHint : Array.isArray(value))
-		? value.length > 0
+		? /** @type { unknown[] } */ (value).length > 0
 		: isDate(value)
 			|| (typeof value === 'string' && value.length > 0)
 			|| (typeof value === 'number' && !Number.isNaN(value))

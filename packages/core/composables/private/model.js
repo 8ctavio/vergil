@@ -2,118 +2,128 @@ import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher 
 import { watchControlledSync } from "../../reactivity/private"
 import { noop } from "../../utilities"
 
+/**
+ * @import { WatchOptions, EffectScope, ReactiveEffect } from 'vue'
+ * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatchControls } from '../../types'
+ */
+
+
 const isScheduled = Symbol('isScheduled')
+
+/**
+ * @typedef { ReactiveEffect & { [isScheduled]?: boolean } } WatcherEffect
+ */
 
 export const privateModelMap = new WeakMap()
 
 /**
  * Allows to create multiple model watchers and to pause and resume them to ignore model updates.
  * 
- * @template T
- * @param { ExtendedRef<T> } model
- * @param { object } privateModel
- * @param { boolean } [isCollection]
+ * @param { Model } model
+ * @param { PrivateModel } privateModel
+ * @param { boolean } [isCollection = false]
  * 
  * @returns { [
- *	onModelUpdate: (callback: WatchCallback<T>, options: WatchOptions) => (() => void),
- * 	{
- * 		stop: () => void;
- * 		pause: () => void;
- * 		resume: () => void;
- * 	}
+ *	(callback: ExternalModelUpdateCallback, options?: Omit<WatchOptions, 'deep'>) => (() => void),
+ * 	WatchControls
  * ] } Model watcher controller
  */
 export function useModelWatchers(model, privateModel, isCollection = false) {
 	const composableScope = getCurrentScope()
-	const watchers = effectScope(true)
+	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
+	/** @type { WatchControls | void } */
 	let auxWatcher
 	let isPaused = false
 	let scheduledEffects = 0
 
+	/**
+	 * @param { ExternalModelUpdateCallback } callback
+	 * @param { Omit<WatchOptions, 'deep'> } [options = {}]
+	 */
 	function onModelUpdate(callback, options = {}) {
-		let stop
-		if(options.flush === 'sync') {
+		let stop = noop
+		if (options.flush === 'sync') {
 			syncWatchers.run(() => {
-				const watcher = watch(model.ref, (v,u,c) => {
-					if(!isPaused) callback(v, u, !privateModel.hasInteractiveCtx, c)
+				const watcher = watch(model.ref, (v, u, c) => {
+					if (!isPaused) callback(v, u, !privateModel.hasInteractiveCtx, c)
 				}, { ...options, deep: isCollection && 1 })
-				if(isPaused) watcher.pause()
+				if (isPaused) watcher.pause()
 				stop = () => watcher()
 			})
 		} else {
-			if(options.immediate && !isPaused) {
-				callback(model.value, undefined, false)
-				if(options.once) return noop
+			if (options.immediate && !isPaused) {
+				callback(model.value, undefined, false, noop)
+				if (options.once) return stop
 			}
-			
-			if(!auxWatcher) {
+
+			if (!auxWatcher) {
 				effectScope(true).run(() => {
 					auxWatcher = watchControlledSync(model.ref, () => {
-						for(const effect of watchers.effects) {
+						for (const effect of watchers.effects) {
 							effect[isScheduled] = true
 						}
 						scheduledEffects = watchers.effects.length
-						auxWatcher.pause()
+						;/** @type { WatchControls } */(auxWatcher).pause()
 					}, { deep: isCollection && 1 })
 				})
 			}
-			auxWatcher[isPaused ? 'pause' : 'resume']()
+			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
-				const watcher = watch(model.ref, (v,u,c) => {
-					const effect = getCurrentWatcher()
-					if(effect[isScheduled]) {
+				const watcher = watch(model.ref, (v, u, c) => {
+					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
+					if (effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--
-						if(!isPaused) {
-							auxWatcher.resume()
+						if (!isPaused) {
+							/** @type { WatchControls } */(auxWatcher).resume()
 							callback(v, u, !privateModel.hasInteractiveCtx, c)
-							if(options.once) stop()
+							if (options.once) stop()
 						}
 					}
 				}, { flush: options.flush, deep: isCollection && 1 })
 
-				const effect = watchers.effects.at(-1)
+				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
 				Object.defineProperty(effect, isScheduled, {
 					value: false,
 					writable: true
 				})
 				stop = () => {
 					watcher()
-					if(effect[isScheduled]) {
+					if (effect[isScheduled]) {
 						effect[isScheduled] = false
 						scheduledEffects--
 					}
-					if(watchers.effects.length === 0) {
+					if (watchers.effects.length === 0) {
 						auxWatcher = auxWatcher?.stop()
 					}
 				}
 			})
 		}
-		if(composableScope !== getCurrentScope()) {
+		if (composableScope !== getCurrentScope()) {
 			onScopeDispose(stop, true)
 		}
 		return stop
 	}
 	function pause() {
-		if(!isPaused) {
+		if (!isPaused) {
 			isPaused = true
 			syncWatchers.pause()
 			auxWatcher?.pause()
 		}
 	}
 	function resume() {
-		if(isPaused) {
+		if (isPaused) {
 			syncWatchers.resume()
 			isPaused = false
-			if(watchers.effects.length > scheduledEffects) {
-				auxWatcher.resume()
+			if (watchers.effects.length > scheduledEffects) {
+				/** @type { WatchControls } */(auxWatcher).resume()
 			}
 		}
 	}
 	function stop() {
-		for(const effect of watchers.effects) {
+		for (const effect of watchers.effects) {
 			effect[isScheduled] = false
 		}
 		scheduledEffects = 0
