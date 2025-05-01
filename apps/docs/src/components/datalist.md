@@ -58,7 +58,7 @@ import { DataList } from '@8ctavio/vergil/components'
 
 ## Props
 
-### Data <Badge><pre>data: object</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+### Data <Badge><pre>data: Record<string, string | string[][]></pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 The `data` object key-value pairs are displayed as the `DataList` labels and values. Badges and simple tables can also be displayed.
 
@@ -72,7 +72,7 @@ To display a table, a `data` property must be an array of string arrays (`string
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `data` | `object` | |
+| `data` | `Record<string, string \| string[][]>` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |

@@ -1,43 +1,45 @@
-<script setup>
+<script setup lang="ts">
 import Badge from './Badge.vue'
 import MiniMarkup from './private/MiniMarkup'
 import { shallowRef, h } from 'vue'
 import { vergil } from '../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities'
+import type { PropType } from 'vue'
+import type { Theme, Size, Radius, Spacing } from '../types'
 
 defineProps({
-	data: Object,
+	data: Object as PropType<Record<string, string | string[][]>>,
 	descendant: Boolean,
 	theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datalist.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datalist.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datalist.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datalist.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datalist.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datalist.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datalist.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datalist.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
 
-const columns = shallowRef(0)
-function EmbeddedTable({ data }) {
-	columns.value = `repeat(${data[0].length},1fr)`
+const columns = shallowRef('')
+function EmbeddedTable({ data }: { data: string[][] }) {
+	columns.value = `repeat(${data[0]?.length ?? 0},1fr)`
 	const rows = []
 	for(let i=0; i<data.length; i++) {
 		const cells = []
-		for(let j=0; j<data[0].length; j++) {
-			cells.push(h('p', h(MiniMarkup, { str: data[i][j] ?? '' })))
+		for(let j=0; j<(data[0] as string[]).length; j++) {
+			cells.push(h('p', h(MiniMarkup, { str: data[i]?.[j] ?? '' })))
 		}
 		rows.push(
 			h('div', {

@@ -1,32 +1,34 @@
-<script setup>
+<script setup lang="ts">
 import Btn from '../buttons/Btn.vue'
 import FocusTrap from '../private/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { onMounted } from 'vue'
 import { popupMeta, closePopup } from '.'
 import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type { Theme, Size, Radius } from '../../types'
 
 const { disabled } = defineProps({
     title: String,
     disabled: Boolean,
     theme: {
-        type: String,
+        type: String as PropType<Theme>,
         default: () => vergil.config.popup.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
-        type: String,
+        type: String as PropType<Size>,
         default: () => vergil.config.popup.size ?? vergil.config.global.size,
         validator: isValidSize
     },
     radius: {
-        type: String,
+        type: String as PropType<Radius>,
         default: () => vergil.config.popup.radius ?? vergil.config.global.radius,
         validator: isValidRadius
     },
 })
 
-function handleKeyDown(event) {
+function handleKeyDown(event: KeyboardEvent) {
 	if(isEscapeKey(event) && !disabled) closePopup(true)
 }
 
@@ -39,7 +41,7 @@ onMounted(() => {
     <FocusTrap
         :class="['popup', inferTheme(theme), `size-${size} radius-${radius}`]"
         :inert="popupMeta.isLeaving"
-        :focus-on-unmount="popupMeta.focusedBefore"
+        :focus-on-unmount="popupMeta.focusedBefore ?? undefined"
         @keydown="handleKeyDown">
         <div class="popup-wrapper">
             <slot/>

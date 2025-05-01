@@ -1,16 +1,42 @@
 import { shallowRef, shallowReactive, markRaw, nextTick } from 'vue'
+import { isFunction } from '../../utilities'
 
+/**
+ * @import { ShallowRef, ComponentPublicInstance } from 'vue'
+ */
+
+/**
+ * @type {(
+ *     ShallowRef<{
+ *         component: ComponentPublicInstance;
+ *         props: Record<string, unknown>;
+ *     } | {
+ *         component: null;
+ *         props: null;
+ *     }>
+ * )}
+ */
 const popup = shallowRef({
     component: null,
-    props: {}
+    props: null
 })
+/**
+ * @type {{
+ *     isLeaving: boolean;
+ *     focusedBefore: Element | null;
+ * }}
+ */
 const popupMeta = shallowReactive({
     isLeaving: false,
     focusedBefore: null
 })
 
-async function showPopup(component, props){
-    if(popup.value.component){
+/**
+ * @param { ComponentPublicInstance } component
+ * @param { Record<string, unknown> } props 
+ */
+async function showPopup(component, props) {
+    if (popup.value.component) {
         popupMeta.isLeaving = true
         await nextTick()
     }
@@ -19,7 +45,7 @@ async function showPopup(component, props){
         props
     }
 }
-async function closePopup(closeBtn = false){
+async function closePopup(closeBtn = false) {
     const onClose = popup.value.props?.onClose
     popupMeta.isLeaving = true
     await nextTick()
@@ -28,7 +54,7 @@ async function closePopup(closeBtn = false){
         component: null,
         props: null
     }
-    if(closeBtn) onClose?.()
+    if (closeBtn && isFunction(onClose)) onClose()
 }
 
 export {

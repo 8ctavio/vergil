@@ -1,17 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { Btn, Radio } from '../../components'
 import { useId } from 'vue'
 import { usePopover } from '../../composables'
 import { ucFirst, isValidColor } from '..'
 import { userThemeColor } from '.'
+import type { PropType } from 'vue'
+import type { ColorPalette } from '../../types'
 
 const name = useId()
 const { position } = defineProps({
 	colors: {
-		type: Object,
-		default: ['emerald', 'moss', 'teal', 'sky', 'denim', 'indigo', 'wine'],
-		validator(v) {
-			if(Array.isArray(v)) {
+		type: Object as PropType<ColorPalette[] | Partial<Record<ColorPalette, string>>>,
+		default: () => ['emerald', 'moss', 'teal', 'sky', 'denim', 'indigo', 'wine'],
+		validator(v: object) {
+			if (Array.isArray(v)) {
 				return v.every(c => isValidColor(c))
 			} else {
 				return Object.keys(v).every(c => isValidColor(c))
@@ -19,8 +21,8 @@ const { position } = defineProps({
 		},
 	},
 	position: {
-		type: String,
-		validator: v => ['absolute','fixed'].includes(v)
+		type: String as PropType<'absolute' | 'fixed'>,
+		validator: (v: string) => ['absolute','fixed'].includes(v)
 	}
 })
 
@@ -31,6 +33,7 @@ const { Popover, togglePopover } = usePopover({
 </script>
 
 <template>
+	<!-- @vue-expect-error -->
 	<Popover class="user-theme-color-picker" @change="userThemeColor = $event.target.value">
 		<Btn
 			variant="subtle"

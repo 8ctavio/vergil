@@ -1,8 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import MiniMarkup from './private/MiniMarkup'
 import { vergil } from '../vergil'
 import { usePopover } from '../composables'
 import { isValidPlacement } from '../utilities'
+import type { PropType } from 'vue'
+import type { Placement } from '@floating-ui/vue'
 
 const { arrow, delay, padding, placement, position, offset, trigger } = defineProps({
 	text: String,
@@ -13,29 +15,27 @@ const { arrow, delay, padding, placement, position, offset, trigger } = definePr
 	delay: Number,
 	padding: Number,
 	placement: {
-		type: String,
+		type: String as PropType<Placement>,
 		default: () => vergil.config.tooltip.placement,
 		validator: isValidPlacement,
 	},
 	position: {
-		type: String,
-		validator: v => ['absolute','fixed'].includes(v)
+		type: String as PropType<'absolute' | 'fixed'>,
+		validator: (v: string) => ['absolute','fixed'].includes(v)
 	},
 	offset: {
 		type: Number,
-		default: props => vergil.config.tooltip.offset(props.arrow)
+		default: (props: { arrow: boolean }) => vergil.config.tooltip.offset(props.arrow)
 	},
 	trigger: {
-		type: String,
+		type: String as PropType<'click' | 'hover'>,
 		default: 'hover',
-		validator: v => ['click','hover'].includes(v)
+		validator: (v: string) => ['click','hover'].includes(v)
 	}
 })
 
 const { Popover } = usePopover({
-	arrow: arrow && {
-		border: 1
-	},
+	arrow: arrow && { border: 1 },
 	delay,
 	padding,
 	placement,
@@ -46,6 +46,7 @@ const { Popover } = usePopover({
 </script>
 
 <template>
+	<!-- @vue-expect-error -->
 	<Popover class="tooltip">
 		<slot/>
 		<template #portal>

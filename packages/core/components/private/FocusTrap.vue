@@ -1,37 +1,38 @@
-<script setup>
+<script setup lang="ts">
 import { useTemplateRef, nextTick, onMounted, onUnmounted } from 'vue'
 import { FocusTrap, focusElement, isTabKey, isTabbable, getFirstTabbable, getLastTabbable } from '../../utilities'
+import type { PropType, ComponentPublicInstance } from 'vue'
 
 const { autofocus, focusOnUnmount } = defineProps({
     autofocus: {
-        type: [Boolean, Object],
+        type: [Boolean, Object] as PropType<boolean | HTMLElement | ComponentPublicInstance>,
         default: true
     },
-    focusOnUnmount: Object
+    focusOnUnmount: Element
 })
 
 const root = useTemplateRef('root')
 const focusTrap = new FocusTrap()
 
-function handleKeyDown(event) {
-    if(isTabKey(event)) {
-        const root = event.currentTarget
+function handleKeyDown(event: KeyboardEvent) {
+    if (isTabKey(event)) {
+        const root = event.currentTarget as HTMLElement
         const focusedElement = event.target
         const first = getFirstTabbable(root)
         const last = first && getLastTabbable(root)
 
-        if(focusedElement === root) {
-            if(event.shiftKey) {
+        if (focusedElement === root) {
+            if (event.shiftKey) {
                 event.preventDefault()
                 focusElement(last)
-            } else if(!first) {
+            } else if (!first) {
                 event.preventDefault()
             }
-        } else if(first) {
-            if(focusedElement === last && !event.shiftKey) {
+        } else if (first) {
+            if (focusedElement === last && !event.shiftKey) {
                 event.preventDefault()
                 focusElement(first)
-            } else if(focusedElement === first && event.shiftKey) {
+            } else if (focusedElement === first && event.shiftKey) {
                 event.preventDefault()
                 focusElement(last)
             }
@@ -42,39 +43,40 @@ function handleKeyDown(event) {
 }
 
 function focusFirst() {
-    focusElement(getFirstTabbable(root.value) ?? root.value)
+    focusElement(getFirstTabbable(root.value as HTMLElement) ?? root.value)
 }
-let focusedBeforeBlur = null
-async function handleFocusOut(event) {
-    if(event.relatedTarget === null) {
+let focusedBeforeBlur: HTMLElement | null = null
+async function handleFocusOut(event: FocusEvent) {
+    if (event.relatedTarget === null) {
         await nextTick()
-        if(isTabbable(event.target)) {
-            focusedBeforeBlur = event.target
+        if (isTabbable(event.target as HTMLElement)) {
+            focusedBeforeBlur = event.target as HTMLElement
         } else {
             focusFirst()
         }
     }
 }
-function handleFocusIn(event) {
-    if(focusTrap.isActive && !root.value.contains(event.target)) {
-        if(focusedBeforeBlur) {
+function handleFocusIn(event: FocusEvent) {
+    if (focusTrap.isActive && !(root.value as HTMLElement).contains(event.target as HTMLElement)) {
+        if (focusedBeforeBlur) {
             focusElement(focusedBeforeBlur)
             focusedBeforeBlur = null
         } else focusFirst()
     }
 }
 
-let focusedBeforeTrap = null
+let focusedBeforeTrap: Element | null = null
 onMounted(async () => {
     focusTrap.activate()
     focusedBeforeTrap = document.activeElement
     document.addEventListener('focusin', handleFocusIn)
     await nextTick()
-    if(autofocus === true) {
+    if (autofocus === true) {
         focusFirst()
     } else {
-        const element = autofocus?.$el ?? autofocus
-        if(element instanceof HTMLElement) {
+        // @ts-expect-error
+        const element: unknown = autofocus?.$el ?? autofocus
+        if (element instanceof HTMLElement) {
             focusElement(getFirstTabbable(element, true) ?? root.value)
         } else {
             focusElement(root.value)

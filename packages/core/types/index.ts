@@ -1,3 +1,4 @@
+export type * from './components'
 export type * from './descriptor'
 export type * from './Entangled'
 export type * from './exposed'

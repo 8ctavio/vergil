@@ -1,7 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import MiniMarkup from "./MiniMarkup"
 import { isRef, computed } from 'vue'
 import { inferTheme } from "../../utilities"
+import type { PropType, ShallowRef } from "vue"
+import type { Theme, Size, Radius, Spacing } from "../../types"
 
 const props = defineProps({
     label: {
@@ -21,12 +23,12 @@ const props = defineProps({
         default: '',
     },
     floatLabel: Boolean,
-    errors: Object,
+    errors: Object as PropType<ShallowRef<string[]>>,
     showErrors: Boolean,
-    theme: String,
-    size: String,
-    radius: String,
-    spacing: String,
+    theme: String as PropType<Theme>,
+    size: String as PropType<Size>,
+    radius: String as PropType<Radius>,
+    spacing: String as PropType<Spacing>,
 })
 
 const errors = props.errors
@@ -55,8 +57,8 @@ const error = isRef(errors)
         </p>
         <slot/>
         <template v-if="showErrors && error">
-            <p v-if="errors.length === 1" class="form-field-details form-field-error">
-                {{ errors[0] }}
+            <p v-if="(errors as string[]).length === 1" class="form-field-details form-field-error">
+                {{ (errors as string[])[0] }}
             </p>
             <ul v-else class="form-field-details form-field-error">
                 <li v-for="error of errors">

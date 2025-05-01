@@ -49,7 +49,7 @@ Material Symbols icon code.
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `code` | `string` | `''` |
+| `code` | `string` | |
 
 ## Anatomy
 

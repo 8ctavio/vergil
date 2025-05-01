@@ -1,23 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import Toast from './Toast.vue'
 import { onMounted, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { toasters } from '.'
+import type { ToasterPosition } from '../../types'
 
-const containers = {}
+const containers = {} as Record<ToasterPosition, HTMLElement>
 onMounted(async () => {
     vergil.config.toaster.positions.forEach(position => {
         toasters[position] = []
     })
     await nextTick()
     vergil.config.toaster.positions.forEach(position => {
-        containers[position] = document.getElementById(`toaster-${position}`)
+        containers[position] = document.getElementById(`toaster-${position}`) as HTMLElement
     })
 })
 
-const onBeforeEnter = position => containers[position].classList.add('enter')
-const onAfterEnter = position => containers[position].classList.remove('enter')
-function onBeforeLeave(position, toast){
+const onBeforeEnter = (position: ToasterPosition) => containers[position].classList.add('enter')
+const onAfterEnter = (position: ToasterPosition) => containers[position].classList.remove('enter')
+function onBeforeLeave(position: ToasterPosition, toast: HTMLElement){
     if(containers[position].firstChild === toast){
         toast.classList.add('first-leave')
     }
@@ -34,8 +35,7 @@ function onBeforeLeave(position, toast){
         toast.classList.add('not-first-leave')
     }
 }
-
-function closeToast(position, toast){
+function closeToast(position: ToasterPosition, toast: typeof toasters[ToasterPosition][number]){
     const index = toasters[position].findIndex(t => t.id === toast.id)
     if(index > -1) toasters[position].splice(index, 1)
 }
@@ -43,11 +43,14 @@ function closeToast(position, toast){
 
 <template>
     <div id="toasters">
-        <TransitionGroup v-for="(toaster, position) in toasters" name="toast" tag="div" :id="`toaster-${position}`" :class="['toaster', ...position.split('-')]"
+        <TransitionGroup v-for="(toaster, position) in toasters" name="toast"
+            tag="div"
+            :id="`toaster-${position}`"
+            :class="['toaster', ...position.split('-')]"
             @before-enter="() => onBeforeEnter(position)"
             @after-enter="() => onAfterEnter(position)"
-            @before-leave="toast => onBeforeLeave(position, toast)"
-            >
+            @before-leave="toast => onBeforeLeave(position, toast as HTMLElement)"
+        >
             <Toast v-for="toast in toaster" :key="toast.id"
                 :message="toast.message"
                 :details="toast.details"

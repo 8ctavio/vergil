@@ -1,6 +1,7 @@
 import Icon from '../Icon'
 import { h } from 'vue'
 
+/** @param { string } str */
 function parseMiniMarkup(str){
     if(!str) return []
     str = str.trim().replace(/[ \t]+/g, ' ').replace(/\n | \n/g, '\n')
@@ -44,6 +45,7 @@ export default function MiniMarkup({ str = '' }) {
 				h(MiniMarkup, { str: segment.slice(2,-2) })
 			]))
 		} else if(reIcon.test(segment)) {
+			// @ts-expect-error
 			vnodes.push(h(Icon, {
 				class: 'inline-icon',
 				code: segment.slice(2,-2)

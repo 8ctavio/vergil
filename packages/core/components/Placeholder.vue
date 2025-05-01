@@ -1,30 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import Badge from './Badge.vue'
 import { vergil } from '../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../utilities'
+import type { PropType } from 'vue'
+import type { Theme, Size, Radius, Spacing } from '../types'
 
 defineOptions({ inheritAttrs: false })
 defineProps({
     label: String,
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.placeholder.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.placeholder.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.placeholder.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.placeholder.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.placeholder.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.placeholder.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.placeholder.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.placeholder.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
 })

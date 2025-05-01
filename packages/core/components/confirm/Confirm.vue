@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Icon from "../Icon"
 import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../private/ModalTransition.vue'
@@ -7,13 +7,14 @@ import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."
 import { FocusTrap, isEscapeKey, isTabKey, noop } from '../../utilities'
+import type { ComponentPublicInstance } from "vue"
 
 const size = vergil.config.confirm.size ?? vergil.config.global.size
 const radius = vergil.config.confirm.radius ?? vergil.config.global.radius
 
 const focusTrap = new FocusTrap()
 
-function resolveConfirm(response) {
+function resolveConfirm(response: boolean) {
 	confirmModel.show = false
 	confirmModel.resolve(response)
 	confirmModel.resolve = noop
@@ -22,52 +23,55 @@ function resolveConfirm(response) {
 
 const cancelBtn = useTemplateRef('cancel-btn')
 const acceptBtn = useTemplateRef('accept-btn')
-function handleKeyDown(event) {
-	if(isEscapeKey(event)) {
+function handleKeyDown(event: KeyboardEvent) {
+	if (isEscapeKey(event)) {
 		resolveConfirm(false)
-	} else if(isTabKey(event)) {
+	} else if (isTabKey(event)) {
 		switch(event.target) {
-			case cancelBtn.value.$el:
+			case (cancelBtn.value as ComponentPublicInstance).$el:
 				event.preventDefault()
-				acceptBtn.value.$el.focus()
+				;(acceptBtn.value as ComponentPublicInstance).$el.focus()
 				break
-			case acceptBtn.value.$el:
+			case (acceptBtn.value as ComponentPublicInstance).$el:
 				event.preventDefault()
-				cancelBtn.value.$el.focus()
+				;(cancelBtn.value as ComponentPublicInstance).$el.focus()
 				break
 		}
 	}
 }
 
-let focusedBeforeBlur = null
-async function handleFocusOut(event) {
-    if(event.relatedTarget === null) {
+let focusedBeforeBlur: HTMLElement | null = null
+async function handleFocusOut(event: FocusEvent) {
+    if (event.relatedTarget === null) {
         await nextTick()
-        focusedBeforeBlur = event.target
+        focusedBeforeBlur = event.target as HTMLElement
     }
 }
-function handleFocusIn(event) {
-    if(focusTrap.isActive && ![cancelBtn.value.$el, acceptBtn.value.$el].includes(event.target)) {
-        if(focusedBeforeBlur) {
+function handleFocusIn(event: FocusEvent) {
+    if (focusTrap.isActive && ![
+		(cancelBtn.value as ComponentPublicInstance).$el,
+		(acceptBtn.value as ComponentPublicInstance).$el
+	].includes(event.target)) {
+        if (focusedBeforeBlur) {
             focusedBeforeBlur.focus()
             focusedBeforeBlur = null
         } else {
-			cancelBtn.value.$el.focus()
+			(cancelBtn.value as ComponentPublicInstance).$el.focus()
 		}
     }
 }
 
-let focusedBeforeTrap = null
+let focusedBeforeTrap: HTMLElement | null = null
 watch(() => confirmModel.show, show => {
 	if(show) {
 		focusTrap.activate()
-		focusedBeforeTrap = document.activeElement
+		focusedBeforeTrap = document.activeElement as HTMLElement | null
 		document.addEventListener('focusin', handleFocusIn)
-		nextTick(() => cancelBtn.value.$el.focus())
+		nextTick(() => (cancelBtn.value as ComponentPublicInstance).$el.focus())
 	} else {
 		document.removeEventListener('focusin', handleFocusIn)
 		focusedBeforeTrap?.focus({ preventScroll: true })
-		focusedBeforeTrap?.select?.()
+		;(focusedBeforeTrap as HTMLInputElement)?.select?.()
 		focusTrap.deactivate()
 	}
 })

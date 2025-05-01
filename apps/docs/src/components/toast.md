@@ -157,29 +157,34 @@ import { toast } from '@8ctavio/vergil'
 
 It receives an `options` object, which has default values for options not specified.
 
-```js
+```ts
 function toast(options: {
-    position: string = 'bottom-end',
-    message: string = '',
-    details: string = '',
-    theme: string = 'brand',
-    icon: string,
-    duration: number = 6
+    position?: ToasterPosition;
+    message?: string;
+    details?: string;
+    theme?: string;
+    icon?: string;
+    duration?: number;
 }): void
+
+type ToasterPosition = 
+    | 'top-start'
+    | 'top'
+    | 'top-end'
+    | 'bottom-start'
+    | 'bottom'
+    | 'bottom-end';
 ```
 
-- `position`: The position of the toaster the `Toast` is going to be mounted on. Possible values are:
-```ts
-type position = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
-```
-- `duration`: The number of seconds a `Toast` lasts mounted.
+- `position`: The position of the toaster the `Toast` is going to be mounted on.
+- `duration`: The number of seconds a `Toast` lasts mounted. Defaults to `6`.
 - `icon`: If not specified, the `icon` default value depends on the `theme` option. Default `icon` values for each `theme` are found under the `global` [default configuration](/configuration#default-configuration) option.
 
 The remaining options are the same as the `Toast`'s props.
 
 In order to reduce syntax for frequently used options, there are two additional ways to use `toast`.
 
-```js
+```ts
 function toast(message: string): void
 function toast(theme: string, message: string): void
 ```
@@ -196,14 +201,10 @@ toast({ message: 'Please remain calm!' })
 
 `Toaster`'s [configuration options](/configuration) allow to overwrite some `toast` parameters' default values and may be overwritten under the `toaster` root-level configuration option. Additionally, only required toaster positions may be specified under `toaster.positions`.
 
-```ts
-type toastPosition = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
-```
-
 | `toaster.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | -------------------- | ---- | ------- | :------: |
-| `positions` | `toastPosition[]` | `['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end']` | |
-| `default` | `toastPosition` | `'bottom-end'` | |
+| `positions` | `ToasterPosition[]` | `['top-start', 'top', 'top-end', 'bottom-start', 'bottom', 'bottom-end']` | |
+| `default` | `ToasterPosition` | `'bottom-end'` | |
 | `duration` | `number` | `6` | |
 
 ### Examples

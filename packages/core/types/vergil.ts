@@ -1,10 +1,4 @@
-import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing } from '.'
-
-type BtnVariant = 'solid' | 'soft' | 'subtle';
-type BtnOutline = boolean | 'regular' | 'subtle' | 'strong';
-type ToggleVariant = 'classic' | 'card' | 'list' | 'toggle';
-
-type ToasterPosition = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end';
+import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from '.'
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {

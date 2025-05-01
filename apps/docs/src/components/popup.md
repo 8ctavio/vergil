@@ -210,8 +210,8 @@ function showPopup(component: Component, props: object): void
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `title` | `string` | `''` |
-| `disabled` | `boolean` | `false` |
+| `title` | `string` | |
+| `disabled` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |

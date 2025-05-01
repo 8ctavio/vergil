@@ -27,12 +27,12 @@ const testConfirm = async theme => {
         title: titles[theme],
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce congue molestie sem ut sagittis.'
     })
-    if(confirmed === true) toast('ok', 'Confirmed')
-    else if(confirmed === false) toast('error', 'Declined')
+    if (confirmed === true) toast('ok', 'Confirmed')
+    else if (confirmed === false) toast('error', 'Declined')
     else toast('warn', "Crime doesn't pay")
 }
 
-function example1(){
+function example1() {
     confirm('brand', {
         title: 'Mayday, mayday',
         description: `
@@ -45,7 +45,7 @@ function example1(){
         declineLabel: 'Dismiss',
         icon: 'sensors',
         onConfirmed() {
-            if((115 + Math.floor(Math.random() * 4)) === 117) {
+            if ((115 + Math.floor(Math.random() * 4)) === 117) {
                 toast({
                     message: "Captain Andrew Del Rio",
                     details: "This is Captain Andrew Del Rio, hailing any survivors of the UNSC Forward Unto Dawn; we're approaching your last known location.",
@@ -109,17 +109,17 @@ const confirmed = await confirm('check', {
     description: 'Anxious? Stressed? Please remain calm. Need a health kit?',
     confirmLabel: 'I need a weapon',
     declineLabel: 'Tell that to the covenant',
-    onConfirmed(){
+    onConfirmed() {
         // User confirmed request
     },
-    onDeclined(){
+    onDeclined() {
         // User declined request
     }
 })
 
-if(confirmed === true) {
+if (confirmed === true) {
     // User confirmed request
-} else if(confirmed === false) {
+} else if (confirmed === false) {
     // User declined request
 } else {
     // User tried to open a Confirm component before responding a previous request
@@ -132,16 +132,16 @@ The `onConfirmed` and `onDeclined` callbacks are (respectively) called and await
 
 ## API
 
-```js
-async function confirm(theme: string, request: {
+```ts
+function confirm(theme: string, request: {
     title: string,
-    description: string,
-    confirmLabel: string = 'Accept',
-    declineLabel: string = 'Cancel',
-    icon: string,
-    onConfirmed: () => void | Promise<void>,
-    onDeclined: () => void | Promise<void>
-}): Promise<bool | null>
+    description?: string,
+    confirmLabel?: string = 'Accept',
+    declineLabel?: string = 'Cancel',
+    icon?: string,
+    onConfirmed?: () => void | Promise<void>,
+    onDeclined?: () => void | Promise<void>
+}): Promise<boolean | null>
 ```
 
 #### Parameters

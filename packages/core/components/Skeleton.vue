@@ -1,22 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { vergil } from '../vergil'
 import { isValidRadius, isValidSize, isValidSpacing } from '../utilities'
+import type { PropType } from 'vue'
+import type { Size, Radius, Spacing } from '../types'
 
 defineProps({
     descendant: Boolean,
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.skeleton.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.skeleton.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.skeleton.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.skeleton.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.skeleton.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.skeleton.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
 })

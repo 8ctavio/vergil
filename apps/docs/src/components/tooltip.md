@@ -118,13 +118,13 @@ arrow => arrow ? 2 : 5
 
 [Shift axis](https://floating-ui.com/docs/shift#mainaxis) virtual padding in `px` left when the tooltip shifts.
 
-### Placement <Badge><pre>placement: string = 'top'</pre></Badge>
+### Placement <Badge><pre>placement: Placement = 'top'</pre></Badge>
 
 Possible `placement` values are shown below.
 
 ```ts
-type placement
-    = 'top' | 'top-start' | 'top-end'
+type Placement =
+    | 'top' | 'top-start' | 'top-end'
     | 'right' | 'right-start' | 'right-end'
     | 'bottom' | 'bottom-start' | 'bottom-end'
     | 'left' | 'left-start' | 'left-end'

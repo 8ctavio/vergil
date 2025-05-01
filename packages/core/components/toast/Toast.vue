@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Icon from '../Icon'
 import MiniMarkup from "../private/MiniMarkup"
 import { shallowRef } from 'vue'
 import { vergil } from '../../vergil'
 import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type { Theme, Size, Radius } from '../../types'
 
 const props = defineProps({
     message: {
@@ -14,20 +16,20 @@ const props = defineProps({
     icon: String,
     duration: {
         type: Number,
-        validator: v => v > 0
+        validator: (v: number) => v > 0
     },
     theme: {
-        type: String,
+        type: String as PropType<Theme>,
         default: () => vergil.config.toast.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
-        type: String,
+        type: String as PropType<Size>,
         default: () => vergil.config.toast.size ?? vergil.config.global.size,
         validator: isValidSize
     },
     radius: {
-        type: String,
+        type: String as PropType<Radius>,
         default: () => vergil.config.toast.radius ?? vergil.config.global.radius,
         validator: isValidRadius
     }

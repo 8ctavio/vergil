@@ -1,63 +1,65 @@
-<script setup>
+<script setup lang="ts">
 import Icon from '../Icon'
 import MiniMarkup from '../private/MiniMarkup'
 import { vergil } from '../../vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import type { PropType } from 'vue'
+import type { BtnVariant, BtnOutline, Theme, Size, Radius, Spacing } from '../../types'
 
 defineProps({
     label: String,
     variant: {
-        type: String,
+        type: String as PropType<BtnVariant>,
         default: () => vergil.config.btn.variant,
-        validator: v => isValidVariant('Btn', v)
+        validator: (v: string) => isValidVariant('Btn', v)
     },
     mask: {
-        type: String,
-        default: props => vergil.config.btn[props.variant]?.mask,
-        validator: v => ['ghost', 'form-field'].includes(v)
+        type: String as PropType<'ghost' | 'form-field'>,
+        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.mask,
+        validator: (v: string) => ['ghost', 'form-field'].includes(v)
     },
     outline: {
-        type: [Boolean, String],
-        default: props => vergil.config.btn[props.variant]?.outline,
-        validator: v => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
+        type: [Boolean, String] as PropType<boolean | BtnOutline>,
+        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.outline,
+        validator: (v: boolean | string) => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
     underline: {
         type: Boolean,
-        default: props => vergil.config.btn[props.variant]?.underline,
+        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.underline,
     },
     fill: {
         type: Boolean,
-        default: props => vergil.config.btn[props.variant]?.fill,
+        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.fill,
     },
     icon: String,
     iconLeft: String,
     iconRight: String,
     squared: {
         type: Boolean,
-        default: props => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
+        default: (props: Record<string, string>) => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
     disabled: Boolean,
     loading: Boolean,
 
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.btn.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.btn.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.btn.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.btn.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })

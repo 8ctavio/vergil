@@ -1,5 +1,5 @@
 /**
- * @param { HTMLElement } element
+ * @param { Element | null } element
  * @returns { void }
  */
 export function focusElement(element) {

@@ -144,7 +144,7 @@ import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 
 <br>
 
-##### Colors <Badge><pre>colors: array | object</pre></Badge>
+##### Colors <Badge><pre>colors: ColorPalette[] | Partial<Record<ColorPalette, string>></pre></Badge>
 
 As an array, `colors` should contain [color palette names](#color-palettes). Custom labels can be provided by passing an object instead, where keys are color palette names and values the corresponding display labels.
 
