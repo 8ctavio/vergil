@@ -1,4 +1,4 @@
-import type { ShallowRef, MaybeRefOrGetter, UnwrapRef, WatchCallback, WatchOptions } from "vue"
+import type { ShallowRef, MaybeRefOrGetter, UnwrapRef, WatchCallback, WatchOptions, PropType } from "vue"
 import type { ExtendedRef, DescriptorMarked, Exposed, Elements, MaybeUndefined } from "."
 
 type OnCleanup = Parameters<WatchCallback>[2]
@@ -87,10 +87,10 @@ type ExposedResource<
 
 export type ModelWrapper<
 	T = unknown,
-	IncludeExposed extends boolean = false,
-	CaptureExposed extends boolean = false,
-	IncludeElements extends boolean = false,
-	CaptureElements extends boolean = false
+	IncludeExposed extends boolean = boolean,
+	CaptureExposed extends boolean = boolean,
+	IncludeElements extends boolean = boolean,
+	CaptureElements extends boolean = boolean
 > = {
 	updateDecorator<F extends Function>(fn: F): F;
 	update(v: unknown): void;
@@ -106,3 +106,6 @@ export type ModelWrapper<
 	elements: ExposedResource<Elements, IncludeElements, CaptureElements>;
 }	& Omit<PrivateModel, 'hasInteractiveCtx' | 'resetInteractiveCtx'>
 	& Omit<Model<T>, 'exposed' | 'elements'>
+
+export type ModelValueProp<T> = PropType<Model<T> | ModelWrapper<T> | T>
+export type ModelValidatorProp<T> = PropType<ModelOptions<T>['validator']>

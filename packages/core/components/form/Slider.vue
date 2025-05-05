@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isFunction, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -20,33 +22,31 @@ const props = defineProps({
     },
     virtualMin: {
         type: Number,
-        validator: (v, { min }) => v > Number(min)
+        validator: (v: number, { min }) => v > Number(min)
     },
     virtualMax: {
         type: Number,
-        validator(virtualMax, { virtualMin, max }) {
+        validator(virtualMax: number, { virtualMin, max }) {
             return virtualMax < Number(max) && (typeof virtualMin !== 'number' || virtualMax > virtualMin) 
         }
     },
     value: {
         type: [String, Number],
-        default: props => props.virtualMin ?? props.min,
+        default: (props: { virtualMin?: number, min: string | number }) => props.virtualMin ?? props.min,
         validator(v, props) {
             return Number(v) >= Number(props.virtualMin ?? props.min) && Number(v) <= Number(props.virtualMax ?? props.max)
         }
     },
     modelValue: {
-        type: [String, Number, Object],
-        default: props => props.value,
+        type: [Number, Object] as ModelValueProp<number>,
+        default: (props: { value: string | number }) => Number(props.value),
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<number>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
-    displayValue: {
-        type: [Boolean, Function]
-    },
+    displayValue: [Boolean, Function] as PropType<boolean | ((value: number) => string)>,
     fixedProgress: Boolean,
     disabled: Boolean,
     class: [String, Object],
@@ -67,37 +67,37 @@ const props = defineProps({
     //----- Global -----
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.slider.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.slider.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.slider.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.slider.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
+        type: String as PropType<Radius>,
         default: () => vergil.config.slider.radius,
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.slider.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.slider.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
 
-const model = useDefineModel()
+const model = useDefineModel<number>()
 const elements = useDefineElements(['input'])
 
 model.onExternalUpdate(modelValue => {
-    elements.input.value = modelValue
+    (elements.input as HTMLInputElement).value = modelValue.toString()
 }, { onMounted: true })
 
 const validateInput = model.useDebouncedValidation(props.validationDelay)
-const handleInput = model.updateDecorator(event => {
-    const newValue = Number(event.target.value)
+const handleInput = model.updateDecorator((event: Event) => {
+    const newValue = Number((event.target as HTMLInputElement).value)
     if(props.virtualMin && newValue < props.virtualMin) {
         model.value = props.virtualMin
     } else if(props.virtualMax && newValue > props.virtualMax) {
@@ -108,8 +108,9 @@ const handleInput = model.updateDecorator(event => {
     validateInput(props.eagerValidation)
 })
 
+// @ts-expect-error
 const sliderProgress = computed(() => (model.value - props.min)/(props.max - props.min))
-const valueWidth = computed(() => props.max.length)
+const valueWidth = computed(() => String(props.max).length)
 </script>
 
 <template>

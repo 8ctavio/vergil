@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import Icon from '../Icon'
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -16,24 +18,24 @@ const props = defineProps({
     },
     valueOn: {
         type: [String, Boolean],
-        default: props => props.value ?? true
+        default: (props: { value?: string | boolean }) => props.value ?? true
     },
     valueOff: {
         type: [String, Boolean],
-        default: props => (typeof props.valueOn === 'string') ? '' : false
+        default: (props: { valueOn: string | boolean }) => (typeof props.valueOn === 'string') ? '' : false
     },
     modelValue: {
-        type: [String, Boolean, Object],
-        default: props => props.checked ? props.valueOn : props.valueOff,
+        type: [String, Boolean, Object] as ModelValueProp<boolean | string | string[]>,
+        default: (props: { checked?: boolean, valueOn: string | boolean, valueOff: string | boolean }) => props.checked ? props.valueOn : props.valueOff,
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<boolean | string | string[]>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
     track: {
-        type: String,
-        validator: v => ['on','off'].includes(v)
+        type: String as PropType<'on' | 'off'>,
+        validator: (v: string) => ['on','off'].includes(v)
     },
     labelOn: String,
     labelOff: String,
@@ -53,23 +55,23 @@ const props = defineProps({
     //----- Global -----
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.switch.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.switch.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.switch.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.switch.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.switch.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.switch.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.switch.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.switch.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
@@ -77,38 +79,38 @@ const props = defineProps({
 const elements = useDefineElements(['input'])
 const model = useDefineModel({ isCollection: true })
 
-if(props.checked) {
-    if(Array.isArray(model.value)) {
-        if(!model.value.includes(props.valueOn)) {
+if (props.checked) {
+    if (Array.isArray(model.value)) {
+        if (!model.value.includes(props.valueOn)) {
             model.value.push(props.valueOn)
             model.triggerIfShallow()
         }
-    } else if(model.value === props.valueOff) {
+    } else if (model.value === props.valueOff) {
         model.value = props.valueOn
     }
 }
 
 model.onExternalUpdate(modelValue => {
-    elements.input.checked = Array.isArray(modelValue)
+    (elements.input as HTMLInputElement).checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueOn)
         : modelValue === props.valueOn
 }, { onMounted: true })
-const handleChange = model.updateDecorator(event => {
+const handleChange = model.updateDecorator((event: Event) => {
     if(Array.isArray(model.value)) {
         const idx = model.value.indexOf(props.valueOn)
         if(idx > -1) {
-            if(!event.target.checked) {
+            if(!(event.target as HTMLInputElement).checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
                 model.handleValidation(props.eagerValidation)
             }
-        } else if(event.target.checked) {
+        } else if((event.target as HTMLInputElement).checked) {
             model.value.push(props.valueOn)
             model.triggerIfShallow()
             model.handleValidation(props.eagerValidation)
         }
     } else {
-        model.value = event.target.checked ? props.valueOn : props.valueOff
+        model.value = (event.target as HTMLInputElement).checked ? props.valueOn : props.valueOff
         model.handleValidation(props.eagerValidation)
     }
 })

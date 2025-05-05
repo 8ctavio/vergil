@@ -1,5 +1,11 @@
 export type Prettify<T> = { [K in keyof T]: T[K] } & {}
 
+export type ToArray<T> = T extends any ? T[] : never
+export type MaybeArray<T> = T | ToArray<T>
+
+type ToTuple<T, N extends number, R extends readonly unknown[]> = R['length'] extends N ? R : ToTuple<T, N, [T, ...R]>
+export type Tuple<T, N extends number> = ToTuple<T, N, []>
+
 export type MaybeUndefined<T, U extends boolean> = U extends true ? T | undefined : T
 
 export type DeepOptional<T> = {

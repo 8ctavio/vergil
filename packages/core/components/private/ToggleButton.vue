@@ -1,17 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import MiniMarkup from './MiniMarkup'
 import { vPreventClickSelection } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ToggleVariant, Radius } from '../../types'
 
 defineProps({
     type: {
-        type: String,
-        validator: v => ['checkbox','radio'].includes(v)
+        type: String as PropType<'checkbox' | 'radio'>,
+        validator: (v: string) => ['checkbox', 'radio'].includes(v)
     },
     label: String,
     description: String,
-    variant: String,
+    variant: String as PropType<ToggleVariant>,
     showSymbol: Boolean,
-    radius: String,
+    radius: String as PropType<Radius>,
 })
 </script>
 

@@ -9,11 +9,11 @@ outline: [2,3]
 ## Usage
 
 ```vue
-<script setup>
-import { useDefineElements } from '@8ctavio/vergil'
+<script setup lang="ts">
+import { useDefineElements, type Elements } from '@8ctavio/vergil'
 
 defineProps({
-	elements: Object
+	elements: Object as PropType<Elements>
 })
 
 const elements = useDefineElements(['root', 'input'])

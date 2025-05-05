@@ -5,7 +5,7 @@ outline: [2,3]
 # Form
 
 :::tip
-Before proceeding with `Form`, learn first about the [`ModelGroup`](/composables/useModel) class.
+Before proceeding with `Form`, learn first about the [`ModelGroup`](/functions/ModelGroup) class.
 :::
 
 <script setup>
@@ -192,7 +192,7 @@ const form = new ModelGroup({
 	</Form>
 </Demo>
 
-### Badge props <Badge><pre>badge-props: object</pre></Badge>
+### Badge props <Badge><pre>badge-props: Record<string, unknown></pre></Badge>
 
 Props for the underlying [`Badge`](/components/badge) component where model errors are displayed.
 
@@ -200,7 +200,7 @@ Props for the underlying [`Badge`](/components/badge) component where model erro
 
 After a `Form`'s ModelGroup is [automatically validated](#description), either the `submit` or `invalid` event is emitted depending on the validation result; if no errors are encountered, `submit` is emitted, and `invalid` otherwise. Both events accept two parameters: the submit `event` object and the validated ModelGroup's payload.
 
-### Submit <Badge><pre>submit</pre></Badge>
+### Submit <Badge><pre>onSubmit: (event: Event, payload: ModelGroupPayload) => void</pre></Badge>
 
 ```vue
 <script setup>
@@ -214,7 +214,7 @@ function handleSubmit(event, payload) {
 </template>
 ```
 
-### Invalid <Badge><pre>invalid</pre></Badge>
+### Invalid <Badge><pre>onInvalid: (event: Event, payload: ModelGroupPayload) => void</pre></Badge>
 
 ```vue
 <script setup>
@@ -246,10 +246,10 @@ function onInvalid(event, payload) {
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `fields` | `ModelGroup` | |
+| `fields` | `ModelGroupInstance` | |
 | `validationCooldown` | `number` | `350` |
 | `showErrors` | `boolean \| string[]` | |
-| `badgeProps` | `object` | |
+| `badgeProps` | `Record<string, unknown>` | |
 
 ### Configuration options
 

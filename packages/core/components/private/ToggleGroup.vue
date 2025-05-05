@@ -1,17 +1,120 @@
-<script>
+<script lang="ts">
 import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
+import { vergil } from '../../vergil'
+import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, ToggleVariant, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '../../types'
 
-function decodeOption(decoder, option, key) {
+type ToggleType = 'checkbox' | 'radio'
+type Props = ExtractPropTypes<typeof propsDefinition>
+
+const propsDefinition = {
+    //----- Model -----
+    type: {
+        type: String as PropType<'checkbox' | 'radio'>,
+        required: true as const,
+        validator: (v: string) => ['checkbox', 'radio'].includes(v)
+    },
+    value: {
+        type: [String, Array] as PropType<string | string[]>,
+        default: (props: { type: ToggleType }) => props.type === 'checkbox' ? [] : '',
+    },
+    modelValue: {
+        type: [String, Object] as ModelValueProp<string | string[]>,
+        default: (props: { value: string | string[] }) => props.value
+    },
+    ['onUpdate:modelValue']: Function,
+    validator: Function as ModelValidatorProp<string | string[]>,
+    eagerValidation: Boolean,
+    elements: Object as PropType<Elements>,
+
+    //----- Component specific -----
+    name: String,
+    options : {
+        type: Object as PropType<SelectionOptions>,
+        default: () => ([])
+    },
+    optionValue: {
+        type: [String, Function] as PropType<SelectionOptionProperty>,
+        default: () => (
+            (option: unknown, key: string | number) => typeof key === 'number'
+                ? Array.isArray(option) ? option[0] : option
+                : key
+        )
+    },
+    optionLabel: {
+        type: [String, Function] as PropType<SelectionOptionProperty>,
+        default: () => ((option: unknown) => Array.isArray(option) ? option[0] : option)
+    },
+    optionDescription: {
+        type: [String, Function] as PropType<SelectionOptionProperty>,
+        default: () => ((option: unknown) => Array.isArray(option) ? option[1] : undefined)
+    },
+    optionsAttributes: [Object, Function] as PropType<
+        | Record<string, unknown>
+        | ((key: string | number, value: string, label: string, description: string) => Record<string, unknown>)
+    >,
+    variant: {
+        type: String as PropType<ToggleVariant>,
+        default: (props: { type: ToggleType }) => vergil.config[props.type].variant,
+        validator: (v: string) => isValidVariant('ToggleButton', v)
+    },
+    showSymbol: Boolean,
+    direction: {
+        type: String as PropType<'column' | 'row'>,
+        default: (props: { variant: ToggleVariant }) => ['card', 'toggle'].includes(props.variant) ? 'row' : 'column',
+        validator: (v: string) => ['column', 'row'].includes(v)
+    },
+    disabled: Boolean,
+    class: [String, Object],
+    
+    //----- FormField -----
+    label: String,
+    hint: String,
+    description: String,
+    help: String,
+    showErrors: Boolean,
+
+    //----- Global -----
+    descendant: Boolean,
+    theme: {
+        type: String as PropType<Theme>,
+        default: (props: { type: ToggleType, descendant?: boolean }) => props.descendant ? undefined : (vergil.config[props.type].theme ?? vergil.config.global.theme),
+        validator: isValidTheme
+    },
+    size: {
+        type: String as PropType<Size>,
+        default: (props: { type: ToggleType, descendant?: boolean }) => props.descendant ? undefined : (vergil.config[props.type].size ?? vergil.config.global.size),
+        validator: isValidSize
+    },
+    radius: {
+        type: String as PropType<Radius>,
+        default: (props: { type: ToggleType, descendant?: boolean, variant?: ToggleVariant }) => {
+            return (props.type === 'radio' && props.variant === 'classic')
+                ? (vergil.config[props.type].radius ?? 'full')
+                : (props.descendant ? undefined : (vergil.config[props.type].radius ?? vergil.config.global.radius))
+        },
+        validator: isValidRadius
+    },
+    spacing: {
+        type: String as PropType<Spacing>,
+        default: (props: { type: ToggleType, descendant?: boolean }) => props.descendant ? undefined : (vergil.config[props.type].spacing ?? vergil.config.global.spacing),
+        validator: isValidSpacing
+    }
+}
+
+function decodeOption(decoder: string | Function, option: unknown, key: string | number) {
     const decoded = isFunction(decoder)
         ? decoder(option,key)
         : isObject(option)
-            ? option[decoder]
+            ? (option as Record<string, unknown>)[decoder]
             : option
     return decoded?.toString().trim()
 }
-function createOptionVNode(props, option, key) {
-    const component = { checkbox, radio }[props.type]
+
+function createOptionVNode(props: Props, option: unknown, key: string | number) {
+    const component = { checkbox, radio }[props.type] as unknown as InstanceType<typeof checkbox> | InstanceType<typeof radio>
     const value = decodeOption(props.optionValue, option, key)
     const label = decodeOption(props.optionLabel, option, key)
     const description = decodeOption(props.optionDescription, option, key)
@@ -29,105 +132,13 @@ function createOptionVNode(props, option, key) {
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import FormField from './FormField.vue'
 import { provide, h } from 'vue'
-import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
-import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps({
-    //----- Model -----
-    type: {
-        type: String,
-        required: true,
-        validator: v => ['checkbox', 'radio'].includes(v)
-    },
-    value: {
-        type: [String, Array],
-        default: props => props.type === 'checkbox' ? [] : '',
-    },
-    modelValue: {
-        type: [String, Object],
-        default: props => props.value
-    },
-    ['onUpdate:modelValue']: Function,
-    validator: Function,
-    eagerValidation: Boolean,
-    elements: Object,
-
-    //----- Component specific -----
-    name: String,
-    options : {
-        type: Object,
-        default: () => ([])
-    },
-    optionValue: {
-        type: [String, Function],
-        default: () => (
-            (option, key) => typeof key === 'number'
-                ? Array.isArray(option) ? option[0] : option
-                : key
-        )
-    },
-    optionLabel: {
-        type: [String, Function],
-        default: () => (option => Array.isArray(option) ? option[0] : option)
-    },
-    optionDescription: {
-        type: [String, Function],
-        default: () => (option => Array.isArray(option) ? option[1] : undefined)
-    },
-    optionsAttributes: [Object, Function],
-    variant: {
-        type: String,
-        default: props => vergil.config[props.type].variant,
-        validator: v => isValidVariant('ToggleButton', v)
-    },
-    showSymbol: Boolean,
-    direction: {
-        type: String,
-        default: props => ['card', 'toggle'].includes(props.variant) ? 'row' : 'column',
-        validator: v => ['column', 'row'].includes(v)
-    },
-    disabled: Boolean,
-    class: [String, Object],
-    
-    //----- FormField -----
-    label: String,
-    hint: String,
-    description: String,
-    help: String,
-    showErrors: Boolean,
-
-    //----- Global -----
-    descendant: Boolean,
-    theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config[props.type].theme ?? vergil.config.global.theme),
-        validator: isValidTheme
-    },
-    size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config[props.type].size ?? vergil.config.global.size),
-        validator: isValidSize
-    },
-    radius: {
-        type: String,
-        default: props => {
-            return (props.type === 'radio' && props.variant === 'classic')
-                ? (vergil.config[props.type].radius ?? 'full')
-                : (props.descendant ? undefined : (vergil.config[props.type].radius ?? vergil.config.global.radius))
-        },
-        validator: isValidRadius
-    },
-    spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config[props.type].spacing ?? vergil.config.global.spacing),
-        validator: isValidSpacing
-    }
-})
+const props = defineProps(propsDefinition)
 
 const elements = useDefineElements(['options'])
 
@@ -139,9 +150,9 @@ provide(`${props.type}-group-props`, {
     get disabled() { return props.disabled },
 })
 
-function Options({ options }) {
-    if(options !== null) {
-        if(Array.isArray(options)) {
+function Options({ options }: { options: Props['options'] }) {
+    if (options !== null) {
+        if (Array.isArray(options)) {
             return options.map((option, idx) => {
                 return createOptionVNode(props, option, idx)
             })

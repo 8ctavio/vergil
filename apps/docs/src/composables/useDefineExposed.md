@@ -8,16 +8,18 @@ outline: [2,3]
 
 ## Usage
 
-```js
-import { useDefineExposed } from '@8ctavio/vergil'
+```vue
+<script setup lang="ts">
+import { useDefineExposed, type Exposed } from '@8ctavio/vergil'
 
 defineProps({
-	exposed: Object
+	exposed: Object as PropType<Exposed>
 })
 
 useDefineExposed({
 	// Properties to expose
 })
+</script>
 ```
 
 ## Description

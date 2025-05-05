@@ -80,7 +80,7 @@ export function separateThousands(num, separator = ',') {
  * Trims a string and replaces consecutive white space characters (`/\s+/`) with a single space character (`" "`) or a custom separator string.
  * 
  * @param { string } str
- * @param { string } [separator = " "] - String to replace white space characters with. Defaults to `" "`.
+ * @param { string | ((match: string, ...args: any[]) => string) } [separator = " "] - String to replace white space characters with. Defaults to `" "`.
  * @returns { string } Evenly spaced (separated) string.
  * 
  * @example
@@ -90,6 +90,7 @@ export function separateThousands(num, separator = ',') {
  * ```
  */
 export function spaceEvenly(str, separator = " ") {
+	// @ts-expect-error
 	return str.trim().replaceAll(/\s{2,}|[^\S ]/g, separator)
 }
 

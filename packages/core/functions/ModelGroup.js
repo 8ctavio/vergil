@@ -33,7 +33,7 @@ const filterActions = Object.freeze({
 
 /**
  * @this { ModelGroup }
- * @param { ModelFilter } filter
+ * @param { ModelFilter } [filter]
  * @param { string } [path = '']
  * @param { 0 | 1 | 2 } [clearance = 0]
  * @returns { Generator<[string[], string, string, Model]> }
@@ -127,10 +127,8 @@ export class ModelGroup {
 			if (!groupValidationCtx) {
 				groupValidationCtx = {
 					modelGroup: this,
-					// @ts-expect-error
 					validate: this.validate.bind(this),
 					handleValidation: (eager = false) => {
-						// @ts-expect-error
 						if (eager || this.error) this.validate()
 					}
 				}
@@ -196,6 +194,11 @@ export class ModelGroup {
 	 * @this { ModelGroupInstance<F> }
 	 * @returns { ModelGroupPayload<F> }
 	 */
+
+	/**
+	 * @overload
+	 * @returns { ModelGroupPayload }
+	 */
 	getPayload() {
 		/** @type { Record<string, unknown> } */
 		const payload = {}
@@ -204,7 +207,6 @@ export class ModelGroup {
 			const value = /** @type { Model | ModelGroup } */ (this[field])
 			Object.defineProperty(payload, field, {
 				value: value instanceof ModelGroup
-					// @ts-expect-error
 					? value.getPayload()
 					// @ts-expect-error
 					: toRaw(value.ref._value),
@@ -223,6 +225,15 @@ export class ModelGroup {
 	 * @param { IncludePayload } [includePayload]
 	 * @returns {(
 	 *     true extends IncludePayload | HasValidator ? [boolean, ModelGroupPayload<F>] : boolean
+	 * )}
+	 */
+
+	/**
+	 * @template { boolean } [IncludePayload = false]
+	 * @overload
+	 * @param { IncludePayload } [includePayload]
+	 * @returns {(
+	 *     true extends IncludePayload ? [boolean, ModelGroupPayload] : boolean
 	 * )}
 	 */
 	validate(includePayload = false) {
@@ -245,7 +256,6 @@ export class ModelGroup {
 					// @ts-expect-error
 					const value = /** @type { Model | ModelGroup } */ (this[field])
 					if (value instanceof ModelGroup) {
-						// @ts-expect-error
 						const [groupResult, groupPayload] = value.validate(true)
 						result &&= groupResult
 						Object.defineProperty(payload, field, {
@@ -314,7 +324,7 @@ export class ModelGroup {
 
 	/**
 	 * @param { (errors: string[], field: string, path: string, model: Model) => void } callback
-	 * @param { ModelFilter } filter
+	 * @param { ModelFilter } [filter]
 	 */
 	forErrors(callback, filter) {
 		for (const args of generateModelErrors.call(this, filter)) {
@@ -322,4 +332,4 @@ export class ModelGroup {
 		}
 	}
 }
-Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })
+Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })

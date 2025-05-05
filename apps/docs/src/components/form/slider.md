@@ -41,7 +41,7 @@ The `Slider` component wraps an `input[type="range"]` element. Common [range inp
 
 ## Props
 
-### Display value <Badge><pre>display-value: boolean | function</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
+### Display value <Badge><pre>display-value: boolean | ((value: number) => string)</pre></Badge> <Badge><pre>[MiniMarkup](/mini-markup)</pre></Badge>
 
 ```vue
 <Slider display-value/>
@@ -223,7 +223,7 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 | `max` | `string \| number` | `'100'` |
 | `virtualMin` | `number` | |
 | `virtualMax` | `number` | |
-| `displayValue` | `boolean \| function` | |
+| `displayValue` | `boolean \| ((value: number) => string)` | |
 | `fixedProgress` | `boolean` | |
 | `disabled` | `boolean` | |
 | `label` | `string` | |
@@ -236,7 +236,7 @@ The `Slider`'s `radius` prop is not affected by the `descendant` prop.
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'full'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 | `validationDelay` | `number` | `300` |

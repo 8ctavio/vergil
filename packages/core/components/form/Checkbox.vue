@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import ToggleButton from '../private/ToggleButton.vue'
 import { toRef, computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, ModelWrapper, Elements, ToggleVariant, Theme, Size, Radius, Spacing } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -15,15 +17,15 @@ const props = defineProps({
     },
     valueChecked: {
         type: [String, Boolean],
-        default: props => props.value ?? true
+        default: (props: { value?: string | boolean }) => props.value ?? true
     },
     valueUnchecked: {
         type: [String, Boolean],
-        default: props => (typeof props.valueChecked === 'string') ? '' : false
+        default: (props: { valueChecked: string | boolean }) => (typeof props.valueChecked === 'string') ? '' : false
     },
     modelValue: {
-        type: [Object, String, Boolean],
-        default: props => {
+        type: [String, Boolean, Object] as ModelValueProp<boolean | string | string[]>,
+        default: (props: { valueUnchecked: string | boolean }) => {
             const groupProps = inject('checkbox-group-props', {
                 model: props.valueUnchecked
             })
@@ -31,16 +33,16 @@ const props = defineProps({
         }
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<boolean | string | string[]>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
     label: String,
     description: String,
     variant: {
-        type: String,
+        type: String as PropType<ToggleVariant>,
         default: () => vergil.config.checkbox.variant,
-        validator: v => isValidVariant('ToggleButton', v)
+        validator: (v: string) => isValidVariant('ToggleButton', v)
     },
     showSymbol: Boolean,
     disabled: Boolean,
@@ -48,23 +50,28 @@ const props = defineProps({
 
     descendant: Boolean,
     theme: {
-        type: String,
+        type: String as PropType<Theme>,
         validator: isValidTheme
     },
     size: {
-        type: String,
+        type: String as PropType<Size>,
         validator: isValidSize
     },
     radius: {
-        type: String,
+        type: String as PropType<Radius>,
         validator: isValidRadius
     },
     spacing: {
-        type: String,
+        type: String as PropType<Spacing>,
         validator: isValidSpacing
     }
 })
-const groupProps = inject('checkbox-group-props', null)
+const groupProps = inject('checkbox-group-props', null) as null | {
+    model: ModelWrapper<string | string[]>;
+    readonly name: string;
+    readonly eagerValidation: boolean;
+    readonly disabled: boolean;
+}
 
 const descendant = computed(() => props.descendant || isObject(groupProps))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.checkbox.theme ?? vergil.config.global.theme)))
@@ -76,38 +83,38 @@ const elements = useDefineElements(['input'])
 const model = useDefineModel({ isCollection: true })
 const eagerValidation = toRef(() => props.eagerValidation || Boolean(groupProps?.eagerValidation))
 
-if(props.checked) {
-    if(Array.isArray(model.value)) {
-        if(!model.value.includes(props.valueChecked)) {
+if (props.checked) {
+    if (Array.isArray(model.value)) {
+        if (!model.value.includes(props.valueChecked)) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
         }
-    } else if(model.value === props.valueUnchecked) {
+    } else if (model.value === props.valueUnchecked) {
         model.value = props.valueChecked
     }
 }
 
 model.onExternalUpdate(modelValue => {
-    elements.input.checked = Array.isArray(modelValue)
+    (elements.input as HTMLInputElement).checked = Array.isArray(modelValue)
         ? modelValue.includes(props.valueChecked)
         : modelValue === props.valueChecked
 }, { onMounted: true })
-const handleChange = model.updateDecorator(event => {
-    if(Array.isArray(model.value)) {
+const handleChange = model.updateDecorator((event: Event) => {
+    if (Array.isArray(model.value)) {
         const idx = model.value.indexOf(props.valueChecked)
-        if(idx > -1) {
-            if(!event.target.checked) {
+        if (idx > -1) {
+            if (!(event.target as HTMLInputElement).checked) {
                 model.value.splice(idx, 1)
                 model.triggerIfShallow()
                 model.handleValidation(eagerValidation.value)
             }
-        } else if(event.target.checked) {
+        } else if ((event.target as HTMLInputElement).checked) {
             model.value.push(props.valueChecked)
             model.triggerIfShallow()
             model.handleValidation(eagerValidation.value)
         }
     } else {
-        model.value = event.target.checked ? props.valueChecked : props.valueUnchecked
+        model.value = (event.target as HTMLInputElement).checked ? props.valueChecked : props.valueUnchecked
         model.handleValidation(eagerValidation.value)
     }
 })

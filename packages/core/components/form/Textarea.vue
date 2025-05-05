@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import FormField from '../private/FormField.vue'
 import MiniMarkup from "../private/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
@@ -14,13 +16,13 @@ const props = defineProps({
         default: ''
     },
     modelValue: {
-        type: [String, Object],
-        default: props => props.value
+        type: [String, Object] as ModelValueProp<string>,
+        default: (props: { value: string }) => props.value
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<string>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
     placeholder: {
         type: String,
@@ -28,9 +30,9 @@ const props = defineProps({
     },
     max: String,
     textAlign: {
-        type: String,
+        type: String as PropType<'left' | 'center' | 'right'>,
         default: 'left',
-        validator: v => ['left', 'center', 'right'].includes(v),
+        validator: (v: string) => ['left', 'center', 'right'].includes(v),
     },
     rows: String,
     resize: Boolean,
@@ -58,37 +60,37 @@ const props = defineProps({
     //----- Global -----
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.textarea.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.textarea.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.textarea.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.textarea.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.textarea.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.textarea.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.textarea.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.textarea.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
 
-const model = useDefineModel()
+const model = useDefineModel<string>()
 const elements = useDefineElements(['input'])
 
 model.onExternalUpdate((modelValue) => {
-    elements.input.value = modelValue
+    (elements.input as HTMLInputElement).value = modelValue
 }, { onMounted: true })
 
 const validateInput = model.useDebouncedValidation(props.validationDelay)
-const handleInput = model.updateDecorator(event => {
-    model.value = event.target.value
+const handleInput = model.updateDecorator((event: Event) => {
+    model.value = (event.target as HTMLInputElement).value
     validateInput(props.eagerValidation)
 })
 

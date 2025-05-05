@@ -98,7 +98,7 @@ When the `timestamp` modifier is present, the model value is handled as a [times
 
 ## Props
 
-### Locale <Badge><pre>locale: (string | object) = 'en'</pre></Badge>
+### Locale <Badge><pre>locale: Intl.LocalesArgument = 'en'</pre></Badge>
 
 The `locale` prop conforms to the [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) constructor's `locales` parameter.
 
@@ -110,12 +110,12 @@ The `locale` prop conforms to the [`Intl.DateTimeFormat`](https://developer.mozi
     <Calendar locale="es-MX"/>
 </Demo>
 
-### Labels <Badge><pre>labels: object</pre></Badge>
+### Labels <Badge><pre>labels: Record<'month' | 'shortMonths' | 'shortWeekdays', string[]></pre></Badge>
 
 If custom month/weekday labels are required, they can be specified through the `labels` prop as an object of the following form:
 
 ```ts
-type labels = {
+type Labels = {
     months: string[],
     shortMonths: string[]
     shortWeekdays: string[],
@@ -125,7 +125,7 @@ type labels = {
 - Short weekday labels are taken from the `shortWeekdays` array, going from Sunday at index `0` to Saturday at index `6`.
 - Month (short) labels are taken from the `months` (`shortMonths`) array, going from January at index `0` to December at index `11`.
 
-### First weekday <Badge><pre>first-weekday: number = 0</pre></Badge>
+### First weekday <Badge><pre>first-weekday: (0 | 1 | 2 | 3 | 4 | 5 | 6) = 0</pre></Badge>
 
 The `first-weekday` prop specifies the index of the weekday to be considered as the first day of the week by the calendar. Weekdays are considered to be indexed from Sunday through Saturday from `0` to `6`.
 
@@ -228,15 +228,15 @@ When using the `string` model value modifier, dates are handled in the date-time
 The `time-format` prop does not affect how 
 :::
 
-### Time controls <Badge><pre>hours: object</pre></Badge> <Badge><pre>minutes: object</pre></Badge>
+### Time controls <Badge><pre>hours: TimeControls</pre></Badge> <Badge><pre>minutes: TimeControls</pre></Badge>
 
 The `hours` and `minutes` props are objects whose properties respectively configure time controls. The configuration objects have the following form
 
 ```ts
-interface typeControl {
-    min: number;
-    max: number;
-    step: number;
+type TimeControls = {
+	min?: number;
+	max?: number;
+	step?: number;
 }
 ```
 
@@ -451,28 +451,28 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `Date \| null \| string \| number` | `null` |
-| `locale` | `string \| object` | `'en'` |
-| `labels` | `object` | |
-| `firstWeekday` | `number` | `0` |
+| `value` | `Date \| null \| string \| number \| Date[] \| string[] \| number[]` | `null` |
+| `locale` | `Intl.LocalesArgument` | `'en'` |
+| `labels` | `Record<'month' \| 'shortMonths' \| 'shortWeekdays', string[]>` | |
+| `firstWeekday` | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` |
 | `min` | `string \| number \| Date` | `'1970-01-01'` |
 | `max` | `string \| number \| Date` | `'2131-12-31'` |
 | `selectedMonth` | `string` | |
 | `selectedYear` | `string` | |
 | `time` | `boolean \| string` | |
 | `timeFormat` | `'24' \| '12'` | `'24'` |
-| `hours` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 23, step: 1 }` |
-| `minutes` | `{ min: number, max: number, step: number }` | `{ min: 0, max: 59, step: 1 }` |
+| `hours` | `TimeControls` | `{ min: 0, max: 23, step: 1 }` |
+| `minutes` | `TimeControls` | `{ min: 0, max: 59, step: 1 }` |
 | `disabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
 | `enabledDates` | `(CalendarDate \| [CalendarDate, CalendarDate])[]` | |
-| `disabledWeekdays` | `number[]` | |
+| `disabledWeekdays` | `(0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6)[]` | |
 | `disabled` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 | `validationDelay` | `number` | `300` |
@@ -484,9 +484,9 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
 
 | `calendar.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | ------------------- | ---- | ------- | :------: |
-| `locale` | `string \| object` | `'en'` | |
-| `labels` |`object` | | |
-| `firstWeekday` |`number` | `0` | |
+| `locale` | `Intl.LocalesArgument` | `'en'` | |
+| `labels` |`Record<'month' \| 'shortMonths' \| 'shortWeekdays', string[]>` | | |
+| `firstWeekday` |`0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | |
 | `timeFormat` | `'24' \| '12'` | `'24'` | |
 | `validationDelay` | `number` | | ✅ |
 | `validationCooldown` | `number` | | ✅ |

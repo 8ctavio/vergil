@@ -249,7 +249,7 @@ The maximum string length that can be entered into the textarea.
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 | `validationDelay` | `number` | `300` |

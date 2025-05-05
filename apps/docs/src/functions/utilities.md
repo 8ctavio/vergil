@@ -134,7 +134,10 @@ separateThousands(123456789) // '123,456,789'
 > Trims a string and replaces consecutive white space characters (`/\s+/`) with a single space character (`" "`) or a custom separator string.
 
 ```ts
-function spaceEvenly(str: string, separator?: string): string
+function spaceEvenly(
+    str: string,
+    separator?: string | ((match: string, ...args: any[]) => string)
+): string
 ```
 
 #### Parameters

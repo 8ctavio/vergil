@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 import { hasDate, isDate, padLeadingZeros } from '../../utilities'
+import type { SetupContext } from 'vue'
 
-function DatePickerWrapper(props, { slots }) {
+function DatePickerWrapper(props: { sideButtonPosition: 'before' | 'after' }, { slots }: SetupContext) {
 	const position = props.sideButtonPosition ?? vergil.config.datePicker.sideButtonPosition
-	const vnodes = slots.default({ iconProp: position === 'before' ? 'iconRight' : 'icon' })
+	const vnodes = slots.default!({ iconProp: position === 'before' ? 'iconRight' : 'icon' })
 	return h('div', { class: 'date-picker-wrapper' }, position === 'before'
 		? vnodes.reverse()
 		: vnodes
@@ -11,7 +12,7 @@ function DatePickerWrapper(props, { slots }) {
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import Calendar from './Calendar.vue'
 import Btn from '../buttons/Btn.vue'
 import FormField from '../private/FormField.vue'
@@ -20,39 +21,45 @@ import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentSco
 import { vergil } from '../../vergil'
 import { useDefineModel, usePopover } from '../../composables'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type {
+	ModelValueProp, ModelValidatorProp, Elements,
+	CalendarModelDate,
+	Theme, Size, Radius, Spacing,
+} from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()
 const props = defineProps({
 	//----- Model -----
     value: {
-        type: [Object, String, Number],
+        type: [Object, String, Number] as PropType<CalendarModelDate>,
         default: null
     },
     modelValue: {
-        type: [Object, String, Number],
-        default: props => props.value
+        type: [Object, String, Number] as ModelValueProp<CalendarModelDate>,
+        default: (props: { value: CalendarModelDate }) => props.value
     },
 	modelModifiers: {
 		type: Object,
 		default: () => ({})
 	},
     ['onUpdate:modelValue']: Function,
-	validator: Function,
+	validator: Function as ModelValidatorProp<CalendarModelDate>,
 	eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
 	//----- Calendar -----
 	locale: {
-		type: [String, Object],
+		type: [String, Array] as PropType<Intl.LocalesArgument>,
 		default: () => vergil.config.calendar.locale,
 	},
 
-	format: [Object, Function],
+	format: [Object, Function] as PropType<Intl.DateTimeFormatOptions | ((date: Date) => string)>,
 	placeholder: String,
     placeholderFallback: {
-        type: Function,
-        default: n => vergil.config.datePicker.placeholderFallback(n)
+        type: Function as PropType<(n: number) => string>,
+        default: (n: number) => vergil.config.datePicker.placeholderFallback(n)
     },
 	iconCalendar: {
         type: String,
@@ -85,28 +92,28 @@ const props = defineProps({
     //----- Global -----
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datePicker.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datePicker.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datePicker.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datePicker.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datePicker.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datePicker.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.datePicker.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.datePicker.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
 })
 
-const model = useDefineModel({
+const model = useDefineModel<CalendarModelDate, false, false, true, true>({
 	isCollection: true,
 	includeElements: true,
 	captureElements: true
@@ -129,7 +136,7 @@ const {
 	closeBehavior: 'hide'
 })
 
-const setupScope = getCurrentScope()
+const setupScope = getCurrentScope()!
 onMounted(() => {
     setupScope.run(() => {
         watchEffect(() => {
@@ -143,61 +150,61 @@ const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 const timeEnabled = computed(() => Object.hasOwn(attrs, 'time'))
 const format = computed(() => {
-	if(isFunction(props.format)) {
+	if (isFunction(props.format)) {
 		return props.format
-	} else if(isObject(props.format)) {
+	} else if (isObject(props.format)) {
 		return new Intl.DateTimeFormat(props.locale, props.format).format
-	} else if(isFunction(vergil.config.datePicker.format)) {
+	} else if (isFunction(vergil.config.datePicker.format)) {
 		return vergil.config.datePicker.format
-	} else if(isFunction(vergil.config.datePicker.formatOptions)) {
+	} else if (isFunction(vergil.config.datePicker.formatOptions)) {
 		return new Intl.DateTimeFormat(
 			props.locale,
 			vergil.config.datePicker.formatOptions(timeEnabled.value)
 		).format
-	} else if(isObject(vergil.config.datePicker.formatOptions)) {
+	} else if (isObject(vergil.config.datePicker.formatOptions)) {
 		return new Intl.DateTimeFormat(
 			props.locale,
 			vergil.config.datePicker.formatOptions
 		).format
 	} else {
-		return date => {
+		return (date: Date) => {
 			let str = padLeadingZeros(date.getFullYear(), 4)
 				+ '-' + padLeadingZeros(date.getMonth() + 1)
 				+ '-' + padLeadingZeros(date.getDate())
-			if(timeEnabled.value) {
+			if (timeEnabled.value) {
 				str += `T${padLeadingZeros(date.getHours())}:${padLeadingZeros(date.getMinutes())}`
 			}
 			return str
 		} 
 	}
 })
-function formatDate(date) {
-	if(typeof date === 'string') {
-		if(date[10] !== 'T') date += "T00:00"
+function formatDate(date: unknown) {
+	if (typeof date === 'string') {
+		if (date[10] !== 'T') date += "T00:00"
 		date = new Date(date)
-	} else if(typeof date === 'number') {
+	} else if (typeof date === 'number') {
 		date = new Date(date)
 	}
 	return isDate(date) ? format.value(date) : ''
 }
 watch(model.ref, (modelValue, prevModelValue) => {
-	if(Array.isArray(modelValue)) {
+	if (Array.isArray(modelValue)) {
 		let placeholder = ''
 		modelValue.forEach(date => {
-			if(hasDate(date, false)) {
+			if (hasDate(date, false)) {
 				placeholder += (placeholder.length > 0 ? ', ' : '') + formatDate(date)
 			}
 		})
-		if(placeholder) {
-			virtualPlaceholder.value.innerText = placeholder
-			const n = model.value.length
+		if (placeholder) {
+			virtualPlaceholder.value!.innerText = placeholder
+			const n = (model.value as unknown[]).length
 			const updatePlaceholder = () => {
-				computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+				computedPlaceholder.value = virtualPlaceholder.value!.offsetWidth < virtualPlaceholder.value!.scrollWidth
 					? props.placeholderFallback(n)
 					: placeholder
-				virtualPlaceholder.value.innerText = ''
+				virtualPlaceholder.value!.innerText = ''
 			}
-			if(floatLabelEnabled.value && !hasDate(prevModelValue)) {
+			if (floatLabelEnabled.value && !hasDate(prevModelValue)) {
 				setTimeout(updatePlaceholder, 75)
 			} else {
 				updatePlaceholder()
@@ -206,11 +213,11 @@ watch(model.ref, (modelValue, prevModelValue) => {
 			computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
 		}
 	} else {
-		if(hasDate(modelValue, false)) {
+		if (hasDate(modelValue, false)) {
 			const updatePlaceholder = () => {
 				computedPlaceholder.value = formatDate(modelValue)
 			}
-			if(floatLabelEnabled.value && !hasDate(prevModelValue)) {
+			if (floatLabelEnabled.value && !hasDate(prevModelValue)) {
 				setTimeout(updatePlaceholder, 75)
 			} else {
 				updatePlaceholder()
@@ -222,12 +229,12 @@ watch(model.ref, (modelValue, prevModelValue) => {
 }, { deep: 1 })
 
 //-------------------- KEYBOARD NAVIGATION --------------------
-function handleKeydown(event) {
-	if(['Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+function handleKeydown(event: KeyboardEvent) {
+	if (['Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
 		if(event.key[0] === 'A' && !event.shiftKey) {
 			event.preventDefault()
 		}
-		model.elements.root.dispatchEvent(new KeyboardEvent('keydown', {
+		model.elements.root!.dispatchEvent(new KeyboardEvent('keydown', {
 			key: event.key,
 			ctrlKey: event.ctrlKey,
 			shiftKey: event.shiftKey,

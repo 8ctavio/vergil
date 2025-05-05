@@ -1,24 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import ToggleButton from '../private/ToggleButton.vue'
 import { toRef, computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, ToggleVariant, Theme, Size, Radius, Spacing, ModelWrapper } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
 	//----- Model -----
     modelValue: {
-        type: [String, Object],
+        type: [String, Object] as ModelValueProp<string>,
         default: () => {
             const groupProps = inject('radio-group-props', { model: '' })
             return groupProps.model
         }
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<string>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
     checked: Boolean,
     value: {
@@ -29,13 +31,13 @@ const props = defineProps({
     label: String,
     description: String,
     variant: {
-        type: String,
+        type: String as PropType<ToggleVariant>,
         default: () => vergil.config.radio.variant,
-        validator: v => isValidVariant('ToggleButton', v)
+        validator: (v: string) => isValidVariant('ToggleButton', v)
     },
     showSymbol: Boolean,
     radioRadius: {
-        type: String,
+        type: String as PropType<Radius>,
         default: () => vergil.config.radio.radioRadius,
         validator: isValidRadius
     },
@@ -44,23 +46,28 @@ const props = defineProps({
 
     descendant: Boolean,
     theme: {
-        type: String,
+        type: String as PropType<Theme>,
         validator: isValidTheme
     },
     size: {
-        type: String,
+        type: String as PropType<Size>,
         validator: isValidSize
     },
     radius: {
-        type: String,
+        type: String as PropType<Radius>,
         validator: isValidRadius
     },
     spacing: {
-        type: String,
+        type: String as PropType<Spacing>,
         validator: isValidSpacing
     }
 })
-const groupProps = inject('radio-group-props', null)
+const groupProps = inject('radio-group-props', null) as null | {
+    model: ModelWrapper<string | string[]>;
+    readonly name: string;
+    readonly eagerValidation: boolean;
+    readonly disabled: boolean;
+}
 
 const descendant = computed(() => props.descendant || isObject(groupProps))
 const theme = computed(() => props.theme ?? (descendant.value ? undefined : (vergil.config.radio.theme ?? vergil.config.global.theme)))
@@ -69,7 +76,7 @@ const radius = computed(() => props.radius ?? (descendant.value ? undefined : (v
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.radio.spacing ?? vergil.config.global.spacing)))
 
 const elements = useDefineElements(['input'])
-const model = useDefineModel()
+const model = useDefineModel<string>()
 const eagerValidation = toRef(() => props.eagerValidation || Boolean(groupProps?.eagerValidation))
 
 if(props.checked && model.value === '') {
@@ -77,11 +84,11 @@ if(props.checked && model.value === '') {
 }
 
 model.onExternalUpdate(modelValue => {
-    elements.input.checked = modelValue === elements.input.value
+    (elements.input as HTMLInputElement).checked = modelValue === (elements.input as HTMLInputElement).value
 }, { onMounted: true })
-function handleChange(event) {
-    if(event.target.checked) {
-        model.update(event.target.value)
+function handleChange(event: Event) {
+    if ((event.target as HTMLInputElement).checked) {
+        model.update((event.target as HTMLInputElement).value)
         model.handleValidation(eagerValidation.value)
     }
 }

@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import InputText from './InputText.vue'
 import { shallowRef, triggerRef, computed, watchEffect, nextTick } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineExposed } from '../../composables'
 import { ucFirst } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, Elements, Exposed } from '../../types'
 
 const props = defineProps({
     //----- Model -----
@@ -12,12 +14,12 @@ const props = defineProps({
 		default: ''
 	},
 	modelValue: {
-		type: [String, Object],
-		default: props => props.value
+		type: [String, Object] as ModelValueProp<string>,
+		default: (props: { value: string }) => props.value
 	},
     ['onUpdate:modelValue']: Function,
-    elements: Object,
-    exposed: Object,
+    elements: Object as PropType<Elements>,
+    exposed: Object as PropType<Exposed>,
 
     iconSearch: {
         type: String,
@@ -28,18 +30,18 @@ const props = defineProps({
         default: 'search_off'
     },
     btnPosition: {
-        type: String,
+        type: String as PropType<'before' | 'after'>,
         default: () => vergil.config.inputSearch.btnPosition,
-        validator: v => ['before', 'after'].includes(v)
+        validator: (v: string) => ['before', 'after'].includes(v)
     },
     btnBefore: Object,
     btnAfter: Object,
     disabled: Boolean,
-    onSearch: Function,
+    onSearch: Function as PropType<(searchQuery: string) => void>,
 })
-const emit = defineEmits(['clear'])
+const emit = defineEmits<{ clear: [] }>()
 
-const model = useDefineModel({
+const model = useDefineModel<string, false, false, true, true>({
     includeElements: true,
     captureElements: true
 })
@@ -50,7 +52,7 @@ const lastSearch = shallowRef('')
 function handleSearch() {
     loader.value = true
     const searchQuery = model.value
-    let focused
+    let focused: Element | null
     queueMicrotask(() => {
         focused = document.activeElement
     })
@@ -58,14 +60,14 @@ function handleSearch() {
         lastSearch.value = searchQuery
         loader.value = false
         nextTick(() => {
-            if(focused === document.activeElement) {
-                model.elements.input.focus()
+            if (focused === document.activeElement) {
+                (model.elements.input as HTMLElement).focus()
             }
         })
     })
 }
 function handleEnter() {
-    if(model.value) {
+    if (model.value) {
         handleSearch()
     } else {
         lastSearch.value = ''
@@ -78,7 +80,11 @@ const icon = computed(() => {
         : props.iconClear
 })
 
-const btnData = {}
+const btnData = {} as {
+    searchBtnProp: string;
+    normalBtnProp: 'btnBefore' | 'btnAfter';
+    normalBtnProps?: Record<string, unknown>
+}
 const btnDataSignal = shallowRef(btnData)
 watchEffect(() => {
     const position = props.btnPosition
@@ -90,7 +96,7 @@ watchEffect(() => {
 
 const searchBtnProps = computed(() => {
     const position = props.btnPosition
-    const btnProps = props[`btn${ucFirst(position)}`] ?? {}
+    const btnProps = props[`btn${ucFirst(position) as 'Before' | 'After'}`] ?? {}
     btnProps.variant ??= 'subtle'
     btnProps.outline ??= 'subtle'
     const searchBtnProps = {
@@ -98,8 +104,8 @@ const searchBtnProps = computed(() => {
         type: 'button',
         icon: undefined,
         onClick() {
-            if(model.value){
-                if(model.value === lastSearch.value){
+            if (model.value) {
+                if (model.value === lastSearch.value) {
                     emit('clear')
                     model.value = ''
                     lastSearch.value = ''

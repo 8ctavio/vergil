@@ -47,7 +47,7 @@ export interface ModelSpec<
 }
 
 export type ModelGroupInstance<
-	F extends ModelGroupFields = {},
+	F extends ModelGroupFields = ModelGroupFields,
 	HasValidator extends boolean = false
 > = ModelGroup & {
 	[K in keyof F]: F[K] extends ModelSpec<infer T, infer Shallow, infer ExtendRef, infer IncludeExposed, infer IncludeElements>

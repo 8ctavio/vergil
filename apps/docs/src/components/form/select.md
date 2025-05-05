@@ -133,7 +133,7 @@ const skullOptions = {
 
 ## Props
 
-### Options <Badge><pre>options: (array | object) = []</pre></Badge>
+### Options <Badge><pre>options: (string | [string, string])[] | Record<string, string | [string, string]> = []</pre></Badge>
 
 The `options` prop is an array or (plain) object that provides the required data to define each *option*'s *value*, *label*, and *description*, which correspond to the `value`, `label`, and `description` props of underlying [`Checkbox`](/components/form/checkbox) components.
 
@@ -141,16 +141,17 @@ Options' values, labels, and descriptions can be automatically inferred from the
 
 The following table summarizes how option's label and description are inferred from an `option`.
 
-| Type of `option` | `string` | `string[]` |
-| ---------------- | -------- | ---------- |
-| **`label`** | `option` | `option[0]` |
-| **`description`** | `undefined` | `option[1]` |
+| Type of `option` | `label` | `description` |
+| ---------------- | ------- | ------------- |
+| `string` | `option` | `undefined` |
+| `string[]` | `option[0]` | `option[1]` |
 
 The following table summarizes how an option's value is inferred depending on the type of `options`.
 
-| Type of `options` | `array` | `object` |
-| ----------------- | ------- | -------- |
-| **`value`** | Same as `label` | The `option`'s `key` |
+| Type of `options` | `value` |
+| ----------------- | ------- |
+| `Array` | Same as `label` |
+| `object` | The `option`'s `key` |
 
 ##### Example. Options Array
 
@@ -200,7 +201,7 @@ const options = {
     <code>selected.value === '{{ demo2.value }}'</code>
 </Demo>
 
-### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
+### Option's attributes <Badge><pre>option-[value|label|description]: (string | Function)</pre></Badge>
 
 The `option-value`, `option-label`, and `option-description` props allow to specify custom options' values, labels, and descriptions.
 
@@ -364,7 +365,7 @@ const options = ['abc','uvw','xyz']
     />
 </Demo>
 
-### Filter input <Badge><pre>filter-input: object</pre></Badge>
+### Filter input <Badge><pre>filter-input: Record<string, unknown></pre></Badge>
 
 The `filter-input` prop is an object of props forwarded to the filter's `InputText` component.
 
@@ -625,14 +626,15 @@ const options = ['Option']
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `string \| array` | `''` |
-| `options` | `array \| object` | `[]` |
-| `optionValue` | `string \| function` | |
-| `optionLabel` | `string \| function` | |
-| `optionDescription` | `string \| function` | |
+| `value` | `string \| string[]` | `''` |
+| `options` | `(string \| [string, string])[] \| Record<string, string \| [string, string]>` | `[]` |
+| `optionValue` | `string \| ((option: unknown, key: string \| number) => string)` | |
+| `optionLabel` | `string \| ((option: unknown, key: string \| number) => string)` | |
+| `optionDescription` | `string \| ((option: unknown, key: string \| number) => string)` | |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
 | `filter` | `boolean` | |
+| `filterInput` | `Record<string, unknown>` | |
 | `placeholderNotFound` | `(query: string) => string` | |
 | `chips` | `boolean` | |
 | `underline` | `boolean` | |
@@ -648,7 +650,7 @@ const options = ['Option']
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 

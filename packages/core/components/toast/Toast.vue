@@ -34,7 +34,7 @@ const props = defineProps({
         validator: isValidRadius
     }
 })
-defineEmits(['close'])
+defineEmits<{ close: [] }>()
 const theme = inferTheme(props.theme)
 const playState = shallowRef('running')
 </script>

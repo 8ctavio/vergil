@@ -15,7 +15,7 @@ export function focusElement(element) {
  * @param { T } [type]
  * @returns { element is string extends T
  *     ? HTMLInputElement
- *     : HTMLInputElement & { type: T }
+ *     : Omit<HTMLInputElement, 'type'> & { type: T }
  * } 
  */
 export function isInput(element, type) {

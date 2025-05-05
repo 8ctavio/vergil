@@ -9,17 +9,28 @@ outline: [2,4]
 ## Usage
 
 ```vue
-<script setup>
+<script setup lang="ts">
+import { useDefineModel } from '@8ctavio/vergil'
+import type { ModelValueProp, ModelValidatorProp } from '@8ctavio/vergil'
+
+type ModelValue = /* ... */
+
 defineProps({
 	modelValue: {
-		type: [ModelValueType, Object],
+		type: [/* ModelValueType */, Object] as ModelValueProp<ModelValue>,
 		default: defaultModelValue
 	},
 	['onUpdate:modelValue']: Function,
-	validator: Function
+	validator: Function as ModelValidatorProp<ModelValue>
 })
 
-const model = useDefineModel()
+const model = useDefineModel<
+	ModelValue,
+	IncludeExposed,
+	CaptureExposed,
+	IncludeElements,
+	CaptureElements
+>()
 </script>
 ```
 

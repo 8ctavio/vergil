@@ -1,4 +1,4 @@
-import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from '.'
+import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition, Tuple } from '.'
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {
@@ -72,13 +72,13 @@ export interface VergilConfig {
 		squared?: boolean;
 	},
 	calendar: {
-		locale: string;
+		locale: Intl.LocalesArgument;
 		labels?: {
-			months: string[];
-			shortMonths: string[];
-			shortWeekdays: string[];
+			months?: Tuple<string, 12>;
+			shortMonths?: Tuple<string, 12>;
+			shortWeekdays?: Tuple<string, 7>;
 		};
-		firstWeekday: number;
+		firstWeekday: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 		timeFormat: '12' | '24';
 		validationDelay?: number;
 		validationCooldown?: number;

@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import InputTextBase from '../private/InputTextBase.vue'
 import { computed, provide } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'
 import { spaceEvenly } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements } from '../../types'
 
 const props = defineProps({
 	//----- Model -----
@@ -12,13 +14,13 @@ const props = defineProps({
         default: ''
     },
     modelValue: {
-        type: [String, Object],
-        default: props => props.value
+        type: [String, Object] as ModelValueProp<string>,
+        default: (props: { value: string }) => props.value
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<string>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
     spaceEvenly: Boolean,
 
@@ -34,7 +36,7 @@ const props = defineProps({
 	},
 })
 
-const model = useDefineModel()
+const model = useDefineModel<string>()
 const elements = useDefineElements(['input'])
 provide('model', model)
 provide('elements', elements)
@@ -43,49 +45,49 @@ const validateInput = model.useDebouncedValidation(props.validationDelay)
 const validateEnter = model.useDebouncedValidation(props.validationCooldown, { eager: true })
 
 model.onExternalUpdate(modelValue => {
-    elements.input.value = modelValue
+    (elements.input as HTMLInputElement).value = modelValue
 }, { onMounted: true })
 
-const handleInput = model.updateDecorator(event => {
-    model.value = event.target.value
+const handleInput = model.updateDecorator((event: InputEvent) => {
+    model.value = (event.target as HTMLInputElement).value
     validateInput(props.eagerValidation)
 })
 
-let oldValue
-function handleEnter(event) {
-    if(props.spaceEvenly && event.target.value !== oldValue) {
-        evenlySpaceInputValue(event.target)
-        oldValue = event.target.value
+let oldValue: string | undefined
+function handleEnter(event: KeyboardEvent) {
+    if (props.spaceEvenly && (event.target as HTMLInputElement).value !== oldValue) {
+        evenlySpaceInputValue(event.target as HTMLInputElement)
+        oldValue = (event.target as HTMLInputElement).value
     }
-	if (!(event.target.form || props.preventEnterValidation)) {
+	if (!((event.target as HTMLInputElement).form || props.preventEnterValidation)) {
 		validateEnter(props.eagerValidation)
 	}
 }
-function onFocus(event) {
-    oldValue = event.target.value
+function onFocus(event: FocusEvent) {
+    oldValue = (event.target as HTMLInputElement).value
 }
-function onBlur(event) {
-    if(event.target.value !== oldValue) {
-        evenlySpaceInputValue(event.target)
+function onBlur(event: FocusEvent) {
+    if ((event.target as HTMLInputElement).value !== oldValue) {
+        evenlySpaceInputValue(event.target as HTMLInputElement)
     }
     oldValue = undefined
 }
-function evenlySpaceInputValue(input) {
-    if(input === document.activeElement) {
+function evenlySpaceInputValue(input: HTMLInputElement) {
+    if (input === document.activeElement) {
         const str = input.value.trimStart()
         const leadingWhitespaceCount = input.value.length - str.length
-        const adjustedSelectionStart = input.selectionStart - leadingWhitespaceCount
+        const adjustedSelectionStart = (input.selectionStart as number) - leadingWhitespaceCount
         let cursorStart = adjustedSelectionStart
-        if(input.selectionStart === input.selectionEnd) {
-            model.update(input.value = spaceEvenly(str, (match, offset) => {
-                if(offset < adjustedSelectionStart) {
+        if (input.selectionStart === input.selectionEnd) {
+            model.update(input.value = spaceEvenly(str, (match: string, offset: number) => {
+                if (offset < adjustedSelectionStart) {
                     cursorStart -= Math.min(adjustedSelectionStart, offset + match.length - 1) - offset
                 }
                 return " "
             }))
             input.setSelectionRange(cursorStart, cursorStart)
-        } else if(input.selectionEnd > input.selectionStart) {
-            const adjustedSelectionEnd = input.selectionEnd - leadingWhitespaceCount
+        } else if ((input.selectionEnd as number) > (input.selectionStart as number)) {
+            const adjustedSelectionEnd = (input.selectionEnd as number) - leadingWhitespaceCount
             let cursorEnd = adjustedSelectionEnd
             model.update(input.value = spaceEvenly(str, (match, offset) => {
                 if(offset < adjustedSelectionEnd) {

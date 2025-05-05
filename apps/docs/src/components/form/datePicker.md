@@ -65,7 +65,7 @@ const dates = useModel([])
 
 All [`Calendar`](/components/form/calendar) props are available for `DatePicker`.
 
-### Date format <Badge><pre>format: object | function</pre></Badge>
+### Date format <Badge><pre>format: Intl.DateTimeFormatOptions | ((date: Date) => string)</pre></Badge>
 
 As an object, the `format` prop conforms to the [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) constructor's `options` object. The locales used by `Intl.DateTimeFormat` are obtained from the `Calendar`'s `locale` prop.
 
@@ -159,7 +159,7 @@ n => `${n} Dates Selected`
     <DatePicker placeholder="Select Date" icon-calendar="calendar_add_on" icon-clear="close"/>
 </Demo>
 
-### Clear button <Badge type="tip"><pre>btn-clear: object</pre></Badge>
+### Clear button <Badge type="tip"><pre>btn-clear: Record<string, unknown></pre></Badge>
 
 The `btn-clear` prop receives an object representing the props of the clear button's underlying [`Btn`](/components/buttons/btn) component.
 
@@ -334,13 +334,13 @@ const btnClearProps = {
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `value` | `Date \| null \| string \| number` | `null` |
-| `format` | `object \| (date: Date) => string` | |
+| `value` | `Date \| null \| string \| number \| Date[] \| string[] \| number[]` | `null` |
+| `format` | `Intl.DateTimeFormatOptions \| (date: Date) => string` | |
 | `placeholder` | `string` | |
 | `placeholderFallback` | `(n: number) => string` | |
 | `iconCalendar` | `string` | `'calendar_month'` |
 | `iconClear` | `string` | `'event_busy'` |
-| `btnClear` | `object` | |
+| `btnClear` | `Record<string, unknown>` | |
 | `underline` | `boolean` | |
 | `fill` | `boolean` | |
 | `disabled` | `boolean` | |
@@ -355,7 +355,7 @@ const btnClearProps = {
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 

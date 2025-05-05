@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import CheckboxGroup from './CheckboxGroup'
 import InputText from './InputText.vue'
 import Btn from '../buttons/Btn.vue'
@@ -10,37 +10,39 @@ import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, n
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, usePopover } from '../../composables'
 import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import type { PropType } from 'vue'
+import type { ModelValueProp, ModelValidatorProp, Elements, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '../../types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
     //----- Model -----
     value: {
-        type: [String, Array],
+        type: [String, Array] as PropType<string | string[]>,
         default: ''
     },
     modelValue: {
-        type: [String, Object],
-        default: props => props.value
+        type: [String, Object] as ModelValueProp<string | string[]>,
+        default: (props: { value: string | string[] }) => props.value
     },
     ['onUpdate:modelValue']: Function,
-    validator: Function,
+    validator: Function as ModelValidatorProp<string | string[]>,
     eagerValidation: Boolean,
-    elements: Object,
+    elements: Object as PropType<Elements>,
 
-    options : Object,
-    optionValue: [String, Function],
-    optionLabel: [String, Function],
-    optionDescription: [String, Function],
+    options : Object as PropType<SelectionOptions>,
+    optionValue: [String, Function] as PropType<SelectionOptionProperty>,
+    optionLabel: [String, Function] as PropType<SelectionOptionProperty>,
+    optionDescription: [String, Function] as PropType<SelectionOptionProperty>,
     placeholder: String,
     placeholderFallback: {
-        type: Function,
-        default: n => vergil.config.select.placeholderFallback(n)
+        type: Function as PropType<(n: number) => string>,
+        default: (n: number) => vergil.config.select.placeholderFallback(n)
     },
     filter: Boolean,
-    filterInput: Object,
+    filterInput: Object as PropType<Record<string, unknown>>,
     placeholderNotFound: {
-        type: Function,
-        default: query => vergil.config.select.placeholderNotFound(query)
+        type: Function as PropType<(query: string) => string>,
+        default: (query: string) => vergil.config.select.placeholderNotFound(query)
     },
     chips: Boolean,
     underline: {
@@ -65,23 +67,23 @@ const props = defineProps({
     //----- Global -----
     descendant: Boolean,
     theme: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.select.theme ?? vergil.config.global.theme),
+        type: String as PropType<Theme>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.select.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.select.size ?? vergil.config.global.size),
+        type: String as PropType<Size>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.select.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.select.radius ?? vergil.config.global.radius),
+        type: String as PropType<Radius>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.select.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
-        type: String,
-        default: props => props.descendant ? undefined : (vergil.config.select.spacing ?? vergil.config.global.spacing),
+        type: String as PropType<Spacing>,
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.select.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     },
 })
@@ -93,7 +95,7 @@ const model = useDefineModel({
 })
 const isMultiSelect = computed(() => Array.isArray(model.value))
 const isSelected = computed(() => Boolean(Array.isArray(model.value) ? model.value.length : model.value))
-const selected = shallowRef(null)
+const selected = shallowRef<HTMLInputElement | Set<HTMLInputElement> | null>(null)
 
 const floatLabelEnabled = computed(() => {
     return props.floatLabel
@@ -117,10 +119,10 @@ const {
     resize: () => props.filter || props.chips,
 })
 watch(isOpen, () => {
-    if(props.filter) {
-        if(isOpen.value) {
-            filterModel.elements.input.focus()
-            filterModel.elements.input.select()
+    if (props.filter) {
+        if (isOpen.value) {
+            ;(filterModel.elements.input as HTMLInputElement).focus()
+            ;(filterModel.elements.input as HTMLInputElement).select()
         } else {
             filterModel.value = ''
             handleFilterInput()
@@ -129,52 +131,55 @@ watch(isOpen, () => {
 }, { flush: 'sync' })
 
 //-------------------- SELECT BUTTON --------------------
-function handleBtnClick(event) {
-    if(Object.hasOwn(event.target.dataset, 'value') && isMultiSelect.value) {
+function handleBtnClick(event: PointerEvent) {
+    if (Object.hasOwn((event.target as HTMLElement).dataset, 'value') && isMultiSelect.value) {
         updateSelection({
-            value: event.target.dataset.value,
+            value: (event.target as HTMLElement).dataset.value as string,
             checked: true
         })
     } else togglePopover()
 }
 
 //-------------------- KEYBOARD NAVIGATION --------------------
-const search = {
+const search: {
+    query: string;
+    queryFound: boolean;
+    timeout?: number;
+} = {
     query: '',
     queryFound: false,
     timeout: undefined
 }
-async function handleSelectKeydown(event) {
-    if(['ArrowDown','ArrowUp'].includes(event.key)) {
+async function handleSelectKeydown(event: KeyboardEvent) {
+    if (['ArrowDown','ArrowUp'].includes(event.key)) {
         event.preventDefault()
-        if(await openPopover(true)) {
-            let relative = 'nextElementSibling'
-            let option = model.elements.options.firstElementChild
-            if(isInput(event.target, 'checkbox')) {
-                if(event.key === 'ArrowUp')
-                    relative = 'previousElementSibling'
-                option = event.target.parentElement[relative]
-            } else if(!isMultiSelect.value && selected.value && !selected.value.parentElement.hidden) {
-                option = selected.value.parentElement
+        if (await openPopover(true)) {
+            let relative: 'nextElementSibling' | 'previousElementSibling' = 'nextElementSibling'
+            let option = model.elements.options!.firstElementChild as HTMLElement | null
+            if (isInput(event.target as HTMLElement, 'checkbox')) {
+                if (event.key === 'ArrowUp') relative = 'previousElementSibling'
+                option = (event.target as HTMLElement).parentElement![relative] as HTMLElement | null
+            } else if (!isMultiSelect.value && selected.value && !(selected.value as HTMLInputElement).parentElement!.hidden) {
+                option = (selected.value as HTMLInputElement).parentElement
             }
 
-            while(option?.hidden) {
-                option = option[relative]
+            while (option?.hidden) {
+                option = option[relative] as HTMLElement | null
             }
-            option?.firstElementChild.focus()
+            (option?.firstElementChild as HTMLElement).focus()
         }
-    } else if(event.key === 'Enter') {
-        if(isInput(event.target, 'checkbox')) {
+    } else if (event.key === 'Enter') {
+        if (isInput(event.target as HTMLElement, 'checkbox')) {
             event.preventDefault()
-            updateSelection(event.target, true)
+            updateSelection(event.target as HTMLInputElement, true)
         }
-    } else if(isTabKey(event, false)) {
-        if(isInput(event.target, 'checkbox') && !event.target.checked) {
-            updateSelection(event.target, false)
+    } else if (isTabKey(event, false)) {
+        if (isInput(event.target as HTMLElement, 'checkbox') && !(event.target as HTMLInputElement).checked) {
+            updateSelection(event.target as HTMLInputElement, false)
         }
     } else if (props.filter) {
         if (
-            !isInput(event.target, 'text')
+            !isInput(event.target as HTMLElement, 'text')
             && !(event.altKey || event.ctrlKey || event.metaKey)
             && (
                 (event.key.length === 1 && event.key !== ' ')
@@ -182,29 +187,29 @@ async function handleSelectKeydown(event) {
             )
             && await openPopover(true)
         ) {
-            filterModel.elements.input.selectionStart = filterModel.value.length
-            filterModel.elements.input.focus()
+            ;(filterModel.elements.input as HTMLInputElement).selectionStart = filterModel.value.length
+            ;(filterModel.elements.input as HTMLInputElement).focus()
         }
     } else if(event.key.length === 1 && event.key !== ' ' && !(event.altKey || event.ctrlKey || event.metaKey)) {
-        if(!(await openPopover(true))) return
+        if (!(await openPopover(true))) return
         const key = prune(event.key)
-        const options = model.elements.options.children
+        const options = model.elements.options!.children
         const findNextOption = () => {
             const active = document.activeElement
             let beforeSelected = active?.tagName === 'INPUT'
-                && active.type === 'checkbox'
-                && key === active.dataset.prunedLabel.charAt(0)
+                && (active as HTMLInputElement).type === 'checkbox'
+                && key === (active as HTMLElement).dataset.prunedLabel?.charAt(0)
             let foundBefore, foundAfter, foundActive = null
-            for(const { firstElementChild: input } of options) {
-                if(beforeSelected) {
-                    if(input === active) {
-                        foundActive = active
+            for (const { firstElementChild: input } of options) {
+                if (beforeSelected) {
+                    if (input === active) {
+                        foundActive = active as HTMLElement
                         beforeSelected = false
-                    } else if(!foundBefore && key === input.dataset.prunedLabel.charAt(0)) {
-                        foundBefore = input
+                    } else if (!foundBefore && key === ((input as HTMLElement).dataset.prunedLabel as string).charAt(0)) {
+                        foundBefore = input as HTMLElement
                     }
-                } else if(key === input.dataset.prunedLabel.charAt(0)) {
-                    foundAfter = input
+                } else if (key === ((input as HTMLElement).dataset.prunedLabel as string).charAt(0)) {
+                    foundAfter = input as HTMLElement
                     break
                 }
             }
@@ -218,25 +223,25 @@ async function handleSelectKeydown(event) {
             }, 500)
         }
 
-        if(search.timeout) {
+        if (search.timeout) {
             clearTimeout(search.timeout)
-            if(search.queryFound) {
+            if (search.queryFound) {
                 search.query += key
                 search.queryFound = false
-                for(const { firstElementChild: input } of options) {
-                    if(input.dataset.prunedLabel.startsWith(search.query)) {
+                for (const { firstElementChild: input } of options) {
+                    if (((input as HTMLElement).dataset.prunedLabel as string).startsWith(search.query)) {
                         search.queryFound = true
-                        input.focus()
+                        ;(input as HTMLElement).focus()
                         break
                     }
                 }
-            } if(!search.queryFound) {
+            } if (!search.queryFound) {
                 findNextOption()?.focus()
             }
             startTimeout()
         } else {
             const next = findNextOption()
-            if(next !== null) {
+            if (next !== null) {
                 search.query += key
                 search.queryFound = true
                 next.focus()
@@ -248,16 +253,16 @@ async function handleSelectKeydown(event) {
 
 //-------------------- FILTER OPTIONS --------------------
 const empty = shallowRef(false)
-function handleFilterInput(event) {
-    const options = model.elements.options.children
-    const query = prune(event?.target.value ?? '')
+function handleFilterInput(event?: Event) {
+    const options = model.elements.options!.children
+    const query = prune((event?.target as HTMLInputElement).value ?? '')
     empty.value = true
     for(const option of options) {
-        if(prune(option.querySelector('& > .toggle-label').innerText).includes(query)) {
-            option.hidden = false
+        if(prune((option.querySelector('& > .toggle-label') as HTMLElement).innerText).includes(query)) {
+            (option as HTMLElement).hidden = false
             if(empty.value) empty.value = false
         } else {
-            option.hidden = true
+            (option as HTMLElement).hidden = true
         }
     }
 }
@@ -273,7 +278,7 @@ function handleChange() {
     updateOptions(true)
 }
 
-const setupScope = getCurrentScope()
+const setupScope = getCurrentScope()!
 onMounted(() => {
     // Await next tick since popover mount is deferred
     nextTick(updateOptions)
@@ -284,18 +289,18 @@ onMounted(() => {
     })
 })
 
-function updateSelection(option, closeOnUpdated = false) {
+function updateSelection(option: { value: string, checked: boolean }, closeOnUpdated = false) {
     model.update(() => {
-        if(isMultiSelect.value) {
-            const idx = model.value.indexOf(option.value)
-            if(idx > -1) {
-                if(option.checked) {
-                    model.value.splice(idx,1)
+        if (isMultiSelect.value) {
+            const idx = (model.value as string[]).indexOf(option.value)
+            if (idx > -1) {
+                if (option.checked) {
+                    (model.value as string[]).splice(idx,1)
                     model.triggerIfShallow()
                     model.handleValidation(props.eagerValidation)
                 }
-            } else if(!option.checked) {
-                model.value.push(option.value)
+            } else if (!option.checked) {
+                (model.value as string[]).push(option.value)
                 model.triggerIfShallow()
                 model.handleValidation(props.eagerValidation)
             }
@@ -311,46 +316,46 @@ function updateSelection(option, closeOnUpdated = false) {
 
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
-function createOptionsWalker(filter) {
-    return document.createTreeWalker(model.elements.options, NodeFilter.SHOW_ELEMENT, element => {
-        return element.tagName === 'LABEL' && filter(element.firstElementChild)
+function createOptionsWalker(filter: (option: HTMLInputElement) => boolean) {
+    return document.createTreeWalker(model.elements.options!, NodeFilter.SHOW_ELEMENT, element => {
+        return (element as HTMLElement).tagName === 'LABEL' && filter((element as HTMLElement).firstElementChild as HTMLInputElement)
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT
     })
 }
 function updateOptions(closeOnUpdated = false, resetSelection = false) {
-    if(Array.isArray(model.value)) {
-        if(!isObject(selected.value) || Object.getPrototypeOf(selected.value) !== Set.prototype) {
+    if (Array.isArray(model.value)) {
+        if (!isObject(selected.value) || Object.getPrototypeOf(selected.value) !== Set.prototype) {
             selected.value = new Set()
         }
-        if(resetSelection) selected.value.clear()
+        if (resetSelection) (selected.value as Set<HTMLInputElement>).clear()
 
         const modelValue = new Set(model.value)
         const walker = createOptionsWalker(option => {
-            return modelValue.delete(option.value) !== selected.value.has(option)
+            return modelValue.delete(option.value) !== (selected.value as Set<HTMLInputElement>).has(option)
         })
         const updateSelection = walker.nextNode() !== null
-        if(updateSelection) {
+        if (updateSelection) {
             do {
-                const input = walker.currentNode.firstElementChild
-                selected.value[input.checked ? 'add' : 'delete'](input)
+                const input = (walker.currentNode as HTMLElement).firstElementChild as HTMLInputElement
+                (selected.value as Set<HTMLInputElement>)[input.checked ? 'add' : 'delete'](input)
             } while(walker.nextNode())
             triggerRef(selected)
         }
-        if(!props.chips && (updateSelection || resetSelection)) {
+        if (!props.chips && (updateSelection || resetSelection)) {
             let placeholder = ''
-            selected.value.forEach(option => placeholder += `${option.dataset.label}, `)
+            ;(selected.value as Set<HTMLInputElement>).forEach(option => placeholder += `${option.dataset.label}, `)
             placeholder = placeholder.slice(0,-2)
-            if(placeholder) {
-                virtualPlaceholder.value.innerText = placeholder
+            if (placeholder) {
+                virtualPlaceholder.value!.innerText = placeholder
                 const n = model.value.length
                 const updatePlaceholder = () => {
-                    computedPlaceholder.value = virtualPlaceholder.value.offsetWidth < virtualPlaceholder.value.scrollWidth
+                    computedPlaceholder.value = virtualPlaceholder.value!.offsetWidth < virtualPlaceholder.value!.scrollWidth
                         ? props.placeholderFallback(n)
                         : placeholder
-                    virtualPlaceholder.value.innerText = ''
+                    virtualPlaceholder.value!.innerText = ''
                 }
-                if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+                if (floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
                 else updatePlaceholder()
             } else {
                 computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
@@ -358,15 +363,15 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
         }
     } else {
         const walker = createOptionsWalker(option => model.value === option.value)
-        const input = walker.nextNode()?.firstElementChild
+        const input = (walker.nextNode() as HTMLElement | null)?.firstElementChild as HTMLInputElement
         selected.value = input
-        if(input?.checked) {
+        if (input?.checked) {
             const updatePlaceholder = () => {
-                computedPlaceholder.value = input.parentElement.querySelector('& > .toggle-label').innerText
+                computedPlaceholder.value = (input.parentElement!.querySelector('& > .toggle-label') as HTMLElement).innerText
             }
-            if(floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
+            if (floatLabelEnabled.value && !computedPlaceholder.value) setTimeout(updatePlaceholder, 75)
             else updatePlaceholder()
-            if(closeOnUpdated) closePopover()
+            if (closeOnUpdated) closePopover()
         } else {
             computedPlaceholder.value = floatLabelEnabled.value ? '' : props.placeholder
         }
@@ -403,7 +408,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                 @keydown="handleSelectKeydown"
             >
                 <div v-if="chips && isMultiSelect && isSelected" class="chips">
-                    <Badge v-for="input of selected.values()" :key="input.value"
+                    <Badge v-for="input of (selected as Set<HTMLInputElement>).values()" :key="input.value"
                         descendant
                         variant="subtle"
                         outline="subtle"
@@ -450,7 +455,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                     @change="handleChange"
                     variant="list"
                     tabindex="-1"
-                    :options-attributes="(key,value,label,description) => ({
+                    :options-attributes="(key: string, value: string, label: string, description: string) => ({
                         tabindex: '-1',
                         'data-label': label,
                         'data-pruned-label': prune(label)

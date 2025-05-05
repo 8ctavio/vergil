@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ToggleGroup from '../private/ToggleGroup.vue'
 import { h, mergeProps } from 'vue'
 

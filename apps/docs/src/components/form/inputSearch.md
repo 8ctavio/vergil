@@ -9,11 +9,11 @@ import { InputSearch, Btn } from '@8ctavio/vergil/components'
 import { useExposed, toast } from '@8ctavio/vergil'
 
 const exposed = useExposed()
-async function handleSearch(){
+async function handleSearch(s) {
     await new Promise(r => setTimeout(r,3000))
     toast('warn', 'Not found')
 }
-function handleClear(){
+function handleClear() {
     toast('info', 'Search query cleared')
 }
 </script>
@@ -99,11 +99,11 @@ The prop for the other button can be normally passed.
 
 ## Events
 
-### Search <Badge type="tip"><pre>search</pre></Badge>
+### Search <Badge type="tip"><pre>onSearch: (searchQuery: string) => void</pre></Badge>
 
 ```vue
 <script setup>
-async function handleSearch(){
+async function handleSearch() {
     await new Promise(r => setTimeout(r,3000))
     toast('warn', 'Not found')
 }
@@ -118,11 +118,11 @@ async function handleSearch(){
     <InputSearch @search="handleSearch"/>
 </Demo>
 
-### Clear <Badge type="tip"><pre>clear</pre></Badge>
+### Clear <Badge type="tip"><pre>onClear: () => void</pre></Badge>
 
 ```vue
 <script setup>
-function handleClear(){
+function handleClear() {
     toast('info', 'Search query cleared')
 }
 </script>

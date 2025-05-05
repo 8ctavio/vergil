@@ -1,23 +1,41 @@
-<script>
-import { h, mergeProps } from 'vue'
+<script lang="ts">
+import { h, mergeProps, PropType } from 'vue'
+import { ModelGroup } from '../../functions'
 import { ucFirst } from '../../utilities'
+import type { ExtractPropTypes, VNode } from 'vue'
+import type { ModelGroupInstance, ModelGroupPayload } from '../../types'
 
-function Errors(props) {
+type Props = ExtractPropTypes<typeof propsDefinition>
+
+const propsDefinition = {
+	fields: {
+		type: ModelGroup as PropType<ModelGroup>,
+		required: true as const
+	},
+	validationCooldown: {
+		type: Number,
+		default: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown,
+	},
+	showErrors: [Boolean, Array] as PropType<boolean | string[]>,
+	badgeProps: Object
+}
+
+function Errors(props: Props) {
 	const { showErrors } = props
-	if(showErrors) {
-		let filter
-		if(Array.isArray(showErrors)) {
+	if (showErrors) {
+		let filter: Parameters<ModelGroupInstance['forErrors']>[1]
+		if (Array.isArray(showErrors)) {
 			const fieldPaths = [...showErrors]
 			filter = (actions, path, isGroup) => {
-				if(isGroup) {
+				if (isGroup) {
 					const subPath = path + '.'
-					for(let i=0; i<fieldPaths.length; i++) {
-						if(fieldPaths[i].startsWith(subPath)) {
-							const wildcard = fieldPaths[i].slice(subPath.length, subPath.length + 3)
-							if(wildcard === '*') {
+					for (let i=0; i<fieldPaths.length; i++) {
+						if (fieldPaths[i]!.startsWith(subPath)) {
+							const wildcard = fieldPaths[i]!.slice(subPath.length, subPath.length + 3)
+							if (wildcard === '*') {
 								pull(fieldPaths, i)
 								return actions.ACCEPT_CHILDREN
-							} else if(wildcard === '**') {
+							} else if (wildcard === '**') {
 								pull(fieldPaths, i)
 								return actions.ACCEPT_DESCENDANTS
 							} else {
@@ -26,8 +44,8 @@ function Errors(props) {
 						}
 					}
 				} else {
-					for(let i=0; i<fieldPaths.length; i++) {
-						if(path === fieldPaths[i]) {
+					for (let i=0; i<fieldPaths.length; i++) {
+						if (path === fieldPaths[i]) {
 							pull(fieldPaths, i)
 							return actions.ACCEPT
 						}
@@ -37,9 +55,10 @@ function Errors(props) {
 			}
 		}
 
-		const fieldErrors = []
+		const fieldErrors: VNode[] = []
 		props.fields.forErrors((errors, field) => {
 			fieldErrors.push(h('div', { class: 'form-error-field' }, [
+				// @ts-expect-error
 				h('b', { class: 'form-error-field-name' }, errors._formLabel ?? ucFirst(field)),
 				errors.length === 1
 					? h('p', { class: 'form-error-message' }, errors[0])
@@ -47,14 +66,14 @@ function Errors(props) {
 			]))
 		}, filter)
 		
-		if(fieldErrors.length > 0) {
+		if (fieldErrors.length > 0) {
 			return h(
 				Badge,
 				mergeProps({
 					class: 'form-errors',
 					theme: 'danger',
 					outline: 'subtle',
-				}, props.badgeProps),
+				}, props.badgeProps ?? {}),
 				() => fieldErrors 
 			)
 		}
@@ -63,35 +82,27 @@ function Errors(props) {
 }
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { Badge } from '..'
 import { vergil } from '../../vergil'
-import { ModelGroup } from '../../functions'
 import { debounce, pull } from '../../utilities'
 
-const props = defineProps({
-	fields: {
-		type: ModelGroup,
-		required: true
-	},
-	validationCooldown: {
-		type: Number,
-		default: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown,
-	},
-	showErrors: [Boolean, Array],
-	badgeProps: Object
-})
-const emit = defineEmits(['submit', 'invalid'])
+const props = defineProps(propsDefinition)
+const emit = defineEmits<{
+	submit: [Event, ModelGroupPayload];
+	invalid: [Event, ModelGroupPayload]
+}>()
 
-const validate = event => {
+const validate = (event: Event) => {
 	const [isValid, payload] = props.fields.validate(true)
+	// @ts-expect-error
 	emit(isValid ? 'submit' : 'invalid', event, payload)
 }
 const handleValidation = props.validationCooldown > 0
 	? debounce(validate, props.validationCooldown, { eager: true })
 	: validate
 
-function handleSubmit(event) {
+function handleSubmit(event: Event) {
 	event.preventDefault()
 	handleValidation(event)
 }

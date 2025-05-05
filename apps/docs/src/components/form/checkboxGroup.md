@@ -81,7 +81,7 @@ const planetOptions = {
 
 Props that affect a [`Checkbox`](/components/form/checkbox) component's appereance are passed to (and, therefore, shared between) all underlying `CheckboxGroup`'s  `Checkbox` components.
 
-### Options <Badge><pre>options: (array | object) = []</pre></Badge>
+### Options <Badge><pre>options: (string | [string, string])[] | Record<string, string | [string, string]> = []</pre></Badge>
 
 The `options` prop is an array or (plain) object that provides the required data to define each *option*'s *value*, *label*, and *description*, which correspond to the `value`, `label`, and `description` props of each underlying `Checkbox` components.
 
@@ -89,16 +89,17 @@ Options' values, labels, and descriptions can be automatically inferred from the
 
 The following table summarizes how option's label and description are inferred from an `option`.
 
-| Type of `option` | `string` | `string[]` |
-| ---------------- | -------- | ---------- |
-| **`label`** | `option` | `option[0]` |
-| **`description`** | `undefined` | `option[1]` |
+| Type of `option` | `label` | `description` |
+| ---------------- | ------- | ------------- |
+| `string` | `option` | `undefined` |
+| `string[]` | `option[0]` | `option[1]` |
 
 The following table summarizes how an option's value is inferred depending on the type of `options`.
 
-| Type of `options` | `array` | `object` |
-| ----------------- | ------- | -------- |
-| **`value`** | Same as `label` | The `option`'s `key` |
+| Type of `options` | `value` |
+| ----------------- | ------- |
+| `Array` | Same as `label` |
+| `object` | The `option`'s `key` |
 
 ##### Example. Options Array
 
@@ -156,7 +157,7 @@ const options = {
 The `CheckboxGroup` default slot may be used instead to directly pass `Checkbox` components. In such case, the `options` prop is ignored and `CheckboxGroup` group-level props may be overwritten on each `Checkbox` component.
 :::
 
-### Option's attributes <Badge><pre>option-[value|label|description]: (string | function)</pre></Badge>
+### Option's attributes <Badge><pre>option-[value|label|description]: (string | Function)</pre></Badge>
 
 The `option-value`, `option-label`, and `option-description` props allow to specify custom options' values, labels, and descriptions.
 
@@ -253,7 +254,7 @@ function defaultOptionDescription {
 }
 ```
 
-### Options' attributes <Badge><pre>options-attributes: ('object' | 'function')</pre></Badge>
+### Options' attributes <Badge><pre>options-attributes: Record<string, unknown> | ((...Args) => Record<string, unknown>)</pre></Badge>
 
 As an object, `options-attributes` contains additional attributes to apply to all underlying `Checkbox` components.
 
@@ -431,11 +432,11 @@ As a function, `options-attributes` is called for each option, receives the comp
 | prop | type | default |
 | ---- | ---- | ------- |
 | `value` | `array \| string` | `[]` |
-| `options` | `array \| object` | `[]` |
-| `optionValue` | `string \| function` | |
-| `optionLabel` | `string \| function` | |
-| `optionDescription` | `string \| function` | |
-| `optionsAttributes` | `object \| function` | |
+| `options` | `(string \| [string, string])[] \| Record<string, string \| [string, string]>` | `[]` |
+| `optionValue` | `string \| ((option: unknown, key: string \| number) => string)` | |
+| `optionLabel` | `string \| ((option: unknown, key: string \| number) => string)` | |
+| `optionDescription` | `string \| ((option: unknown, key: string \| number) => string)` | |
+| `optionsAttributes` | `Record<string, unknown> \| ((key: string \| number, value: string, label: string, description: string) => Record<string, unknown>)` | |
 | `variant` | `'classic' \| 'card' \| 'list' \| 'toggle'` | `'classic'` |
 | `showSymbol` | `boolean` | |
 | `direction` | `'column' \| 'row'` | `'column'` |
@@ -450,7 +451,7 @@ As a function, `options-attributes` is called for each option, receives the comp
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
-| `validator` | `function` | |
+| `validator` | `Function` | |
 | `eagerValidation` | `boolean` | |
 | `elements` | `object` | |
 
