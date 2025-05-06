@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Btn from '../buttons/Btn.vue'
-import FocusTrap from '../private/FocusTrap.vue'
+import FocusTrap from '../internal/FocusTrap.vue'
 import { vergil } from '../../vergil'
 import { onMounted } from 'vue'
 import { popupMeta, closePopup } from '.'

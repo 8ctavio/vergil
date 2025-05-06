@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MiniMarkup from './private/MiniMarkup'
+import MiniMarkup from './internal/MiniMarkup'
 import { vergil } from '../vergil'
 import { usePopover } from '../composables'
 import { isValidPlacement } from '../utilities'
@@ -46,7 +46,6 @@ const { Popover } = usePopover({
 </script>
 
 <template>
-	<!-- @vue-expect-error -->
 	<Popover class="tooltip">
 		<slot/>
 		<template #portal>

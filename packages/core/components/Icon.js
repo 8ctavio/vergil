@@ -1,15 +1,19 @@
 import { h } from 'vue'
 
 /**
- * @import { SetupContext } from 'vue'
+ * @import { FunctionalComponent } from 'vue'
  */
 
 /**
  * @typedef { object } IconProps
  * @property { string } [code]
  * 
- * @param { IconProps } props
- * @param { SetupContext } ctx
+ * @typedef { FunctionalComponent<IconProps> } IconFC
+ * @typedef { Parameters<IconFC> } IconParams
+ * 
+ * @param { IconParams[0] } props
+ * @param { IconParams[1] } ctx
+ * @returns { ReturnType<IconFC> }
  */
 export default function Icon({ code }, { slots }) {
 	return h('span', {

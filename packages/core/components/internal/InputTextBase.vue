@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Btn from '../buttons/Btn.vue'
 import Icon from '../Icon'
-import FormField from '../private/FormField.vue'
-import MiniMarkup from "../private/MiniMarkup"
+import FormField from './FormField.vue'
+import MiniMarkup from "./MiniMarkup"
 import { computed, inject } from 'vue'
 import { vergil } from '../../vergil'
 import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'

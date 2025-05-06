@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Icon from "../Icon"
 import Btn from '../buttons/Btn.vue'
-import ModalTransition from '../private/ModalTransition.vue'
-import MiniMarkup from "../private/MiniMarkup"
+import ModalTransition from '../internal/ModalTransition.vue'
+import MiniMarkup from "../internal/MiniMarkup"
 import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "../../vergil"
 import { confirmModel } from "."

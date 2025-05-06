@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputTextBase from '../private/InputTextBase.vue'
+import InputTextBase from '../internal/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'

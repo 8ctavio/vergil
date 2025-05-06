@@ -14,7 +14,7 @@ import {
 } from '../utilities'
 
 /**
- * @import { ShallowRef, MaybeRefOrGetter, ComponentPublicInstance, SetupContext, VNode } from 'vue'
+ * @import { ShallowRef, MaybeRefOrGetter, ComponentPublicInstance, VNode, FunctionalComponent, PropType } from 'vue'
  * @import { Placement, Side, MiddlewareState } from '@floating-ui/vue'
  * @import { Theme, Size, Radius, Spacing } from '../types'
  */
@@ -111,7 +111,7 @@ const usePositionArrow = arrow => ({
  * @param { MaybeRefOrGetter<'click' | 'hover'> } [options.trigger] - If specified, event handlers are automatically attached to the reference and floating elements to toggle the popover on click or hover.
  * 
  * @returns { {
- * 		Popover: (props: PopoverProps, ctx: SetupContext) => (VNode | null)[],
+ * 		Popover: FunctionalComponent<PopoverProps>,
  * 		openPopover(waitUntilOpened?: boolean): Promise<boolean>;
  * 		closePopover(): void;
  * 		togglePopover(): void;
@@ -319,8 +319,12 @@ export function usePopover(options = {}) {
 	})
 
 	/**
-	 * @param { PopoverProps } props
-	 * @param { SetupContext } ctx
+	 * @typedef { FunctionalComponent<PopoverProps> } PopoverFC
+	 * @typedef { Parameters<PopoverFC> } PopoverParams
+	 * 
+	 * @param { PopoverParams[0] } props
+	 * @param { PopoverParams[1] } ctx
+	 * @returns { ReturnType<PopoverFC> }
 	 */
 	function Popover({ theme, size, radius, spacing }, { slots, attrs }) {
 		/**
@@ -464,22 +468,22 @@ export function usePopover(options = {}) {
 	Popover.inheritAttrs = false
 	Popover.props = {
 		theme: {
-			type: String,
+			type: /** @type { PropType<Theme> } */ (String),
 			default: () => vergil.config.global.theme,
 			validator: isValidTheme
 		},
 		size: {
-			type: String,
+			type: /** @type { PropType<Size> } */ (String),
 			default: () => vergil.config.global.size,
 			validator: isValidSize
 		},
 		radius: {
-			type: String,
+			type: /** @type { PropType<Radius> } */ (String),
 			default: () => vergil.config.global.radius,
 			validator: isValidRadius
 		},
 		spacing: {
-			type: String,
+			type: /** @type { PropType<Spacing> } */ (String),
 			default: () => vergil.config.global.spacing,
 			validator: isValidSpacing
 		}

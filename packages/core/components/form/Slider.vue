@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import FormField from '../private/FormField.vue'
-import MiniMarkup from "../private/MiniMarkup"
+import FormField from '../internal/FormField.vue'
+import MiniMarkup from "../internal/MiniMarkup"
 import { computed } from 'vue'
 import { vergil } from '../../vergil'
 import { useDefineModel, useDefineElements } from '../../composables'

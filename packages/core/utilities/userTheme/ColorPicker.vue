@@ -33,7 +33,6 @@ const { Popover, togglePopover } = usePopover({
 </script>
 
 <template>
-	<!-- @vue-expect-error -->
 	<Popover class="user-theme-color-picker" @change="userThemeColor = $event.target.value">
 		<Btn
 			variant="subtle"

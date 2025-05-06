@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Icon from '../Icon'
-import MiniMarkup from "../private/MiniMarkup"
+import MiniMarkup from "../internal/MiniMarkup"
 import { shallowRef } from 'vue'
 import { vergil } from '../../vergil'
 import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '../../utilities'

@@ -1,4 +1,4 @@
-import ModalTransition from "../private/ModalTransition.vue"
+import ModalTransition from "../internal/ModalTransition.vue"
 import { h, mergeProps } from "vue"
 import { popup, popupMeta, closePopup } from "."
 

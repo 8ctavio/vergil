@@ -4,8 +4,8 @@ import InputText from './InputText.vue'
 import Btn from '../buttons/Btn.vue'
 import Badge from '../Badge.vue'
 import Icon from '../Icon'
-import FormField from '../private/FormField.vue'
-import MiniMarkup from "../private/MiniMarkup"
+import FormField from '../internal/FormField.vue'
+import MiniMarkup from "../internal/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '../../vergil'
 import { useModel, useDefineModel, usePopover } from '../../composables'
