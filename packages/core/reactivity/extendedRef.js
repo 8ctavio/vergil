@@ -17,8 +17,8 @@ import { ExtendedRefImpl } from "./private"
  * @param { ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U, Shallow, Ignore> } [options = {}]
  * @returns {(
  *     T extends ExtendedRef<infer R, infer V, infer E, infer S>
- *         ? ExtendedRef<R, V, Prettify<E & Extension>, S, Ignore>
- *         : ExtendedRef<T, U, Extension, Shallow, Ignore>
+ *         ? ExtendedRef<R, V, Extension extends null ? E : Prettify<E & Extension>, S, Ignore>
+ *         : ExtendedRef<T, U, Extension extends null ? {} : Extension, Shallow, Ignore>
  * )}
  */
 
