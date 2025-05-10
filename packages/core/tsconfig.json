@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"allowJs": true,
 		"checkJs": true,
 		"target": "ESNext",
 		"module": "ESNext",
@@ -7,9 +8,12 @@
 		"moduleResolution": "bundler",
 		"declaration": true,
 		"emitDeclarationOnly": true,
+		"outDir": "./types/dist",
+		"declarationMap": true,
 		"strict": true,
 		"erasableSyntaxOnly": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
-	}
+	},
+	"include": ["**/*.js"]
 }

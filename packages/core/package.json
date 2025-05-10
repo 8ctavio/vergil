@@ -17,13 +17,32 @@
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"scripts": {
+		"dts": "vue-tsc"
+	},
 	"main": "index.js",
+	"types": "./types/dist/index.d.ts",
 	"exports": {
-		".": "./index.js",
-		"./components": "./components/index.js",
-		"./plugins": "./plugins/index.js",
-		"./utilities": "./utilities/public.js",
-		"./utilities/userTheme": "./utilities/userTheme/index.js",
+		".": {
+			"types": "./types/dist/index.d.ts",
+			"import": "./index.js"
+		},
+		"./components": {
+			"types": "./types/dist/components/index.d.ts",
+			"import": "./components/index.js"
+		},
+		"./plugins": {
+			"types": "./types/dist/plugins/index.d.ts",
+			"import": "./plugins/index.js"
+		},
+		"./utilities": {
+			"types": "./types/dist/utilities/public.d.ts",
+			"import": "./utilities/public.js"
+		},
+		"./utilities/userTheme": {
+			"types": "./types/dist/utilities/userTheme/index.d.ts",
+			"import": "./utilities/userTheme/index.js"
+		},
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
 		"./colors/default": "./styles/default.css"
