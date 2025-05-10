@@ -5,7 +5,7 @@ import { isObject, isPlainObject, isFunction } from "../utilities"
 
 /**
  * @import { ShallowRef } from 'vue'
- * @import { ModelGroupInstance, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../types'
+ * @import { ModelGroupInstance, ModelGroupFields, ModelGroupFieldsConstraint, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../types'
  */
 
 /**
@@ -101,14 +101,14 @@ export class ModelGroup {
 	/**
 	 * @template { ModelGroupFields } [F = {}]
 	 * @overload
-	 * @param { F } fields
+	 * @param { F & ModelGroupFieldsConstraint<F> } fields
 	 * @returns { ModelGroupInstance<F, false> }
 	 */
 
 	/**
 	 * @template { ModelGroupFields } [F = {}]
 	 * @overload
-	 * @param { F } fields
+	 * @param { F & ModelGroupFieldsConstraint<F> } fields
 	 * @param { ModelGroupValidator<F> } validator
 	 * @returns { ModelGroupInstance<F, true> }
 	 */
@@ -168,8 +168,8 @@ export class ModelGroup {
 
 	/**
 	 * @template { ModelGroupFields } [F = {}]
-	 * @param { F } fields
-	 * @param { ModelGroupValidator } [validator]
+	 * @param { F & ModelGroupFieldsConstraint<F> } fields
+	 * @param { ModelGroupValidator<F> } [validator]
 	 * @returns { ModelGroupSpec<F> }
 	 */
 	static nested(fields, validator) {
@@ -332,4 +332,4 @@ export class ModelGroup {
 		}
 	}
 }
-Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })
+Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })

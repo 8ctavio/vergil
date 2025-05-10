@@ -5,10 +5,10 @@ type OnCleanup = Parameters<WatchCallback>[2]
 
 export interface ModelOptions<
 	T = unknown,
-	Shallow extends boolean = false,
-	ExtendRef extends boolean = false,
-	IncludeExposed extends boolean = false,
-	IncludeElements extends boolean = false
+	Shallow extends boolean = boolean,
+	ExtendRef extends boolean = boolean,
+	IncludeExposed extends boolean = boolean,
+	IncludeElements extends boolean = boolean
 > {
 	validator?: (value: T, error: (msg: string) => void, checkpoint: () => void) => void;
 	shallow?: Shallow;

@@ -11,10 +11,10 @@ export type ModelGroupPayload<F extends ModelGroupFields = ModelGroupFields> = {
 }
 
 type ModelGroupPath<F extends ModelGroupFields> = Prettify<{
-	[K in keyof F]: F[K] extends ModelSpec
-		? K
-		: F[K] extends ModelGroupSpec<infer T>
-			? `${string & K}.${string & ModelGroupPath<T>}`
+	[K in keyof F]: F[K] extends ModelGroupSpec<infer T>
+		? `${string & K}.${string & ModelGroupPath<T>}`
+		: F[K] extends ModelSpec
+			? K
 			: never
 }[keyof F]>
 
@@ -31,6 +31,14 @@ type ModelGroupInternal = {
 
 export type ModelGroupFields = { [Key: string]: ModelSpec | (ModelGroupFields & ModelGroupInternal) }
 
+export type ModelGroupFieldsConstraint<F extends ModelGroupFields = ModelGroupFields> = {
+	[K in keyof F]: F[K] extends ModelGroupInternal
+		? F[K]
+		: F[K] extends ModelSpec<infer V>
+			? { validator?: ModelOptions<V>['validator'] }
+			: F[K]
+}
+
 export type ModelGroupSpec<F extends ModelGroupFields = ModelGroupFields> = {
 	[K in keyof F]: F[K];
 } & ModelGroupInternal
@@ -41,7 +49,7 @@ export interface ModelSpec<
 	ExtendRef extends boolean = boolean,
 	IncludeExposed extends boolean = boolean,
 	IncludeElements extends boolean = boolean
-> extends ModelOptions<T, Shallow, ExtendRef, IncludeExposed, IncludeElements> {
+> extends ModelOptions<any, Shallow, ExtendRef, IncludeExposed, IncludeElements> {
 	value: T;
 	formLabel?: string;
 }
