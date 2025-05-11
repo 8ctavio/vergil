@@ -75,7 +75,7 @@ The `Placeholder` component features a [`Badge`](/components/badge) to display d
     </Anatomy>
 </Demo>
 
-<style scoped>
+<style>
 .placeholder {
     width: 300px;
     height: 80px;

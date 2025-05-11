@@ -39,6 +39,12 @@ const options3 = [{
 }]
 </script>
 
+<style>
+.checkbox-group > .toggle-group-wrapper.list {
+    width: 200px;
+}
+</style>
+
 ## Basic Usage
 
 <Demo>
@@ -296,12 +302,6 @@ As a function, `options-attributes` is called for each option, receives the comp
     <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" variant="toggle" label="Toggle"/>
 </Demo>
 
-<style scoped>
-.toggle-group-wrapper.list {
-    width: 250px;
-}
-</style>
-
 ### Show symbol <Badge><pre>show-symbol: boolean</pre></Badge>
 
 <Demo>
@@ -315,12 +315,6 @@ As a function, `options-attributes` is called for each option, receives the comp
 <Demo>
     <CheckboxGroup :options="['Label 1', 'Label 2', 'Label 3']" show-symbol variant="toggle" label="Toggle"/>
 </Demo>
-
-<style scoped>
-.checkbox-group > :deep(.toggle-group-wrapper.list) {
-    width: 200px;
-}
-</style>
 
 ### Direction <Badge><pre>direction: ('column' | 'row') = 'column'</pre></Badge>
 

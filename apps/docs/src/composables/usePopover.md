@@ -16,12 +16,14 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>
 
 <Demo>
-	<Popover class="popover-demo">
-		<Btn @click="togglePopover" label="Toggle Popover"/>
-		<template #portal>
-			<Placeholder/>
-		</template>
-	</Popover>
+	<ClientOnly>
+		<Popover class="popover-demo">
+			<Btn @click="togglePopover" label="Toggle Popover"/>
+			<template #portal>
+				<Placeholder/>
+			</template>
+		</Popover>
+	</ClientOnly>
 </Demo>
 
 <style>

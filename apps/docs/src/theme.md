@@ -7,7 +7,7 @@ import { Icon } from '@8ctavio/vergil/components'
 import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 </script>
 
-<style scoped>
+<style module>
 .icon {
     display: inline-block;
     padding: 0 5px;
@@ -107,7 +107,7 @@ import { userThemeColor } from '@8ctavio/vergil/utilities/userTheme'
 Only available color palette names may be assigned to `userThemeColor`. The developer must ensure used color palettes are properly imported.
 
 :::tip
-Click on the <Icon code="style"/> icon in the navigation bar to update the user theme color palette.
+Click on the <Icon code="style" :class="$style.icon"/> icon in the navigation bar to update the user theme color palette.
 :::
 
 #### [Configuration options](/configuration)

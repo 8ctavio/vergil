@@ -11,7 +11,7 @@ import { Skeleton } from '@8ctavio/vergil/components'
 ## Basic Usage
 
 <Demo>
-    <Skeleton/>
+    <Skeleton :class="$style.skeleton"/>
 </Demo>
 
 ```vue
@@ -58,7 +58,7 @@ import { Skeleton } from '@8ctavio/vergil/components'
     <Anatomy tag="div" classes="skeleton"/>
 </Demo>
 
-<style scoped>
+<style module>
 .skeleton {
     width: 300px;
     height: 80px;

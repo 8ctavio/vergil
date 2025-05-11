@@ -20,7 +20,7 @@ const btnClearProps = {
 }
 </script>
 
-<style scoped>
+<style>
 .date-picker {
     width: 200px;
 }

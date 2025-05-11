@@ -44,7 +44,7 @@ const demo = new ModelGroup({
 })
 </script>
 
-<style scoped>
+<style module>
 .form {
 	width: 220px;
 }
@@ -53,7 +53,7 @@ const demo = new ModelGroup({
 ## Basic Usage
 
 <Demo>
-	<Form :fields="form" @submit="handleSubmit">
+	<Form :fields="form" @submit="handleSubmit" :class="$style.form">
 		<InputText v-model="form.username" label="Username" show-errors :disabled="loader"/>
 		<template #submit>
 			<Btn label="Submit" :loading="loader"/>
@@ -184,7 +184,7 @@ const form = new ModelGroup({
 ```
 
 <Demo>
-	<Form :fields="demo" show-errors>
+	<Form :fields="demo" show-errors :class="$style.form">
 		<Checkbox v-model="demo.check" label="Check"/>
 		<template #submit>
 			<Btn label="Submit"/>

@@ -49,7 +49,7 @@ const options5 = ['abc','uvw','xyz']
 const options6 = ['Option']
 </script>
 
-<style scoped>
+<style>
 .select {
     width: 200px;
 }

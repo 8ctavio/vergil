@@ -282,16 +282,3 @@ const emit = defineEmits(['close', 'error'])
 }
 </style>
 ```
-
-<style scoped>
-.popup {
-    width: clamp(250px, 25%, 700px);
-}
-.popup-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    font-weight: 600;
-}
-</style>
