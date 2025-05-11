@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@vitejs/plugin-vue':
-        specifier: ^5.2.1
-        version: 5.2.1(vite@5.4.11)(vue@3.5.13(typescript@5.8.3))
       typescript:
         specifier: ^5.8.3
         version: 5.8.3

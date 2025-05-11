@@ -1,7 +1,8 @@
 import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitepress'
 
 // https://vitepress.vuejs.org/reference/site-config
-export default {
+export default defineConfig({
 	vite: {
 		server: {
 			port: 3000
@@ -10,6 +11,18 @@ export default {
 			alias: {
 				'@components': fileURLToPath(new URL('./theme/components', import.meta.url))
 			}
+		}
+	},
+	vue: {
+		features: {
+			optionsAPI: false
+		}
+	},
+	markdown: {
+		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+		theme: {
+			light: 'github-light',
+			dark: 'vitesse-dark'
 		}
 	},
 	srcDir: "./src",
@@ -22,13 +35,6 @@ export default {
 			href: '/assets/vergil.ico'
 		}]
 	],
-	markdown: {
-		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-		theme: {
-			light: 'github-light',
-			dark: 'vitesse-dark'
-		}
-	},
 	themeConfig: {
 		// https://vitepress.vuejs.org/reference/default-theme-config
 		siteTitle: "Vergil",
@@ -140,4 +146,4 @@ export default {
 			{ icon: 'github', link: 'https://github.com/8ctavio/vergil' }
 		]
 	}
-}
+})
