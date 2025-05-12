@@ -75,7 +75,7 @@ These alternative methods to provide model values and validators are only resort
 
 ### Model (group) validation
 
-FFCs may be considered to have an associated *validation target*. This validation target is the FFC's model if it does not belong to a [ModelGroup](/functions/modelgroup) or its ModelGroup ancestors do not have [group validators](/functions/modelgroup#model-group-validation). Otherwise, the validation target is the model's eldest ModelGroup ancestor with a group validator.
+FFCs may be considered to have an associated *validation target*. This validation target is the FFC's model if it does not belong to a [model group](/composables/useModelGroup) or its model group ancestors do not have [group validators](/composables/useModelGroup#model-group-validation). Otherwise, the validation target is the model's eldest model group ancestor with a group validator.
 
 FFCs automatically validate their validation targets upon user interaction. In general, the events that trigger validation are different for each FFC.
 

@@ -1,7 +1,7 @@
 import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from 'vue'
 import { useModel, useElements, useExposed } from '.'
-import { privateModelMap, useModelWatchers } from './private'
-import { watchControlledSync } from '../reactivity/private'
+import { privateModelMap, useModelWatchers } from './internal'
+import { watchControlledSync } from '../reactivity/internal'
 import { isModel } from '../functions'
 import { isFunction, isObject, noop } from '../utilities'
 

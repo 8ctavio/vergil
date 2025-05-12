@@ -1,6 +1,7 @@
+import { ModelGroupImpl } from "../composables/internal"
 import { isObject } from "../utilities"
 
-/** @import { Model } from '../types' */
+/** @import { Model, ModelGroup } from '../types' */
 
 /**
  * Assesses whether a value is a model created by `useModel`.
@@ -13,4 +14,14 @@ export function isModel(value, self = false) {
 	return isObject(value)
 		&& (!self || Object.hasOwn(value, '__v_isModel'))
 		&& /** @type { Record<string, unknown> } */(value).__v_isModel === true
+}
+
+/**
+ * Assesses whether a value is a model created by `useModelGroup`.
+ * 
+ * @param { unknown } value
+ * @returns { value is ModelGroup }
+ */
+export function isModelGroup(value) {
+	return value instanceof ModelGroupImpl
 }

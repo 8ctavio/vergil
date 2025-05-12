@@ -5,15 +5,15 @@ outline: [2,3]
 # Form
 
 :::tip
-Before proceeding with `Form`, learn first about the [`ModelGroup`](/functions/ModelGroup) class.
+Before proceeding with `Form`, learn first about the [`useModelGroup`](/composables/useModelGroup) composable.
 :::
 
 <script setup>
 import { Form, InputText, Checkbox, Btn } from '@8ctavio/vergil/components'
 import { shallowRef } from 'vue'
-import { ModelGroup } from '@8ctavio/vergil'
+import { useModelGroup } from '@8ctavio/vergil'
 
-const form = new ModelGroup({
+const form = useModelGroup({
 	username: {
 		value: '',
 		validator(value, error) {
@@ -33,7 +33,7 @@ async function handleSubmit(event, payload) {
 	}
 }
 
-const demo = new ModelGroup({
+const demo = useModelGroup({
 	check: {
 		value: false,
 		formLabel: 'Checkbox field',
@@ -65,9 +65,9 @@ const demo = new ModelGroup({
 <script setup>
 import { Form, InputText, Btn } from '@8ctavio/vergil/components'
 import { shallowRef } from 'vue'
-import { ModelGroup } from '@8ctavio/vergil'
+import { useModelGroup } from '@8ctavio/vergil'
 
-const form = new ModelGroup({
+const form = useModelGroup({
 	username: {
 		value: '',
 		validator(value, error) {
@@ -106,19 +106,19 @@ async function handleSubmit(event, payload) {
 
 ## Description
 
-The `Form` component is a wrapper for a `form` HTML element, and must receive a `ModelGroup` object instance through its `fields` prop.
+The `Form` component is a wrapper for a `form` HTML element, and must receive a model group object instance through its `fields` prop.
 
-Whenever a `Form`'s underlying form element is submitted (i.e., its submit event is fired), that `Form`'s ModelGroup validation is automatically performed with debouncing.
+Whenever a `Form`'s underlying form element is submitted (i.e., its submit event is fired), that `Form`'s model group validation is automatically performed with debouncing.
 
 ## Props
 
 ### Fields <Badge><pre>fields: ModelGroup</pre></Badge> <Badge type="warning"><pre>required</pre></Badge>
 
-An instance of the `ModelGroup` class.
+A model group object returned by the `useModelGroup` composable.
 
 ```vue
 <script setup>
-const form = new ModelGroup({
+const form = useModelGroup({
 	field: { /* ... */ }
 })
 </script>
@@ -132,37 +132,37 @@ const form = new ModelGroup({
 
 ### Validation Cooldown <Badge><pre>validation-cooldown: number = 350</pre></Badge>
 
-The `validation-cooldown` prop is the minimum delay in milliseconds to wait before validating a `Form`'s ModelGroup since the form element was last submitted (see [Description](#description)).
+The `validation-cooldown` prop is the minimum delay in milliseconds to wait before validating a `Form`'s model group since the form element was last submitted (see [Description](#description)).
 
 ### Show errors <Badge><pre>show-errors: boolean | string[]</pre></Badge>
 
-Similar to the [`show-errors`](/components/form/introduction#shared-props) prop of some form field components, a `Form`'s `show-errors` prop allows to display the provided ModelGroup's errors in a [`Badge`](/components/badge) component placed after the form fields and before the submit button (see [Anatomy](#anatomy)).
+Similar to the [`show-errors`](/components/form/introduction#shared-props) prop of some form field components, a `Form`'s `show-errors` prop allows to display the provided model group's errors in a [`Badge`](/components/badge) component placed after the form fields and before the submit button (see [Anatomy](#anatomy)).
 
-When `show-errors` is set to `true`, the errors of all ModelGroup's nested models will be displayed. In addition, only errors of specific models may be displayed by passing an array of the ModelGroup's dot-notation path strings to those models.
+When `show-errors` is set to `true`, the errors of all model group's nested models will be displayed. In addition, only errors of specific models may be displayed by passing an array of the model group's dot-notation path strings to those models.
 
-To illustrate, consider the following ModelGroup.
+To illustrate, consider the following model group.
 
 ```js
-const form = new ModelGroup({
+const form = useModelGroup({
 	foo: { /* ... */ },
-	bar: ModelGroup.nested({
+	bar: useModelGroup.nested({
 		baz: { /* ... */ },
-		qux: ModelGroup.nested({ /* ... */ }) 
+		qux: useModelGroup.nested({ /* ... */ }) 
 	})
 })
 ```
 
 In order to display only the errors of the `form.foo` and `form.bar.baz` models, `show-errors` may be set to `['foo', 'bar.baz']`.
 
-Furthermore, a `show-errors` array may also include paths to nested ModelGroups as long as they are suffixed by a *wildcard*. Available wildcards are `'.*'` and `'.**'`, which respectively display all *child* and *descendant* models of a nested ModelGroup. 
+Furthermore, a `show-errors` array may also include paths to nested model groups as long as they are suffixed by a *wildcard*. Available wildcards are `'.*'` and `'.**'`, which respectively display all *child* and *descendant* models of a nested model group. 
 
-Thus, recalling the previous example, the `show-errors` array `['bar.*']` would display the errors of the `form.bar.baz` model. Similarly, besides `form.bar.baz`, the array `['bar.**']` would also include all nested models of the `form.bar.qux` ModelGroup.
+Thus, recalling the previous example, the `show-errors` array `['bar.*']` would display the errors of the `form.bar.baz` model. Similarly, besides `form.bar.baz`, the array `['bar.**']` would also include all nested models of the `form.bar.qux` model group.
 
-Finally, errors are displayed under a heading or label to identify the model (field) they belong to. This label may be customized by providing an special `formLabel` property to a [ModelGroup's model specification object](/functions/ModelGroup#description).
+Finally, errors are displayed under a heading or label to identify the model (field) they belong to. This label may be customized by providing an special `formLabel` property to a [model group's model specification object](/composables/useModelGroup#description).
 
 ```vue
 <script setup>
-const form = new ModelGroup({
+const form = useModelGroup({
 	check: {
 		value: false,
 		formLabel: 'Checkbox field',
@@ -174,7 +174,7 @@ const form = new ModelGroup({
 </script>
 
 <template>
-    <Form :fields="form">
+    <Form :fields="form" show-errors>
 		<Checkbox v-model="form.check" label="Check"/>
 		<template #submit>
 			<Btn label="Submit"/>
@@ -198,7 +198,7 @@ Props for the underlying [`Badge`](/components/badge) component where model erro
 
 ## Events
 
-After a `Form`'s ModelGroup is [automatically validated](#description), either the `submit` or `invalid` event is emitted depending on the validation result; if no errors are encountered, `submit` is emitted, and `invalid` otherwise. Both events accept two parameters: the submit `event` object and the validated ModelGroup's payload.
+After a `Form`'s model group is [automatically validated](#description), either the `submit` or `invalid` event is emitted depending on the validation result; if no errors are encountered, `submit` is emitted, and `invalid` otherwise. Both events accept two parameters: the submit `event` object and the validated model group's payload.
 
 ### Submit <Badge><pre>onSubmit: (event: Event, payload: ModelGroupPayload) => void</pre></Badge>
 
@@ -246,7 +246,7 @@ function onInvalid(event, payload) {
 
 | prop | type | default |
 | ---- | ---- | ------- |
-| `fields` | `ModelGroupInstance` | |
+| `fields` | `ModelGroup` | |
 | `validationCooldown` | `number` | `350` |
 | `showErrors` | `boolean \| string[]` | |
 | `badgeProps` | `Record<string, unknown>` | |

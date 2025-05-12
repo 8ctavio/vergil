@@ -270,7 +270,7 @@ An extendedRef object. Additional included methods are:
 		triggerRef(model.ref)
 	}
 	```
-- `handleValidation`: Validates its associated *validation target* if it has errors. The validation target is the model if it does not belong to a [ModelGroup](/functions/modelgroup) or its ModelGroup ancestors do not have [group validators](/functions/modelgroup#model-group-validation). Otherwise, the validation target is the model's eldest ModelGroup ancestor with a group validator. In addition, `handleValidation` accepts a single boolean `eager` parameter that defaults to `false`; when set to `true`, the validation target is validated even if it does not have errors. The following is an approximation of this method's implementation.
+- `handleValidation`: Validates its associated *validation target* if it has errors. The validation target is the model if it does not belong to a [model group](/composables/useModelGroup) or its model group ancestors do not have [group validators](/composables/useModelGroup#model-group-validation). Otherwise, the validation target is the model's eldest model group ancestor with a group validator. In addition, `handleValidation` accepts a single boolean `eager` parameter that defaults to `false`; when set to `true`, the validation target is validated even if it does not have errors. The following is an approximation of this method's implementation.
 	```js
 	handleValidation = (eager = false) => {
 		if (eager || validationTarget.error) validationTarget.validate()

@@ -1,5 +1,5 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { watchControlledSync } from "../../reactivity/private"
+import { watchControlledSync } from "../../reactivity/internal"
 import { noop } from "../../utilities"
 
 /**

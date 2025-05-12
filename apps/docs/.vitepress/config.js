@@ -85,7 +85,7 @@ export default defineConfig({
 					{ text: 'Checkbox', link: '/components/form/checkbox' },
 					{ text: 'CheckboxGroup', link: '/components/form/checkboxGroup' },
 					{ text: 'DatePicker', link: '/components/form/datePicker' },
-					{ text: 'Form', link: '/components/form/form' },
+					{ text: 'Form', link: '/components/form/Form' },
 					{ text: 'InputNumber', link: '/components/form/inputNumber' },
 					{ text: 'InputSearch', link: '/components/form/inputSearch' },
 					{ text: 'InputText', link: '/components/form/inputText' },
@@ -117,6 +117,7 @@ export default defineConfig({
 					{ text: 'useElements', link: '/composables/useElements' },
 					{ text: 'useExposed', link: '/composables/useExposed' },
 					{ text: 'useModel', link: '/composables/useModel' },
+					{ text: 'useModelGroup', link: '/composables/useModelGroup' },
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
 					{
@@ -135,8 +136,7 @@ export default defineConfig({
 				items: [
 					{ text: 'Descriptor', link: '/functions/descriptor' },
 					{ text: 'Extended reactivity', link: '/functions/extendedReactivity' },
-					{ text: 'isModel', link: '/functions/isModel' },
-					{ text: 'ModelGroup', link: '/functions/ModelGroup' },
+					{ text: 'Model', link: '/functions/model' },
 					{ text: 'Utilities', link: '/functions/utilities' }
 				]
 			},

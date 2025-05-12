@@ -1,7 +1,7 @@
 import { toRaw, getCurrentInstance, onUnmounted } from "vue"
 import { isModel } from "../functions"
 import { isFunction, isPlainObject } from "../utilities"
-import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./private"
+import { definedInstances, definedExposed, symTrigger, symHasInstance } from "./internal"
 
 /**
  * Defines component's exposed data.

@@ -1,4 +1,4 @@
-import { EntangledImpl } from "./private"
+import { EntangledImpl } from "./internal"
 
 /** @import { Entangled, EntangledOptions } from '../types' */
 

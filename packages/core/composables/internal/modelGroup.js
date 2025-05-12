@@ -1,11 +1,23 @@
 import { triggerRef, markRaw, toRaw } from 'vue'
-import { useModel } from "../composables"
-import { isModel } from '.'
-import { isObject, isPlainObject, isFunction } from "../utilities"
+import { useModel } from '../../composables'
+import { isModel } from '../../functions'
+import { isObject, isPlainObject, isFunction } from "../../utilities"
 
 /**
  * @import { ShallowRef } from 'vue'
- * @import { ModelGroupInstance, ModelGroupFields, ModelGroupFieldsConstraint, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../types'
+ * @import { ModelGroup, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../../types'
+ */
+
+/**
+ * @typedef { typeof filterActions } FilterActions
+ * @typedef {(
+ *     (
+ *         actions: FilterActions,
+ *         path: string,
+ *         isGroup: boolean,
+ *         value: Model | ModelGroupImpl
+ *     ) => FilterActions[keyof FilterActions]
+ * )} ModelFilter
  */
 
 /**
@@ -25,14 +37,7 @@ const filterActions = Object.freeze({
 })
 
 /**
- * @typedef { typeof filterActions } FilterActions
- * @typedef {(
- *     (actions: FilterActions, path: string, isGroup: boolean, value: Model | ModelGroup) => FilterActions[keyof FilterActions]
- * )} ModelFilter
- */
-
-/**
- * @this { ModelGroup }
+ * @this { ModelGroupImpl }
  * @param { ModelFilter } [filter]
  * @param { string } [path = '']
  * @param { 0 | 1 | 2 } [clearance = 0]
@@ -41,9 +46,9 @@ const filterActions = Object.freeze({
 function* generateModelErrors(filter, path = '', clearance = 0) {
 	for (const field of Object.keys(this)) {
 		// @ts-expect-error
-		const value = /** @type { Model | ModelGroup } */ (this[field])
+		const value = /** @type { Model | ModelGroupImpl } */ (this[field])
 		const fullPath = (path && (path + ".")) + field
-		if (value instanceof ModelGroup) {
+		if (value instanceof ModelGroupImpl) {
 			const action = !isFunction(filter) || (clearance === 2 ? 2 : filter(filterActions, fullPath, true, value))
 			if (action === 1 || action === 2) {
 				yield* generateModelErrors.call(value, filter, fullPath, action)
@@ -60,18 +65,18 @@ function* generateModelErrors(filter, path = '', clearance = 0) {
 }
 
 /**
- * @param { ModelGroup } modelGroup
+ * @param { ModelGroupImpl } modelGroup
  * @param { string } path
  * @returns { Model }
  */
 function getNestedModel(modelGroup, path) {
 	if (typeof path === 'string') {
-		/** @type { ModelGroup | Model | null } */
+		/** @type { ModelGroupImpl | Model | null } */
 		let model = modelGroup
 		for (const field of path.split('.')) {
-			if (Object.hasOwn(/** @type { ModelGroup } */(model), field)) {
+			if (Object.hasOwn(model, field)) {
 				// @ts-expect-error
-				model = /** @type { Model | ModelGroup } */ (model[field])
+				model = /** @type { Model | ModelGroupImpl } */ (model[field])
 			} else {
 				model = null
 				break
@@ -84,34 +89,16 @@ function getNestedModel(modelGroup, path) {
 
 /**
  * @type { undefined | {
- *     modelGroup: ModelGroup;
- *     validate: ModelGroup['validate'];
+ *     modelGroup: ModelGroupImpl;
+ *     validate: ModelGroupImpl['validate'];
  *     handleValidation: (eager?: boolean) => void;
  * } }
  */
 export let groupValidationCtx
 
-/**
- * Creates a collection of component models
- */
-export class ModelGroup {
+export class ModelGroupImpl {
 	#validator
 	#isValid
-
-	/**
-	 * @template { ModelGroupFields } [F = {}]
-	 * @overload
-	 * @param { F & ModelGroupFieldsConstraint<F> } fields
-	 * @returns { ModelGroupInstance<F, false> }
-	 */
-
-	/**
-	 * @template { ModelGroupFields } [F = {}]
-	 * @overload
-	 * @param { F & ModelGroupFieldsConstraint<F> } fields
-	 * @param { ModelGroupValidator<F> } validator
-	 * @returns { ModelGroupInstance<F, true> }
-	 */
 
 	/**
 	 * @param { ModelGroupFields } fields
@@ -146,7 +133,7 @@ export class ModelGroup {
 					if (Object.hasOwn(value, '__modelGroup') && /** @type { ModelGroupSpec } */ (value).__modelGroup === true) {
 						const { __validator, ...nestedFields } = /** @type { ModelGroupSpec } */ (value)
 						// @ts-expect-error
-						this[field] = new ModelGroup(nestedFields, __validator)
+						this[field] = new ModelGroupImpl(nestedFields, __validator)
 					} else {
 						const { value: modelValue, formLabel, ...options } = /** @type { ModelSpec } */ (value)
 						const model = useModel(modelValue, options)
@@ -166,21 +153,6 @@ export class ModelGroup {
 		}
 	}
 
-	/**
-	 * @template { ModelGroupFields } [F = {}]
-	 * @param { F & ModelGroupFieldsConstraint<F> } fields
-	 * @param { ModelGroupValidator<F> } [validator]
-	 * @returns { ModelGroupSpec<F> }
-	 */
-	static nested(fields, validator) {
-		return /** @type { ModelGroupSpec<F> } */ (
-			Object.defineProperties(fields, {
-				__modelGroup: { value: true },
-				__validator: { value: validator }
-			})
-		)
-	}
-
 	reset() {
 		for (const field of Object.keys(this)) {
 			// @ts-expect-error
@@ -191,7 +163,7 @@ export class ModelGroup {
 	/**
 	 * @template { ModelGroupFields } F
 	 * @overload
-	 * @this { ModelGroupInstance<F> }
+	 * @this { ModelGroup<F> }
 	 * @returns { ModelGroupPayload<F> }
 	 */
 
@@ -204,9 +176,9 @@ export class ModelGroup {
 		const payload = {}
 		for (const field of Object.keys(this)) {
 			// @ts-expect-error
-			const value = /** @type { Model | ModelGroup } */ (this[field])
+			const value = /** @type { Model | ModelGroupImpl } */ (this[field])
 			Object.defineProperty(payload, field, {
-				value: value instanceof ModelGroup
+				value: value instanceof ModelGroupImpl
 					? value.getPayload()
 					// @ts-expect-error
 					: toRaw(value.ref._value),
@@ -221,7 +193,7 @@ export class ModelGroup {
 	 * @template { boolean } [IncludePayload = false]
 	 * @template { boolean } [HasValidator = false]
 	 * @overload
-	 * @this { ModelGroupInstance<F, HasValidator> }
+	 * @this { ModelGroup<F, HasValidator> }
 	 * @param { IncludePayload } [includePayload]
 	 * @returns {(
 	 *     true extends IncludePayload | HasValidator ? [boolean, ModelGroupPayload<F>] : boolean
@@ -254,8 +226,8 @@ export class ModelGroup {
 				const payload = {}
 				for (const field of Object.keys(this)) {
 					// @ts-expect-error
-					const value = /** @type { Model | ModelGroup } */ (this[field])
-					if (value instanceof ModelGroup) {
+					const value = /** @type { Model | ModelGroupImpl } */ (this[field])
+					if (value instanceof ModelGroupImpl) {
 						const [groupResult, groupPayload] = value.validate(true)
 						result &&= groupResult
 						Object.defineProperty(payload, field, {
@@ -332,4 +304,4 @@ export class ModelGroup {
 		}
 	}
 }
-Object.defineProperty(ModelGroup.prototype, Symbol.toStringTag, { value: 'ModelGroup' })
+Object.defineProperty(ModelGroupImpl.prototype, Symbol.toStringTag, { value: 'ModelGroup' })

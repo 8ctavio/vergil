@@ -1,7 +1,7 @@
 import { shallowRef } from "vue"
 import { entangled } from "../reactivity"
 import { getTrue } from "../utilities"
-import { definedElements, symTrigger } from "./private"
+import { definedElements, symTrigger } from "./internal"
 
 /**
  * @TODO add functions for the update handler methods

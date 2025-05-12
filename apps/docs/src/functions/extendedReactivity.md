@@ -15,7 +15,7 @@ import { <fn> } from '@8ctavio/vergil'
 > Assesses whether a value is an entangled object.
 
 ```ts
-function isEntangled<T>(value: T): value is T extends Entangled ? T : never
+function isEntangled(value: unknown): value is Entangled
 ```
 
 #### Return value
@@ -27,7 +27,7 @@ function isEntangled<T>(value: T): value is T extends Entangled ? T : never
 > Assesses whether a value is an extendedRef object.
 
 ```ts
-function isExtendedRef<T>(value: T): value is T extends ExtendedRef ? T : never
+function isExtendedRef(value: unknown): value is ExtendedRef
 ```
 
 #### Return value

@@ -1,4 +1,4 @@
-import { ExtendedRefImpl } from "./private"
+import { ExtendedRefImpl } from "./internal"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'

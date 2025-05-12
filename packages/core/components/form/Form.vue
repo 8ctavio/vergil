@@ -1,15 +1,15 @@
 <script lang="ts">
 import { h, mergeProps, PropType } from 'vue'
-import { ModelGroup } from '../../functions'
+import { ModelGroupImpl } from '../../composables/internal'
 import { ucFirst } from '../../utilities'
 import type { ExtractPropTypes, VNode } from 'vue'
-import type { ModelGroupInstance, ModelGroupPayload } from '../../types'
+import type { ModelGroupPayload } from '../../types'
 
 type Props = ExtractPropTypes<typeof propsDefinition>
 
 const propsDefinition = {
 	fields: {
-		type: ModelGroup as PropType<ModelGroup>,
+		type: ModelGroupImpl as PropType<ModelGroupImpl>,
 		required: true as const
 	},
 	validationCooldown: {
@@ -23,7 +23,7 @@ const propsDefinition = {
 function Errors(props: Props) {
 	const { showErrors } = props
 	if (showErrors) {
-		let filter: Parameters<ModelGroupInstance['forErrors']>[1]
+		let filter: Parameters<ModelGroupImpl['forErrors']>[1]
 		if (Array.isArray(showErrors)) {
 			const fieldPaths = [...showErrors]
 			filter = (actions, path, isGroup) => {

@@ -1,5 +1,5 @@
 import { shallowRef, unref, markRaw } from "vue"
-import { definedExposed, symTrigger } from "./private"
+import { definedExposed, symTrigger } from "./internal"
 import { getTrue } from "../utilities"
 
 /**

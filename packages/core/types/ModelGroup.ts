@@ -1,4 +1,4 @@
-import { ModelGroup } from "../functions"
+import { ModelGroupImpl } from "../composables/internal"
 import type { UnwrapRef	} from "vue"
 import type { Model, ModelOptions, Prettify } from "."
 
@@ -54,10 +54,10 @@ export interface ModelSpec<
 	formLabel?: string;
 }
 
-export type ModelGroupInstance<
+export type ModelGroup<
 	F extends ModelGroupFields = ModelGroupFields,
 	HasValidator extends boolean = false // oxlint-disable-line no-unused-vars
-> = ModelGroup & {
+> = ModelGroupImpl & {
 	[K in keyof F]: F[K] extends ModelSpec<infer T, infer Shallow, infer ExtendRef, infer IncludeExposed, infer IncludeElements>
 		? Model<
 			ExtendRef extends true ? T : UnwrapRef<T>,
@@ -66,6 +66,6 @@ export type ModelGroupInstance<
 			boolean extends IncludeElements ? false : IncludeElements
 		>
 		: F[K] extends ModelGroupSpec<infer E>
-			? ModelGroupInstance<E>
+			? ModelGroup<E>
 			: never
 }

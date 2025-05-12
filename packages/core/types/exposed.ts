@@ -1,4 +1,4 @@
-import { symTrigger, symHasInstance } from "../composables/private"
+import { symTrigger, symHasInstance } from "../composables/internal"
 import type { ShallowRef } from "vue"
 import type { Entangled } from "."
 

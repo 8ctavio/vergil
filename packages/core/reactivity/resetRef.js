@@ -1,5 +1,5 @@
 import { extendedRef } from "."
-import { useResetValue } from "../composables/private"
+import { useResetValue } from "../composables/internal"
 
 /**
  * @import { MaybeRefOrGetter } from 'vue'

@@ -2,7 +2,7 @@ import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
 import { entangled } from "../reactivity"
 import { isModel } from "../functions"
 import { isFunction } from "../utilities"
-import { definedInstances, definedElements, symTrigger, symHasInstance } from "./private"
+import { definedInstances, definedElements, symTrigger, symHasInstance } from "./internal"
 
 /**
  * @import { ShallowRef } from 'vue'
