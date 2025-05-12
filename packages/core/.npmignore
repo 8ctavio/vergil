@@ -1,9 +1,16 @@
 # Node modules
 node_modules
 
+# Bundles
+dist
+dist-ssr
+
+# Config files
+.npmrc
+.oxlintrc.json
+tsconfig.json
+
 # env files
 .env
-
-.npmrc
 
 styles/color-palette.md
