@@ -166,7 +166,7 @@ async function handleSelectKeydown(event: KeyboardEvent) {
             while (option?.hidden) {
                 option = option[relative] as HTMLElement | null
             }
-            (option?.firstElementChild as HTMLElement).focus()
+            if (option) (option.firstElementChild as HTMLElement).focus()
         }
     } else if (event.key === 'Enter') {
         if (isInput(event.target as HTMLElement, 'checkbox')) {
@@ -255,7 +255,7 @@ async function handleSelectKeydown(event: KeyboardEvent) {
 const empty = shallowRef(false)
 function handleFilterInput(event?: Event) {
     const options = model.elements.options!.children
-    const query = prune((event?.target as HTMLInputElement).value ?? '')
+    const query = event ? prune((event.target as HTMLInputElement).value) : ''
     empty.value = true
     for(const option of options) {
         if(prune((option.querySelector('& > .toggle-label') as HTMLElement).innerText).includes(query)) {

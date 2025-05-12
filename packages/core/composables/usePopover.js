@@ -210,11 +210,11 @@ export function usePopover(options = {}) {
 	})
 
 	/** @type { AbortController | void } */
-	let controller
+	let controller // oxlint-disable-line no-unused-vars
 	/** @type { (() => void) | void } */
-	let abortOpenPopover
+	let abortOpenPopover // oxlint-disable-line no-unused-vars
 	/** @type { (() => void) | void } */
-	let stopAutoUpdate
+	let stopAutoUpdate // oxlint-disable-line no-unused-vars
 	function openPopover(waitUntilOpened = false) {
 		return open.value ? Promise.resolve(true) : new Promise((resolve, reject) => {
 			function task() {

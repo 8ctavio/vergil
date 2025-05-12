@@ -179,7 +179,7 @@ function focusAdjacentSibling(parent: HTMLElement, idx: number, direction: strin
 	if (idx >= 0 && idx < parent.childElementCount) {
 		const el = parent.children.item(idx) as HTMLElement
 		if (isWrapped) {
-			(el?.firstElementChild as HTMLElement).focus()
+			if (el) (el.firstElementChild as HTMLElement).focus()
 		} else {
 			el?.focus()
 		}

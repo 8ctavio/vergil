@@ -339,7 +339,7 @@ function handleChange(event: Event) {
 		let leadingZero = ''
 		let trailingZeros = ''
 		
-		const idx = value.search(/[1-9\.]/)
+		const idx = value.search(/[1-9.]/)
 		if(idx > -1) {
 			if(value[idx] === '.') {
 				radixIDX = idx
