@@ -15,5 +15,6 @@
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
 	},
-	"include": ["**/*.js"]
+	"include": ["**/*.js"],
+	"exclude": ["scripts/**/*"]
 }

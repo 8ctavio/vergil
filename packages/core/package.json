@@ -18,9 +18,10 @@
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"scripts": {
-		"dts": "vue-tsc",
+		"dts": "vue-tsc && node scripts/dts.js",
 		"lint": "oxlint"
 	},
+	"type": "module",
 	"main": "index.js",
 	"types": "./types/dist/index.d.ts",
 	"exports": {

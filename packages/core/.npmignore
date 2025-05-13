@@ -1,9 +1,11 @@
 # Node modules
 node_modules
 
-# Bundles
-dist
-dist-ssr
+# Types
+types/*.ts
+
+# Scripts
+scripts
 
 # Config files
 .npmrc
