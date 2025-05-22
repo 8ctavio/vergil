@@ -204,8 +204,6 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
 
 ### Size <Badge type="tip"><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
-> Adjusts font-size and padding.
-
 <Demo>
     <div class="col center">
         <InputText v-model="size" size="xs" class="fixed-width" placeholder="Extra Small"/>
@@ -236,8 +234,6 @@ When set to `true`, `InputText`'s value is trimmed and consecutive whitespace ch
 </Demo>
 
 ### Spacing <Badge type="tip"><pre>spacing: ('compact' | 'expanded') = ''</pre></Badge>
-
-> Adjusts padding and gap for a every size.
 
 <Demo>
     <div class="col">

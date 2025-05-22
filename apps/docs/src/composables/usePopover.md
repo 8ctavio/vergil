@@ -156,7 +156,7 @@ function usePopover(options?: {
 	resize?: MaybeRefOrGetter<boolean>;
 	trigger?: MaybeRefOrGetter<'click' | 'hover'>;
 }): {
-	Popover: (props: PopoverProps, ctx: SetupContext) => (VNode | null)[];
+	Popover: FunctionalComponent<PopoverProps>;
 	openPopover(waitUntilOpened?: boolean): Promise<boolean>;
 	closePopover(): void;
 	togglePopover(): void;

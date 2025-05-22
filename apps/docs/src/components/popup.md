@@ -23,7 +23,7 @@ import { showPopup } from '@8ctavio/vergil'
 
 ### Popup backdrop &#8203;
 
-In order to display popups as modal windows, the `popup` boolean prop must be passed to the [`Vergil`](/components/Vergil) component.
+In order to display popups as modal windows, the `popup` boolean prop must be passed to the [`Vergil`](/components/vergil) component.
 
 ```vue
 <script setup>

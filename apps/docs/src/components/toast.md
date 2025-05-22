@@ -129,7 +129,7 @@ When a `Toast` is added to a toaster, already mounted `Toast`s are displaced to 
 
 ### Mount toasters
 
-Toasters may be enabled by passing the `toaster` boolean prop to the [`Vergil`](/components/Vergil) component.
+Toasters may be enabled by passing the `toaster` boolean prop to the [`Vergil`](/components/vergil) component.
 
 ```vue
 <script setup>

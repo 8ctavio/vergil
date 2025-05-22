@@ -64,7 +64,7 @@ Additional model features to conveniently interact with components' state are pr
 
 ### `model.reset`
 
-Models include a `reset` method to reset the model's value to its initial value. Its usage is similar to that of [resetRef](/composables/resetRef).
+Models include a `reset` method to reset the model's value to its initial value. Its usage is similar to that of [resetRef](/reactivity/resetRef).
 
 ```js
 const model = useModel('initial value')

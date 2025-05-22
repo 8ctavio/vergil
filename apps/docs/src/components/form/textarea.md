@@ -125,8 +125,6 @@ The maximum string length that can be entered into the textarea.
 
 ### Size <Badge type="tip"><pre>size: ('xs' | 'sm' | 'md' | 'lg' | 'xl') = 'md'</pre></Badge>
 
-> Adjusts font-size and padding.
-
 <Demo>
     <div class="col center">
         <Textarea v-model="size" size="xs" class="fixed-width" placeholder="Extra Small"/>

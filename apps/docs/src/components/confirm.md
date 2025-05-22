@@ -81,7 +81,7 @@ A request must be either confirmed or declined by the user. For this purpose, th
 
 ## Usage
 
-First, `Confirm` must be enabled by passing the `confirm` boolean prop to the [`Vergil`](/components/Vergil) component.
+First, `Confirm` must be enabled by passing the `confirm` boolean prop to the [`Vergil`](/components/vergil) component.
 
 ```vue
 <script setup>
