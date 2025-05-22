@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
+import { version } from '../../../packages/core/package.json'
 
 // https://vitepress.vuejs.org/reference/site-config
 export default defineConfig({
@@ -42,6 +43,7 @@ export default defineConfig({
 
 		nav: [
 			{ text: 'Docs', link: '/get-started' },
+			{ text: `v${version}`, link: 'https://github.com/8ctavio/vergil/releases' },
 			{
 				component: 'ColorPicker',
 				props: { position: 'fixed' }
