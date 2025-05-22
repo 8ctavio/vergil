@@ -2,11 +2,11 @@
 	"name": "@vergil/monorepo",
 	"version": "0.14.0",
 	"license": "UNLICENSED",
+	"private": true,
 	"author": {
 		"name": "Octavio Araiza",
 		"url": "https://github.com/8ctavio"
 	},
-	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/8ctavio/vergil"
@@ -14,9 +14,7 @@
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"scripts": {
-		"docs:dev": "vitepress dev apps/docs",
-		"docs:build": "vitepress build apps/docs",
-		"docs:preview": "vitepress preview apps/docs"
+		"docs:dev": "vitepress dev apps/docs"
 	},
 	"devDependencies": {
 		"oxlint": "^0.16.10",

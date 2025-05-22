@@ -2,11 +2,12 @@
 	"name": "@vergil/docs",
 	"version": "0.14.0",
 	"license": "UNLICENSED",
+	"private": true,
+	"type": "module",
 	"author": {
 		"name": "Octavio Araiza",
 		"url": "https://github.com/8ctavio"
 	},
-	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/8ctavio/vergil",
@@ -14,8 +15,11 @@
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
-	"type": "module",
 	"main": "index.js",
+	"scripts": {
+		"build": "vitepress build",
+		"preview": "vitepress preview"
+	},
 	"dependencies": {
 		"@8ctavio/vergil": "workspace:*"
 	}
