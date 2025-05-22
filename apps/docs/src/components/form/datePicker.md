@@ -5,7 +5,13 @@ outline: [2,3]
 # DatePicker
 
 <script setup>
-import { DatePicker } from '@8ctavio/vergil/components'
+import { h } from 'vue'
+import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
+import { DatePicker as VergilDatePicker } from '@8ctavio/vergil/components'
+
+function DatePicker(props) {
+    return h(ClientOnly, () => h(VergilDatePicker, props))
+}
 
 const formatOptions = {
     year: 'numeric',

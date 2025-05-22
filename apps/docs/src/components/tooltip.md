@@ -13,9 +13,11 @@ import { Tooltip, Btn } from '@8ctavio/vergil/components'
 </script>
 
 <Demo>
-    <Tooltip text="Lost item can be claimed on lower levels">
-        <Btn label="Attention Traveler!"/>
-    </Tooltip>
+    <ClientOnly>
+        <Tooltip text="Lost item can be claimed on lower levels">
+            <Btn label="Attention Traveler!"/>
+        </Tooltip>
+    </ClientOnly>
 </Demo>
 
 ```vue
@@ -53,9 +55,11 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 ```
 
 <Demo>
-    <Tooltip text="Tooltip" :delay="0">
-        <Btn label="Toggle Tooltip"/>
-    </Tooltip>
+    <ClientOnly>
+        <Tooltip text="Tooltip" :delay="0">
+            <Btn label="Toggle Tooltip"/>
+        </Tooltip>
+    </ClientOnly>
 </Demo>
 
 ### Trigger <Badge><pre>trigger: 'click' | 'hover' = 'hover'</pre></Badge>
@@ -70,12 +74,14 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 ```
 
 <Demo>
-    <Tooltip text="Hover Trigger" trigger="hover">
-        <Btn label="Hover Tooltip"/>
-    </Tooltip>
-    <Tooltip text="Click Trigger" trigger="click">
-        <Btn label="Click Tooltip"/>
-    </Tooltip>
+    <ClientOnly>
+        <Tooltip text="Hover Trigger" trigger="hover">
+            <Btn label="Hover Tooltip"/>
+        </Tooltip>
+        <Tooltip text="Click Trigger" trigger="click">
+            <Btn label="Click Tooltip"/>
+        </Tooltip>
+    </ClientOnly>
 </Demo>
 
 ### Arrow <Badge><pre>arrow: boolean</pre></Badge>
@@ -87,9 +93,11 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 ```
 
 <Demo>
-    <Tooltip text="Tooltip with Arrow" arrow>
-        <Btn label="Arrow"/>
-    </Tooltip>
+    <ClientOnly>
+        <Tooltip text="Tooltip with Arrow" arrow>
+            <Btn label="Arrow"/>
+        </Tooltip>
+    </ClientOnly>
 </Demo>
 
 ### Offset <Badge><pre>offset: number</pre></Badge>
@@ -103,9 +111,11 @@ Distance in `px` of gap between reference element and tooltip.
 ```
 
 <Demo>
-    <Tooltip text="Text" placement="bottom" :offset="0">
-        <Btn label="Tooltip"/>
-    </Tooltip>
+    <ClientOnly>
+        <Tooltip text="Text" placement="bottom" :offset="0">
+            <Btn label="Tooltip"/>
+        </Tooltip>
+    </ClientOnly>
 </Demo>
 
 The `offset` prop default value is determined through a function that receives the `arrow` prop. The following function is used by default.

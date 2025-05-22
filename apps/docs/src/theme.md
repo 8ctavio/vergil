@@ -4,7 +4,6 @@ outline: [2,3]
 
 <script setup>
 import { Icon } from '@8ctavio/vergil/components'
-import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
 </script>
 
 <style module>
@@ -118,7 +117,7 @@ Click on the <Icon code="style" :class="$style.icon"/> icon in the navigation ba
 | `userTheme.<option>` | type | default |
 | -------------------- | ---- | ------- |
 | `enable` | `boolean` | `true` |
-| `default` | `color` | `'moss'` |
+| `default` | `ColorPalette` | `'moss'` |
 
 ### `ColorPicker` component
 
@@ -192,7 +191,7 @@ type spacing = '' | 'compact' | 'expanded'
 
 ## The `descendant` prop
 
-Components that support the `theme`, `size`, `radius`, and `spacing` props also support a boolean `descendant` prop. When set, this prop marks the component as a descendant of another component that also accept the beforementioned props. Descendant components' default prop values will not be set, allowing them to inherit a parent component's prop values.
+Components that support the `theme`, `size`, `radius`, and `spacing` props also support a boolean `descendant` prop. When set, this prop marks the component as a descendant of another component that also accept the beforementioned props. The default value of descendant component's theme-related props will not be set, allowing them to inherit a parent component's prop values.
 
 ## Global style props default values
 

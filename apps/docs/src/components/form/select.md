@@ -5,9 +5,16 @@ outline: [2,3]
 # Select
 
 <script setup>
-import { Select } from '@8ctavio/vergil/components'
+import { h } from 'vue'
+import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
+import { Select as VergilSelect } from '@8ctavio/vergil/components'
 import { useModel } from '@8ctavio/vergil'
 import { kebabCase } from '@8ctavio/vergil/utilities'
+
+function Select(props) {
+    return h(ClientOnly, () => h(VergilSelect, props))
+}
+Select.inheritAttrs = false
 
 const difficulties = {
     easy: 'Easy',

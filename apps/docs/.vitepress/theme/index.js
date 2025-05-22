@@ -5,6 +5,7 @@ const { Layout } = DefaultTheme
 import './styles/custom.css'
 import './styles/overrides.css'
 
+import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
 import Demo from './components/Demo.vue'
 import Anatomy from './components/Anatomy.vue'
 import { Vergil } from '@8ctavio/vergil/components'
@@ -19,11 +20,11 @@ export default {
 		confirm: true,
 		toaster: true,
 	}, () => h(Layout)),
-	enhanceApp({ app, router, siteData }) {
+	enhanceApp({ app }) {
 		app
 			.component('Demo', Demo)
 			.component('Anatomy', Anatomy)
-			.component('ColorPicker', ColorPicker)
+			.component('ColorPicker', () => h(ClientOnly, () => h(ColorPicker)))
 			.use(vergil)
 	}
 }
