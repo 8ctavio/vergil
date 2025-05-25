@@ -130,14 +130,14 @@ defineProps({
         outline: none;
         box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
     }
-    &:active:not(.null){
+    &:active:not(.loading) {
         --btn3D-elv-hover: 0px;
         --btn3D-shadow-x: 0px;
         --btn3D-shadow-y: 0px;
         transform: translateY(var(--btn3D-elv));
         transition: box-shadow 100ms, transform 100ms;
     }
-    &:disabled:not(.loading){
+    &:disabled:not(.loading) {
         color: var(--c-disabled-text);
         cursor: not-allowed;
         transform: translateY(0);
@@ -255,7 +255,7 @@ defineProps({
     --btn3D-elv: 4px;
     --btn3D-elv-hover: 3px;
     --btn3D-shadow-x: 3.5px;
-    &:is(:hover, :focus-visible){
+    &:is(:hover, :focus-visible) {
         --btn3D-shadow-x: 2px;
     }
 }
@@ -264,7 +264,7 @@ defineProps({
     --btn3D-elv: 6px;
     --btn3D-elv-hover: 4px;
     --btn3D-shadow-x: 6px;
-    &:is(:hover, :focus-visible){
+    &:is(:hover, :focus-visible) {
         --btn3D-shadow-x: 4px;
     }
 }
