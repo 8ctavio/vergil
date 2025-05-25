@@ -28,18 +28,18 @@ export default defineConfig({
 	},
 	srcDir: "./src",
 	title: "Vergil",
-	description: "A Vue Web Application Development Framework",
+	description: "Vue Components and Composition Utilities",
 	head: [
 		['link', {
 			rel: 'icon',
 			type: 'image/x-icon',
-			href: '/assets/vergil.ico'
+			href: '/logo.ico'
 		}]
 	],
 	themeConfig: {
 		// https://vitepress.vuejs.org/reference/default-theme-config
 		siteTitle: "Vergil",
-		logo: "/assets/vergil_glasses.png",
+		logo: "/placeholder.svg",
 
 		nav: [
 			{ text: 'Docs', link: '/get-started' },
@@ -51,6 +51,7 @@ export default defineConfig({
 		],
 
 		sidebar: [
+			{ text: 'Preface', link: '/preface' },
 			{ text: 'Get Started', link: '/get-started' },
 			{ text: 'Configuration', link: '/configuration' },
 			{ text: 'Theme', link: '/theme' },

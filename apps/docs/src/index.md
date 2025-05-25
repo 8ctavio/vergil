@@ -4,9 +4,9 @@ layout: home
 
 hero:
   name: "Vergil"
-  text: "Blazingly Fast Web Development"
-  tagline: "A Vue Web Application Development Framework"
-  image: /assets/vergil_noBg.png
+  text: "UI Development Toolkit"
+  tagline: "Vue Components and Composition Utilities"
+  image: /placeholder.svg
   actions:
     - theme: brand
       text: Get Started
@@ -17,21 +17,18 @@ hero:
     - theme: alt
       text: Composables
       link: composables/useDebounce
-    - theme: alt
-      text: Functions
-      link: functions/Descriptor
 
 features:
   - title: Components
     details: Styled, ready to use UI components and new APIs to consume component-exposed data
-  - title: Composables
-    details: Harness Vue's composition and reactivity APIs with refined composables
   - title: Component models
-    details: Convenient API to establish bidirectional model-component bonds
+    details: Convenient API to establish bidirectional model-component bindings
+  - title: Reactivity
+    details: Refined functions to leverage Vue's composition and reactivity APIs
   - title: Utilities
-    details: Various utility functions
+    details: Various composables and utility functions to handle common tasks
   - title: Theme
-    details: Carefully designed theme with accessible color palettes
+    details: Carefully designed theme and color palettes for consistent looking components
   - title: Configurable
-    details: Customize default configuration options
+    details: Customizable default configuration options
 ---

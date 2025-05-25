@@ -6,22 +6,9 @@ outline: [2,3]
 
 ## Installation
 
-1. [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages)
-
-2. In the same directory as the project's `package.json` file, create or edit an `.npmrc` file to include a line specifying GitHub Packages URL and the namespace where the package is hosted:
-
-```cmd
-@8ctavio:registry = https://npm.pkg.github.com
-```
-
-3. Install dependency:
-
-```cmd
+```shell
 pnpm add @8ctavio/vergil
 ```
-:::tip
-See [Installing a Package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
-:::
 
 ## Plugin
 
@@ -83,7 +70,7 @@ In order to avoid importing fonts that may ultimately not be used, Vergil's font
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-:root{
+:root {
     /* Overwrite css variables */
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
