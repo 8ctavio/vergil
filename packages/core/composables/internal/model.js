@@ -85,17 +85,31 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 				}, { flush: options.flush, deep: isCollection && 1 })
 
 				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
-				Object.defineProperty(effect, isScheduled, {
-					value: false,
-					writable: true
-				})
-				stop = () => {
-					watcher()
-					if (effect[isScheduled]) {
-						effect[isScheduled] = false
-						scheduledEffects--
+				if (effect) {
+					Object.defineProperty(effect, isScheduled, {
+						value: false,
+						writable: true
+					})
+					stop = () => {
+						watcher()
+						if (effect[isScheduled]) {
+							effect[isScheduled] = false
+							scheduledEffects--
+						}
+						if (watchers.effects.length === 0) {
+							auxWatcher = auxWatcher?.stop()
+						}
 					}
-					if (watchers.effects.length === 0) {
+				} else {
+					/**
+					 * Effects are not tracked during SSR. 
+					 * @See https://vuejs.org/guide/scaling-up/ssr.html#reactivity-on-the-server
+					 * Some assumptions for SSR:
+					 *   - Watcher callbacks are only executed for `watchEffect` and `watch` with `immediate: true`.
+					 *   - Watchers' stop handles are noops
+					 */
+					stop = () => {
+						watcher()
 						auxWatcher = auxWatcher?.stop()
 					}
 				}

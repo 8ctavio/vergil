@@ -10,7 +10,7 @@ const plugin = {
      */
     install(app, options) {
         vergil.init(options)
-        if (vergil.config.userTheme.enable) {
+        if (vergil.config.userTheme.enable && typeof globalThis.localStorage !== 'undefined') {
             userThemeColor.value = localStorage.getItem('user-theme-color') ?? vergil.config.userTheme.default
         }
     }

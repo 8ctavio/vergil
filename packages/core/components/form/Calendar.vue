@@ -758,6 +758,7 @@ model.onExternalUpdate(model.updateDecorator((modelValue, prevModelValue: Calend
 		}
 	}
 }), { immediate: true })
+
 const handleChange = model.updateDecorator((event: Event) => {
 	const time = props.time ? `T${padLeadingZeros(hours.value)}:${padLeadingZeros(minutes.value)}` : ''
 	const { target } = event as Omit<Event, 'target'> & { target: HTMLInputElement }
@@ -859,6 +860,7 @@ function updateDate(
 		return update(date as CalendarDate | DateComponents | null)
 	}
 }
+
 function* generateDates() {
 	const { firstDate, lastDate, stages, totalDays } = getCalendarMeta(displayedYear.value, displayedMonth.value, props.firstWeekday)
 
@@ -908,8 +910,11 @@ function* generateDates() {
 	}
 
 	nextTick(() => {
-		updateDate(model.value, true)
-		updateDate('today', el => el.classList.add('calendar-today'))
+		// DOM is not mounted during SSR
+		if (elements.dates) {
+			updateDate(model.value, true)
+			updateDate('today', el => el.classList.add('calendar-today'))
+		}
 	})
 
 	let idx = 0

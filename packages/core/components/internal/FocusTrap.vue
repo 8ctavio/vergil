@@ -8,7 +8,10 @@ const { autofocus, focusOnUnmount } = defineProps({
         type: [Boolean, Object] as PropType<boolean | HTMLElement | ComponentPublicInstance>,
         default: true
     },
-    focusOnUnmount: Element
+    focusOnUnmount: {
+        type: Object as PropType<Element>,
+        validator: v => v instanceof Element
+    }
 })
 
 const root = useTemplateRef('root')
