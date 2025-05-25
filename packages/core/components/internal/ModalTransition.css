@@ -1,27 +1,3 @@
-<script setup lang="ts">
-import { shallowRef } from 'vue'
-
-const isLeaving = shallowRef(false)
-
-defineOptions({ inheritAttrs: false })
-defineProps({ show: Boolean })
-defineExpose({ isLeaving })
-</script>
-
-<template>
-	<Transition v-show="show" name="modal-backdrop" appear :duration="500">
-		<div class="modal-backdrop" v-bind="$attrs">
-			<Transition v-show="show" name="modal-window" appear mode="out-in"
-				@before-leave="isLeaving = true"
-				@after-leave="isLeaving = false"
-			>
-				<slot/>
-			</Transition>
-		</div>
-	</Transition>
-</template>
-
-<style>
 .modal-backdrop {
 	--duration-backdrop-opacity: 100ms;
 	--duration-window-opacity: 150ms;
@@ -63,4 +39,3 @@ defineExpose({ isLeaving })
 		}
 	}
 }
-</style>

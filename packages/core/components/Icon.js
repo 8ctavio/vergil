@@ -20,4 +20,3 @@ export default function Icon({ code }, { slots }) {
 		class: 'material-symbols-rounded icon'
 	}, slots.default?.() ?? code)
 }
-Icon.props = { code: String }

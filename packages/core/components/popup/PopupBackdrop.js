@@ -1,20 +1,11 @@
-import ModalTransition from "../internal/ModalTransition.vue"
+import ModalTransition from "../internal/ModalTransition"
 import { h, mergeProps } from "vue"
 import { popup, popupMeta, closePopup } from "."
-
-/** @param { InstanceType<typeof ModalTransition> } exposed */
-function onExpose(exposed) {
-	if (!exposed.isLeaving) {
-		popupMeta.isLeaving = false
-	}
-	exposed.isLeaving
-}
 
 export default function PopupBackdrop() {
 	return h(ModalTransition, {
 		id: 'popup-backdrop',
-		// @ts-expect-error
-		ref: onExpose,
+		onAfterLeave: () => popupMeta.isLeaving = false,
 		show: popup.value.component !== null
 	}, () => popup.value.component && h(popup.value.component, mergeProps(popup.value.props, {
 		onClose: closePopup,
