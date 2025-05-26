@@ -1,18 +1,18 @@
-# Node modules
-node_modules
-
 # Types
 types/*.ts
 
 # Scripts
 scripts
 
-# Config files
-.npmrc
-.oxlintrc.json
-tsconfig.json
+# Editor
+.vscode
 
 # env files
 .env
+
+# Config files
+tsconfig.json
+.oxlintrc.json
+.npmrc
 
 styles/color-palette.md

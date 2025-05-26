@@ -1,7 +1,5 @@
 {
 	"name": "@vergil/monorepo",
-	"version": "0.14.0",
-	"license": "UNLICENSED",
 	"private": true,
 	"author": {
 		"name": "Octavio Araiza",
