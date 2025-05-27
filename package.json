@@ -1,6 +1,7 @@
 {
 	"name": "@vergil/monorepo",
 	"private": true,
+	"packageManager": "pnpm@10.11.0",
 	"author": {
 		"name": "Octavio Araiza",
 		"url": "https://github.com/8ctavio"
