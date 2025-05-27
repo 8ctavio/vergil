@@ -27,6 +27,7 @@ export default defineConfig({
 		}
 	},
 	srcDir: "./src",
+	base: '/vergil/',
 	title: "Vergil",
 	description: "Vue Components and Composition Utilities",
 	head: [

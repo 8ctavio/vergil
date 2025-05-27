@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { watchController } from '@8ctavio/vergil'
+import { watchControlled } from '@8ctavio/vergil'
 
 const source = ref(0)
 const watcher = watchControlled(source, v => {
