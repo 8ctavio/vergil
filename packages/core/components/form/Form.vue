@@ -1,8 +1,8 @@
 <script lang="ts">
-import { h, mergeProps, PropType } from 'vue'
+import { h, mergeProps } from 'vue'
 import { ModelGroupImpl } from '../../composables/internal'
 import { ucFirst } from '../../utilities'
-import type { ExtractPropTypes, VNode } from 'vue'
+import type { PropType, ExtractPropTypes, VNode } from 'vue'
 import type { ModelGroupPayload } from '../../types'
 
 type Props = ExtractPropTypes<typeof propsDefinition>

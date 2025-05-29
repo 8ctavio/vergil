@@ -14,8 +14,21 @@
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"files": [
+		"*.js",
+		"components",
+		"composables",
+		"functions",
+		"plugins",
+		"reactivity",
+		"utilities",
+		"types/dist",
+		"styles",
+		"!styles/color-palette.md"
+	],
 	"scripts": {
-		"dts": "vue-tsc && node scripts/dts.js",
+		"test": "vitest run",
+		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js",
 		"lint": "oxlint"
 	},
 	"type": "module",

@@ -1,0 +1,20 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outDir": "./types/dist",
+		"declarationMap": true,
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lib.tsbuildinfo"
+	},
+	"include": [
+		"*.js",
+		"components/**/*.js", "components/**/*.vue",
+		"composables/**/*.js",
+		"functions/**/*.js",
+		"plugins/**/*.js",
+		"reactivity/**/*.js",
+		"types/*.ts",
+		"utilities/**/*.js", "utilities/**/*.vue"
+	]
+}

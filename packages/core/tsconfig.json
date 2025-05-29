@@ -1,20 +1,7 @@
 {
-	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleDetection": "force",
-		"moduleResolution": "bundler",
-		"declaration": true,
-		"emitDeclarationOnly": true,
-		"outDir": "./types/dist",
-		"declarationMap": true,
-		"strict": true,
-		"erasableSyntaxOnly": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-	},
-	"include": ["**/*.js"],
-	"exclude": ["scripts/**/*"]
+	"files": [],
+	"references": [
+		{ "path": "./tsconfig.lib.json" },
+		{ "path": "./tsconfig.node.json" }
+	]
 }

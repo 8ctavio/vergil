@@ -2,6 +2,7 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "package.json": ".npm*, .oxlint*",
+        "index.js": "vergil.js",
         "*.js": "${capture}.css"
     },
 }
