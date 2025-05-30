@@ -22,7 +22,7 @@ export function markDescriptor(value) {
  * 
  * @template T
  * @param { T } value
- * @returns { value is T extends object ? DescriptorMarked<T> : never } `true` if `value` is marked as a descriptor.
+ * @returns { value is DescriptorMarked<{}> } `true` if `value` is marked as a descriptor.
  */
 export function isDescriptor(value) {
 	return isObject(value)
@@ -54,9 +54,9 @@ export function isDescriptor(value) {
  * @param { boolean } [configurable]
  * @returns { DescriptorMarked<{
  *     value: unknown;
- *     writable?: boolean;
- *     enumerable?: boolean;
- *     configurable?: boolean;
+ *     writable: boolean | undefined;
+ *     enumerable: boolean | undefined;
+ *     configurable: boolean | undefined;
  * }> } Descriptor-marked object with `value`, `writable`, `enumerable`, and `configurable` properties.
  */
 export function dataDescriptor(value, writable, enumerable, configurable) {
