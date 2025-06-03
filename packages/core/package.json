@@ -27,9 +27,10 @@
 		"!styles/color-palette.md"
 	],
 	"scripts": {
+		"lint": "oxlint",
 		"test": "vitest run",
-		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js",
-		"lint": "oxlint"
+		"typecheck": "vue-tsc -p ./tsconfig.lib.json --noEmit",
+		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js"
 	},
 	"type": "module",
 	"main": "index.js",
