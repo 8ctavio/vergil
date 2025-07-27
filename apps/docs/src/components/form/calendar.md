@@ -171,10 +171,10 @@ If there are selected dates when the calendar is mounted, these props are ignore
 
 As a boolean, the `time` prop enables time selection controls. The selected time will be set to any selected date.
 
-The `time` prop may also be a string of the form `"HH:mm"` that, apart from enabling time controls, sets the their intially selected time. If, however, there's an initially selected date, the initial time is ignored.
+The `time` prop may also be a string of the form `"HH:mm"` that, apart from enabling time controls, sets their intially selected time. If, however, there's an initially selected date, the initial time is ignored.
 
 :::tip NOTE
-When using the `string` model value modifier, dates are handled in the date-time form of the [date time string format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) (`"YYYY-MM-DDTHH:mm"`).
+When using the `string` model-value modifier, dates are represented in the date-time form of the [date time string format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) (`"YYYY-MM-DDTHH:mm"`).
 :::
 
 ```vue
@@ -225,7 +225,7 @@ When using the `string` model value modifier, dates are handled in the date-time
 </Demo>
 
 :::tip NOTE
-The `time-format` prop does not affect how 
+The `time-format` prop does not affect the model-value's date representation when the `string` modifier is used.
 :::
 
 ### Time controls <Badge><pre>hours: TimeControls</pre></Badge> <Badge><pre>minutes: TimeControls</pre></Badge>
@@ -240,7 +240,7 @@ type TimeControls = {
 }
 ```
 
-The `min` and `max` options define an inclusive range of values the corresponding time control can be set to. The `step` option becomes the `step` prop of the corresponding slider.
+The `min` and `max` options define an inclusive range of values the corresponding time control can be set to. The `step` option becomes the `step` prop of the corresponding [`Slider`](/components/form/Slider#attributes).
 
 The following configuration objects are the default values for `hours` and `minutes`:
 
