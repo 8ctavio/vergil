@@ -240,7 +240,7 @@ type TimeControls = {
 }
 ```
 
-The `min` and `max` options define an inclusive range of values the corresponding time control can be set to. The `step` option becomes the `step` prop of the corresponding [`Slider`](/components/form/Slider#attributes).
+The `min` and `max` options define an inclusive range of values the corresponding time control can be set to. The `step` option becomes the `step` prop of the corresponding [`Slider`](/components/form/slider#attributes).
 
 The following configuration objects are the default values for `hours` and `minutes`:
 
