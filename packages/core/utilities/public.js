@@ -268,8 +268,12 @@ export function debounce(fn, minWait, options = {}) {
  */
 export function getTimestamp({ from = Date.now(), unit = 'ms', offset = {} } = {}) {
 	const { s = 0, m = 0, h = 0, d = 0 } = offset
-	const delta = (s + (m + (h + d * 24) * 60) * 60) * 1000
-	return Math.floor((from + delta) / ({ s: 1000, ms: 1 }[unit]))
+	const delta = s + (m + (h + d * 24) * 60) * 60
+	return Math.floor(
+		unit === 's'
+			? (from / 1000) + delta
+			: from + (delta * 1000)
+	)
 }
 
 /**
