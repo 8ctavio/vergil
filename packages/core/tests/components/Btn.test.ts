@@ -112,14 +112,14 @@ test('Button is not interactive when disabled', async () => {
         loading: false
     })
     btn.trigger('click')
-    expect(spy).not.toHaveBeenCalledOnce()
+    expect(spy).not.toHaveBeenCalled()
 
     await wrapper.setProps({
         disabled: false,
         loading: true
     })
     btn.trigger('click')
-    expect(spy).not.toHaveBeenCalledOnce()
+    expect(spy).not.toHaveBeenCalled()
 
     await wrapper.setProps({
         disabled: false,

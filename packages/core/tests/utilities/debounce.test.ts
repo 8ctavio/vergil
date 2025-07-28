@@ -44,3 +44,20 @@ test('Cancel scheduled execution of debounced function', async () => {
 		expect(spy).toHaveBeenCalledTimes(eager ? 1 : 0)
 	}
 })
+
+test('Time waited before executing debounced function', async () => {
+	vi.useFakeTimers()
+	for (const eager of [false, true]) {
+		const spy = vi.fn()
+		const debounced = debounce(spy, 100, { eager })
+
+		for (let i=0; i<10; i++) debounced()
+		
+		vi.advanceTimersByTime(99)
+		expect(spy).toHaveBeenCalledTimes(eager ? 1 : 0)
+		
+		vi.advanceTimersByTime(1)
+		expect(spy).toHaveBeenCalledTimes(eager ? 2 : 1)
+	}
+	vi.useRealTimers()
+})
