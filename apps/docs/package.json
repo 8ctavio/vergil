@@ -10,5 +10,8 @@
 	},
 	"dependencies": {
 		"@8ctavio/vergil": "workspace:*"
+	},
+	"devDependencies": {
+		"vitepress": "^1.5.0"
 	}
 }
