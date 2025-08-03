@@ -3,10 +3,8 @@
 	"version": "0.15.0",
 	"license": "MIT",
 	"private": false,
-	"author": {
-		"name": "Octavio Araiza",
-		"url": "https://github.com/8ctavio"
-	},
+	"description": "Vue Components and Composition Utilities",
+	"author": "Octavio Araiza (https://github.com/8ctavio)",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/8ctavio/vergil.git",
@@ -14,6 +12,13 @@
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
 	"bugs": "https://github.com/8ctavio/vergil/issues",
+	"type": "module",
+	"scripts": {
+		"lint": "oxlint",
+		"test": "vitest run",
+		"typecheck": "vue-tsc -p ./tsconfig.lib.json --noEmit",
+		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js"
+	},
 	"files": [
 		"*.js",
 		"components",
@@ -26,13 +31,6 @@
 		"styles",
 		"!styles/color-palette.md"
 	],
-	"scripts": {
-		"lint": "oxlint",
-		"test": "vitest run",
-		"typecheck": "vue-tsc -p ./tsconfig.lib.json --noEmit",
-		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js"
-	},
-	"type": "module",
 	"main": "index.js",
 	"types": "./types/dist/index.d.ts",
 	"exports": {

@@ -2,16 +2,12 @@
 	"name": "@vergil/monorepo",
 	"private": true,
 	"packageManager": "pnpm@10.11.0",
-	"author": {
-		"name": "Octavio Araiza",
-		"url": "https://github.com/8ctavio"
-	},
+	"author": "Octavio Araiza (https://github.com/8ctavio)",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/8ctavio/vergil"
+		"url": "git+https://github.com/8ctavio/vergil.git"
 	},
 	"homepage": "https://github.com/8ctavio/vergil",
-	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"scripts": {
 		"docs:dev": "vitepress dev apps/docs"
 	},
