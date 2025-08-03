@@ -6,7 +6,10 @@ hero:
   name: "Vergil"
   text: "UI Development Toolkit"
   tagline: "Vue Components and Composition Utilities"
-  image: /placeholder.svg
+  image:
+    light: /logo.svg
+    dark: /logo-dark.svg
+    alt: Vergil
   actions:
     - theme: brand
       text: Get Started

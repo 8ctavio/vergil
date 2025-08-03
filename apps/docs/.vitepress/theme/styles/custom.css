@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-:root{
+:root {
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
@@ -14,29 +14,35 @@
     --z-index-toast: 140;
 }
 
-.dark body{
+.dark body {
     background-color: var(--vp-c-bg);
+}
+
+/*-------- LOGO --------*/
+.VPHero .VPImage {
+    width: 100%;
+    padding: 5%;
 }
 
 .vp-code-nowrap {
     text-wrap-mode: nowrap;
 }
 
-.vp-doc h4{
+.vp-doc h4 {
     margin-top: 18px;
 }
-.vp-doc :is(h2, h3, h4){
+.vp-doc :is(h2, h3, h4) {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 8px 10px;
 }
-.vp-doc :is(h1, h2, h3, h4) .VPBadge{
+.vp-doc :is(h1, h2, h3, h4) .VPBadge {
     margin: 0;
     font-weight: 600;
 }
 
-.VPBadge > pre{
+.VPBadge > pre {
     display: inline-block;
     margin: 0;
 }

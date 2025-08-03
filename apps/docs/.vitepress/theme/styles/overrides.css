@@ -51,12 +51,11 @@
 		var(--c-moss-soft-4)
 	);
 
-	/* --vp-home-hero-image-background-image: linear-gradient(
-		-30deg,
-		var(--vp-c-brand-2) 30%,
-		#64B810 70%
-	); */
-	--vp-home-hero-image-background-image: transparent;
+	--vp-home-hero-image-background-image: linear-gradient(
+		225deg,
+		var(--c-moss-solid-1) 0%,
+		var(--c-moss-soft-4) 95%
+	);
 }
 .dark {
 	--vp-home-hero-name-color: transparent;
@@ -64,6 +63,12 @@
 		135deg,
 		var(--c-moss-text-1) 45%,
 		var(--c-moss-soft-3)
+	);
+
+	--vp-home-hero-image-background-image: linear-gradient(
+		225deg,
+		var(--c-moss-soft-2) 0%,
+		var(--c-moss-soft-4) 95%
 	);
 }
 

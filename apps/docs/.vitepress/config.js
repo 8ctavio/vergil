@@ -33,14 +33,17 @@ export default defineConfig({
 	head: [
 		['link', {
 			rel: 'icon',
-			type: 'image/x-icon',
-			href: '/logo.ico'
+			href: '/vergil/favicon.png'
 		}]
 	],
 	themeConfig: {
 		// https://vitepress.vuejs.org/reference/default-theme-config
 		siteTitle: "Vergil",
-		logo: "/placeholder.svg",
+		logo: {
+			light: "/logo.svg",
+			dark: "/logo-dark.svg",
+			alt: "Vergil"
+		},
 
 		nav: [
 			{ text: 'Docs', link: '/get-started' },
