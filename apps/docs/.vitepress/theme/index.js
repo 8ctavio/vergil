@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'vitepress/theme-without-fonts'
 const { Layout } = DefaultTheme
 
 import './styles/custom.css'
