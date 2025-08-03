@@ -3,25 +3,15 @@ node_modules
 
 # Bundles
 dist
-dist-ssr
 
 # env files
-env.d.ts
 .env
-.secret
 
 # VitePress
-**/.vitepress/dist
 **/.vitepress/cache
 
 # Temp files
 *.vitest-temp.json
 
-# Editor directories and files
-.vscode/*
-
-# Local files
-*.local
-
-# Logs
-*.log
+# VS Code
+.vscode
