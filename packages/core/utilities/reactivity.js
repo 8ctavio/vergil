@@ -18,6 +18,13 @@ export function isWatchSource(value) {
 }
 
 /**
+ * @template [T = undefined]
+ * @overload
+ * 
+ * @returns { NormalizeRef<T | undefined, false> }
+ */
+
+/**
  * @template T
  * @template { boolean } [S = false]
  * @overload
@@ -28,7 +35,7 @@ export function isWatchSource(value) {
  */
 
 /**
- * @param { MaybeRefOrGetter } value
+ * @param { MaybeRefOrGetter } [value]
  * @param { boolean } [shallow = false]
  * @returns { Ref }
  */
