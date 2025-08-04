@@ -29,7 +29,7 @@ test('Object has all required keys and a subset of optional keys', () => {
 		optional: ['baz']
 	})).toBe(false)
 
-	// Fails because `baz` is not defined as optional
+	// Returns false because `baz` is not defined as optional
 	expect(everyKeyInObject(obj, {
 		required: ['foo', 'bar'],
 		optional: ['qux']
