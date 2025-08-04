@@ -31,8 +31,6 @@
 		"styles",
 		"!styles/color-palette.md"
 	],
-	"main": "index.js",
-	"types": "./types/dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./types/dist/index.d.ts",
