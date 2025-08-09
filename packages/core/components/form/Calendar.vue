@@ -224,12 +224,9 @@ function* generateIntegers(from: number, to: number, step = 1) {
 </script>
 
 <script setup lang="ts">
-import Icon from '../Icon'
-import InputText from './InputText.vue'
-import Slider from './Slider.vue'
-import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '#vergil'
+import { Icon, InputText, Slider, Btn } from '#components'
 import { useModel, useDefineModel, useDefineElements } from '#composables'
 import {
 	isFunction, ucFirst, everyKeyInObject, clamp, isInput, isEscapeKey,
@@ -1066,8 +1063,8 @@ const themeClass = computed(() => {
 					autoselect
 					:disabled
 					@beforeinput="handleBeforeInput"
-					@input="event => {
-						const newValue = Number(event.target.value)
+					@input="(event: InputEvent) => {
+						const newValue = Number((event.target as HTMLInputElement).value)
 						updateHours(
 							timeFormat === '24' ? newValue : (
 								(newValue > 12 ? 11 : newValue === 12 ? 0 : newValue)

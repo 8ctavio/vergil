@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import Btn from '../buttons/Btn.vue'
-import Icon from '../Icon'
-import FormField from './FormField.vue'
-import MiniMarkup from "./MiniMarkup"
 import { computed, inject } from 'vue'
 import { vergil } from '#vergil'
+import { Btn, Icon, FormField, MiniMarkup } from '#components'
 import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { ShallowRef, PropType } from 'vue'
 import type { ModelWrapper, Entangled, Theme, Size, Radius, Spacing } from '../../types'

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import Icon from '../Icon'
-import FormField from '../internal/FormField.vue'
-import MiniMarkup from "../internal/MiniMarkup"
 import { vergil } from '#vergil'
+import { Icon, FormField, MiniMarkup } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '#utilities'
 import type { PropType } from 'vue'

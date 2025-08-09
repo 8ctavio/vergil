@@ -83,8 +83,8 @@ function Errors(props: Props) {
 </script>
 
 <script setup lang="ts">
-import { Badge } from '..'
 import { vergil } from '#vergil'
+import { Badge } from '#components'
 import { debounce, pull } from '#utilities'
 
 const props = defineProps(propsDefinition)

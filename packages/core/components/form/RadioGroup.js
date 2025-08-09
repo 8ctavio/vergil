@@ -1,6 +1,6 @@
 // @ts-nocheck
-import ToggleGroup from '../internal/ToggleGroup.vue'
 import { h, mergeProps } from 'vue'
+import { ToggleGroup } from '#components'
 
 export default function RadioGroup(props, { slots }) {
 	return h(

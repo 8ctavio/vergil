@@ -38,7 +38,7 @@
 		},
 		"./components": {
 			"types": "./types/dist/components/index.d.ts",
-			"import": "./components/index.js"
+			"import": "./components/entries/public.js"
 		},
 		"./plugins": {
 			"types": "./types/dist/plugins/index.d.ts",
@@ -58,6 +58,7 @@
 	},
 	"imports": {
 		"#vergil": "./vergil.js",
+		"#components": "./components/entries/private.js",
 		"#composables": "./composables/entries/private.js",
 		"#reactivity": "./reactivity/entries/private.js",
 		"#functions": "./functions/entries/public.js",

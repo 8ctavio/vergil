@@ -4,7 +4,7 @@ import { h, defineAsyncComponent } from 'vue'
  * @import { VNode, SetupContext } from 'vue'
  */
 
-const PopupBackdrop = defineAsyncComponent(() => import('./popup/PopupBackdrop'))
+const PopupBackdrop = defineAsyncComponent(() => import('./popup/PopupBackdrop.js'))
 const Confirm = defineAsyncComponent(() => import('./confirm/Confirm.vue'))
 const Toasters = defineAsyncComponent(() => import('./toast/Toasters.vue'))
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import ToggleGroup from '../internal/ToggleGroup.vue'
+import { ToggleGroup } from '#components'
 import { h, mergeProps } from 'vue'
 
 export default function CheckboxGroup(props, { slots }) {

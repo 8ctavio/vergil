@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import CheckboxGroup from './CheckboxGroup'
-import InputText from './InputText.vue'
-import Btn from '../buttons/Btn.vue'
-import Badge from '../Badge.vue'
-import Icon from '../Icon'
-import FormField from '../internal/FormField.vue'
-import MiniMarkup from "../internal/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
 import { vergil } from '#vergil'
+import { CheckboxGroup, InputText, Btn, Badge, Icon, FormField, MiniMarkup } from '#components'
 import { useModel, useDefineModel, usePopover } from '#composables'
 import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'

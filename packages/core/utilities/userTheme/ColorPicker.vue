@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Btn, Radio } from '../../components'
 import { useId } from 'vue'
+import { Btn, Radio } from '#components'
 import { usePopover } from '#composables'
 import { ucFirst, isValidColor } from '#utilities'
 import { userThemeColor } from './index.js'

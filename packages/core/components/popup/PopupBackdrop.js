@@ -1,5 +1,5 @@
-import ModalTransition from "../internal/ModalTransition"
 import { h, mergeProps } from "vue"
+import { ModalTransition } from "#components"
 import { popup, popupMeta, closePopup } from "./index.js"
 
 export default function PopupBackdrop() {

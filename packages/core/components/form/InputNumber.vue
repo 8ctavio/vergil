@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import InputTextBase from '../internal/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
 import { vergil } from '#vergil'
+import { InputTextBase } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { separateThousands, clamp } from '#utilities'
 import type { PropType } from 'vue'

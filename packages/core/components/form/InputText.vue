@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import InputTextBase from '../internal/InputTextBase.vue'
 import { computed, provide } from 'vue'
 import { vergil } from '#vergil'
+import { InputTextBase } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { spaceEvenly } from '#utilities'
 import type { PropType } from 'vue'
