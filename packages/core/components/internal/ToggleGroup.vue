@@ -1,8 +1,8 @@
 <script lang="ts">
 import checkbox from '../form/Checkbox.vue'
 import radio from '../form/Radio.vue'
-import { vergil } from '../../vergil'
-import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import { vergil } from '#vergil'
+import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements, ToggleVariant, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '../../types'
 
@@ -135,7 +135,7 @@ function createOptionVNode(props: Props, option: unknown, key: string | number) 
 <script setup lang="ts">
 import FormField from './FormField.vue'
 import { provide, h } from 'vue'
-import { useDefineModel, useDefineElements } from '../../composables'
+import { useDefineModel, useDefineElements } from '#composables'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps(propsDefinition)

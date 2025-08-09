@@ -1,1 +1,1 @@
-export * from './vergil'
+export * from './vergil.js'

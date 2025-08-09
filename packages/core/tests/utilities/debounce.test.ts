@@ -1,5 +1,5 @@
 import { vi, test, expect } from 'vitest'
-import { debounce } from '../../utilities'
+import { debounce } from '#utilities'
 
 test('Debounced function', async () => {
 	const spy = vi.fn()

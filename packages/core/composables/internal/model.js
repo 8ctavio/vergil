@@ -1,20 +1,13 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { watchControlledSync } from "../../reactivity/internal"
-import { noop } from "../../utilities"
+import { isScheduled } from "#composables"
+import { watchControlledSync } from "#reactivity"
+import { noop } from "#utilities"
 
 /**
- * @import { WatchOptions, EffectScope, ReactiveEffect } from 'vue'
+ * @import { WatchOptions, EffectScope } from 'vue'
  * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatchControls } from '../../types'
+ * @import { WatcherEffect } from "#composables"
  */
-
-
-const isScheduled = Symbol('isScheduled')
-
-/**
- * @typedef { ReactiveEffect & { [isScheduled]?: boolean } } WatcherEffect
- */
-
-export const privateModelMap = new WeakMap()
 
 /**
  * Allows to create multiple model watchers and to pause and resume them to ignore model updates.

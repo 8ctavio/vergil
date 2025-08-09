@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import ToggleButton from '../internal/ToggleButton.vue'
 import { toRef, computed, inject } from 'vue'
-import { vergil } from '../../vergil'
-import { useDefineModel, useDefineElements } from '../../composables'
-import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../../utilities'
+import { vergil } from '#vergil'
+import { useDefineModel, useDefineElements } from '#composables'
+import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, ModelWrapper, Elements, ToggleVariant, Theme, Size, Radius, Spacing } from '../../types'
 

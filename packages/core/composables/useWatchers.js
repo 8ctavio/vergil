@@ -1,16 +1,12 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { watchControlledSync } from "../reactivity/internal"
-import { noop } from "../utilities"
+import { isScheduled } from "#composables"
+import { watchControlledSync } from "#reactivity"
+import { noop } from "#utilities"
 
 /**
- * @import { WatchSource, WatchCallback, WatchOptions, EffectScope, ReactiveEffect } from 'vue'
+ * @import { WatchSource, WatchCallback, WatchOptions, EffectScope } from 'vue'
  * @import { WatcherSource, WatchersHandle, WatchControls } from '../types'
- */
-
-const isScheduled = Symbol('isScheduled')
-
-/**
- * @typedef { ReactiveEffect & { [isScheduled]?: boolean } } WatcherEffect
+ * @import { WatcherEffect } from '#composables'
  */
 
 /**

@@ -4,8 +4,8 @@ import Icon from '../Icon'
 import FormField from './FormField.vue'
 import MiniMarkup from "./MiniMarkup"
 import { computed, inject } from 'vue'
-import { vergil } from '../../vergil'
-import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import { vergil } from '#vergil'
+import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { ShallowRef, PropType } from 'vue'
 import type { ModelWrapper, Entangled, Theme, Size, Radius, Spacing } from '../../types'
 

@@ -1,5 +1,5 @@
-import { vergil } from '../vergil'
-import { userThemeColor } from '../utilities/userTheme'
+import { vergil } from '#vergil'
+import { userThemeColor } from '@8ctavio/vergil/utilities/userTheme'
 
 /** @import { PartialVergilConfig } from '../types' */
 

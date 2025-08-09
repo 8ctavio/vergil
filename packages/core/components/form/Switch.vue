@@ -2,9 +2,9 @@
 import Icon from '../Icon'
 import FormField from '../internal/FormField.vue'
 import MiniMarkup from "../internal/MiniMarkup"
-import { vergil } from '../../vergil'
-import { useDefineModel, useDefineElements } from '../../composables'
-import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '../../utilities'
+import { vergil } from '#vergil'
+import { useDefineModel, useDefineElements } from '#composables'
+import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '../../types'
 

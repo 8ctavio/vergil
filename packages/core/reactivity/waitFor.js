@@ -1,5 +1,5 @@
-import { watchUntil } from '.'
-import { isWatchSource } from '../utilities'
+import { watchUntil } from '#reactivity'
+import { isWatchSource } from '#utilities'
 
 /**
  * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'

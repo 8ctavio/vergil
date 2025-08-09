@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { everyKeyInObject } from '../../utilities'
+import { everyKeyInObject } from '#utilities'
 
 const obj = Object.freeze({
 	foo: 0,

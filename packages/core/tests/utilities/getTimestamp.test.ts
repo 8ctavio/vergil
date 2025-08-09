@@ -1,5 +1,5 @@
 import { test, expect, vi } from 'vitest'
-import { getTimestamp } from '../../utilities'
+import { getTimestamp } from '#utilities'
 
 test('Get current timestamp', () => {
 	vi.useFakeTimers()

@@ -1,5 +1,4 @@
-import { isPlainObject } from "./public"
-import { isDate } from "./calendar"
+import { isPlainObject, isDate } from "#utilities"
 
 export const uniqueKey = Object.preventExtensions({})
 export const noop = () => {}

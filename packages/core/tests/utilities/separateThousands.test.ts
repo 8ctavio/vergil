@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { separateThousands } from "../../utilities"
+import { separateThousands } from "#utilities"
 
 test('Separate thousands', () => {
 	expect(separateThousands('123456789')).toBe('123,456,789')

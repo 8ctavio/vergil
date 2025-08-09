@@ -2,7 +2,7 @@ import { Btn } from '../../components'
 import { h } from 'vue'
 import { vi, suite, test, expect, beforeAll } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { vergil } from '../../vergil'
+import { vergil } from '#vergil'
 
 beforeAll(() => {
     vergil.init({})

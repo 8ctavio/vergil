@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { vergil } from '../vergil'
-import { isValidRadius, isValidSize, isValidSpacing } from '../utilities'
+import { vergil } from '#vergil'
+import { isValidRadius, isValidSize, isValidSpacing } from '#utilities'
 import type { PropType } from 'vue'
 import type { Size, Radius, Spacing } from '../types'
 

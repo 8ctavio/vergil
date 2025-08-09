@@ -1,5 +1,5 @@
 import { isRef, toValue, toRaw } from 'vue'
-import { isObject } from '../../utilities'
+import { isObject } from '#utilities'
 
 /**
  * @import { MaybeRefOrGetter } from 'vue'

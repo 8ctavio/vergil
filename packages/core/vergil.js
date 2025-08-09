@@ -1,4 +1,4 @@
-import { inferTheme, isObject, isPlainObject } from './utilities'
+import { inferTheme, isObject, isPlainObject } from '#utilities'
 
 /** @import { VergilConfig, PartialVergilConfig } from './types' */
 

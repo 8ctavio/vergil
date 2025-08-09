@@ -1,6 +1,6 @@
 import { shallowReactive } from 'vue'
-import { vergil } from '../../vergil'
-import { inferTheme, noop } from "../../utilities"
+import { vergil } from '#vergil'
+import { inferTheme, noop } from "#utilities"
 
 /**
  * @import { Theme } from '../../types'

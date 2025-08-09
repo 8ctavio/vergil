@@ -1,4 +1,4 @@
-import { isObject } from "../utilities"
+import { isObject } from "#utilities"
 
 /** @import { DescriptorMarked } from '../types' */
 

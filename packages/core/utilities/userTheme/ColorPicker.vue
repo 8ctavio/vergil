@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Btn, Radio } from '../../components'
 import { useId } from 'vue'
-import { usePopover } from '../../composables'
-import { ucFirst, isValidColor } from '..'
-import { userThemeColor } from '.'
+import { usePopover } from '#composables'
+import { ucFirst, isValidColor } from '#utilities'
+import { userThemeColor } from './index.js'
 import type { PropType } from 'vue'
 import type { ColorPalette } from '../../types'
 

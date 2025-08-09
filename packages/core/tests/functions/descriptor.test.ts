@@ -1,5 +1,5 @@
 import { test, expect, describe } from "vitest"
-import { markDescriptor, isDescriptor, dataDescriptor } from "../../functions"
+import { markDescriptor, isDescriptor, dataDescriptor } from "#functions"
 
 describe('markDescriptor', () => {
 	test('Mark object as descriptor', () => {

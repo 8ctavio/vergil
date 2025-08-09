@@ -7,9 +7,9 @@ import Icon from '../Icon'
 import FormField from '../internal/FormField.vue'
 import MiniMarkup from "../internal/MiniMarkup"
 import { shallowRef, triggerRef, computed, useTemplateRef, watch, watchEffect, nextTick, getCurrentScope, onMounted } from 'vue'
-import { vergil } from '../../vergil'
-import { useModel, useDefineModel, usePopover } from '../../composables'
-import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import { vergil } from '#vergil'
+import { useModel, useDefineModel, usePopover } from '#composables'
+import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '../../types'
 

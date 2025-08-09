@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputText from './InputText.vue'
 import { shallowRef, triggerRef, computed, watchEffect, nextTick } from 'vue'
-import { vergil } from '../../vergil'
-import { useDefineModel, useDefineExposed } from '../../composables'
-import { ucFirst } from '../../utilities'
+import { vergil } from '#vergil'
+import { useDefineModel, useDefineExposed } from '#composables'
+import { ucFirst } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, Elements, Exposed } from '../../types'
 

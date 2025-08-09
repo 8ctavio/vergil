@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { ucFirst } from "../../utilities"
+import { ucFirst } from "#utilities"
 
 test('Uppercase first letter', () => {
 	expect(ucFirst('vergil')).toBe('Vergil')

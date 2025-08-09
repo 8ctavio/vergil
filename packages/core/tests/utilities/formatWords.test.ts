@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { formatWords } from "../../utilities"
+import { formatWords } from "#utilities"
 
 const words = ['abc1', 'Uvw2', 'XYZ3']
 const str = words.join(' ')

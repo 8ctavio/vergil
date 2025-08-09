@@ -1,6 +1,6 @@
 import { shallowRef, unref, markRaw } from "vue"
-import { definedExposed, symTrigger } from "./internal"
-import { getTrue } from "../utilities"
+import { definedExposed, symTrigger } from "#composables"
+import { getTrue } from "#utilities"
 
 /**
  * @import { Exposed } from '../types'

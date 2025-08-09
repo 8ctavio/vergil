@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { words } from "../../utilities"
+import { words } from "#utilities"
 
 test('Extract words', () => {
 	expect(words('A Day At The Beach')).toStrictEqual(["A", "Day", "At", "The", "Beach"])

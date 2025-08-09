@@ -1,5 +1,5 @@
 <script lang="ts">
-import { hasDate, isDate, padLeadingZeros } from '../../utilities'
+import { hasDate, isDate, padLeadingZeros } from '#utilities'
 import type { SetupContext } from 'vue'
 
 function DatePickerWrapper(props: { sideButtonPosition: 'before' | 'after' }, { slots }: SetupContext) {
@@ -18,9 +18,9 @@ import Btn from '../buttons/Btn.vue'
 import FormField from '../internal/FormField.vue'
 import MiniMarkup from '../internal/MiniMarkup'
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
-import { vergil } from '../../vergil'
-import { useDefineModel, usePopover } from '../../composables'
-import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '../../utilities'
+import { vergil } from '#vergil'
+import { useDefineModel, usePopover } from '#composables'
+import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
 import type {
 	ModelValueProp, ModelValidatorProp, Elements,

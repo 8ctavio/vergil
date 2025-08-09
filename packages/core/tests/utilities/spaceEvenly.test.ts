@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { spaceEvenly } from "../../utilities"
+import { spaceEvenly } from "#utilities"
 
 test('Space evenly', () => {
 	expect(spaceEvenly('  Guilty    Spark     ')).toBe('Guilty Spark')

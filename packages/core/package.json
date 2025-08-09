@@ -46,7 +46,7 @@
 		},
 		"./utilities": {
 			"types": "./types/dist/utilities/public.d.ts",
-			"import": "./utilities/public.js"
+			"import": "./utilities/entries/public.js"
 		},
 		"./utilities/userTheme": {
 			"types": "./types/dist/utilities/userTheme/index.d.ts",
@@ -55,6 +55,13 @@
 		"./styles": "./styles/main.css",
 		"./colors/*": "./styles/colors/*.css",
 		"./colors/default": "./styles/default.css"
+	},
+	"imports": {
+		"#vergil": "./vergil.js",
+		"#composables": "./composables/entries/private.js",
+		"#reactivity": "./reactivity/entries/private.js",
+		"#functions": "./functions/entries/public.js",
+		"#utilities": "./utilities/entries/private.js"
 	},
 	"dependencies": {
 		"@floating-ui/vue": "^1.1.6"

@@ -1,5 +1,5 @@
-import { ModelGroupImpl } from "../composables/internal"
-import { isObject } from "../utilities"
+import { ModelGroupImpl } from "#composables"
+import { isObject } from "#utilities"
 
 /** @import { Model, ModelGroup } from '../types' */
 

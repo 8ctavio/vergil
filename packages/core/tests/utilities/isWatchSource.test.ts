@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest'
 import { ref, shallowRef, customRef, toRef, reactive } from 'vue'
-import { useModel } from '../../composables'
-import { isWatchSource, noop } from '../../utilities'
+import { useModel } from '#composables'
+import { isWatchSource, noop } from '#utilities'
 
 test('Assert argument is a watch source', () => {
 	const model = useModel('')

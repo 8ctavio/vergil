@@ -1,5 +1,5 @@
 import { shallowRef, shallowReactive, markRaw, nextTick } from 'vue'
-import { isFunction } from '../../utilities'
+import { isFunction } from '#utilities'
 
 /**
  * @import { ShallowRef, ComponentPublicInstance } from 'vue'
@@ -20,6 +20,7 @@ const popup = shallowRef({
     component: null,
     props: null
 })
+
 /**
  * @type {{
  *     isLeaving: boolean;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Icon from './Icon'
 import MiniMarkup from './internal/MiniMarkup'
-import { vergil } from '../vergil'
-import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '../utilities'
+import { vergil } from '#vergil'
+import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius, Spacing, BtnVariant } from '../types'
 

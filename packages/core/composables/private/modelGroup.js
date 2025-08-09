@@ -1,7 +1,7 @@
 import { triggerRef, markRaw, toRaw } from 'vue'
-import { useModel } from '../../composables'
-import { isModel } from '../../functions'
-import { isObject, isPlainObject, isFunction } from "../../utilities"
+import { useModel } from '#composables'
+import { isModel } from '#functions'
+import { isObject, isPlainObject, isFunction } from "#utilities"
 
 /**
  * @import { ShallowRef } from 'vue'

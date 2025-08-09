@@ -1,6 +1,6 @@
 import { test, expectTypeOf } from 'vitest'
 import { ref, shallowRef, customRef, toRef } from 'vue'
-import { normalizeRef } from '../../utilities'
+import { normalizeRef } from '#utilities'
 
 import type { Ref, ShallowRef } from 'vue'
 

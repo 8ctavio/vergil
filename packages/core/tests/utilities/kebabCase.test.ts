@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { kebabCase } from "../../utilities"
+import { kebabCase } from "#utilities"
 
 test('Convert sentence case to kebab case', () => {
 	expect(kebabCase('Foo bar BAZ quX')).toBe('foo-bar-baz-qux')

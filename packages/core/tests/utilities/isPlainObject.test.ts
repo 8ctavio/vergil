@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { isPlainObject } from '../../utilities'
+import { isPlainObject } from '#utilities'
 
 test('Assert argument is a plain object', () => {
 	expect(isPlainObject({})).toBe(true)

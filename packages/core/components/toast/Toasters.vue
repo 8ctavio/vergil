@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Toast from './Toast.vue'
 import { onMounted, nextTick } from 'vue'
-import { vergil } from '../../vergil'
-import { toasters } from '.'
+import { vergil } from '#vergil'
+import { toasters } from './index.js'
 import type { ToasterPosition } from '../../types'
 
 const containers = {} as Record<ToasterPosition, HTMLElement>

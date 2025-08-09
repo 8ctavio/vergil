@@ -1,4 +1,4 @@
-import { EntangledImpl } from "./internal"
+import { EntangledImpl } from "#reactivity"
 
 /** @import { Entangled, EntangledOptions } from '../types' */
 

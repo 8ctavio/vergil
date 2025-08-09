@@ -2,8 +2,8 @@ import { InputText } from '../../components'
 import { nextTick } from 'vue'
 import { vi, suite, test, expect, beforeAll, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { useModel } from '../../composables'
-import { vergil } from '../../vergil'
+import { useModel } from '#composables'
+import { vergil } from '#vergil'
 
 beforeAll(() => {
     vergil.init({})

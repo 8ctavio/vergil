@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { isFunction } from '../../utilities'
+import { isFunction } from '#utilities'
 
 test('Assert argument is an object', () => {
 	expect(isFunction(() => {})).toBe(true)

@@ -277,5 +277,5 @@ export function getTimestamp({ from = Date.now(), unit = 'ms', offset = {} } = {
 }
 // #endregion
 
-export { isWatchSource } from './reactivity'
-export { inferTheme, isValidTheme, isValidRadius, isValidSize, isValidSpacing } from './theme'
+export { isWatchSource } from '../reactivity.js'
+export { inferTheme, isValidTheme, isValidRadius, isValidSize, isValidSpacing } from '../theme.js'

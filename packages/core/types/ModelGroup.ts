@@ -1,4 +1,4 @@
-import { ModelGroupImpl } from "../composables/internal"
+import { ModelGroupImpl } from "#composables"
 import type { UnwrapRef	} from "vue"
 import type { Model, ModelOptions, Prettify } from "."
 

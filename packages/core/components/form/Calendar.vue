@@ -1,5 +1,5 @@
 <script lang="ts">
-import { hasDate, isDate, padLeadingZeros } from '../../utilities'
+import { hasDate, isDate, padLeadingZeros } from '#utilities'
 import type { CalendarDate, DateComponents} from '../../types'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
@@ -229,12 +229,12 @@ import InputText from './InputText.vue'
 import Slider from './Slider.vue'
 import Btn from '../buttons/Btn.vue'
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
-import { vergil } from '../../vergil'
-import { useModel, useDefineModel, useDefineElements } from '../../composables'
+import { vergil } from '#vergil'
+import { useModel, useDefineModel, useDefineElements } from '#composables'
 import {
 	isFunction, ucFirst, everyKeyInObject, clamp, isInput, isEscapeKey,
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
-} from '../../utilities'
+} from '#utilities'
 import type { PropType } from 'vue'
 import type {
 	ModelWrapper, ModelValueProp, ModelValidatorProp, Elements,

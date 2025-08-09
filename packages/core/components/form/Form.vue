@@ -1,7 +1,7 @@
 <script lang="ts">
 import { h, mergeProps } from 'vue'
-import { ModelGroupImpl } from '../../composables/internal'
-import { ucFirst } from '../../utilities'
+import { ModelGroupImpl } from '#composables'
+import { ucFirst } from '#utilities'
 import type { PropType, ExtractPropTypes, VNode } from 'vue'
 import type { ModelGroupPayload } from '../../types'
 
@@ -84,8 +84,8 @@ function Errors(props: Props) {
 
 <script setup lang="ts">
 import { Badge } from '..'
-import { vergil } from '../../vergil'
-import { debounce, pull } from '../../utilities'
+import { vergil } from '#vergil'
+import { debounce, pull } from '#utilities'
 
 const props = defineProps(propsDefinition)
 const emit = defineEmits<{

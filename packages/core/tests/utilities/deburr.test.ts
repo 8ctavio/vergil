@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { deburr } from "../../utilities"
+import { deburr } from "#utilities"
 
 test('Remove diacritics', () => {
 	expect(deburr('áéíóúñÁÉÍÓÚÑ')).toBe('aeiounAEIOUN')

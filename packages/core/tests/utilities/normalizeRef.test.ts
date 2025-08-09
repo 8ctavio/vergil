@@ -1,6 +1,6 @@
 import { test, expect, vi } from 'vitest'
 import { ref, shallowRef, customRef, toRef, isRef, isShallow } from 'vue'
-import { normalizeRef, noop } from '../../utilities'
+import { normalizeRef, noop } from '#utilities'
 
 test('Refs are directly returned', () => {
 	const refs = [

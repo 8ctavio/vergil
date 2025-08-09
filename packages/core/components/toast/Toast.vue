@@ -2,8 +2,8 @@
 import Icon from '../Icon'
 import MiniMarkup from "../internal/MiniMarkup"
 import { shallowRef } from 'vue'
-import { vergil } from '../../vergil'
-import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '../../utilities'
+import { vergil } from '#vergil'
+import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius } from '../../types'
 

@@ -5,13 +5,13 @@ import {
 	onBeforeUnmount
 } from 'vue'
 import { useFloating, autoUpdate, offset as useOffset, flip as useFlip, shift as useShift, arrow as useArrow } from '@floating-ui/vue'
-import { vergil } from '../vergil'
-import { waitFor } from '../reactivity'
+import { vergil } from '#vergil'
+import { waitFor } from '#reactivity'
 import {
 	isTabKey, isEscapeKey,
 	focusElement, getFirstTabbable, hasTabbableBefore, hasTabbableAfter,
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
-} from '../utilities'
+} from '#utilities'
 
 /**
  * @import { ShallowRef, MaybeRefOrGetter, ComponentPublicInstance, VNode, FunctionalComponent, PropType } from 'vue'

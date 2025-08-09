@@ -1,5 +1,5 @@
 import { isRef, toRef, shallowRef } from 'vue'
-import { isFunction } from './public'
+import { isFunction } from '#utilities'
 
 /**
  * @import { Ref, ShallowRef, MaybeRefOrGetter, WatchSource } from "vue"

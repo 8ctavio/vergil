@@ -1,4 +1,4 @@
-import { ExtendedRefImpl } from "./internal"
+import { ExtendedRefImpl } from "#reactivity"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'

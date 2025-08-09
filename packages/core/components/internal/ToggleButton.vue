@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MiniMarkup from './MiniMarkup'
-import { vPreventClickSelection } from '../../utilities'
+import { vPreventClickSelection } from '#utilities'
 import type { PropType } from 'vue'
 import type { ToggleVariant, Radius } from '../../types'
 

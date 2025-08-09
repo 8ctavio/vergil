@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
-import { vergil } from '../../vergil'
-import { inferTheme } from "../../utilities"
+import { vergil } from '#vergil'
+import { inferTheme } from "#utilities"
 
 /**
  * @import { ToasterPosition, Theme } from '../../types'

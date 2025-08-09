@@ -4,9 +4,9 @@ import Btn from '../buttons/Btn.vue'
 import ModalTransition from '../internal/ModalTransition'
 import MiniMarkup from "../internal/MiniMarkup"
 import { useTemplateRef, watch, nextTick } from "vue"
-import { vergil } from "../../vergil"
-import { confirmModel } from "."
-import { FocusTrap, isEscapeKey, isTabKey, noop } from '../../utilities'
+import { vergil } from "#vergil"
+import { FocusTrap, isEscapeKey, isTabKey, noop } from '#utilities'
+import { confirmModel } from "./index.js"
 import type { ComponentPublicInstance } from "vue"
 
 const size = vergil.config.confirm.size ?? vergil.config.global.size

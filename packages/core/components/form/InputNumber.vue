@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputTextBase from '../internal/InputTextBase.vue'
 import { shallowRef, watchEffect, provide } from 'vue'
-import { vergil } from '../../vergil'
-import { useDefineModel, useDefineElements } from '../../composables'
-import { separateThousands, clamp } from '../../utilities'
+import { vergil } from '#vergil'
+import { useDefineModel, useDefineElements } from '#composables'
+import { separateThousands, clamp } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '../../types'
 
