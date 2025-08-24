@@ -13,6 +13,6 @@
 		"docs:dev": "pnpm --filter docs exec vitepress dev"
 	},
 	"devDependencies": {
-		"oxlint": "^1.11.0"
+		"oxlint": "catalog:"
 	}
 }

@@ -65,17 +65,17 @@
 		"#utilities": "./utilities/entries/private.js"
 	},
 	"dependencies": {
-		"@floating-ui/vue": "^1.1.6"
-	},
-	"devDependencies": {
-		"@vitejs/plugin-vue": "^5.2.4",
-		"@vue/test-utils": "^2.4.6",
-		"happy-dom": "^17.5.6",
-		"typescript": "^5.8.3",
-		"vitest": "^3.1.4",
-		"vue-tsc": "^2.2.10"
+		"@floating-ui/vue": "catalog:consumer"
 	},
 	"peerDependencies": {
-		"vue": "^3.5.6"
+		"vue": "catalog:consumer"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "catalog:",
+		"@vue/test-utils": "catalog:",
+		"happy-dom": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"vue-tsc": "catalog:"
 	}
 }

@@ -28,7 +28,7 @@ jobs:
           node-version: 22
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Build VitePress site
         run: pnpm --filter="@vergil/docs" build
       - name: Upload GitHub Pages artifact
