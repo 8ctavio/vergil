@@ -3,8 +3,8 @@
 	"private": true,
 	"author": "Octavio Araiza (https://github.com/8ctavio)",
 	"type": "module",
-	"main": "index.js",
 	"scripts": {
+		"dev": "vitepress dev",
 		"build": "vitepress build",
 		"preview": "vitepress preview"
 	},

@@ -9,7 +9,10 @@
 	"homepage": "https://github.com/8ctavio/vergil",
 	"scripts": {
 		"lint": "oxlint",
-		"docs:dev": "pnpm --filter docs exec vitepress dev"
+		"vergil:lint": "pnpm --filter vergil lint",
+		"vergil:test": "pnpm --filter vergil test",
+		"vergil:typecheck": "pnpm --filter vergil typecheck",
+		"docs:dev": "pnpm --filter docs dev"
 	},
 	"devDependencies": {
 		"oxlint": "catalog:"
