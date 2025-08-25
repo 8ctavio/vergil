@@ -21,6 +21,9 @@ catalogs:
     typescript:
       specifier: ^5.8.3
       version: 5.8.3
+    vitepress:
+      specifier: ^1.6.3
+      version: 1.6.3
     vitest:
       specifier: ^3.1.4
       version: 3.1.4
@@ -41,13 +44,12 @@ importers:
         version: 1.11.0
 
   apps/docs:
-    dependencies:
+    devDependencies:
       '@8ctavio/vergil':
         specifier: workspace:*
         version: link:../../packages/core
-    devDependencies:
       vitepress:
-        specifier: ^1.5.0
+        specifier: 'catalog:'
         version: 1.6.3(@algolia/client-search@5.18.0)(postcss@8.5.4)(search-insights@2.13.0)(typescript@5.8.3)
 
   packages/core:
