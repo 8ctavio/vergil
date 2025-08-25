@@ -1,7 +1,6 @@
 {
 	"name": "@vergil/monorepo",
 	"private": true,
-	"packageManager": "pnpm@10.14.0",
 	"author": "Octavio Araiza (https://github.com/8ctavio)",
 	"repository": {
 		"type": "git",
@@ -14,5 +13,6 @@
 	},
 	"devDependencies": {
 		"oxlint": "catalog:"
-	}
+	},
+	"packageManager": "pnpm@10.15.0"
 }

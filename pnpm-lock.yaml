@@ -7,33 +7,33 @@ settings:
 catalogs:
   default:
     '@vitejs/plugin-vue':
-      specifier: ^5.2.4
+      specifier: 5.2.4
       version: 5.2.4
     '@vue/test-utils':
-      specifier: ^2.4.6
+      specifier: 2.4.6
       version: 2.4.6
     happy-dom:
-      specifier: ^17.5.6
+      specifier: 17.5.6
       version: 17.5.6
     oxlint:
-      specifier: ^1.11.0
+      specifier: 1.11.0
       version: 1.11.0
     typescript:
-      specifier: ^5.8.3
+      specifier: 5.8.3
       version: 5.8.3
     vitepress:
-      specifier: ^1.6.3
+      specifier: 1.6.3
       version: 1.6.3
     vitest:
-      specifier: ^3.1.4
+      specifier: 3.1.4
       version: 3.1.4
     vue-tsc:
-      specifier: ^2.2.10
+      specifier: 2.2.10
       version: 2.2.10
 
 overrides:
-  '@8ctavio/vergil>@floating-ui/vue': ^1.1.6
-  '@8ctavio/vergil>vue': ^3.5.6
+  '@8ctavio/vergil>@floating-ui/vue': 1.1.6
+  '@8ctavio/vergil>vue': 3.5.16
 
 importers:
 
@@ -55,10 +55,10 @@ importers:
   packages/core:
     dependencies:
       '@floating-ui/vue':
-        specifier: ^1.1.6
+        specifier: 1.1.6
         version: 1.1.6(vue@3.5.16(typescript@5.8.3))
       vue:
-        specifier: ^3.5.6
+        specifier: 3.5.16
         version: 3.5.16(typescript@5.8.3)
     devDependencies:
       '@vitejs/plugin-vue':

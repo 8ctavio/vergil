@@ -2,17 +2,19 @@ packages:
   - apps/*
   - packages/*
 
+catalogMode: strict
+
 catalog:
-  '@floating-ui/vue': ^1.1.6
-  '@vitejs/plugin-vue': ^5.2.4
-  '@vue/test-utils': ^2.4.6
-  happy-dom: ^17.5.6
-  oxlint: ^1.11.0
-  typescript: ^5.8.3
-  vitepress: ^1.6.3
-  vitest: ^3.1.4
-  vue: ^3.5.6
-  vue-tsc: ^2.2.10
+  '@floating-ui/vue': 1.1.6
+  '@vitejs/plugin-vue': 5.2.4
+  '@vue/test-utils': 2.4.6
+  happy-dom: 17.5.6
+  oxlint: 1.11.0
+  typescript: 5.8.3
+  vitepress: 1.6.3
+  vitest: 3.1.4
+  vue: 3.5.16
+  vue-tsc: 2.2.10
 
 catalogs:
   consumer:
