@@ -2,21 +2,13 @@
 
 Vergil is a Vue development toolkit that aids to build web application UIs by providing components, composables, and utility functions aimed to simplify and hasten development while improving DX and UX.
 
-## Installation
+## Get Started
 
-```shell
-pnpm add @8ctavio/vergil
-```
+Visit the [documentation](https://8ctavio.github.io/vergil/) to get started with Vergil.
 
 ## Monorepo
 
 `@vergil/monorepo` contains the core Vergil package and its documentation:
 
-- `@8ctavio/vergil`: `packages/core`
-- `@vergil/docs`: `apps/docs`
-
-### Run docs locally
-
-```shell
-pnpm docs:dev
-```
+- `packages/core`: `@8ctavio/vergil`
+- `apps/docs`: `@vergil/docs`

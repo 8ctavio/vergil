@@ -4,17 +4,32 @@ outline: [2,3]
 
 # Get Started
 
+The following sections outline how to integrate Vergil into a Vite-powered Vue project.
+
 ## Installation
 
 ```shell
 pnpm add @8ctavio/vergil
 ```
 
-## Plugin
+## Vite configuration
+
+The Vergil package should be excluded from Vite's dependency pre-bundling.
+
+```ts
+// vite.config.js
+export default defineConfig({
+    optimizeDeps: {
+        exclude: ['@8ctavio/vergil']
+    }
+})
+```
+
+## Vue plugin
 
 Vergil provides a `vergil` plugin that should always be installed to properly enable or initialize some features. 
 
-```js
+```js {3,7}
 import App from './path-to/App.vue'
 import { createApp } from 'vue'
 import { vergil } from '@8ctavio/vergil/plugins'
