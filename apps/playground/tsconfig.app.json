@@ -3,11 +3,10 @@
     "compilerOptions": {
 		"module": "esnext",
 		"moduleResolution": "bundler",
-        "noEmit": true,
+        "types": [],
         "paths": {
             "@/*": ["./src/*"]
-        },
-        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+        }
     },
     "include": [
         "env.d.ts",

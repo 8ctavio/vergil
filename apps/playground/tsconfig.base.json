@@ -2,9 +2,10 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"moduleDetection": "force",
-		"strict": true,
+        "noEmit": true,
 		"erasableSyntaxOnly": true,
 		"verbatimModuleSyntax": true,
+		"strict": true,
 		"noImplicitOverride": true,
 		"noUncheckedIndexedAccess": true,
 	}

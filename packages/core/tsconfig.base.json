@@ -2,14 +2,12 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": true,
-		"target": "ESNext",
-		"module": "ESNext",
+		"target": "esnext",
 		"moduleDetection": "force",
-		"moduleResolution": "bundler",
+		"erasableSyntaxOnly": true,
 		"verbatimModuleSyntax": true,
 		"strict": true,
-		"erasableSyntaxOnly": true,
-		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
 	}
 }
