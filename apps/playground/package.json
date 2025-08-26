@@ -1,0 +1,20 @@
+{
+    "name": "@vergil/playground",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@8ctavio/vergil": "workspace:*",
+        "@types/node": "catalog:",
+        "@vitejs/plugin-vue": "catalog:",
+        "typescript": "catalog:",
+        "vite": "catalog:",
+        "vue": "catalog:",
+        "vue-tsc": "catalog:"
+    },
+    "engines": {
+        "node": "^22.12.0"
+    }
+}

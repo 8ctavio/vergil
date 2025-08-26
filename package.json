@@ -12,7 +12,8 @@
 		"vergil:lint": "pnpm --filter vergil lint",
 		"vergil:test": "pnpm --filter vergil test",
 		"vergil:typecheck": "pnpm --filter vergil typecheck",
-		"docs:dev": "pnpm --filter docs dev"
+		"docs:dev": "pnpm --filter docs dev",
+		"playground": "pnpm --filter playground dev"
 	},
 	"devDependencies": {
 		"oxlint": "catalog:"

@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"moduleDetection": "force",
+		"strict": true,
+		"erasableSyntaxOnly": true,
+		"verbatimModuleSyntax": true,
+		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
+	}
+}
