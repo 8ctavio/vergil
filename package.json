@@ -9,6 +9,7 @@
 	"homepage": "https://github.com/8ctavio/vergil",
 	"scripts": {
 		"lint": "oxlint",
+		"dev:prepare": "pnpm -F vergil dts",
 		"vergil:lint": "pnpm --filter vergil lint",
 		"vergil:test": "pnpm --filter vergil test",
 		"vergil:typecheck": "pnpm --filter vergil typecheck",
