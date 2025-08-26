@@ -37,7 +37,7 @@
 			"import": "./index.js"
 		},
 		"./components": {
-			"types": "./types/dist/components/index.d.ts",
+			"types": "./types/dist/components/entries/public.d.ts",
 			"import": "./components/entries/public.js"
 		},
 		"./plugins": {
@@ -45,7 +45,7 @@
 			"import": "./plugins/index.js"
 		},
 		"./utilities": {
-			"types": "./types/dist/utilities/public.d.ts",
+			"types": "./types/dist/utilities/entries/public.d.ts",
 			"import": "./utilities/entries/public.js"
 		},
 		"./utilities/userTheme": {
