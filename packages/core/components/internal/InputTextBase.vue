@@ -192,6 +192,8 @@ const floatLabelEnabled = computed(() => {
         width: 100%;
         padding: var(--g-gap-md) 0;
         outline: 0 solid transparent;
+        border: none;
+        background-color: transparent;
         &.text-left{ text-align: left; }
         &.text-center{ text-align: center; }
         &.text-right{ text-align: right; }

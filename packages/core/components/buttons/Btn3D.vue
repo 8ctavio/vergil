@@ -114,7 +114,6 @@ defineProps({
     border: none;
     font-weight: 500;
     box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
-    cursor: pointer;
     transition: box-shadow 150ms, transform 150ms;
 
     &::selection {
@@ -163,7 +162,7 @@ defineProps({
             --btn3D-c-border: var(--c-disabled-border-3);
         }
     }
-    &.loading{
+    &.loading {
         box-shadow: 0 var(--btn3D-elv) var(--btn3D-c-front);
         cursor: progress;
         transform: translateY(0);
@@ -174,10 +173,10 @@ defineProps({
         background-color: var(--c-theme-solid-1);
         color: var(--c-theme-text-4);
 
-        &:not(:disabled) > .icon{
+        &:not(:disabled) > .icon {
             color: var(--c-theme-text-3);
         }
-        & .btn-spinner{
+        & .btn-spinner {
             border-color: rgb(255 255 255 / 0.95);
             border-top-color: rgb(0 0 0 / 0.45);
         }
@@ -209,22 +208,23 @@ defineProps({
             border-top-color: var(--c-theme-text-2);
         }
     }
-    &.squared{
+    &.squared {
         padding: var(--g-gap-md);
     }
 
-    & > .icon{
+    & > .icon {
         align-self: stretch;
         font-size: calc(1em * var(--font-size-scale-icon));
         line-height: var(--line-height-icon);
         aspect-ratio: 1 / 1;
         transition: color 150ms;
     }
-    & > .btn-loader{
+    & > .btn-loader {
         font-size: 1em;
         position: absolute;
         top: 0;
         left: 0;
+        box-sizing: border-box;
         width: 100%;
         height: 100%;
         display: flex;
@@ -234,7 +234,7 @@ defineProps({
         border-radius: inherit;
         background-color: inherit;
 
-        & > .btn-spinner{
+        & > .btn-spinner {
             font-size: 1em;
             height: 100%;
             margin: calc((100% - (1em * var(--font-size-scale-icon))) / 2) 0;

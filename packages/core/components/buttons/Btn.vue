@@ -113,7 +113,6 @@ defineProps({
     border: none;
     font-weight: 500;
     outline: 0 solid transparent;
-    cursor: pointer;
     transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
     &:not(.loading) {

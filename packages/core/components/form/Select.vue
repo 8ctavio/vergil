@@ -514,8 +514,12 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                     font-size: calc(1em * var(--font-size-scale-icon));
                     line-height: calc(var(--line-height-icon) / 0.9);
                     aspect-ratio: 1 / 1;
+                    padding: 0;
                     display: flex;
                     justify-content: center;
+                    border: none;
+                    background-color: transparent;
+                    color: inherit;
                     opacity: 0.75;
                     transition: opacity 150ms;
                     &:hover {

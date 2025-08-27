@@ -1153,8 +1153,10 @@ const themeClass = computed(() => {
 		background-color: transparent;
 	}
 	& .calendar-button {
+		padding: 0;
+		border: none;
+		background-color: transparent;
 		border-radius: var(--g-radius-full, var(--g-radius-md));
-		cursor: pointer;
 
 		&.calendar-today {
 			background-color: var(--c-theme-soft-1);
@@ -1249,6 +1251,7 @@ const themeClass = computed(() => {
 				justify-content: center;
 				align-items: center;
 				aspect-ratio: 1 / 1;
+				cursor: pointer;
 				
 				&:has(> input:not([data-month="current"])) {
 					color: rgb(from var(--c-text) r g b / 0.5);

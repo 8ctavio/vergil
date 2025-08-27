@@ -210,6 +210,7 @@ function Options({ options }: { options: Props['options'] }) {
     }
 
     & > :is(.checkbox,.radio) {
+        box-sizing: border-box;
         width: 100%;
         min-width: max-content;
     }

@@ -107,7 +107,10 @@ const playState = shallowRef('running')
         aspect-ratio: initial;
     }
     & > .toast-close {
+        padding: 0;
+        border: none;
         color: light-dark(rgb(0 0 0 / 0.4), rgb(255 255 255 / 0.6));
+        background-color: transparent;
         transition: color 150ms;
         &:hover {
             color: light-dark(rgb(0 0 0 / 0.7), rgb(255 255 255 / 0.8));

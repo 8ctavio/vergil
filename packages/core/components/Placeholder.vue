@@ -45,10 +45,10 @@ defineProps({
 
 <style>
 .placeholder {
-    --placeholder-pattern-width: 1px;
-    --placeholder-pattern-gap: 8px;
+    --placeholder-pattern-width: 2px;
+    --placeholder-pattern-gap: 12px;
     position: relative;
-    border: 1.5px dashed var(--c-grey-border-regular);
+    border: 1px dashed var(--c-grey-border-regular);
     border-radius: var(--g-radius-full, var(--g-radius-md));
     background: repeating-linear-gradient(
         -45deg,

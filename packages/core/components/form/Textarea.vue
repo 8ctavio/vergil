@@ -177,6 +177,7 @@ const floatLabelEnabled = computed(() => {
         font-family: var(--font-sans);
         width: 100%;
         padding: var(--g-gap-md) var(--g-gap-2xl);
+        border: none;
         background-color: transparent;
         outline: 0 solid transparent;
         resize: none;
