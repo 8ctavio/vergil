@@ -276,6 +276,7 @@ const emit = defineEmits(['close', 'error'])
     width: clamp(250px, 30%, 800px);
 }
 .popup-content {
+	box-sizing: border-box;
     width: 100%;
     padding: 25px;
     display: flex, grid;

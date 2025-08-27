@@ -59,7 +59,7 @@ The `display-value` prop also accepts a callback function that receives the `Sli
 
 ```vue
 <script setup>
-import { separateThousands } from '@8ctavio/vergil'
+import { separateThousands } from '@8ctavio/vergil/utilities'
 
 function formatValue(value) {
     return `**${separateThousands(value * 1000)}**`

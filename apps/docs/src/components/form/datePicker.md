@@ -61,7 +61,7 @@ const dates = useModel([])
 </template>
 
 <style scoped>
-.date-pikcer {
+.date-picker {
     width: 200px;
 }
 </style>

@@ -117,11 +117,11 @@ To access an extendedRef's inner ref value in SFC templates, full `.value` notat
 
 Nevertheless, extendedRefs implement a `Symbol.toPrimitive` method that simply unwraps their underlying refs. Thus, for situations where an extendedRef would be coerced to a primitive, `.value` notation might be omitted.
 
-```diff
+```vue
  <template>
--    <p>value: {{ extended.value }}</p>
-+    <p>value: {{ extended }}</p>
-     <button @click="extended.reset">reset</button>
+    <p>value: {{ extended.value }}</p> // [!code --]
+    <p>value: {{ extended }}</p> // [!code ++]
+    <button @click="extended.reset">reset</button>
  </template>
 ```
 

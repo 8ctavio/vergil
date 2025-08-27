@@ -107,7 +107,7 @@ The `'regular'` and `true` values are equivalent. For the `solid` variant, only 
     </div>
 </Demo>
 
-### Underline <Badge><pre>underline: boolean</pre></Badge> <Badge type="warning">only for *masked* buttons</Badge>
+### Underline <Badge><pre>underline: boolean</pre></Badge>
 
 <Demo>
     <div class="col center">

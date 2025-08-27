@@ -48,10 +48,10 @@ useModel([], { shallow: true })
 :::warning
 shallowRefs directly provided through `v-model` are not fully supported by FFCs whose model-values are objects; models should be provided instead:
 
-```diff
+```vue
 <script setup>
-- const model = shallowRef(someObject)
-+ const model = useModel(someObject, { shallow: true })
+const model = shallowRef(someObject) // [!code --]
+const model = useModel(someObject, { shallow: true }) // [!code ++]
 </script>
 
 <template>
