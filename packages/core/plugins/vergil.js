@@ -6,7 +6,7 @@ import { userThemeColor } from '@8ctavio/vergil/utilities/userTheme'
 const plugin = {
     /**
      * @param { unknown } app 
-     * @param { PartialVergilConfig } options 
+     * @param { PartialVergilConfig } [options] 
      */
     install(app, options) {
         vergil.init(options)

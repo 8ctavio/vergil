@@ -9,7 +9,7 @@ import { isFunction } from '#utilities'
  * @type {(
  *     ShallowRef<{
  *         component: ComponentPublicInstance;
- *         props: Record<string, unknown>;
+ *         props?: Record<string, unknown>;
  *     } | {
  *         component: null;
  *         props: null;
@@ -34,7 +34,7 @@ const popupMeta = shallowReactive({
 
 /**
  * @param { ComponentPublicInstance } component
- * @param { Record<string, unknown> } props 
+ * @param { Record<string, unknown> } [props] 
  */
 async function showPopup(component, props) {
     if (popup.value.component) {

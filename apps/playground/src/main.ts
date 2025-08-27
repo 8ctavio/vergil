@@ -5,5 +5,5 @@ import { vergil } from '@8ctavio/vergil/plugins'
 import App from './App.vue'
 
 createApp(App)
-	.use(vergil, {})
+	.use(vergil)
 	.mount('#app')

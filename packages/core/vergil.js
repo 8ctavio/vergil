@@ -46,7 +46,7 @@ function createConfig(template, options = {}) {
 /**
  * @type { {
  *     config: VergilConfig;
- *     init(options: PartialVergilConfig): void
+ *     init(options?: PartialVergilConfig): void
  * } }
  */
 export const vergil = Object.defineProperties(/** @type { typeof vergil } */ ({}), {
@@ -57,7 +57,7 @@ export const vergil = Object.defineProperties(/** @type { typeof vergil } */ ({}
         configurable: false,
     },
     init: {
-        /** @param { Record<string, unknown> } options */
+        /** @param { Record<string, unknown> } [options] */
         value(options) {
             if (vergil.config === null) {
                 Object.defineProperty(

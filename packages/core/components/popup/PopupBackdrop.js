@@ -7,7 +7,7 @@ export default function PopupBackdrop() {
 		id: 'popup-backdrop',
 		onAfterLeave: () => popupMeta.isLeaving = false,
 		show: popup.value.component !== null
-	}, () => popup.value.component && h(popup.value.component, mergeProps(popup.value.props, {
+	}, () => popup.value.component && h(popup.value.component, popup.value.props && mergeProps(popup.value.props, {
 		onClose: closePopup,
 		onError: closePopup
 	})))
