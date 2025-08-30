@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build VitePress site
-        run: pnpm --filter="@vergil/docs" build
+        run: pnpm --filter docs build
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
