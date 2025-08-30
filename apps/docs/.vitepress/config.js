@@ -44,7 +44,6 @@ export default defineConfig({
 			dark: "/logo-dark.svg",
 			alt: "Vergil"
 		},
-
 		nav: [
 			{ text: 'Docs', link: '/get-started' },
 			{ text: `v${version}`, link: 'https://github.com/8ctavio/vergil/releases' },
@@ -53,6 +52,12 @@ export default defineConfig({
 				props: { position: 'fixed' }
 			}
 		],
+		socialLinks: [
+			{ icon: 'github', link: 'https://github.com/8ctavio/vergil' }
+		],
+		search: {
+			provider: 'local'
+		},
 
 		sidebar: [
 			{ text: 'Preface', link: '/preface' },
@@ -147,10 +152,6 @@ export default defineConfig({
 					{ text: 'Utilities', link: '/functions/utilities' }
 				]
 			},
-		],
-
-		socialLinks: [
-			{ icon: 'github', link: 'https://github.com/8ctavio/vergil' }
 		]
 	}
 })
