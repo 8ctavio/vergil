@@ -19,50 +19,40 @@
 		"typecheck": "vue-tsc -p ./tsconfig.lib.json --noEmit",
 		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js"
 	},
-	"files": [
-		"*.js",
-		"components",
-		"composables",
-		"functions",
-		"plugins",
-		"reactivity",
-		"utilities",
-		"types/dist",
-		"styles",
-		"!styles/color-palette.md"
-	],
+	"files": ["dist/", "src/", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./types/dist/index.d.ts",
-			"import": "./index.js"
+			"types": "./dist/types/index.d.ts",
+			"import": "./src/index.js"
 		},
 		"./components": {
-			"types": "./types/dist/components/entries/public.d.ts",
-			"import": "./components/entries/public.js"
+			"types": "./dist/types/components/entries/public.d.ts",
+			"import": "./src/components/entries/public.js"
 		},
 		"./plugins": {
-			"types": "./types/dist/plugins/index.d.ts",
-			"import": "./plugins/index.js"
+			"types": "./dist/types/plugins/index.d.ts",
+			"import": "./src/plugins/index.js"
 		},
 		"./utilities": {
-			"types": "./types/dist/utilities/entries/public.d.ts",
-			"import": "./utilities/entries/public.js"
+			"types": "./dist/types/utilities/entries/public.d.ts",
+			"import": "./src/utilities/entries/public.js"
 		},
 		"./utilities/userTheme": {
-			"types": "./types/dist/utilities/userTheme/index.d.ts",
-			"import": "./utilities/userTheme/index.js"
+			"types": "./dist/types/utilities/userTheme/index.d.ts",
+			"import": "./src/utilities/userTheme/index.js"
 		},
-		"./styles": "./styles/main.css",
-		"./colors/*": "./styles/colors/*.css",
-		"./colors/default": "./styles/default.css"
+		"./styles": "./src/styles/main.css",
+		"./colors/*": "./src/styles/colors/*.css",
+		"./colors/default": "./src/styles/default.css"
 	},
 	"imports": {
-		"#vergil": "./vergil.js",
-		"#components": "./components/entries/private.js",
-		"#composables": "./composables/entries/private.js",
-		"#reactivity": "./reactivity/entries/private.js",
-		"#functions": "./functions/entries/public.js",
-		"#utilities": "./utilities/entries/private.js"
+		"#vergil": "./src/vergil.js",
+		"#components": "./src/components/entries/private.js",
+		"#composables": "./src/composables/entries/private.js",
+		"#reactivity": "./src/reactivity/entries/private.js",
+		"#functions": "./src/functions/entries/public.js",
+		"#utilities": "./src/utilities/entries/private.js",
+		"#types": "./src/types/index.ts"
 	},
 	"dependencies": {
 		"@floating-ui/vue": "catalog:consumer"

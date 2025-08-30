@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-const indexDtsPath = './types/dist/index.d.ts'
+const indexDtsPath = './dist/types/index.d.ts'
 
 try {
 	const content = fs.readFileSync(indexDtsPath)

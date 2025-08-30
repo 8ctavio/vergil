@@ -1,24 +1,15 @@
 {
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": ".",
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"types": [],
 		"declaration": true,
 		"emitDeclarationOnly": true,
-		"outDir": "./types/dist",
+		"rootDir": "src",
+		"outDir": "dist/types",
 		"declarationMap": true,
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lib.tsbuildinfo"
 	},
-	"include": [
-		"*.js",
-		"components/**/*.js", "components/**/*.vue",
-		"composables/**/*.js",
-		"functions/**/*.js",
-		"plugins/**/*.js",
-		"reactivity/**/*.js",
-		"types/*.ts",
-		"utilities/**/*.js", "utilities/**/*.vue"
-	]
+	"include": ["src"]
 }

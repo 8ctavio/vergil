@@ -1,6 +1,6 @@
 import { suite, test, expectTypeOf } from 'vitest'
 import { markDescriptor, isDescriptor, dataDescriptor } from '#functions'
-import type { DescriptorMarked } from '../../types'
+import type { DescriptorMarked } from '#types'
 
 suite('markDescriptor', () => {
 	test('Return a DescriptorMarked object ', () => {
