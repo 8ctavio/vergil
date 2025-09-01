@@ -5,7 +5,7 @@ import { InputText } from '#components'
 import { useDefineModel, useDefineExposed } from '#composables'
 import { ucFirst } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, Elements, Exposed } from '../../types'
+import type { ModelValueProp, Elements, Exposed } from '#types'
 
 const props = defineProps({
     //----- Model -----

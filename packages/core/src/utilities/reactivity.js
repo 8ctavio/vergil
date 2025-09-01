@@ -3,7 +3,7 @@ import { isFunction } from '#utilities'
 
 /**
  * @import { Ref, ShallowRef, MaybeRefOrGetter, WatchSource } from "vue"
- * @import { NormalizeRef } from '../types'
+ * @import { NormalizeRef } from '#types'
  */
 
 /**

@@ -5,7 +5,7 @@ import { InputTextBase } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { spaceEvenly } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements } from '../../types'
+import type { ModelValueProp, ModelValidatorProp, Elements } from '#types'
 
 const props = defineProps({
 	//----- Model -----

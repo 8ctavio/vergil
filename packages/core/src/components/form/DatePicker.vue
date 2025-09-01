@@ -23,7 +23,7 @@ import type {
 	ModelValueProp, ModelValidatorProp, Elements,
 	CalendarModelDate,
 	Theme, Size, Radius, Spacing,
-} from '../../types'
+} from '#types'
 
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()

@@ -1,7 +1,7 @@
 import { ModelGroupImpl } from "#composables"
 import { isObject } from "#utilities"
 
-/** @import { Model, ModelGroup } from '../types' */
+/** @import { Model, ModelGroup } from '#types' */
 
 /**
  * Assesses whether a value is a model created by `useModel`.

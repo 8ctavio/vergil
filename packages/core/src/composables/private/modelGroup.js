@@ -5,7 +5,7 @@ import { isObject, isPlainObject, isFunction } from "#utilities"
 
 /**
  * @import { ShallowRef } from 'vue'
- * @import { ModelGroup, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '../../types'
+ * @import { ModelGroup, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '#types'
  */
 
 /**

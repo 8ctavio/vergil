@@ -1,6 +1,6 @@
 <script lang="ts">
 import { hasDate, isDate, padLeadingZeros } from '#utilities'
-import type { CalendarDate, DateComponents} from '../../types'
+import type { CalendarDate, DateComponents} from '#types'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 const MIN_DATE = '1970-01-01'
@@ -238,7 +238,7 @@ import type {
 	CalendarModelDate, Weekday,
 	Theme, Size, Radius, Spacing,
 	ToArray, MaybeArray, Tuple
-} from '../../types'
+} from '#types'
 
 type TimeControls = {
 	min?: number;

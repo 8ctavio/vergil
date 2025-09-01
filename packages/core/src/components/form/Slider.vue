@@ -5,7 +5,7 @@ import { FormField, MiniMarkup } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { isFunction, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '../../types'
+import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '#types'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

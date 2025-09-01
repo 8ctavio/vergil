@@ -5,7 +5,7 @@ import { usePopover } from '#composables'
 import { ucFirst, isValidColor } from '#utilities'
 import { userThemeColor } from './index.js'
 import type { PropType } from 'vue'
-import type { ColorPalette } from '../../types'
+import type { ColorPalette } from '#types'
 
 const name = useId()
 const { position } = defineProps({

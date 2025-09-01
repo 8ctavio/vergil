@@ -1,6 +1,6 @@
 import { inferTheme, isObject, isPlainObject } from '#utilities'
 
-/** @import { VergilConfig, PartialVergilConfig } from './types' */
+/** @import { VergilConfig, PartialVergilConfig } from '#types' */
 
 /**
  * @param { Record<string, unknown> } template 

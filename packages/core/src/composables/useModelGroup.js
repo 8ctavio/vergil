@@ -1,7 +1,7 @@
 import { ModelGroupImpl } from "#composables"
 
 /**
- * @import { ModelGroup, ModelGroupFields, ModelGroupFieldsConstraint, ModelGroupValidator, ModelGroupSpec } from '../types'
+ * @import { ModelGroup, ModelGroupFields, ModelGroupFieldsConstraint, ModelGroupValidator, ModelGroupSpec } from '#types'
  */
 
 /**

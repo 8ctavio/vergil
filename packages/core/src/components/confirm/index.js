@@ -3,7 +3,7 @@ import { vergil } from '#vergil'
 import { inferTheme, noop } from "#utilities"
 
 /**
- * @import { Theme } from '../../types'
+ * @import { Theme } from '#types'
  */
 
 const confirmModel = shallowReactive({

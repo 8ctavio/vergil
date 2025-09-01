@@ -3,7 +3,7 @@ import { vergil } from '#vergil'
 import { Checkbox as checkbox, Radio as radio } from '#components'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements, ToggleVariant, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '../../types'
+import type { ModelValueProp, ModelValidatorProp, Elements, ToggleVariant, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '#types'
 
 type ToggleType = 'checkbox' | 'radio'
 type Props = ExtractPropTypes<typeof propsDefinition>

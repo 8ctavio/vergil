@@ -1,6 +1,6 @@
 import { EntangledImpl } from "#reactivity"
 
-/** @import { Entangled, EntangledOptions } from '../types' */
+/** @import { Entangled, EntangledOptions } from '#types' */
 
 /**
  * @template { Record<PropertyKey, unknown> } [T = {}]

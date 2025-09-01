@@ -4,7 +4,7 @@ import { vergil } from '#vergil'
 import { Icon, MiniMarkup } from '#components'
 import { isValidRadius, isValidSize, inferTheme, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
-import type { Theme, Size, Radius } from '../../types'
+import type { Theme, Size, Radius } from '#types'
 
 const props = defineProps({
     message: {

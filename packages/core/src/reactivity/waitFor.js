@@ -3,7 +3,7 @@ import { isWatchSource } from '#utilities'
 
 /**
  * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
- * @import { WatcherSource, WatchUntilOptions, WaitForMethods } from '../types'
+ * @import { WatcherSource, WatchUntilOptions, WaitForMethods } from '#types'
  */
 
 /**

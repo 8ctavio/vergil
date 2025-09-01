@@ -3,7 +3,7 @@ import { onMounted, nextTick } from 'vue'
 import { vergil } from '#vergil'
 import { Toast } from '#components'
 import { toasters } from './index.js'
-import type { ToasterPosition } from '../../types'
+import type { ToasterPosition } from '#types'
 
 const containers = {} as Record<ToasterPosition, HTMLElement>
 onMounted(async () => {

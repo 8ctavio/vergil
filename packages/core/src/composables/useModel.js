@@ -6,7 +6,7 @@ import { debounce, isFunction, normalizeRef, shallowCopy, looselyEqual, pull, no
 
 /**
  * @import { Ref, UnwrapRef, MaybeRefOrGetter } from 'vue'
- * @import { Model, ModelOptions } from '../types'
+ * @import { Model, ModelOptions } from '#types'
  */
 
 const validationError = Object.preventExtensions({})

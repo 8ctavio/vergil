@@ -3,7 +3,7 @@ import { h, mergeProps } from 'vue'
 import { ModelGroupImpl } from '#composables'
 import { ucFirst } from '#utilities'
 import type { PropType, ExtractPropTypes, VNode } from 'vue'
-import type { ModelGroupPayload } from '../../types'
+import type { ModelGroupPayload } from '#types'
 
 type Props = ExtractPropTypes<typeof propsDefinition>
 
