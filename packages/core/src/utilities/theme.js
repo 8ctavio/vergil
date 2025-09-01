@@ -48,7 +48,9 @@ export function inferTheme(themeAlias) {
 export function isValidTheme(value) {
     for (const theme of Object.keys(themes)) {
         // @ts-expect-error
-        return theme === value || themes[theme]?.includes(value)
+        if (theme === value || themes[theme]?.includes(value)) {
+            return true
+        }
     }
     return false
 }
