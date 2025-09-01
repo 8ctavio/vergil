@@ -1,62 +1,57 @@
-/** @import { Theme, ThemeAlias, Size, Radius, Spacing } from '../types' */
+import { themes } from '#utilities'
+
+/** @import { InferTheme, Theme, ThemeAlias, Size, Radius, Spacing } from '#types' */
 
 /**
+ * Returns the theme name of a given theme name or alias;
+ * if there is no corresponding theme name, `'neutral'` is returned.
+ * 
  * @template { string } T
  * @overload
  * @param { T } theme
- * @returns { T extends 'brand' ? 'brand'
- *     : T extends 'user' ? 'user'
- *     : T extends ('ok' | 'success' | 'check') ? 'ok'
- *     : T extends ('info' | 'help' | 'tip') ? 'info'
- *     : T extends ('warn' | 'warning' | 'caution') ? 'warn'
- *     : T extends ('danger' | 'error') ? 'danger'
- *     : 'neutral'
- * }
+ * @returns { InferTheme<T> extends never ? 'neutral' : InferTheme<T> }
  */
 
 /**
- * Required for ReturnType<typeof inferTheme> to yield Theme.
  * @overload
  * @param { unknown } theme
  * @returns { Theme }
+ * 
+ * Required for ReturnType<typeof inferTheme> to yield Theme.
  */
 
 /**
- * @param { unknown } theme 
+ * @param { unknown } themeAlias 
  * @returns { Theme }
  */
-export function inferTheme(theme) {
-    if(theme === 'brand')
-        return 'brand'
-    if(theme === 'user')
-        return 'user'
-    if(theme === 'ok' || theme === 'success' || theme === 'check')
-        return 'ok'    
-    if(theme === 'info' || theme === 'help' || theme === 'tip')
-        return 'info'
-    if(theme === 'warn' || theme === 'warning' || theme === 'caution')
-        return 'warn'
-    if(theme === 'danger' || theme === 'error')
-        return 'danger'
+export function inferTheme(themeAlias) {
+    for (const theme of Object.keys(themes)) {
+        // @ts-expect-error
+        if (theme === themeAlias || themes[theme]?.includes(themeAlias)) {
+            return /** @type {Theme} */(theme)
+        }
+    }
     return 'neutral'
 }
 
 /**
- * @typedef { {
- *     <T extends string>(value: T): T extends ThemeAlias ? true : false;
- *     (value: string): boolean;
- * } } IsValidTheme
- * @type { IsValidTheme }
+ * @template { string } T
+ * @overload
+ * @param { T } value
+ * @returns { T extends ThemeAlias ? true : false }
  */
-export const isValidTheme = Array.prototype.includes.bind([
-    'brand',
-    'user',
-    'ok', 'success', 'check',
-    'info', 'help', 'tip',
-    'warn', 'warning', 'caution',
-    'danger', 'error',
-    'neutral'
-])
+
+/**
+ * @param { unknown } value
+ * @returns { boolean }
+ */
+export function isValidTheme(value) {
+    for (const theme of Object.keys(themes)) {
+        // @ts-expect-error
+        return theme === value || themes[theme]?.includes(value)
+    }
+    return false
+}
 
 /**
  * @typedef { {
@@ -88,8 +83,8 @@ export const isValidSpacing = Array.prototype.includes.bind(['', 'compact', 'exp
  * @param { 'Btn' | 'ToggleButton' } c
  * @param { string } v
  */
-export function isValidVariant(c,v){
-    switch(c){
+export function isValidVariant(c, v) {
+    switch (c) {
         case 'Btn':
             return ['solid', 'soft', 'subtle'].includes(v)
         case 'ToggleButton':
@@ -100,4 +95,4 @@ export function isValidVariant(c,v){
 /** @type { (value: string) => boolean }  */
 export const isValidColor = Array.prototype.includes.bind(['cobalt', 'dartmouth', 'denim', 'emerald', 'grey', 'indigo', 'moss', 'red', 'sky', 'teal', 'wine', 'yellow'])
 /** @type { (value: string) => boolean }  */
-export const isValidPlacement = Array.prototype.includes.bind(['top','top-start','top-end','right','right-start','right-end','bottom','bottom-start','bottom-end','left','left-start','left-end'])
+export const isValidPlacement = Array.prototype.includes.bind(['top', 'top-start', 'top-end', 'right', 'right-start', 'right-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end'])
