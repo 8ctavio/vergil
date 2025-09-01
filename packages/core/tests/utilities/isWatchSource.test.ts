@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest'
 import { ref, shallowRef, customRef, toRef, reactive } from 'vue'
-import { useModel } from '#composables'
+import { extendedRef } from '#reactivity'
 import { isWatchSource, noop } from '#utilities'
 
 test('Assert argument is a watch source', () => {
-	const model = useModel('')
+	const extended = extendedRef('')
 
 	for (const watchSource of [
 		ref(),
@@ -12,8 +12,8 @@ test('Assert argument is a watch source', () => {
 		customRef(() => ({ get: noop, set: noop })),
 		toRef(undefined),
 		() => {},
-		model.ref,
-		() => model.value
+		extended.ref,
+		() => extended.value
 	]) {
 		expect(isWatchSource(watchSource)).toBe(true)
 	}
@@ -29,8 +29,8 @@ test('Assert argument is a watch source', () => {
 		'vergil',
 		null,
 		undefined,
-		model,
-		model.value
+		extended,
+		extended.value
 	]) {
 		expect(isWatchSource(notWatchSource)).toBe(false)
 	}
