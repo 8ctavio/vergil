@@ -6,7 +6,7 @@ import { InputText } from '#components'
 import { useModel } from '#composables'
 
 beforeAll(() => {
-    vergil.init({})
+    vergil.init()
 })
 
 test('Set initial value', () => {

@@ -5,7 +5,7 @@ import { vergil } from '#vergil'
 import { Btn } from '#components'
 
 beforeAll(() => {
-    vergil.init({})
+    vergil.init()
 })
 
 suite('Button label', () => {
