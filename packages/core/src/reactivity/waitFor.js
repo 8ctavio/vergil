@@ -47,8 +47,6 @@ export function waitFor(source, options) {
  * @returns { WaitForMethods }
  */
 function methodsGenerator(source, options) {
-	watchUntil(source, () => undefined, options)
-
 	/** @param { WatchCallback } condition */
 	function toMatch(condition) {
 		return watchUntil(source, condition, options)

@@ -96,7 +96,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 				} else {
 					/**
 					 * Effects are not tracked during SSR. 
-					 * @See https://vuejs.org/guide/scaling-up/ssr.html#reactivity-on-the-server
+					 * @see https://vuejs.org/guide/scaling-up/ssr.html#reactivity-on-the-server
 					 * Some assumptions for SSR:
 					 *   - Watcher callbacks are only executed for `watchEffect` and `watch` with `immediate: true`.
 					 *   - Watchers' stop handles are noops

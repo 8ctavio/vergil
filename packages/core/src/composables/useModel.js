@@ -149,13 +149,13 @@ export function useModel(value, options = {}) {
 	}, { configurable: false, writable: false })
 	/**
 	 * Required to force trigger of watcher callbacks
-	 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245
+	 * @see https://github.com/vuejs/core/blob/main/packages/reactivity/src/watch.ts#L245
 	 */
 	// @ts-expect-error
 	model.errors.__v_isShallow = true
 	/**
 	 * Run ref/errors value getter to initialize _value if it's a customRef
-	 * @See https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts#L308
+	 * @see https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts#L308
 	 */
 	model.ref.value
 	model.errors.value
