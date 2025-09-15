@@ -2,7 +2,7 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback } from 'vue'
- * @import { WatcherSource, WatcherCallback, WatchUntilOptions, WatchUntilPromise } from '#types'
+ * @import { WatcherSource, WatchUntilOptions, WatchUntilCallback, WatchUntilPromise } from '#types'
  */
 
 /**
@@ -10,7 +10,7 @@ import { watch } from 'vue'
  * @template { WatchUntilOptions } O
  * @overload
  * @param { WatcherSource<T> } source
- * @param { WatcherCallback<T,true> } callback
+ * @param { WatchUntilCallback<T,O> } callback
  * @param { O } [options = {}]
  * 
  * @returns { WatchUntilPromise<T,O> } 
@@ -37,7 +37,7 @@ import { watch } from 'vue'
 export function watchUntil(source, callback, options = {}) {
 	const {
 		fulfill = true,
-		timeout = 0,
+		timeout,
 		signal,
 		...watchOptions
 	} = options
