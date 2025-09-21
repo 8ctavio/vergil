@@ -34,8 +34,8 @@
 			"import": "./src/plugins/index.js"
 		},
 		"./utilities": {
-			"types": "./dist/types/utilities/entries/public.d.ts",
-			"import": "./src/utilities/entries/public.js"
+			"types": "./dist/types/utilities/.entries/public.d.ts",
+			"import": "./src/utilities/.entries/public.js"
 		},
 		"./utilities/userTheme": {
 			"types": "./dist/types/utilities/userTheme/index.d.ts",
@@ -51,7 +51,7 @@
 		"#composables": "./src/composables/entries/private.js",
 		"#reactivity": "./src/reactivity/entries/private.js",
 		"#functions": "./src/functions/entries/public.js",
-		"#utilities": "./src/utilities/entries/private.js",
+		"#utilities": "./src/utilities/.entries/private.js",
 		"#types": "./src/types/index.ts"
 	},
 	"dependencies": {

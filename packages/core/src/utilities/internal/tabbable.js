@@ -1,4 +1,5 @@
-import { isInput, isObject } from "#utilities"
+import { isObject } from "../index.js"
+import { isInput } from "./elements.js"
 
 /** @param { HTMLElement } element */
 function isInert(element) {

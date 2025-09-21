@@ -1,4 +1,4 @@
-import { themes } from '#utilities'
+import { themes } from './private/theme.js'
 
 /** @import { InferTheme, Theme, ThemeAlias, Size, Radius, Spacing } from '#types' */
 

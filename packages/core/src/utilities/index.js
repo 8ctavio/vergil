@@ -1,7 +1,4 @@
-//------------------------------------------------
-//-------------------- STRING --------------------
-//------------------------------------------------
-// #region
+// #region ----- STRING -----
 /**
  * Removes diacritics from a string.
  * 
@@ -120,10 +117,7 @@ export function words(str) {
 }
 // #endregion
 
-//------------------------------------------------
-//-------------------- OBJECT --------------------
-//------------------------------------------------
-// #region
+// #region ----- OBJECT -----
 /**
  * Verifies object keys satisfy required and optional keys specification.
  * 
@@ -182,10 +176,7 @@ export function isPlainObject(value) {
 }
 // #endregion
 
-//--------------------------------------------------
-//-------------------- FUNCTION --------------------
-//--------------------------------------------------
-// #region
+// #region ----- FUNCTION -----
 /**
  * Assesses whether a value is a function.
  * 
@@ -248,10 +239,7 @@ export function debounce(fn, minWait, options = {}) {
 }
 // #endregion
 
-//----------------------------------------------
-//-------------------- DATE --------------------
-//----------------------------------------------
-// #region
+// #region ----- DATE -----
 /**
  * Offset a timestamp and/or convert its time unit.
  * 
@@ -276,6 +264,3 @@ export function getTimestamp({ from = Date.now(), unit = 'ms', offset = {} } = {
 	)
 }
 // #endregion
-
-export { isWatchSource } from '../reactivity.js'
-export { inferTheme, isValidTheme, isValidRadius, isValidSize, isValidSpacing } from '../theme.js'

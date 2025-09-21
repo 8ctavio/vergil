@@ -1,8 +1,8 @@
 import { isRef, toRef, shallowRef } from 'vue'
-import { isFunction } from '#utilities'
+import { isFunction } from './index.js'
 
 /**
- * @import { Ref, ShallowRef, MaybeRefOrGetter, WatchSource } from "vue"
+ * @import { Ref, MaybeRefOrGetter, WatchSource } from "vue"
  * @import { NormalizeRef } from '#types'
  */
 
