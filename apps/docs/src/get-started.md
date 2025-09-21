@@ -1,5 +1,9 @@
 ---
 outline: [2,3]
+head:
+  - - meta
+    - name: algolia-site-verification
+      content: A80C8E10BDBB2BC9
 ---
 
 # Get Started
