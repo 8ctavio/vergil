@@ -57,7 +57,12 @@ export default defineConfig({
 			{ icon: 'github', link: 'https://github.com/8ctavio/vergil' }
 		],
 		search: {
-			provider: 'local'
+			provider: 'algolia',
+			options: {
+				appId: 'PCGRD5D021',
+				apiKey: 'c9e18b3af408039f26c81cc31eb7c66e',
+				indexName: 'vergil-docs'
+			}
 		},
 
 		sidebar: [
