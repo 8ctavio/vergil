@@ -95,6 +95,7 @@ watch(() => confirmModel.show, show => {
 #confirm-modal {
 	font-size: var(--font-size);
     line-height: var(--line-height-text);
+	box-sizing: border-box;
     padding: var(--g-gap-3xl);
 	padding-left: calc(20px - var(--g-radius-lg));
     border-radius: var(--g-radius-lg);
