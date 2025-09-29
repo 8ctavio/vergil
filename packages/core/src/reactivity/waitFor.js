@@ -58,9 +58,14 @@ function methodsGenerator(source, options) {
 		let cont = 0
 		if (isWatchSource(times)) {
 			const sources = Array.isArray(source) ? [times, ...source] : [times, source]
-			return watchUntil(sources, ([newTimes], [oldTimes]) => {
-				if (newTimes === oldTimes) cont++
-				return cont > newTimes
+			return watchUntil(sources, (v,u) => {
+				for (let i=1; i<v.length; i++) {
+					if (!Object.is(v[i], u[i])) {
+						cont++
+						break
+					}
+				}
+				return cont > v[0]
 			}, options)
 		} else {
 			return toMatch(() => ++cont > times)
