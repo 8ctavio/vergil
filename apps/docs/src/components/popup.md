@@ -240,10 +240,11 @@ An example of recommended styles is shown below. `clamp` values should be adjust
 </template>
 
 <style scoped>
-.popup{
+.popup {
     width: clamp(250px, 25%, 400px);
 }
-.popup-content{
+.popup-content {
+	box-sizing: border-box;
     width: 100%;
     padding: 25px;
 }
@@ -279,7 +280,6 @@ const emit = defineEmits(['close', 'error'])
 	box-sizing: border-box;
     width: 100%;
     padding: 25px;
-    display: flex, grid;
 }
 </style>
 ```
