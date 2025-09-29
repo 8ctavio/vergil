@@ -60,8 +60,8 @@ defineProps({
     background-color: var(--c-bg);
     & > .badge {
         position: absolute;
-        top: -2px;
-        left: -2px;
+        top: -1px;
+        left: -1px;
     }
 }
 </style>
