@@ -3,6 +3,7 @@ node_modules
 
 # Bundles
 dist
+packages/core/dts
 
 # env files
 .env

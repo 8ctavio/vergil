@@ -19,26 +19,26 @@
 		"typecheck": "vue-tsc -p ./tsconfig.lib.json --noEmit",
 		"dts": "vue-tsc -b ./tsconfig.lib.json && node scripts/dts.js"
 	},
-	"files": ["dist/", "src/", "!src/types/", "!src/styles/color-palette.md"],
+	"files": ["dts/", "src/", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./dist/types/index.d.ts",
+			"types": "./dts/index.d.ts",
 			"import": "./src/index.js"
 		},
 		"./components": {
-			"types": "./dist/types/components/entries/public.d.ts",
+			"types": "./dts/components/entries/public.d.ts",
 			"import": "./src/components/entries/public.js"
 		},
 		"./plugins": {
-			"types": "./dist/types/plugins/index.d.ts",
+			"types": "./dts/plugins/index.d.ts",
 			"import": "./src/plugins/index.js"
 		},
 		"./utilities": {
-			"types": "./dist/types/utilities/.entries/public.d.ts",
+			"types": "./dts/utilities/.entries/public.d.ts",
 			"import": "./src/utilities/.entries/public.js"
 		},
 		"./utilities/userTheme": {
-			"types": "./dist/types/utilities/userTheme/index.d.ts",
+			"types": "./dts/utilities/userTheme/index.d.ts",
 			"import": "./src/utilities/userTheme/index.js"
 		},
 		"./styles": "./src/styles/main.css",

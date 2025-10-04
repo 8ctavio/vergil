@@ -7,7 +7,7 @@
 		"declaration": true,
 		"emitDeclarationOnly": true,
 		"rootDir": "src",
-		"outDir": "dist/types",
+		"outDir": "dts",
 		"declarationMap": true,
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lib.tsbuildinfo"
 	},
