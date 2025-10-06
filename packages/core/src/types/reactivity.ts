@@ -1,5 +1,5 @@
 import type { Ref, ShallowRef, MaybeRefOrGetter, WatchSource, WatchCallback, WatchOptions } from 'vue'
-import type { MaybeUndefined, Includes } from './index.ts'
+import type { MaybeUndefined, Includes } from "#types"
 
 export type NormalizeRef<T, S extends boolean = false> = [T] extends [Ref]
 	? T

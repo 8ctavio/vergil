@@ -1,6 +1,6 @@
 import { ModelGroupImpl } from "#composables"
 import type { UnwrapRef	} from "vue"
-import type { Model, ModelOptions, Prettify } from "."
+import type { Model, ModelOptions, Prettify } from "#types"
 
 export type ModelGroupPayload<F extends ModelGroupFields = ModelGroupFields> = {
 	[K in keyof F]: F[K] extends ModelSpec<infer T>

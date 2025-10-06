@@ -1,4 +1,4 @@
-import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition, Tuple } from '.'
+import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition, Tuple } from "#types"
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {
