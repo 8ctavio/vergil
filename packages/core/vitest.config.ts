@@ -9,7 +9,7 @@ export default defineConfig({
 		typecheck: {
 			enabled: true,
 			checker: 'vue-tsc',
-			tsconfig: 'tsconfig.test.json'
+			tsconfig: 'tsconfig.tests.json'
 		}
 	}
 })
