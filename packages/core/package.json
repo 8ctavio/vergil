@@ -56,6 +56,17 @@
 		"#utilities": "./src/utilities/.entries/private.js",
 		"#types": "./src/types/index.ts"
 	},
+	"publishConfig": {
+		"imports": {
+			"#vergil": "./src/vergil.js",
+			"#components": "./src/components/entries/private.js",
+			"#composables": "./src/composables/entries/private.js",
+			"#reactivity": "./src/reactivity/entries/private.js",
+			"#functions": "./src/functions/entries/public.js",
+			"#utilities": "./src/utilities/.entries/private.js",
+			"#types": "./dts/types/index.d.ts"
+		}
+	},
 	"dependencies": {
 		"@floating-ui/vue": "catalog:consumer"
 	},
