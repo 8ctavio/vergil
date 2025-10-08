@@ -1,4 +1,4 @@
-import type { MaybeArray } from "."
+import type { MaybeArray } from "#types"
 
 export type DateComponents<UpToMonth extends boolean = false> = UpToMonth extends true
 	? [number, number, number?]

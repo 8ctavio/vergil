@@ -48,22 +48,58 @@
 		"./colors/default": "./src/styles/default.css"
 	},
 	"imports": {
-		"#vergil": "./src/vergil.js",
-		"#components": "./src/components/entries/private.js",
-		"#composables": "./src/composables/entries/private.js",
-		"#reactivity": "./src/reactivity/entries/private.js",
-		"#functions": "./src/functions/entries/public.js",
-		"#utilities": "./src/utilities/.entries/private.js",
+		"#vergil": {
+			"types": "./dts/vergil.d.ts",
+			"import": "./src/vergil.js"
+		},
+		"#components": {
+			"types": "./dts/components/entries/private.d.ts",
+			"import": "./src/components/entries/private.js"
+		},
+		"#composables": {
+			"types": "./dts/composables/entries/private.d.ts",
+			"import": "./src/composables/entries/private.js"
+		},
+		"#reactivity": {
+			"types": "./dts/reactivity/entries/private.d.ts",
+			"import": "./src/reactivity/entries/private.js"
+		},
+		"#functions": {
+			"types": "./dts/functions/entries/public.d.ts",
+			"import": "./src/functions/entries/public.js"
+		},
+		"#utilities": {
+			"types": "./dts/utilities/.entries/private.d.ts",
+			"import": "./src/utilities/.entries/private.js"
+		},
 		"#types": "./src/types/index.ts"
 	},
 	"publishConfig": {
 		"imports": {
-			"#vergil": "./src/vergil.js",
-			"#components": "./src/components/entries/private.js",
-			"#composables": "./src/composables/entries/private.js",
-			"#reactivity": "./src/reactivity/entries/private.js",
-			"#functions": "./src/functions/entries/public.js",
-			"#utilities": "./src/utilities/.entries/private.js",
+			"#vergil": {
+				"types": "./dts/vergil.d.ts",
+				"import": "./src/vergil.js"
+			},
+			"#components": {
+				"types": "./dts/components/entries/private.d.ts",
+				"import": "./src/components/entries/private.js"
+			},
+			"#composables": {
+				"types": "./dts/composables/entries/private.d.ts",
+				"import": "./src/composables/entries/private.js"
+			},
+			"#reactivity": {
+				"types": "./dts/reactivity/entries/private.d.ts",
+				"import": "./src/reactivity/entries/private.js"
+			},
+			"#functions": {
+				"types": "./dts/functions/entries/public.d.ts",
+				"import": "./src/functions/entries/public.js"
+			},
+			"#utilities": {
+				"types": "./dts/utilities/.entries/private.d.ts",
+				"import": "./src/utilities/.entries/private.js"
+			},
 			"#types": "./dts/types/index.d.ts"
 		}
 	},
