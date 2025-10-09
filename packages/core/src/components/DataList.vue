@@ -4,7 +4,7 @@ import { vergil } from '#vergil'
 import { Badge, MiniMarkup } from '#components'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
-import type { Theme, Size, Radius, Spacing } from '#types'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineProps({
 	data: Object as PropType<Record<string, string | string[][]>>,

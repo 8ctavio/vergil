@@ -3,7 +3,7 @@ import { definedExposed, symTrigger } from "#composables"
 import { getTrue } from "#utilities"
 
 /**
- * @import { Exposed } from '#types'
+ * @import { Exposed } from '#reactivity'
  */
 
 /**

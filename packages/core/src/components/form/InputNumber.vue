@@ -5,7 +5,8 @@ import { InputTextBase } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { separateThousands, clamp } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements } from '#types'
+import type { ModelValueProp, ModelValidatorProp } from '#composables'
+import type { Elements } from '#reactivity'
 
 const props = defineProps({
 	//----- Model -----

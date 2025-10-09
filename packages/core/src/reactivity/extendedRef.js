@@ -2,7 +2,8 @@ import { ExtendedRefImpl } from "#reactivity"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'
- * @import { ExtendedRef, ExtendedRefOptions, Prettify } from '#types'
+ * @import { ExtendedRef, ExtendedRefOptions } from '#reactivity'
+ * @import { Prettify } from '#utilities'
  */
 
 /**

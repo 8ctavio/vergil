@@ -3,7 +3,8 @@ import { vergil } from '#vergil'
 import { inferTheme } from "#utilities"
 
 /**
- * @import { ToasterPosition, Theme } from '#types'
+ * @import { ToasterPosition } from '#components'
+ * @import { Theme } from '#utilities'
  */
 
 const toasters = /**

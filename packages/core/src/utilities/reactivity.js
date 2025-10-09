@@ -3,7 +3,7 @@ import { isFunction } from './index.js'
 
 /**
  * @import { Ref, MaybeRefOrGetter, WatchSource } from "vue"
- * @import { NormalizeRef } from '#types'
+ * @import { NormalizeRef } from '#reactivity'
  */
 
 /**

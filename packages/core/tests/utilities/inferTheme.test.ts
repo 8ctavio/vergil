@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest'
 import { inferTheme, themes } from '#utilities'
-import type { Theme } from '#types'
+import type { Theme } from '#utilities'
 
 test("Infer theme from name or alias", () => {
 	for (const theme of Object.keys(themes)) {

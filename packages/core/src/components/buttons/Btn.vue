@@ -3,7 +3,8 @@ import { vergil } from '#vergil'
 import { Icon, MiniMarkup } from '#components'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
-import type { BtnVariant, BtnOutline, Theme, Size, Radius, Spacing } from '#types'
+import type { BtnVariant, BtnOutline } from '#components'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineProps({
     label: String,

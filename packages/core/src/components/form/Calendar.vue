@@ -1,6 +1,6 @@
 <script lang="ts">
 import { hasDate, isDate, padLeadingZeros } from '#utilities'
-import type { CalendarDate, DateComponents} from '#types'
+import type { CalendarDate, DateComponents } from '#utilities'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 const MIN_DATE = '1970-01-01'
@@ -233,12 +233,9 @@ import {
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
 } from '#utilities'
 import type { PropType } from 'vue'
-import type {
-	ModelWrapper, ModelValueProp, ModelValidatorProp, Elements,
-	CalendarModelDate, Weekday,
-	Theme, Size, Radius, Spacing,
-	ToArray, MaybeArray, Tuple
-} from '#types'
+import type { ModelWrapper, ModelValueProp, ModelValidatorProp } from "#composables"
+import type { Elements } from '#reactivity'
+import type { CalendarModelDate, Weekday, ToArray, MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
 
 type TimeControls = {
 	min?: number;
@@ -271,9 +268,9 @@ const props = defineProps({
 	},
 	labels: {
 		type: Object as PropType<{
-			months: Tuple<string, 12>;
-			shortMonths: Tuple<string, 12>;
-			shortWeekdays: Tuple<string, 7>;
+			months: TupleOf<string, 12>;
+			shortMonths: TupleOf<string, 12>;
+			shortWeekdays: TupleOf<string, 7>;
 		}>,
 		default: () => vergil.config.calendar.labels
 	},

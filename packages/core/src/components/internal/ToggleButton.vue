@@ -2,7 +2,8 @@
 import { MiniMarkup } from '#components'
 import { vPreventClickSelection } from '#utilities'
 import type { PropType } from 'vue'
-import type { ToggleVariant, Radius } from '#types'
+import type { ToggleVariant } from '#components'
+import type { Radius } from '#utilities'
 
 defineProps({
     type: {

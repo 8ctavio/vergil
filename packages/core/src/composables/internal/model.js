@@ -4,9 +4,9 @@ import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
 
 /**
- * @import { WatchOptions, EffectScope } from 'vue'
- * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatchControls } from '#types'
- * @import { WatcherEffect } from "#composables"
+ * @import { WatchOptions, EffectScope } from "vue"
+ * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
+ * @import { WatchControls } from "#reactivity"
  */
 
 /**

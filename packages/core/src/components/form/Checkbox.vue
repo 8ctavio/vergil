@@ -5,7 +5,10 @@ import { ToggleButton } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, ModelWrapper, Elements, ToggleVariant, Theme, Size, Radius, Spacing } from '#types'
+import type { ToggleVariant } from '#components'
+import type { ModelValueProp, ModelValidatorProp, ModelWrapper } from '#composables'
+import type { Elements } from '#reactivity'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

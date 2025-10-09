@@ -1,6 +1,6 @@
 import { isObject } from "#utilities"
 
-/** @import { DescriptorMarked } from '#types' */
+/** @import { DescriptorMarked } from '#functions' */
 
 /**
  * Marks an object as a property descriptor.

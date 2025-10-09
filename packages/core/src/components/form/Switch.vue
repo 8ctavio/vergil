@@ -4,7 +4,9 @@ import { Icon, FormField, MiniMarkup } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme, vPreventClickSelection } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements, Theme, Size, Radius, Spacing } from '#types'
+import type { ModelValueProp, ModelValidatorProp } from '#composables'
+import type { Elements } from '#reactivity'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

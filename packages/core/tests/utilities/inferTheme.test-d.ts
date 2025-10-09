@@ -1,6 +1,6 @@
 import { test, expectTypeOf } from 'vitest'
 import { inferTheme } from '#utilities'
-import type { Theme, ThemeAlias } from '#types'
+import type { Theme, ThemeAlias } from '#utilities'
 
 test("Infer returned theme name", () => {
 	expectTypeOf(inferTheme<ThemeAlias>('neutral')).toEqualTypeOf<Theme>()

@@ -5,13 +5,13 @@
 	"private": false,
 	"description": "Vue Components and Composition Utilities",
 	"author": "Octavio Araiza (https://github.com/8ctavio)",
+	"homepage": "https://github.com/8ctavio/vergil",
+	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/8ctavio/vergil.git",
 		"directory": "packages/core"
 	},
-	"homepage": "https://github.com/8ctavio/vergil",
-	"bugs": "https://github.com/8ctavio/vergil/issues",
 	"type": "module",
 	"scripts": {
 		"lint": "oxlint",
@@ -19,16 +19,16 @@
 		"typecheck": "pnpm typecheck:src && pnpm typecheck:tests",
 		"typecheck:src": "vue-tsc -p ./tsconfig.src.json --noEmit",
 		"typecheck:tests": "vue-tsc -p ./tsconfig.tests.json",
-		"dts": "vue-tsc -p ./tsconfig.src.json && node scripts/dts.js"
+		"dts": "vue-tsc -p ./tsconfig.src.json"
 	},
 	"files": ["dts/", "src/", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./dts/index.d.ts",
+			"types": "./dts/types/index.d.ts",
 			"import": "./src/index.js"
 		},
 		"./components": {
-			"types": "./dts/components/entries/public.d.ts",
+			"types": "./dts/types/components/.entries/public.d.ts",
 			"import": "./src/components/entries/public.js"
 		},
 		"./plugins": {
@@ -36,7 +36,7 @@
 			"import": "./src/plugins/index.js"
 		},
 		"./utilities": {
-			"types": "./dts/utilities/.entries/public.d.ts",
+			"types": "./dts/types/utilities/.entries/public.d.ts",
 			"import": "./src/utilities/.entries/public.js"
 		},
 		"./utilities/userTheme": {
@@ -48,59 +48,30 @@
 		"./colors/default": "./src/styles/default.css"
 	},
 	"imports": {
+		"#src/*": "./src/*",
 		"#vergil": {
-			"types": "./dts/vergil.d.ts",
+			"types": "./dts/types/vergil.d.ts",
 			"import": "./src/vergil.js"
 		},
 		"#components": {
-			"types": "./dts/components/entries/private.d.ts",
+			"types": "./dts/types/components/.entries/private.d.ts",
 			"import": "./src/components/entries/private.js"
 		},
 		"#composables": {
-			"types": "./dts/composables/entries/private.d.ts",
+			"types": "./dts/types/composables/.entries/private.d.ts",
 			"import": "./src/composables/entries/private.js"
 		},
 		"#reactivity": {
-			"types": "./dts/reactivity/entries/private.d.ts",
+			"types": "./dts/types/reactivity/.entries/private.d.ts",
 			"import": "./src/reactivity/entries/private.js"
 		},
 		"#functions": {
-			"types": "./dts/functions/entries/public.d.ts",
+			"types": "./dts/types/functions/.entries/private.d.ts",
 			"import": "./src/functions/entries/public.js"
 		},
 		"#utilities": {
-			"types": "./dts/utilities/.entries/private.d.ts",
+			"types": "./dts/types/utilities/.entries/private.d.ts",
 			"import": "./src/utilities/.entries/private.js"
-		},
-		"#types": "./src/types/index.ts"
-	},
-	"publishConfig": {
-		"imports": {
-			"#vergil": {
-				"types": "./dts/vergil.d.ts",
-				"import": "./src/vergil.js"
-			},
-			"#components": {
-				"types": "./dts/components/entries/private.d.ts",
-				"import": "./src/components/entries/private.js"
-			},
-			"#composables": {
-				"types": "./dts/composables/entries/private.d.ts",
-				"import": "./src/composables/entries/private.js"
-			},
-			"#reactivity": {
-				"types": "./dts/reactivity/entries/private.d.ts",
-				"import": "./src/reactivity/entries/private.js"
-			},
-			"#functions": {
-				"types": "./dts/functions/entries/public.d.ts",
-				"import": "./src/functions/entries/public.js"
-			},
-			"#utilities": {
-				"types": "./dts/utilities/.entries/private.d.ts",
-				"import": "./src/utilities/.entries/private.js"
-			},
-			"#types": "./dts/types/index.d.ts"
 		}
 	},
 	"dependencies": {

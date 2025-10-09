@@ -1,6 +1,6 @@
 import { EntangledImpl, ExtendedRefImpl } from "#reactivity"
 
-/** @import { Entangled, ExtendedRef } from '#types' */
+/** @import { Entangled, ExtendedRef } from '#reactivity' */
 
 /**
  * Assesses whether a value is an entangled object.

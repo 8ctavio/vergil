@@ -5,7 +5,7 @@ import { Btn, FocusTrap } from '#components'
 import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '#utilities'
 import { popupMeta, closePopup } from './index.js'
 import type { PropType } from 'vue'
-import type { Theme, Size, Radius } from '#types'
+import type { Theme, Size, Radius } from '#utilities'
 
 const { disabled } = defineProps({
     title: String,

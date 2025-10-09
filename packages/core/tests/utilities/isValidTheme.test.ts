@@ -1,6 +1,6 @@
 import { test, expect } from "vitest"
 import { isValidTheme, themes } from "#utilities"
-import type { Theme } from "#types"
+import type { Theme } from "#utilities"
 
 test("Valid theme name or alias returns true", () => {
 	for (const theme of Object.keys(themes)) {

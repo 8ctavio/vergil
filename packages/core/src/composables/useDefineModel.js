@@ -5,8 +5,8 @@ import { isModel } from "#functions"
 import { isFunction, isObject, noop } from '#utilities'
 
 /**
- * @import { WatchOptions, EffectScope } from 'vue'
- * @import { ModelWrapper, DefineModelOptions, ExternalModelUpdateCallback, InternalModelUpdateCallback } from '#types'
+ * @import { WatchOptions, EffectScope } from "vue"
+ * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#composables"
  */
 
 const symExt_controller = Symbol('external:controller')

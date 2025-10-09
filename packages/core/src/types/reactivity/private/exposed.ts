@@ -1,9 +1,6 @@
-import { symTrigger, symHasInstance } from "#composables"
 import type { ShallowRef } from "vue"
-import type { Entangled } from "#types"
-
-export type Exposed = Readonly<Record<string, any>>
-export type Elements = Readonly<Record<string, HTMLElement | null>>
+import type { symTrigger, symHasInstance } from "#composables"
+import type { Entangled } from "#reactivity"
 
 export type InternalExposed = Record<string, unknown> & {
 	[symTrigger]: () => void;

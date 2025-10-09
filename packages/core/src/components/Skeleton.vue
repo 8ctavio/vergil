@@ -2,7 +2,7 @@
 import { vergil } from '#vergil'
 import { isValidRadius, isValidSize, isValidSpacing } from '#utilities'
 import type { PropType } from 'vue'
-import type { Size, Radius, Spacing } from '#types'
+import type { Size, Radius, Spacing } from '#utilities'
 
 defineProps({
     descendant: Boolean,

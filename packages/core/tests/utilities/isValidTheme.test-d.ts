@@ -1,6 +1,6 @@
 import { test, expectTypeOf } from "vitest"
 import { isValidTheme } from "#utilities"
-import type { ThemeAlias } from "#types"
+import type { ThemeAlias } from "#utilities"
 
 test("Infer true return value for valid theme name or alias", () => {
 	expectTypeOf(isValidTheme<ThemeAlias>('neutral')).toEqualTypeOf<true>()

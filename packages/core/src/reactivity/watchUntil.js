@@ -2,7 +2,7 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback } from 'vue'
- * @import { WatcherSource, WatchUntilOptions, WatchUntilCallback, WatchUntilPromise } from '#types'
+ * @import { WatcherSource, WatchUntilOptions, WatchUntilCallback, WatchUntilPromise } from '#reactivity'
  */
 
 /**

@@ -3,7 +3,7 @@ import { isRef, computed } from 'vue'
 import { MiniMarkup } from "#components"
 import { inferTheme } from "#utilities"
 import type { PropType, ShallowRef } from "vue"
-import type { Theme, Size, Radius, Spacing } from "#types"
+import type { Theme, Size, Radius, Spacing } from "#utilities"
 
 const props = defineProps({
     label: {

@@ -1,0 +1,2 @@
+export type SelectionOptions = (string | [string, string])[] | Record<string, string | [string, string]>
+export type SelectionOptionProperty = string | ((option: unknown, key: string | number) => string)

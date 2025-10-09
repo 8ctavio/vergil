@@ -5,7 +5,11 @@ import { CheckboxGroup, InputText, Btn, Badge, Icon, FormField, MiniMarkup } fro
 import { useModel, useDefineModel, usePopover } from '#composables'
 import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp, Elements, SelectionOptions, SelectionOptionProperty, Theme, Size, Radius, Spacing } from '#types'
+import type { SelectionOptions, SelectionOptionProperty } from '#components'
+import type { ModelValueProp, ModelValidatorProp } from '#composables'
+import type { Elements } from '#reactivity'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
+
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

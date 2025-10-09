@@ -1,4 +1,7 @@
-import type { DeepOptional, Theme, ColorPalette, Size, Radius, Spacing, BtnVariant, BtnOutline, ToggleVariant, ToasterPosition, Tuple } from "#types"
+export * from '#src/vergil.js'
+
+import type { TupleOf, DeepOptional, Theme, Size, Radius, Spacing, ColorPalette } from "#utilities"
+import type { BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from "./components"
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {
@@ -74,9 +77,9 @@ export interface VergilConfig {
 	calendar: {
 		locale: Intl.LocalesArgument;
 		labels?: {
-			months?: Tuple<string, 12>;
-			shortMonths?: Tuple<string, 12>;
-			shortWeekdays?: Tuple<string, 7>;
+			months?: TupleOf<string, 12>;
+			shortMonths?: TupleOf<string, 12>;
+			shortWeekdays?: TupleOf<string, 7>;
 		};
 		firstWeekday: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 		timeFormat: '12' | '24';

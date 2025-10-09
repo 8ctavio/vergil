@@ -2,18 +2,18 @@
 	"name": "@vergil/monorepo",
 	"private": true,
 	"author": "Octavio Araiza (https://github.com/8ctavio)",
+	"homepage": "https://github.com/8ctavio/vergil",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/8ctavio/vergil.git"
 	},
-	"homepage": "https://github.com/8ctavio/vergil",
 	"scripts": {
 		"lint": "oxlint",
 		"test": "pnpm vergil:lint && pnpm vergil:typecheck && pnpm vergil:test",
 		"dev:prepare": "pnpm --filter vergil dts",
 		"vergil:lint": "pnpm --filter vergil lint",
 		"vergil:test": "pnpm --filter vergil test",
-		"vergil:typecheck": "pnpm --filter vergil typecheck:src",
+		"vergil:typecheck": "pnpm --filter vergil typecheck",
 		"docs:dev": "pnpm --filter docs dev",
 		"playground": "pnpm --filter playground dev"
 	},

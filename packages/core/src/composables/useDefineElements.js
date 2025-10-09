@@ -6,7 +6,7 @@ import { isFunction } from "#utilities"
 
 /**
  * @import { ShallowRef } from 'vue'
- * @import { Entangled, InternalElements } from '#types'
+ * @import { Entangled, InternalElements } from '#reactivity'
  */
 
 /**

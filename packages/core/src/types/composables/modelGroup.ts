@@ -1,6 +1,6 @@
-import { ModelGroupImpl } from "#composables"
 import type { UnwrapRef	} from "vue"
-import type { Model, ModelOptions, Prettify } from "#types"
+import type { Model, ModelOptions, ModelGroupImpl, ModelGroupInternal } from "#composables"
+import type { Prettify } from "#utilities"
 
 export type ModelGroupPayload<F extends ModelGroupFields = ModelGroupFields> = {
 	[K in keyof F]: F[K] extends ModelSpec<infer T>
@@ -24,20 +24,7 @@ export type ModelGroupValidator<F extends ModelGroupFields = ModelGroupFields> =
 	isValid: (path: ModelGroupPath<F>) => boolean
 ) => void;
 
-type ModelGroupInternal = {
-	readonly __modelGroup: true;
-	readonly __validator: ModelGroupValidator;
-}
-
 export type ModelGroupFields = { [Key: string]: ModelSpec | (ModelGroupFields & ModelGroupInternal) }
-
-export type ModelGroupFieldsConstraint<F extends ModelGroupFields = ModelGroupFields> = {
-	[K in keyof F]: F[K] extends ModelGroupInternal
-		? F[K]
-		: F[K] extends ModelSpec<infer V>
-			? { validator?: ModelOptions<V>['validator'] }
-			: F[K]
-}
 
 export type ModelGroupSpec<F extends ModelGroupFields = ModelGroupFields> = {
 	[K in keyof F]: F[K];

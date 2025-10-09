@@ -16,7 +16,7 @@ import {
 /**
  * @import { ShallowRef, MaybeRefOrGetter, ComponentPublicInstance, VNode, FunctionalComponent, PropType } from 'vue'
  * @import { Placement, Side, MiddlewareState } from '@floating-ui/vue'
- * @import { Theme, Size, Radius, Spacing } from '#types'
+ * @import { Theme, Size, Radius, Spacing } from '#utilities'
  */
 
 /**

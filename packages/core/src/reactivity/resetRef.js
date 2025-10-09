@@ -3,7 +3,7 @@ import { extendedRef } from "#reactivity"
 
 /**
  * @import { MaybeRefOrGetter } from 'vue'
- * @import { ExtendedRef } from '#types'
+ * @import { ExtendedRef } from '#reactivity'
  */
 
 /**

@@ -4,7 +4,7 @@ import { normalizeRef, pull } from '#utilities'
 
 /**
  * @import { Ref, MaybeRef } from 'vue'
- * @import { Entangled, ExtendedRef } from '#types'
+ * @import { Entangled, ExtendedRef } from '#reactivity'
  */
 
 let shouldUnwrap = true

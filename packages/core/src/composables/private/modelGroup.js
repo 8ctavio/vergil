@@ -4,8 +4,8 @@ import { isModel } from '#functions'
 import { isObject, isPlainObject, isFunction } from "#utilities"
 
 /**
- * @import { ShallowRef } from 'vue'
- * @import { ModelGroup, ModelGroupFields, ModelGroupSpec, ModelSpec, ModelGroupPayload, ModelGroupValidator, Model } from '#types'
+ * @import { ShallowRef } from "vue"
+ * @import { Model, ModelSpec, ModelGroup, ModelGroupFields, ModelGroupSpec, ModelGroupPayload, ModelGroupValidator } from "#composables"
  */
 
 /**

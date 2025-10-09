@@ -5,8 +5,8 @@ import { noop } from "#utilities"
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions, EffectScope } from 'vue'
- * @import { WatcherSource, WatchersHandle, WatchControls } from '#types'
  * @import { WatcherEffect } from '#composables'
+ * @import { WatcherSource, WatchersHandle, WatchControls } from '#reactivity'
  */
 
 /**

@@ -4,7 +4,9 @@ import { vergil } from '#vergil'
 import { Btn, Icon, FormField, MiniMarkup } from '#components'
 import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { ShallowRef, PropType } from 'vue'
-import type { ModelWrapper, Entangled, Theme, Size, Radius, Spacing } from '#types'
+import type { ModelWrapper } from '#composables'
+import type { Entangled } from '#reactivity'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({
