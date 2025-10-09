@@ -49,8 +49,8 @@ Vergil form components that expose elements support the `elements` prop. The doc
 Since reading defined `elements` properties unwraps underlying element refs, reactive effects can properly track exposed element changes.
 
 ```js
-const exposed = useExposed()
-watch(() => exposed.someHTMLElement, el => {
+const elements = useElements()
+watch(() => elements.someHTMLElement, el => {
 	if (el === null) {
 		// Element is unmounted
 	} else {
