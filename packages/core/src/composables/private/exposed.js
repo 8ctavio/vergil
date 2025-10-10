@@ -1,6 +1,6 @@
 /**
  * @import { ComponentInternalInstance } from 'vue'
- * @import { InternalExposed, InternalElements } from '#reactivity'
+ * @import { InternalExposed, InternalElements } from '#composables'
  */
 
 export const symTrigger = Symbol('trigger')

@@ -6,10 +6,8 @@ import { useModel, useDefineModel, usePopover } from '#composables'
 import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
 import type { SelectionOptions, SelectionOptionProperty } from '#components'
-import type { ModelValueProp, ModelValidatorProp } from '#composables'
-import type { Elements } from '#reactivity'
+import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
-
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps({

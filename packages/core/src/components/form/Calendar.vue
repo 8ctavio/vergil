@@ -233,8 +233,7 @@ import {
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
 } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelWrapper, ModelValueProp, ModelValidatorProp } from "#composables"
-import type { Elements } from '#reactivity'
+import type { ModelWrapper, ModelValueProp, ModelValidatorProp, Elements  } from "#composables"
 import type { CalendarModelDate, Weekday, ToArray, MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
 
 type TimeControls = {

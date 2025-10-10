@@ -30,7 +30,7 @@ import { getTrue } from "#utilities"
  */
 
 /**
- * @import { Elements } from '#reactivity'
+ * @import { Elements } from '#composables'
  */
 
 /**

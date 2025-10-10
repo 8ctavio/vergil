@@ -6,8 +6,7 @@ import { useDefineModel, useDefineElements } from '#composables'
 import { isObject, inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
 import type { ToggleVariant } from '#components'
-import type { ModelValueProp, ModelValidatorProp, ModelWrapper } from '#composables'
-import type { Elements } from '#reactivity'
+import type { ModelValueProp, ModelValidatorProp, ModelWrapper, Elements } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineOptions({ inheritAttrs: false })

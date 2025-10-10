@@ -1,5 +1,6 @@
 import type { ShallowRef, MaybeRefOrGetter, UnwrapRef, WatchCallback, WatchOptions, PropType } from "vue"
-import type { ExtendedRef, Exposed, Elements } from "#reactivity"
+import type { Exposed, Elements } from "#composables"
+import type { ExtendedRef } from "#reactivity"
 import type { DescriptorMarked } from "#functions"
 import type { MaybeUndefined } from "#utilities"
 

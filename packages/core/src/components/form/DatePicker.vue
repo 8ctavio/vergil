@@ -19,8 +19,7 @@ import { Calendar, Btn, FormField, MiniMarkup } from '#components'
 import { useDefineModel, usePopover } from '#composables'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
-import type { ModelValueProp, ModelValidatorProp } from '#composables'
-import type { Elements } from '#reactivity'
+import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
 import type { CalendarModelDate, Theme, Size, Radius, Spacing } from '#utilities'
 
 defineOptions({ inheritAttrs: false })
