@@ -1,7 +1,7 @@
-export * from '#src/vergil.js'
+export * from './vergil.js'
 
 import type { TupleOf, DeepOptional, Theme, Size, Radius, Spacing, ColorPalette } from "#utilities"
-import type { BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from "./components"
+import type { BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from "#components"
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {

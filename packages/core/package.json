@@ -21,10 +21,10 @@
 		"typecheck:tests": "vue-tsc -p ./tsconfig.tests.json",
 		"dts": "vue-tsc -p ./tsconfig.src.json"
 	},
-	"files": ["dts/", "src/", "!src/types/", "!src/styles/color-palette.md"],
+	"files": ["dts/", "src/", "!src/**/*.ts", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./dts/types/index.d.ts",
+			"types": "./dts/index-types.d.ts",
 			"import": "./src/index.js"
 		},
 		"./components": {
@@ -50,7 +50,7 @@
 	"imports": {
 		"#src/*": "./src/*",
 		"#vergil": {
-			"types": "./dts/types/vergil.d.ts",
+			"types": "./dts/vergil-types.d.ts",
 			"import": "./src/vergil.js"
 		},
 		"#components": {
@@ -62,12 +62,12 @@
 			"import": "./src/composables/entries/private.js"
 		},
 		"#reactivity": {
-			"types": "./dts/types/reactivity/.entries/private.d.ts",
-			"import": "./src/reactivity/entries/private.js"
+			"types": "./dts/reactivity/.entries/private-types.d.ts",
+			"import": "./src/reactivity/.entries/private.js"
 		},
 		"#functions": {
-			"types": "./dts/types/functions/.entries/private.d.ts",
-			"import": "./src/functions/entries/public.js"
+			"types": "./dts/functions/.entries/public-types.d.ts",
+			"import": "./src/functions/.entries/public.js"
 		},
 		"#utilities": {
 			"types": "./dts/types/utilities/.entries/private.d.ts",
