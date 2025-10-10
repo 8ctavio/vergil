@@ -24,7 +24,7 @@
 	"files": ["dts/", "src/", "!src/**/*.ts", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./dts/index-types.d.ts",
+			"types": "./dts/index.types.d.ts",
 			"import": "./src/index.js"
 		},
 		"./components": {
@@ -50,7 +50,7 @@
 	"imports": {
 		"#src/*": "./src/*",
 		"#vergil": {
-			"types": "./dts/vergil-types.d.ts",
+			"types": "./dts/vergil.types.d.ts",
 			"import": "./src/vergil.js"
 		},
 		"#components": {
@@ -62,11 +62,11 @@
 			"import": "./src/composables/entries/private.js"
 		},
 		"#reactivity": {
-			"types": "./dts/reactivity/.entries/private-types.d.ts",
+			"types": "./dts/reactivity/.entries/private.types.d.ts",
 			"import": "./src/reactivity/.entries/private.js"
 		},
 		"#functions": {
-			"types": "./dts/functions/.entries/public-types.d.ts",
+			"types": "./dts/functions/.entries/public.types.d.ts",
 			"import": "./src/functions/.entries/public.js"
 		},
 		"#utilities": {
