@@ -157,8 +157,8 @@ export function useModel(value, options = {}) {
 	 * Run ref/errors value getter to initialize _value if it's a customRef
 	 * @see https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts#L308
 	 */
-	model.ref.value
-	model.errors.value
+	model.ref.value // oxlint-disable-line no-unused-expressions
+	model.errors.value // oxlint-disable-line no-unused-expressions
 
 	if (includeExposed) {
 		Object.defineProperty(model, 'exposed', {

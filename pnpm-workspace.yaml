@@ -3,15 +3,15 @@ packages:
   - packages/*
 
 catalog:
-  '@floating-ui/vue': 1.1.6
-  '@types/node': 24.3.0
+  '@floating-ui/vue': 1.1.9
+  '@types/node': 24.7.1
   '@vitejs/plugin-vue': 5.2.4
   '@vue/test-utils': 2.4.6
-  happy-dom: 17.5.6
-  oxlint: 1.11.0
-  typescript: 5.8.3
+  happy-dom: 20.0.0
+  oxlint: 1.22.0
+  typescript: 5.9.3
   vite: 6.3.5
-  vitepress: 1.6.3
+  vitepress: 1.6.4
   vitest: 3.1.4
   vue: 3.5.16
   vue-tsc: 2.2.10
