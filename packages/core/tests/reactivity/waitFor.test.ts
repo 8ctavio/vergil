@@ -20,22 +20,28 @@ const conditions = {
 suite("Generate methods", () => {
 	test("Generate monosource methods", () => {
 		const methods = waitFor(noop)
-		for (const method of [...conditions.base, ...conditions.initial, ...conditions.monosource]) {
-			expect(method).toSatisfy(m => m in methods)
+		for (const m of [conditions.base, conditions.initial, conditions.monosource]) {
+			for (const method of m) {
+				expect(method).toSatisfy(m => m in methods)
+			}
 		}
 	})
 
 	test("Generate multisource methods", () => {
 		const methods = waitFor([noop])
-		for (const method of [...conditions.base, ...conditions.initial, ...conditions.multisource]) {
-			expect(method).toSatisfy(m => m in methods)
+		for (const m of [conditions.base, conditions.initial, conditions.multisource]) {
+			for (const method of m) {
+				expect(method).toSatisfy(m => m in methods)
+			}
 		}
 	})
 
 	test("Generate negated, monosource methods", () => {
 		const methods = waitFor(noop).not
-		for (const method of [...conditions.base, ...conditions.monosource]) {
-			expect(method).toSatisfy(m => m in methods)
+		for (const m of [conditions.base, conditions.monosource]) {
+			for (const method of m) {
+				expect(method).toSatisfy(m => m in methods)
+			}
 		}
 	})
 })
@@ -436,15 +442,15 @@ suite("toContain", () => {
 
 suite("toBeEqual", () => {
 	test("Resolve when sources are equal", async () => {
-		const sources = [shallowRef(), shallowRef(), shallowRef(null)]
+		const sources = [shallowRef(), shallowRef(), shallowRef(null)] as const
 		const waitForSources = waitFor(sources)
 		const spy = vi.spyOn(waitForSources, 'toBeEqual')
 	
 		queueMicrotask(async () => {
-			sources[0]!.value = null
+			sources[0].value = null
 			await nextTick()
 			expect(spy).not.toHaveResolved()
-			sources[1]!.value = null
+			sources[1].value = null
 		})
 	
 		await waitForSources.toBeEqual()
