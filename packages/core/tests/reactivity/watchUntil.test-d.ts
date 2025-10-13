@@ -22,6 +22,11 @@ test("Callback argument types match source types", () => {
 		expectTypeOf(v).toEqualTypeOf<[number, string, boolean]>()
 		expectTypeOf(u).toEqualTypeOf<[number | undefined, string | undefined, boolean | undefined]>()
 	})
+
+	watchUntil([() => 0, () => '', () => false] as const, (v,u) => {
+		expectTypeOf(v).toEqualTypeOf<[number, string, boolean]>()
+		expectTypeOf(u).toEqualTypeOf<[number | undefined, string | undefined, boolean | undefined]>()
+	})
 })
 
 test("Infer returned Promise's resolve value", () => {
@@ -51,7 +56,6 @@ test("Infer returned Promise's resolve value with timeout", () => {
 		Promise<[number, string, boolean] | undefined>
 	>()
 })
-
 
 test("Constrain callback's return value", () => {
 	type WatchUntilCallbackReturnType<F = boolean> = ReturnType<Parameters<

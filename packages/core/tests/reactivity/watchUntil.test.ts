@@ -47,7 +47,7 @@ test("Resolve with custom fulfill value", async () => {
 test("Resolve to value that fulfilled condition", async () => {
 	for (const fulfill of fulfillOptions) {
 		await expect(
-			watchUntil(() => fulfill, () => true)
+			watchUntil(() => fulfill, getTrue)
 		).resolves.toBe(fulfill)
 	}
 })
