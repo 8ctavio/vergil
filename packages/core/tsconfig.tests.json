@@ -1,4 +1,7 @@
 {
-	"extends": ["./tsconfig.node.json", "./tsconfig.paths.json"],
+	"extends": "./tsconfig.node.json",
+	"compilerOptions": {
+		"customConditions": ["dev"]
+	},
 	"include": ["tests"]
 }

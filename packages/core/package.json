@@ -21,7 +21,7 @@
 		"typecheck": "pnpm typecheck:src && pnpm typecheck:tests",
 		"typecheck:src": "vue-tsc -p ./tsconfig.src.json --noEmit",
 		"typecheck:tests": "vue-tsc -p ./tsconfig.tests.json",
-		"typecheck:tests:prod": "vue-tsc -p ./tsconfig.tests.json --paths null"
+		"typecheck:tests:prod": "vue-tsc -p ./tsconfig.tests.json --customConditions null"
 	},
 	"files": ["dts/", "src/", "!src/**/*.ts", "!src/types/", "!src/styles/color-palette.md"],
 	"exports": {
@@ -52,27 +52,45 @@
 	"imports": {
 		"#src/*": "./src/*",
 		"#vergil": {
-			"types": "./dts/vergil.types.d.ts",
+			"types": {
+				"dev": "./src/vergil.types.ts",
+				"default": "./dts/vergil.types.d.ts"
+			},
 			"import": "./src/vergil.js"
 		},
 		"#components": {
-			"types": "./dts/types/components/.entries/private.d.ts",
+			"types": {
+				"dev": "./src/types/components/.entries/private.ts",
+				"default": "./dts/types/components/.entries/private.d.ts"
+			},
 			"import": "./src/components/entries/private.js"
 		},
 		"#composables": {
-			"types": "./dts/types/composables/.entries/private.d.ts",
+			"types": {
+				"dev": "./src/types/composables/.entries/private.ts",
+				"default": "./dts/types/composables/.entries/private.d.ts"
+			},
 			"import": "./src/composables/entries/private.js"
 		},
 		"#reactivity": {
-			"types": "./dts/reactivity/.entries/private.types.d.ts",
+			"types": {
+				"dev": "./src/reactivity/.entries/private.types.ts",
+				"default": "./dts/reactivity/.entries/private.types.d.ts"
+			},
 			"import": "./src/reactivity/.entries/private.js"
 		},
 		"#functions": {
-			"types": "./dts/functions/.entries/public.types.d.ts",
+			"types": {
+				"dev": "./src/functions/.entries/public.types.ts",
+				"default": "./dts/functions/.entries/public.types.d.ts"
+			},
 			"import": "./src/functions/.entries/public.js"
 		},
 		"#utilities": {
-			"types": "./dts/types/utilities/.entries/private.d.ts",
+			"types": {
+				"dev": "./src/types/utilities/.entries/private.ts",
+				"default": "./dts/types/utilities/.entries/private.d.ts"
+			},
 			"import": "./src/utilities/.entries/private.js"
 		}
 	},
