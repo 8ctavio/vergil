@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"#vergil": ["./src/vergil.types.ts"],
+			"#components": ["./src/types/components/.entries/private.ts"],
+			"#composables": ["./src/types/composables/.entries/private.ts"],
+			"#reactivity": ["./src/reactivity/.entries/private.types.ts"],
+			"#functions": ["./src/functions/.entries/public.types.ts"],
+			"#utilities": ["./src/types/utilities/.entries/private.ts"]
+		}
+	}
+}

@@ -4,7 +4,6 @@
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"noEmit": true,
-		"skipLibCheck": true
-	},
-	"include": ["*.ts"]
+		"skipLibCheck": true,
+	}
 }

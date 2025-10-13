@@ -9,9 +9,9 @@
 	},
 	"scripts": {
 		"lint": "oxlint",
-		"test": "pnpm vergil:lint && pnpm vergil:typecheck && pnpm vergil:test",
-		"dev:prepare": "pnpm --filter vergil dts",
-		"vergil:lint": "pnpm --filter vergil lint",
+		"test": "pnpm vergil:typecheck && pnpm vergil:test",
+		"test:prod": "pnpm --filter vergil dts && pnpm --filter vergil test:prod",
+		"vergil:dts": "pnpm --filter vergil dts",
 		"vergil:test": "pnpm --filter vergil test",
 		"vergil:typecheck": "pnpm --filter vergil typecheck",
 		"docs:dev": "pnpm --filter docs dev",

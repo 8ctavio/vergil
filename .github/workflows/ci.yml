@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm vergil:lint
+        run: pnpm lint
       - name: Generate declaration files
-        run: pnpm dev:prepare
+        run: pnpm --filter vergil dts
       - name: Run tests
-        run: pnpm vergil:test
+        run: pnpm --filter vergil test:prod
