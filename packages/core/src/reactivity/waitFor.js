@@ -7,7 +7,7 @@ import { isWatchSource } from '#utilities'
  */
 
 /**
- * @template { WatchSource | WatchSource[] } T
+ * @template T
  * @template { Omit<WatchUntilOptions, 'fulfill'> } O
  * @overload
  * @param { WatcherSource<T> } source
