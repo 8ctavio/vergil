@@ -1,6 +1,6 @@
 import type { WatchSource, WatchCallback } from "vue"
 import type { UnwrapSources } from "#reactivity"
-import type { MaybeUndefined, Includes } from "#utilities"
+import type { Writable, MaybeUndefined, Includes } from "#utilities"
 
 export type WatchUntilOptions = {
 	/**
@@ -29,7 +29,7 @@ export type WatchUntilCallback<T, O extends WatchUntilOptions> = T extends Watch
 		| (O extends { fulfill: infer F } ? F : boolean)
 		| void
 	: T extends readonly WatchSource[]
-		? (...args: Parameters<WatchCallback<UnwrapSources<T,false>, UnwrapSources<T,true>>>) =>
+		? (...args: Parameters<WatchCallback<UnwrapSources<Writable<T>,false>, UnwrapSources<Writable<T>,true>>>) =>
 			| (O extends { fulfill: infer F } ? F : boolean)
 			| void
 		: never

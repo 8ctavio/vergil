@@ -18,7 +18,7 @@ export type WaitForMethods<
 		get not(): WaitForMethods<S,O,false>;
 	} : {}
 ) & (
-	S extends WatchSource[] ? {
+	S extends readonly WatchSource[] ? {
 		toBeEqual(): WatchUntilPromise<S,O>
 	} : {
 		toBe<T extends MaybeRefOrGetter>(value: T): T extends WatchSource

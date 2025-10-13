@@ -1,6 +1,6 @@
 import type { Ref, ShallowRef, WatchSource, WatchCallback, WatchOptions } from "vue"
 import type { WatchControlledHandle } from "#reactivity"
-import type { MaybeUndefined } from "#utilities"
+import type { Writable, MaybeUndefined } from "#utilities"
 
 export type NormalizeRef<T, S extends boolean = false> = [T] extends [Ref]
 	? T
@@ -17,7 +17,7 @@ export type WatcherSource<T> = T extends WatchSource
 export type WatcherCallback<T, U extends boolean> = T extends WatchSource<infer V>
 	? WatchCallback<V, MaybeUndefined<V,U>>
 	: T extends readonly WatchSource[]
-		? WatchCallback<UnwrapSources<T,false>, UnwrapSources<T,U>>
+		? WatchCallback<UnwrapSources<Writable<T>,false>, UnwrapSources<Writable<T>,U>>
 		: never
 
 export type UnwrapSources<T extends readonly WatchSource[], U extends boolean> = {

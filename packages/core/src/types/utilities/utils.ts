@@ -1,4 +1,5 @@
 export type Prettify<T> = { [K in keyof T]: T[K] } & {}
+export type Writable<T> = { -readonly [K in keyof T]: T[K] }
 
 export type ToArray<T> = T extends any ? T[] : never
 export type MaybeArray<T> = T | ToArray<T>
