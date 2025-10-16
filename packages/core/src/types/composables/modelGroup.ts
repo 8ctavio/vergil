@@ -56,3 +56,5 @@ export type ModelGroup<
 			? ModelGroup<E>
 			: never
 }
+
+export type ExtractModelGroupPayload<T> = T extends ModelGroup<infer F> ? ModelGroupPayload<F> : never
