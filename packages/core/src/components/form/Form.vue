@@ -2,25 +2,17 @@
 import { h, mergeProps } from 'vue'
 import { ModelGroupImpl } from '#composables'
 import { ucFirst } from '#utilities'
-import type { PropType, ExtractPropTypes, VNode } from 'vue'
-import type { ModelGroupPayload } from '#composables'
+import type { VNode } from 'vue'
+import type { ModelGroup, ModelGroupFields } from '#composables'
 
-type Props = ExtractPropTypes<typeof propsDefinition>
-
-const propsDefinition = {
-	fields: {
-		type: ModelGroupImpl as PropType<ModelGroupImpl>,
-		required: true as const
-	},
-	validationCooldown: {
-		type: Number,
-		default: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown,
-	},
-	showErrors: [Boolean, Array] as PropType<boolean | string[]>,
-	badgeProps: Object
+interface Props<F extends ModelGroupFields> {
+	fields: ModelGroup<F>
+	validationCooldown?: number
+	showErrors?: boolean | string[]
+	badgeProps?: Record<string, unknown>
 }
 
-function Errors(props: Props) {
+function Errors<F extends ModelGroupFields>(props: Props<F>) {
 	const { showErrors } = props
 	if (showErrors) {
 		let filter: Parameters<ModelGroupImpl['forErrors']>[1]
@@ -82,15 +74,18 @@ function Errors(props: Props) {
 }
 </script>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="F extends ModelGroupFields">
 import { vergil } from '#vergil'
 import { Badge } from '#components'
 import { debounce, pull } from '#utilities'
+import type { ModelGroupPayload } from '#composables'
 
-const props = defineProps(propsDefinition)
+const props = withDefaults(defineProps<Props<F>>(), {
+	validationCooldown: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown
+})
 const emit = defineEmits<{
-	submit: [Event, ModelGroupPayload];
-	invalid: [Event, ModelGroupPayload]
+	submit: [SubmitEvent, ModelGroupPayload<F>];
+	invalid: [SubmitEvent, ModelGroupPayload<F>]
 }>()
 
 const validate = (event: Event) => {

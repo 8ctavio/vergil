@@ -42,7 +42,7 @@ export interface ModelSpec<
 }
 
 export type ModelGroup<
-	F extends ModelGroupFields = ModelGroupFields,
+	F extends ModelGroupFields,
 	HasValidator extends boolean = false // oxlint-disable-line no-unused-vars
 > = ModelGroupImpl & {
 	[K in keyof F]: F[K] extends ModelSpec<infer T, infer Shallow, infer ExtendRef, infer IncludeExposed, infer IncludeElements>
