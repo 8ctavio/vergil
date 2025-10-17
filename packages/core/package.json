@@ -30,16 +30,16 @@
 			"import": "./src/index.js"
 		},
 		"./components": {
-			"types": "./dts/types/components/.entries/public.d.ts",
-			"import": "./src/components/entries/public.js"
-		},
-		"./plugins": {
-			"types": "./dts/plugins/index.d.ts",
-			"import": "./src/plugins/index.js"
+			"types": "./dts/components/.entries/public.types.d.ts",
+			"import": "./src/components/.entries/public.js"
 		},
 		"./utilities": {
 			"types": "./dts/types/utilities/.entries/public.d.ts",
 			"import": "./src/utilities/.entries/public.js"
+		},
+		"./plugins": {
+			"types": "./dts/plugins/index.d.ts",
+			"import": "./src/plugins/index.js"
 		},
 		"./utilities/userTheme": {
 			"types": "./dts/utilities/userTheme/index.d.ts",
@@ -60,17 +60,17 @@
 		},
 		"#components": {
 			"types": {
-				"dev": "./src/types/components/.entries/private.ts",
-				"default": "./dts/types/components/.entries/private.d.ts"
+				"dev": "./src/components/.entries/private.types.ts",
+				"default": "./dts/components/.entries/private.types.d.ts"
 			},
-			"import": "./src/components/entries/private.js"
+			"import": "./src/components/.entries/private.js"
 		},
 		"#composables": {
 			"types": {
 				"dev": "./src/types/composables/.entries/private.ts",
 				"default": "./dts/types/composables/.entries/private.d.ts"
 			},
-			"import": "./src/composables/entries/private.js"
+			"import": "./src/composables/.entries/private.js"
 		},
 		"#reactivity": {
 			"types": {

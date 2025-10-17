@@ -1,4 +1,4 @@
-export * from '#src/composables/entries/private.js'
+export * from '#src/composables/.entries/private.js'
 
 export type * from './public.ts'
 export type * from './internal.ts'

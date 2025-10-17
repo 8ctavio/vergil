@@ -1,4 +1,4 @@
-export * from './composables/entries/public.js'
+export * from './composables/.entries/public.js'
 export * from './reactivity/.entries/public.js'
 export * from './functions/.entries/public.js'
 
