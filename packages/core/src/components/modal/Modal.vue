@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { vergil } from '#vergil'
 import { Btn, FocusTrap } from '#components'
 import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '#utilities'
-import { popupMeta, closePopup } from './index.js'
+import { modalMeta, closeModal } from './index.js'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius } from '#utilities'
 
@@ -12,46 +12,46 @@ const { disabled } = defineProps({
     disabled: Boolean,
     theme: {
         type: String as PropType<Theme>,
-        default: () => vergil.config.popup.theme ?? vergil.config.global.theme,
+        default: () => vergil.config.modal.theme ?? vergil.config.global.theme,
         validator: isValidTheme
     },
     size: {
         type: String as PropType<Size>,
-        default: () => vergil.config.popup.size ?? vergil.config.global.size,
+        default: () => vergil.config.modal.size ?? vergil.config.global.size,
         validator: isValidSize
     },
     radius: {
         type: String as PropType<Radius>,
-        default: () => vergil.config.popup.radius ?? vergil.config.global.radius,
+        default: () => vergil.config.modal.radius ?? vergil.config.global.radius,
         validator: isValidRadius
     },
 })
 
 function handleKeyDown(event: KeyboardEvent) {
-	if(isEscapeKey(event) && !disabled) closePopup(true)
+	if(isEscapeKey(event) && !disabled) closeModal(true)
 }
 
 onMounted(() => {
-    popupMeta.focusedBefore ??= document.activeElement
+    modalMeta.focusedBefore ??= document.activeElement
 })
 </script>
 
 <template>
     <FocusTrap
-        :class="['popup', inferTheme(theme), `size-${size} radius-${radius}`]"
-        :inert="popupMeta.isLeaving"
-        :focus-on-unmount="popupMeta.focusedBefore ?? undefined"
+        :class="['modal', inferTheme(theme), `size-${size} radius-${radius}`]"
+        :inert="modalMeta.isLeaving"
+        :focus-on-unmount="modalMeta.focusedBefore ?? undefined"
         @keydown="handleKeyDown">
-        <div class="popup-wrapper">
+        <div class="modal-wrapper">
             <slot/>
         </div>
-        <header class="popup-head">
+        <header class="modal-head">
             <div class="controls left">
                 <slot name="controls-left"/>
             </div>
             <div class="controls right">
                 <slot name="controls-right"/>
-                <Btn icon="close" variant="soft" spacing="compact" @click="() => closePopup(true)" :disabled/>
+                <Btn icon="close" variant="soft" spacing="compact" @click="() => closeModal(true)" :disabled/>
             </div>
             <h1>{{ title }}</h1>
         </header>
@@ -59,7 +59,7 @@ onMounted(() => {
 </template>
 
 <style>
-.popup {
+.modal {
 	font-size: var(--font-size);
     line-height: var(--line-height-text);
     border-radius: var(--g-radius-lg);
@@ -70,7 +70,7 @@ onMounted(() => {
     background-color: var(--c-bg);
 	box-shadow: 4px 4px 4px var(--c-box-shadow);
 
-    & > .popup-head {
+    & > .modal-head {
         order: 1;
         display: grid;
         grid-template-columns: repeat(2,auto);
@@ -96,12 +96,12 @@ onMounted(() => {
             &.right{ justify-content: end; }
         }
     }
-    & > .popup-wrapper {
+    & > .modal-wrapper {
         order: 2;
         overflow-y: auto;
     }
 }
-:root.dark .popup {
+:root.dark .modal {
     border: 1px solid var(--c-grey-soft-2);
 }
 </style>

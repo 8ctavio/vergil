@@ -24,7 +24,7 @@ import { isFunction } from '#utilities'
  *     }>
  * )}
  */
-export const popup = shallowRef({
+export const modal = shallowRef({
     component: null,
     props: null
 })
@@ -35,17 +35,17 @@ export const popup = shallowRef({
  *     focusedBefore: Element | null;
  * }}
  */
-export const popupMeta = shallowReactive({
+export const modalMeta = shallowReactive({
     isLeaving: false,
     focusedBefore: null
 })
 
-export async function closePopup(closeBtn = false) {
-    const onClose = popup.value.props?.onClose
-    popupMeta.isLeaving = true
+export async function closeModal(closeBtn = false) {
+    const onClose = modal.value.props?.onClose
+    modalMeta.isLeaving = true
     await nextTick()
-    popupMeta.focusedBefore = null
-    popup.value = {
+    modalMeta.focusedBefore = null
+    modal.value = {
         component: null,
         props: null
     }
@@ -107,12 +107,12 @@ export async function closePopup(closeBtn = false) {
  * @param { Component } component
  * @param { Record<string, unknown> } [props]
  */
-export async function showPopup(component, props) {
-    if (popup.value.component) {
-        popupMeta.isLeaving = true
+export async function showModal(component, props) {
+    if (modal.value.component) {
+        modalMeta.isLeaving = true
         await nextTick()
     }
-    popup.value = {
+    modal.value = {
         component: markRaw(component),
         props
     }

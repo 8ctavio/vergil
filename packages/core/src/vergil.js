@@ -268,6 +268,11 @@ let template = {
         radius: undefined,
         spacing: undefined,
     },
+    modal: {
+        theme: undefined,
+        size: undefined,
+        radius: undefined,
+    },
     placeholder: {
         theme: withModifier(undefined, inferTheme),
         size: undefined,
@@ -277,11 +282,6 @@ let template = {
     popover: {
         padding: 6,
         delay: 400
-    },
-    popup: {
-        theme: undefined,
-        size: undefined,
-        radius: undefined,
     },
     radio: {
         variant: 'classic',

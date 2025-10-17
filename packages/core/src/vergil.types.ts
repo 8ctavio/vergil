@@ -143,6 +143,11 @@ export interface VergilConfig {
 		radius?: Radius;
 		spacing?: Spacing;
 	},
+	modal: {
+		theme?: Theme;
+		size?: Size;
+		radius?: Radius;
+	},
 	placeholder: {
 		theme?: Theme;
 		size?: Size;
@@ -152,11 +157,6 @@ export interface VergilConfig {
 	popover: {
 		padding: number;
 		delay: number;
-	},
-	popup: {
-		theme?: Theme;
-		size?: Size;
-		radius?: Radius;
 	},
 	radio: {
 		variant: ToggleVariant;

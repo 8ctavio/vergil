@@ -70,7 +70,7 @@ p, h1, h2, h3 {
     --c-box-shadow: light-dark(#95959550, #00000070);
     
     /*---------- Z-index ----------*/
-    --z-index-popup: 10;
+    --z-index-modal: 10;
     --z-index-popover: 20;
     --z-index-confirm: 30;
     --z-index-toast: 40;
@@ -148,8 +148,8 @@ p, h1, h2, h3 {
 /*------------------------------------------------------------------------------------------
 ---------------------------------------- COMPONENTS ----------------------------------------
 ------------------------------------------------------------------------------------------*/
-/*---------- PopupBackdrop ----------*/
-#popup-backdrop { z-index: var(--z-index-popup) }
+/*---------- ModalBackdrop ----------*/
+#modal-backdrop { z-index: var(--z-index-modal) }
 
 /*---------- PopoverPortal ----------*/
 #popover-portal {
