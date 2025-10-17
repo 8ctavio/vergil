@@ -2,15 +2,11 @@ import { toValue } from "vue"
 
 /** 
  * @import { MaybeRefOrGetter } from 'vue'
+ * @import { Debounced } from '#utilities'
  */
 
 /**
  * Creates a debounced function.
- * 
- * @typedef { {
- *     (this: unknown, ...args: unknown[]): void;
- *     cancel: () => void;
- * } } Debounced
  * 
  * @param { Function } fn - Function to debounce. 
  * @param { MaybeRefOrGetter<number> } minWait - Time in milliseconds to wait before executing `fn` since the debounced function's last call.

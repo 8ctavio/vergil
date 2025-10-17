@@ -1,3 +1,7 @@
+/**
+ * @import { Debounced } from '#utilities'
+ */
+
 // #region ----- STRING -----
 /**
  * Removes diacritics from a string.
@@ -189,11 +193,6 @@ export function isFunction(value) {
 
 /**
  * Creates a debounced function.
- * 
- * @typedef { {
- *     (this: unknown, ...args: unknown[]): void;
- *     cancel: () => void;
- * } } Debounced
  * 
  * @param { Function } fn - Function to debounce. 
  * @param { number } minWait - Time in milliseconds to wait before executing `fn` since the debounced function's last call.

@@ -24,3 +24,8 @@ export type Includes<O extends object, K extends PropertyKey, T = unknown> = K e
 		? true
 		: false
 	: false
+
+export interface Debounced {
+	(this: unknown, ...args: unknown[]): void;
+	cancel: () => void;
+}
