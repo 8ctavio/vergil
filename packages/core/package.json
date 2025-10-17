@@ -23,7 +23,7 @@
 		"typecheck:tests": "vue-tsc -p ./tsconfig.tests.json",
 		"typecheck:tests:prod": "vue-tsc -p ./tsconfig.tests.json --customConditions null"
 	},
-	"files": ["dts/", "src/", "!src/**/*.ts", "!src/types/", "!src/styles/color-palette.md"],
+	"files": ["dts/", "src/", "!src/**/*.ts", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
 			"types": "./dts/index.types.d.ts",
@@ -34,7 +34,7 @@
 			"import": "./src/components/.entries/public.js"
 		},
 		"./utilities": {
-			"types": "./dts/types/utilities/.entries/public.d.ts",
+			"types": "./dts/utilities/.entries/public.types.d.ts",
 			"import": "./src/utilities/.entries/public.js"
 		},
 		"./plugins": {
@@ -50,7 +50,6 @@
 		"./colors/default": "./src/styles/default.css"
 	},
 	"imports": {
-		"#src/*": "./src/*",
 		"#vergil": {
 			"types": {
 				"dev": "./src/vergil.types.ts",
@@ -88,8 +87,8 @@
 		},
 		"#utilities": {
 			"types": {
-				"dev": "./src/types/utilities/.entries/private.ts",
-				"default": "./dts/types/utilities/.entries/private.d.ts"
+				"dev": "./src/utilities/.entries/private.types.ts",
+				"default": "./dts/utilities/.entries/private.types.d.ts"
 			},
 			"import": "./src/utilities/.entries/private.js"
 		}
