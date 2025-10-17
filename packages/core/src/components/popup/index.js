@@ -2,13 +2,21 @@ import { shallowRef, shallowReactive, markRaw, nextTick } from 'vue'
 import { isFunction } from '#utilities'
 
 /**
- * @import { ShallowRef, ComponentPublicInstance } from 'vue'
+ * @import {
+ *   ConcreteComponent,
+ *   Component,
+ *   ComponentOptions,
+ *   DefineComponent,
+ *   FunctionalComponent,
+ *   ShallowRef,
+ *   VNodeProps,
+ * } from 'vue'
  */
 
 /**
  * @type {(
  *     ShallowRef<{
- *         component: ComponentPublicInstance;
+ *         component: Component;
  *         props?: Record<string, unknown>;
  *     } | {
  *         component: null;
@@ -16,7 +24,7 @@ import { isFunction } from '#utilities'
  *     }>
  * )}
  */
-const popup = shallowRef({
+export const popup = shallowRef({
     component: null,
     props: null
 })
@@ -27,26 +35,12 @@ const popup = shallowRef({
  *     focusedBefore: Element | null;
  * }}
  */
-const popupMeta = shallowReactive({
+export const popupMeta = shallowReactive({
     isLeaving: false,
     focusedBefore: null
 })
 
-/**
- * @param { ComponentPublicInstance } component
- * @param { Record<string, unknown> } [props] 
- */
-async function showPopup(component, props) {
-    if (popup.value.component) {
-        popupMeta.isLeaving = true
-        await nextTick()
-    }
-    popup.value = {
-        component: markRaw(component),
-        props
-    }
-}
-async function closePopup(closeBtn = false) {
+export async function closePopup(closeBtn = false) {
     const onClose = popup.value.props?.onClose
     popupMeta.isLeaving = true
     await nextTick()
@@ -58,9 +52,89 @@ async function closePopup(closeBtn = false) {
     if (closeBtn && isFunction(onClose)) onClose()
 }
 
-export {
-    popup,
-    popupMeta,
-    showPopup,
-    closePopup,
+/**
+ * @template P
+ * @template { Record<string,any> } [S = any]
+ * @overload
+ * @param { FunctionalComponent<P,any,S,any> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { ConcreteComponent<P> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { Component<P> } component
+ * @param { (RawProps & P) | null } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { ComponentOptions<P> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { Constructor<P> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { DefineComponent<P> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @template P
+ * @overload
+ * @param { Component<P> } component
+ * @param { (RawProps & P) | ({} extends P ? null : never) } [props]
+ * @returns { Promise<void> }
+ */
+/**
+ * @see https://github.com/vuejs/core/blob/45547e6/packages/runtime-core/src/h.ts#L85
+ * @param { Component } component
+ * @param { Record<string, unknown> } [props]
+ */
+export async function showPopup(component, props) {
+    if (popup.value.component) {
+        popupMeta.isLeaving = true
+        await nextTick()
+    }
+    popup.value = {
+        component: markRaw(component),
+        props
+    }
 }
+
+/** @see https://github.com/vuejs/core/blob/45547e6/packages/runtime-core/src/h.ts#L56 */
+/**
+ * @typedef {(
+ *   & VNodeProps
+ *   & Record<string,any>
+ *   & {
+ *     __v_isVnode?: never;
+ *     [Symbol.iterator]?: never;
+ *   }
+ * )} RawProps
+ */
+/** 
+ * @template {any} P
+ * @typedef {{
+ *   __isFragment?: never;
+ *   __isTeleport?: never;
+ *   __isSuspense?: never;
+ *   new (...args: any[]): { $props: P }
+ * }} Constructor
+ */
