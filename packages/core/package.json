@@ -67,8 +67,8 @@
 		},
 		"#composables": {
 			"types": {
-				"dev": "./src/types/composables/.entries/private.ts",
-				"default": "./dts/types/composables/.entries/private.d.ts"
+				"dev": "./src/composables/.entries/private.types.ts",
+				"default": "./dts/composables/.entries/private.types.d.ts"
 			},
 			"import": "./src/composables/.entries/private.js"
 		},

@@ -1,7 +1,7 @@
 import { ModelGroupImpl } from "#composables"
 import { isObject } from "#utilities"
 
-/** @import { Model, ModelGroup } from '#composables' */
+/** @import { Model, ModelGroup, ModelGroupFields } from '#composables' */
 
 /**
  * Assesses whether a value is a model created by `useModel`.
@@ -20,7 +20,7 @@ export function isModel(value, self = false) {
  * Assesses whether a value is a model created by `useModelGroup`.
  * 
  * @param { unknown } value
- * @returns { value is ModelGroup }
+ * @returns { value is ModelGroup<ModelGroupFields> }
  */
 export function isModelGroup(value) {
 	return value instanceof ModelGroupImpl
