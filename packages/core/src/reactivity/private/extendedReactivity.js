@@ -84,7 +84,10 @@ export class EntangledImpl {
 					if (enumerable) descriptor.enumerable ??= true
 				}
 
-				if (Object.hasOwn(descriptor, 'value')) {
+				if (
+					Object.hasOwn(descriptor, 'value')
+					|| !(Object.hasOwn(descriptor, 'get') || Object.hasOwn(descriptor, 'set'))
+				) {
 					if (initDescriptor && writable) {
 						descriptor.writable ??= true
 					}
