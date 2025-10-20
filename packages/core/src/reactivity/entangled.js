@@ -14,13 +14,25 @@ import { EntangledImpl } from "#reactivity"
 /**
  * Creates an object whose ref properties are automatically unwrapped by default.
  * 
- * @param { Record<PropertyKey, unknown> } [properties]	- Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
+ * @param { Record<PropertyKey, unknown> } [properties]
+ *     Object whose own key-value pairs represent key-descriptor pairs used to
+ *     define corresponding properties on the underlying entangled object.
  * @param { object } [options]
- * @param { boolean } [options.defaults]				- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
- * @param { boolean } [options.configurable]			- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
- * @param { PropertyKey[] } [options.ignore]			- Array of `properties` property keys not to be defined on the underlying entangled object.
+ * @param { boolean } [options.defaults]
+ *     Default value of the `configurable`, `enumerable`, and `writable` options.
+ *     Defaults to `true`.
+ * @param { boolean } [options.configurable]
+ *     Default `configurable` property value for descriptors of newly created properties.
+ *     Defaults to `defaults`.
+ * @param { boolean } [options.enumerable]
+ *     Default `enumerable` property value for descriptors of newly created properties.
+ *     Defaults to `defaults`.
+ * @param { boolean } [options.writable]
+ *     Default `writable` property value for descriptors of newly created properties.
+ *     Defaults to `defaults`.
+ * @param { PropertyKey[] } [options.ignore]
+ *     Array of `properties` property keys not to be defined on the underlying
+ *     entangled object.
  * @returns { Entangled }
  * 
  * @example
