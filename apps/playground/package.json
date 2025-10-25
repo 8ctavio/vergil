@@ -12,6 +12,7 @@
         "typescript": "catalog:",
         "vite": "catalog:",
         "vue": "catalog:",
+        "vue-router": "catalog:",
         "vue-tsc": "catalog:"
     },
     "engines": {

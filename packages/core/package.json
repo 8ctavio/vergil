@@ -97,7 +97,17 @@
 		"@floating-ui/vue": "catalog:consumer"
 	},
 	"peerDependencies": {
-		"vue": "catalog:consumer"
+		"nuxt": "catalog:consumer",
+		"vue": "catalog:consumer",
+		"vue-router": "catalog:consumer"
+	},
+	"peerDependenciesMeta": {
+		"nuxt": {
+			"optional": true
+		},
+		"vue-router": {
+			"optional": true
+		}
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "catalog:",
