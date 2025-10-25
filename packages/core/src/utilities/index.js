@@ -206,10 +206,10 @@ export function debounce(fn, minWait, options = {}) {
 
 	/** @type { Debounced } } */
 	let debounced
-	/** @type { number | undefined } */
+	/** @type { ReturnType<typeof setTimeout> | undefined } */
 	let delay
 	if (eager) {
-		/** @type { number | undefined } */
+		/** @type { ReturnType<typeof setTimeout> | undefined } */
 		let cooldown
 		/** @type { (thisArg: unknown, args: unknown[]) => void } */
 		const task = (thisArg, args) => {

@@ -309,7 +309,7 @@ export function usePopover(options = {}) {
 				openPopover()
 			},
 			onPointerleave() {
-				closeTimeout = setTimeout(closePopover, 100)
+				closeTimeout = window.setTimeout(closePopover, 100)
 			}
 		}
 	}

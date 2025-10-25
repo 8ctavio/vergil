@@ -25,13 +25,13 @@ export function useDebounce(fn, minWait, options = {}) {
 	const task = (thisArg, args) => {
 		fn.apply(thisArg, args)
 		clearTimeout(cooldown)
-		cooldown = setTimeout(() => cooldown = undefined, toValue(minWait))
+		cooldown = /**@type {typeof window.setTimeout}*/(setTimeout)(() => cooldown = undefined, toValue(minWait))
 		delay = undefined
 	}
 	const debounced = /** @type { Debounced } */ (function(...args) {
 		if (!toValue(eager) || delay || cooldown) {
 			clearTimeout(delay)
-			delay = setTimeout(task, toValue(minWait), this, args)
+			delay = /**@type {typeof window.setTimeout}*/(setTimeout)(task, toValue(minWait), this, args)
 		} else {
 			task(this, args)
 		}

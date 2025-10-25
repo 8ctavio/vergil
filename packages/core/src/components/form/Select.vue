@@ -212,7 +212,7 @@ async function handleSelectKeydown(event: KeyboardEvent) {
             return foundAfter ?? foundBefore ?? foundActive
         }
         const startTimeout = () => {
-            search.timeout = setTimeout(() => {
+            search.timeout = (setTimeout as typeof window.setTimeout)(() => {
                 search.query = ''
                 search.queryFound = false
                 search.timeout = undefined
