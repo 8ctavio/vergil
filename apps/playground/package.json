@@ -5,6 +5,9 @@
     "scripts": {
         "dev": "vite"
     },
+    "imports": {
+        "#src/*": "./src/*"
+    },
     "devDependencies": {
         "@8ctavio/vergil": "workspace:*",
         "@types/node": "catalog:",
@@ -14,8 +17,5 @@
         "vue": "catalog:",
         "vue-router": "catalog:",
         "vue-tsc": "catalog:"
-    },
-    "engines": {
-        "node": "^22.12.0"
     }
 }

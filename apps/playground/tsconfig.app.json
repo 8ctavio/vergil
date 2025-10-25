@@ -3,14 +3,7 @@
     "compilerOptions": {
 		"module": "esnext",
 		"moduleResolution": "bundler",
-        "types": [],
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "types": []
     },
-    "include": [
-        "env.d.ts",
-        "src/**/*",
-        "src/**/*.vue",
-    ]
+    "include": ["src", "env.d.ts"]
 }
