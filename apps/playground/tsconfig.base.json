@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
+        "noEmit": true,
+		"skipLibCheck": true,
 		"target": "esnext",
 		"moduleDetection": "force",
-        "noEmit": true,
 		"erasableSyntaxOnly": true,
 		"verbatimModuleSyntax": true,
 		"strict": true,
