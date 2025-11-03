@@ -1,12 +1,46 @@
+<script lang="ts">
+import { resolveDynamicComponent } from 'vue'
+import type { RouteLocationRaw, RouterLinkProps, _RouterLinkI } from 'vue-router'
+import type { NuxtLinkProps } from 'nuxt/app'
+
+type LinkOptions = Omit<RouterLinkProps, 'to'> | Omit<NuxtLinkProps, 'to' | 'href'>
+
+function resolveComponent(_: 'NuxtLink') {
+	/**
+	 * <component is="RouterLink"/> uses resolveDynamicComponent
+	 * @see https://github.com/vuejs/core/blob/v3.5.22/packages/runtime-core/src/helpers/resolveAssets.ts#L34
+	 * @see https://github.com/vuejs/core/blob/v3.5.22/packages/compiler-core/src/transforms/transformElement.ts#L235
+	 */
+	const RouterLink = resolveDynamicComponent('RouterLink')
+	return typeof RouterLink === 'string' ? 'a' : RouterLink
+}
+
+let Link: 'a' | _RouterLinkI
+function resolveLink() {
+	/**
+	 * Nuxt replaces resolveComponent('NuxtLink')
+	 * with the NuxtLink import at build-time.
+	 * @see https://github.com/nuxt/nuxt/blob/v4.1.2/packages/nuxt/src/components/plugins/loader.ts#L51
+	 */
+    // @ts-ignore
+    return Link ??= resolveComponent('NuxtLink')
+}
+</script>
+
 <script setup lang="ts">
+import { getCurrentInstance, withCtx } from 'vue'
 import { vergil } from '#vergil'
 import { Icon, MiniMarkup } from '#components'
+import { useDefineExposed } from '#composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
 import type { BtnVariant, BtnOutline } from '#components'
+import type { Exposed } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 
-defineProps({
+const props = defineProps({
+    exposed: Object as PropType<Exposed>,
+
     label: String,
     variant: {
         type: String as PropType<BtnVariant>,
@@ -41,6 +75,10 @@ defineProps({
     disabled: Boolean,
     loading: Boolean,
 
+	linkTo: [String, Object] as PropType<RouteLocationRaw>,
+    linkOptions: Object as PropType<LinkOptions>,
+    linkUnderline: Boolean,
+
     descendant: Boolean,
     theme: {
         type: String as PropType<Theme>,
@@ -63,10 +101,35 @@ defineProps({
         validator: isValidSpacing
     }
 })
+
+
+// A single effect function could be used if pausing dependency tracking were possible;
+// currently, calling `useLink` would track unwanted dependencies.
+useDefineExposed([
+    () => {
+        const { linkTo } = props
+        return linkTo ? [linkTo, props.linkOptions] as const : []
+    },
+    /**
+     * withCtx required for vue-router's useLink and for useNuxtLink to inject RouterLink
+     * @see https://github.com/vuejs/core/blob/v3.5.22/packages/runtime-core/src/componentRenderContext.ts#L70
+     */
+    withCtx(([linkTo, linkOptions]: [RouteLocationRaw, LinkOptions]) => {
+        if (linkTo) {
+            const Link = resolveLink()
+            return typeof Link === 'string'
+                ? null
+                : Link.useLink({ ...linkOptions, to: linkTo })
+        } else {
+            return null
+        }
+    }, getCurrentInstance()) as () => object | null
+])
 </script>
 
 <template>
-    <button
+    <component :is="linkTo ? resolveLink() : 'button'"
+        v-bind="linkOptions"
         :class="['btn', variant, mask && `masked mask-${mask}`, {
             underline,
             fill,
@@ -77,14 +140,18 @@ defineProps({
             [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing,
             [`outline-${outline === true ? 'regular' : outline}`]: outline,
+            'link-underline': linkUnderline
         }]"
         :disabled="disabled || loading"
+        :to="linkTo"
     >
         <span v-if="mask" class="btn-backdrop"/>
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>
-                <MiniMarkup :str="label"/>
+                <p class="btn-label">
+                    <MiniMarkup :str="label"/>
+                </p>
             </slot>
             <Icon v-if="iconRight" :code="iconRight"/>
             <div v-if="loading" class="btn-loader">
@@ -92,7 +159,7 @@ defineProps({
             </div>
         </div>
         <slot name="aside"/>
-    </button>
+    </component>
 </template>
 
 <style>
@@ -113,6 +180,7 @@ defineProps({
     position: relative;
     border: none;
     font-weight: 500;
+    text-decoration: none;
     outline: 0 solid transparent;
     transition: background-color 150ms, color 150ms, box-shadow 150ms;
 
@@ -121,6 +189,10 @@ defineProps({
             --btn-c-icon: var(--btn-c-icon-2);
             --btn-c-border: var(--btn-c-border-2);
             color: var(--btn-c-text-2);
+
+            &:is(a.link-underline) > .btn-content > .btn-label {
+                box-shadow: inset 0 -0.8px var(--btn-c-icon-2, var(--btn-c-text-2));
+            }
         }
         &:is(:hover, :focus-visible) {
             &:not(.fill) {
@@ -177,9 +249,9 @@ defineProps({
     }
     &.loading {
         cursor: progress;
-        & > .btn-content{
+        & > .btn-content {
             background-color: inherit;
-            & > .btn-loader{
+            & > .btn-loader {
                 background-color: inherit;
             }
         }
@@ -300,6 +372,10 @@ defineProps({
 
         &::selection {
             background-color: transparent;
+        }
+
+        & > .btn-label {
+            transition: box-shadow 150ms;
         }
 
         & > .icon {
