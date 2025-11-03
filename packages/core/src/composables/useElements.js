@@ -1,5 +1,5 @@
 import { shallowRef } from "vue"
-import { definedElements, symTrigger } from "#composables"
+import { definedElements, _trigger_ } from "#composables"
 import { entangled } from "#reactivity"
 import { getTrue } from "#utilities"
 
@@ -59,7 +59,7 @@ export function useElements() {
 	const dep = shallowRef().dep
 	let track = dep.track.bind(dep)
 	const elements = entangled({
-		[symTrigger]() {
+		[_trigger_]() {
 			dep.trigger()
 			track = undefined
 		}

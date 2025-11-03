@@ -1,5 +1,5 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { isScheduled } from "#composables"
+import { _isScheduled_ } from "#composables"
 import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
 
@@ -54,7 +54,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 				effectScope(true).run(() => {
 					auxWatcher = watchControlledSync(model.ref, () => {
 						for (const effect of watchers.effects) {
-							effect[isScheduled] = true
+							effect[_isScheduled_] = true
 						}
 						scheduledEffects = watchers.effects.length
 						;/** @type { WatchControls } */(auxWatcher).pause()
@@ -66,8 +66,8 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 			watchers.run(() => {
 				const watcher = watch(model.ref, (v, u, c) => {
 					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
-					if (effect[isScheduled]) {
-						effect[isScheduled] = false
+					if (effect[_isScheduled_]) {
+						effect[_isScheduled_] = false
 						scheduledEffects--
 						if (!isPaused) {
 							/** @type { WatchControls } */(auxWatcher).resume()
@@ -79,14 +79,14 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 
 				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
 				if (effect) {
-					Object.defineProperty(effect, isScheduled, {
+					Object.defineProperty(effect, _isScheduled_, {
 						value: false,
 						writable: true
 					})
 					stop = () => {
 						watcher()
-						if (effect[isScheduled]) {
-							effect[isScheduled] = false
+						if (effect[_isScheduled_]) {
+							effect[_isScheduled_] = false
 							scheduledEffects--
 						}
 						if (watchers.effects.length === 0) {
@@ -131,7 +131,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 	}
 	function stop() {
 		for (const effect of watchers.effects) {
-			effect[isScheduled] = false
+			effect[_isScheduled_] = false
 		}
 		scheduledEffects = 0
 		watchers.stop()

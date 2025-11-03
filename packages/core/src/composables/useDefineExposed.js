@@ -1,5 +1,5 @@
 import { triggerRef, toRaw, watch, getCurrentWatcher, getCurrentInstance, onUnmounted } from "vue"
-import { definedInstances, definedExposed, _hasInstance_ } from "#composables"
+import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composables"
 import { isModel } from "#functions"
 import { isFunction, isObject } from "#utilities"
 
@@ -51,10 +51,10 @@ export function useDefineExposed(...sources) {
 
 	const exposedRef = definedExposed.get(exposedProxy)
 
-	if (!exposedRef || exposedRef[_hasInstance_]) return
+	if (!exposedRef || exposedRef[_hasComponent_]) return
 
-	let instMeta = definedInstances.get(instance)
-	if (!instMeta) definedInstances.set(instance, instMeta = {
+	let instMeta = componentInstanceMap.get(instance)
+	if (!instMeta) componentInstanceMap.set(instance, instMeta = {
 		definedExposed: false,
 		definedElements: false
 	})
@@ -62,7 +62,7 @@ export function useDefineExposed(...sources) {
 	if (instMeta.definedExposed) return
 
 	instMeta.definedExposed = true
-	Object.defineProperty(exposedRef, _hasInstance_, {
+	Object.defineProperty(exposedRef, _hasComponent_, {
 		value: true,
 		writable: true
 	})
@@ -120,7 +120,7 @@ export function useDefineExposed(...sources) {
 	}
 	
 	onUnmounted(() => {
-		exposedRef[_hasInstance_] = false
+		exposedRef[_hasComponent_] = false
 		for (const key of exposedKeys.values()) {
 			Object.defineProperty(exposed, key, resetDescriptor)
 		}

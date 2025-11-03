@@ -9,9 +9,9 @@ import { isFunction, isObject, noop } from '#utilities'
  * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#composables"
  */
 
-const symExt_controller = Symbol('external:controller')
-const symInt_trigger = Symbol('internal:triggerCbs')
-const symInt_hasSyncCbs = Symbol('internal:hasSyncCbs')
+const _ext_controller_ = Symbol('external:controller')
+const _int_trigger = Symbol('internal:triggerCbs')
+const _int_hasSyncCbs = Symbol('internal:hasSyncCbs')
 
 /**
  * @template [T = unknown]
@@ -141,7 +141,7 @@ export function useDefineModel(options = {}) {
 		if (internalFlags.triggerSyncCbs) {
 			let currentModel = componentModel
 			while (currentModel = currentModel.__parent) {
-				currentModel[symInt_trigger]('sync', newValue, oldValue)
+				currentModel[_int_trigger]('sync', newValue, oldValue)
 			}
 		} else {
 			internalSensor.pause()
@@ -155,7 +155,7 @@ export function useDefineModel(options = {}) {
 			const newValue = model.ref.value
 			let currentModel = componentModel
 			while (currentModel = currentModel.__parent) {
-				currentModel[symInt_trigger](flush, newValue, oldValue)
+				currentModel[_int_trigger](flush, newValue, oldValue)
 			}
 		}, { flush })
 	}
@@ -172,8 +172,8 @@ export function useDefineModel(options = {}) {
 				let currentModel = componentModel
 				internalFlags.triggerSyncCbs = false
 				do {
-					currentModel[symExt_controller].pause()
-					internalFlags.triggerSyncCbs ||= currentModel[symInt_hasSyncCbs]
+					currentModel[_ext_controller_].pause()
+					internalFlags.triggerSyncCbs ||= currentModel[_int_hasSyncCbs]
 				} while (currentModel = currentModel.__parent)
 				// Set hasInteractiveCtx flag
 				if (!privateModel.hasInteractiveCtx) {
@@ -210,7 +210,7 @@ export function useDefineModel(options = {}) {
 					}
 					// Resume parent component models
 					currentModel = componentModel
-					do currentModel[symExt_controller].resume()
+					do currentModel[_ext_controller_].resume()
 					while (currentModel = currentModel.__parent)
 				}
 			}
@@ -334,8 +334,8 @@ export function useDefineModel(options = {}) {
 			enumerable: true
 		},
 
-		[symExt_controller]: { value: controller },
-		[symInt_trigger]: {
+		[_ext_controller_]: { value: controller },
+		[_int_trigger]: {
 			/**
 			 * @param { 'pre' | 'post' | 'sync' } flush
 			 * @param { unknown } newValue
@@ -347,7 +347,7 @@ export function useDefineModel(options = {}) {
 				}
 			}
 		},
-		[symInt_hasSyncCbs]: {
+		[_int_hasSyncCbs]: {
 			get: () => internalFlags.hasSyncCbs
 		},
 		__parent: { value: mayBeComponentModel && isValidModel ? props.modelValue : null },

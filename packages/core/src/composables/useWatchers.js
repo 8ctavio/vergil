@@ -1,5 +1,5 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { isScheduled } from "#composables"
+import { _isScheduled_ } from "#composables"
 import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
 
@@ -89,7 +89,7 @@ export function useWatchers(source, { deep } = {}) {
 				effectScope(true).run(() => {
 					auxWatcher = watchControlledSync(source, () => {
 						for (const effect of watchers.effects) {
-							effect[isScheduled] = true
+							effect[_isScheduled_] = true
 						}
 						scheduledEffects = watchers.effects.length
 						;/** @type { WatchControls } */(auxWatcher).pause()
@@ -101,8 +101,8 @@ export function useWatchers(source, { deep } = {}) {
 			watchers.run(() => {
 				const watcher = watch(source, (...args) => {
 					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
-					if (effect[isScheduled]) {
-						effect[isScheduled] = false
+					if (effect[_isScheduled_]) {
+						effect[_isScheduled_] = false
 						scheduledEffects--
 						if (!isPaused) {
 							/** @type { WatchControls } */(auxWatcher).resume()
@@ -113,14 +113,14 @@ export function useWatchers(source, { deep } = {}) {
 				}, { flush: options.flush, deep })
 
 				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
-				Object.defineProperty(effect, isScheduled, {
+				Object.defineProperty(effect, _isScheduled_, {
 					value: false,
 					writable: true
 				})
 				stop = () => {
 					watcher()
-					if (effect[isScheduled]) {
-						effect[isScheduled] = false
+					if (effect[_isScheduled_]) {
+						effect[_isScheduled_] = false
 						scheduledEffects--
 					}
 					if (watchers.effects.length === 0) {
@@ -158,7 +158,7 @@ export function useWatchers(source, { deep } = {}) {
 	}
 	function stop() {
 		for (const effect of watchers.effects) {
-			effect[isScheduled] = false
+			effect[_isScheduled_] = false
 		}
 		scheduledEffects = 0
 		watchers.stop()

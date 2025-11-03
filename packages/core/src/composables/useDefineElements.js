@@ -1,5 +1,5 @@
 import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
-import { definedInstances, definedElements, symTrigger, symHasInstance } from "#composables"
+import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from "#composables"
 import { entangled } from "#reactivity"
 import { isModel } from "#functions"
 import { isFunction } from "#utilities"
@@ -46,9 +46,9 @@ import { isFunction } from "#utilities"
  */
 export function useDefineElements(keys) {
 	const instance = getCurrentInstance()
-	if(instance && Array.isArray(keys)) {
-		let instMeta = definedInstances.get(instance)
-		if (!instMeta) definedInstances.set(instance, instMeta = {
+	if (instance && Array.isArray(keys)) {
+		let instMeta = componentInstanceMap.get(instance)
+		if (!instMeta) componentInstanceMap.set(instance, instMeta = {
 			definedElements: false,
 			definedExposed: false
 		})
@@ -56,33 +56,33 @@ export function useDefineElements(keys) {
 		if (!instMeta.definedElements) {
 			const props = toRaw(instance.props)
 			const elementsProxy = (isModel(props.modelValue) && props.modelValue.elements) || props.elements
-			const elements = /** @type { InternalElements } */ (definedElements.get(elementsProxy) ?? entangled())
-			if (!elements[symHasInstance]) {
+			const elements = /** @type { InternalElements } */ (definedElements.get(/**@type {object}*/(elementsProxy)) ?? entangled())
+			if (!elements[_hasComponent_]) {
 				instMeta.definedElements = true
-				if (Object.hasOwn(elements, symHasInstance)) {
-					elements[symHasInstance] = true
+				if (Object.hasOwn(elements, _hasComponent_)) {
+					elements[_hasComponent_] = true
 				} else {
-					Object.defineProperty(elements, symHasInstance, {
+					Object.defineProperty(elements, _hasComponent_, {
 						value: true,
 						writable: true
 					})
 
 					/** @type { Record<string, ShallowRef<HTMLElement | null>> } */
 					const extension = {}
-					for(const key of keys) {
+					for (const key of keys) {
 						if (typeof key === 'string' && key !== '__v_skip') {
 							extension[key] = shallowRef(null)
 						}
 					}
 					elements.extend(extension, { defaults: false })
-					if(isFunction(elements[symTrigger])) {
-						elements[symTrigger]()
-						delete elements[symTrigger]
+					if (isFunction(elements[_trigger_])) {
+						elements[_trigger_]()
+						delete elements[_trigger_]
 					}
 					Object.seal(elements)
 				}
 				onUnmounted(() => {
-					elements[symHasInstance] = false
+					elements[_hasComponent_] = false
 				})
 				return elements
 			}

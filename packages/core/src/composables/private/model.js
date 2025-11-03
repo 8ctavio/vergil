@@ -2,10 +2,10 @@
  * @import { ReactiveEffect } from 'vue'
  */
 
-export const isScheduled = Symbol('isScheduled')
+export const _isScheduled_ = Symbol('isScheduled')
 
 /**
- * @typedef { ReactiveEffect & { [isScheduled]?: boolean } } WatcherEffect
+ * @typedef { ReactiveEffect & { [_isScheduled_]?: boolean } } WatcherEffect
  */
 
 export const privateModelMap = new WeakMap()

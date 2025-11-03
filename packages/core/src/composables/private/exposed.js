@@ -3,13 +3,13 @@
  * @import { InternalExposed, InternalElements } from '#composables'
  */
 
-export const symTrigger = Symbol('trigger')
-export const symHasInstance = Symbol('hasInstance')
-export const _hasInstance_ = symHasInstance
+export const _trigger_ = Symbol('trigger')
+export const _hasComponent_ = Symbol('hasComponent')
 
 /** @type { WeakMap<object, InternalExposed> } */
 export const definedExposed = new WeakMap()
-/** @type { WeakMap<any, InternalElements> } */
+/** @type { WeakMap<object, InternalElements> } */
 export const definedElements = new WeakMap()
+
 /** @type { WeakMap<ComponentInternalInstance, { definedExposed: boolean, definedElements: boolean }> } */
-export const definedInstances = new WeakMap()
+export const componentInstanceMap = new WeakMap()
