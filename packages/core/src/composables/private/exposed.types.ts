@@ -1,10 +1,9 @@
 import type { ShallowRef } from "vue"
-import type { symTrigger, symHasInstance } from "#composables"
+import type { _hasInstance_, symTrigger, symHasInstance } from "#composables"
 import type { Entangled } from "#reactivity"
 
-export type InternalExposed = Record<string, unknown> & {
-	[symTrigger]: () => void;
-	[symHasInstance]?: boolean;
+export type InternalExposed = Readonly<ShallowRef<Record<string, unknown>>> & {
+	[_hasInstance_]?: boolean;
 }
 export type InternalElements = Entangled<
 	Record<string, ShallowRef<HTMLElement | null>> & {

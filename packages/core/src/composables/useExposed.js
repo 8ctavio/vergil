@@ -1,15 +1,16 @@
-import { shallowRef, unref, markRaw } from "vue"
-import { definedExposed, symTrigger } from "#composables"
+import { shallowRef, unref } from "vue"
+import { definedExposed } from "#composables"
 import { getTrue } from "#utilities"
 
 /**
- * @import { Exposed } from '#composables'
+ * @import { InternalExposed, Exposed } from '#composables'
  */
 
 /**
  * Creates a read-only, shallow-ref-unwrapping object to consume component exposed data. 
  * 
- * @returns { Exposed } A read-only, shallow-ref-unwrapping object to be provided through an `exposed` prop to a component with proper `useExposed` support.
+ * @returns { Exposed } A read-only, shallow-ref-unwrapping object to be provided
+ *   through an `exposed` prop to a component with proper `useExposed` support.
  * 
  * @example
  *  ```vue
@@ -29,20 +30,14 @@ import { getTrue } from "#utilities"
  *  ```
  */
 export function useExposed() {
-	// @ts-expect-error
-	const dep = shallowRef().dep
-	const track = dep.track.bind(dep)
-	const exposed = markRaw({
-		[symTrigger]: dep.trigger.bind(dep)
-	})
-	const exposedProxy = new Proxy(exposed, {
-		/** @param { Record<PropertyKey, unknown> } target */
+	const exposedRef = /** @type { InternalExposed } */ (shallowRef({}))
+	const exposedProxy = new Proxy(exposedRef, {
 		get(target, property) {
-			if(typeof property === 'string') {
-				track()
-				const descriptor = Object.getOwnPropertyDescriptor(target, property)
-				return descriptor && (Object.hasOwn(descriptor, 'value') || descriptor.get)
-					? unref(target[property])
+			if (typeof property === 'string') {
+				const exposed = target.value
+				const descriptor = Object.getOwnPropertyDescriptor(exposed, property)
+				return descriptor && (Object.hasOwn(descriptor, 'value') || Object.hasOwn(descriptor, 'get'))
+					? unref(exposed[property])
 					: undefined
 			} else {
 				return undefined
@@ -53,6 +48,6 @@ export function useExposed() {
 		deleteProperty: getTrue,
 		setPrototypeOf: getTrue,
 	})
-	definedExposed.set(exposedProxy, exposed)
+	definedExposed.set(exposedProxy, exposedRef)
 	return exposedProxy
 }

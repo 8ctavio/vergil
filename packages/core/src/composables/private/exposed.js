@@ -5,8 +5,9 @@
 
 export const symTrigger = Symbol('trigger')
 export const symHasInstance = Symbol('hasInstance')
+export const _hasInstance_ = symHasInstance
 
-/** @type { WeakMap<any, InternalExposed> } */
+/** @type { WeakMap<object, InternalExposed> } */
 export const definedExposed = new WeakMap()
 /** @type { WeakMap<any, InternalElements> } */
 export const definedElements = new WeakMap()
