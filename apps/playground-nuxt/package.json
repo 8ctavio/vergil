@@ -1,0 +1,16 @@
+{
+    "name": "@vergil/playground-nuxt",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "prepare": "nuxt prepare",
+        "dev": "nuxt dev",
+        "build": "nuxt build",
+        "preview": "nuxt preview"
+    },
+    "devDependencies": {
+        "@8ctavio/vergil": "workspace:*",
+		"nuxt": "catalog:",
+		"vue": "catalog:"
+    }
+}

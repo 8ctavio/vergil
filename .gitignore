@@ -4,6 +4,8 @@ node_modules
 # Bundles
 dist
 packages/core/dts
+.nuxt
+.output
 
 # env files
 .env
