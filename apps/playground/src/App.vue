@@ -5,7 +5,7 @@ import { Vergil } from '@8ctavio/vergil/components'
 </script>
 
 <template>
-    <Vergil confirm toaster popup>
+    <Vergil confirm toaster modal>
         <Header/>
         <main class="playground">
             
