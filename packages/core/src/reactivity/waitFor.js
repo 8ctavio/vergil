@@ -75,31 +75,30 @@ function methodsGenerator(source, options) {
 	if (Array.isArray(source)) {
 		methods.toBeEqual = () => watchUntil(source, ([v1, ...v2]) => v2.every(v => v === v1), options)
 	} else {
+		/**
+		 * @param { MaybeRefOrGetter } value 
+		 * @param { (source: unknown, value: unknown) => boolean } condition 
+		 */
+		function handleMethod(value, condition) {
+			return isWatchSource(value)
+				? watchUntil([/**@type {WatchSource}*/(source), value], ([src, val]) => condition(src, val), options)
+				: toFulfill(src => condition(src, value))
+		}
+
 		/** @param { MaybeRefOrGetter } value */
-		methods.toBe = value => {
-			return isWatchSource(value)
-				? watchUntil([source, value], ([src, v]) => Object.is(src, v), options)
-				: toFulfill(src => Object.is(src, value))
-		}
+		methods.toBe = value => handleMethod(value, (src, val) => Object.is(src, val))
 		/** @param { MaybeRefOrGetter } value */
-		methods.toEqual = value => {
-			return isWatchSource(value)
-				? watchUntil([source, value], ([src, v]) => src === v, options)
-				: toFulfill(src => src === value)
-		}
-		/** @param { MaybeRefOrGetter<unknown[]> } value */
-		methods.toBeIn = value => {
-			return isWatchSource(value)
-				? watchUntil([source, value], ([src, v]) => Array.isArray(v) && v.includes(src), options)
-				: toFulfill(src => value.includes(src))
-		}
+		methods.toEqual = value => handleMethod(value, (src, val) => src === val)
+
+		/** @param { MaybeRefOrGetter} value */
+		methods.toBeIn = value => handleMethod(value, (src, val) => Array.isArray(val) && val.includes(src))
+		/** @param { MaybeRefOrGetter } value */
+		methods.toContain = value => handleMethod(value, (src, val) => Array.isArray(src) && src.includes(val))
+
+		/** @param { MaybeRefOrGetter } value */
+		methods.toBeOfType = value => handleMethod(value, (src, val) => typeof src === val)
+
 		methods.toBeTruthy = () => toFulfill(Boolean)
-		/** @param { MaybeRefOrGetter } value */
-		methods.toContain = value => {
-			return isWatchSource(value)
-				? watchUntil([source, value], ([src, v]) => Array.isArray(src) && src.includes(v), options)
-				: toFulfill(src => src.includes(value))
-		}
 	}
 
 	if (options.fulfill) Object.defineProperty(methods, 'not', {

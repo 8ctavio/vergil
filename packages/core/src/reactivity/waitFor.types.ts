@@ -1,5 +1,6 @@
 import type { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
 import type { WatcherCallback, WatchUntilOptions, WatchUntilPromise } from '#reactivity'
+import type { TypeOfResult } from '#utilities'
 
 export type WaitForMethods<
 	S extends WatchSource | WatchSource[] = WatchSource | WatchSource[],
@@ -34,12 +35,16 @@ export type WaitForMethods<
 			? WatchUntilPromise<[S,T],O>
 			: WatchUntilPromise<S,O>
 		toBeIn(value: MaybeRefOrGetter<unknown[]>): Promise<unknown>
-
-		toBeTruthy(): WatchUntilPromise<S,O>
-
 		toContain<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
 			? WatchUntilPromise<[S,T],O>
 			: WatchUntilPromise<S,O>
 		toContain(value: MaybeRefOrGetter): Promise<unknown>
+
+		toBeOfType<T extends MaybeRefOrGetter<TypeOfResult>>(value: T): T extends WatchSource
+			? WatchUntilPromise<[S,T],O>
+			: WatchUntilPromise<S,O>
+		toBeOfType(value: MaybeRefOrGetter<TypeOfResult>): Promise<unknown>
+
+		toBeTruthy(): WatchUntilPromise<S,O>
 	}
 )

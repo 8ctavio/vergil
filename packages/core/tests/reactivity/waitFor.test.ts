@@ -3,6 +3,7 @@ import { shallowRef, toValue, nextTick, triggerRef } from "vue"
 import { waitFor } from "#reactivity"
 import { noop, getTrue } from "#utilities"
 import type { MaybeRef, ShallowRef } from "vue"
+import type { TypeOfResult } from "#utilities"
 
 const conditions = {
 	base: ['toFulfill'],
@@ -11,8 +12,9 @@ const conditions = {
 		'toBe',
 		'toEqual',
 		'toBeIn',
+		'toContain',
+		'toBeOfType',
 		'toBeTruthy',
-		'toContain'
 	],
 	multisource: ['toBeEqual']
 }
@@ -371,46 +373,6 @@ suite("toBeIn", () => {
 	})
 })
 
-suite("toBeTruthy", () => {
-	test("Resolve when source is truthy", async () => {
-		const src = shallowRef()
-		const waitForSrc = waitFor(src)
-		const spy = vi.spyOn(waitForSrc, 'toBeTruthy')
-	
-		for (const value of [true, 1, '1', {}, []]) {
-			spy.mockClear()
-			queueMicrotask(async () => {
-				src.value = false
-				await nextTick()
-				expect(spy).not.toHaveResolved()
-				src.value = value
-			})
-	
-			await waitForSrc.toBeTruthy()
-			expect(spy).toHaveResolved()
-		}
-	})
-	
-	test("Resolve when source is falsy", async () => {
-		const src = shallowRef()
-		const waitForSrcNot = waitFor(src).not
-		const spy = vi.spyOn(waitForSrcNot, 'toBeTruthy')
-	
-		for (const value of [false, 0, '', null, undefined]) {
-			spy.mockClear()
-			queueMicrotask(async () => {
-				src.value = true
-				await nextTick()
-				expect(spy).not.toHaveResolved()
-				src.value = value
-			})
-	
-			await waitForSrcNot.toBeTruthy()
-			expect(spy).toHaveResolved()
-		}
-	})
-})
-
 suite("toContain", () => {
 	const src = shallowRef<any[]>([])
 	const waitForSrc = waitFor(src)
@@ -478,6 +440,110 @@ suite("toContain", () => {
 	})
 })
 
+suite("toBeOfType", () => {
+	const src = shallowRef()
+	const waitForSrc = waitFor(src)
+	const spy = vi.spyOn(waitForSrc, 'toBeOfType')
+	const values = {
+		object: {},
+		function: () => {},
+		undefined: undefined,
+		boolean: true,
+		number: 0,
+		bigint: 0n,
+		string: '',
+		symbol: Symbol()
+	}
+	const types = Object.keys(values) as TypeOfResult[]
+
+	test("Resolve when source is of provided type", async () => {
+		for (const type of types) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				src.value = type === 'undefined' ? null : undefined
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				src.value = values[type]
+			})
+
+			await waitForSrc.toBeOfType(type)
+			expect(spy).toHaveResolved()
+		}
+	})
+
+	test("Resolve when reactive argument is the type of source", async () => {
+		const t = shallowRef<TypeOfResult>('undefined')
+		for (const type of types) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				t.value = type
+			})
+			
+			src.value = values[type]
+			t.value = type === 'undefined' ? 'object' : 'undefined'
+			await waitForSrc.toBeOfType(t)
+			expect(spy).toHaveResolved()
+		}
+	})
+
+	test("Resolve when source is not of the provided type", async () => {
+		const src = shallowRef<number | boolean>(0)
+		const waitForSrcNot = waitFor(src).not
+		const spy = vi.spyOn(waitForSrcNot, 'toBeOfType')
+		
+		queueMicrotask(async () => {
+			triggerRef(src)
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			src.value = true
+		})
+
+		await waitForSrcNot.toBeOfType('number')
+	})
+})
+
+suite("toBeTruthy", () => {
+	test("Resolve when source is truthy", async () => {
+		const src = shallowRef()
+		const waitForSrc = waitFor(src)
+		const spy = vi.spyOn(waitForSrc, 'toBeTruthy')
+	
+		for (const value of [true, 1, '1', {}, []]) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				src.value = false
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				src.value = value
+			})
+	
+			await waitForSrc.toBeTruthy()
+			expect(spy).toHaveResolved()
+		}
+	})
+	
+	test("Resolve when source is falsy", async () => {
+		const src = shallowRef()
+		const waitForSrcNot = waitFor(src).not
+		const spy = vi.spyOn(waitForSrcNot, 'toBeTruthy')
+	
+		for (const value of [false, 0, '', null, undefined]) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				src.value = true
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				src.value = value
+			})
+	
+			await waitForSrcNot.toBeTruthy()
+			expect(spy).toHaveResolved()
+		}
+	})
+})
+
 suite("toBeEqual", () => {
 	test("Resolve when sources are equal", async () => {
 		const sources = [shallowRef(), shallowRef(), shallowRef(null)] as const
@@ -530,10 +596,14 @@ test("Resolve if condition is initially fulfilled", async () => {
 	).resolves.toBeDefined()
 
 	await expect(
-		waitFor(getTrue).toBeTruthy()
+		waitFor(() => [true]).toContain(true)
 	).resolves.toBeDefined()
 
 	await expect(
-		waitFor(() => [true]).toContain(true)
+		waitFor(getTrue).toBeOfType('boolean')
+	).resolves.toBeDefined()
+
+	await expect(
+		waitFor(getTrue).toBeTruthy()
 	).resolves.toBeDefined()
 })

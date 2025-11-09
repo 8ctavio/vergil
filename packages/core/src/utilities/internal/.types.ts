@@ -1,0 +1,1 @@
+export type TypeOfResult = "object" | "function" | "undefined" | "boolean" | "number" | "bigint" | "string" | "symbol"
