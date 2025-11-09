@@ -161,7 +161,7 @@ useDefineExposed([
 </template>
 
 <style>
-.btn {
+:is(button, a).btn {
     --btn-c-icon: var(--btn-c-icon-1);
     --btn-c-border: var(--btn-c-border-1);
     --btn-bw: 0px;
