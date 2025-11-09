@@ -12,7 +12,6 @@ const conditions = {
 		'toEqual',
 		'toBeIn',
 		'toBeTruthy',
-		'toBeNaN',
 		'toContain'
 	],
 	multisource: ['toBeEqual']
@@ -228,7 +227,7 @@ suite("toBe", () => {
 	})
 
 	test("Resolve when source and argument are not the same", async () => {
-		const src = shallowRef(0)
+		const src = shallowRef(NaN)
 		const waitForSrcNot = waitFor(src).not
 		const spy = vi.spyOn(waitForSrcNot, 'toBe')
 		
@@ -239,7 +238,7 @@ suite("toBe", () => {
 			src.value = 1
 		})
 
-		await waitForSrcNot.toBe(0)
+		await waitForSrcNot.toBe(NaN)
 	})
 })
 
@@ -305,7 +304,7 @@ suite("toEqual", () => {
 			src.value = 1
 		})
 
-		await waitForSrcNot.toBe(0)
+		await waitForSrcNot.toBe(-0)
 	})
 })
 
@@ -409,38 +408,6 @@ suite("toBeTruthy", () => {
 			await waitForSrcNot.toBeTruthy()
 			expect(spy).toHaveResolved()
 		}
-	})
-})
-
-suite("toBeNaN", () => {
-	test("Resolve when source is NaN", async () => {
-		const src = shallowRef()
-		const waitForSrc = waitFor(src)
-		const spy = vi.spyOn(waitForSrc, 'toBeNaN')
-		queueMicrotask(async () => {
-			src.value = 0
-			await nextTick()
-			expect(spy).not.toHaveResolved()
-			src.value = NaN
-		})
-	
-		await waitForSrc.toBeNaN()
-		expect(spy).toHaveResolved()
-	})
-
-	test("Resolve when source is not NaN", async () => {
-		const src = shallowRef(NaN)
-		const waitForSrcNot = waitFor(src).not
-		const spy = vi.spyOn(waitForSrcNot, 'toBeNaN')
-		queueMicrotask(async () => {
-			triggerRef(src)
-			await nextTick()
-			expect(spy).not.toHaveResolved()
-			src.value = 8
-		})
-	
-		await waitForSrcNot.toBeNaN()
-		expect(spy).toHaveResolved()
 	})
 })
 
@@ -555,15 +522,15 @@ test("Resolve if condition is initially fulfilled", async () => {
 	).resolves.toBeDefined()
 
 	await expect(
+		waitFor(getTrue).toEqual(true)
+	).resolves.toBeDefined()
+
+	await expect(
 		waitFor(getTrue).toBeIn([true])
 	).resolves.toBeDefined()
 
 	await expect(
 		waitFor(getTrue).toBeTruthy()
-	).resolves.toBeDefined()
-
-	await expect(
-		waitFor(getTrue).not.toBeNaN()
 	).resolves.toBeDefined()
 
 	await expect(

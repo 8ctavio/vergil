@@ -36,7 +36,6 @@ export type WaitForMethods<
 		toBeIn(value: MaybeRefOrGetter<unknown[]>): Promise<unknown>
 
 		toBeTruthy(): WatchUntilPromise<S,O>
-		toBeNaN(): WatchUntilPromise<S,O>
 
 		toContain<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
 			? WatchUntilPromise<[S,T],O>

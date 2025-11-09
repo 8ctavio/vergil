@@ -5,7 +5,7 @@ import { noop } from '#utilities'
 namespace Conditions {
 	export type Base = "toFulfill"
 	export type Initial = "toChange"
-	export type Monosource = "toBe" | "toEqual" | "toBeIn" | "toBeTruthy" | "toBeNaN" | "toContain"
+	export type Monosource = "toBe" | "toEqual" | "toBeIn" | "toBeTruthy" | "toContain"
 	export type Multisource = "toBeEqual"
 }
 

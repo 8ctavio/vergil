@@ -94,7 +94,6 @@ function methodsGenerator(source, options) {
 				: toFulfill(src => value.includes(src))
 		}
 		methods.toBeTruthy = () => toFulfill(Boolean)
-		methods.toBeNaN = () => toFulfill(Number.isNaN)
 		/** @param { MaybeRefOrGetter } value */
 		methods.toContain = value => {
 			return isWatchSource(value)
