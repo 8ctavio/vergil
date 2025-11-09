@@ -25,7 +25,8 @@ test('Getter functions are turned into refs', () => {
 
 	for (const getter of getters) {
 		const r = normalizeRef(getter)
-		expect(isRef(r)).toBe(true)
+		expect(r).toSatisfy(isRef)
+		expect(getter).not.toHaveBeenCalled()
 		const v = r.value
 		expect(getter).toHaveBeenCalledOnce()
 		expect(v).toBe(getter())
@@ -36,8 +37,8 @@ test('Refs are created for non-ref and non-getter values', () => {
 	const values = ['', 0, false, null, undefined]
 	for (const value of values) {
 		const r = normalizeRef(value)
-		expect(isRef(r)).toBe(true)
-		expect(isShallow(r)).toBe(false)
+		expect(r).toSatisfy(isRef)
+		expect(r).not.toSatisfy(isShallow)
 		expect(r.value).toBe(value)
 	}
 })
@@ -46,15 +47,15 @@ test('Shallow refs are created for non-ref and non-getter values', () => {
 	const values = [{}, [], '', 0, false, null, undefined]
 	for (const value of values) {
 		const r = normalizeRef(value, true)
-		expect(isRef(r)).toBe(true)
-		expect(isShallow(r)).toBe(true)
+		expect(r).toSatisfy(isRef)
+		expect(r).toSatisfy(isShallow)
 		expect(r.value).toBe(value)
 	}
 })
 
 test('Return ref if no arguments are provided', () => {
 	const r = normalizeRef()
-	expect(isRef(r)).toBe(true)
-	expect(isShallow(r)).toBe(false)
+	expect(r).toSatisfy(isRef)
+	expect(r).not.toSatisfy(isShallow)
 	expect(r.value).toBe(undefined)
 })
