@@ -33,7 +33,7 @@ import { vergil } from '#vergil'
 import { Icon, MiniMarkup } from '#components'
 import { useDefineExposed } from '#composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
-import type { PropType } from 'vue'
+import type { AnchorHTMLAttributes, PropType } from 'vue'
 import type { BtnVariant, BtnOutline } from '#components'
 import type { Exposed } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
@@ -76,7 +76,7 @@ const props = defineProps({
     loading: Boolean,
 
 	linkTo: [String, Object] as PropType<RouteLocationRaw>,
-    linkOptions: Object as PropType<LinkOptions>,
+    linkOptions: Object as PropType<AnchorHTMLAttributes | LinkOptions>,
     linkUnderline: Boolean,
 
     descendant: Boolean,
@@ -101,7 +101,6 @@ const props = defineProps({
         validator: isValidSpacing
     }
 })
-
 
 // A single effect function could be used if pausing dependency tracking were possible;
 // currently, calling `useLink` would track unwanted dependencies.
@@ -129,7 +128,7 @@ useDefineExposed([
 
 <template>
     <component :is="linkTo ? resolveLink() : 'button'"
-        v-bind="linkOptions"
+        v-bind="linkTo && { ...linkOptions, [resolveLink() === 'a' ? 'href' : 'to']: linkTo }"
         :class="['btn', variant, mask && `masked mask-${mask}`, {
             underline,
             fill,
@@ -143,7 +142,6 @@ useDefineExposed([
             'link-underline': linkUnderline
         }]"
         :disabled="disabled || loading"
-        :to="linkTo"
     >
         <span v-if="mask" class="btn-backdrop"/>
         <div class="btn-content">
