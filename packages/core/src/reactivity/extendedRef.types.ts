@@ -1,5 +1,5 @@
-import type { MaybeRefOrGetter, UnwrapRef } from "vue"
-import type { Entangled, EntangledOptions, NormalizeRef } from "#reactivity"
+import type { MaybeRefOrGetter } from "vue"
+import type { Entangled, EntangledOptions, UnwrapRefOrGetter, NormalizeRef } from "#reactivity"
 
 export interface ExtendedRefOptions<
 	T = unknown,
@@ -14,12 +14,12 @@ export interface ExtendedRefOptions<
 
 export type ExtendedRef<
 	T extends MaybeRefOrGetter = unknown,
-	U = UnwrapRef<T>,
+	U = UnwrapRefOrGetter<T>,
 	Extension extends Record<PropertyKey, unknown> = {},
 	Shallow extends boolean = false,
 	Ignore extends PropertyKey = never
 > = {
-	get value(): UnwrapRef<T>;
+	get value(): UnwrapRefOrGetter<T>;
 	set value(v: U);
 	ref: NormalizeRef<T, Shallow>
 } & Entangled<Extension, Ignore | 'ref' | 'value'>

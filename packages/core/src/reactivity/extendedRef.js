@@ -7,13 +7,13 @@ import { ExtendedRefImpl } from "#reactivity"
  */
 
 /**
- * @template { MaybeRefOrGetter | ExtendedRef } T
+ * @template { MaybeRefOrGetter | ExtendedRef } [T = undefined]
  * @template [U = T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>]
  * @template { Record<PropertyKey, unknown> | null } [Extension = {}]
  * @template { boolean } [Shallow = false]
  * @template { PropertyKey } [Ignore = never]
  * @overload
- * @param { T } value
+ * @param { T } [value]
  * @param { Extension } [extension]
  * @param { ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U, Shallow, Ignore> } [options = {}]
  * @returns {(
@@ -26,7 +26,7 @@ import { ExtendedRefImpl } from "#reactivity"
 /**
  * Extends a ref with additional properties.
  * 
- * @param { MaybeRefOrGetter | ExtendedRef } value				- Value to normalize into the ref to be extended.
+ * @param { MaybeRefOrGetter | ExtendedRef } [value]			- Value to normalize into the ref to be extended.
  * @param { Record<PropertyKey, unknown> | null } [extension]	- Extension object whose keys represent the names or symbols of extendedRef properties to be defined, while its values represent those properties' initial values or descriptors.
  * @param { object } [options]
  * @param { boolean } [options.shallow]					- Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
