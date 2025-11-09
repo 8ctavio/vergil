@@ -25,6 +25,10 @@ export type WaitForMethods<
 			? WatchUntilPromise<[S,T],O>
 			: WatchUntilPromise<S,O>
 		toBe(value: MaybeRefOrGetter): Promise<unknown>
+		toEqual<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
+			? WatchUntilPromise<[S,T],O>
+			: WatchUntilPromise<S,O>
+		toEqual(value: MaybeRefOrGetter): Promise<unknown>
 
 		toBeIn<T extends MaybeRefOrGetter<unknown[]>>(value: T): T extends WatchSource
 			? WatchUntilPromise<[S,T],O>

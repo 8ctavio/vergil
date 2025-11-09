@@ -78,6 +78,12 @@ function methodsGenerator(source, options) {
 		/** @param { MaybeRefOrGetter } value */
 		methods.toBe = value => {
 			return isWatchSource(value)
+				? watchUntil([source, value], ([src, v]) => Object.is(src, v), options)
+				: toFulfill(src => Object.is(src, value))
+		}
+		/** @param { MaybeRefOrGetter } value */
+		methods.toEqual = value => {
+			return isWatchSource(value)
 				? watchUntil([source, value], ([src, v]) => src === v, options)
 				: toFulfill(src => src === value)
 		}

@@ -9,6 +9,7 @@ const conditions = {
 	initial: ['toChange', 'not'],
 	monosource: [
 		'toBe',
+		'toEqual',
 		'toBeIn',
 		'toBeTruthy',
 		'toBeNaN',
@@ -173,6 +174,76 @@ suite("toChange", () => {
 })
 
 suite("toBe", () => {
+	const src = shallowRef()
+	const waitForSrc = waitFor(src)
+	const spy = vi.spyOn(waitForSrc, 'toBe')
+
+	test("Resolve when source is the same as argument", async () => {
+		const values = [
+			'vergil',
+			true,
+			{},
+			shallowRef(null),
+			shallowRef([]),
+			0,
+			-0,
+			NaN
+		]
+		for (const value of values) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				src.value = undefined
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				src.value = toValue(value)
+			})
+
+			await waitForSrc.toBe(value)
+			expect(spy).toHaveResolved()
+		}
+	})
+
+	test("Resolve when reactive argument is the same as source", async () => {
+		const values: ShallowRef<unknown>[] = [
+			shallowRef('vergil'),
+			shallowRef(true),
+			shallowRef(null),
+			shallowRef({}),
+			shallowRef(0),
+			shallowRef(-0),
+			shallowRef(NaN),
+		]
+		for (const value of values) {
+			spy.mockClear()
+			queueMicrotask(async () => {
+				value.value = undefined
+				await nextTick()
+				expect(spy).not.toHaveResolved()
+				value.value = src.value
+			})
+
+			await waitForSrc.toBe(value)
+			expect(spy).toHaveResolved()
+		}
+	})
+
+	test("Resolve when source and argument are not the same", async () => {
+		const src = shallowRef(0)
+		const waitForSrcNot = waitFor(src).not
+		const spy = vi.spyOn(waitForSrcNot, 'toBe')
+		
+		queueMicrotask(async () => {
+			triggerRef(src)
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			src.value = 1
+		})
+
+		await waitForSrcNot.toBe(0)
+	})
+})
+
+suite("toEqual", () => {
 	const src = shallowRef()
 	const waitForSrc = waitFor(src)
 	const spy = vi.spyOn(waitForSrc, 'toBe')
