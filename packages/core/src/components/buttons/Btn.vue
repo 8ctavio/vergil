@@ -147,7 +147,7 @@ useDefineExposed([
         <div class="btn-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>
-                <p class="btn-label">
+                <p v-if="label" class="btn-label">
                     <MiniMarkup :str="label"/>
                 </p>
             </slot>
