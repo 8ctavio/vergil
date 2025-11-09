@@ -3,7 +3,7 @@ import { waitFor } from '#reactivity'
 import { noop } from '#utilities'
 
 namespace Conditions {
-	export type Base = "toMatch"
+	export type Base = "toFulfill"
 	export type Initial = "toChange"
 	export type Monosource = "toBe" | "toBeIn" | "toBeTruthy" | "toBeNaN" | "toContain"
 	export type Multisource = "toBeEqual"
@@ -36,28 +36,28 @@ test("Available methods", () => {
 	}>()
 })
 
-test("toMatch's argument types match waitFor's source types", () => {
-	waitFor(() => 0).toMatch((v,u) => {
+test("toFulfill's argument types match waitFor's source types", () => {
+	waitFor(() => 0).toFulfill((v,u) => {
 		expectTypeOf(v).toEqualTypeOf<number>()
 		expectTypeOf(u).toEqualTypeOf<number | undefined>()
 	})
 
-	waitFor((): string | number | boolean => 0).toMatch((v,u) => {
+	waitFor((): string | number | boolean => 0).toFulfill((v,u) => {
 		expectTypeOf(v).toEqualTypeOf<string | number | boolean>()
 		expectTypeOf(u).toEqualTypeOf<string | number | boolean | undefined>()
 	})
 
-	waitFor(() => ['']).toMatch((v,u) => {
+	waitFor(() => ['']).toFulfill((v,u) => {
 		expectTypeOf(v).toEqualTypeOf<string[]>()
 		expectTypeOf(u).toEqualTypeOf<string[] | undefined>()
 	})
 
-	waitFor([() => 0, () => '', () => false]).toMatch((v,u) => {
+	waitFor([() => 0, () => '', () => false]).toFulfill((v,u) => {
 		expectTypeOf(v).toEqualTypeOf<[number, string, boolean]>()
 		expectTypeOf(u).toEqualTypeOf<[number | undefined, string | undefined, boolean | undefined]>()
 	})
 
-	waitFor([() => 0, () => '', () => false] as const).toMatch((v,u) => {
+	waitFor([() => 0, () => '', () => false] as const).toFulfill((v,u) => {
 		expectTypeOf(v).toEqualTypeOf<[number, string, boolean]>()
 		expectTypeOf(u).toEqualTypeOf<[number | undefined, string | undefined, boolean | undefined]>()
 	})

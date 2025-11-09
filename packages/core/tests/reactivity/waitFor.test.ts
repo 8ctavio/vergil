@@ -5,7 +5,7 @@ import { noop, getTrue } from "#utilities"
 import type { MaybeRef, ShallowRef } from "vue"
 
 const conditions = {
-	base: ['toMatch'],
+	base: ['toFulfill'],
 	initial: ['toChange', 'not'],
 	monosource: [
 		'toBe',
@@ -46,13 +46,13 @@ suite("Generate methods", () => {
 	})
 })
 
-suite("toMatch", () => {
+suite("toFulfill", () => {
 	test("Resolve when custom condition returns true", async () => {
 		const count = shallowRef(10)
 		const methods = waitFor(count)
-		const spy = vi.spyOn(methods, 'toMatch')
+		const spy = vi.spyOn(methods, 'toFulfill')
 
-		await methods.toMatch(v => {
+		await methods.toFulfill(v => {
 			if (v < 0) {
 				return true
 			} else {
@@ -65,9 +65,9 @@ suite("toMatch", () => {
 	test("Resolve when custom condition returns false", async () => {
 		const count = shallowRef(-10)
 		const methods = waitFor(count).not
-		const spy = vi.spyOn(methods, 'toMatch')
+		const spy = vi.spyOn(methods, 'toFulfill')
 
-		await methods.toMatch(v => {
+		await methods.toFulfill(v => {
 			if (v < 0) {
 				count.value++
 			} else {
@@ -476,7 +476,7 @@ suite("toBeEqual", () => {
 
 test("Resolve if condition is initially fulfilled", async () => {
 	await expect(
-		waitFor(getTrue).toMatch(v => String(v) === 'true')
+		waitFor(getTrue).toFulfill(v => String(v) === 'true')
 	).resolves.toBeDefined()
 
 	await expect(

@@ -48,11 +48,11 @@ export function waitFor(source, options) {
  */
 function methodsGenerator(source, options) {
 	/** @param { WatchCallback } condition */
-	function toMatch(condition) {
+	function toFulfill(condition) {
 		return watchUntil(source, condition, options)
 	}
 
-	const methods = /** @type { WaitForMethods<WatchSource> & WaitForMethods<WatchSource[]> } */ ({ toMatch })
+	const methods = /** @type { WaitForMethods<WatchSource> & WaitForMethods<WatchSource[]> } */ ({ toFulfill })
 
 	if (options.fulfill) methods.toChange = ((times = 1) => {
 		let cont = 0
@@ -68,7 +68,7 @@ function methodsGenerator(source, options) {
 				return cont > v[0]
 			}, options)
 		} else {
-			return toMatch(() => ++cont > times)
+			return toFulfill(() => ++cont > times)
 		}
 	})
 
@@ -79,21 +79,21 @@ function methodsGenerator(source, options) {
 		methods.toBe = value => {
 			return isWatchSource(value)
 				? watchUntil([source, value], ([src, v]) => src === v, options)
-				: toMatch(src => src === value)
+				: toFulfill(src => src === value)
 		}
 		/** @param { MaybeRefOrGetter<unknown[]> } value */
 		methods.toBeIn = value => {
 			return isWatchSource(value)
 				? watchUntil([source, value], ([src, v]) => Array.isArray(v) && v.includes(src), options)
-				: toMatch(src => value.includes(src))
+				: toFulfill(src => value.includes(src))
 		}
-		methods.toBeTruthy = () => toMatch(Boolean)
-		methods.toBeNaN = () => toMatch(Number.isNaN)
+		methods.toBeTruthy = () => toFulfill(Boolean)
+		methods.toBeNaN = () => toFulfill(Number.isNaN)
 		/** @param { MaybeRefOrGetter } value */
 		methods.toContain = value => {
 			return isWatchSource(value)
 				? watchUntil([source, value], ([src, v]) => Array.isArray(src) && src.includes(v), options)
-				: toMatch(src => src.includes(value))
+				: toFulfill(src => src.includes(value))
 		}
 	}
 

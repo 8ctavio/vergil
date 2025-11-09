@@ -6,8 +6,8 @@ export type WaitForMethods<
 	O extends WatchUntilOptions = {},
 	F extends boolean = true
 > = {
-	toMatch(condition: WatcherCallback<S,true>): WatchUntilPromise<S,O>;
-	toMatch(condition: WatchCallback): Promise<unknown>;
+	toFulfill(condition: WatcherCallback<S,true>): WatchUntilPromise<S,O>;
+	toFulfill(condition: WatchCallback): Promise<unknown>;
 } & (
 	F extends true ? {
 		toChange<T extends MaybeRefOrGetter<number>>(times?: T): T extends WatchSource
