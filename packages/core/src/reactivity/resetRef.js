@@ -1,22 +1,25 @@
+import { isRef } from "vue"
 import { useResetValue } from "#composables"
 import { extendedRef } from "#reactivity"
 
 /**
- * @import { MaybeRefOrGetter } from 'vue'
+ * @import { MaybeRef } from 'vue'
  * @import { ExtendedRef } from '#reactivity'
  */
 
 /**
  * @template T
  * @overload
- * @param { MaybeRefOrGetter<T> } reference
+ * @param { MaybeRef<T> } reference
+ * @param { boolean } [cloneReference]
  * @returns { ExtendedRef<T, T, { reset: () => void }> }
  */
 
 /**
- * Returns extended ref with reset method.
+ * Returns extendedRef with reset method.
  * 
- * @param { MaybeRefOrGetter } reference - The extended ref's initial and reset values. A ref or getter can be used for a dynamic reset value.
+ * @param { MaybeRef } reference - The extendedRef's initial and reset values. A ref may be used for dynamic reset values.
+ * @param { boolean } [cloneReference] - Whether to clone the reference if it is an object. Defaults to `!isRef(reference)`.
  * @returns { ExtendedRef }
  * 
  * @example
@@ -32,8 +35,8 @@ import { extendedRef } from "#reactivity"
  *  num.reset()
  *  console.log(num.value) // 8
  */
-export function resetRef(reference) {
-    const getResetValue = useResetValue(reference)
+export function resetRef(reference, cloneReference = !isRef(reference)) {
+    const getResetValue = useResetValue(reference, cloneReference)
     const extended = extendedRef(getResetValue(), {
         reset() {
             extended.value = getResetValue()
