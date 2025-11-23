@@ -157,6 +157,45 @@ Adding `squared` sets padding to the same value on all sides.
     <Btn squared label="Squared"/>
 </Demo>
 
+### Link to <Badge><pre>link-to: [RouteLocationRaw](https://router.vuejs.org/api/type-aliases/RouteLocationRaw.html#RouteLocationRaw-Name-)</pre></Badge>
+
+The `link-to` prop instructs `Btn` to mount an `a` element instead of a `button`. In addition, `Btn` supports `RouterLink` and `NuxtLink` by automatically rendering whichever is available when `link-to` is used (`NuxtLink` has precedence over `RouterLink`).
+
+If a plain `a` element is mounted, `link-to` becomes its `href` attribute. Otherwise, `link-to` is equivalent to `RouterLink`'s `to` prop.
+
+```vue
+<Btn label="Link" link-to="/path"/>
+```
+<Demo>
+    <Btn label="Link" link-to="/vergil/components/buttons/btn#link-to-link-to-routelocationraw"/>
+</Demo>
+
+### Link options <Badge><pre>link-options: AnchorHTMLAttributes | Omit<[RouterLinkProps](https://router.vuejs.org/api/interfaces/RouterLinkProps.html#RouterLinkProps), 'to'> | Omit<[NuxtLinkProps](https://nuxt.com/docs/4.x/api/components/nuxt-link#props), 'to' | 'href'></pre></Badge>
+
+Additional attributes or props for underlying `a` element, or `RouterLink` or `NuxtLink` components if `link-to` is provided.
+
+```vue
+<Btn
+    label="External Link"
+    link-to="/path"
+    :link-options="{ target: '_blank' }"
+/>
+```
+<Demo>
+    <Btn label="External Link"link-to="/vergil/components/buttons/btn#link-to-link-to-routelocationraw"  :link-options="{ target: '_blank' }"/>
+</Demo>
+
+### Link underline <Badge><pre>link-underline: boolean</pre></Badge>
+
+Underlines `Btn`'s label on hover when `link-to` is provided.
+
+```vue
+<Btn label="Link underline" link-to="/path" link-underline/>
+```
+<Demo>
+    <Btn label="Link underline" link-to="/vergil/components/buttons/btn#link-underline-link-underline-boolean" link-underline/>
+</Demo>
+
 ### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
@@ -468,6 +507,44 @@ Adding `squared` sets padding to the same value on all sides.
     </div>
 </Demo>
 
+## Exposed
+
+### Link instance
+
+When `link-to` is provided and `RouterLink` or `NuxtLink` is rendered, a corresponding [`useLink`](https://router.vuejs.org/api/functions/useLink.html#useLink-) or [`useNuxtLink`](https://github.com/nuxt/nuxt/blob/v4.2.1/packages/nuxt/src/app/components/nuxt-link.ts#L171) instance is exposed.
+
+The exposed link instance may be used, for example, to update `Btn` props based on whether the link is active:
+
+```vue
+<script setup>
+import { useExposed } from '@8ctavio/vergil'
+const exposed = useExposed()
+</script>
+
+<template>
+    <Btn :exposed link-to="/"
+        :theme="exposed.isActive ? 'brand' : 'neutral'"
+    />
+</template>
+```
+
+:::warning
+If `link-to` is an object defined in-template, an infinite loop may be generated if template-tracked exposed properties are triggered because when the template is re-rendered a new object may be created for `link-to`. In that case, `Btn` internally creates and exposes a new link instance, and triggers the `exposed` object, which in turn triggers another template re-render, and so on. To prevent this, defining a `link-to` object directly in the template should be avoided:
+
+```vue
+<script setup>
+import { useExposed } from '@8ctavio/vergil'
+const exposed = useExposed()
+const linkTo = {/* ... */}  // [!code ++]
+</script>
+
+<template>
+    <Btn :exposed link-to="{/* ... */}" v-bind="f(exposed)"/> <!-- [!code --] -->
+    <Btn :exposed :link-to v-bind="f(exposed)"/> <!-- [!code ++] -->
+</template>
+```
+:::
+
 ## API Reference
 
 ### Props
@@ -486,11 +563,15 @@ Adding `squared` sets padding to the same value on all sides.
 | `squared` | `boolean` | `false` |
 | `disabled` | `boolean` | `false` |
 | `loading` | `boolean` | `false` |
+| `linkTo` | `RouteLocationRaw` | |
+| `linkOptions` | `AnchorHTMLAttributes \| Omit<RouterLinkProps, 'to'> \| Omit<NuxtLinkProps, 'to' \| 'href'>` | |
+| `linkUnderline` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
+| `exposed` | `object` | |
 
 ### Configuration options
 
@@ -519,7 +600,9 @@ Adding `squared` sets padding to the same value on all sides.
             <Anatomy tag='slot name="default"'/>
             <Anatomy tag="Icon" classes="icon"/>
             <Anatomy tag="div" classes="btn-loader">
-                <Anatomy tag="span" classes="btn-spinner"/>
+                <Anatomy tag="span" classes="btn-spinner">
+                    <Anatomy tag="p" classes="btn-label"/>
+                </Anatomy>
             </Anatomy>
         </Anatomy>
         <Anatomy tag='slot name="aside"'/>
