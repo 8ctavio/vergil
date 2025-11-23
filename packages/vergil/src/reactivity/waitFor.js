@@ -27,13 +27,13 @@ import { isWatchSource, isRegExp } from '#utilities'
  * @example
  * ```js
  * waitFor(src).toBe(true).then(() => {
- *      // Do something when toValue(src) === true
+ *      // Do something when Object.is(toValue(src), true)
  * })
  * 
  * // Wait until [1,2,3].includes(toValue(src))
  * await waitFor(src).toBeIn([1,2,3])
  * 
- * // Wait until toValue(src) !== null
+ * // Wait until !Object.is(toValue(src), null)
  * await waitFor(src).not.toBe(null)
  * ```
  */
