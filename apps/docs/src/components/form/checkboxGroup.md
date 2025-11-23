@@ -5,9 +5,9 @@ outline: [2,3]
 # CheckboxGroup
 
 <script setup>
-import { CheckboxGroup, Checkbox } from '@vrgl/vergil/components'
-import { useModel } from '@vrgl/vergil'
-import { kebabCase } from '@vrgl/vergil/utilities'
+import { CheckboxGroup, Checkbox } from 'vergil/components'
+import { useModel } from 'vergil'
+import { kebabCase } from 'vergil/utilities'
 
 const planets = {
     earth: 'Earth',

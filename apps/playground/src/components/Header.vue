@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Switch } from '@vrgl/vergil/components'
-import { ColorPicker } from '@vrgl/vergil/utilities/userTheme'
+import { Switch } from 'vergil/components'
+import { ColorPicker } from 'vergil/utilities/userTheme'
 
 const checked = sessionStorage.getItem('playground-theme') === 'dark'
 if (checked) {

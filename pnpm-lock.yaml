@@ -65,8 +65,8 @@ importers:
 
   apps/docs:
     devDependencies:
-      '@vrgl/vergil':
-        specifier: workspace:*
+      vergil:
+        specifier: workspace:@vrgl/vergil@*
         version: link:../../packages/vergil
       vitepress:
         specifier: 'catalog:'
@@ -83,12 +83,12 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 6.0.1(vite@6.3.5(@types/node@24.7.2)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1))(vue@3.5.16(typescript@5.9.3))
-      '@vrgl/vergil':
-        specifier: workspace:*
-        version: link:../../packages/vergil
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vergil:
+        specifier: workspace:@vrgl/vergil@*
+        version: link:../../packages/vergil
       vite:
         specifier: 'catalog:'
         version: 6.3.5(@types/node@24.7.2)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1)
@@ -107,12 +107,12 @@ importers:
 
   apps/playground-nuxt:
     devDependencies:
-      '@vrgl/vergil':
-        specifier: workspace:*
-        version: link:../../packages/vergil
       nuxt:
         specifier: 'catalog:'
         version: 4.2.0(@parcel/watcher@2.5.1)(@types/node@24.7.2)(@vue/compiler-sfc@3.5.22)(db0@0.3.4)(ioredis@5.8.2)(magicast@0.3.5)(oxlint@1.23.0)(rollup@4.52.5)(terser@5.44.0)(typescript@5.9.3)(vite@7.1.12(@types/node@24.7.2)(jiti@2.6.1)(terser@5.44.0)(yaml@2.8.1))(vue-tsc@2.2.10(typescript@5.9.3))(yaml@2.8.1)
+      vergil:
+        specifier: workspace:@vrgl/vergil@*
+        version: link:../../packages/vergil
       vue:
         specifier: 'catalog:'
         version: 3.5.16(typescript@5.9.3)

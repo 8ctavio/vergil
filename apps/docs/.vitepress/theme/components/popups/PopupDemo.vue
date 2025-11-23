@@ -1,5 +1,5 @@
 <script setup>
-import { Popup, Btn3D } from '@vrgl/vergil/components'
+import { Popup, Btn3D } from 'vergil/components'
 import { ref } from 'vue'
 
 const emit = defineEmits(['close'])

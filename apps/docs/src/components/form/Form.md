@@ -9,9 +9,9 @@ Before proceeding with `Form`, learn first about the [`useModelGroup`](/composab
 :::
 
 <script setup>
-import { Form, InputText, Checkbox, Btn } from '@vrgl/vergil/components'
+import { Form, InputText, Checkbox, Btn } from 'vergil/components'
 import { shallowRef } from 'vue'
-import { useModelGroup } from '@vrgl/vergil'
+import { useModelGroup } from 'vergil'
 
 const form = useModelGroup({
 	username: {

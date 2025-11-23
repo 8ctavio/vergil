@@ -5,8 +5,8 @@ outline: [2,3]
 # Calendar
 
 <script setup>
-import { Calendar } from '@vrgl/vergil/components'
-import { useModel } from '@vrgl/vergil'
+import { Calendar } from 'vergil/components'
+import { useModel } from 'vergil'
 
 const demo1 = useModel(null, { shallow: true })
 const demo2 = useModel(null, { shallow: true })

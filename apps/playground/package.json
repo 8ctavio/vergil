@@ -9,7 +9,7 @@
         "#src/*": "./src/*"
     },
     "devDependencies": {
-        "@vrgl/vergil": "workspace:*",
+        "vergil": "workspace:@vrgl/vergil@*",
         "@types/node": "catalog:",
         "@vitejs/plugin-vue": "catalog:",
         "typescript": "catalog:",

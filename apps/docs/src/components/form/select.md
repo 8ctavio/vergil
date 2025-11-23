@@ -7,9 +7,9 @@ outline: [2,3]
 <script setup>
 import { h } from 'vue'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
-import { Select as VergilSelect } from '@vrgl/vergil/components'
-import { useModel } from '@vrgl/vergil'
-import { kebabCase } from '@vrgl/vergil/utilities'
+import { Select as VergilSelect } from 'vergil/components'
+import { useModel } from 'vergil'
+import { kebabCase } from 'vergil/utilities'
 
 function Select(props) {
     return h(ClientOnly, () => h(VergilSelect, props))

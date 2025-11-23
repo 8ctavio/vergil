@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vergil } from '@vrgl/vergil/components'
+import { Vergil } from 'vergil/components'
 
 /**
  * WIP

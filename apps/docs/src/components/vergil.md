@@ -7,7 +7,7 @@ outline: [2,3]
 > Application wrapper for global enablement of some components.
 
 <script setup>
-import { DataList, Btn } from '@vrgl/vergil/components'
+import { DataList, Btn } from 'vergil/components'
 </script>
 
 ## Usage

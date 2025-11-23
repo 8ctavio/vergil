@@ -5,13 +5,13 @@ const { Layout } = DefaultTheme
 import './styles/custom.css'
 import './styles/overrides.css'
 
+import { h } from 'vue'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
 import Demo from './components/Demo.vue'
 import Anatomy from './components/Anatomy.vue'
-import { Vergil } from '@vrgl/vergil/components'
-import { ColorPicker } from '@vrgl/vergil/utilities/userTheme'
-import { h } from 'vue'
-import { vergil } from '@vrgl/vergil/plugins'
+import { Vergil } from 'vergil/components'
+import { ColorPicker } from 'vergil/utilities/userTheme'
+import { vergil } from 'vergil/plugins'
 
 export default {
 	extends: DefaultTheme,

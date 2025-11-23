@@ -5,8 +5,8 @@ outline: [2,3]
 # Form Components
 
 <script setup>
-import { InputText, CheckboxGroup } from '@vrgl/vergil/components'
-import { useModel } from '@vrgl/vergil'
+import { InputText, CheckboxGroup } from 'vergil/components'
+import { useModel } from 'vergil'
 
 const planetOptions = {
     earth: 'Earth',

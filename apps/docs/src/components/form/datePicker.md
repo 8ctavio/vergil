@@ -7,7 +7,7 @@ outline: [2,3]
 <script setup>
 import { h } from 'vue'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
-import { DatePicker as VergilDatePicker } from '@vrgl/vergil/components'
+import { DatePicker as VergilDatePicker } from 'vergil/components'
 
 function DatePicker(props) {
     return h(ClientOnly, () => h(VergilDatePicker, props))
