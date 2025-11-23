@@ -75,28 +75,26 @@ function methodsGenerator(source, options) {
 	if (Array.isArray(source)) {
 		methods.toBeEqual = () => watchUntil(source, ([v1, ...v2]) => v2.every(v => v === v1), options)
 	} else {
-		/**
-		 * @param { MaybeRefOrGetter } value 
-		 * @param { (source: unknown, value: unknown) => boolean } condition 
-		 */
-		function handleMethod(value, condition) {
-			return isWatchSource(value)
+		/** @param { (source: unknown, value: unknown) => boolean } condition */
+		function createMethod(condition) {
+			/** @param { MaybeRefOrGetter } value */
+			return value => isWatchSource(value)
 				? watchUntil([/**@type {WatchSource}*/(source), value], ([src, val]) => condition(src, val), options)
 				: toFulfill(src => condition(src, value))
 		}
 
 		/** @param { MaybeRefOrGetter } value */
-		methods.toBe = value => handleMethod(value, (src, val) => Object.is(src, val))
+		methods.toBe = createMethod((src, val) => Object.is(src, val))
 		/** @param { MaybeRefOrGetter } value */
-		methods.toEqual = value => handleMethod(value, (src, val) => src === val)
+		methods.toEqual = createMethod((src, val) => src === val)
 
 		/** @param { MaybeRefOrGetter} value */
-		methods.toBeIn = value => handleMethod(value, (src, val) => Array.isArray(val) && val.includes(src))
+		methods.toBeIn = createMethod((src, val) => Array.isArray(val) && val.includes(src))
 		/** @param { MaybeRefOrGetter } value */
-		methods.toContain = value => handleMethod(value, (src, val) => Array.isArray(src) && src.includes(val))
+		methods.toContain = createMethod((src, val) => Array.isArray(src) && src.includes(val))
 
 		/** @param { MaybeRefOrGetter } value */
-		methods.toBeOfType = value => handleMethod(value, (src, val) => typeof src === val)
+		methods.toBeOfType = createMethod((src, val) => typeof src === val)
 
 		methods.toBeTruthy = () => toFulfill(Boolean)
 	}
