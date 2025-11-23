@@ -1,4 +1,4 @@
-import { isRef } from "vue"
+import { unref, isRef, toRaw } from "vue"
 import { useResetValue } from "#composables"
 import { extendedRef } from "#reactivity"
 
@@ -8,18 +8,28 @@ import { extendedRef } from "#reactivity"
  */
 
 /**
- * @template T
+ * @template [T = undefined]
+ * @template [U = T]
+ * @template { boolean } [Shallow = false]
  * @overload
- * @param { MaybeRef<T> } reference
- * @param { boolean } [cloneReference]
- * @returns { ExtendedRef<T, T, { reset: () => void }> }
+ * @param { MaybeRef<T> } [value]
+ * @param { object } [options]
+ * @param { Shallow } [options.shallow]	
+ * @param { () => T } [options.get]
+ * @param { (value: U) => void } [options.set]
+ * @param { boolean } [options.cloneResetValue]
+ * @returns { ExtendedRef<T, U, { reset: () => void }, Shallow> }
  */
 
 /**
  * Returns extendedRef with reset method.
  * 
- * @param { MaybeRef } reference - The extendedRef's initial and reset values. A ref may be used for dynamic reset values.
- * @param { boolean } [cloneReference] - Whether to clone the reference if it is an object. Defaults to `!isRef(reference)`.
+ * @param { MaybeRef } value - The extendedRef's initial and reset values. A ref may be used for dynamic reset values.
+ * @param { object } [options]
+ * @param { boolean } [options.shallow]					- Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
+ * @param { () => unknown } [options.get]				- Custom resetRef's `value` getter function.
+ * @param { (value: unknown) => void } [options.set]    - Custom resetRef's `value` setter function.
+ * @param { boolean } [options.cloneResetValue]         - Whether to clone the reset value if it is an object. Defaults to `!isRef(value)`.
  * @returns { ExtendedRef }
  * 
  * @example
@@ -35,12 +45,19 @@ import { extendedRef } from "#reactivity"
  *  num.reset()
  *  console.log(num.value) // 8
  */
-export function resetRef(reference, cloneReference = !isRef(reference)) {
-    const getResetValue = useResetValue(reference, cloneReference)
-    const extended = extendedRef(getResetValue(), {
+export function resetRef(value, options = {}) {
+    const { cloneResetValue = !isRef(value) } = options
+    const getResetValue = useResetValue(value, cloneResetValue)
+    const extended = extendedRef(toRaw(unref(value)), {
         reset() {
-            extended.value = getResetValue()
+            extended.ref.value = getResetValue()
         }
-    }, { configurable: false, writable: false })
+    }, {
+        shallow: options.shallow,
+        get: options.get,
+        set: options.set,
+        writable: false,
+        configurable: false,
+    })
     return extended
 }
