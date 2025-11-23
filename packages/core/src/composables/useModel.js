@@ -1,13 +1,17 @@
-import { isShallow, triggerRef, customRef, getCurrentInstance, onScopeDispose } from 'vue'
+import { ref, shallowRef, customRef, triggerRef, isRef, isShallow, toValue, toRef, toRaw, getCurrentInstance, onScopeDispose } from 'vue'
 import { useElements, useExposed, useResetValue, privateModelMap, groupValidationCtx } from '#composables'
 import { extendedRef } from '#reactivity'
 import { isModel, markDescriptor, dataDescriptor } from '#functions'
-import { debounce, isFunction, normalizeRef, shallowCopy, looselyEqual, pull, noop, getTrue, uniqueKey } from '#utilities'
+import { isFunction, debounce, pull, shallowCopy, looselyEqual, uniqueKey, noop, getTrue } from '#utilities'
 
 /**
- * @import { Ref, UnwrapRef, MaybeRefOrGetter } from 'vue'
+ * @import { Ref, MaybeRefOrGetter } from 'vue'
  * @import { Model, ModelOptions } from '#composables'
+ * @import { UnwrapRefOrGetter } from '#reactivity'
  */
+
+/** @type { (value: unknown) => unknown } */
+const getterToRef = value => isFunction(value) ? toRef(value) : value
 
 const validationError = Object.preventExtensions({})
 const getNoop = () => noop
@@ -18,16 +22,23 @@ function getError() {
 }
 
 /**
- * @template { MaybeRefOrGetter<unknown> } T
+ * Creates a component model.
+ * @overload
+ * @returns { Model<undefined, false, false, false> }
+ */
+
+/**
+ * Creates a component model.
+ * @template { ExtendRef extends true ? Ref : MaybeRefOrGetter } T
  * @template { boolean } [Shallow = false]
  * @template { boolean } [ExtendRef = false]
  * @template { boolean } [IncludeExposed = false]
  * @template { boolean } [IncludeElements = false]
  * @overload
- * @param { T } [value]
- * @param { ModelOptions<UnwrapRef<T>, Shallow, ExtendRef, IncludeExposed, IncludeElements> } [options = {}]
+ * @param { T } value Component model's initial value.
+ * @param { ModelOptions<UnwrapRefOrGetter<T>, Shallow, ExtendRef, IncludeExposed, IncludeElements> } [options] Model options object.
  * @returns { Model<
- *     ExtendRef extends true ? T : UnwrapRef<T>,
+ *     ExtendRef extends true ? T : UnwrapRefOrGetter<T>,
  *     Shallow,
  *     IncludeExposed,
  *     IncludeElements
@@ -35,42 +46,30 @@ function getError() {
  */
 
 /**
- * Creates a component model.
- * 
- * @param { MaybeRefOrGetter<unknown> } [value] - Component model's initial value.
- * @param { object } [options = {}]
- * @param { boolean } [options.shallow = false] - Whether to use `shallowRef` for the model's internal `ref` object. Defaults to `false`.
- * @param { boolean } [options.extendRef = false] - If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
- * @param { (
- *     value: unknown,
- *     error: (msg: string) => void,
- *     checkpoint: () => void
- * ) => void } [options.validator] - Function to peform model-value validation and collect encountered validation errors.
- * @param { boolean } [options.includeExposed = false] - Whether to include the `exposed` object into the model. Defaults to `false`.
- * @param { boolean } [options.includeElements = false] - Whether to include the `elements` object into the model. Defaults to `false`.
+ * @param { MaybeRefOrGetter<unknown> } [value]
+ * @param { ModelOptions } [options]
  * 
  * @returns { Model }
  */
 export function useModel(value, options = {}) {
 	if (isModel(value)) return value
 
+	const initialValue = toRaw(toValue(value))
+	const extendRef = options.extendRef && isRef(value)
+	const modelRef = extendRef ? value : (options.shallow ? shallowRef : ref)(initialValue)
+	const resetValue = ('resetValue' in options)
+		? getterToRef(options.resetValue)
+		: extendRef ? initialValue : getterToRef(value)
+
 	const {
 		validator,
-		shallow = false,
-		extendRef = false,
+		cloneResetValue = !isRef(resetValue),
 		includeExposed = false,
 		includeElements = false,
 	} = options
 
-	let getResetValue
-	if (extendRef) {
-		value = normalizeRef(value, shallow)
-		getResetValue = useResetValue(/** @type { Ref } */(value).value)
-	} else {
-		getResetValue = useResetValue(value)
-		value = normalizeRef(getResetValue(), shallow)
-	}
-
+	const getResetValue = useResetValue(resetValue, cloneResetValue)
+	
 	/** @type { (force?: boolean, trigger?: boolean) => boolean } */
 	let validate = getTrue
 	/** @type { (msg: string) => void } */
@@ -109,10 +108,10 @@ export function useModel(value, options = {}) {
 			return lastValidation.result
 		}
 	}
-
-	const model = extendedRef(value, {
+	
+	const model = extendedRef(modelRef, {
 		reset() {
-			model.ref.value = getResetValue()
+			modelRef.value = getResetValue()
 		},
 		error: markDescriptor({ get: getError }),
 		errors: markDescriptor({
@@ -155,7 +154,7 @@ export function useModel(value, options = {}) {
 	model.errors.__v_isShallow = true
 	/**
 	 * Run ref/errors value getter to initialize _value if it's a customRef
-	 * @see https://github.com/vuejs/core/blob/main/packages/reactivity/src/ref.ts#L308
+	 * @see https://github.com/vuejs/core/blob/v3.5.24/packages/reactivity/src/ref.ts#L308
 	 */
 	model.ref.value // oxlint-disable-line no-unused-expressions
 	model.errors.value // oxlint-disable-line no-unused-expressions

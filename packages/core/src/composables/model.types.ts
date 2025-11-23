@@ -13,11 +13,47 @@ export interface ModelOptions<
 	IncludeExposed extends boolean = boolean,
 	IncludeElements extends boolean = boolean
 > {
-	validator?: (value: T, error: (msg: string) => void, checkpoint: () => void) => void;
-	shallow?: Shallow;
-	extendRef?: ExtendRef;
-	includeExposed?: IncludeExposed;
-	includeElements?: IncludeElements;
+	/**
+	 * Function to peform model-value validation
+	 * and collect encountered validation errors.
+	 */
+	validator?: (value: T, error: (msg: string) => void, checkpoint: () => void) => void
+	/**
+	 * Whether to use `shallowRef` for the model's
+	 * internal `ref` object. Defaults to `false`.
+	 */
+	shallow?: Shallow
+	/**
+	 * If `useModel`'s `value` parameter is a ref,
+	 * whether to use it as the model's underlying
+	 * `ExtendedRef.ref` object. When set to `false`,
+	 * a `value` ref is instead used as a dynamic
+	 * source of reset values. Defaults to `false`.
+	 */
+	extendRef?: ExtendRef
+	/**
+	 * Value the model is reset to upon calling its
+	 * `reset` method. Defaults to the model's initial
+	 * value if `extendRef` is `true`; otherwise, defaults
+	 * to the ref-normalized `useModel`'s `value` parameter.
+	 */
+	resetValue?: MaybeRefOrGetter<T>
+	/**
+	 * Whether to clone the model's reset value if
+	 * it is an object. Defaults to `true` if `resetValue`
+	 * is not a ref or getter, and to `false` otherwise.
+	 */
+	cloneResetValue?: boolean
+	/**
+	 * Whether to include the `exposed` object
+	 * into the model. Defaults to `false`.
+	 */
+	includeExposed?: IncludeExposed
+	/**
+	 * Whether to include the `elements` object
+	 * into the model. Defaults to `false`.
+	 */
+	includeElements?: IncludeElements
 }
 
 export interface DefineModelOptions<
