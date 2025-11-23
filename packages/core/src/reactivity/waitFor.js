@@ -83,19 +83,11 @@ function methodsGenerator(source, options) {
 				: toFulfill(src => condition(src, value))
 		}
 
-		/** @param { MaybeRefOrGetter } value */
 		methods.toBe = createMethod((src, val) => Object.is(src, val))
-		/** @param { MaybeRefOrGetter } value */
 		methods.toEqual = createMethod((src, val) => src === val)
-
-		/** @param { MaybeRefOrGetter} value */
 		methods.toBeIn = createMethod((src, val) => Array.isArray(val) && val.includes(src))
-		/** @param { MaybeRefOrGetter } value */
 		methods.toContain = createMethod((src, val) => Array.isArray(src) && src.includes(val))
-
-		/** @param { MaybeRefOrGetter } value */
 		methods.toBeOfType = createMethod((src, val) => typeof src === val)
-
 		methods.toBeTruthy = () => toFulfill(Boolean)
 	}
 

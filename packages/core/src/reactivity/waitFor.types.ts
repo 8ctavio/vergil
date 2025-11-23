@@ -2,6 +2,17 @@ import type { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
 import type { WatcherCallback, WatchUntilOptions, WatchUntilPromise } from '#reactivity'
 import type { TypeOfResult } from '#utilities'
 
+interface WaitForMethod<
+	T,
+	S extends  WatchSource | WatchSource[],
+	O extends WatchUntilOptions
+> {
+	method<V extends MaybeRefOrGetter<T>>(value: V): V extends WatchSource
+		? WatchUntilPromise<[S,V], O>
+		: WatchUntilPromise<S,O>
+	method(value: MaybeRefOrGetter<T>): Promise<unknown>
+}
+
 export type WaitForMethods<
 	S extends WatchSource | WatchSource[] = WatchSource | WatchSource[],
 	O extends WatchUntilOptions = {},
@@ -22,29 +33,11 @@ export type WaitForMethods<
 	S extends readonly WatchSource[] ? {
 		toBeEqual(): WatchUntilPromise<S,O>
 	} : {
-		toBe<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
-			? WatchUntilPromise<[S,T],O>
-			: WatchUntilPromise<S,O>
-		toBe(value: MaybeRefOrGetter): Promise<unknown>
-		toEqual<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
-			? WatchUntilPromise<[S,T],O>
-			: WatchUntilPromise<S,O>
-		toEqual(value: MaybeRefOrGetter): Promise<unknown>
-
-		toBeIn<T extends MaybeRefOrGetter<unknown[]>>(value: T): T extends WatchSource
-			? WatchUntilPromise<[S,T],O>
-			: WatchUntilPromise<S,O>
-		toBeIn(value: MaybeRefOrGetter<unknown[]>): Promise<unknown>
-		toContain<T extends MaybeRefOrGetter>(value: T): T extends WatchSource
-			? WatchUntilPromise<[S,T],O>
-			: WatchUntilPromise<S,O>
-		toContain(value: MaybeRefOrGetter): Promise<unknown>
-
-		toBeOfType<T extends MaybeRefOrGetter<TypeOfResult>>(value: T): T extends WatchSource
-			? WatchUntilPromise<[S,T],O>
-			: WatchUntilPromise<S,O>
-		toBeOfType(value: MaybeRefOrGetter<TypeOfResult>): Promise<unknown>
-
+		toBe: WaitForMethod<unknown, S,O>["method"]
+		toEqual: WaitForMethod<unknown, S,O>["method"]
+		toBeIn: WaitForMethod<unknown[], S,O>["method"]
+		toContain: WaitForMethod<unknown, S,O>["method"]
+		toBeOfType: WaitForMethod<TypeOfResult, S,O>["method"]
 		toBeTruthy(): WatchUntilPromise<S,O>
 	}
 )
