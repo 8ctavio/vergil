@@ -12,6 +12,7 @@ catalog:
   oxlint: 1.23.0
   typescript: 5.9.3
   vite: 6.3.5
+  vite-plugin-vue-devtools: 8.0.5
   vitepress: 1.6.4
   vitest: 3.1.4
   vue: 3.5.16
