@@ -14,7 +14,7 @@ import { isFunction } from './index.js'
  * @returns { value is WatchSource<T> } `true` if `value` is a valid watch source.
  */
 export function isWatchSource(value) {
-	return isRef(value) || isFunction(value)
+	return isFunction(value) || isRef(value)
 }
 
 /**

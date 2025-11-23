@@ -145,9 +145,8 @@ export function everyKeyInObject(obj, keys, strict = true) {
 		const optionalKeys = new Set(optional).difference(requiredKeys)
 		if (providedKeys.length > requiredKeys.size + optionalKeys.size) return false
 		let requiredCount = 0
-		const keysOK = providedKeys.every(key => requiredKeys.has(key) ? ++requiredCount : optionalKeys.has(key))
-		const requiredOK = requiredKeys.size === requiredCount
-		return keysOK && requiredOK
+		return providedKeys.every(key => requiredKeys.has(key) ? ++requiredCount : optionalKeys.has(key))
+			&& requiredCount === requiredKeys.size
 	} else {
 		return strict && providedKeys.length !== requiredKeys.size
 			? false
