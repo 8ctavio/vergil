@@ -64,13 +64,51 @@ Additional model features to conveniently interact with components' state are pr
 
 ### `model.reset`
 
-Models include a `reset` method to reset the model's value to its initial value. Its usage is similar to that of [resetRef](/reactivity/resetRef).
-
+Models include a `reset` method to reset the model's value to its initial value.
 ```js
 const model = useModel('initial value')
 model.value = 'new value'
 model.reset()
 console.log(model.value) // 'initial value'
+```
+
+When the `extendRef` option is `false` (the default; see [Parameters](#parameters)), a provided ref or getter is used as a dynamic source of reset values:
+```js
+const resetValue = shallowRef(0)
+const model = useModel(resetValue)
+
+console.log(model.value) // 0
+
+model.value = 1
+model.reset()
+console.log(model.value) // 0
+
+resetValue.value = 8
+model.reset()
+console.log(model.value) // 8
+```
+
+If `extendRef` is set to `true`, the reset value is the provided ref's initial value. Alternatively, a reset-value ref or getter can still be provided through the `resetValue` option:
+```js
+const resetValue = shallowRef()
+const modelRef = shallowRef()
+const model = useModel(modelRef, {
+    extendRef: true,
+    resetValue
+})
+```
+
+In addition, if the reset value is an object, it can be internally cloned by setting the `cloneResetValue` option to `true`. The default value of `cloneResetValue` is `true` if the reset value is not a ref or getter, and `false` otherwise:
+```js
+const initialValue = { foo: 0 }
+const model = useModel(initialValue) // initialValue cloned by default
+
+console.log(model.value === initialValue) // true
+model.value.bar = 1
+model.reset()
+console.log(model.value === initialValue) // false
+console.log(Object.hasOwn(model.value, 'bar')) // false
+console.log(Object.hasOwn(initialValue, 'bar')) // true
 ```
 
 ### Validation and error handling
@@ -188,7 +226,7 @@ onMounted(() => {
 </template>
 ```
 :::warning
-- Exposed data gets defined when the component exposing it is set up, and undefined when the component is unmounted.
+- Exposed data is defined in the `setup` function of the component exposing it, and undefined when the component is unmounted.
 - If `exposed` is included in a model, sharing the model between multiple components will produce exposed data conflicts. See [Component model sharing](#component-model-sharing).
 :::
 
@@ -235,8 +273,8 @@ Component models are mainly designed to be provided to a single component. Never
 ```ts
 function useModel<T extends MaybeRefOrGetter>(
     value?: T,
-    options?: ModelOptions<UnwrapRef<T>>
-): Model<T | UnwrapRef<T>>
+    options?: ModelOptions<UnwrapRefOrGetter<T>>
+): Model<T | UnwrapRefOrGetter<T>>
 
 interface ModelOptions<T> {
     validator?: (
@@ -244,13 +282,15 @@ interface ModelOptions<T> {
         error: (msg: string) => void,
         checkpoint: () => void
     ) => void;
-    shallow?: boolean;
-    extendRef?: boolean;
-    includeExposed?: boolean;
-    includeElements?: boolean;
+    shallow?: boolean
+    extendRef?: boolean
+    resetValue?: MaybeRefOrGetter<T>
+    cloneResetValue?: boolean
+    includeExposed?: boolean
+    includeElements?: boolean
 }
 
-type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRef<T>, {
+type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRefOrGetter<T>, {
     reset(): void;
     get error(): boolean;
     errors: DescriptorMarked<{
@@ -264,7 +304,7 @@ type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRef<T>, {
 }>
 ```
 
-#### Parameters
+## Parameters
 
 - **`value`**: Component model's initial value.
 - **`options`**:
@@ -274,12 +314,14 @@ type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRef<T>, {
         const model = useModel(0, { shallow: true })
         console.log(isShallow(model.ref)) // true
         ```
-    - `extendRef`: If `value` is a ref, whether to use the provided ref itself as the extendedRef's underlying `ref` object. When set to `false`, the `value` ref is instead used as the dynamic source of reset values. When set to `true`, the reset value will be the `value` ref's initial value. Defaults to `false`.
+    - `extendRef`: If `useModel`'s `value` parameter is a ref, whether to use it as the model's underlying `ExtendedRef.ref` object. When set to `false`, a `value` ref is instead used as a dynamic source of reset values. Defaults to `false`.
         ```js
-        const v = ref(0)
-        const model = useModel(v, { extendRef: true })
-        console.log(v === model.ref) // true
+        const modelRef = ref(0)
+        const model = useModel(modelRef, { extendRef: true })
+        console.log(model.ref === modelRef) // true
         ```
+    - `resetValue`: Value the model is reset to upon calling its `reset` method. Defaults to the model's initial value if `extendRef` is `true`; otherwise, defaults to `value` (if `value` is a function, `toRef(value)` is used instead) (see [`model.reset`](#model-reset)).
+    - `cloneResetValue`: Whether to clone the model's reset value if it is an object. Defaults to `true` is `resetValue` is not a ref or getter, and to `false` otherwise. (see [`model.reset`](#model-reset)).
     - `includeExposed`/`includeElements`: Whether to include the `exposed`/`elements` object into the model. Defaults to `false`.
         :::tip
         It is recommended to avoid including the `exposed`/`elements` object if it will not be used.

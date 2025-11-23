@@ -35,7 +35,8 @@ export interface ModelOptions<
 	 * Value the model is reset to upon calling its
 	 * `reset` method. Defaults to the model's initial
 	 * value if `extendRef` is `true`; otherwise, defaults
-	 * to the ref-normalized `useModel`'s `value` parameter.
+	 * to `useModel`'s `value` parameter (if `value` is a
+	 * function, `toRef(value)` is used instead).
 	 */
 	resetValue?: MaybeRefOrGetter<T>
 	/**
