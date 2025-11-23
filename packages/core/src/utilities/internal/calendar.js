@@ -1,3 +1,5 @@
+import { isDate } from "#utilities"
+
 /**
  * @param { unknown } value 
  * @param { boolean } [isArrayHint] 
@@ -9,14 +11,6 @@ export function hasDate(value, isArrayHint) {
 		: isDate(value)
 			|| (typeof value === 'string' && value.length > 0)
 			|| (typeof value === 'number' && !Number.isNaN(value))
-}
-
-/**
- * @param { unknown } value
- * @returns { value is Date }
- */
-export function isDate(value) {
-	return Object.prototype.toString.call(value) === '[object Date]'
 }
 
 /**
