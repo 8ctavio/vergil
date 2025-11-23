@@ -1,4 +1,4 @@
-import { suite, test, expect, vi, } from "vitest"
+import { suite, test, expect, vi } from "vitest"
 import { shallowRef, toValue, nextTick, triggerRef } from "vue"
 import { waitFor } from "#reactivity"
 import { noop, getTrue } from "#utilities"
@@ -15,6 +15,7 @@ const conditions = {
 		'toContain',
 		'toBeOfType',
 		'toBeTruthy',
+		'toMatch'
 	],
 	multisource: ['toBeEqual']
 }
@@ -544,6 +545,59 @@ suite("toBeTruthy", () => {
 	})
 })
 
+suite("toMatch", () => {
+	const src = shallowRef('')
+	const waitForSrc = waitFor(src)
+	const reVergil = /vergil/
+	const reJsOrTs = /[jt]s/
+
+	test("Resolve when source matches regex", async () => {
+		const spy = vi.spyOn(waitForSrc, 'toMatch')
+		queueMicrotask(async () => {
+			src.value = 'vue'
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			src.value = 'should match vergil string'
+
+		})
+		await waitForSrc.toMatch(reVergil)
+		expect(spy).toHaveResolved()
+	})
+
+	test("Resolve when source matches reactive regex", async () => {
+		const spy = vi.spyOn(waitForSrc, 'toMatch')
+		const re = shallowRef(reVergil)
+		src.value = ''
+		queueMicrotask(async () => {
+			src.value = 'vue'
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			src.value = 'js'
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			re.value = reJsOrTs
+		})
+		await waitForSrc.toMatch(re)
+		expect(spy).toHaveResolved()
+	})
+
+	test("Resolve when source does not match regex", async () => {
+		const waitForSrcNot = waitFor(src).not
+		const spy = vi.spyOn(waitForSrcNot, 'toMatch')
+
+		src.value = 'vergil'
+		queueMicrotask(async () => {
+			src.value = 'should match vergil string'
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+			src.value = 'vue'
+			await nextTick()
+		})
+		await waitForSrcNot.toMatch(reVergil)
+		expect(spy).toHaveResolved()
+	})
+})
+
 suite("toBeEqual", () => {
 	test("Resolve when sources are equal", async () => {
 		const sources = [shallowRef(), shallowRef(), shallowRef(null)] as const
@@ -605,5 +659,9 @@ test("Resolve if condition is initially fulfilled", async () => {
 
 	await expect(
 		waitFor(getTrue).toBeTruthy()
+	).resolves.toBeDefined()
+
+	await expect(
+		waitFor(getTrue).toMatch(/^true$/)
 	).resolves.toBeDefined()
 })

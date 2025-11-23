@@ -39,5 +39,6 @@ export type WaitForMethods<
 		toContain: WaitForMethod<unknown, S,O>["method"]
 		toBeOfType: WaitForMethod<TypeOfResult, S,O>["method"]
 		toBeTruthy(): WatchUntilPromise<S,O>
+		toMatch: WaitForMethod<RegExp, S, O>["method"]
 	}
 )

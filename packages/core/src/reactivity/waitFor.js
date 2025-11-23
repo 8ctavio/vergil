@@ -1,5 +1,5 @@
 import { watchUntil } from '#reactivity'
-import { isWatchSource } from '#utilities'
+import { isWatchSource, isRegExp } from '#utilities'
 
 /**
  * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
@@ -89,6 +89,7 @@ function methodsGenerator(source, options) {
 		methods.toContain = createMethod((src, val) => Array.isArray(src) && src.includes(val))
 		methods.toBeOfType = createMethod((src, val) => typeof src === val)
 		methods.toBeTruthy = () => toFulfill(Boolean)
+		methods.toMatch = createMethod((src, val) => isRegExp(val) && val.test(/**@type {string}*/(src)))
 	}
 
 	if (options.fulfill) Object.defineProperty(methods, 'not', {
