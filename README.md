@@ -8,7 +8,7 @@ Visit the [documentation](https://8ctavio.github.io/vergil/) to get started with
 
 ## Monorepo
 
-`@vergil/monorepo` contains the core Vergil package and its documentation:
+`@vergil/monorepo` contains the Vergil package and its documentation:
 
-- `packages/core`: `@8ctavio/vergil`
+- `packages/vergil`: `@8ctavio/vergil`
 - `apps/docs`: `@vergil/docs`

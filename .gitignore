@@ -3,7 +3,7 @@ node_modules
 
 # Bundles
 dist
-packages/core/dts
+packages/vergil/dts
 .nuxt
 .output
 
