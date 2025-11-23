@@ -10,6 +10,7 @@
 	},
 	"devDependencies": {
 		"@8ctavio/vergil": "workspace:*",
-		"vitepress": "catalog:"
+		"vitepress": "catalog:",
+		"vue": "catalog:"
 	}
 }
