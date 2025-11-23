@@ -16,6 +16,23 @@ The following sections outline how to integrate Vergil into a Vite-powered Vue p
 pnpm add @vrgl/vergil
 ```
 
+::: details Configure `vergil` alias
+For convenience, a `vergil` alias may be configured:
+
+::: code-group
+```sh [pnpm]
+pnpm add vergil@npm:@vrgl/vergil
+```
+```json [package.json]
+{
+    "dependencies": {
+        "@vrgl/vergil": "<version>" // [!code --]
+        "vergil": "npm:@vrgl/vergil@<version>" // [!code ++]
+    }
+}
+```
+:::
+
 ## Vite configuration
 
 The Vergil package should be excluded from Vite's dependency pre-bundling.
