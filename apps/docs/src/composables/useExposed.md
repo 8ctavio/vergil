@@ -35,7 +35,7 @@ The conventional method to consume components' exposed data in Vue involves usin
 The `useExposed` composable receives no arguments and simply returns an `exposed` empty, read-only, shallow-ref-unwrapping object. This `exposed` object is designed to be provided through an `exposed` prop to a component that supports it. The component will then make data it chooses to expose available through the provided `exposed` object.
 
 :::warning
-Exposed data gets defined when the component exposing it is set up, and undefined when the component is unmounted.
+Exposed data is defined in the `setup` function of the component exposing it, and undefined when the component is unmounted.
 :::
 
 :::tip
