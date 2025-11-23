@@ -8,7 +8,7 @@
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --z-index-popup: 110;
+    --z-index-modal: 110;
     --z-index-popover: 120;
     --z-index-confirm: 130;
     --z-index-toast: 140;

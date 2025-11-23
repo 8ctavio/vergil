@@ -7,16 +7,16 @@ import './styles/overrides.css'
 
 import { h } from 'vue'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
-import Demo from './components/Demo.vue'
-import Anatomy from './components/Anatomy.vue'
+import { vergil } from 'vergil/plugins'
 import { Vergil } from 'vergil/components'
 import { ColorPicker } from 'vergil/utilities/userTheme'
-import { vergil } from 'vergil/plugins'
+import Demo from './components/Demo.vue'
+import Anatomy from './components/Anatomy.vue'
 
 export default {
 	extends: DefaultTheme,
 	Layout: h(Vergil, {
-		popup: true,
+		modal: true,
 		confirm: true,
 		toaster: true,
 	}, () => h(Layout)),

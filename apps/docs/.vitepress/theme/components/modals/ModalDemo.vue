@@ -1,11 +1,11 @@
 <script setup>
-import { Popup, Btn3D } from 'vergil/components'
 import { ref } from 'vue'
+import { Modal, Btn3D } from 'vergil/components'
 
 const emit = defineEmits(['close'])
 
 const loader = ref(false)
-async function doSomething(){
+async function doSomething() {
     loader.value = true
     await new Promise(r => setTimeout(r, 3000))
     emit('close')
@@ -14,20 +14,20 @@ async function doSomething(){
 </script>
 
 <template>
-    <Popup title="Popup Demo" :disabled="loader">
-        <main class="popup-content">
-            <p>Use the close button in the top-right corner to close the Popup.</p>
-            <p>Otherwise, click the following button to close the Popup after three seconds.</p>
+    <Modal title="Modal Demo" :disabled="loader">
+        <main class="modal-content">
+            <p>Use the close button in the top-right corner to close the Modal.</p>
+            <p>Otherwise, click the following button to close the Modal after three seconds.</p>
             <Btn3D label="Continue" spacing="expanded" @click="doSomething" :loading="loader"/>
         </main>
-    </Popup>
+    </Modal>
 </template>
 
 <style scoped>
-.popup {
+.modal {
     width: clamp(250px, 25%, 400px);
 }
-.popup-content {
+.modal-content {
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -34,9 +34,9 @@ Applications should be wrapped with `Vergil` in order to globally enable the use
 
 Enables the [`Confirm`](/components/confirm) component.
 
-### Popup <Badge><pre>popup: boolean</pre></Badge>
+### Modal <Badge><pre>modal: boolean</pre></Badge>
 
-Allows to display [`Popup`](/components/popup) components as modal windows.
+Allows to display [`Modal`](/components/modal) components as modal windows.
 
 ### Toaster <Badge><pre>toaster: boolean</pre></Badge>
 
@@ -49,5 +49,5 @@ Enables [Toasters](/components/toast#toaster-8203) to programatically display [`
 | prop | type | default |
 | ---- | ---- | ------- |
 | `confirm` | `boolean` | |
-| `popup` | `boolean` | |
+| `modal` | `boolean` | |
 | `toaster` | `boolean` | |
