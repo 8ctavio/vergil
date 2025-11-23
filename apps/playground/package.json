@@ -1,5 +1,5 @@
 {
-    "name": "@vergil/playground",
+    "name": "playground",
     "private": true,
     "type": "module",
     "scripts": {
