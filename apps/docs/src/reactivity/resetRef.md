@@ -29,12 +29,29 @@ console.log(num.value) // 8
 ## Definition
 
 ```ts
-function resetRef<T>(reference: MaybeRefOrGetter<T>): ExtendedRef<T,T,{ reset: () => void }>
+function resetRef<
+	T = undefined,
+	U = T,
+	Shallow extends boolean = false
+>(
+	value?: MaybeRef<T>,
+	options?: {
+		shallow?: Shallow
+		get?: () => T
+		set?: (v: U) => void
+		cloneResetValue?: boolean
+	}
+): ExtendedRef<T, U, { reset: () => void }, Shallow>
 ```
 
 #### Parameters
 
-- **`reference`**: The extendedRef's initial and reset values. A ref or getter can be used for a dynamic reset value.
+- **`reference`**: The extendedRef's initial and reset values. A ref may be used for dynamic reset values.
+- **`options`**:
+	- `shallow`: Whether the created extendedRef's underlying ref is shallow. Defaults to `false`.
+	- `get`: Custom resetRef's `value` getter function.
+	- `set`: Custom resetRef's `value` setter function.
+	- `cloneResetValue`: Whether to clone the reset value if it is an object. Defaults to `!isRef(value)`.
 
 #### Return value
 
