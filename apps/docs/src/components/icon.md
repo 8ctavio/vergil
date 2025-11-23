@@ -7,7 +7,7 @@ outline: [2,3]
 > Easily display Material Symbols icons
 
 <script setup>
-    import { Icon } from '@8ctavio/vergil/components'
+    import { Icon } from '@vrgl/vergil/components'
 </script>
 
 ## Usage

@@ -5,9 +5,9 @@ outline: [2,3]
 # RadioGroup
 
 <script setup>
-import { RadioGroup, Radio } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
-import { kebabCase } from '@8ctavio/vergil/utilities'
+import { RadioGroup, Radio } from '@vrgl/vergil/components'
+import { useModel } from '@vrgl/vergil'
+import { kebabCase } from '@vrgl/vergil/utilities'
 
 const vehicles = {
     mongoose: 'Mongoose',

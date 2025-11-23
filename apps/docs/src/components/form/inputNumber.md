@@ -5,9 +5,9 @@ outline: [2,3]
 # InputNumber
 
 <script setup>
-import { InputNumber, InputSearch, Btn } from '@8ctavio/vergil/components'
+import { InputNumber, InputSearch, Btn } from '@vrgl/vergil/components'
 import { onMounted } from 'vue'
-import { useModel, toast } from '@8ctavio/vergil'
+import { useModel, toast } from '@vrgl/vergil'
 
 const demo1 = useModel(0, { shallow: true })
 const demo2 = useModel(0, { shallow: true })

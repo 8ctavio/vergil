@@ -5,6 +5,6 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
     plugins: [vue(), vueDevTools()],
     optimizeDeps: {
-        exclude: ['@8ctavio/vergil']
+        exclude: ['@vrgl/vergil']
     }
 })

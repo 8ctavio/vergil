@@ -9,9 +9,9 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Toast, Btn, Icon } from '@8ctavio/vergil/components'
+import { Toast, Btn, Icon } from '@vrgl/vergil/components'
 import { ref } from 'vue'
-import { toast } from '@8ctavio/vergil'
+import { toast } from '@vrgl/vergil'
 
 const theme = ref('brand')
 console.time('toast-duration')

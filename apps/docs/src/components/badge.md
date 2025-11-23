@@ -5,7 +5,7 @@ outline: [2,3]
 # Badge
 
 <script setup>
-import { Badge as VergilBadge } from '@8ctavio/vergil/components'
+import { Badge as VergilBadge } from '@vrgl/vergil/components'
 </script>
 
 ## Basic Usage

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Header from '#src/components/Header.vue'
-import { Vergil } from '@8ctavio/vergil/components'
+import { Vergil } from '@vrgl/vergil/components'
 
 </script>
 

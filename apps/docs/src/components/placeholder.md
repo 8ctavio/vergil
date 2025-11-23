@@ -5,7 +5,7 @@ outline: [2,3]
 # Placeholder
 
 <script setup>
-import { Placeholder } from '@8ctavio/vergil/components'
+import { Placeholder } from '@vrgl/vergil/components'
 </script>
 
 ## Basic Usage

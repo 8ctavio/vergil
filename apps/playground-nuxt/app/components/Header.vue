@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
-import { Switch } from '@8ctavio/vergil/components'
-import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
+import { Switch } from '@vrgl/vergil/components'
+import { ColorPicker } from '@vrgl/vergil/utilities/userTheme'
 
 const checked = shallowRef(false)
 onBeforeMount(() => {

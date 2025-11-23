@@ -5,8 +5,8 @@ outline: [2,3]
 # InputSearch
 
 <script setup>
-import { InputSearch, Btn } from '@8ctavio/vergil/components'
-import { useExposed, toast } from '@8ctavio/vergil'
+import { InputSearch, Btn } from '@vrgl/vergil/components'
+import { useExposed, toast } from '@vrgl/vergil'
 
 const exposed = useExposed()
 async function handleSearch(s) {

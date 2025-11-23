@@ -5,8 +5,8 @@ outline: [2,3]
 # Radio
 
 <script setup>
-import { Radio } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { Radio } from '@vrgl/vergil/components'
+import { useModel } from '@vrgl/vergil'
 const vehicles = useModel('')
 </script>
 

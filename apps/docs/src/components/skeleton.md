@@ -5,7 +5,7 @@ outline: [2,3]
 # Skeleton
 
 <script setup>
-import { Skeleton } from '@8ctavio/vergil/components'
+import { Skeleton } from '@vrgl/vergil/components'
 </script>
 
 ## Basic Usage

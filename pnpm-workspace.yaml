@@ -29,7 +29,7 @@ catalogs:
     vue-router: ^4.0.0
 
 overrides:
-  '@8ctavio/vergil>@floating-ui/vue': 'catalog:'
-  '@8ctavio/vergil>nuxt': 'catalog:'
-  '@8ctavio/vergil>vue': 'catalog:'
-  '@8ctavio/vergil>vue-router': 'catalog:'
+  '@vrgl/vergil>@floating-ui/vue': 'catalog:'
+  '@vrgl/vergil>nuxt': 'catalog:'
+  '@vrgl/vergil>vue': 'catalog:'
+  '@vrgl/vergil>vue-router': 'catalog:'

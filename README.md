@@ -10,5 +10,5 @@ Visit the [documentation](https://8ctavio.github.io/vergil/) to get started with
 
 `@vergil/monorepo` contains the Vergil package and its documentation:
 
-- `packages/vergil`: `@8ctavio/vergil`
+- `packages/vergil`: `@vrgl/vergil`
 - `apps/docs`: `@vergil/docs`

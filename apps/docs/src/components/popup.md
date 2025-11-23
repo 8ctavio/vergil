@@ -9,10 +9,10 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Btn, Btn3D } from '@8ctavio/vergil/components'
+import { Btn, Btn3D } from '@vrgl/vergil/components'
 import PopupDemo from '@components/popups/PopupDemo.vue'
 import PopupSwap1 from '@components/popups/PopupSwap1.vue'
-import { showPopup } from '@8ctavio/vergil'
+import { showPopup } from '@vrgl/vergil'
 </script>
 
 <Demo>

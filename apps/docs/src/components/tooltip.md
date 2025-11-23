@@ -9,7 +9,7 @@ outline: [2,3]
 ## Basic Usage
 
 <script setup>
-import { Tooltip, Btn } from '@8ctavio/vergil/components'
+import { Tooltip, Btn } from '@vrgl/vergil/components'
 </script>
 
 <Demo>

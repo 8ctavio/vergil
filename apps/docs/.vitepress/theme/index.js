@@ -8,10 +8,10 @@ import './styles/overrides.css'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
 import Demo from './components/Demo.vue'
 import Anatomy from './components/Anatomy.vue'
-import { Vergil } from '@8ctavio/vergil/components'
-import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
+import { Vergil } from '@vrgl/vergil/components'
+import { ColorPicker } from '@vrgl/vergil/utilities/userTheme'
 import { h } from 'vue'
-import { vergil } from '@8ctavio/vergil/plugins'
+import { vergil } from '@vrgl/vergil/plugins'
 
 export default {
 	extends: DefaultTheme,

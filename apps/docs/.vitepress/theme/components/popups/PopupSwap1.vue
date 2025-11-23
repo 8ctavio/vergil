@@ -1,7 +1,7 @@
 <script setup>
-import { Popup, Btn } from '@8ctavio/vergil/components'
+import { Popup, Btn } from '@vrgl/vergil/components'
 import PopupSwap2 from './PopupSwap2.vue'
-import { showPopup } from '@8ctavio/vergil'
+import { showPopup } from '@vrgl/vergil'
 
 const emit = defineEmits(['close', 'error'])
 </script>

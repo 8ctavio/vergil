@@ -7,7 +7,7 @@ outline: [2,3]
 > Button element to handle click events
 
 <script setup>
-import { Btn } from '@8ctavio/vergil/components'
+import { Btn } from '@vrgl/vergil/components'
 </script>
 
 ## Basic Usage

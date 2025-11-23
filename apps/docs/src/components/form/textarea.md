@@ -5,8 +5,8 @@ outline: [2,3]
 # Textarea
 
 <script setup>
-import { Textarea } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { Textarea } from '@vrgl/vergil/components'
+import { useModel } from '@vrgl/vergil'
 
 const size = useModel('', { shallow: true })
 const radius = useModel('', { shallow: true })

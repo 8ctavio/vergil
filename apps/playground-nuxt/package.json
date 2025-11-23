@@ -9,7 +9,7 @@
         "preview": "nuxt preview"
     },
     "devDependencies": {
-        "@8ctavio/vergil": "workspace:*",
+        "@vrgl/vergil": "workspace:*",
 		"nuxt": "catalog:",
 		"vue": "catalog:"
     }

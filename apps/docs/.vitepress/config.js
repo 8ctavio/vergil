@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
-import { version } from '../../../packages/core/package.json'
+import { version } from '../../../packages/vergil/package.json'
 
 // https://vitepress.vuejs.org/reference/site-config
 export default defineConfig({

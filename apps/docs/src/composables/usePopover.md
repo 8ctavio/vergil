@@ -9,8 +9,8 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Btn, Placeholder } from '@8ctavio/vergil/components'
-import { usePopover } from '@8ctavio/vergil'
+import { Btn, Placeholder } from '@vrgl/vergil/components'
+import { usePopover } from '@vrgl/vergil'
 
 const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>

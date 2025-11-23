@@ -7,8 +7,8 @@ outline: [2,3]
 > Creates a debounced function.
 
 <script setup>
-import { Btn } from '@8ctavio/vergil/components'
-import { useDebounce, toast } from '@8ctavio/vergil'
+import { Btn } from '@vrgl/vergil/components'
+import { useDebounce, toast } from '@vrgl/vergil'
 
 const debounced = useDebounce(() => {
 	toast('🤖')

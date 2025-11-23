@@ -5,8 +5,8 @@ outline: [2,3]
 # Slider
 
 <script setup>
-import { Slider } from '@8ctavio/vergil/components'
-import { separateThousands } from '@8ctavio/vergil/utilities'
+import { Slider } from '@vrgl/vergil/components'
+import { separateThousands } from '@vrgl/vergil/utilities'
 
 function formatValue(value){
     return `**${separateThousands(value * 1000)}**`

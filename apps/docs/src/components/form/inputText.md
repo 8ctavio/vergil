@@ -5,8 +5,8 @@ outline: [2,3]
 # InputText
 
 <script setup>
-import { InputText, Btn } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { InputText, Btn } from '@vrgl/vergil/components'
+import { useModel } from '@vrgl/vergil'
 
 const size = useModel('')
 const radius = useModel('')

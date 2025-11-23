@@ -3,7 +3,7 @@ outline: [2,3]
 ---
 
 <script setup>
-import { Icon } from '@8ctavio/vergil/components'
+import { Icon } from '@vrgl/vergil/components'
 </script>
 
 <style module>

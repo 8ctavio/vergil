@@ -9,8 +9,8 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Btn } from '@8ctavio/vergil/components'
-import { confirm, toast } from '@8ctavio/vergil'
+import { Btn } from '@vrgl/vergil/components'
+import { confirm, toast } from '@vrgl/vergil'
 
 const titles = {
     brand: 'Query',

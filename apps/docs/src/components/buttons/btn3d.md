@@ -7,7 +7,7 @@ outline: [2,3]
 > Button with 3D effect
 
 <script setup>
-import { Btn3D } from '@8ctavio/vergil/components'
+import { Btn3D } from '@vrgl/vergil/components'
 </script>
 
 ## Basic Usage

@@ -5,8 +5,8 @@ outline: [2,3]
 # Switch
 
 <script setup>
-import { Switch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { Switch } from '@vrgl/vergil/components'
+import { useModel } from '@vrgl/vergil'
 const isOn = useModel(false, { shallow: true })
 const skulls = useModel([], { shallow: true })
 </script>
