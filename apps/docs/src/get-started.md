@@ -13,7 +13,7 @@ The following sections outline how to integrate Vergil into a Vite-powered Vue p
 ## Installation
 
 ```shell
-pnpm add @8ctavio/vergil
+pnpm add @vrgl/vergil
 ```
 
 ## Vite configuration
@@ -24,7 +24,7 @@ The Vergil package should be excluded from Vite's dependency pre-bundling.
 // vite.config.js
 export default defineConfig({
     optimizeDeps: {
-        exclude: ['@8ctavio/vergil']
+        exclude: ['@vrgl/vergil']
     }
 })
 ```
@@ -36,7 +36,7 @@ Vergil provides a `vergil` plugin that should always be installed to properly en
 ```js {3,7}
 import App from './path-to/App.vue'
 import { createApp } from 'vue'
-import { vergil } from '@8ctavio/vergil/plugins'
+import { vergil } from '@vrgl/vergil/plugins'
 
 const app = createApp(App)
 
@@ -51,7 +51,7 @@ An application using Vergil should be wrapped with the [`Vergil`](/components/ve
 
 ```vue
 <script setup>
-import { Vergil } from '@8ctavio/vergil/components'
+import { Vergil } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -66,8 +66,8 @@ import { Vergil } from '@8ctavio/vergil/components'
 To import Vergil's default theme in the project being worked on, add the following lines at the beginning of the project's main css file.
 
 ```css
-@import '@8ctavio/vergil/styles';
-@import '@8ctavio/vergil/colors/default';
+@import '@vrgl/vergil/styles';
+@import '@vrgl/vergil/colors/default';
 ```
 
 For more information about Vergil's theme see the [Theme](/theme.md) section.

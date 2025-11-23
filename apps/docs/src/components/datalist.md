@@ -33,7 +33,7 @@ import { DataList, Btn } from 'vergil/components'
 
 ```vue
 <script setup>
-import { DataList } from '@8ctavio/vergil/components'
+import { DataList } from '@vrgl/vergil/components'
 </script>
 
 <template>

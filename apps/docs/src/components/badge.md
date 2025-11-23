@@ -16,7 +16,7 @@ import { Badge as VergilBadge } from 'vergil/components'
 
 ```vue
 <script setup>
-import { Badge } from '@8ctavio/vergil/components'
+import { Badge } from '@vrgl/vergil/components'
 </script>
 
 <template>

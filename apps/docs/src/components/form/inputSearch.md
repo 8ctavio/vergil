@@ -5,8 +5,8 @@ outline: [2,3]
 # InputSearch
 
 <script setup>
-import { InputSearch, Btn } from 'vergil/components'
 import { useExposed, toast } from 'vergil'
+import { InputSearch, Btn } from 'vergil/components'
 
 const exposed = useExposed()
 async function handleSearch(s) {
@@ -26,8 +26,8 @@ function handleClear() {
 
 ```vue
 <script setup>
-import { InputSearch } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { InputSearch } from '@vrgl/vergil/components'
 const search = useModel('')
 </script>
 
@@ -144,7 +144,7 @@ Method to properly clear `InputSearch`'s text field.
 
 ```vue
 <script setup>
-import { useExposed } from '@8ctavio/vergil'
+import { useExposed } from '@vrgl/vergil'
 
 const exposed = useExposed()
 function handleClear() {

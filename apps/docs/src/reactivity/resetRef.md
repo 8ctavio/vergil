@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { resetRef } from '@8ctavio/vergil'
+import { resetRef } from '@vrgl/vergil'
 
 // Static reset value
 const str = resetRef('')

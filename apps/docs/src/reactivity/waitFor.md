@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { waitFor } from '@8ctavio/vergil'
+import { waitFor } from '@vrgl/vergil'
 
 waitFor(src).toBe(true).then(() => {
     // Do something when Object.is(toValue(src), true)

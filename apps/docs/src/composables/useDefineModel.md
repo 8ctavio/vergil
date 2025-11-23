@@ -10,8 +10,8 @@ outline: [2,4]
 
 ```vue
 <script setup lang="ts">
-import { useDefineModel } from '@8ctavio/vergil'
-import type { ModelValueProp, ModelValidatorProp } from '@8ctavio/vergil'
+import { useDefineModel } from '@vrgl/vergil'
+import type { ModelValueProp, ModelValidatorProp } from '@vrgl/vergil'
 
 type ModelValue = /* ... */
 

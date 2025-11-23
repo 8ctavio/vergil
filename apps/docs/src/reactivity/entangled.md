@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { entangled, markDescriptor } from '@8ctavio/vergil'
+import { entangled, markDescriptor } from '@vrgl/vergil'
 
 // Define regular or ref properties
 const _entangled = entangled({

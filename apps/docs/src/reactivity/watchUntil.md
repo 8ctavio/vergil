@@ -9,7 +9,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { watchUntil } from '@8ctavio/vergil'
+import { watchUntil } from '@vrgl/vergil'
 
 watchUntil(src, (v,u) => {
     if (condition(v,u)){

@@ -7,8 +7,8 @@ outline: [2,3]
 <script setup>
 import { h } from 'vue'
 import { ClientOnly } from 'vitepress/dist/client/app/components/ClientOnly'
-import { Select as VergilSelect } from 'vergil/components'
 import { useModel } from 'vergil'
+import { Select as VergilSelect } from 'vergil/components'
 import { kebabCase } from 'vergil/utilities'
 
 function Select(props) {
@@ -86,8 +86,8 @@ const options6 = ['Option']
 
 ```vue
 <script setup>
-import { Select } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { Select } from '@vrgl/vergil/components'
 
 const difficulty = useModel('')
 const difficultyOptions = {

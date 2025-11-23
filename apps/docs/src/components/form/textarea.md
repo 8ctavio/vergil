@@ -5,8 +5,8 @@ outline: [2,3]
 # Textarea
 
 <script setup>
-import { Textarea } from 'vergil/components'
 import { useModel } from 'vergil'
+import { Textarea } from 'vergil/components'
 
 const size = useModel('', { shallow: true })
 const radius = useModel('', { shallow: true })
@@ -21,8 +21,8 @@ const spacing = useModel('', { shallow: true })
 
 ```vue
 <script setup>
-import { Textarea } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { Textarea } from '@vrgl/vergil/components'
 const text = useModel('')
 </script>
 

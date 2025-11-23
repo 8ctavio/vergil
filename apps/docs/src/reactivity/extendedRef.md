@@ -13,7 +13,7 @@ Before proceeding with `extendedRef`, learn first about [`entangled`](/reactivit
 ## Usage
 
 ```js
-import { extendedRef, markDescriptor } from '@8ctavio/vergil'
+import { extendedRef, markDescriptor } from '@vrgl/vergil'
 
 const extended = extendedRef(0, { extra1: 0 })
 

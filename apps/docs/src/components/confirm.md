@@ -9,8 +9,8 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Btn } from 'vergil/components'
 import { confirm, toast } from 'vergil'
+import { Btn } from 'vergil/components'
 
 const titles = {
     brand: 'Query',
@@ -85,7 +85,7 @@ First, `Confirm` must be enabled by passing the `confirm` boolean prop to the [`
 
 ```vue
 <script setup>
-import { Vergil } from '@8ctavio/vergil/components'
+import { Vergil } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -102,7 +102,7 @@ import { Vergil } from '@8ctavio/vergil/components'
 Then, a confirm request can be raised programmatically with the `confirm` function.
 
 ```js
-import { confirm } from '@8ctavio/vergil'
+import { confirm } from '@vrgl/vergil'
 
 const confirmed = await confirm('check', {
     title: 'Hello, traveler. Mombasa welcomes you!',

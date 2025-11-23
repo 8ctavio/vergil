@@ -5,8 +5,8 @@ outline: [2,3]
 # CheckboxGroup
 
 <script setup>
-import { CheckboxGroup, Checkbox } from 'vergil/components'
 import { useModel } from 'vergil'
+import { CheckboxGroup, Checkbox } from 'vergil/components'
 import { kebabCase } from 'vergil/utilities'
 
 const planets = {
@@ -58,8 +58,8 @@ const options3 = [{
 
 ```vue
 <script setup>
-import { CheckboxGroup, Checkbox } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { CheckboxGroup, Checkbox } from '@vrgl/vergil/components'
 const planets = useModel([])
 const ships = useModel([])
 

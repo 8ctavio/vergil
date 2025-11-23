@@ -5,8 +5,8 @@ outline: [2,3]
 # RadioGroup
 
 <script setup>
-import { RadioGroup, Radio } from 'vergil/components'
 import { useModel } from 'vergil'
+import { RadioGroup, Radio } from 'vergil/components'
 import { kebabCase } from 'vergil/utilities'
 
 const vehicles = {
@@ -58,8 +58,8 @@ const options3 = [{
 
 ```vue
 <script setup>
-import { RadioGroup, Radio } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { RadioGroup, Radio } from '@vrgl/vergil/components'
 
 const vehicle = useModel('')
 const armor = useModel('mark-iv')

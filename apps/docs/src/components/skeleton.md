@@ -16,7 +16,7 @@ import { Skeleton } from 'vergil/components'
 
 ```vue
 <script setup>
-import { Skeleton } from '@8ctavio/vergil/components'
+import { Skeleton } from '@vrgl/vergil/components'
 </script>
 
 <template>

@@ -14,7 +14,7 @@ Before proceeding with `useElements`, learn first about the [`useExposed`](/comp
 
 ```vue
 <script setup>
-import { useElements } from '@8ctavio/vergil'
+import { useElements } from '@vrgl/vergil'
 
 // Create `elements` object
 const elements = useElements()

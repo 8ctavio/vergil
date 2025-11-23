@@ -10,7 +10,7 @@ outline: [2,3]
 
 ```vue
 <script setup>
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
 
 // Create new model
 const model = useModel('initial value')

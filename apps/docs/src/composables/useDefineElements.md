@@ -10,7 +10,7 @@ outline: [2,3]
 
 ```vue
 <script setup lang="ts">
-import { useDefineElements, type Elements } from '@8ctavio/vergil'
+import { useDefineElements, type Elements } from '@vrgl/vergil'
 
 defineProps({
 	elements: Object as PropType<Elements>

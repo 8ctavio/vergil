@@ -14,7 +14,7 @@ Before proceeding with `useModelGroup`, learn first about the [`useModel`](/comp
 
 ```vue
 <script setup>
-import { useModelGroup } from '@8ctavio/vergil'
+import { useModelGroup } from '@vrgl/vergil'
 
 const modelGroup = useModelGroup({
 	username: { value: '' },

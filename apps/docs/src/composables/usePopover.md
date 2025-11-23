@@ -43,8 +43,8 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 
 ```vue
 <script setup>
-import { Btn, Placeholder } from '@8ctavio/vergil/components'
-import { usePopover } from '@8ctavio/vergil'
+import { usePopover } from '@vrgl/vergil'
+import { Btn, Placeholder } from '@vrgl/vergil/components'
 
 const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>

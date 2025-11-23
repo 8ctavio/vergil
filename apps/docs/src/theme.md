@@ -20,7 +20,7 @@ import { Icon } from 'vergil/components'
 Vergil's theme defines global styles and css variables to maintain a consistent looking design throughout the application. This theme should be imported at the beginning of the main css file of the project being worked on as shown below.
 
 ```css
-@import '@8ctavio/vergil/styles'
+@import '@vrgl/vergil/styles'
 ```
 
 To customize the theme, [existing css variables](https://github.com/8ctavio/vergil/blob/main/packages/core/styles/main.css) may be overwritten.
@@ -54,7 +54,7 @@ Vergil provides several [color palettes](https://github.com/8ctavio/vergil/tree/
 A color palette may be imported as shown below.
 
 ```css
-@import '@8ctavio/vergil/colors/<color>'
+@import '@vrgl/vergil/colors/<color>'
 ```
 
 ### Default `theme` colors
@@ -73,7 +73,7 @@ Vergil's default `theme` colors are shown in the following table.
 These default colors may be imported in the following way.
 
 ```css
-@import '@8ctavio/vergil/colors/default'
+@import '@vrgl/vergil/colors/default'
 ```
 
 ### Custom `theme` colors
@@ -83,7 +83,7 @@ In order to customize `theme`s' color palettes, it's recommended to edit a copy 
 At the start of the file, only required color palettes should be imported.
 
 :::tip
-The `@8ctavio/vergil/styles` stylesheet imports the `grey` color. Therefore, it should not be required to import `@8ctavio/vergil/colors/grey` to use `grey` color variables inside the custom theme stylesheet.
+The `@vrgl/vergil/styles` stylesheet imports the `grey` color. Therefore, it should not be required to import `@vrgl/vergil/colors/grey` to use `grey` color variables inside the custom theme stylesheet.
 :::
 
 The stylesheet contains a declaration block for each `theme`. Each declaration block sets `theme`-specific variables with color palette-specific variables. This is how a color palette is assigned to a `theme`.
@@ -100,7 +100,7 @@ Therefore, to change a `theme`'s color palette, simply rename the color palette-
 The special `'user'` `theme` value allows to style components with a user-selected color palette. Every other `theme` is static in the sense that their color palette cannot be modified during runtime. Conversely, Vergil provides an `userThemeColor` ref to update the color palette `'user'` themed components are styled with.
 
 ```js
-import { userThemeColor } from '@8ctavio/vergil/utilities/userTheme'
+import { userThemeColor } from '@vrgl/vergil/utilities/userTheme'
 ```
 
 Only available color palette names may be assigned to `userThemeColor`. The developer must ensure used color palettes are properly imported.
@@ -127,7 +127,7 @@ Vergil provides a `ColorPicker` component for the user to conveniently update th
 
 ```vue
 <script setup>
-import { ColorPicker } from '@8ctavio/vergil/utilities/userTheme'
+import { ColorPicker } from '@vrgl/vergil/utilities/userTheme'
 </script>
 
 <template>

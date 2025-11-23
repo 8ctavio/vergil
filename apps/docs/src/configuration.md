@@ -16,7 +16,7 @@ The documentation of configurable resources include available configuration opti
 
 ```js
 import { createApp } from 'vue'
-import { vergil } from '@8ctavio/vergil/plugins'
+import { vergil } from '@vrgl/vergil/plugins'
 
 const app = createApp()
 

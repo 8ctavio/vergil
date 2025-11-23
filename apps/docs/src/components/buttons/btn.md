@@ -18,7 +18,7 @@ import { Btn } from 'vergil/components'
 
 ```vue
 <script setup>
-import { Btn } from '@8ctavio/vergil/components'
+import { Btn } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -517,7 +517,7 @@ The exposed link instance may be used, for example, to update `Btn` props based 
 
 ```vue
 <script setup>
-import { useExposed } from '@8ctavio/vergil'
+import { useExposed } from '@vrgl/vergil'
 const exposed = useExposed()
 </script>
 
@@ -533,7 +533,7 @@ If `link-to` is an object defined in-template, an infinite loop may be generated
 
 ```vue
 <script setup>
-import { useExposed } from '@8ctavio/vergil'
+import { useExposed } from '@vrgl/vergil'
 const exposed = useExposed()
 const linkTo = {/* ... */}  // [!code ++]
 </script>

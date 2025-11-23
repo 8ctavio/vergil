@@ -9,9 +9,9 @@ Before proceeding with `Form`, learn first about the [`useModelGroup`](/composab
 :::
 
 <script setup>
-import { Form, InputText, Checkbox, Btn } from 'vergil/components'
 import { shallowRef } from 'vue'
 import { useModelGroup } from 'vergil'
+import { Form, InputText, Checkbox, Btn } from 'vergil/components'
 
 const form = useModelGroup({
 	username: {
@@ -63,9 +63,9 @@ const demo = useModelGroup({
 
 ```vue
 <script setup>
-import { Form, InputText, Btn } from '@8ctavio/vergil/components'
 import { shallowRef } from 'vue'
-import { useModelGroup } from '@8ctavio/vergil'
+import { useModelGroup } from '@vrgl/vergil'
+import { Form, InputText, Btn } from '@vrgl/vergil/components'
 
 const form = useModelGroup({
 	username: {

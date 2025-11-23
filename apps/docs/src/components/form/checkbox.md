@@ -5,8 +5,8 @@ outline: [2,3]
 # Checkbox
 
 <script setup>
-import { Checkbox } from 'vergil/components'
 import { useModel } from 'vergil'
+import { Checkbox } from 'vergil/components'
 const checked = useModel(false, { shallow: true })
 const planet = useModel('', { shallow: true })
 const planets = useModel([], { shallow: true })
@@ -43,8 +43,8 @@ const planets = useModel([], { shallow: true })
 
 ```vue
 <script setup>
-import { Checkbox } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { Checkbox } from '@vrgl/vergil/components'
 const checked = useModel(false)
 const planet = useModel('')
 const planets = useModel([])

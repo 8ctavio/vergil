@@ -27,7 +27,7 @@ In order to display modals, the `modal` boolean prop must be passed to the [`Ver
 
 ```vue
 <script setup>
-import { Vergil } from '@8ctavio/vergil/components'
+import { Vergil } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -48,7 +48,7 @@ A *modal component* is any component with `Modal` as its root component.
 ```vue
 <!-- @/components/modals/ModalComponent.vue -->
 <script setup>
-import { Modal } from '@8ctavio/vergil/components'
+import { Modal } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -68,7 +68,7 @@ A modal can be displayed programmatically with the `showModal` function. It rece
 
 ```js
 import ModalComponent from '@/components/modals/ModalComponent.vue'
-import { showModal } from '@8ctavio/vergil'
+import { showModal } from '@vrgl/vergil'
 
 showModal(ModalComponent)
 ```
@@ -253,7 +253,7 @@ An example of recommended styles is shown below. `clamp` values should be adjust
 
 ```vue
 <script setup>
-import { Modal } from '@8ctavio/vergil/components'
+import { Modal } from '@vrgl/vergil/components'
 
 defineProps({
     

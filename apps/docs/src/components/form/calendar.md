@@ -5,8 +5,8 @@ outline: [2,3]
 # Calendar
 
 <script setup>
-import { Calendar } from 'vergil/components'
 import { useModel } from 'vergil'
+import { Calendar } from 'vergil/components'
 
 const demo1 = useModel(null, { shallow: true })
 const demo2 = useModel(null, { shallow: true })
@@ -38,8 +38,8 @@ const demo7 = useModel([], { shallow: true })
 
 ```vue
 <script setup>
-import { Calendar } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { Calendar } from '@vrgl/vergil/components'
 const date = useModel(null, { shallow: true })
 const dates = useModel([])
 </script>

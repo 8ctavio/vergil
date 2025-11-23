@@ -10,7 +10,8 @@ outline: [2,3]
 
 ```vue
 <script setup lang="ts">
-import { useDefineExposed, type Exposed } from '@8ctavio/vergil'
+import { useDefineExposed } from '@vrgl/vergil'
+import type { Exposed } from '@vrgl/vergil'
 
 defineProps({
 	exposed: Object as PropType<Exposed>

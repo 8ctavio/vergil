@@ -16,7 +16,7 @@ import { Placeholder } from 'vergil/components'
 
 ```vue
 <script setup>
-import { Placeholder } from '@8ctavio/vergil/components'
+import { Placeholder } from '@vrgl/vergil/components'
 </script>
 
 <template>

@@ -5,8 +5,8 @@ outline: [2,3]
 # InputText
 
 <script setup>
-import { InputText, Btn } from 'vergil/components'
 import { useModel } from 'vergil'
+import { InputText, Btn } from 'vergil/components'
 
 const size = useModel('')
 const radius = useModel('')
@@ -28,8 +28,8 @@ const btnAfterProps = {
 
 ```vue
 <script setup>
-import { InputText } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { InputText } from '@vrgl/vergil/components'
 const text = useModel('')
 </script>
 

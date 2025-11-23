@@ -22,7 +22,7 @@ import { Tooltip, Btn } from 'vergil/components'
 
 ```vue
 <script setup>
-import { Tooltip, Btn } from '@8ctavio/vergil/components'
+import { Tooltip, Btn } from '@vrgl/vergil/components'
 </script>
 
 <template>

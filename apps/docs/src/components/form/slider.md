@@ -8,7 +8,7 @@ outline: [2,3]
 import { Slider } from 'vergil/components'
 import { separateThousands } from 'vergil/utilities'
 
-function formatValue(value){
+function formatValue(value) {
     return `**${separateThousands(value * 1000)}**`
 }
 </script>
@@ -21,8 +21,8 @@ function formatValue(value){
 
 ```vue
 <script setup>
-import { Slider } from '@8ctavio/vergil/components'
-import { useModel } from '@8ctavio/vergil'
+import { useModel } from '@vrgl/vergil'
+import { Slider } from '@vrgl/vergil/components'
 const progress = useModel(80)
 </script>
 
@@ -59,7 +59,7 @@ The `display-value` prop also accepts a callback function that receives the `Sli
 
 ```vue
 <script setup>
-import { separateThousands } from '@8ctavio/vergil/utilities'
+import { separateThousands } from '@vrgl/vergil/utilities'
 
 function formatValue(value) {
     return `**${separateThousands(value * 1000)}**`

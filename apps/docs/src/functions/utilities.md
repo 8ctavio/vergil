@@ -7,7 +7,7 @@ outline: [2,3]
 ## Usage
 
 ```js
-import { <fn> } from '@8ctavio/vergil/utilities'
+import { <fn> } from '@vrgl/vergil/utilities'
 ```
 
 ## String

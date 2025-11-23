@@ -9,9 +9,9 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Toast, Btn, Icon } from 'vergil/components'
 import { ref } from 'vue'
 import { toast } from 'vergil'
+import { Toast, Btn, Icon } from 'vergil/components'
 
 const theme = ref('brand')
 console.time('toast-duration')
@@ -133,7 +133,7 @@ Toasters may be enabled by passing the `toaster` boolean prop to the [`Vergil`](
 
 ```vue
 <script setup>
-import { Vergil } from '@8ctavio/vergil/components'
+import { Vergil } from '@vrgl/vergil/components'
 </script>
 
 <template>
@@ -152,7 +152,7 @@ Toasters `z-index` value is by default set to `40` through a css variable. See [
 Toasts can be displayed programmatically through the `toast` function.
 
 ```js
-import { toast } from '@8ctavio/vergil'
+import { toast } from '@vrgl/vergil'
 ```
 
 It receives an `options` object, which has default values for options not specified.

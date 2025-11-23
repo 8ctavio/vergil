@@ -10,7 +10,7 @@ outline: [2,3]
 
 ```vue
 <script setup>
-import { useExposed } from '@8ctavio/vergil'
+import { useExposed } from '@vrgl/vergil'
 
 // Create `exposed` object
 const exposed = useExposed()
