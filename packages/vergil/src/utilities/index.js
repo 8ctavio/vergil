@@ -226,7 +226,8 @@ export function debounce(fn, minWait, options = {}) {
 			}
 		})
 	} else {
-		const task = Function.prototype.apply.bind(fn)
+		/** @type { (thisArg: unknown, args: unknown[]) => void } */
+		const task = (thisArg, args) => fn.apply(thisArg, args)
 		debounced = /** @type { Debounced } } */ (function(...args) {
 			clearTimeout(delay)
 			delay = setTimeout(task, minWait, this, args)
