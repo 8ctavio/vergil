@@ -60,6 +60,8 @@ test("Resolve to undefined after timeout", async () => {
 
 	await watchUntilPromise
 	expect(watchUntilSpy).toHaveResolvedWith(undefined)
+
+	vi.useRealTimers()
 })
 
 test("Resolve before timeout", async () => {
@@ -71,6 +73,8 @@ test("Resolve before timeout", async () => {
 
 	await watchUntilPromise
 	expect(watchUntilSpy).not.toHaveResolvedWith(undefined)
+
+	vi.useRealTimers()
 })
 
 test("Reject with AbortController signal", async () => {
@@ -141,6 +145,8 @@ suite("Watcher cleanup", () => {
 		src.value++
 		await nextTick()
 		expect(spy).not.toHaveBeenCalled()
+		
+		vi.useRealTimers()
 	})
 
 	test("Stop watching source if operation is aborted", async () => {
