@@ -11,7 +11,7 @@
 @import './colors/yellow.css';
 
 /*-------- BRAND --------*/
-:root {
+:root, .interactive-brand:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-moss-solid-1);
     --c-theme-solid-2: var(--c-moss-solid-2);
     --c-theme-solid-3: var(--c-moss-solid-3);
@@ -38,7 +38,7 @@
 }
 
 /*-------- USER --------*/
-.user {
+.user, .interactive-user:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-user-solid-1);
     --c-theme-solid-2: var(--c-user-solid-2);
     --c-theme-solid-3: var(--c-user-solid-3);
@@ -65,7 +65,7 @@
 }
 
 /*-------- NEUTRAL --------*/
-.neutral {
+.neutral, .interactive-neutral:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-grey-solid-1);
     --c-theme-solid-2: var(--c-grey-solid-2);
     --c-theme-solid-3: var(--c-grey-solid-3);
@@ -92,7 +92,7 @@
 }
 
 /*-------- OK --------*/
-.ok {
+.ok, .interactive-ok:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-dartmouth-solid-1);
     --c-theme-solid-2: var(--c-dartmouth-solid-2);
     --c-theme-solid-3: var(--c-dartmouth-solid-3);
@@ -119,7 +119,7 @@
 }
 
 /*-------- INFO --------*/
-.info {
+.info, .interactive-info:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-cobalt-solid-1);
     --c-theme-solid-2: var(--c-cobalt-solid-2);
     --c-theme-solid-3: var(--c-cobalt-solid-3);
@@ -146,7 +146,7 @@
 }
 
 /*-------- WARN --------*/
-.warn {
+.warn, .interactive-warn:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-yellow-solid-1);
     --c-theme-solid-2: var(--c-yellow-solid-2);
     --c-theme-solid-3: var(--c-yellow-solid-3);
@@ -173,7 +173,7 @@
 }
 
 /*-------- DANGER --------*/
-.danger {
+.danger, .interactive-danger:is(:hover, :active, :focus-visible) {
     --c-theme-solid-1: var(--c-red-solid-1);
     --c-theme-solid-2: var(--c-red-solid-2);
     --c-theme-solid-3: var(--c-red-solid-3);

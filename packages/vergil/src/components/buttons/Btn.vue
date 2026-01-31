@@ -85,6 +85,10 @@ const props = defineProps({
         default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
+    interactionTheme: {
+        type: String as PropType<Theme>,
+        validator: isValidTheme
+    },
     size: {
         type: String as PropType<Size>,
         default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.size ?? vergil.config.global.size),
@@ -135,6 +139,7 @@ useDefineExposed([
             squared,
             loading,
             [inferTheme(theme)]: theme,
+            [`interactive-${inferTheme(interactionTheme)}`]: interactionTheme,
             [`size-${size}`]: size,
             [`radius-${radius}`]: radius,
             [`spacing-${spacing}`]: spacing,
