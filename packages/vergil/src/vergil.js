@@ -13,7 +13,7 @@ import { inferTheme, isObject, isPlainObject } from '#utilities'
  * } }
  */
 function createConfig(template, options = {}) {
-    const descriptors = Object.create(null)
+    const descriptors = /** @type { Record<string, object> } */({})
     for (const option of Object.keys(template)) {
         if (isPlainObject(template[option])) {
             descriptors[option] = createConfig(
