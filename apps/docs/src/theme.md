@@ -78,7 +78,7 @@ These default colors may be imported in the following way.
 
 ### Custom `theme` colors
 
-In order to customize `theme`s' color palettes, it's recommended to edit a copy of Vergil's [default colors stylesheet](https://github.com/8ctavio/vergil/blob/main/packages/core/styles/default.css).
+In order to customize `theme`s' color palettes, it's recommended to edit a copy of Vergil's [default colors stylesheet](https://github.com/8ctavio/vergil/blob/main/packages/vergil/src/styles/default.css).
 
 At the start of the file, only required color palettes should be imported.
 

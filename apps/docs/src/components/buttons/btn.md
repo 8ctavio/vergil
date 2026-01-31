@@ -196,7 +196,7 @@ Underlines `Btn`'s label on hover when `link-to` is provided.
     <Btn label="Link underline" link-to="/vergil/components/buttons/btn#link-underline-link-underline-boolean" link-underline/>
 </Demo>
 
-### Theme <Badge type="tip"><pre>theme: [theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
+### Theme <Badge type="tip"><pre>theme: [Theme](/theme#the-theme-prop) = 'brand'</pre></Badge>
 
 <Demo>
     <div class="col">
@@ -313,6 +313,20 @@ Underlines `Btn`'s label on hover when `link-to` is provided.
             <Btn variant="subtle" mask="ghost" outline="subtle" theme="danger" label="Danger"/>
             <Btn variant="subtle" mask="ghost" outline="subtle" theme="neutral" label="Neutral"/>
         </div>
+    </div>
+</Demo>
+
+### Interaction Theme <Badge type="tip"><pre>interaction-theme: [Theme](/theme#the-theme-prop)</pre></Badge>
+
+<Demo>
+    <div class="row center">
+        <Btn variant="soft" outline theme="neutral" interaction-theme="brand" label="Brand"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="user" label="User"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="ok" label="Ok"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="info" label="Info"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="warn" label="Warn"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="danger" label="Danger"/>
+        <Btn variant="soft" outline theme="neutral" interaction-theme="neutral" label="Neutral"/>
     </div>
 </Demo>
 
@@ -568,6 +582,7 @@ const linkTo = {/* ... */}  // [!code ++]
 | `linkUnderline` | `boolean` | |
 | `descendant` | `boolean` | |
 | [`theme`](/theme#the-theme-prop) | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | `'brand'` |
+| `interactionTheme` | `'brand' \| 'user' \| 'ok' \| 'info' \| 'warn' \| 'danger' \| 'neutral'` | |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
 | `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` |
 | `spacing` | `'' \| 'compact' \| 'extended'` | `''` |
