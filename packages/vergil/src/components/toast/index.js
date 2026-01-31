@@ -1,24 +1,25 @@
-import { reactive } from 'vue'
+import { shallowReactive, triggerRef } from 'vue'
 import { vergil } from '#vergil'
 import { inferTheme } from "#utilities"
 
 /**
+ * @import { ShallowRef } from 'vue'
  * @import { ToasterPosition } from '#components'
  * @import { Theme } from '#utilities'
  */
 
-const toasters = /**
+export const toasters = /**
     @type {(
-        Record<ToasterPosition, {
+        Record<ToasterPosition, ShallowRef<{
             id: string;
             message: string;
             details: string;
             theme: Theme | undefined;
             icon: string | undefined;
             duration: number;
-        }[]>
+        }[]>>
     )}
-*/ (reactive({}))
+*/ (shallowReactive({}))
 
 /**
  * @typedef { object } ToastOptions
@@ -35,24 +36,21 @@ const toasters = /**
  * @param { ToastOptions } options
  * @returns { void }
  */
-
 /**
  * @overload
  * @param { string } message
  * @returns { void }
  */
-
 /**
  * @overload
  * @param { string } theme
  * @param { string } message
  * @returns { void }
  */
-
 /**
  * @param  { [ToastOptions] | [string] | [string, string] } args
  */
-function toast(...args) {
+export function toast(...args) {
     /** @type { Theme | undefined } */
     let theme
     /** @type { ToastOptions } */
@@ -66,24 +64,33 @@ function toast(...args) {
         if (args[0]?.theme) theme = inferTheme(args[0].theme)
         options = args[0]
     }
+    
+    const toasterConfig = vergil.config.toaster
+    const {
+        position: _position,
+        message = '',
+        details = '',
+        icon,
+        duration = toasterConfig.duration
+    } = options
 
     // @ts-expect-error
-    const position = /** @type { ToasterPosition } */ (vergil.config.toaster.positions.includes(options?.position)
-        ? options.position
-        : vergil.config.toaster.positions.includes(vergil.config.toaster.position)
-            ? vergil.config.toaster.position
-            : vergil.config.toaster.positions[0])
-    toasters[position]?.unshift({
-        id: Date.now().toString(),
-        message: options?.message ?? '',
-        details: options?.details ?? '',
-        theme,
-        icon: options?.icon,
-        duration: options?.duration ?? vergil.config.toaster.duration
-    })
-}
+    const position = /** @type { ToasterPosition } */ (toasterConfig.positions.includes(_position)
+        ? _position
+        : toasterConfig.positions.includes(toasterConfig.position)
+            ? toasterConfig.position
+            : toasterConfig.positions[0])
 
-export {
-    toasters,
-    toast
+    const toaster = toasters[position]
+    if (toaster) {
+        toaster.value.unshift({
+            id: String(Date.now()),
+            message,
+            details,
+            theme,
+            icon,
+            duration
+        })
+        triggerRef(toaster)
+    }
 }

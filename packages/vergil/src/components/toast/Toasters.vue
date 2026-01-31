@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { onMounted, nextTick } from 'vue'
+import { shallowRef, triggerRef, nextTick, onMounted } from 'vue'
 import { vergil } from '#vergil'
 import { Toast } from '#components'
 import { toasters } from './index.js'
+import type { UnwrapRef } from 'vue'
 import type { ToasterPosition } from '#components'
 
 const containers = {} as Record<ToasterPosition, HTMLElement>
 onMounted(async () => {
-    vergil.config.toaster.positions.forEach(position => {
-        toasters[position] = []
+    const { positions } = vergil.config.toaster
+    positions.forEach(position => {
+        toasters[position] = shallowRef([])
     })
     await nextTick()
-    vergil.config.toaster.positions.forEach(position => {
+    positions.forEach(position => {
         containers[position] = document.getElementById(`toaster-${position}`) as HTMLElement
     })
 })
 
 const onBeforeEnter = (position: ToasterPosition) => containers[position].classList.add('enter')
 const onAfterEnter = (position: ToasterPosition) => containers[position].classList.remove('enter')
-function onBeforeLeave(position: ToasterPosition, toast: HTMLElement){
-    if(containers[position].firstChild === toast){
+function onBeforeLeave(position: ToasterPosition, toast: HTMLElement) {
+    if (containers[position].firstChild === toast) {
         toast.classList.add('first-leave')
-    }
-    else{
-        if(position.split('-')[0] === 'top'){
+    } else {
+        if (position.startsWith('top')) {
             const { top } = toast.getBoundingClientRect()
             toast.style.top = `${top}px`
-        }
-        else{
+        } else {
             const { bottom: toasterBottom } = containers[position].getBoundingClientRect()
             const { bottom: toastBottom } = toast.getBoundingClientRect()
             toast.style.bottom = `${toasterBottom - toastBottom}px`
@@ -35,9 +35,13 @@ function onBeforeLeave(position: ToasterPosition, toast: HTMLElement){
         toast.classList.add('not-first-leave')
     }
 }
-function closeToast(position: ToasterPosition, toast: typeof toasters[ToasterPosition][number]){
-    const index = toasters[position].findIndex(t => t.id === toast.id)
-    if(index > -1) toasters[position].splice(index, 1)
+function closeToast(position: ToasterPosition, toast: UnwrapRef<typeof toasters[ToasterPosition]>[number]) {
+    const toaster = toasters[position]
+    const index = toaster.value.findIndex(t => t.id === toast.id)
+    if (index > -1) {
+        toaster.value.splice(index, 1)
+        triggerRef(toaster)
+    }
 }
 </script>
 
@@ -51,7 +55,7 @@ function closeToast(position: ToasterPosition, toast: typeof toasters[ToasterPos
             @after-enter="() => onAfterEnter(position)"
             @before-leave="toast => onBeforeLeave(position, toast as HTMLElement)"
         >
-            <Toast v-for="toast in toaster" :key="toast.id"
+            <Toast v-for="toast in toaster.value" :key="toast.id"
                 :message="toast.message"
                 :details="toast.details"
                 :theme="toast.theme"
