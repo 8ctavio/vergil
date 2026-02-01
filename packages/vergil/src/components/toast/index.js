@@ -83,7 +83,7 @@ export function toast(...args) {
 
     const toaster = toasters[position]
     if (toaster) {
-        toaster.value.unshift({
+        toaster.value.push({
             id: String(Date.now()),
             message,
             details,

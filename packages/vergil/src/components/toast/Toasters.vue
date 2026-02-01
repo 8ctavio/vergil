@@ -21,8 +21,8 @@ onMounted(async () => {
 const onBeforeEnter = (position: ToasterPosition) => containers[position].classList.add('enter')
 const onAfterEnter = (position: ToasterPosition) => containers[position].classList.remove('enter')
 function onBeforeLeave(position: ToasterPosition, toast: HTMLElement) {
-    if (containers[position].firstChild === toast) {
-        toast.classList.add('first-leave')
+    if (containers[position].lastChild === toast) {
+        toast.classList.add('last-leave')
     } else {
         if (position.startsWith('top')) {
             const { top } = toast.getBoundingClientRect()
@@ -32,7 +32,7 @@ function onBeforeLeave(position: ToasterPosition, toast: HTMLElement) {
             const { bottom: toastBottom } = toast.getBoundingClientRect()
             toast.style.bottom = `${toasterBottom - toastBottom}px`
         }
-        toast.classList.add('not-first-leave')
+        toast.classList.add('not-last-leave')
     }
 }
 function closeToast(position: ToasterPosition, toast: UnwrapRef<typeof toasters[ToasterPosition]>[number]) {
@@ -77,103 +77,104 @@ function closeToast(position: ToasterPosition, toast: UnwrapRef<typeof toasters[
     overflow-y: visible;
     z-index: var(--z-index-toast);
 
-    &.top{
+    &.top {
         --dir: -1;
         top: 0;
-        flex-direction: column;
-        & > .toast:first-of-type{
+        flex-direction: column-reverse;
+        justify-content: start;
+        & > .toast:last-of-type {
             margin-top: var(--toast-gap);
         }
     }
-    &.bottom{
+    &.bottom {
         --dir: 1;
         bottom: 0;
-        flex-direction: column-reverse;
-        & > .toast:first-of-type{
+        flex-direction: column;
+        justify-content: end;
+        & > .toast:last-of-type {
             margin-bottom: var(--toast-gap);
         }
     }
-    &.start{
+    &.start {
         left: calc(var(--toast-gap) * 1.5);
         align-items: start;
-        & > .toast.toast-leave-active{
+        & > .toast.toast-leave-active {
             left: 0;
         }
     }
-    &.end{
+    &.end {
         right: calc(var(--toast-gap) * 1.5);
         align-items: end;
-        & > .toast.toast-leave-active{
+        & > .toast.toast-leave-active {
             right: 0;
         }
     }
-    &:is(.start, .end) > .toast.toast-leave-active{
-        &.first-leave{
+    &:is(.start, .end) > .toast.toast-leave-active {
+        &.last-leave {
             transform: translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
         }
-        &.not-first-leave{
+        &.not-last-leave {
             transform: translateY(calc(var(--toast-gap) * 0.7 * var(--dir)));
         }
     }
-    &:not(.start, .end){
+    &:not(.start, .end) {
         left: 50%;
         transform: translateX(-50%);
         align-items: center;
-        & > .toast{
+
+        & > .toast {
             min-width: 300px;
             max-width: 450px;
 
-            &.toast-leave-active{
+            &.toast-leave-active {
                 left: 50%;
-                &.first-leave{
+                &.last-leave {
                     transform: translateX(-50%) translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
                 }
-                &.not-first-leave{
+                &.not-last-leave {
                     transform: translateX(-50%) translateY(calc(var(--toast-gap) * 0.7 * var(--dir)));
                 }
             }
         }
     }
 
-    & > .toast{
+    & > .toast {
         flex-shrink: 0;
 
         /*-------- toast that is entering --------*/
-        &:first-of-type{
-            &.toast-enter-active{
-                transition: transform 500ms var(--bezier-bounce-out);
-            }
-            &.toast-enter-from{
-                transform: translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
-            }
+        &.toast-enter-active {
+            transition: transform 500ms var(--bezier-bounce-out);
+        }
+        &.toast-enter-from {
+            transform: translateY(calc((var(--toast-gap) + 100% + 4px) * var(--dir)));
         }
 
         /*-------- toast that is leaving --------*/
-        &.first-leave{
-            &:is(.toast-move, .toast-leave-active){
+        &.last-leave {
+            &:is(.toast-move, .toast-leave-active) {
                 transition: transform 500ms var(--bezier-bounce-in);
             }
-            &.toast-leave-active{
+            &.toast-leave-active {
                 position: absolute;
             }
         }
-        &.not-first-leave{
-            &:is(.toast-move, .toast-leave-active){
+        &.not-last-leave {
+            &:is(.toast-move, .toast-leave-active) {
                 transition: transform 400ms var(--bezier-sine-in-out), opacity 350ms var(--bezier-sine-in-out);
             }
-            &.toast-leave-active{
+            &.toast-leave-active {
                 opacity: 0;
                 position: absolute;
             }
         }
 
         /*-------- toasts that move while a toast is leaving --------*/
-        &:not(.first-leave, .not-first-leave).toast-move{
+        &:not(.last-leave, .not-last-leave).toast-move {
             transition: transform 500ms var(--bezier-bounce-in);
         }
     }
     /*-------- toasts that move while a toast is entering --------*/
-    &.enter > .toast:not(:first-of-type).toast-move{
+    &.enter > .toast:not(:last-of-type).toast-move {
         transition: transform 500ms var(--bezier-bounce-out);
     }
 }
