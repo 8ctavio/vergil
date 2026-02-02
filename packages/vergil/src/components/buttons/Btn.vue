@@ -415,4 +415,27 @@ useDefineExposed([
         }
     }
 }
+
+.button-group > .btn {
+    &:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    &:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    &:not(:first-child, :last-child) {
+        border-radius: 0;
+    }
+    &:not(:first-child) {
+        margin-left: calc(-1 * var(--btn-bw));
+    }
+    &:hover {
+        z-index: 1;
+    }
+    &:focus-visible {
+        z-index: 2;
+    }
+}
 </style>
