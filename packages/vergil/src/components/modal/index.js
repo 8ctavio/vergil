@@ -111,6 +111,8 @@ export async function showModal(component, props) {
     if (modal.value.component) {
         modalMeta.isLeaving = true
         await nextTick()
+    } else {
+        modalMeta.isLeaving = false
     }
     modal.value = {
         component: markRaw(component),
