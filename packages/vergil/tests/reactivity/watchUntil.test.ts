@@ -52,31 +52,6 @@ test("Resolve to value that fulfilled condition", async () => {
 	}
 })
 
-test("Resolve to undefined after timeout", async () => {
-	vi.useFakeTimers()
-
-	const watchUntilPromise = watchUntilSpy(noop, noop, { timeout: 100 })
-	vi.advanceTimersByTime(100)
-
-	await watchUntilPromise
-	expect(watchUntilSpy).toHaveResolvedWith(undefined)
-
-	vi.useRealTimers()
-})
-
-test("Resolve before timeout", async () => {
-	vi.useFakeTimers()
-	const src = shallowRef(false)
-	const watchUntilPromise = watchUntilSpy(src, () => src.value, { timeout: 100 })
-	src.value = true
-	vi.advanceTimersByTime(99)
-
-	await watchUntilPromise
-	expect(watchUntilSpy).not.toHaveResolvedWith(undefined)
-
-	vi.useRealTimers()
-})
-
 test("Reject with AbortController signal", async () => {
 	const controller = new AbortController()
 	const watchUntilPromise = watchUntilSpy(noop, noop, { signal: controller.signal })
@@ -90,21 +65,42 @@ test("Reject with aborted AbortController signal", async () => {
 	await expect(watchUntil(noop, noop, { signal: controller.signal })).rejects.toBe('reason')
 })
 
+test("Reject after timeout", async () => {
+	vi.useFakeTimers()
+
+	const watchUntilPromise = watchUntilSpy(noop, noop, { signal: AbortSignal.timeout(100) })
+	vi.advanceTimersByTime(100)
+	await expect(watchUntilPromise).rejects.toBeInstanceOf(DOMException)
+
+	vi.useRealTimers()
+})
+
+test("Resolve before timeout", async () => {
+	vi.useFakeTimers()
+
+	const src = shallowRef(false)
+	const watchUntilPromise = watchUntilSpy(src, () => src.value, { signal: AbortSignal.timeout(100) })
+	src.value = true
+	vi.advanceTimersByTime(99)
+
+	await watchUntilPromise
+	expect(watchUntilSpy).toHaveResolved()
+
+	vi.useRealTimers()
+})
+
 suite("Watcher cleanup", () => {
 	test("Stop watching source after condition is fulfilled", async () => {
 		const src = shallowRef(0)
 		const spy = vi.fn(v => v > 0)
+		watchUntilSpy(src, spy)
+		expect(spy).toHaveBeenCalledTimes(1)
 
-		queueMicrotask(async () => {
-			expect(spy).toHaveBeenCalledTimes(1)
-			src.value++
-			await nextTick()
-			expect(spy).toHaveBeenCalledTimes(2)
-		})
-
-		await watchUntilSpy(src, spy)
+		src.value++
+		await nextTick()
+		expect(spy).toHaveBeenCalledTimes(2)
 		expect(watchUntilSpy).toHaveResolved()
-
+		
 		spy.mockClear()
 		src.value++
 		await nextTick()
@@ -122,31 +118,6 @@ suite("Watcher cleanup", () => {
 		src.value = true
 		await nextTick()
 		expect(spy).toHaveBeenCalledOnce()
-	})
-
-	test("Stop watching source after timeout", async () => {
-		vi.useFakeTimers()
-		const src = shallowRef(0)
-		const spy = vi.fn(noop)
-
-		const watchUntilPromise = watchUntilSpy(src, spy, { timeout: 100 })
-
-		expect(spy).toHaveBeenCalledTimes(1)
-		src.value++
-		await nextTick()
-		expect(spy).toHaveBeenCalledTimes(2)
-		expect(watchUntilSpy).not.toHaveResolved()
-
-		vi.advanceTimersByTime(100)
-		await watchUntilPromise
-		expect(watchUntilSpy).toHaveResolvedWith(undefined)
-
-		spy.mockClear()
-		src.value++
-		await nextTick()
-		expect(spy).not.toHaveBeenCalled()
-		
-		vi.useRealTimers()
 	})
 
 	test("Stop watching source if operation is aborted", async () => {
@@ -169,5 +140,29 @@ suite("Watcher cleanup", () => {
 		src.value++
 		await nextTick()
 		expect(spy).not.toHaveBeenCalled()
+	})
+
+	test("Stop watching source after timeout", async () => {
+		vi.useFakeTimers()
+		const src = shallowRef(0)
+		const spy = vi.fn(noop)
+
+		const watchUntilPromise = watchUntilSpy(src, spy, { signal: AbortSignal.timeout(100) })
+
+		expect(spy).toHaveBeenCalledTimes(1)
+		src.value++
+		await nextTick()
+		expect(spy).toHaveBeenCalledTimes(2)
+		expect(watchUntilSpy).not.toHaveResolved()
+
+		vi.advanceTimersByTime(100)
+		await expect(watchUntilPromise).rejects.toBeInstanceOf(DOMException)
+
+		spy.mockClear()
+		src.value++
+		await nextTick()
+		expect(spy).not.toHaveBeenCalled()
+		
+		vi.useRealTimers()
 	})
 })

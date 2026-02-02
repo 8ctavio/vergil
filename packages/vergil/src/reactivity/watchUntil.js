@@ -13,7 +13,7 @@ import { watch } from 'vue'
  * @param { WatchUntilCallback<T,O> } callback
  * @param { O } [options = {}]
  * 
- * @returns { WatchUntilPromise<T,O> } 
+ * @returns { WatchUntilPromise<T> } 
  */
 
 /**
@@ -22,7 +22,7 @@ import { watch } from 'vue'
  * @param { WatchSource | WatchSource[] } source
  * @param { WatchCallback } callback
  * @param { WatchUntilOptions } [options = {}]
- * @returns { Promise<unknown> } A promise. Resolves to the `WatchSource` value that fulfilled the callback. If aborted, the promise rejects with the abort signal's abort reason (`signal.reason`).
+ * @returns { Promise<unknown> } A promise. Resolves to the `WatchSource` value that fulfilled the callback. If aborted, the promise is rejected with the abort signal's abort reason (`signal.reason`).
  * 
  * @example
  * ```js
@@ -37,7 +37,6 @@ import { watch } from 'vue'
 export function watchUntil(source, callback, options = {}) {
 	const {
 		fulfill = true,
-		timeout,
 		signal,
 		...watchOptions
 	} = options
@@ -45,46 +44,33 @@ export function watchUntil(source, callback, options = {}) {
 	if (signal?.aborted) return Promise.reject(signal.reason)
 
 	/** @type { (() => void)[] } */
-	const cleanup = []
-	const promises = [
-		new Promise((resolve, reject) => {
-			let immediateStop = false
-			const stop = watch(source, (...args) => {
-				if (callback(...args) === fulfill) {
-					immediateStop = true
-					cleanup.forEach(fn => fn())
-					resolve(args[0])
-				}
-			}, {
-				...watchOptions,
-				immediate: true,
-				once: false
-			})
-			if (immediateStop) stop()
-			else {
-				cleanup.push(stop)
-				if (signal) {
-					function abort() {
-						cleanup.forEach(fn => fn())
-						reject(/** @type { AbortSignal } */(signal).reason)
-					}
-					signal.addEventListener('abort', abort)
-					cleanup.push(() => {
-						signal.removeEventListener('abort', abort)
-					})
-				}
+	return new Promise((resolve, reject) => {
+		let immediateStop = false
+		let cleanup = () => { immediateStop = true }
+		const stop = watch(source, (...args) => {
+			if (callback(...args) === fulfill) {
+				cleanup()
+				resolve(args[0])
 			}
+		},{
+			...watchOptions,
+			immediate: true,
+			once: false
 		})
-	]
-
-	if (timeout) {
-		promises.push(new Promise(resolve => {
-			setTimeout(() => {
-				cleanup.forEach(fn => fn())
-				resolve(undefined)
-			}, timeout)
-		}))
-	}
-
-	return Promise.race(promises)
+		if (immediateStop) {
+			stop()
+		} else if (signal) {
+			const abort = () => {
+				cleanup()
+				reject(signal.reason)
+			}
+			cleanup = () => {
+				stop()
+				signal.removeEventListener('abort', abort)
+			}
+			signal.addEventListener('abort', abort)
+		} else {
+			cleanup = stop
+		}
+	})
 }

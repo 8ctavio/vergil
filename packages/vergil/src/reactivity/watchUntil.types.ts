@@ -1,6 +1,6 @@
 import type { WatchSource, WatchCallback } from "vue"
 import type { UnwrapSources } from "#reactivity"
-import type { Writable, MaybeUndefined, Includes } from "#utilities"
+import type { Writable } from "#utilities"
 
 export type WatchUntilOptions = {
 	/**
@@ -9,16 +9,6 @@ export type WatchUntilOptions = {
 	 * @default true
 	 */
 	fulfill?: unknown;
-	/**
-	 * Duration of watcher timeout in milliseconds.
-	 * If set and `callback` is not fulfilled after
-	 * `timeout` milliseconds, the watcher stops.
-	 */
-	timeout?: number;
-	/**
-	 * `AbortSignal` to abort watcher with a corresponding
-	 * [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
-	 */
 	signal?: AbortSignal;
 	deep?: boolean | number;
 	flush?: 'pre' | 'post' | 'sync';
@@ -34,8 +24,8 @@ export type WatchUntilCallback<T, O extends WatchUntilOptions> = T extends Watch
 			| void
 		: never
 
-export type WatchUntilPromise<T, O extends WatchUntilOptions> = T extends WatchSource<infer V>
-	? Promise<MaybeUndefined<V, Includes<O, 'timeout', number>>>
+export type WatchUntilPromise<T> = T extends WatchSource<infer V>
+	? Promise<V>
 	: T extends readonly WatchSource[]
-		? Promise<MaybeUndefined<UnwrapSources<T,false>, Includes<O, 'timeout', number>>>
+		? Promise<UnwrapSources<T,false>>
 		: never

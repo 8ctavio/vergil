@@ -8,12 +8,11 @@ import { isWatchSource, isRegExp } from '#utilities'
 
 /**
  * @template T
- * @template { Omit<WatchUntilOptions, 'fulfill'> } O
  * @overload
  * @param { WatcherSource<T> } source
- * @param { O } [options]
+ * @param { Omit<WatchUntilOptions, 'fulfill'> } [options]
  * 
- * @returns { WaitForMethods<T,O> } 
+ * @returns { WaitForMethods<T> } 
  */
 
 /**

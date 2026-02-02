@@ -1,44 +1,42 @@
 import type { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
-import type { WatcherCallback, WatchUntilOptions, WatchUntilPromise } from '#reactivity'
+import type { WatcherCallback, WatchUntilPromise } from '#reactivity'
 import type { TypeOfResult } from '#utilities'
 
 interface WaitForMethod<
 	T,
-	S extends  WatchSource | WatchSource[],
-	O extends WatchUntilOptions
+	S extends WatchSource | WatchSource[]
 > {
 	method<V extends MaybeRefOrGetter<T>>(value: V): V extends WatchSource
-		? WatchUntilPromise<[S,V], O>
-		: WatchUntilPromise<S,O>
+		? WatchUntilPromise<[S,V]>
+		: WatchUntilPromise<S>
 	method(value: MaybeRefOrGetter<T>): Promise<unknown>
 }
 
 export type WaitForMethods<
 	S extends WatchSource | WatchSource[] = WatchSource | WatchSource[],
-	O extends WatchUntilOptions = {},
 	F extends boolean = true
 > = {
-	toFulfill(condition: WatcherCallback<S,true>): WatchUntilPromise<S,O>;
+	toFulfill(condition: WatcherCallback<S,true>): WatchUntilPromise<S>;
 	toFulfill(condition: WatchCallback): Promise<unknown>;
 } & (
 	F extends true ? {
 		toChange<T extends MaybeRefOrGetter<number>>(times?: T): T extends WatchSource
-			? WatchUntilPromise<[...(S extends WatchSource[] ? S : [S]), T],O>
-			: WatchUntilPromise<S,O>;
+			? WatchUntilPromise<[...(S extends WatchSource[] ? S : [S]), T]>
+			: WatchUntilPromise<S>;
 		toChange(times?: MaybeRefOrGetter<number>): Promise<unknown>
 
-		get not(): WaitForMethods<S,O,false>;
+		get not(): WaitForMethods<S, false>;
 	} : {}
 ) & (
 	S extends readonly WatchSource[] ? {
-		toBeEqual(): WatchUntilPromise<S,O>
+		toBeEqual(): WatchUntilPromise<S>
 	} : {
-		toBe: WaitForMethod<unknown, S,O>["method"]
-		toEqual: WaitForMethod<unknown, S,O>["method"]
-		toBeIn: WaitForMethod<unknown[], S,O>["method"]
-		toContain: WaitForMethod<unknown, S,O>["method"]
-		toBeOfType: WaitForMethod<TypeOfResult, S,O>["method"]
-		toBeTruthy(): WatchUntilPromise<S,O>
-		toMatch: WaitForMethod<RegExp, S, O>["method"]
+		toBe: WaitForMethod<unknown, S>["method"]
+		toEqual: WaitForMethod<unknown, S>["method"]
+		toBeIn: WaitForMethod<unknown[], S>["method"]
+		toContain: WaitForMethod<unknown, S>["method"]
+		toBeOfType: WaitForMethod<TypeOfResult, S>["method"]
+		toBeTruthy(): WatchUntilPromise<S>
+		toMatch: WaitForMethod<RegExp, S>["method"]
 	}
 )

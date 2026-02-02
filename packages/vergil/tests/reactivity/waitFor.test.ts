@@ -206,6 +206,7 @@ suite("toBe", () => {
 	})
 
 	test("Resolve when reactive argument is the same as source", async () => {
+		src.value = undefined
 		const values: ShallowRef<unknown>[] = [
 			shallowRef('vergil'),
 			shallowRef(true),
@@ -217,14 +218,13 @@ suite("toBe", () => {
 		]
 		for (const value of values) {
 			spy.mockClear()
-			queueMicrotask(async () => {
-				value.value = undefined
-				await nextTick()
-				expect(spy).not.toHaveResolved()
-				value.value = src.value
-			})
+			waitForSrc.toBe(value)
 
-			await waitForSrc.toBe(value)
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+
+			value.value = src.value
+			await nextTick()
 			expect(spy).toHaveResolved()
 		}
 	})
@@ -248,7 +248,7 @@ suite("toBe", () => {
 suite("toEqual", () => {
 	const src = shallowRef()
 	const waitForSrc = waitFor(src)
-	const spy = vi.spyOn(waitForSrc, 'toBe')
+	const spy = vi.spyOn(waitForSrc, 'toEqual')
 
 	test("Resolve when source equals argument", async () => {
 		const values = [
@@ -268,7 +268,7 @@ suite("toEqual", () => {
 				src.value = toValue(value)
 			})
 
-			await waitForSrc.toBe(value)
+			await waitForSrc.toEqual(value)
 			expect(spy).toHaveResolved()
 		}
 	})
@@ -290,7 +290,7 @@ suite("toEqual", () => {
 				value.value = src.value
 			})
 
-			await waitForSrc.toBe(value)
+			await waitForSrc.toEqual(value)
 			expect(spy).toHaveResolved()
 		}
 	})
@@ -298,16 +298,16 @@ suite("toEqual", () => {
 	test("Resolve when source and argument are different", async () => {
 		const src = shallowRef(0)
 		const waitForSrcNot = waitFor(src).not
-		const spy = vi.spyOn(waitForSrcNot, 'toBe')
-		
-		queueMicrotask(async () => {
-			triggerRef(src)
-			await nextTick()
-			expect(spy).not.toHaveResolved()
-			src.value = 1
-		})
+		const spy = vi.spyOn(waitForSrcNot, 'toEqual')
 
-		await waitForSrcNot.toBe(-0)
+		waitForSrcNot.toEqual(-0)
+
+		await nextTick()
+		expect(spy).not.toHaveResolved()
+		
+		src.value = 1
+		await nextTick()
+		expect(spy).toHaveResolved()
 	})
 })
 
@@ -532,14 +532,14 @@ suite("toBeTruthy", () => {
 	
 		for (const value of [false, 0, '', null, undefined]) {
 			spy.mockClear()
-			queueMicrotask(async () => {
-				src.value = true
-				await nextTick()
-				expect(spy).not.toHaveResolved()
-				src.value = value
-			})
-	
-			await waitForSrcNot.toBeTruthy()
+			src.value = true
+			waitForSrcNot.toBeTruthy()
+
+			await nextTick()
+			expect(spy).not.toHaveResolved()
+
+			src.value = value
+			await nextTick()
 			expect(spy).toHaveResolved()
 		}
 	})

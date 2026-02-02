@@ -43,20 +43,6 @@ test("Infer returned Promise's resolve value", () => {
 	>()
 })
 
-test("Infer returned Promise's resolve value with timeout", () => {
-	expectTypeOf(watchUntil(() => 0, noop, { timeout: 1 })).toEqualTypeOf<Promise<number | undefined>>()
-	expectTypeOf(
-		watchUntil((): number | string | boolean => 0, noop, { timeout: 1 })
-	).toEqualTypeOf<
-		Promise<number | string | boolean | undefined>
-	>()
-	expectTypeOf(
-		watchUntil([() => 0, () => '', () => false], noop, { timeout: 1 })
-	).toEqualTypeOf<
-		Promise<[number, string, boolean] | undefined>
-	>()
-})
-
 test("Constrain callback's return value", () => {
 	type WatchUntilCallbackReturnType<F = boolean> = ReturnType<Parameters<
 		typeof watchUntil<() => unknown, { fulfill: F; }>
