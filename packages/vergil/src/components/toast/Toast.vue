@@ -74,7 +74,7 @@ const playState = shallowRef('running')
     display: grid;
     grid-template-columns: min-content auto min-content;
     column-gap: 10px;
-    row-gap: 5px;
+    row-gap: 4px;
     width: max-content;
     min-width: 250px;
     max-width: 350px;
@@ -98,6 +98,9 @@ const playState = shallowRef('running')
     & > .toast-details {
         grid-column-start: 2;
         line-height: 1.5;
+    }
+    &:has(> .toast-progress) > .toast-details {
+        margin-bottom: var(--g-radius-md);
     }
     & > .icon {
         line-height: normal;
