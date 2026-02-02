@@ -120,7 +120,7 @@ defineProps({
     &::selection {
         background-color: transparent;
     }
-    &:is(:hover, :focus-visible) {
+    &:is(:hover, :focus-visible):not(:disabled) {
         --btn3D-front: var(--btn3D-elv-hover);
         --btn3D-shadow-x: 3px;
         transform: translateY(var(--btn3D-elv-dif));
@@ -143,15 +143,15 @@ defineProps({
 
         &.solid {
             background-color: var(--c-disabled-2);
-            box-shadow: 0 var(--btn3D-elv) var(--c-disabled-border-3);
+            --btn3D-c-front: var(--c-disabled-border-3);
         }
         &.soft {
             background-color: var(--c-disabled-1);
-            box-shadow: var(--btn3D-shadow-border), 0 var(--btn3D-elv) var(--c-disabled-border-2);
+            --btn3D-c-front: var(--c-disabled-border-2);
         }
         &.subtle {
             background-color: var(--c-disabled-1);
-            box-shadow: var(--btn3D-shadow-border), 0 var(--btn3D-elv) var(--c-disabled-border-3);
+            --btn3D-c-front: var(--c-disabled-border-3);
         }
         &.outline-subtle {
             --btn3D-c-border: var(--c-disabled-border-1);
@@ -164,7 +164,6 @@ defineProps({
         }
     }
     &.loading {
-        box-shadow: 0 var(--btn3D-elv) var(--btn3D-c-front);
         cursor: progress;
         transform: translateY(0);
     }
@@ -255,7 +254,7 @@ defineProps({
     --btn3D-elv: 4px;
     --btn3D-elv-hover: 3px;
     --btn3D-shadow-x: 3.5px;
-    &:is(:hover, :focus-visible) {
+    &:is(:hover, :focus-visible):not(:disabled) {
         --btn3D-shadow-x: 2px;
     }
 }
@@ -264,7 +263,7 @@ defineProps({
     --btn3D-elv: 6px;
     --btn3D-elv-hover: 4px;
     --btn3D-shadow-x: 6px;
-    &:is(:hover, :focus-visible) {
+    &:is(:hover, :focus-visible):not(:disabled) {
         --btn3D-shadow-x: 4px;
     }
 }
