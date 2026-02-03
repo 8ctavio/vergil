@@ -234,7 +234,7 @@ import {
 } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelWrapper, ModelValueProp, ModelValidatorProp, Elements  } from "#composables"
-import type { CalendarModelDate, Weekday, ToArray, MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
+import type { CalendarModelDate, Weekday, MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
 
 type TimeControls = {
 	min?: number;
@@ -550,8 +550,8 @@ function updateDateTime(lazyValidation = false) {
 	}
 	if (Array.isArray(model.value) && model.value.length > 0) {
 		model.update(() => {
-			for (let i=0; i<(model.value as ToArray<CalendarDate>).length; i++) {
-				(model.value as ToArray<CalendarDate>)[i] = getNewModelValue((model.value as ToArray<CalendarDate>)[i] as CalendarDate)
+			for (let i=0; i<(model.value as CalendarDate[]).length; i++) {
+				(model.value as CalendarDate[])[i] = getNewModelValue((model.value as CalendarDate[])[i] as CalendarDate)
 			}
 			model.triggerIfShallow()
 			;(lazyValidation ? validateWithDelay : validateWithCooldown)(props.eagerValidation)
@@ -775,7 +775,6 @@ const handleChange = model.updateDecorator((event: Event) => {
 				model.handleValidation(props.eagerValidation)
 			}
 		} else if (target.checked) {
-			// @ts-expect-error
 			model.value.push(newValue)
 			model.triggerIfShallow()
 			model.handleValidation(props.eagerValidation)
