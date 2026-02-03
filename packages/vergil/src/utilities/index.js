@@ -1,5 +1,5 @@
 /**
- * @import { Debounced } from '#utilities'
+ * @import { ToCompatible, Debounced } from '#utilities'
  */
 
 // #region ----- STRING -----
@@ -157,8 +157,9 @@ export function everyKeyInObject(obj, keys, strict = true) {
 /**
  * Assesses whether a value is an object.
  * 
- * @param { unknown } value 
- * @returns { value is object } `true` if `value` is an object, and `false` otherwise.
+ * @template T
+ * @param { T } value 
+ * @returns { value is ToCompatible<T extends Function ? never : T, object, Record<PropertyKey, unknown>> } `true` if `value` is an object, and `false` otherwise.
  */
 export function isObject(value) {
 	return value !== null && typeof value === 'object'
@@ -167,8 +168,9 @@ export function isObject(value) {
 /**
  * Assesses whether a value is a plain object.
  * 
- * @param { unknown } value 
- * @returns { value is object } `true` if `value` is a plain object, and `false` otherwise.
+ * @template T
+ * @param { T } value 
+ * @returns { value is ToCompatible<T, Record<PropertyKey, unknown>> } `true` if `value` is a plain object, and `false` otherwise.
  */
 export function isPlainObject(value) {
 	if (value === null || typeof value !== 'object' || Object.hasOwn(value, Symbol.toStringTag))
@@ -183,8 +185,9 @@ export function isPlainObject(value) {
 /**
  * Assesses whether a value is a function.
  * 
- * @param { unknown } value 
- * @returns { value is Function } `true` if `value` is a function, and `false` otherwise.
+ * @template T
+ * @param { T } value 
+ * @returns { value is ToCompatible<T, Function> } `true` if `value` is a function, and `false` otherwise.
  */
 export function isFunction(value) {
 	return typeof value === 'function'
