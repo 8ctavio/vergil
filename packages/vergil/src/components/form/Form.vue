@@ -81,8 +81,9 @@ import { vergil } from '#vergil'
 import { Badge } from '#components'
 import { useDefineExposed } from '#composables'
 import { watchControlledSync } from '#reactivity'
+import { isModel } from '#functions'
 import { debounce, pull } from '#utilities'
-import type { ShallowRef } from 'vue'
+import type { Ref, ShallowRef } from 'vue'
 import type { ModelGroupPayload } from '#composables'
 
 const props = withDefaults(defineProps<Props<F>>(), {
@@ -109,8 +110,17 @@ function handleSubmit(event: Event) {
 
 let formError: ShallowRef<string>
 if (props.exposed) {
-	const { fields } = props
-	const fieldsWatcher = watchControlledSync(Object.keys(fields).map(field => fields[field as keyof typeof fields].ref), () => {
+	function collectModelRefs(modelGroup: ModelGroup<{}>, modelRefs: Ref[] = []) {
+		for (const value of Object.values(modelGroup)) {
+			if (isModel(value)) {
+				modelRefs.push(value.ref)
+			} else {
+				collectModelRefs(value, modelRefs)
+			}
+		}
+		return modelRefs
+	}
+	const fieldsWatcher = watchControlledSync(collectModelRefs(props.fields), () => {
 		formError.value = ''
 	})
 	
