@@ -140,7 +140,7 @@ if (props.exposed) {
 			<p class="form-error-message">{{ formError }}</p>
 		</Badge>
 		<Errors v-else v-bind="props"/>
-		<slot name="submit" :formError="Boolean(formError)"/>
+		<slot name="submit" :hasFormError="Boolean(formError)"/>
 	</form>
 </template>
 
