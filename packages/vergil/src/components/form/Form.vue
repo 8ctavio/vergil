@@ -3,13 +3,14 @@ import { h, mergeProps } from 'vue'
 import { ModelGroupImpl } from '#composables'
 import { ucFirst } from '#utilities'
 import type { VNode } from 'vue'
-import type { ModelGroup, ModelGroupFields } from '#composables'
+import type { ModelGroup, ModelGroupFields, Exposed } from '#composables'
 
 interface Props<F extends ModelGroupFields> {
 	fields: ModelGroup<F>
 	validationCooldown?: number
 	showErrors?: boolean | string[]
 	badgeProps?: Record<string, unknown>
+	exposed?: Exposed
 }
 
 function Errors<F extends ModelGroupFields>(props: Props<F>) {
@@ -66,7 +67,7 @@ function Errors<F extends ModelGroupFields>(props: Props<F>) {
 					theme: 'danger',
 					outline: 'subtle',
 				}, props.badgeProps ?? {}),
-				() => fieldErrors 
+				() => fieldErrors
 			)
 		}
 	}
@@ -75,9 +76,13 @@ function Errors<F extends ModelGroupFields>(props: Props<F>) {
 </script>
 
 <script setup lang="ts" generic="F extends ModelGroupFields">
+import { shallowRef } from 'vue'
 import { vergil } from '#vergil'
 import { Badge } from '#components'
+import { useDefineExposed } from '#composables'
+import { watchControlledSync } from '#reactivity'
 import { debounce, pull } from '#utilities'
+import type { ShallowRef } from 'vue'
 import type { ModelGroupPayload } from '#composables'
 
 const props = withDefaults(defineProps<Props<F>>(), {
@@ -101,6 +106,29 @@ function handleSubmit(event: Event) {
 	event.preventDefault()
 	handleValidation(event)
 }
+
+let formError: ShallowRef<string>
+if (props.exposed) {
+	formError = shallowRef('')
+	const errorWatcher = watchControlledSync(formError, () => {
+		errorWatcher.pause()
+		fieldsWatcher.resume()
+	})
+
+	const { fields } = props
+	const fieldsWatcher = watchControlledSync(Object.keys(fields).map(field => fields[field as keyof typeof fields].ref), () => {
+		fieldsWatcher.pause()
+		formError.value = ''
+		errorWatcher.resume()
+	})
+	fieldsWatcher.pause()
+	
+	useDefineExposed({
+		setFormError(error: string = '') {
+			formError.value = error
+		}
+	})
+}
 </script>
 
 <template>
@@ -108,8 +136,9 @@ function handleSubmit(event: Event) {
 		<div class="form-fields">
 			<slot/>
 		</div>
-		<Errors v-bind="props"/>
-		<slot name="submit"/>
+		<Badge v-if="formError" class="form-errors" theme="danger" outline="subtle" v-bind="badgeProps">{{ formError }}</Badge>
+		<Errors v-else v-bind="props"/>
+		<slot name="submit" :formError="Boolean(formError)"/>
 	</form>
 </template>
 
