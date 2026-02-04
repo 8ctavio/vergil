@@ -76,7 +76,7 @@ function Errors<F extends ModelGroupFields>(props: Props<F>) {
 </script>
 
 <script setup lang="ts" generic="F extends ModelGroupFields">
-import { shallowRef } from 'vue'
+import { shallowRef, watchEffect } from 'vue'
 import { vergil } from '#vergil'
 import { Badge } from '#components'
 import { useDefineExposed } from '#composables'
@@ -109,19 +109,19 @@ function handleSubmit(event: Event) {
 
 let formError: ShallowRef<string>
 if (props.exposed) {
-	formError = shallowRef('')
-	const errorWatcher = watchControlledSync(formError, () => {
-		errorWatcher.pause()
-		fieldsWatcher.resume()
-	})
-
 	const { fields } = props
 	const fieldsWatcher = watchControlledSync(Object.keys(fields).map(field => fields[field as keyof typeof fields].ref), () => {
-		fieldsWatcher.pause()
 		formError.value = ''
-		errorWatcher.resume()
 	})
-	fieldsWatcher.pause()
+	
+	formError = shallowRef('')
+	watchEffect(() => {
+		if (formError.value) {
+			fieldsWatcher.resume()
+		} else {
+			fieldsWatcher.pause()
+		}
+	})
 	
 	useDefineExposed({
 		setFormError(error: string = '') {
