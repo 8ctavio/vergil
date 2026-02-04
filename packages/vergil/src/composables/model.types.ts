@@ -90,6 +90,7 @@ export type Model<
 		unwrap: false;
 	}>;
 	get hasErrors(): boolean;
+	get isValid(): boolean;
 	validate(force?: boolean, trigger?: boolean): boolean;
 	clear(): void;
 } & (

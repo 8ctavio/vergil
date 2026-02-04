@@ -20,6 +20,10 @@ const getNoop = () => noop
 function hasErrors() {
 	return this.errors.value.length > 0
 }
+/** @this { Model } */
+function isValid() {
+	return !hasErrors.call(this)
+}
 
 /**
  * Creates a component model.
@@ -135,6 +139,7 @@ export function useModel(value, options = {}) {
 			})
 		}),
 		hasErrors: markDescriptor({ get: hasErrors }),
+		isValid: markDescriptor({ get: isValid }),
 		validate,
 		clear() {
 			// @ts-expect-error

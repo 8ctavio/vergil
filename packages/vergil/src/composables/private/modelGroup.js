@@ -289,6 +289,9 @@ export class ModelGroupImpl {
 		}
 		return false
 	}
+	get isValid() {
+		return !this.hasErrors
+	}
 
 	/**
 	 * @param { (errors: string[], field: string, path: string, model: Model) => void } callback
