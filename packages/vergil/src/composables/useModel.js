@@ -17,7 +17,7 @@ const validationError = Object.preventExtensions({})
 const getNoop = () => noop
 
 /** @this { Model } */
-function getError() {
+function hasErrors() {
 	return this.errors.value.length > 0
 }
 
@@ -113,7 +113,6 @@ export function useModel(value, options = {}) {
 		reset() {
 			modelRef.value = getResetValue()
 		},
-		error: markDescriptor({ get: getError }),
 		errors: markDescriptor({
 			unwrap: /** @type { const } */ (false),
 			value: customRef(track => {
@@ -135,6 +134,7 @@ export function useModel(value, options = {}) {
 				}
 			})
 		}),
+		hasErrors: markDescriptor({ get: hasErrors }),
 		validate,
 		clear() {
 			// @ts-expect-error
@@ -185,7 +185,7 @@ export function useModel(value, options = {}) {
 			validationTarget = model
 			validate = model.validate
 			handleValidation = (eager = false) => {
-				if (eager || model.error) model.validate()
+				if (eager || model.hasErrors) model.validate()
 			}
 		}
 		useDebouncedValidation = (minWait, options) => {
@@ -197,7 +197,7 @@ export function useModel(value, options = {}) {
 						pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
 					})
 					return (eager = false) => {
-						if (eager || validationTarget.error) debounced()
+						if (eager || validationTarget.hasErrors) debounced()
 					}
 				} else {
 					return handleValidation

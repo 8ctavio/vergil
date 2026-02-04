@@ -134,7 +134,7 @@ const handleChange = model.updateDecorator((event: Event) => {
             <label v-if="labelOff" class="switch-label-off">
                 <MiniMarkup :str="labelOff"/>
             </label>
-            <span :class="['switch-track', { invalid: model.error }]">
+            <span :class="['switch-track', { invalid: model.hasErrors }]">
                 <span class="switch-knob">
                     <Icon :code="iconOff" class="switch-icon-off"/>
                     <Icon :code="iconOn" class="switch-icon-on"/>

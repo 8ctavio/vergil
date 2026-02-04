@@ -956,7 +956,7 @@ if (props.time && (Array.isArray(model.value) || !hasDate(model.value, false))) 
 }
 
 const themeClass = computed(() => {
-	return model.error && !props.disabled
+	return model.hasErrors && !props.disabled
 		? 'invalid' + (props.theme ? ' danger' : '')
 		: props.theme && inferTheme(props.theme)
 })

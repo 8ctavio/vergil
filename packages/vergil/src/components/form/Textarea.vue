@@ -107,7 +107,7 @@ const floatLabelEnabled = computed(() => {
         :theme :size :radius :spacing
         :showErrors :errors="model.errors"
     >
-        <div :class="['textarea-wrapper', { underline, invalid: model.error }]">
+        <div :class="['textarea-wrapper', { underline, invalid: model.hasErrors }]">
             <textarea
                 v-bind="$attrs"
                 :ref="elements.getRef('input')"

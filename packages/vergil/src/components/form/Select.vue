@@ -390,7 +390,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                 type="button"
                 :class="['select-button', {
                     selected: isSelected,
-                    invalid: model.error
+                    invalid: model.hasErrors
                 }]"
                 descendant
                 mask="form-field"

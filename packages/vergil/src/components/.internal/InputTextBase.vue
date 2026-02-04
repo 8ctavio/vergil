@@ -90,7 +90,7 @@ const floatLabelEnabled = computed(() => {
     >
         <div class="input-text-outer">
             <Btn v-if="isObject(btnBefore)" v-bind="btnBefore" descendant :disabled="disabled || btnBefore.disabled"/>
-            <div :class="['input-text-wrapper', { underline, invalid: model.error }]">
+            <div :class="['input-text-wrapper', { underline, invalid: model.hasErrors }]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
                 <input

@@ -122,7 +122,7 @@ const handleChange = model.updateDecorator((event: Event) => {
 })
 
 const themeClass = computed(() => {
-	return model.error
+	return model.hasErrors
 		? 'invalid' + (theme.value ? ' danger' : '')
 		: theme.value && inferTheme(theme.value)
 })

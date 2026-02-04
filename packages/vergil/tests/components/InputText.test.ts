@@ -101,13 +101,13 @@ suite('Validation', () => {
 		// Validate programmatically
 		model.validate()
 		expect(validator).toHaveBeenCalledTimes(1)
-		expect(model.error).toBe(true)
+		expect(model.hasErrors).toBe(true)
 
 		// Validator called lazily until model has errors
 		input.setValue('1')
 		input.trigger('input')
 		expect(validator).toHaveBeenCalledTimes(2)
-		expect(model.error).toBe(false)
+		expect(model.hasErrors).toBe(false)
 
 		// Validator not called again since errors have been cleared
 		input.setValue('12')
@@ -127,22 +127,22 @@ suite('Validation', () => {
 		const input = wrapper.get('input')
 
 		// Validator called eagerly, despite model having no errors
-		expect(model.error).toBe(false)
+		expect(model.hasErrors).toBe(false)
 		input.trigger('input')
 		expect(validator).toHaveBeenCalledTimes(1)
-		expect(model.error).toBe(true)
+		expect(model.hasErrors).toBe(true)
 
 		// Correct error
 		input.setValue('1')
 		input.trigger('input')
 		expect(validator).toHaveBeenCalledTimes(2)
-		expect(model.error).toBe(false)
+		expect(model.hasErrors).toBe(false)
 
 		// Validator continues to be called
 		input.setValue('12')
 		input.trigger('input')
 		expect(validator).toHaveBeenCalledTimes(3)
-		expect(model.error).toBe(false)
+		expect(model.hasErrors).toBe(false)
 	})
 
 	test('Debounced input validation', async () => {

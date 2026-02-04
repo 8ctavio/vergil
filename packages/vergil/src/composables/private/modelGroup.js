@@ -57,7 +57,7 @@ function* generateModelErrors(filter, path = '', clearance = 0) {
 			}
 		} else {
 			const include = !isFunction(filter) || clearance > 0 || filter(filterActions, fullPath, false, value)
-			if (include && value.error) {
+			if (include && value.hasErrors) {
 				yield [value.errors.value, field, fullPath, value]
 			}
 		}
@@ -115,7 +115,7 @@ export class ModelGroupImpl {
 					modelGroup: this,
 					validate: this.validate.bind(this),
 					handleValidation: (eager = false) => {
-						if (eager || this.error) this.validate()
+						if (eager || this.hasErrors) this.validate()
 					}
 				}
 				shouldCleanup = true
@@ -277,15 +277,15 @@ export class ModelGroupImpl {
 	}
 
 	clear() {
-		for (const field of Object.keys(this)) {
-			// @ts-expect-error
-			this[field].clear()
+		for (const model of Object.values(this)) {
+			model.clear()
 		}
 	}
-	get error() {
+
+	get hasErrors() {
 		for (const field of Object.keys(this)) {
 			// @ts-expect-error
-			if (this[field].error) return true
+			if (this[field].hasErrors) return true
 		}
 		return false
 	}

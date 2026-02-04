@@ -85,11 +85,11 @@ export type Model<
 	IncludeElements extends boolean = boolean
 > = ExtendedRef<T, UnwrapRef<T>, {
 	reset(): void;
-	get error(): boolean;
 	errors: DescriptorMarked<{
 		value: ShallowRef<string[]>;
 		unwrap: false;
 	}>;
+	get hasErrors(): boolean;
 	validate(force?: boolean, trigger?: boolean): boolean;
 	clear(): void;
 } & (

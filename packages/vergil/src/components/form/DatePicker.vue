@@ -246,7 +246,7 @@ function handleKeydown(event: KeyboardEvent) {
 		:showErrors :errors="model.errors"
 	>
 		<Popover :class="['date-picker-popover', props.class]"
-			:theme="model.error ? 'danger' : theme" :size :radius :spacing
+			:theme="model.hasErrors ? 'danger' : theme" :size :radius :spacing
 		>
 			<DatePickerWrapper :sideButtonPosition="btnClear?.position" v-slot="{ iconProp }"
 				@keydown="handleKeydown"
@@ -254,7 +254,7 @@ function handleKeydown(event: KeyboardEvent) {
 				<Btn
 					:class="['date-picker-select', {
 						selected: isSelected,
-						invalid: model.error
+						invalid: model.hasErrors
 					}]"
 					descendant
 					type="button"

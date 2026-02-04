@@ -131,7 +131,7 @@ const valueWidth = computed(() => String(props.max).length)
                     :disabled
                     @input="handleInput"
                 >
-                <span :class="['slider-track', { invalid: model.error }]">
+                <span :class="['slider-track', { invalid: model.hasErrors }]">
                     <span class="slider-progress">
                         <span class="slider-knob"/>
                     </span>
