@@ -20,8 +20,7 @@ type ModelGroupPath<F extends ModelGroupFields> = Prettify<{
 
 export type ModelGroupValidator<F extends ModelGroupFields = ModelGroupFields> = (
 	payload: ModelGroupPayload<F>,
-	error: (path: ModelGroupPath<F>, msg: string) => void,
-	isValid: (path: ModelGroupPath<F>) => boolean
+	error: (path: ModelGroupPath<F>, msg: string) => void
 ) => void;
 
 export type ModelGroupFields = { [Key: string]: ModelSpec | (ModelGroupFields & ModelGroupInternal) }

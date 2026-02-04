@@ -98,7 +98,6 @@ export let groupValidationCtx
 
 export class ModelGroupImpl {
 	#validator
-	#isValid
 
 	/**
 	 * @param { ModelGroupFields } fields
@@ -122,9 +121,6 @@ export class ModelGroupImpl {
 				shouldCleanup = true
 			}
 			this.#validator = validator
-			/** @param { string } path */
-			// @ts-expect-error
-			this.#isValid = path => getNestedModel(this, path).errors._value.length === 0
 		}
 		try {
 			for (const field of Object.keys(fields)) {
@@ -260,7 +256,7 @@ export class ModelGroupImpl {
 							result &&= false
 						}
 					}
-					/** @type { ModelGroupValidator } */(this.#validator)(payload, error, /** @type { (path: string) => boolean } */ (this.#isValid))
+					/** @type { ModelGroupValidator } */(this.#validator)(payload, error)
 				}
 				return includePayload ? [result, payload] : result
 			} finally {
