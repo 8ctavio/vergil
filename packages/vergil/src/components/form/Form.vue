@@ -136,7 +136,9 @@ if (props.exposed) {
 		<div class="form-fields">
 			<slot/>
 		</div>
-		<Badge v-if="formError" class="form-errors" theme="danger" outline="subtle" v-bind="badgeProps">{{ formError }}</Badge>
+		<Badge v-if="formError" class="form-errors" theme="danger" outline="subtle" v-bind="badgeProps">
+			<p class="form-error-message">{{ formError }}</p>
+		</Badge>
 		<Errors v-else v-bind="props"/>
 		<slot name="submit" :formError="Boolean(formError)"/>
 	</form>
@@ -149,16 +151,19 @@ if (props.exposed) {
 	row-gap: 15px;
 
 	& > .form-errors {
+		font-size: calc(0.9 * var(--font-size));
 		display: flex;
 		flex-direction: column;
 		row-gap: var(--g-gap-2xl);
 		padding: var(--g-gap-2xl) var(--g-gap-xl);
-
+		
 		& ::selection{
-            background-color: var(--c-theme-soft-4);
+			background-color: var(--c-theme-soft-4);
         }
+		& p.form-error-message {
+			padding: 0 var(--g-gap-sm);
+		}
 		& > .form-error-field {
-			font-size: 0.9em;
 			display: flex;
 			flex-direction: column;
 			flex-shrink: 1;
@@ -167,9 +172,6 @@ if (props.exposed) {
 			& > .form-error-field-name {
 				padding: 0 var(--g-gap-sm) var(--g-gap-xs);
 				border-bottom: 1px solid var(--c-theme-border-subtle);
-			}
-			& > p.form-error-message {
-				padding: 0 var(--g-gap-sm);
 			}
 			& > ul.form-error-message {
 				margin: 0;
