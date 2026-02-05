@@ -1,7 +1,10 @@
-import { ModelGroupImpl } from "#composables"
+import { ModelGroupImpl } from "#functions"
 import { isObject } from "#utilities"
 
-/** @import { Model, ModelGroup, ModelGroupFields } from '#composables' */
+/**
+ * @import { Model } from "#composables"
+ * @import { ModelGroup, ModelGroupFields } from "#functions"
+ */
 
 /**
  * Assesses whether a value is a model created by `useModel`.

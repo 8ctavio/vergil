@@ -1,9 +1,10 @@
 <script lang="ts">
 import { h, mergeProps } from 'vue'
-import { ModelGroupImpl } from '#composables'
+import { ModelGroup } from '#functions'
 import { ucFirst } from '#utilities'
 import type { VNode } from 'vue'
-import type { ModelGroup, ModelGroupFields, Exposed } from '#composables'
+import type { Exposed } from '#composables'
+import type { ModelGroupFields } from '#functions'
 
 interface Props<F extends ModelGroupFields> {
 	fields: ModelGroup<F>
@@ -16,7 +17,7 @@ interface Props<F extends ModelGroupFields> {
 function Errors<F extends ModelGroupFields>(props: Props<F>) {
 	const { showErrors } = props
 	if (showErrors) {
-		let filter: Parameters<ModelGroupImpl['forErrors']>[1]
+		let filter: Parameters<ModelGroup['forErrors']>[1]
 		if (Array.isArray(showErrors)) {
 			const fieldPaths = [...showErrors]
 			filter = (actions, path, isGroup) => {
@@ -84,7 +85,7 @@ import { watchControlledSync } from '#reactivity'
 import { isModel } from '#functions'
 import { debounce, pull } from '#utilities'
 import type { Ref, ShallowRef } from 'vue'
-import type { ModelGroupPayload } from '#composables'
+import type { ModelGroupPayload } from '#functions'
 
 const props = withDefaults(defineProps<Props<F>>(), {
 	validationCooldown: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown
@@ -110,7 +111,7 @@ function handleSubmit(event: Event) {
 
 let formError: ShallowRef<string>
 if (props.exposed) {
-	function collectModelRefs(modelGroup: ModelGroup<{}>, modelRefs: Ref[] = []) {
+	function collectModelRefs(modelGroup: ModelGroup<F>, modelRefs: Ref[] = []) {
 		for (const value of Object.values(modelGroup)) {
 			if (isModel(value)) {
 				modelRefs.push(value.ref)

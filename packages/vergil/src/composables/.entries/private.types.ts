@@ -4,4 +4,3 @@ export type * from './public.types.ts'
 export type * from './internal.types.ts'
 
 export type * from '../private/exposed.types.ts'
-export type * from '../private/modelGroup.types.ts'

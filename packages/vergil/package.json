@@ -80,8 +80,8 @@
 		},
 		"#functions": {
 			"types": {
-				"dev": "./src/functions/.entries/public.types.ts",
-				"default": "./dts/functions/.entries/public.types.d.ts"
+				"dev": "./src/functions/.entries/private.types.ts",
+				"default": "./dts/functions/.entries/private.types.d.ts"
 			},
 			"import": "./src/functions/.entries/public.js"
 		},
