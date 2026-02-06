@@ -15,6 +15,10 @@ let isUnwrappedRef = false
  * @implements { Entangled }
  */
 export class EntangledImpl {
+	static {
+		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'Entangled' })
+	}
+
 	constructor() {
 		markRaw(this)
 	}
@@ -128,7 +132,6 @@ export class EntangledImpl {
 		return this
 	}
 }
-Object.defineProperty(EntangledImpl.prototype, Symbol.toStringTag, { value: 'Entangled' })
 
 /**
  * Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
@@ -136,6 +139,10 @@ Object.defineProperty(EntangledImpl.prototype, Symbol.toStringTag, { value: 'Ent
  */
 export class ExtendedRefImpl extends EntangledImpl {
 	ref = /** @type { Ref } */ (/** @type { unknown } */ (undefined))
+
+	static {
+		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })
+	}
 
 	/**
 	 * @param { unknown } value 
@@ -169,4 +176,3 @@ export class ExtendedRefImpl extends EntangledImpl {
 		return this.ref.value
 	}
 }
-Object.defineProperty(ExtendedRefImpl.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })
