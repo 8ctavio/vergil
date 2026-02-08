@@ -65,3 +65,13 @@ export function entangled(properties, options) {
 	if (properties) _entangled.extend(properties, options)
 	return _entangled
 }
+
+/**
+ * Assesses whether a value is an entangled object.
+ * 
+ * @param { unknown } value
+ * @returns { value is Entangled } `true` if `value` is an entangled object, and `false` otherwise.
+ */
+export function isEntangled(value) {
+	return value instanceof EntangledImpl
+}

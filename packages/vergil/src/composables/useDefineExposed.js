@@ -1,6 +1,5 @@
 import { triggerRef, toRaw, watch, getCurrentWatcher, getCurrentInstance, onUnmounted } from "vue"
-import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composables"
-import { isModel } from "#functions"
+import { isModel, componentInstanceMap, definedExposed, _hasComponent_ } from "#composables"
 import { isFunction, isObject } from "#utilities"
 
 /**

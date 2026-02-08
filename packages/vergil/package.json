@@ -85,13 +85,6 @@
 			},
 			"import": "./src/composables/.entries/private.js"
 		},
-		"#functions": {
-			"types": {
-				"dev": "./src/functions/.entries/private.types.ts",
-				"default": "./dts/functions/.entries/private.types.d.ts"
-			},
-			"import": "./src/functions/.entries/public.js"
-		},
 		"#types/*": {
 			"types": {
 				"dev": "./src/*.types.ts",

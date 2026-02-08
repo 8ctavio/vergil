@@ -1,10 +1,9 @@
 <script lang="ts">
 import { h, mergeProps } from 'vue'
-import { ModelGroup } from '#functions'
+import { ModelGroup } from '#composables'
 import { ucFirst } from '#utilities'
 import type { VNode } from 'vue'
-import type { Exposed } from '#composables'
-import type { ModelGroupFields } from '#functions'
+import type { Exposed, ModelGroupFields } from '#composables'
 
 interface Props<F extends ModelGroupFields> {
 	fields: ModelGroup<F>
@@ -80,12 +79,11 @@ function Errors<F extends ModelGroupFields>(props: Props<F>) {
 import { shallowRef, watchEffect } from 'vue'
 import { vergil } from '#vergil'
 import { Badge } from '#components'
-import { useDefineExposed } from '#composables'
+import { useDefineExposed, isModel } from '#composables'
 import { watchControlledSync } from '#reactivity'
-import { isModel } from '#functions'
 import { debounce, pull } from '#utilities'
 import type { Ref, ShallowRef } from 'vue'
-import type { ModelGroupPayload } from '#functions'
+import type { ModelGroupPayload } from '#composables'
 
 const props = withDefaults(defineProps<Props<F>>(), {
 	validationCooldown: () => vergil.config.form.validationCooldown ?? vergil.config.global.validationCooldown

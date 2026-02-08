@@ -1,6 +1,6 @@
 import type { UnwrapRef	} from "vue"
 import type { Model, ModelOptions } from "#composables"
-import type { ModelGroupImpl, ModelGroupFields, ModelSpec, ModelGroupSpec, ModelGroupValidator } from "#functions"
+import type { ModelGroupImpl, ModelGroupFields, ModelSpec, ModelGroupSpec, ModelGroupValidator } from "#composables"
 
 export type ModelGroupFieldsConstraint<F extends ModelGroupFields = ModelGroupFields> = {
 	[K in keyof F]: F[K] extends ModelSpec<infer V>

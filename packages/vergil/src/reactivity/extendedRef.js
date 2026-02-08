@@ -67,3 +67,13 @@ export function extendedRef(value, extension, options = {}) {
 	if (extension) extended.extend(extension, extensionOptions)
 	return extended
 }
+
+/**
+ * Assesses whether a value is an extendedRef object.
+ * 
+ * @param { unknown } value
+ * @returns { value is ExtendedRef } `true` if `value` is an extendedRef object, and `false` otherwise.
+ */
+export function isExtendedRef(value) {
+	return value instanceof ExtendedRefImpl
+}

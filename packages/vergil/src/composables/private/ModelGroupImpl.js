@@ -1,6 +1,5 @@
 import { triggerRef, markRaw, toRaw } from "vue"
-import { useModel } from "#composables"
-import { isModel } from "#functions"
+import { useModel, isModel } from "#composables"
 import { isObject, isPlainObject, isFunction } from "#utilities"
 
 /**
@@ -15,7 +14,7 @@ import { isObject, isPlainObject, isFunction } from "#utilities"
  *   ModelGroupValidator,
  *   ModelGroupPayload,
  *   ModelFilter
- * } from "#functions"
+ * } from "#composables"
  */
 
 export const _isNestedGroup_ = Symbol('isNestedGroup')
