@@ -1,9 +1,10 @@
 import { shallowRef, unref } from "vue"
-import { definedExposed } from "#composables"
 import { getTrue } from "#utilities"
+import { definedExposed } from "#composables/.private/exposed"
 
 /**
- * @import { InternalExposed, Exposed } from '#composables'
+ * @import { Exposed } from '#types/composables/exposed'
+ * @import { InternalExposed } from '#types/composables/.private/exposed'
  */
 
 /**

@@ -1,6 +1,6 @@
 import { unref, isRef, toRaw } from "vue"
-import { useResetValue } from "#composables"
 import { extendedRef } from "#reactivity"
+import { useResetValue } from "#composables/.internal/useResetValue"
 
 /**
  * @import { MaybeRef } from 'vue'

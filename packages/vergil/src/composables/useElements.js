@@ -1,7 +1,11 @@
 import { shallowRef } from "vue"
-import { definedElements, _trigger_ } from "#composables"
 import { entangled } from "#reactivity"
 import { getTrue } from "#utilities"
+import { definedElements, _trigger_ } from "#composables/.private/exposed"
+
+/**
+ * @import { Elements } from '#types/composables/exposed'
+ */
 
 /**
  * @TODO add functions for the update handler methods
@@ -27,10 +31,6 @@ import { getTrue } from "#utilities"
  * import { InputText } from 'vergil'
  * const elements = useElements(InpuText)
  * ```
- */
-
-/**
- * @import { Elements } from '#composables'
  */
 
 /**

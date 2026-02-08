@@ -1,11 +1,15 @@
 import { toRaw, customRef, watch, watchSyncEffect, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted } from "vue"
-import { useModel, useElements, useExposed, useModelWatchers, isModel, privateModelMap } from "#composables"
 import { watchControlledSync } from '#reactivity'
 import { isFunction, isObject, noop } from '#utilities'
+import { useModel, isModel } from "#composables/useModel"
+import { useExposed } from "#composables/useExposed"
+import { useElements } from "#composables/useElements"
+import { useModelWatchers } from "#composables/.internal/model"
+import { privateModelMap } from "#composables/.private/model"
 
 /**
  * @import { WatchOptions, EffectScope } from "vue"
- * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#composables"
+ * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#types/composables/model"
  */
 
 const _ext_controller_ = Symbol('external:controller')

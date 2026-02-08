@@ -71,19 +71,19 @@
 			},
 			"import": "./src/vergil.js"
 		},
-		"#components": {
-			"types": {
-				"dev": "./src/components/.entries/private.types.ts",
-				"default": "./dts/components/.entries/private.types.d.ts"
-			},
-			"import": "./src/components/.entries/private.js"
-		},
 		"#composables": {
 			"types": {
 				"dev": "./src/composables/.entries/private.types.ts",
 				"default": "./dts/composables/.entries/private.types.d.ts"
 			},
 			"import": "./src/composables/.entries/private.js"
+		},
+		"#components": {
+			"types": {
+				"dev": "./src/components/.entries/private.types.ts",
+				"default": "./dts/components/.entries/private.types.d.ts"
+			},
+			"import": "./src/components/.entries/private.js"
 		},
 		"#types/*": {
 			"types": {

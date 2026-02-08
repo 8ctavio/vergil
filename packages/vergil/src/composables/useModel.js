@@ -1,7 +1,11 @@
 import { ref, shallowRef, customRef, triggerRef, isRef, isShallow, toValue, toRef, toRaw, getCurrentInstance, onScopeDispose } from 'vue'
-import { useElements, useExposed, useResetValue, privateModelMap, groupValidationCtx } from '#composables'
 import { extendedRef } from '#reactivity'
 import { isObject, isFunction, markDescriptor, dataDescriptor, debounce, pull, shallowCopy, looselyEqual, uniqueKey, noop, getTrue } from '#utilities'
+import { useExposed } from '#composables/useExposed'
+import { useElements } from '#composables/useElements'
+import { useResetValue } from '#composables/.internal/useResetValue'
+import { privateModelMap } from '#composables/.private/model'
+import { groupValidationCtx } from '#composables/.private/ModelGroupImpl'
 
 /**
  * Assesses whether a value is a model created by `useModel`.

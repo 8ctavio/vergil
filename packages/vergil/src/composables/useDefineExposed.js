@@ -1,11 +1,13 @@
 import { triggerRef, toRaw, watch, getCurrentWatcher, getCurrentInstance, onUnmounted } from "vue"
-import { isModel, componentInstanceMap, definedExposed, _hasComponent_ } from "#composables"
 import { isFunction, isObject } from "#utilities"
+import { isModel } from "#composables/useModel"
+import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composables/.private/exposed"
 
 /**
  * @import { ReactiveEffect, WatchCallback } from 'vue'
- * @import { InternalExposed, DefineExposedCallback } from '#composables'
  * @import { WatcherSource } from '#reactivity'
+ * @import { DefineExposedCallback } from '#types/composables/.internal/useDefineExposed'
+ * @import { InternalExposed } from '#types/composables/.private/exposed'
  */
 
 const _exposedKeys_ = Symbol("exposed-keys")

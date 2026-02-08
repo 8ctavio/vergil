@@ -1,6 +1,6 @@
 import type { ShallowRef } from "vue"
-import type { _trigger_, _hasComponent_ } from "#composables"
 import type { Entangled } from "#reactivity"
+import type { _trigger_, _hasComponent_ } from "./exposed.js"
 
 export type InternalExposed = Readonly<ShallowRef<Record<string, unknown>>> & {
 	[_hasComponent_]?: boolean;

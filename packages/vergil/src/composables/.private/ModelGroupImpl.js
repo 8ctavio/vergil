@@ -1,20 +1,20 @@
 import { triggerRef, markRaw, toRaw } from "vue"
-import { useModel, isModel } from "#composables"
 import { isObject, isPlainObject, isFunction } from "#utilities"
+import { useModel, isModel } from "#composables/useModel"
 
 /**
  * @import { ShallowRef } from "vue"
- * @import { Model } from "#composables"
+ * @import { Model } from "#types/composables/model"
+ * @import { ModelGroup } from "#composables/ModelGroup"
  * @import {
- *   ModelGroup,
  *   ModelSpec,
  *   ModelGroupSpec,
  *   ModelGroupFields,
- *   ModelGroupFieldsConstraint,
  *   ModelGroupValidator,
  *   ModelGroupPayload,
  *   ModelFilter
- * } from "#composables"
+ * } from "#types/composables/ModelGroup"
+ * @import { ModelGroupFieldsConstraint } from "./ModelGroupImpl.types"
  */
 
 export const _isNestedGroup_ = Symbol('isNestedGroup')

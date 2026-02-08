@@ -1,6 +1,6 @@
 /**
  * @import { ComponentInternalInstance } from 'vue'
- * @import { InternalExposed, InternalElements } from '#composables'
+ * @import { InternalExposed, InternalElements } from './exposed.types'
  */
 
 export const _trigger_ = Symbol('trigger')

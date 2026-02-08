@@ -1,12 +1,13 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
-import { _isScheduled_ } from "#composables"
 import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
+import { _isScheduled_ } from "#composables/.private/model"
 
 /**
  * @import { WatchOptions, EffectScope } from "vue"
- * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
  * @import { WatchControls } from "#reactivity"
+ * @import { Model, PrivateModel, ExternalModelUpdateCallback } from "#types/composables/model"
+ * @import { WatcherEffect } from "#composables/.private/model"
  */
 
 /**
