@@ -1,9 +1,11 @@
-import { watchUntil } from '#reactivity'
 import { isWatchSource, isRegExp } from '#utilities'
+import { watchUntil } from '#reactivity/watchUntil'
 
 /**
  * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
- * @import { WatcherSource, WatchUntilOptions, WaitForMethods } from '#reactivity'
+ * @import { WatcherSource } from '#types/reactivity/common'
+ * @import { WatchUntilOptions } from '#types/reactivity/watchUntil'
+ * @import { WaitForMethods } from './waitFor.types'
  */
 
 /**

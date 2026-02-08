@@ -1,9 +1,9 @@
-import { ExtendedRefImpl } from "#reactivity"
+import { ExtendedRefImpl } from "#reactivity/.private/extendedReactivity"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'
- * @import { ExtendedRef, ExtendedRefOptions } from '#reactivity'
  * @import { Prettify } from '#utilities'
+ * @import { ExtendedRef, ExtendedRefOptions } from '#types/reactivity/extendedRef'
  */
 
 /**

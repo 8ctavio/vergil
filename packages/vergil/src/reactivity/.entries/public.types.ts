@@ -1,6 +1,6 @@
 export * from './public.js'
 
-export type * from "../.types.ts"
+export type * from "../common.types.ts"
 export type * from "../entangled.types.ts"
 export type * from "../extendedRef.types.ts"
 export type * from "../waitFor.types.ts"

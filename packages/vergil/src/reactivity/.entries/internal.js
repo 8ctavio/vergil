@@ -1,1 +1,1 @@
-export * from '../internal/watchControlledSync.js'
+export * from '../.internal/watchControlledSync.js'

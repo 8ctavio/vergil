@@ -57,6 +57,13 @@
 			},
 			"import": "./src/utilities/.entries/private.js"
 		},
+		"#reactivity": {
+			"types": {
+				"dev": "./src/reactivity/.entries/private.types.ts",
+				"default": "./dts/reactivity/.entries/private.types.d.ts"
+			},
+			"import": "./src/reactivity/.entries/private.js"
+		},
 		"#vergil": {
 			"types": {
 				"dev": "./src/vergil.types.ts",
@@ -77,13 +84,6 @@
 				"default": "./dts/composables/.entries/private.types.d.ts"
 			},
 			"import": "./src/composables/.entries/private.js"
-		},
-		"#reactivity": {
-			"types": {
-				"dev": "./src/reactivity/.entries/private.types.ts",
-				"default": "./dts/reactivity/.entries/private.types.d.ts"
-			},
-			"import": "./src/reactivity/.entries/private.js"
 		},
 		"#functions": {
 			"types": {

@@ -1,3 +1,4 @@
+export * from '../resetRef.js'
 export * from '../useDebounce.js'
 export * from '../useDefineElements.js'
 export * from '../useDefineExposed.js'

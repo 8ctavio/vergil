@@ -1,6 +1,7 @@
 import type { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
-import type { WatcherCallback, WatchUntilPromise } from '#reactivity'
 import type { TypeOfResult } from '#utilities'
+import type { WatcherCallback } from '#types/reactivity/common'
+import type { WatchUntilPromise } from '#types/reactivity/watchUntil'
 
 interface WaitForMethod<
 	T,

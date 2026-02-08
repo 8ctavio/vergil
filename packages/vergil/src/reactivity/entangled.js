@@ -1,4 +1,4 @@
-import { EntangledImpl } from "#reactivity"
+import { EntangledImpl } from "#reactivity/.private/extendedReactivity"
 
 /** @import { Entangled, EntangledOptions } from '#reactivity' */
 
