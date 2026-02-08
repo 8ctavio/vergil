@@ -1,5 +1,4 @@
-import { isPlainObject } from "../index.js"
-import { isDate } from "#utilities"
+import { isPlainObject } from "#utilities/common"
 
 export const uniqueKey = Object.preventExtensions({})
 export const noop = () => {}
@@ -7,6 +6,22 @@ export const noop = () => {}
 export const getTrue = () => true
 /** @type { () => false } */
 export const getFalse = () => false
+
+/**
+ * @param { unknown } value
+ * @returns { value is Date }
+ */
+export function isDate(value) {
+	return Object.prototype.toString.call(value) === '[object Date]'
+}
+
+/**
+ * @param { unknown } value
+ * @returns { value is RegExp }
+ */
+export function isRegExp(value) {
+	return Object.prototype.toString.call(value) === '[object RegExp]'
+}
 
 /**
  * @param { number } n

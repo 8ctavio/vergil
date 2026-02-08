@@ -1,4 +1,4 @@
-import { themes } from "#utilities"
+import { themes } from "#utilities/.private/theme"
 
 type Themes = typeof themes
 export type Theme = keyof Themes

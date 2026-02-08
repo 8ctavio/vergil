@@ -1,8 +1,8 @@
 import { ref, shallowRef, customRef, triggerRef, isRef, isShallow, toValue, toRef, toRaw, getCurrentInstance, onScopeDispose } from 'vue'
 import { useElements, useExposed, useResetValue, privateModelMap } from '#composables'
 import { extendedRef } from '#reactivity'
-import { isModel, markDescriptor, dataDescriptor, groupValidationCtx } from '#functions'
-import { isFunction, debounce, pull, shallowCopy, looselyEqual, uniqueKey, noop, getTrue } from '#utilities'
+import { isModel, groupValidationCtx } from '#functions'
+import { isFunction, markDescriptor, dataDescriptor, debounce, pull, shallowCopy, looselyEqual, uniqueKey, noop, getTrue } from '#utilities'
 
 /**
  * @import { Ref, MaybeRefOrGetter } from 'vue'

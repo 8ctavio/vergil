@@ -1,6 +1,5 @@
 import { isRef, markRaw } from 'vue'
-import { isDescriptor } from '#functions'
-import { normalizeRef, pull } from '#utilities'
+import { isDescriptor, normalizeRef, pull } from '#utilities'
 
 /**
  * @import { Ref, MaybeRef } from 'vue'

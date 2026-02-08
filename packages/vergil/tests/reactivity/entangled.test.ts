@@ -1,8 +1,7 @@
 import { test, expect, vi } from "vitest"
 import { ref, shallowRef, readonly, toValue } from "vue"
 import { entangled } from "#reactivity"
-import { markDescriptor } from "#functions"
-import { noop } from "#utilities"
+import { markDescriptor, noop } from "#utilities"
 
 test("Define/Extend regular properties", () => {
 	const properties = [{

@@ -50,6 +50,13 @@
 		"./colors/default": "./src/styles/default.css"
 	},
 	"imports": {
+		"#utilities": {
+			"types": {
+				"dev": "./src/utilities/.entries/private.types.ts",
+				"default": "./dts/utilities/.entries/private.types.d.ts"
+			},
+			"import": "./src/utilities/.entries/private.js"
+		},
 		"#vergil": {
 			"types": {
 				"dev": "./src/vergil.types.ts",
@@ -85,12 +92,18 @@
 			},
 			"import": "./src/functions/.entries/public.js"
 		},
-		"#utilities": {
+		"#types/*": {
 			"types": {
-				"dev": "./src/utilities/.entries/private.types.ts",
-				"default": "./dts/utilities/.entries/private.types.d.ts"
+				"dev": "./src/*.types.ts",
+				"default": "./dts/*.types.d.ts"
+			}
+		},
+		"#*": {
+			"types": {
+				"dev": "./src/*.js",
+				"default": "./dts/*.d.ts"
 			},
-			"import": "./src/utilities/.entries/private.js"
+			"import": "./src/*.js"
 		}
 	},
 	"dependencies": {

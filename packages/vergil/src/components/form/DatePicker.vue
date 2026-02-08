@@ -1,5 +1,6 @@
 <script lang="ts">
-import { hasDate, isDate, padLeadingZeros } from '#utilities'
+import { isDate, padLeadingZeros } from '#utilities'
+import { hasDate } from './Calendar/utils'
 import type { SetupContext } from 'vue'
 
 function DatePickerWrapper(props: { sideButtonPosition: 'before' | 'after' }, { slots }: SetupContext) {
@@ -20,7 +21,8 @@ import { useDefineModel, usePopover } from '#composables'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
-import type { CalendarModelDate, Theme, Size, Radius, Spacing } from '#utilities'
+import type { Theme, Size, Radius, Spacing } from '#utilities'
+import type { CalendarModelDate } from './Calendar/public.types'
 
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()

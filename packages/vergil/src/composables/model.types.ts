@@ -1,8 +1,7 @@
 import type { ShallowRef, MaybeRefOrGetter, UnwrapRef, WatchCallback, WatchOptions, PropType } from "vue"
 import type { Exposed, Elements } from "#composables"
 import type { ExtendedRef } from "#reactivity"
-import type { DescriptorMarked } from "#functions"
-import type { MaybeUndefined } from "#utilities"
+import type { MaybeUndefined, DescriptorMarked } from "#utilities"
 
 type OnCleanup = Parameters<WatchCallback>[2]
 

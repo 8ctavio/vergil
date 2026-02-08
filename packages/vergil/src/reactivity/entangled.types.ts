@@ -1,7 +1,6 @@
 import type { Ref } from "vue"
 import type { ExtendedRef } from "#reactivity"
-import type { DescriptorMarked } from "#functions"
-import type { Prettify } from "#utilities"
+import type { Prettify, DescriptorMarked } from "#utilities"
 
 export interface EntangledOptions<Ignore extends PropertyKey = never> {
     defaults?: boolean;

@@ -1,7 +1,7 @@
 import { test, expect, vi } from "vitest"
 import { isRef, isShallow, ref, shallowRef, customRef, toRef, toValue, toRaw } from "vue"
 import { extendedRef } from "#reactivity"
-import { markDescriptor } from "#functions"
+import { markDescriptor } from "#utilities"
 import { noop } from "#utilities"
 
 const values = [0, '', false, null, undefined, {}, []]

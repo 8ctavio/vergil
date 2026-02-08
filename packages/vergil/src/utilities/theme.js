@@ -1,6 +1,6 @@
-import { themes } from './private/theme.js'
+import { themes } from '#utilities/.private/theme'
 
-/** @import { InferTheme, Theme, ThemeAlias, Size, Radius, Spacing } from '#utilities' */
+/** @import { InferTheme, Theme, ThemeAlias, Size, Radius, Spacing } from '#types/utilities/theme' */
 
 /**
  * Returns the theme name of a given theme name or alias;

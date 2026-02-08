@@ -2,10 +2,11 @@
 import { useId } from 'vue'
 import { Btn, Radio } from '#components'
 import { usePopover } from '#composables'
-import { ucFirst, isValidColor } from '#utilities'
+import { ucFirst } from '#utilities/string'
+import { isValidColor } from '#utilities/theme'
 import { userThemeColor } from './index.js'
 import type { PropType } from 'vue'
-import type { ColorPalette } from '#utilities'
+import type { ColorPalette } from '#types/utilities/theme'
 
 const name = useId()
 const { position } = defineProps({

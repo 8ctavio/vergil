@@ -1,5 +1,5 @@
-import { isObject } from "../index.js"
-import { isInput } from "./elements.js"
+import { isObject } from "#utilities/common"
+import { isInput } from "#utilities/.internal/elements"
 
 /** @param { HTMLElement } element */
 function isInert(element) {

@@ -1,6 +1,8 @@
 <script lang="ts">
-import { hasDate, isDate, padLeadingZeros } from '#utilities'
-import type { CalendarDate, DateComponents } from '#utilities'
+import { isDate, padLeadingZeros } from '#utilities'
+import { hasDate } from './Calendar/utils'
+import type { CalendarDate } from './Calendar/public.types'
+import type { DateComponents } from './Calendar/internal.types'
 
 const reTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/
 const MIN_DATE = '1970-01-01'
@@ -234,7 +236,8 @@ import {
 } from '#utilities'
 import type { PropType } from 'vue'
 import type { ModelWrapper, ModelValueProp, ModelValidatorProp, Elements  } from "#composables"
-import type { CalendarModelDate, Weekday, MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
+import type { MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"
+import type { CalendarModelDate, Weekday } from './Calendar/public.types'
 
 type TimeControls = {
 	min?: number;

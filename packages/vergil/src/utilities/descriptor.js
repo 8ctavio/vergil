@@ -1,6 +1,6 @@
-import { isObject } from "#utilities"
+import { isObject } from "#utilities/common"
 
-/** @import { DescriptorMarked } from '#functions' */
+/** @import { DescriptorMarked } from './descriptor.types' */
 
 /**
  * Marks an object as a property descriptor.
