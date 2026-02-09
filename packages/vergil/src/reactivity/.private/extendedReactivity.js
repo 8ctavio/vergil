@@ -2,8 +2,8 @@ import { isRef, markRaw } from 'vue'
 import { isDescriptor, normalizeRef, pull } from '#utilities'
 
 /**
- * @import { Ref, MaybeRef } from 'vue'
- * @import { Entangled, ExtendedRef } from '#reactivity'
+ * @import { Ref, MaybeRef, MaybeRefOrGetter } from 'vue'
+ * @import { UnwrapRefOrGetter, NormalizeRef, Entangled } from '#reactivity'
  */
 
 let shouldUnwrap = true
@@ -133,24 +133,35 @@ export class EntangledImpl {
 }
 
 /**
+ * @template { MaybeRefOrGetter } [T = unknown]
+ * @template [U = UnwrapRefOrGetter<T>]
+ * @template { boolean } [Shallow = false]
+ * @typedef { object } ExtendedRefImplOptions
+ * @property { Shallow } [shallow]
+ * @property { () => UnwrapRefOrGetter<T> } [get]
+ * @property { (value: U) => void } [set]
+ */
+
+/**
  * Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.
- * @implements { ExtendedRef }
+ * 
+ * @template { MaybeRefOrGetter } [T = unknown]
+ * @template [U = UnwrapRefOrGetter<T>]
+ * @template { boolean } [Shallow = false]
  */
 export class ExtendedRefImpl extends EntangledImpl {
-	ref = /** @type { Ref } */ (/** @type { unknown } */ (undefined))
+	/** @type { NormalizeRef<T, Shallow> } */
+	ref = /** @type { any } */ (undefined)
 
 	static {
 		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'ExtendedRef' })
 	}
 
 	/**
-	 * @param { unknown } value 
-	 * @param { object } [options]
-	 * @param { boolean } [options.shallow = false]
-	 * @param { () => unknown } [options.get]
-	 * @param { (v: unknown) => void } [options.set]
+	 * @param { T } value
+	 * @param { ExtendedRefImplOptions<T, U, Shallow> } [options]
 	 */
-	constructor(value, { shallow = false, get, set } = {}) {
+	constructor(value, { shallow, get, set } = {}) {
 		super()
 		Object.defineProperty(this, 'ref', {
 			value: normalizeRef(value, shallow),
@@ -161,16 +172,24 @@ export class ExtendedRefImpl extends EntangledImpl {
 		if (get || set) {
 			Object.defineProperty(this, 'value', {
 				get: get ?? (() => this.ref.value),
+				// @ts-expect-error
 				set: set ?? (v => this.ref.value = v)
 			})
 		}
 	}
+
+	/** @returns { UnwrapRefOrGetter<T> } */
 	get value() {
 		return this.ref.value
 	}
+
+	/** @param { U } v */
 	set value(v) {
+		// @ts-expect-error
 		this.ref.value = v
 	}
+
+	/** @returns { UnwrapRefOrGetter<T> } */
 	[Symbol.toPrimitive]() {
 		return this.ref.value
 	}

@@ -18,7 +18,7 @@ import { useResetValue } from "#composables/.internal/useResetValue"
  * @param { () => T } [options.get]
  * @param { (value: U) => void } [options.set]
  * @param { boolean } [options.cloneResetValue]
- * @returns { ExtendedRef<T, U, { reset: () => void }, Shallow> }
+ * @returns { ExtendedRef<T, U, Shallow, { reset: () => void }> }
  */
 
 /**

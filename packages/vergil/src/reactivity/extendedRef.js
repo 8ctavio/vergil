@@ -17,9 +17,9 @@ import { ExtendedRefImpl } from "#reactivity/.private/extendedReactivity"
  * @param { Extension } [extension]
  * @param { ExtendedRefOptions<T extends ExtendedRef<infer R> ? UnwrapRef<R> : UnwrapRef<T>, U, Shallow, Ignore> } [options = {}]
  * @returns {(
- *     T extends ExtendedRef<infer R, infer V, infer E, infer S>
- *         ? ExtendedRef<R, V, Extension extends null ? E : Prettify<E & Extension>, S, Ignore>
- *         : ExtendedRef<T, U, Extension extends null ? {} : Extension, Shallow, Ignore>
+ *     T extends ExtendedRef<infer R, infer V, infer S, infer E>
+ *         ? ExtendedRef<R, V, S, Extension extends null ? E : Prettify<E & Extension>, Ignore>
+ *         : ExtendedRef<T, U, Shallow, Extension extends null ? {} : Extension, Ignore>
  * )}
  */
 

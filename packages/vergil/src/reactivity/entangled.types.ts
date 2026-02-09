@@ -31,7 +31,7 @@ type EntangledExtension<E extends object, Ignore extends PropertyKey> = Omit<{
 }, Ignore>
 
 type UnwrapExtension<T> = 
-    T extends ExtendedRef<never, never, infer E> ? E :
+    T extends ExtendedRef<never, never, never, infer E> ? E :
     T extends Entangled<infer E> ? E : T
 
 export type Entangled<
@@ -59,8 +59,8 @@ export type Entangled<
         T extends object,
         E extends Record<PropertyKey, unknown>,
         Ignore extends PropertyKey = never
-    >(this: T, extension: E, options?: EntangledOptions<Ignore>): T extends ExtendedRef<infer V, infer U, infer D, infer S, infer I>
-        ? ExtendedRef<V, U, Prettify<D & UnwrapExtension<E>>, S, I>
+    >(this: T, extension: E, options?: EntangledOptions<Ignore>): T extends ExtendedRef<infer V, infer U, infer S, infer D, infer I>
+        ? ExtendedRef<V, U, S, Prettify<D & UnwrapExtension<E>>, I>
         : T extends Entangled<infer D>
             ? Entangled<Prettify<D & UnwrapExtension<E>>, Ignore>
             : T & EntangledExtension<UnwrapExtension<E>, Ignore>

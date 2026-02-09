@@ -82,7 +82,7 @@ export type Model<
 	Shallow extends boolean = boolean,
 	IncludeExposed extends boolean = boolean,
 	IncludeElements extends boolean = boolean
-> = ExtendedRef<T, UnwrapRef<T>, {
+> = ExtendedRef<T, UnwrapRef<T>, Shallow, {
 	reset(): void;
 	errors: DescriptorMarked<{
 		value: ShallowRef<string[]>;
@@ -104,7 +104,7 @@ export type Model<
 		: IncludeElements extends true
 			? { elements: Elements }
 			: {}
-), Shallow>
+)>
 
 export type InternalModelUpdateCallback<T = unknown, U extends boolean = false> = (
 	value: T,
