@@ -9,7 +9,7 @@ import { privateModelMap } from "#composables/.private/model"
 
 /**
  * @import { WatchOptions, EffectScope } from "vue"
- * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#types/composables/model"
+ * @import { DefineModelOptions, ModelWrapper, ExternalModelUpdateCallback, InternalModelUpdateCallback } from "#composables"
  */
 
 const _ext_controller_ = Symbol('external:controller')

@@ -1,8 +1,7 @@
 import { ModelGroupImpl } from "#composables/.private/ModelGroupImpl"
 
 /**
- * @import { ModelGroupFields } from "#types/composables/ModelGroup"
- * @import { ModelGroupConstructor, ModelGroupInstance } from "#types/composables/.private/ModelGroupImpl"
+ * @import { ModelGroupFields, ModelGroupConstructor, ModelGroupInstance } from "#composables"
  */
 
 /**

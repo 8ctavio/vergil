@@ -85,12 +85,6 @@
 			},
 			"import": "./src/components/.entries/private.js"
 		},
-		"#types/*": {
-			"types": {
-				"dev": "./src/*.types.ts",
-				"default": "./dts/*.types.d.ts"
-			}
-		},
 		"#*": {
 			"types": {
 				"dev": "./src/*.js",

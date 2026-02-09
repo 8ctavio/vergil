@@ -5,9 +5,8 @@ import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composabl
 
 /**
  * @import { ReactiveEffect, WatchCallback } from 'vue'
+ * @import { DefineExposedCallback, InternalExposed } from '#composables'
  * @import { WatcherSource } from '#reactivity'
- * @import { DefineExposedCallback } from '#types/composables/.internal/useDefineExposed'
- * @import { InternalExposed } from '#types/composables/.private/exposed'
  */
 
 const _exposedKeys_ = Symbol("exposed-keys")

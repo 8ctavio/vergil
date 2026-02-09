@@ -6,7 +6,7 @@ import { ucFirst } from '#utilities/string'
 import { isValidColor } from '#utilities/theme'
 import { userThemeColor } from './index.js'
 import type { PropType } from 'vue'
-import type { ColorPalette } from '#types/utilities/theme'
+import type { ColorPalette } from '#utilities'
 
 const name = useId()
 const { position } = defineProps({

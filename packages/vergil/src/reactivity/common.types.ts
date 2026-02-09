@@ -1,6 +1,6 @@
 import type { Ref, ShallowRef, UnwrapRef, WatchSource, WatchCallback, WatchOptions } from "vue"
+import type { WatchControlledHandle } from "#reactivity"
 import type { Writable, MaybeUndefined } from "#utilities"
-import type { WatchControlledHandle } from "#types/reactivity/watchControlled"
 
 export type UnwrapRefOrGetter<T> = T extends () => infer R ? R : UnwrapRef<T>
 

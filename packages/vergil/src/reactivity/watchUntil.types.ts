@@ -1,6 +1,6 @@
 import type { WatchSource, WatchCallback } from "vue"
 import type { Writable } from "#utilities"
-import type { UnwrapSources } from "#types/reactivity/common"
+import type { UnwrapSources } from "#reactivity"
 
 export type WatchUntilOptions = {
 	/**

@@ -1,6 +1,5 @@
 import type { MaybeRefOrGetter } from "vue"
-import type { UnwrapRefOrGetter, NormalizeRef } from "#types/reactivity/common"
-import type { Entangled, EntangledOptions } from "#types/reactivity/entangled"
+import type { UnwrapRefOrGetter, NormalizeRef, Entangled, EntangledOptions } from "#reactivity"
 
 export interface ExtendedRefOptions<
 	T = unknown,

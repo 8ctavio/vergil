@@ -6,8 +6,8 @@ import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from
 
 /**
  * @import { ShallowRef } from 'vue'
+ * @import { InternalElements } from '#composables'
  * @import { Entangled } from '#reactivity'
- * @import { InternalElements } from '#types/composables/.private/exposed'
  */
 
 /**

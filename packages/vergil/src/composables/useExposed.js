@@ -3,8 +3,7 @@ import { getTrue } from "#utilities"
 import { definedExposed } from "#composables/.private/exposed"
 
 /**
- * @import { Exposed } from '#types/composables/exposed'
- * @import { InternalExposed } from '#types/composables/.private/exposed'
+ * @import { Exposed, InternalExposed } from '#composables'
  */
 
 /**

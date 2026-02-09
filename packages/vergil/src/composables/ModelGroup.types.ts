@@ -1,7 +1,5 @@
 import type { Prettify } from "#utilities"
-import type { ModelGroup } from "#composables/ModelGroup"
-import type { ModelGroupImpl, _isNestedGroup_, _validator_, filterActions } from "#composables/.private/ModelGroupImpl"
-import type { Model, ModelOptions } from "#types/composables/model"
+import type { Model, ModelOptions, ModelGroup, ModelGroupImpl, _isNestedGroup_, _validator_, filterActions } from "#composables"
 
 export type ModelGroupFields = {
 	[key: string]: ModelSpec | ModelGroupSpec

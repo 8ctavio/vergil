@@ -2,8 +2,7 @@ import { watch } from 'vue'
 
 /**
  * @import { WatchSource, WatchCallback, WatchOptions } from 'vue'
- * @import { WatcherSource, WatcherCallback } from '#types/reactivity/common'
- * @import { WatchControls } from '#types/reactivity/watchControlled'
+ * @import { WatcherSource, WatcherCallback, WatchControls } from '#reactivity'
  * @typedef { WatchControls } WatchControlledSyncHandle 
  */
 

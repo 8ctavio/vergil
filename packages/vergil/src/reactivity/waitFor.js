@@ -3,9 +3,7 @@ import { watchUntil } from '#reactivity/watchUntil'
 
 /**
  * @import { MaybeRefOrGetter, WatchSource, WatchCallback } from 'vue'
- * @import { WatcherSource } from '#types/reactivity/common'
- * @import { WatchUntilOptions } from '#types/reactivity/watchUntil'
- * @import { WaitForMethods } from './waitFor.types'
+ * @import { WatcherSource, WatchUntilOptions, WaitForMethods } from '#reactivity'
  */
 
 /**

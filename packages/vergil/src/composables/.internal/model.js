@@ -6,8 +6,7 @@ import { _isScheduled_ } from "#composables/.private/model"
 /**
  * @import { WatchOptions, EffectScope } from "vue"
  * @import { WatchControls } from "#reactivity"
- * @import { Model, PrivateModel, ExternalModelUpdateCallback } from "#types/composables/model"
- * @import { WatcherEffect } from "#composables/.private/model"
+ * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
  */
 
 /**

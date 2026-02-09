@@ -4,7 +4,7 @@ import { getTrue } from "#utilities"
 import { definedElements, _trigger_ } from "#composables/.private/exposed"
 
 /**
- * @import { Elements } from '#types/composables/exposed'
+ * @import { Elements } from '#composables'
  */
 
 /**
