@@ -30,9 +30,10 @@ function resolveLink() {
 <script setup lang="ts">
 import { getCurrentInstance, withCtx } from 'vue'
 import { vergil } from '#vergil'
-import { Icon, MiniMarkup } from '#components'
 import { useDefineExposed } from '#composables'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
+import Icon from '#components/Icon'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { AnchorHTMLAttributes, PropType } from 'vue'
 import type { BtnVariant, BtnOutline } from '#components'
 import type { Exposed } from '#composables'

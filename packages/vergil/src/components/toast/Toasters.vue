@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { shallowRef, triggerRef, nextTick, onMounted } from 'vue'
 import { vergil } from '#vergil'
-import { Toast } from '#components'
 import { toasters } from './index.js'
+import Toast from '#components/toast/Toast.vue'
 import type { UnwrapRef } from 'vue'
 import type { ToasterPosition } from '#components'
 

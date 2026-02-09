@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { vergil } from '#vergil'
-import { Btn, FocusTrap } from '#components'
 import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '#utilities'
 import { modalMeta, closeModal } from './index.js'
+import Btn from '#components/Btn.vue'
+import FocusTrap from '#components/.internal/FocusTrap.vue'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius } from '#utilities'
 

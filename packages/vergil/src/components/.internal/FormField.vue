@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isRef, computed } from 'vue'
-import { MiniMarkup } from "#components"
 import { inferTheme } from "#utilities"
+import MiniMarkup from "#components/.internal/MiniMarkup"
 import type { PropType, ShallowRef } from "vue"
 import type { Theme, Size, Radius, Spacing } from "#utilities"
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
 import { vergil } from '#vergil'
-import { InputTextBase } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { spaceEvenly } from '#utilities'
+import InputTextBase from '#components/.internal/InputTextBase.vue'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
 

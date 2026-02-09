@@ -1,7 +1,8 @@
 <script lang="ts">
 import { vergil } from '#vergil'
-import { Checkbox as checkbox, Radio as radio } from '#components'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
+import checkbox from '#components/form/Checkbox.vue'
+import radio from '#components/form/Radio.vue'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { SelectionOptions, SelectionOptionProperty, ToggleVariant } from '#components'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'

@@ -78,10 +78,10 @@ function Errors<F extends ModelGroupFields>(props: Props<F>) {
 <script setup lang="ts" generic="F extends ModelGroupFields">
 import { shallowRef, watchEffect } from 'vue'
 import { vergil } from '#vergil'
-import { Badge } from '#components'
 import { useDefineExposed, isModel } from '#composables'
 import { watchControlledSync } from '#reactivity'
 import { debounce, pull } from '#utilities'
+import Badge from '#components/Badge.vue'
 import type { Ref, ShallowRef } from 'vue'
 import type { ModelGroupPayload } from '#composables'
 

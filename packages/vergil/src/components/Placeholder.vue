@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { vergil } from '#vergil'
-import { Badge } from '#components'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
+import Badge from '#components/Badge.vue'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 

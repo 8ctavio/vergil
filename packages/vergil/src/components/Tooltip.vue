@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { vergil } from '#vergil'
-import { MiniMarkup } from '#components'
 import { usePopover } from '#composables'
 import { isValidPlacement } from '#utilities'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { PropType } from 'vue'
 import type { Placement } from '@floating-ui/vue'
 

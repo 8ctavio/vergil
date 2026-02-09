@@ -228,12 +228,15 @@ function* generateIntegers(from: number, to: number, step = 1) {
 <script setup lang="ts">
 import { computed, shallowRef, triggerRef, useTemplateRef, toRaw, nextTick } from 'vue'
 import { vergil } from '#vergil'
-import { Icon, InputText, Slider, Btn } from '#components'
 import { useModel, useDefineModel, useDefineElements } from '#composables'
 import {
 	isFunction, ucFirst, everyKeyInObject, clamp, isInput, isEscapeKey,
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
 } from '#utilities'
+import Icon from '#components/Icon'
+import Btn from '#components/Btn.vue'
+import InputText from '#components/form/InputText.vue'
+import Slider from '#components/form/Slider.vue'
 import type { PropType } from 'vue'
 import type { ModelWrapper, ModelValueProp, ModelValidatorProp, Elements  } from "#composables"
 import type { MaybeArray, TupleOf, Theme, Size, Radius, Spacing } from "#utilities"

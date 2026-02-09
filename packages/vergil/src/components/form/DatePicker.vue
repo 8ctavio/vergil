@@ -16,9 +16,12 @@ function DatePickerWrapper(props: { sideButtonPosition: 'before' | 'after' }, { 
 <script setup lang="ts">
 import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentScope, onMounted, useAttrs, h } from 'vue'
 import { vergil } from '#vergil'
-import { Calendar, Btn, FormField, MiniMarkup } from '#components'
 import { useDefineModel, usePopover } from '#composables'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
+import Btn from '#components/Btn.vue'
+import Calendar from '#components/form/Calendar.vue'
+import FormField from '#components/.internal/FormField.vue'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'

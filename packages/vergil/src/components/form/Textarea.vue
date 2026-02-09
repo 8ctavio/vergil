@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { vergil } from '#vergil'
-import { FormField, MiniMarkup } from '#components'
 import { useDefineModel, useDefineElements } from '#composables'
 import { isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
+import MiniMarkup from '#components/.internal/MiniMarkup'
+import FormField from '#components/.internal/FormField.vue'
 import type { PropType } from 'vue'
 import type { ModelValueProp, ModelValidatorProp, Elements } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'

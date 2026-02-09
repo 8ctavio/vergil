@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { shallowRef, h } from 'vue'
 import { vergil } from '#vergil'
-import { Badge, MiniMarkup } from '#components'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
+import Badge from '#components/Badge.vue'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 

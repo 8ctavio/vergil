@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "#vergil"
-import { Icon, Btn, ModalTransition, MiniMarkup } from '#components'
 import { FocusTrap, isEscapeKey, isTabKey, noop } from '#utilities'
 import { confirmModel } from "./index.js"
+import Btn from '#components/Btn.vue'
+import Icon from '#components/Icon'
+import ModalTransition from '#components/.internal/ModalTransition'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { ComponentPublicInstance } from "vue"
 
 const size = vergil.config.confirm.size ?? vergil.config.global.size

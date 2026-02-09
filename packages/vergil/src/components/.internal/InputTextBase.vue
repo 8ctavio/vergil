@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import { vergil } from '#vergil'
-import { Btn, Icon, FormField, MiniMarkup } from '#components'
 import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
+import Btn from '#components/Btn.vue'
+import Icon from '#components/Icon'
+import FormField from '#components/.internal/FormField.vue'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { ShallowRef, PropType } from 'vue'
 import type { ModelWrapper } from '#composables'
 import type { Entangled } from '#reactivity'

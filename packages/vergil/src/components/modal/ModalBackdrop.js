@@ -1,6 +1,6 @@
 import { h, mergeProps } from "vue"
-import { ModalTransition } from "#components"
 import { modal, modalMeta, closeModal } from "./index.js"
+import ModalTransition from "#components/.internal/ModalTransition"
 
 const handleClose = () => closeModal()
 const eventHandlers = {

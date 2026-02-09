@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { vergil } from '#vergil'
-import { Icon, MiniMarkup } from '#components'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
 import type { BtnVariant } from '#components'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
+import Icon from '#components/Icon'
+import MiniMarkup from '#components/.internal/MiniMarkup'
 
 defineProps({
     label: {

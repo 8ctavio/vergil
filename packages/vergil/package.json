@@ -85,6 +85,13 @@
 			},
 			"import": "./src/components/.entries/private.js"
 		},
+		"#components/*.vue": {
+			"types": {
+				"dev": "./src/components/*.vue",
+				"default": "./dts/components/*.vue.d.ts"
+			},
+			"import": "./src/components/*.vue"
+		},
 		"#*": {
 			"types": {
 				"dev": "./src/*.js",

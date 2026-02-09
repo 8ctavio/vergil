@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { Icon } from '#components'
+import Icon from '#components/Icon'
 
 /** @param { string } str */
 function parseMiniMarkup(str) {
