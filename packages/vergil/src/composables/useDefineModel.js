@@ -5,7 +5,7 @@ import { useModel, isModel } from "#composables/useModel"
 import { useExposed } from "#composables/useExposed"
 import { useElements } from "#composables/useElements"
 import { useModelWatchers } from "#composables/.internal/model"
-import { privateModelMap } from "#composables/.private/model"
+import { ModelImpl, privateModelMap } from "#composables/.private/ModelImpl"
 
 /**
  * @import { WatchOptions, EffectScope } from "vue"

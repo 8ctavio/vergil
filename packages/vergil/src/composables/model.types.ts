@@ -1,7 +1,6 @@
-import type { ShallowRef, MaybeRefOrGetter, UnwrapRef, WatchCallback, WatchOptions, PropType } from "vue"
-import type { Exposed, Elements } from "#composables"
-import type { ExtendedRef } from "#reactivity"
-import type { MaybeUndefined, DescriptorMarked } from "#utilities"
+import type { MaybeRefOrGetter, WatchCallback, WatchOptions, PropType } from "vue"
+import type { ModelImpl, Exposed, Elements } from "#composables"
+import type { MaybeUndefined } from "#utilities"
 
 type OnCleanup = Parameters<WatchCallback>[2]
 
@@ -16,7 +15,7 @@ export interface ModelOptions<
 	 * Function to peform model-value validation
 	 * and collect encountered validation errors.
 	 */
-	validator?: (value: T, error: (msg: string) => void, checkpoint: () => void) => void
+	validator?(value: T, error: (msg: string) => void, checkpoint: () => void): void
 	/**
 	 * Whether to use `shallowRef` for the model's
 	 * internal `ref` object. Defaults to `false`.
@@ -80,31 +79,18 @@ export interface PrivateModel {
 export type Model<
 	T extends MaybeRefOrGetter = unknown,
 	Shallow extends boolean = boolean,
+	ExtendedRef extends boolean = boolean,
 	IncludeExposed extends boolean = boolean,
 	IncludeElements extends boolean = boolean
-> = ExtendedRef<T, UnwrapRef<T>, Shallow, {
-	reset(): void;
-	errors: DescriptorMarked<{
-		value: ShallowRef<string[]>;
-		unwrap: false;
-	}>;
-	get hasErrors(): boolean;
-	get isValid(): boolean;
-	validate(force?: boolean, trigger?: boolean): boolean;
-	clear(): void;
-} & (
-	boolean extends IncludeExposed
-		? { exposed?: Exposed }
-		: IncludeExposed extends true
-			? { exposed: Exposed }
-			: {}
+> = ModelImpl<T, Shallow, ExtendedRef> & (
+	boolean extends IncludeExposed ? { exposed?: Exposed }
+	: IncludeExposed extends true ? { exposed: Exposed }
+	: unknown
 ) & (
-	boolean extends IncludeElements
-		? { elements?: Elements }
-		: IncludeElements extends true
-			? { elements: Elements }
-			: {}
-)>
+	boolean extends IncludeElements ? { elements?: Elements }
+	: IncludeElements extends true ? { elements: Elements }
+	: unknown
+)
 
 export type InternalModelUpdateCallback<T = unknown, U extends boolean = false> = (
 	value: T,
