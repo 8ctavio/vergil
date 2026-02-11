@@ -3,8 +3,9 @@ import { ModelImpl } from '#composables/.private/ModelImpl'
 
 /**
  * @import { Ref, MaybeRefOrGetter } from 'vue'
- * @import { Model, ModelOptions } from '#composables'
+ * @import { Model, ModelOptions, UnknownModel } from '#composables'
  * @import { UnwrapRefOrGetter } from '#reactivity'
+ * @import { ToCompatible } from '#utilities'
  */
 
 /**
@@ -38,9 +39,10 @@ export function useModel(value, options) {
 /**
  * Assesses whether a value is a model created by `useModel`.
  * 
- * @param { unknown } value
+ * @template T
+ * @param { T } value
  * @param { boolean } [self = false] - When set to `true`, ensures that `value` is a model created by `useModel`, as opposed to an object that extends a model. Defaults to `false`.
- * @returns { value is Model }
+ * @returns { value is ToCompatible<T, UnknownModel> }
  */
 export function isModel(value, self = false) {
 	return isObject(value)

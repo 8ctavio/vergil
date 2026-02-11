@@ -2,8 +2,6 @@ import type { MaybeRefOrGetter, WatchCallback, WatchOptions, PropType } from "vu
 import type { ModelImpl, Exposed, Elements } from "#composables"
 import type { MaybeUndefined } from "#utilities"
 
-type OnCleanup = Parameters<WatchCallback>[2]
-
 export interface ModelOptions<
 	T = unknown,
 	Shallow extends boolean = boolean,
@@ -55,27 +53,6 @@ export interface ModelOptions<
 	includeElements?: IncludeElements
 }
 
-export interface DefineModelOptions<
-	IncludeExposed extends boolean,
-	CaptureExposed extends boolean,
-	IncludeElements extends boolean,
-	CaptureElements extends boolean
-> {
-	isCollection?: boolean;
-	includeExposed?: IncludeExposed;
-	captureExposed?: CaptureExposed;
-	includeElements?: IncludeElements;
-	captureElements?: CaptureElements;
-}
-
-export interface PrivateModel {
-	hasInteractiveCtx: boolean;
-	resetInteractiveCtx: boolean;
-	triggerIfShallow(): void;
-	handleValidation(eager?: boolean): void;
-	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void
-}
-
 export type Model<
 	T extends MaybeRefOrGetter = unknown,
 	Shallow extends boolean = boolean,
@@ -91,6 +68,29 @@ export type Model<
 	: IncludeElements extends true ? { elements: Elements }
 	: unknown
 )
+
+export interface PrivateModel {
+	hasInteractiveCtx: boolean;
+	resetInteractiveCtx: boolean;
+	triggerIfShallow(): void;
+	handleValidation(eager?: boolean): void;
+	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void
+}
+
+export interface DefineModelOptions<
+	IncludeExposed extends boolean,
+	CaptureExposed extends boolean,
+	IncludeElements extends boolean,
+	CaptureElements extends boolean
+> {
+	isCollection?: boolean;
+	includeExposed?: IncludeExposed;
+	captureExposed?: CaptureExposed;
+	includeElements?: IncludeElements;
+	captureElements?: CaptureElements;
+}
+
+type OnCleanup = Parameters<WatchCallback>[2]
 
 export type InternalModelUpdateCallback<T = unknown, U extends boolean = false> = (
 	value: T,
