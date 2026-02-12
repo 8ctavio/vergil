@@ -88,14 +88,8 @@ const validationGroup = {
 	errorRefs: []
 }
 
-/**
- * @type { null | {
- *     modelGroup: ModelGroupImpl;
- *     validate: ModelGroupImpl['validate'];
- *     handleValidation: (eager?: boolean) => void;
- * } }
- */
-export let groupValidationCtx = null
+/** @type { ModelGroupImpl | undefined } */
+export let eldestValidatingGroup = undefined
 
 /**
  * @template { ModelGroupFields } [F = {}]
@@ -117,19 +111,8 @@ export class ModelGroupImpl {
 			throw new TypeError(`Argument must be a plain object; received ${Object.prototype.toString.call(fields)}`)
 		}
 
-		let shouldCleanUp = false
 		if (isFunction(validator)) {
-			if (!groupValidationCtx) {
-				groupValidationCtx = {
-					modelGroup: this,
-					/** @param { boolean } [includePayload] */
-					validate: (includePayload) => this.validate(includePayload),
-					handleValidation: (eager = false) => {
-						if (eager || this.hasErrors) this.validate()
-					}
-				}
-				shouldCleanUp = true
-			}
+			eldestValidatingGroup ??= this
 			this.#validator = validator
 		}
 		try {
@@ -156,7 +139,7 @@ export class ModelGroupImpl {
 			markRaw(this)
 			Object.preventExtensions(this)
 		} finally {
-			if (shouldCleanUp) groupValidationCtx = null
+			if (eldestValidatingGroup === this) eldestValidatingGroup = undefined
 		}
 	}
 

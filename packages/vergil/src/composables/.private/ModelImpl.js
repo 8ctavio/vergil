@@ -1,16 +1,24 @@
-import { ref, shallowRef, customRef, triggerRef, isRef, toValue, toRef, toRaw, getCurrentInstance, onScopeDispose } from 'vue'
+import { ref, shallowRef, customRef, triggerRef, isRef, toValue, toRef, toRaw } from 'vue'
 import { ExtendedRefImpl } from '#reactivity'
-import { isFunction, debounce, pull, shallowCopy, looselyEqual, uniqueKey, noop } from '#utilities'
+import { isFunction, shallowCopy, looselyEqual, uniqueKey, noop } from '#utilities'
 import { isModel } from '#composables/useModel'
 import { useExposed } from '#composables/useExposed'
 import { useElements } from '#composables/useElements'
 import { useResetValue } from '#composables/.internal/useResetValue'
-import { groupValidationCtx } from '#composables/.private/ModelGroupImpl'
+import { eldestValidatingGroup } from '#composables/.private/ModelGroupImpl'
 
 /**
  * @import { ShallowRef, Ref, MaybeRefOrGetter } from 'vue'
- * @import { ModelOptions, UnknownModel, ProtectedModel } from '#composables'
+ * @import { ModelOptions, UnknownModel } from '#composables'
  * @import { UnwrapRefOrGetter, NormalizeRef } from '#reactivity'
+ */
+
+/**
+ * @typedef {{
+ *   interactiveContext: boolean
+ *   readonly eldestValidatingGroup: typeof eldestValidatingGroup
+ *   readonly validationCancelFunctions: (() => void)[]
+ * }} ProtectedModel
  */
 
 /** @type { WeakMap<ModelImpl, ProtectedModel> } */
@@ -18,7 +26,6 @@ export const protectedModelMap = new WeakMap()
 
 /** @type { (value: unknown) => unknown } */
 const getterToRef = value => isFunction(value) ? toRef(value) : value
-const getNoop = () => noop
 const validationError = Object.preventExtensions({})
 
 /**
@@ -46,7 +53,7 @@ export class ModelImpl extends ExtendedRefImpl {
 	/** @type { string[] } */
 	#errors = /** @type {any} */(undefined)
 	/** @type { (() => void)[] } */
-	#cancelHandlers = /** @type {any} */(undefined)
+	#validationCancelFunctions = /** @type {any} */(undefined)
 
 	static {
 		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'Model' })
@@ -96,7 +103,7 @@ export class ModelImpl extends ExtendedRefImpl {
 
 			this.#model = this
 			this.#errors = []
-			this.#cancelHandlers = []
+			this.#validationCancelFunctions = []
 			
 			const resetValue = options.resetValue
 				? getterToRef(options.resetValue)
@@ -173,43 +180,10 @@ export class ModelImpl extends ExtendedRefImpl {
 			 */
 			this.ref.value // oxlint-disable-line no-unused-expressions
 
-			let handleValidation = noop
-			/** @type { (minWait: number, options?: object) => (() => void) } */
-			let useDebouncedValidation = getNoop
-			if (isFunction(validator) || groupValidationCtx) {
-				let validationTarget, validate
-				if (groupValidationCtx) {
-					validationTarget = groupValidationCtx.modelGroup
-					validate = groupValidationCtx.validate
-					handleValidation = groupValidationCtx.handleValidation
-				} else {
-					validationTarget = this
-					validate = () => this.validate()
-					handleValidation = (eager = false) => {
-						if (eager || this.hasErrors) this.validate()
-					}
-				}
-				useDebouncedValidation = (minWait, options) => {
-					if (!getCurrentInstance()) return noop
-					if (minWait > 0) {
-						const debounced = debounce(validate, minWait, options)
-						const cancelHandlers = this.#cancelHandlers
-						cancelHandlers.push(debounced.cancel)
-						onScopeDispose(() => {
-							pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
-						})
-						return (eager = false) => {
-							if (eager || validationTarget.hasErrors) debounced()
-						}
-					} else {
-						return handleValidation
-					}
-				}
-			}
 			protectedModelMap.set(this, {
 				interactiveContext: false,
-				handleValidation,
-				useDebouncedValidation
+				eldestValidatingGroup,
+				validationCancelFunctions: this.#validationCancelFunctions
 			})
 		}
 	}
@@ -230,7 +204,7 @@ export class ModelImpl extends ExtendedRefImpl {
 	clear() {
 		const model = this.#model
 		model.#errors.length = 0
-		for (const cancel of model.#cancelHandlers) {
+		for (const cancel of model.#validationCancelFunctions) {
 			cancel()
 		}
 		triggerRef(model.errors)
@@ -261,7 +235,7 @@ export class ModelImpl extends ExtendedRefImpl {
 			lastValidation.value = shallowCopy(modelValue)
 			lastValidation.result = errors.length === 0
 		}
-		for (const cancel of model.#cancelHandlers) {
+		for (const cancel of model.#validationCancelFunctions) {
 			cancel()
 		}
 		if (trigger) triggerRef(model.errors)

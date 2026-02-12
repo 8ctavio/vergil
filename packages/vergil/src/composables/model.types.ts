@@ -74,12 +74,6 @@ export type UnknownModel = ModelImpl<unknown, boolean, boolean, Ref<unknown>> & 
 	elements?: Elements
 }
 
-export interface ProtectedModel {
-	interactiveContext: boolean
-	handleValidation(eager?: boolean): void
-	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void
-}
-
 export interface DefineModelOptions<
 	IncludeExposed extends boolean = boolean,
 	CaptureExposed extends boolean = boolean,
@@ -136,7 +130,6 @@ export type ModelWrapper<
 	CaptureElements extends boolean = boolean
 > = ModelWrapperImpl<T>
 	& { update(v: unknown): void }
-	& Omit<ProtectedModel, 'interactiveContext'>
 	& (IncludeExposed extends true ? { exposed: Elements }
 		: (IncludeExposed | CaptureExposed) extends false ? unknown
 		: { exposed?: Elements })

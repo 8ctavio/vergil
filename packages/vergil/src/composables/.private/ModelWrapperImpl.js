@@ -1,6 +1,6 @@
-import { isShallow, customRef, triggerRef, watch, nextTick, getCurrentScope, getCurrentInstance, onScopeDispose, onMounted,  } from "vue"
+import { isShallow, customRef, triggerRef, watch, nextTick, getCurrentScope, onScopeDispose, getCurrentInstance, onMounted } from "vue"
 import { watchControlledSync } from '#reactivity'
-import { isFunction, pull, noop } from '#utilities'
+import { isFunction, debounce, pull, noop } from '#utilities'
 import { useModelWatchers } from "#composables/.internal/model"
 import { ModelImpl, protectedModelMap } from "#composables/.private/ModelImpl"
 
@@ -130,14 +130,6 @@ export class ModelWrapperImpl extends ModelImpl {
 						this.ref.value = v
 					}
 				}),
-				enumerable: true
-			},
-			handleValidation: {
-				value: this.#protected.handleValidation,
-				enumerable: true
-			},
-			useDebouncedValidation: {
-				value: this.#protected.useDebouncedValidation,
 				enumerable: true
 			}
 		}
@@ -310,6 +302,42 @@ export class ModelWrapperImpl extends ModelImpl {
 		}
 
 		return stop
+	}
+
+	handleValidation(eager = false) {
+		const validationTarget = this.#protected.eldestValidatingGroup ?? this
+		if (eager || validationTarget.hasErrors) {
+			validationTarget.validate()
+		}
+	}
+
+	/**
+	 * @param { number } minWait 
+	 * @param {{ eager?: boolean }} [options]
+	 * @returns { (eager?: boolean) => void }
+	 */
+	useDebouncedValidation(minWait, options) {
+		if (!getCurrentInstance()) {
+			return noop
+		} else if (minWait > 0) {
+			const {
+				eldestValidatingGroup: validationTarget = this,
+				validationCancelFunctions
+			} = this.#protected
+
+			const debounced = debounce(() => validationTarget.validate(), minWait, options)
+			
+			validationCancelFunctions.push(debounced.cancel)
+			onScopeDispose(() => {
+				pull(validationCancelFunctions, validationCancelFunctions.indexOf(debounced.cancel))
+			})
+			
+			return (eager = false) => {
+				if (eager || validationTarget.hasErrors) debounced()
+			}
+		} else {
+			return eager => this.handleValidation(eager)
+		}
 	}
 
 	triggerIfShallow() {
