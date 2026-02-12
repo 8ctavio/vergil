@@ -78,7 +78,7 @@ const props = defineProps({
 })
 
 const elements = useDefineElements(['input'])
-const model = useDefineModel({ isCollection: true })
+const model = useDefineModel({ maybeObject: true })
 
 if (props.checked) {
     if (Array.isArray(model.value)) {

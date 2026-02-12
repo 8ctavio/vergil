@@ -14,14 +14,14 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * 
  * @param { Model } model
  * @param { PrivateModel } privateModel
- * @param { boolean } [isCollection = false]
+ * @param { boolean | number } [depth]
  * 
  * @returns { [
  *	(callback: ExternalModelUpdateCallback, options?: Omit<WatchOptions, 'deep'>) => (() => void),
  * 	WatchControls
  * ] } Model watcher controller
  */
-export function useModelWatchers(model, privateModel, isCollection = false) {
+export function useModelWatchers(model, privateModel, depth) {
 	const composableScope = getCurrentScope()
 	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
@@ -40,7 +40,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 			syncWatchers.run(() => {
 				const watcher = watch(model.ref, (v, u, c) => {
 					if (!isPaused) callback(v, u, !privateModel.hasInteractiveCtx, c)
-				}, { ...options, deep: isCollection && 1 })
+				}, { ...options, deep: depth })
 				if (isPaused) watcher.pause()
 				stop = () => watcher()
 			})
@@ -58,7 +58,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 						}
 						scheduledEffects = watchers.effects.length
 						;/** @type { WatchControls } */(auxWatcher).pause()
-					}, { deep: isCollection && 1 })
+					}, { deep: depth })
 				})
 			}
 			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
@@ -75,7 +75,7 @@ export function useModelWatchers(model, privateModel, isCollection = false) {
 							if (options.once) stop()
 						}
 					}
-				}, { flush: options.flush, deep: isCollection && 1 })
+				}, { flush: options.flush, deep: depth })
 
 				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
 				if (effect) {

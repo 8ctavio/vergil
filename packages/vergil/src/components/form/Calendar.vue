@@ -695,7 +695,7 @@ const enablementDates = computed(() => {
 })
 
 //-------------------- MODEL --------------------
-const model = useDefineModel<CalendarModelDate>({ isCollection: true })
+const model = useDefineModel<CalendarModelDate>({ maybeObject: true })
 const validateWithDelay = model.useDebouncedValidation(props.validationDelay)
 const validateWithCooldown = model.useDebouncedValidation(props.validationCooldown, { eager: true })
 

@@ -113,7 +113,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel<CalendarModelDate, false, false, true, true>({
-	isCollection: true,
+	maybeObject: true,
 	includeElements: true,
 	captureElements: true
 })

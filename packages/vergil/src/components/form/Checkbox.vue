@@ -82,7 +82,7 @@ const radius = computed(() => props.radius ?? (descendant.value ? undefined : (v
 const spacing = computed(() => props.spacing ?? (descendant.value ? undefined : (vergil.config.checkbox.spacing ?? vergil.config.global.spacing)))
 
 const elements = useDefineElements(['input'])
-const model = useDefineModel({ isCollection: true })
+const model = useDefineModel({ maybeObject: true })
 const eagerValidation = toRef(() => props.eagerValidation || Boolean(groupProps?.eagerValidation))
 
 if (props.checked) {

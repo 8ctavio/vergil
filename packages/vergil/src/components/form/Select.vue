@@ -91,7 +91,7 @@ const props = defineProps({
 })
 
 const model = useDefineModel({
-    isCollection: true,
+    maybeObject: true,
     includeElements: true,
     captureElements: true
 })

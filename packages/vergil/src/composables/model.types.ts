@@ -88,11 +88,6 @@ export interface DefineModelOptions<
 	CaptureElements extends boolean = boolean
 > {
 	/**
-	 * Whether the model value could be an object.
-	 * @default false
-	 */
-	isCollection?: boolean;
-	/**
 	 * Whether to include an `exposed` object into the model wraper.
 	 * @default false
 	 */
@@ -116,6 +111,11 @@ export interface DefineModelOptions<
 	 * @default false
 	 */
 	captureElements?: CaptureElements;
+	/**
+	 * Whether the model value could be an object.
+	 * @default false
+	 */
+	maybeObject?: boolean;
 }
 
 export type InternalModelUpdateCallback<T = unknown, U extends boolean = boolean> = (

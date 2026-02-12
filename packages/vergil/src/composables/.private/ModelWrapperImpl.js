@@ -11,9 +11,9 @@ import { ModelImpl, privateModelMap } from "#composables/.private/ModelImpl"
 
 /**
  * @typedef { object } ModelWrapperImplOptions
- * @property { boolean } [isCollection]
  * @property { Exposed } [exposed]
  * @property { Elements } [elements]
+ * @property { boolean } [maybeObject]
  */
 
 const _isModelWrapper_ = Symbol('isModelWrapper')
@@ -59,12 +59,6 @@ export class ModelWrapperImpl extends ModelImpl {
 	 * @param { ModelWrapperImplOptions } [options]
 	 */
 	constructor(model, options = {}) {
-		const {
-			exposed,
-			elements,
-			isCollection = false,
-		} = options
-
 		// @ts-expect-error
 		super(model)
 		
@@ -74,7 +68,8 @@ export class ModelWrapperImpl extends ModelImpl {
 		this.#effectScope = getCurrentScope()
 		this.#privateModel = privateModelMap.get(model)
 
-		const [onModelUpdate, controller] = useModelWatchers(model, this.#privateModel, isCollection)
+		const depth = options.maybeObject && !isShallow(this.ref) && 1
+		const [onModelUpdate, controller] = useModelWatchers(model, this.#privateModel, depth)
 		this.#externalHandler = onModelUpdate
 		this.#externalController = controller
 
@@ -95,7 +90,7 @@ export class ModelWrapperImpl extends ModelImpl {
 			} else {
 				this.#internalSensor.pause()
 			}
-		}, { deep: isCollection && 1 })
+		}, { deep: depth })
 		this.#internalSensor.pause()
 
 		for (const flush of /** @type { const } */ (['pre', 'post'])) {
@@ -143,6 +138,7 @@ export class ModelWrapperImpl extends ModelImpl {
 			}
 		}
 
+		const { exposed, elements } = options
 		if (exposed) {
 			descriptorMap.exposed = {
 				value: exposed,

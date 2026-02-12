@@ -77,7 +77,7 @@ export function useDefineModel(options = {}) {
 	
 	/** @type { ModelWrapperImplOptions } */
 	const wrapperOptions = {
-		isCollection: options.isCollection
+		maybeObject: options.maybeObject
 	}
 	const include = {
 		elements: useElements,

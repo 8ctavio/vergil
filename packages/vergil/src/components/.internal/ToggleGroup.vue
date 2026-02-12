@@ -144,7 +144,7 @@ const props = defineProps(propsDefinition)
 
 const elements = useDefineElements(['options'])
 
-const model = useDefineModel({ isCollection: true })
+const model = useDefineModel({ maybeObject: true })
 provide(`${props.type}-group-props`, {
     model,
     get name() { return props.name },
