@@ -1,5 +1,5 @@
-import type { MaybeRefOrGetter, WatchCallback, WatchOptions, PropType } from "vue"
-import type { ModelImpl, Exposed, Elements } from "#composables"
+import type { Ref, MaybeRefOrGetter, WatchCallback, PropType } from "vue"
+import type { ModelImpl, ModelWrapperImpl, Exposed, Elements } from "#composables"
 import type { MaybeUndefined } from "#utilities"
 
 export interface ModelOptions<
@@ -69,47 +69,65 @@ export type Model<
 	: unknown
 )
 
+export type UnknownModel = ModelImpl<unknown, boolean, boolean, Ref<unknown>> & {
+	exposed?: Exposed
+	elements?: Elements
+}
+
 export interface PrivateModel {
 	hasInteractiveCtx: boolean;
 	resetInteractiveCtx: boolean;
-	triggerIfShallow(): void;
 	handleValidation(eager?: boolean): void;
 	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void
 }
 
 export interface DefineModelOptions<
-	IncludeExposed extends boolean,
-	CaptureExposed extends boolean,
-	IncludeElements extends boolean,
-	CaptureElements extends boolean
+	IncludeExposed extends boolean = boolean,
+	CaptureExposed extends boolean = boolean,
+	IncludeElements extends boolean = boolean,
+	CaptureElements extends boolean = boolean
 > {
+	/**
+	 * Whether the model value could be an object.
+	 * @default false
+	 */
 	isCollection?: boolean;
+	/**
+	 * Whether to include an `exposed` object into the model wraper.
+	 * @default false
+	 */
 	includeExposed?: IncludeExposed;
+	/**
+	 * Whether to attach to the model wrapper the `exposed` object
+	 * provided to its associated component (either through a model
+	 * or the `exposed` prop).
+	 * @default false
+	 */
 	captureExposed?: CaptureExposed;
+	/**
+	 * Whether to include an `elements` object into the model wraper.
+	 * @default false
+	 */
 	includeElements?: IncludeElements;
+	/**
+	 * Whether to attach to the model wrapper the `elements` object
+	 * provided to its associated component (either through a model
+	 * or the `exposed` prop).
+	 * @default false
+	 */
 	captureElements?: CaptureElements;
 }
 
-type OnCleanup = Parameters<WatchCallback>[2]
-
-export type InternalModelUpdateCallback<T = unknown, U extends boolean = false> = (
+export type InternalModelUpdateCallback<T = unknown, U extends boolean = boolean> = (
 	value: T,
 	oldValue: MaybeUndefined<T,U>
 ) => any;
-export type ExternalModelUpdateCallback<T = unknown, U extends boolean = false> = (
+export type ExternalModelUpdateCallback<T = unknown, U extends boolean = boolean> = (
 	value: T,
 	oldValue: MaybeUndefined<T,U>,
 	isProgrammatic: boolean,
-	onCleanup: OnCleanup
+	onCleanup: Parameters<WatchCallback>[2]
 ) => any;
-
-type ExposedResource<
-	Resource extends Exposed | Elements,
-	Include extends boolean,
-	Capture extends boolean
-> = Include extends true
-	? Resource
-	: null | (Capture extends true ? Resource | undefined : never)
 
 export type ModelWrapper<
 	T = unknown,
@@ -117,21 +135,15 @@ export type ModelWrapper<
 	CaptureExposed extends boolean = boolean,
 	IncludeElements extends boolean = boolean,
 	CaptureElements extends boolean = boolean
-> = {
-	updateDecorator<F extends Function>(fn: F): F;
-	update(v: unknown): void;
-	onExternalUpdate<Immediate extends boolean = false>(
-		callback: ExternalModelUpdateCallback<T, Immediate>,
-		options?: Omit<WatchOptions<Immediate>, 'deep'> & { onMounted?: boolean }
-	): () => void;
-	onInternalUpdate<Immediate extends boolean = false>(
-		callback: InternalModelUpdateCallback<T, Immediate>,
-		options?: Omit<WatchOptions<Immediate>, 'deep'>
-	): () => void;
-	exposed: ExposedResource<Exposed, IncludeExposed, CaptureExposed>;
-	elements: ExposedResource<Elements, IncludeElements, CaptureElements>;
-}	& Omit<PrivateModel, 'hasInteractiveCtx' | 'resetInteractiveCtx'>
-	& Omit<Model<T>, 'exposed' | 'elements'>
+> = ModelWrapperImpl<T>
+	& { update(v: unknown): void }
+	& Omit<PrivateModel, 'hasInteractiveCtx' | 'resetInteractiveCtx'>
+	& (IncludeExposed extends true ? { exposed: Elements }
+		: (IncludeExposed | CaptureExposed) extends false ? unknown
+		: { exposed?: Elements })
+	& (IncludeElements extends true ? { elements: Elements }
+		: (IncludeElements | CaptureElements) extends false ? unknown
+		: { elements?: Elements })
 
 export type ModelValueProp<T> = PropType<Model<T> | ModelWrapper<T> | T>
 export type ModelValidatorProp<T> = PropType<ModelOptions<T>['validator']>

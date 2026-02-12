@@ -9,9 +9,8 @@ import { groupValidationCtx } from '#composables/.private/ModelGroupImpl'
 
 /**
  * @import { ShallowRef, Ref, MaybeRefOrGetter } from 'vue'
- * @import { ModelOptions } from '#composables'
- * @import { UnwrapRefOrGetter } from '#reactivity'
- * @import { NormalizeRef } from '#reactivity'
+ * @import { ModelOptions, UnknownModel } from '#composables'
+ * @import { UnwrapRefOrGetter, NormalizeRef } from '#reactivity'
  */
 
 export const privateModelMap = new WeakMap()
@@ -20,10 +19,6 @@ export const privateModelMap = new WeakMap()
 const getterToRef = value => isFunction(value) ? toRef(value) : value
 const getNoop = () => noop
 const validationError = Object.preventExtensions({})
-
-/**
- * @typedef { ModelImpl<unknown, boolean, boolean, Ref<unknown>> } UnknownModel
- */
 
 /**
  * @template { MaybeRefOrGetter } [T = unknown]
