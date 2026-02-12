@@ -2,11 +2,11 @@ import { isShallow, customRef, triggerRef, watch, nextTick, getCurrentScope, get
 import { watchControlledSync } from '#reactivity'
 import { isFunction, pull, noop } from '#utilities'
 import { useModelWatchers } from "#composables/.internal/model"
-import { ModelImpl, privateModelMap } from "#composables/.private/ModelImpl"
+import { ModelImpl, protectedModelMap } from "#composables/.private/ModelImpl"
 
 /**
  * @import { WatchOptions, EffectScope } from "vue"
- * @import { UnknownModel, ExternalModelUpdateCallback, InternalModelUpdateCallback, Exposed, Elements } from "#composables"
+ * @import { UnknownModel, ProtectedModel, ExternalModelUpdateCallback, InternalModelUpdateCallback, Exposed, Elements } from "#composables"
  */
 
 /**
@@ -25,8 +25,9 @@ const _isModelWrapper_ = Symbol('isModelWrapper')
 export class ModelWrapperImpl extends ModelImpl {
 	/** @type { ModelWrapperImpl | null } */
 	#parent
+	/** @type { ProtectedModel } */
+	#protected
 	#effectScope
-	#privateModel
 
 	#externalHandler
 	#externalController
@@ -62,14 +63,17 @@ export class ModelWrapperImpl extends ModelImpl {
 		// @ts-expect-error
 		super(model)
 		
-		this.#parent = Object.hasOwn(model, _isModelWrapper_)
-			? /** @type { ModelWrapperImpl } */(model)
-			: null
+		if (Object.hasOwn(model, _isModelWrapper_)) {
+			this.#parent = /** @type { ModelWrapperImpl } */(model)
+			this.#protected = this.#parent.#protected
+		} else {
+			this.#parent = null
+			this.#protected = /** @type { ProtectedModel } */(protectedModelMap.get(model))
+		}
 		this.#effectScope = getCurrentScope()
-		this.#privateModel = privateModelMap.get(model)
 
 		const depth = options.maybeObject && !isShallow(this.ref) && 1
-		const [onModelUpdate, controller] = useModelWatchers(model, this.#privateModel, depth)
+		const [onModelUpdate, controller] = useModelWatchers(model, this.#protected, depth)
 		this.#externalHandler = onModelUpdate
 		this.#externalController = controller
 
@@ -129,11 +133,11 @@ export class ModelWrapperImpl extends ModelImpl {
 				enumerable: true
 			},
 			handleValidation: {
-				value: this.#privateModel.handleValidation,
+				value: this.#protected.handleValidation,
 				enumerable: true
 			},
 			useDebouncedValidation: {
-				value: this.#privateModel.useDebouncedValidation,
+				value: this.#protected.useDebouncedValidation,
 				enumerable: true
 			}
 		}
@@ -171,7 +175,7 @@ export class ModelWrapperImpl extends ModelImpl {
 			 */
 			function(...args) {
 				const internalFlags = model.#internalFlags
-				const privateModel = model.#privateModel
+				const protectedModel = model.#protected
 				
 				// Pause parent component models
 				/** @type { ModelWrapperImpl | null } */
@@ -182,11 +186,10 @@ export class ModelWrapperImpl extends ModelImpl {
 					internalFlags.triggerSyncCbs ||= currentModel.#internalCallbacks.sync.length > 0
 				} while (currentModel = currentModel.#parent)
 				
-				// Set hasInteractiveCtx flag
-				if (!privateModel.hasInteractiveCtx) {
-					privateModel.hasInteractiveCtx = true
-					privateModel.resetInteractiveCtx = true
-				}
+				// Set interactive context flag
+				const resetInteractiveContext = protectedModel.interactiveContext
+					? false
+					: (protectedModel.interactiveContext = true)
 
 				// Resume internalSensor to fire parent componet models'
 				// internal-update-callbacks if a model value change is detected
@@ -211,11 +214,10 @@ export class ModelWrapperImpl extends ModelImpl {
 						model.#internalSensor.pause()
 					}
 
-					// Reset hasInteractiveCtx flag
-					if (privateModel.resetInteractiveCtx) {
-						privateModel.resetInteractiveCtx = false
+					// Reset interactive context flag
+					if (resetInteractiveContext) {
 						nextTick(() => {
-							privateModel.hasInteractiveCtx = false
+							protectedModel.interactiveContext = false
 						})
 					}
 

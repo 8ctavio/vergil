@@ -6,14 +6,14 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
 /**
  * @import { WatchOptions, EffectScope } from "vue"
  * @import { WatchControls } from "#reactivity"
- * @import { Model, PrivateModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
+ * @import { Model, ProtectedModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
  */
 
 /**
  * Allows to create multiple model watchers and to pause and resume them to ignore model updates.
  * 
  * @param { Model } model
- * @param { PrivateModel } privateModel
+ * @param { ProtectedModel } protectedModel
  * @param { boolean | number } [depth]
  * 
  * @returns { [
@@ -21,7 +21,7 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * 	WatchControls
  * ] } Model watcher controller
  */
-export function useModelWatchers(model, privateModel, depth) {
+export function useModelWatchers(model, protectedModel, depth) {
 	const composableScope = getCurrentScope()
 	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
@@ -39,7 +39,7 @@ export function useModelWatchers(model, privateModel, depth) {
 		if (options.flush === 'sync') {
 			syncWatchers.run(() => {
 				const watcher = watch(model.ref, (v, u, c) => {
-					if (!isPaused) callback(v, u, !privateModel.hasInteractiveCtx, c)
+					if (!isPaused) callback(v, u, !protectedModel.interactiveContext, c)
 				}, { ...options, deep: depth })
 				if (isPaused) watcher.pause()
 				stop = () => watcher()
@@ -71,7 +71,7 @@ export function useModelWatchers(model, privateModel, depth) {
 						scheduledEffects--
 						if (!isPaused) {
 							/** @type { WatchControls } */(auxWatcher).resume()
-							callback(v, u, !privateModel.hasInteractiveCtx, c)
+							callback(v, u, !protectedModel.interactiveContext, c)
 							if (options.once) stop()
 						}
 					}

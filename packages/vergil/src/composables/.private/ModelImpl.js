@@ -9,11 +9,12 @@ import { groupValidationCtx } from '#composables/.private/ModelGroupImpl'
 
 /**
  * @import { ShallowRef, Ref, MaybeRefOrGetter } from 'vue'
- * @import { ModelOptions, UnknownModel } from '#composables'
+ * @import { ModelOptions, UnknownModel, ProtectedModel } from '#composables'
  * @import { UnwrapRefOrGetter, NormalizeRef } from '#reactivity'
  */
 
-export const privateModelMap = new WeakMap()
+/** @type { WeakMap<ModelImpl, ProtectedModel> } */
+export const protectedModelMap = new WeakMap()
 
 /** @type { (value: unknown) => unknown } */
 const getterToRef = value => isFunction(value) ? toRef(value) : value
@@ -50,7 +51,7 @@ export class ModelImpl extends ExtendedRefImpl {
 	static {
 		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'Model' })
 	}
-	
+
 	/**
 	 * @template { unknown } T
 	 * @overload
@@ -173,7 +174,7 @@ export class ModelImpl extends ExtendedRefImpl {
 			this.ref.value // oxlint-disable-line no-unused-expressions
 
 			let handleValidation = noop
-			/** @type { (minWait: number, options?: object) => unknown } */
+			/** @type { (minWait: number, options?: object) => (() => void) } */
 			let useDebouncedValidation = getNoop
 			if (isFunction(validator) || groupValidationCtx) {
 				let validationTarget, validate
@@ -189,26 +190,24 @@ export class ModelImpl extends ExtendedRefImpl {
 					}
 				}
 				useDebouncedValidation = (minWait, options) => {
-					if (getCurrentInstance()) {
-						if (minWait > 0) {
-							const debounced = debounce(validate, minWait, options)
-							const cancelHandlers = this.#cancelHandlers
-							cancelHandlers.push(debounced.cancel)
-							onScopeDispose(() => {
-								pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
-							})
-							return (eager = false) => {
-								if (eager || validationTarget.hasErrors) debounced()
-							}
-						} else {
-							return handleValidation
+					if (!getCurrentInstance()) return noop
+					if (minWait > 0) {
+						const debounced = debounce(validate, minWait, options)
+						const cancelHandlers = this.#cancelHandlers
+						cancelHandlers.push(debounced.cancel)
+						onScopeDispose(() => {
+							pull(cancelHandlers, cancelHandlers.indexOf(debounced.cancel))
+						})
+						return (eager = false) => {
+							if (eager || validationTarget.hasErrors) debounced()
 						}
+					} else {
+						return handleValidation
 					}
 				}
 			}
-			privateModelMap.set(this, {
-				hasInteractiveCtx: false,
-				resetInteractiveCtx: false,
+			protectedModelMap.set(this, {
+				interactiveContext: false,
 				handleValidation,
 				useDebouncedValidation
 			})

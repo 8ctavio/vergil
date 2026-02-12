@@ -74,10 +74,9 @@ export type UnknownModel = ModelImpl<unknown, boolean, boolean, Ref<unknown>> & 
 	elements?: Elements
 }
 
-export interface PrivateModel {
-	hasInteractiveCtx: boolean;
-	resetInteractiveCtx: boolean;
-	handleValidation(eager?: boolean): void;
+export interface ProtectedModel {
+	interactiveContext: boolean
+	handleValidation(eager?: boolean): void
 	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void
 }
 
@@ -137,7 +136,7 @@ export type ModelWrapper<
 	CaptureElements extends boolean = boolean
 > = ModelWrapperImpl<T>
 	& { update(v: unknown): void }
-	& Omit<PrivateModel, 'hasInteractiveCtx' | 'resetInteractiveCtx'>
+	& Omit<ProtectedModel, 'interactiveContext'>
 	& (IncludeExposed extends true ? { exposed: Elements }
 		: (IncludeExposed | CaptureExposed) extends false ? unknown
 		: { exposed?: Elements })
