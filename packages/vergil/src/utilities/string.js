@@ -1,4 +1,8 @@
 /**
+ * @import { Capitalize } from '#utilities'
+ */
+
+/**
  * Removes diacritics from a string.
  * 
  * @param { string } str 
@@ -65,8 +69,12 @@ export function spaceEvenly(str, separator = " ") {
 /**
  * Capitalizes first character of a string.
  * 
+ * @template { string } S
+ * @overload
+ * @param { S } str
+ * @returns { Capitalize<S> } A copy of `str` with the first character capitalized.
+ * 
  * @param { string } str
- * @returns { string } A copy of `str` with the first character capitalized.
  */
 export function ucFirst(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1)

@@ -1,5 +1,7 @@
 export type Prettify<T> = { [K in keyof T]: T[K] } & {}
 
+export type IsAny<T, True = true, False = false> = 0 extends 1 & T ? True : False
+
 export type ToCompatible<T, Compatible, UnknownFallback extends Compatible = Compatible> = unknown extends T
 	? (UnknownFallback & unknown)
 	: (T extends Compatible ? T : never) 
@@ -12,3 +14,7 @@ export type DeepOptional<T> = {
 	: DeepOptional<T[K]>
 	: T[K]
 }
+
+export type Capitalize<S extends string> = S extends `${infer First}${infer Rest}`
+	? `${Uppercase<First>}${Rest}`
+	: S
