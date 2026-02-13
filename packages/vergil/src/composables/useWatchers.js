@@ -1,10 +1,11 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
 import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
+import { _deep_ } from "#composables/.private/constants"
 
 /**
  * @import { WatchSource, WatchCallback, ReactiveEffect, EffectScope } from 'vue'
- * @import { WatcherSource, WatchersHandle, WatchControls, WatchControlledOptions } from '#reactivity'
+ * @import { WatcherSource, WatcherCallback, WatchControls, WatchControlledOptions } from '#reactivity'
  */
 
 /**
@@ -65,6 +66,12 @@ export function useWatchers(source, options) {
 /** Used to mark effects scheduled while watchers are not paused. */
 const _isScheduled_ = Symbol('isScheduled')
 
+/**
+ * @template [T = unknown]
+ * @typedef { ControlledWatchers<T> } WatchersHandle
+ */
+
+/** @template T */
 class ControlledWatchers {
 	/** @type { WatchControls | undefined } */
 	#auxWatcher
@@ -75,8 +82,13 @@ class ControlledWatchers {
 	#scheduledEffects = 0
 	
 	#source
-	#deep
 	#effectScope
+
+	/**
+	 * @type { boolean | number | undefined }
+	 * @readonly
+	 */
+	[_deep_]
 
 	/**
 	 * @param { WatchSource | WatchSource[] } source
@@ -84,11 +96,23 @@ class ControlledWatchers {
 	 */
 	constructor(source, { deep } = {}) {
 		this.#source = source
-		this.#deep = deep
 		this.#effectScope = getCurrentScope()
+		Object.defineProperty(this, _deep_, {
+			value: deep,
+			writable: false,
+			enumerable: false,
+			configurable: false
+		})
 		onScopeDispose(() => this.stop(), true)
 	}
 
+	/**
+	 * @template { boolean } [Immediate = false]
+	 * @overload
+	 * @param { WatcherCallback<T, Immediate> } callback
+	 * @param { Omit<WatchControlledOptions<Immediate>, 'deep'> } [options]
+	 * @returns { () => void }
+	 */
 	/**
 	 * @param { WatchCallback } callback
 	 * @param { Omit<WatchControlledOptions, 'deep'> } [options]
@@ -100,7 +124,7 @@ class ControlledWatchers {
 			this.#syncWatchers.run(() => {
 				const watcher = watch(this.#source, (...args) => {
 					if (this.#isPaused) callback(...args)
-				}, { ...options, deep: this.#deep })
+				}, { ...options, deep: this[_deep_] })
 				if (this.#isPaused) watcher.pause()
 				stop = () => watcher()
 			})
@@ -118,7 +142,7 @@ class ControlledWatchers {
 						}
 						this.#scheduledEffects = this.#watchers.effects.length
 						auxWatcher.pause()
-					}, { deep: this.#deep })
+					}, { deep: this[_deep_] })
 				})
 			}
 			const auxWatcher = /** @type { WatchControls } */(this.#auxWatcher)
@@ -139,7 +163,7 @@ class ControlledWatchers {
 							if (options.once) stop()
 						}
 					}
-				}, { flush: options.flush, deep: this.#deep })
+				}, { flush: options.flush, deep: this[_deep_] })
 				
 				const effect = /** @type { WatcherEffect } */ (this.#watchers.effects.at(-1))
 				if (effect) {

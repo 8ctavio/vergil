@@ -3,8 +3,9 @@
  * @import { InternalExposed, InternalElements } from './exposed.types'
  */
 
-export const _trigger_ = Symbol('trigger')
-export const _hasComponent_ = Symbol('hasComponent')
+export const _deep_ = Symbol('watchers:deep')
+export const _trigger_ = Symbol('elements:trigger')
+export const _hasComponent_ = Symbol('elements:hasComponent')
 
 /** @type { WeakMap<object, InternalExposed> } */
 export const definedExposed = new WeakMap()

@@ -2,7 +2,7 @@ import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
 import { entangled } from "#reactivity"
 import { isFunction } from "#utilities"
 import { isModel } from "#composables/useModel"
-import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from "#composables/.private/exposed"
+import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from "#composables/.private/constants"
 
 /**
  * @import { ShallowRef } from 'vue'

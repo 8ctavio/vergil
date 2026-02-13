@@ -1,7 +1,7 @@
 import { shallowRef } from "vue"
 import { entangled } from "#reactivity"
 import { getTrue } from "#utilities"
-import { definedElements, _trigger_ } from "#composables/.private/exposed"
+import { definedElements, _trigger_ } from "#composables/.private/constants"
 
 /**
  * @import { Elements } from '#composables'

@@ -1,7 +1,7 @@
 import { triggerRef, toRaw, watch, getCurrentWatcher, getCurrentInstance, onUnmounted } from "vue"
 import { isFunction, isObject } from "#utilities"
 import { isModel } from "#composables/useModel"
-import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composables/.private/exposed"
+import { componentInstanceMap, definedExposed, _hasComponent_ } from "#composables/.private/constants"
 
 /**
  * @import { ReactiveEffect, WatchCallback } from 'vue'

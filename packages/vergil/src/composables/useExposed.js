@@ -1,6 +1,6 @@
 import { shallowRef, unref } from "vue"
 import { getTrue } from "#utilities"
-import { definedExposed } from "#composables/.private/exposed"
+import { definedExposed } from "#composables/.private/constants"
 
 /**
  * @import { Exposed, InternalExposed } from '#composables'
