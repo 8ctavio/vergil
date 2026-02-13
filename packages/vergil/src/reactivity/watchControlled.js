@@ -1,8 +1,8 @@
 import { watch } from 'vue'
 
 /**
- * @import { WatchSource, WatchCallback, WatchOptions, WatchHandle } from 'vue'
- * @import { WatcherSource, WatcherCallback, WatchControlledHandle } from '#reactivity'
+ * @import { WatchSource, WatchCallback, WatchHandle } from 'vue'
+ * @import { WatcherSource, WatcherCallback, WatchControlledOptions, WatchControlledHandle } from '#reactivity'
  */
 
 /**
@@ -10,19 +10,16 @@ import { watch } from 'vue'
  * @template { boolean } [Immediate = false]
  * @overload
  * @param { WatcherSource<T> } source					
- * @param { WatcherCallback<T,Immediate> } callback
- * @param { WatchOptions<Immediate> } [options = {}]
- * 
+ * @param { WatcherCallback<T, Immediate> } callback
+ * @param { WatchControlledOptions<Immediate> } [options = {}]
  * @returns { WatchControlledHandle } 
  */
-
 /**
  * Watcher with pause and resume controls to ignore source updates. Source updates do not trigger a paused watcher.
  * 
  * @param { WatchSource | WatchSource[] } source
  * @param { WatchCallback } callback
- * @param { WatchOptions } [options = {}]
- * 
+ * @param { WatchControlledOptions } [options = {}]
  * @returns { WatchControlledHandle } Controlled watcher handle
  * 
  * @example
@@ -66,6 +63,7 @@ export function watchControlled(source, callback, options = {}) {
 		}, options)
 	} else {
 		isDirty = options.immediate
+		const isNonPreemptive = options.nonPreemptive
 		syncWatcher = watch(source, () => {
 			if (!isPaused && !isDirty) {
 				isDirty = true
@@ -77,13 +75,10 @@ export function watchControlled(source, callback, options = {}) {
 		})
 		watcher = watch(source, (...args) => {
 			if (isDirty) {
-				if (isPaused) {
-					isDirty = false
-				} else {
-					syncWatcher.resume()
-					isDirty = false
-					callback(...args)
-				}
+				const isNotPaused = !isPaused
+				if (isNotPaused) syncWatcher.resume()
+				isDirty = false
+				if (isNotPaused || isNonPreemptive) callback(...args)
 			}
 			if (options.once) syncWatcher()
 		}, options)
