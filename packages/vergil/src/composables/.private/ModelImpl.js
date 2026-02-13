@@ -87,11 +87,14 @@ export class ModelImpl extends ExtendedRefImpl {
 			super(model.ref)
 
 			this.#model = model
-			Object.defineProperty(this, 'errors', {
-				value: model.errors,
-				writable: false,
-				enumerable: true,
-				configurable: false,
+			Object.defineProperties(this, {
+				errors: {
+					value: model.errors,
+					writable: false,
+					enumerable: true,
+					configurable: false,
+				},
+				__isModel: { value: true }
 			})
 		} else {
 			const initialValue = toRaw(toValue(value))
