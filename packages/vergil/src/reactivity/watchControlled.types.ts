@@ -1,4 +1,5 @@
 import type { WatchOptions } from "vue"
+import type { WatcherCallback } from "#reactivity"
 
 export interface WatchControls {
 	stop(): void;
@@ -19,4 +20,11 @@ export type WatchControlledOptions<
 
 export interface WatchControlledHandle extends WatchControls {
 	ignore(callback: () => void): void;
+}
+
+export interface WatchersHandle<T = unknown> extends WatchControlledHandle {
+	onUpdated<Immediate extends boolean = false>(
+		callback: WatcherCallback<T, Immediate>,
+		options?: Omit<WatchControlledOptions<Immediate>, 'deep'>
+	): () => void;
 }

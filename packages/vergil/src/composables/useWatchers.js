@@ -1,11 +1,9 @@
 import { watch, effectScope, onScopeDispose, getCurrentScope, getCurrentWatcher } from "vue"
 import { watchControlledSync } from "#reactivity"
 import { noop } from "#utilities"
-import { _isScheduled_ } from "#composables/.private/useWatchers"
 
 /**
- * @import { WatchSource, WatchCallback, EffectScope } from 'vue'
- * @import { WatcherEffect } from '#composables'
+ * @import { WatchSource, WatchCallback, ReactiveEffect, EffectScope } from 'vue'
  * @import { WatcherSource, WatchersHandle, WatchControls, WatchControlledOptions } from '#reactivity'
  */
 
@@ -13,7 +11,7 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * @template T
  * @overload
  * @param { WatcherSource<T> } source					
- * @param { { deep?: boolean | number } } [options = {}]
+ * @param { { deep?: boolean | number } } [options]
  * @returns { WatchersHandle<T> } 
  */
 
@@ -21,7 +19,7 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * Allows to create multiple watchers for the same source and to pause and resume them to ignore source updates.
  * 
  * @param { WatchSource | WatchSource[] } source
- * @param { { deep?: boolean | number } } [options = {}]
+ * @param { { deep?: boolean | number } } [options]
  * @returns { WatchersHandle }
  * 
  * @example
@@ -56,125 +54,164 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * watchers.stop()
  * ```
  */
-export function useWatchers(source, { deep } = {}) {
-	const composableScope = getCurrentScope()
-	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
-	const syncWatchers = effectScope(true)
-	/** @type { WatchControls | void } */
-	let auxWatcher
-	let isPaused = false
-	let scheduledEffects = 0
+export function useWatchers(source, options) {
+	return new ControlledWatchers(source, options)
+}
+
+/**
+ * @typedef { ReactiveEffect & { [_isScheduled_]?: boolean } } WatcherEffect
+ */
+
+/** Used to mark effects scheduled while watchers are not paused. */
+const _isScheduled_ = Symbol('isScheduled')
+
+class ControlledWatchers {
+	/** @type { WatchControls | undefined } */
+	#auxWatcher
+	#watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */(effectScope(true))
+	#syncWatchers = effectScope(true)
+	
+	#isPaused = false
+	#scheduledEffects = 0
+	
+	#source
+	#deep
+	#effectScope
+
+	/**
+	 * @param { WatchSource | WatchSource[] } source
+	 * @param {{ deep?: boolean | number }} [options]
+	 */
+	constructor(source, { deep } = {}) {
+		this.#source = source
+		this.#deep = deep
+		this.#effectScope = getCurrentScope()
+		onScopeDispose(() => this.stop(), true)
+	}
 
 	/**
 	 * @param { WatchCallback } callback
 	 * @param { Omit<WatchControlledOptions, 'deep'> } [options]
 	 */
-	function onUpdated(callback, options = {}) {
+	onUpdated(callback, options = {}) {
 		let stop = noop
+		
 		if (options.flush === 'sync') {
-			syncWatchers.run(() => {
-				const watcher = watch(source, (...args) => {
-					if (!isPaused) callback(...args)
-				}, { ...options, deep })
-				if (isPaused) watcher.pause()
+			this.#syncWatchers.run(() => {
+				const watcher = watch(this.#source, (...args) => {
+					if (this.#isPaused) callback(...args)
+				}, { ...options, deep: this.#deep })
+				if (this.#isPaused) watcher.pause()
 				stop = () => watcher()
 			})
 		} else {
-			if (options.immediate && !isPaused) {
-				watch(source, callback, { immediate: true, once: true })
+			if (options.immediate && !this.#isPaused) {
+				watch(this.#source, callback, { immediate: true, once: true })
 				if (options.once) return stop
 			}
 
-			if (!auxWatcher) {
+			if (!this.#auxWatcher) {
 				effectScope(true).run(() => {
-					auxWatcher = watchControlledSync(source, () => {
-						for (const effect of watchers.effects) {
+					this.#auxWatcher = watchControlledSync(this.#source, () => {
+						for (const effect of this.#watchers.effects) {
 							effect[_isScheduled_] = true
 						}
-						scheduledEffects = watchers.effects.length
-						;/** @type { WatchControls } */(auxWatcher).pause()
-					}, { deep })
+						this.#scheduledEffects = this.#watchers.effects.length
+						auxWatcher.pause()
+					}, { deep: this.#deep })
 				})
 			}
-			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
+			const auxWatcher = /** @type { WatchControls } */(this.#auxWatcher)
+			auxWatcher[this.#isPaused ? 'pause' : 'resume']()
 
-			watchers.run(() => {
+			this.#watchers.run(() => {
 				const isNonPreemptive = options.nonPreemptive
-				const watcher = watch(source, (...args) => {
+				const watcher = watch(this.#source, (...args) => {
 					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
 					if (effect[_isScheduled_]) {
 						effect[_isScheduled_] = false
-						scheduledEffects--
-						const isNotPaused = !isPaused
-						if (isNotPaused) /** @type { WatchControls } */(auxWatcher).resume()
+						this.#scheduledEffects--
+						
+						const isNotPaused = !this.#isPaused
+						if (isNotPaused) auxWatcher.resume()
 						if (isNotPaused || isNonPreemptive) {
 							callback(...args)
 							if (options.once) stop()
 						}
 					}
-				}, { flush: options.flush, deep })
-
-				const effect = /** @type { WatcherEffect } */ (watchers.effects.at(-1))
-				Object.defineProperty(effect, _isScheduled_, {
-					value: false,
-					writable: true
-				})
-				stop = () => {
-					watcher()
-					if (effect[_isScheduled_]) {
-						effect[_isScheduled_] = false
-						scheduledEffects--
+				}, { flush: options.flush, deep: this.#deep })
+				
+				const effect = /** @type { WatcherEffect } */ (this.#watchers.effects.at(-1))
+				if (effect) {
+					Object.defineProperty(effect, _isScheduled_, {
+						value: false,
+						writable: true
+					})
+					stop = () => {
+						watcher()
+						if (effect[_isScheduled_]) {
+							effect[_isScheduled_] = false
+							this.#scheduledEffects--
+						}
+						if (this.#watchers.effects.length === 0) {
+							this.#auxWatcher = void this.#auxWatcher?.stop()
+						}
 					}
-					if (watchers.effects.length === 0) {
-						auxWatcher = auxWatcher?.stop()
+				} else {
+					/**
+					 * Effects are not tracked during SSR. 
+					 * @see https://vuejs.org/guide/scaling-up/ssr.html#reactivity-on-the-server
+					 * Some assumptions for SSR:
+					 *   - Watcher callbacks are only executed for `watchEffect` and `watch` with `immediate: true`.
+					 *   - Watchers' stop handles are noops
+					 */
+					stop = () => {
+						watcher()
+						this.#auxWatcher = void this.#auxWatcher?.stop()
 					}
 				}
 			})
 		}
-		if (composableScope !== getCurrentScope()) {
+
+		if (this.#effectScope !== getCurrentScope()) {
 			onScopeDispose(stop, true)
 		}
+
 		return stop
 	}
-	function pause() {
-		if (!isPaused) {
-			isPaused = true
-			syncWatchers.pause()
-			auxWatcher?.pause()
+	
+	pause() {
+		if (!this.#isPaused) {
+			this.#isPaused = true
+			this.#syncWatchers.pause()
+			this.#auxWatcher?.pause()
 		}
 	}
-	function resume() {
-		if (isPaused) {
-			syncWatchers.resume()
-			isPaused = false
-			if (watchers.effects.length > scheduledEffects) {
-				/** @type { WatchControls } */(auxWatcher).resume()
+
+	resume() {
+		if (this.#isPaused) {
+			this.#syncWatchers.resume()
+			this.#isPaused = false
+			if (this.#watchers.effects.length > this.#scheduledEffects) {
+				/** @type { WatchControls } */(this.#auxWatcher).resume()
 			}
 		}
 	}
-	/** @param { () => void } callback */
-	function ignore(callback) {
-		pause()
-		try { callback() }
-		finally { resume() }
-	}
-	function stop() {
-		for (const effect of watchers.effects) {
+
+	stop() {
+		for (const effect of this.#watchers.effects) {
 			effect[_isScheduled_] = false
 		}
-		scheduledEffects = 0
-		watchers.stop()
-		auxWatcher?.stop()
-		syncWatchers.stop()
+		this.#scheduledEffects = 0
+		this.#watchers.stop()
+		this.#auxWatcher?.stop()
+		this.#syncWatchers.stop()
 	}
 
-	onScopeDispose(stop, true)
-
-	return {
-		stop,
-		pause,
-		resume,
-		ignore,
-		onUpdated,
+	/** @param { () => void } callback */
+	ignore(callback) {
+		this.pause()
+		try { callback() }
+		finally { this.resume() }
 	}
 }
