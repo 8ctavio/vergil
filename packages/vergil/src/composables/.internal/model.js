@@ -4,7 +4,7 @@ import { noop } from "#utilities"
 import { _isScheduled_ } from "#composables/.private/useWatchers"
 
 /**
- * @import { WatchOptions, EffectScope } from "vue"
+ * @import { WatchOptions, WatchCallback, EffectScope } from "vue"
  * @import { WatchControls } from "#reactivity"
  * @import { Model, ProtectedModel, ExternalModelUpdateCallback, WatcherEffect } from "#composables"
  */
@@ -13,15 +13,15 @@ import { _isScheduled_ } from "#composables/.private/useWatchers"
  * Allows to create multiple model watchers and to pause and resume them to ignore model updates.
  * 
  * @param { Model } model
- * @param { ProtectedModel } protectedModel
- * @param { boolean | number } [depth]
+ * @param { boolean | number | undefined } depth
+ * @param { ProtectedModel } [protectedModel]
  * 
  * @returns { [
- *	(callback: ExternalModelUpdateCallback, options?: Omit<WatchOptions, 'deep'>) => (() => void),
+ *	(callback: WatchCallback | ExternalModelUpdateCallback, options?: Omit<WatchOptions, 'deep'>) => (() => void),
  * 	WatchControls
  * ] } Model watcher controller
  */
-export function useModelWatchers(model, protectedModel, depth) {
+export function useModelWatchers(model, depth, protectedModel) {
 	const composableScope = getCurrentScope()
 	const watchers = /** @type { EffectScope & { effects: WatcherEffect[] } } */ (effectScope(true))
 	const syncWatchers = effectScope(true)
@@ -31,22 +31,40 @@ export function useModelWatchers(model, protectedModel, depth) {
 	let scheduledEffects = 0
 
 	/**
-	 * @param { ExternalModelUpdateCallback } callback
+	 * @param { WatchCallback | ExternalModelUpdateCallback } callback
 	 * @param { Omit<WatchOptions, 'deep'> } [options = {}]
 	 */
 	function onModelUpdate(callback, options = {}) {
 		let stop = noop
 		if (options.flush === 'sync') {
 			syncWatchers.run(() => {
-				const watcher = watch(model.ref, (v, u, c) => {
-					if (!isPaused) callback(v, u, !protectedModel.interactiveContext, c)
-				}, { ...options, deep: depth })
+				/** @type { WatchCallback } */
+				const cb = protectedModel
+					? (v,u,c) => {
+						if (!isPaused) {
+							/** @type { ExternalModelUpdateCallback } */
+							(callback)(v, u, !protectedModel.interactiveContext, c)
+						}
+					}
+					: (...args) => {
+						if (!isPaused) {
+							/** @type { WatchCallback } */
+							(callback)(...args)
+						}
+					}
+				const watcher = watch(model.ref, cb, { ...options, deep: depth })
 				if (isPaused) watcher.pause()
 				stop = () => watcher()
 			})
 		} else {
 			if (options.immediate && !isPaused) {
-				callback(model.value, undefined, false, noop)
+				if (protectedModel) {
+					/** @type { ExternalModelUpdateCallback } */
+					(callback)(model.value, undefined, false, noop)
+				} else {
+					/** @type { WatchCallback } */
+					(callback)(model.value, undefined, noop)
+				}
 				if (options.once) return stop
 			}
 
@@ -64,14 +82,20 @@ export function useModelWatchers(model, protectedModel, depth) {
 			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
+				const isNonPreemptive = !protectedModel
 				const watcher = watch(model.ref, (v, u, c) => {
 					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
 					if (effect[_isScheduled_]) {
 						effect[_isScheduled_] = false
 						scheduledEffects--
-						if (!isPaused) {
+						if (isNonPreemptive) {
+							if (!isPaused) /** @type { WatchControls } */(auxWatcher).resume()
+							;/** @type { WatchCallback } */(callback)(v, u, c)
+							if (options.once) stop()
+						} else if (!isPaused) {
 							/** @type { WatchControls } */(auxWatcher).resume()
-							callback(v, u, !protectedModel.interactiveContext, c)
+							;/** @type { ExternalModelUpdateCallback } */
+							(callback)(v, u, !protectedModel.interactiveContext, c)
 							if (options.once) stop()
 						}
 					}

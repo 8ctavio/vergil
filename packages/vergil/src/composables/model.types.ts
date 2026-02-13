@@ -111,10 +111,6 @@ export interface DefineModelOptions<
 	maybeObject?: boolean;
 }
 
-export type InternalModelUpdateCallback<T = unknown, U extends boolean = boolean> = (
-	value: T,
-	oldValue: MaybeUndefined<T,U>
-) => any;
 export type ExternalModelUpdateCallback<T = unknown, U extends boolean = boolean> = (
 	value: T,
 	oldValue: MaybeUndefined<T,U>,
