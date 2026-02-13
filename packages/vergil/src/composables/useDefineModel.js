@@ -51,7 +51,7 @@ export function useDefineModel(options = {}) {
 	const { modelValue } = rawProps
 
 	/** @type { UnknownModel } */
-	const model = isModel(modelValue, true) ? modelValue
+	const model = isModel(modelValue) ? modelValue
 		: isFunction(rawProps['onUpdate:modelValue'])
 			? useModel(customRef((track, trigger) => {
 				let value = modelValue

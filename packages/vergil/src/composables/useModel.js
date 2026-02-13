@@ -40,12 +40,12 @@ export function useModel(value, options) {
  * Assesses whether a value is a model created by `useModel`.
  * 
  * @template T
+ * @overload
  * @param { T } value
- * @param { boolean } [self = false] - When set to `true`, ensures that `value` is a model created by `useModel`, as opposed to an object that extends a model. Defaults to `false`.
  * @returns { value is ToCompatible<T, UnknownModel> }
+ * 
+ * @param { unknown } value
  */
-export function isModel(value, self = false) {
-	return isObject(value)
-		&& (!self || Object.hasOwn(value, '__isModel'))
-		&& /** @type { Record<string, unknown> } */(value).__isModel === true
+export function isModel(value) {
+	return isObject(value) && value.__isModel === true
 }
