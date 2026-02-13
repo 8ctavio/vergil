@@ -1,11 +1,12 @@
 import { isShallow, triggerRef, nextTick, getCurrentScope, onScopeDispose, getCurrentInstance, onMounted } from "vue"
 import { isFunction, debounce, pull, noop } from '#utilities'
-import { useModelWatchers } from "#composables/.internal/model"
+import { useWatchers } from '#composables/useWatchers'
+import { _deep_ } from "#composables/.private/constants"
 import { ModelImpl, protectedModelMap } from "#composables/.private/ModelImpl"
 
 /**
- * @import { WatchCallback, WatchOptions, EffectScope } from "vue"
- * @import { UnknownModel, ProtectedModel, ExternalModelUpdateCallback, Exposed, Elements } from "#composables"
+ * @import { Ref, WatchCallback, WatchOptions, EffectScope } from "vue"
+ * @import { UnknownModel, ProtectedModel, WatchersHandle, ExternalModelUpdateCallback, Exposed, Elements } from "#composables"
  * @import { MaybeUndefined } from "#utilities"
  */
 
@@ -27,11 +28,10 @@ export class ModelWrapperImpl extends ModelImpl {
 	#parent
 	/** @type { ProtectedModel } */
 	#protected
-
-	#externalHandler
-	#externalController
-	#internalHandler
-	#internalController
+	/** @type { WatchersHandle<Ref> } */
+	#externalWatchers
+	/** @type { WatchersHandle<Ref> | undefined } */
+	#internalWatchers
 
 	/**
 	 * @this { ModelWrapperImpl<unknown> }
@@ -50,15 +50,9 @@ export class ModelWrapperImpl extends ModelImpl {
 			this.#protected = /** @type { ProtectedModel } */(protectedModelMap.get(model))
 		}
 
-		const depth = options.maybeObject && !isShallow(this.ref) && 1
-		const [onModelUpdate, controller] = useModelWatchers(model, depth, this.#protected)
-		this.#externalHandler = onModelUpdate
-		this.#externalController = controller
-
-		const internalWatchers = useModelWatchers(model, depth)
-		this.#internalHandler = internalWatchers[0]
-		this.#internalController = internalWatchers[1]
-		this.#internalController.pause()
+		this.#externalWatchers = useWatchers(this.ref, {
+			deep: options.maybeObject && !isShallow(this.ref) && 1
+		})
 
 		/** @type { PropertyDescriptorMap } */
 		const descriptorMap = {
@@ -111,9 +105,9 @@ export class ModelWrapperImpl extends ModelImpl {
 				/** @type { ModelWrapperImpl | null } */
 				let currentModel = model
 				while (true) {
-					currentModel.#externalController.pause()
+					currentModel.#externalWatchers.pause()
 					if (currentModel = currentModel.#parent) {
-						currentModel.#internalController.resume()
+						currentModel.#internalWatchers?.resume()
 					} else {
 						break
 					}
@@ -137,9 +131,9 @@ export class ModelWrapperImpl extends ModelImpl {
 
 					currentModel = model
 					while (true) {
-						currentModel.#externalController.resume()
+						currentModel.#externalWatchers.resume()
 						if (currentModel = currentModel.#parent) {
-							currentModel.#internalController.pause()
+							currentModel.#internalWatchers?.pause()
 						} else {
 							break
 						}
@@ -157,32 +151,42 @@ export class ModelWrapperImpl extends ModelImpl {
 	 * @returns { () => void }
 	 */ 
 	/**
-	 * @param { ExternalModelUpdateCallback<any> } cb 
+	 * @param { ExternalModelUpdateCallback<any> } callback
 	 * @param { Omit<WatchOptions, 'deep'> & { onMounted?: boolean } } [options] 
 	 */
-	onExternalUpdate(cb, { onMounted: isOnMounted, ...options } = {}) {
-		if (!isFunction(cb)) {
-			return noop
-		} else if (isOnMounted && getCurrentInstance()) {
-			/** @type { boolean | (() => void) } */
-			let stop = false
-			const setupScope = /** @type { EffectScope } */(getCurrentScope())
-			onMounted(() => {
-				if (!stop) {
-					setupScope.run(() => {
-						stop = this.#externalHandler(cb, { ...options, immediate: true })
-					})
+	onExternalUpdate(callback, { onMounted: isOnMounted, ...options } = {}) {
+		if (isFunction(callback)) {
+			/** @type { WatchCallback } */
+			const cb = (v, u, c) => {
+				callback(v, u, !this.#protected.interactiveContext, c)
+			}
+			if (isOnMounted && getCurrentInstance()) {
+				/** @type { boolean | (() => void) } */
+				let stop = false
+				const setupScope = /** @type { EffectScope } */(getCurrentScope())
+				onMounted(() => {
+					if (!stop) {
+						setupScope.run(() => {
+							stop = this.#externalWatchers.onUpdated(cb, {
+								...options,
+								nonPreemptive: false,
+								immediate: true
+							})
+						})
+					}
+				})
+				return () => {
+					if (isFunction(stop)) {
+						stop()
+					} else {
+						stop = true
+					}
 				}
-			})
-			return () => {
-				if (isFunction(stop)) {
-					stop()
-				} else {
-					stop = true
-				}
+			} else {
+				return this.#externalWatchers.onUpdated(cb, { ...options, nonPreemptive: false })
 			}
 		} else {
-			return this.#externalHandler(cb, options)
+			return noop
 		}
 	}
 
@@ -194,13 +198,22 @@ export class ModelWrapperImpl extends ModelImpl {
 	 * @returns { () => void }
 	 */ 
 	/**
-	 * @param { WatchCallback } cb
-	 * @param { Omit<WatchOptions, 'deep'> } [options = {}]
+	 * @this { ModelWrapperImpl<unknown> }
+	 * @param { WatchCallback } callback
+	 * @param { Omit<WatchOptions, 'deep'> } [options]
 	 */
-	onInternalUpdate(cb, options) {
-		return isFunction(cb)
-			? this.#internalHandler(cb, options)
-			: noop
+	onInternalUpdate(callback, options) {
+		if (isFunction(callback)) {
+			if (!this.#internalWatchers) {
+				this.#internalWatchers = useWatchers(this.ref, {
+					deep: this.#externalWatchers[_deep_]
+				})
+				this.#internalWatchers.pause()
+			}
+			return this.#internalWatchers.onUpdated(callback, { ...options, nonPreemptive: true })
+		} else {
+			return noop
+		}
 	}
 
 	handleValidation(eager = false) {
