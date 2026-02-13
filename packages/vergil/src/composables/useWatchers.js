@@ -4,9 +4,9 @@ import { noop } from "#utilities"
 import { _isScheduled_ } from "#composables/.private/useWatchers"
 
 /**
- * @import { WatchSource, WatchCallback, WatchOptions, EffectScope } from 'vue'
+ * @import { WatchSource, WatchCallback, EffectScope } from 'vue'
  * @import { WatcherEffect } from '#composables'
- * @import { WatcherSource, WatchersHandle, WatchControls } from '#reactivity'
+ * @import { WatcherSource, WatchersHandle, WatchControls, WatchControlledOptions } from '#reactivity'
  */
 
 /**
@@ -67,7 +67,7 @@ export function useWatchers(source, { deep } = {}) {
 
 	/**
 	 * @param { WatchCallback } callback
-	 * @param { Omit<WatchOptions, 'deep'> } [options = {}]
+	 * @param { Omit<WatchControlledOptions, 'deep'> } [options]
 	 */
 	function onUpdated(callback, options = {}) {
 		let stop = noop
@@ -99,13 +99,15 @@ export function useWatchers(source, { deep } = {}) {
 			/** @type { WatchControls } */(auxWatcher)[isPaused ? 'pause' : 'resume']()
 
 			watchers.run(() => {
+				const isNonPreemptive = options.nonPreemptive
 				const watcher = watch(source, (...args) => {
 					const effect = /** @type { WatcherEffect } */ (getCurrentWatcher())
 					if (effect[_isScheduled_]) {
 						effect[_isScheduled_] = false
 						scheduledEffects--
-						if (!isPaused) {
-							/** @type { WatchControls } */(auxWatcher).resume()
+						const isNotPaused = !isPaused
+						if (isNotPaused) /** @type { WatchControls } */(auxWatcher).resume()
+						if (isNotPaused || isNonPreemptive) {
 							callback(...args)
 							if (options.once) stop()
 						}
