@@ -125,7 +125,6 @@ export type ModelWrapper<
 	IncludeElements extends boolean = boolean,
 	CaptureElements extends boolean = boolean
 > = ModelWrapperImpl<T>
-	& { update(v: unknown): void }
 	& (IncludeExposed extends true ? { exposed: Elements }
 		: (IncludeExposed | CaptureExposed) extends false ? unknown
 		: { exposed?: Elements })

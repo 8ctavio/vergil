@@ -48,10 +48,10 @@ export class ModelImpl extends ExtendedRefImpl {
 	#model
 
 	#validationContext
-	/** @type { () => unknown } */
-	#getResetValue = /** @type {any} */(undefined)
 	/** @type { string[] } */
 	#errors = /** @type {any} */(undefined)
+	/** @type { () => unknown } */
+	#getResetValue = /** @type {any} */(undefined)
 	/** @type { (() => void)[] } */
 	#validationCancelFunctions = /** @type {any} */(undefined)
 

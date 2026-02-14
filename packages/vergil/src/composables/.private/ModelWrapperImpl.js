@@ -56,18 +56,7 @@ export class ModelWrapperImpl extends ModelImpl {
 
 		/** @type { PropertyDescriptorMap } */
 		const descriptorMap = {
-			[_isModelWrapper_]: { value: true },
-			update: {
-				// @ts-expect-error
-				value: this.updateDecorator(v => {
-					if (isFunction(v)) {
-						v()
-					} else {
-						this.ref.value = v
-					}
-				}),
-				enumerable: true
-			}
+			[_isModelWrapper_]: { value: true }
 		}
 
 		const { exposed, elements } = options
@@ -90,57 +79,84 @@ export class ModelWrapperImpl extends ModelImpl {
 	/**
 	 * @template { Function } F
 	 * @overload
+	 * @param { F } value
+	 * @param { unknown } [thisArg]
+	 * @param { unknown[] } [args]
+	 * @returns { ReturnType<F> }
+	 */
+	/**
+	 * @overload
+	 * @param { unknown } value
+	 * @returns { void }
+	 */
+	/**
+	 * @this { ModelWrapperImpl<unknown> }
+	 * @param { unknown } value 
+	 * @param { unknown } [thisArg]
+	 * @param { unknown[] } [args]
+	 */
+	update(value, thisArg, args) {
+		/** @type { ModelWrapperImpl | null } */
+		let currentModel = this
+		while (true) {
+			currentModel.#externalWatchers.pause()
+			if (currentModel = currentModel.#parent) {
+				currentModel.#internalWatchers?.resume()
+			} else {
+				break
+			}
+		}
+		
+		// Set interactive context flag
+		const protectedModel = this.#protected
+		const resetInteractiveContext = protectedModel.interactiveContext
+			? false
+			: (protectedModel.interactiveContext = true)
+
+		try {
+			if (isFunction(value)) {
+				return value.apply(thisArg, args)
+			} else {
+				this.ref.value = value
+			}
+		} finally {
+			// Reset interactive context flag
+			if (resetInteractiveContext) {
+				nextTick(() => {
+					protectedModel.interactiveContext = false
+				})
+			}
+
+			currentModel = this
+			while (true) {
+				currentModel.#externalWatchers.resume()
+				if (currentModel = currentModel.#parent) {
+					currentModel.#internalWatchers?.pause()
+				} else {
+					break
+				}
+			}
+		}
+	}
+
+	/**
+	 * @template { Function } F
+	 * @overload
 	 * @param { F } fn 
 	 * @returns { F }
 	 */
 	/** @param { Function } fn */
 	updateDecorator(fn) {
+		if (!isFunction) return noop
+
 		const model = this
-		return isFunction(fn) ?
-			/**
-			 * @this { unknown }
-			 * @param { unknown[] } args
-			 */
-			function(...args) {
-				/** @type { ModelWrapperImpl | null } */
-				let currentModel = model
-				while (true) {
-					currentModel.#externalWatchers.pause()
-					if (currentModel = currentModel.#parent) {
-						currentModel.#internalWatchers?.resume()
-					} else {
-						break
-					}
-				}
-				
-				// Set interactive context flag
-				const protectedModel = model.#protected
-				const resetInteractiveContext = protectedModel.interactiveContext
-					? false
-					: (protectedModel.interactiveContext = true)
-
-				try {
-					return fn.apply(this, args)
-				} finally {
-					// Reset interactive context flag
-					if (resetInteractiveContext) {
-						nextTick(() => {
-							protectedModel.interactiveContext = false
-						})
-					}
-
-					currentModel = model
-					while (true) {
-						currentModel.#externalWatchers.resume()
-						if (currentModel = currentModel.#parent) {
-							currentModel.#internalWatchers?.pause()
-						} else {
-							break
-						}
-					}
-				}
-			}
-			: noop
+		/**
+		 * @this { unknown }
+		 * @param { unknown[] } args
+		 */
+		return function(...args) {
+			return model.update(fn, this, args)
+		}
 	}
 
 	/**
