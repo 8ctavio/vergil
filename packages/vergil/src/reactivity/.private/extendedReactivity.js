@@ -3,16 +3,19 @@ import { isDescriptor, normalizeRef, pull } from '#utilities'
 
 /**
  * @import { Ref, MaybeRef, MaybeRefOrGetter } from 'vue'
- * @import { UnwrapRefOrGetter, NormalizeRef, Entangled } from '#reactivity'
+ * @import {
+ *   Entangled,
+ *   EntangledDescriptor,
+ *   EntangledOptions,
+ *   WithEntangled,
+ *   UnwrapRefOrGetter,
+ *   NormalizeRef
+ * } from '#reactivity'
  */
 
-let shouldUnwrap = true
-let isUnwrappedRef = false
+let unwrap = true
 
-/**
- * Allows to define automatically unwrapped ref properties.
- * @implements { Entangled }
- */
+/** @implements { Entangled } */
 export class EntangledImpl {
 	static {
 		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'Entangled' })
@@ -28,108 +31,107 @@ export class EntangledImpl {
 	 * @returns { Ref<unknown> | undefined }
 	 */
 	getRef(key) {
-		shouldUnwrap = false
-		isUnwrappedRef = false
+		unwrap = false
 		try {
 			const v = this[key]
-			return isUnwrappedRef ? /** @type { Ref } */(v) : undefined
+			return unwrap ? /** @type { Ref } */(v) : undefined
 		} finally {
-			shouldUnwrap = true
+			unwrap = true
 		}
 	}
+}
 
-	/**
-	 * @param { Record<PropertyKey, unknown> } extension	- Object whose own key-value pairs represent key-descriptor pairs used to define corresponding properties on the underlying entangled object.
-	 * @param { object } [options]							- Additional options.
-	 * @param { boolean } [options.defaults]				- Default value of the `configurable`, `enumerable`, and `writable` options. Defaults to `true`.
-	 * @param { boolean } [options.configurable]			- Default `configurable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { boolean } [options.enumerable]				- Default `enumerable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { boolean } [options.writable]				- Default `writable` property value for descriptors of newly created properties. Defaults to `defaults`.
-	 * @param { PropertyKey[] } [options.ignore]			- Array of `extension` property keys not to be defined on the underlying entangled object.
-	 */
-	extend(extension, options = {}) {
-		const {
-			defaults = true,
-			configurable = defaults,
-			enumerable = defaults,
-			writable = defaults,
-			ignore = [],
-		} = options
+/**
+ * Defines properties with automatic ref unwrapping by default.
+ * 
+ * @template { object } O
+ * @template { Record<PropertyKey, unknown> } P
+ * @template { PropertyKey } [Ignore = never]
+ * @overload
+ * @param { O } object
+ * @param { P } properties
+ *   Object whose own key-value pairs represent key-descriptor pairs used to define
+ *   corresponding properties on the underlying entangled object.
+ * @param { EntangledOptions<Ignore> } [options]
+ * @returns { WithEntangled<O, P, Ignore> }
+ */
+/**
+ * @param { object } object
+ * @param { Record<PropertyKey, unknown> } properties
+ * @param { EntangledOptions } [options]
+ */
+export function defineEntangledProperties(object, properties, options = {}) {
+	const {
+		defaults = true,
+		configurable = defaults,
+		enumerable = defaults,
+		writable = defaults,
+		ignore = [],
+	} = options
 
-		ignore.push('__v_skip')
-		if (this instanceof ExtendedRefImpl) ignore.push('ref', 'value')
+	ignore.push('__v_skip')
+	if (object instanceof ExtendedRefImpl) ignore.push('ref', 'value')
 
-		for (const getKeys of [Object.getOwnPropertyNames, Object.getOwnPropertySymbols]) {
-			for (const key of getKeys(extension)) {
-				const idx = ignore.indexOf(key)
-				if (idx > -1) {
-					pull(ignore, idx)
-					continue
+	for (const getKeys of [Object.getOwnPropertyNames, Object.getOwnPropertySymbols]) {
+		for (const key of getKeys(properties)) {
+			const idx = ignore.indexOf(key)
+			if (idx > -1) {
+				pull(ignore, idx)
+				continue
+			}
+
+			const v = properties[key]
+			const descriptor = /** @type { EntangledDescriptor } */ (isDescriptor(v) ? v : { value: v })
+
+			const initDescriptor = !Object.hasOwn(object, key)
+			if (initDescriptor) {
+				if (configurable) descriptor.configurable ??= true
+				if (enumerable) descriptor.enumerable ??= true
+			}
+
+			if (
+				Object.hasOwn(descriptor, 'value')
+				|| !(Object.hasOwn(descriptor, 'get') || Object.hasOwn(descriptor, 'set'))
+			) {
+				if (initDescriptor && writable) {
+					descriptor.writable ??= true
 				}
-
-				/**
-				 * @typedef { {
-				 *     value?: unknown;
-				 *     writable?: boolean;
-				 *     enumerable?: boolean;
-				 *     configurable?: boolean;
-				 *     get?: () => unknown;
-				 *     set?: (v: unknown) => void;
-				 *     unwrap?: boolean;
-				 * } } EntangledDescriptor
-				 */
-				const v = extension[key]
-				const descriptor = /** @type { EntangledDescriptor } */ (isDescriptor(v) ? v : { value: v })
-
-				const initDescriptor = !Object.hasOwn(this, key)
-				if (initDescriptor) {
-					if (configurable) descriptor.configurable ??= true
-					if (enumerable) descriptor.enumerable ??= true
-				}
-
-				if (
-					Object.hasOwn(descriptor, 'value')
-					|| !(Object.hasOwn(descriptor, 'get') || Object.hasOwn(descriptor, 'set'))
-				) {
-					if (initDescriptor && writable) {
-						descriptor.writable ??= true
-					}
-					if (isRef(descriptor.value) && descriptor.unwrap != false) {
-						const _ref = descriptor.value
-						const customGet = /** @type { (shouldUnwrap: boolean) => MaybeRef } */ (descriptor.get)
-						Object.defineProperty(this, key, {
-							get: customGet === undefined
-								? () => {
-									if (shouldUnwrap) {
-										return _ref.value
-									} else {
-										isUnwrappedRef = true
-										return _ref
-									}
+				if (isRef(descriptor.value) && descriptor.unwrap != false) {
+					const _ref = descriptor.value
+					const customGet = /** @type { (shouldUnwrap: boolean) => MaybeRef } */ (descriptor.get)
+					Object.defineProperty(object, key, {
+						get: customGet === undefined
+							? () => {
+								if (unwrap) {
+									return _ref.value
+								} else {
+									unwrap = true
+									return _ref
 								}
-								: () => {
-									if (shouldUnwrap) {
-										return customGet(true)
-									} else {
-										isUnwrappedRef = true
-										const _ref = customGet(false)
-										return isRef(_ref) ? _ref : undefined
-									}
-								},
-							set: descriptor.set ?? ((v) => { _ref.value = v }),
-							enumerable: descriptor.enumerable,
-							configurable: descriptor.configurable
-						})
-					} else {
-						Object.defineProperty(this, key, descriptor)
-					}
+							}
+							: () => {
+								if (unwrap) {
+									return customGet(true)
+								} else {
+									unwrap = true
+									const _ref = customGet(false)
+									return isRef(_ref) ? _ref : undefined
+								}
+							},
+						set: descriptor.set ?? ((v) => { _ref.value = v }),
+						enumerable: descriptor.enumerable,
+						configurable: descriptor.configurable
+					})
 				} else {
-					Object.defineProperty(this, key, descriptor)
+					Object.defineProperty(object, key, descriptor)
 				}
+			} else {
+				Object.defineProperty(object, key, descriptor)
 			}
 		}
-		return this
 	}
+
+	return object
 }
 
 /**

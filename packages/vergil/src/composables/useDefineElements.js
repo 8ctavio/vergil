@@ -1,5 +1,5 @@
 import { toRaw, shallowRef, getCurrentInstance, onUnmounted } from "vue"
-import { entangled } from "#reactivity"
+import { entangled, defineEntangledProperties } from "#reactivity"
 import { isFunction } from "#utilities"
 import { isModel } from "#composables/useModel"
 import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from "#composables/.private/constants"
@@ -68,13 +68,13 @@ export function useDefineElements(keys) {
 					})
 
 					/** @type { Record<string, ShallowRef<HTMLElement | null>> } */
-					const extension = {}
+					const properties = {}
 					for (const key of keys) {
 						if (typeof key === 'string' && key !== '__v_skip') {
-							extension[key] = shallowRef(null)
+							properties[key] = shallowRef(null)
 						}
 					}
-					elements.extend(extension, { defaults: false })
+					defineEntangledProperties(elements, properties, { defaults: false })
 					if (isFunction(elements[_trigger_])) {
 						elements[_trigger_]()
 						delete elements[_trigger_]

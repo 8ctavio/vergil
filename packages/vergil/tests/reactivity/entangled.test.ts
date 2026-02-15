@@ -1,6 +1,6 @@
 import { test, expect, vi } from "vitest"
 import { ref, shallowRef, readonly, toValue } from "vue"
-import { entangled } from "#reactivity"
+import { entangled, defineEntangledProperties } from "#reactivity"
 import { markDescriptor, noop } from "#utilities"
 
 test("Define/Extend regular properties", () => {
@@ -13,7 +13,7 @@ test("Define/Extend regular properties", () => {
 	}] as const
 
 	const _entangled = entangled(properties[0])
-	_entangled.extend(properties[1])
+	defineEntangledProperties(_entangled, properties[1])
 
 	for (const props of properties) {
 		for (const [key, value] of Object.entries(props)) {

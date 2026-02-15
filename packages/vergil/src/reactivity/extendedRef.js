@@ -1,4 +1,4 @@
-import { ExtendedRefImpl } from "#reactivity/.private/extendedReactivity"
+import { ExtendedRefImpl, defineEntangledProperties } from "#reactivity/.private/extendedReactivity"
 
 /**
  * @import { MaybeRefOrGetter, UnwrapRef } from 'vue'
@@ -45,26 +45,13 @@ import { ExtendedRefImpl } from "#reactivity/.private/extendedReactivity"
  *  extended.value = extended.value + 8
  *  // read and write extended properties
  *  extended.extra1 = extended.extra1 + 1
- *  // create and configure properties
- *  extended.extend({
- *  	extra2: 2,
- *  	extra3: markDescriptor({
- *  		value: 3,
- *  		enumerable: false,
- *  		writable: false
- *  	}),
- *  	extra4: markDescriptor({
- *  		value: ref(4),
- *  		unwrap: false
- *  	})
- *  })
  */
 export function extendedRef(value, extension, options = {}) {
 	const { shallow, get, set, ...extensionOptions } = options
 	const extended = value instanceof ExtendedRefImpl
 		? value
 		: new ExtendedRefImpl(value, { shallow, get, set })
-	if (extension) extended.extend(extension, extensionOptions)
+	if (extension) defineEntangledProperties(extended, extension, extensionOptions)
 	return extended
 }
 

@@ -1,6 +1,6 @@
 import { test, expectTypeOf } from 'vitest'
 import { ref, shallowRef } from 'vue'
-import { entangled } from '#reactivity'
+import { entangled, defineEntangledProperties } from '#reactivity'
 import { markDescriptor } from '#utilities'
 import type { Ref, ShallowRef } from 'vue'
 
@@ -14,7 +14,7 @@ test("Return object with defined properties", () => {
 		bar: number[]
 	}>()
 
-	expectTypeOf(_entangled.extend({
+	expectTypeOf(defineEntangledProperties(_entangled, {
 		baz: [] as [number?, string?, boolean?],
 		qux: (() => {}) as (p: string) => void
 	})).toExtend<{

@@ -1,6 +1,6 @@
 import { test, expect, vi } from "vitest"
 import { isRef, isShallow, ref, shallowRef, customRef, toRef, toValue, toRaw } from "vue"
-import { extendedRef } from "#reactivity"
+import { extendedRef, defineEntangledProperties } from "#reactivity"
 import { markDescriptor } from "#utilities"
 import { noop } from "#utilities"
 
@@ -92,7 +92,7 @@ test("Extend with additional properties", () => {
 	expect(extended).not.toHaveProperty('baz')
 
 	const r = shallowRef(true)
-	extended.extend({ baz: r })
+	defineEntangledProperties(extended, { baz: r })
 
 	expect(extended).toHaveProperty('foo')
 	expect(extended).toHaveProperty('bar')
