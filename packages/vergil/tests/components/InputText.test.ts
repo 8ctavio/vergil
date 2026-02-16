@@ -309,25 +309,25 @@ suite('Input icons', () => {
 suite('Input side buttons', () => {
 	test('Render left button', async () => {
 		const wrapper = mount(InputText)
-		expect(wrapper.find('.input-text > .input-text-outer > .btn').exists()).toBe(false)
+		expect(wrapper.find('.input-text > .input-text-outer > .button').exists()).toBe(false)
 
 		// @ts-expect-error
-		await wrapper.setProps({ btnBefore: { label: 'before' } })
+		await wrapper.setProps({ buttonBefore: { label: 'before' } })
 		
-		const btn = wrapper.find('.input-text > .input-text-outer > .btn:first-child')
-		expect(btn.exists()).toBe(true)
-		expect(btn.text()).toBe('before')
+		const button = wrapper.find('.input-text > .input-text-outer > .button:first-child')
+		expect(button.exists()).toBe(true)
+		expect(button.text()).toBe('before')
 	})
 
 	test('Render right button', async () => {
 		const wrapper = mount(InputText)
-		expect(wrapper.find('.input-text > .input-text-outer > .btn').exists()).toBe(false)
+		expect(wrapper.find('.input-text > .input-text-outer > .button').exists()).toBe(false)
 
 		// @ts-expect-error
-		await wrapper.setProps({ btnAfter: { label: 'after' } })
+		await wrapper.setProps({ buttonAfter: { label: 'after' } })
 		
-		const btn = wrapper.find('.input-text > .input-text-outer > .btn:last-child')
-		expect(btn.exists()).toBe(true)
-		expect(btn.text()).toBe('after')
+		const button = wrapper.find('.input-text > .input-text-outer > .button:last-child')
+		expect(button.exists()).toBe(true)
+		expect(button.text()).toBe('after')
 	})
 })

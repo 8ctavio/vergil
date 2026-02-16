@@ -2,7 +2,7 @@
 import { computed, inject } from 'vue'
 import { vergil } from '#vergil'
 import { isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import Icon from '#components/Icon'
 import FormField from '#components/.internal/FormField.vue'
 import MiniMarkup from '#components/.internal/MiniMarkup'
@@ -34,8 +34,8 @@ const props = defineProps({
     icon: String,
     iconLeft: String,
     iconRight: String,
-    btnBefore: Object,
-    btnAfter: Object,
+    buttonBefore: Object,
+    buttonAfter: Object,
     underline: {
         type: Boolean,
         default: () => vergil.config.inputText.underline
@@ -92,7 +92,7 @@ const floatLabelEnabled = computed(() => {
         :showErrors :errors="model.errors"
     >
         <div class="input-text-outer">
-            <Btn v-if="isObject(btnBefore)" v-bind="btnBefore" descendant :disabled="disabled || btnBefore.disabled"/>
+            <Button v-if="isObject(buttonBefore)" v-bind="buttonBefore" descendant :disabled="disabled || buttonBefore.disabled"/>
             <div :class="['input-text-wrapper', { underline, invalid: model.hasErrors }]">
                 <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
                 <p v-if="prefix">{{ prefix }}</p>
@@ -112,7 +112,7 @@ const floatLabelEnabled = computed(() => {
                 <p v-if="suffix">{{ suffix }}</p>
                 <Icon v-if="iconRight" :code="iconRight"/>
             </div>
-            <Btn v-if="isObject(btnAfter)" v-bind="btnAfter" descendant :disabled="disabled || btnAfter.disabled"/>
+            <Button v-if="isObject(buttonAfter)" v-bind="buttonAfter" descendant :disabled="disabled || buttonAfter.disabled"/>
         </div>
     </FormField>
 </template>
@@ -124,17 +124,17 @@ const floatLabelEnabled = computed(() => {
     grid-template-columns: auto 1fr auto;
     width: 100%;
 
-    &:has(> .btn:first-child) > .input-text-wrapper {
+    &:has(> .button:first-child) > .input-text-wrapper {
 		margin-left: calc(var(--text-input-bw) * -1);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &:has(> .btn:last-child) > .input-text-wrapper {
+    &:has(> .button:last-child) > .input-text-wrapper {
 		margin-right: calc(var(--text-input-bw) * -1);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
-    & > .btn {
+    & > .button {
         &:first-child {
             z-index: 1;
             border-top-right-radius: 0;

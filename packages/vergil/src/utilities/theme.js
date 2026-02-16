@@ -82,12 +82,12 @@ export const isValidSpacing = Array.prototype.includes.bind(['', 'compact', 'exp
 
 
 /**
- * @param { 'Btn' | 'ToggleButton' } c
+ * @param { 'Button' | 'ToggleButton' } c
  * @param { string } v
  */
 export function isValidVariant(c, v) {
     switch (c) {
-        case 'Btn':
+        case 'Button':
             return ['solid', 'soft', 'subtle'].includes(v)
         case 'ToggleButton':
             return ['classic', 'card', 'list', 'toggle'].includes(v)

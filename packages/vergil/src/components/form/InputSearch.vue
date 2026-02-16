@@ -29,13 +29,13 @@ const props = defineProps({
         type: String,
         default: 'search_off'
     },
-    btnPosition: {
+    buttonPosition: {
         type: String as PropType<'before' | 'after'>,
-        default: () => vergil.config.inputSearch.btnPosition,
+        default: () => vergil.config.inputSearch.buttonPosition,
         validator: (v: string) => ['before', 'after'].includes(v)
     },
-    btnBefore: Object,
-    btnAfter: Object,
+    buttonBefore: Object,
+    buttonAfter: Object,
     disabled: Boolean,
     onSearch: Function as PropType<(searchQuery: string) => void>,
 })
@@ -80,27 +80,27 @@ const icon = computed(() => {
         : props.iconClear
 })
 
-const btnData = {} as {
-    searchBtnProp: string;
-    normalBtnProp: 'btnBefore' | 'btnAfter';
-    normalBtnProps?: Record<string, unknown>
+const buttonData = {} as {
+    searchButtonProp: string;
+    normalButtonProp: 'buttonBefore' | 'buttonAfter';
+    normalButtonProps?: Record<string, unknown>
 }
-const btnDataSignal = shallowRef(btnData)
+const buttonDataSignal = shallowRef(buttonData)
 watchEffect(() => {
-    const position = props.btnPosition
-    btnData.searchBtnProp = `btn${ucFirst(position)}`
-    btnData.normalBtnProp = position === 'before' ? 'btnAfter' : 'btnBefore'
-    btnData.normalBtnProps = props[btnData.normalBtnProp]
-    triggerRef(btnDataSignal)
+    const position = props.buttonPosition
+    buttonData.searchButtonProp = `button${ucFirst(position)}`
+    buttonData.normalButtonProp = position === 'before' ? 'buttonAfter' : 'buttonBefore'
+    buttonData.normalButtonProps = props[buttonData.normalButtonProp]
+    triggerRef(buttonDataSignal)
 })
 
-const searchBtnProps = computed(() => {
-    const position = props.btnPosition
-    const btnProps = props[`btn${ucFirst(position) as 'Before' | 'After'}`] ?? {}
-    btnProps.variant ??= 'subtle'
-    btnProps.outline ??= 'subtle'
-    const searchBtnProps = {
-        ...btnProps,
+const searchButtonProps = computed(() => {
+    const position = props.buttonPosition
+    const buttonProps = props[`button${ucFirst(position) as 'Before' | 'After'}`] ?? {}
+    buttonProps.variant ??= 'subtle'
+    buttonProps.outline ??= 'subtle'
+    const searchButtonProps = {
+        ...buttonProps,
         type: 'button',
         icon: undefined,
         onClick() {
@@ -125,7 +125,7 @@ const searchBtnProps = computed(() => {
      * objects. Instead, accessor getters are defined to manually
      * unwrap refs.
      */
-    Object.defineProperties(searchBtnProps, {
+    Object.defineProperties(searchButtonProps, {
         [position === 'after' ? 'iconLeft' : 'iconRight']: {
             get: () => icon.value,
             enumerable: true
@@ -136,7 +136,7 @@ const searchBtnProps = computed(() => {
         }
     })
 
-    return searchBtnProps
+    return searchButtonProps
 })
 
 useDefineExposed({
@@ -154,8 +154,8 @@ useDefineExposed({
     <InputText
         class="input-search"
         :model-value="model"
-        :[btnDataSignal.searchBtnProp]="searchBtnProps"
-        :[btnDataSignal.normalBtnProp]="btnDataSignal.normalBtnProps"
+        :[buttonDataSignal.searchButtonProp]="searchButtonProps"
+        :[buttonDataSignal.normalButtonProp]="buttonDataSignal.normalButtonProps"
         :disabled="disabled || loader"
         @keyup.enter="handleEnter"
     />

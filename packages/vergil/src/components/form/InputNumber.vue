@@ -52,8 +52,8 @@ const props = defineProps({
 		validator: (v: number) => v > 0
 	},
 	steppers: Boolean,
-	btnBefore: Object,
-    btnAfter: Object,
+	buttonBefore: Object,
+    buttonAfter: Object,
 
 	//----- Debounced validation -----
     preventEnterValidation: Boolean,
@@ -412,27 +412,27 @@ function handleKeydown(event: KeyboardEvent) {
 	}
 }
 
-const btnBefore = shallowRef<Record<string, unknown> | undefined>({})
-const btnAfter = shallowRef<Record<string, unknown> | undefined>({})
+const buttonBefore = shallowRef<Record<string, unknown> | undefined>({})
+const buttonAfter = shallowRef<Record<string, unknown> | undefined>({})
 watchEffect(() => {
 	if (props.steppers) {
-		btnBefore.value = {
+		buttonBefore.value = {
 			iconRight: 'remove',
 			onClick: stepDown,
 			variant: 'subtle',
 			outline: 'subtle',
-			...props.btnBefore
+			...props.buttonBefore
 		}
-		btnAfter.value = {
+		buttonAfter.value = {
 			iconLeft: 'add',
 			onClick: stepUp,
 			variant: 'subtle',
 			outline: 'subtle',
-			...props.btnAfter
+			...props.buttonAfter
 		}
 	} else {
-		btnBefore.value = props.btnBefore
-		btnAfter.value = props.btnAfter
+		buttonBefore.value = props.buttonBefore
+		buttonAfter.value = props.buttonAfter
 	}
 })
 </script>
@@ -440,8 +440,8 @@ watchEffect(() => {
 <template>
 	<InputTextBase
 		class="input-number"
-        :btnBefore
-        :btnAfter
+        :buttonBefore
+        :buttonAfter
 		@beforeinput="handleBeforeInput"
 		@input="handleInput"
 		@change="handleChange"

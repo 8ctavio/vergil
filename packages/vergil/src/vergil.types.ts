@@ -1,7 +1,7 @@
 export * from './vergil.js'
 
 import type { TupleOf, DeepOptional, Theme, Size, Radius, Spacing, ColorPalette } from "#utilities"
-import type { BtnVariant, BtnOutline, ToggleVariant, ToasterPosition } from "#components"
+import type { ButtonVariant, ButtonOutline, ToggleVariant, ToasterPosition } from "#components"
 
 export type PartialVergilConfig = DeepOptional<VergilConfig>
 export interface VergilConfig {
@@ -21,12 +21,12 @@ export interface VergilConfig {
 		default: ColorPalette
 	},
 	badge: {
-		variant: BtnVariant;
+		variant: ButtonVariant;
 		soft: {
-			outline?: BtnOutline
+			outline?: ButtonOutline
 		};
 		subtle: {
-			outline?: BtnOutline
+			outline?: ButtonOutline
 		};
 		theme?: Theme;
 		size?: Size;
@@ -34,23 +34,23 @@ export interface VergilConfig {
 		spacing?: Spacing;
 		squared?: boolean;
 	},
-	btn: {
-		variant: BtnVariant;
+	button: {
+		variant: ButtonVariant;
 		solid: {
 			mask?: 'ghost' | 'form-field';
-			outline?: BtnOutline;
+			outline?: ButtonOutline;
 			underline?: boolean;
 			fill?: boolean;
 		};
 		soft: {
 			mask?: 'ghost' | 'form-field';
-			outline?: BtnOutline;
+			outline?: ButtonOutline;
 			underline?: boolean;
 			fill?: boolean;
 		};
 		subtle: {
 			mask?: 'ghost' | 'form-field';
-			outline?: BtnOutline;
+			outline?: ButtonOutline;
 			underline?: boolean;
 			fill?: boolean;
 		};
@@ -118,7 +118,7 @@ export interface VergilConfig {
 		validationCooldown?: number;
 	},
 	inputSearch: {
-		btnPosition: 'before' | 'after';
+		buttonPosition: 'before' | 'after';
 	},
 	inputText: {
 		underline: boolean;
@@ -145,12 +145,12 @@ export interface VergilConfig {
 		delay: number;
 	},
 	pushButton: {
-		variant: BtnVariant;
+		variant: ButtonVariant;
 		soft: {
-			outline?: BtnOutline;
+			outline?: ButtonOutline;
 		};
 		subtle: {
-			outline?: BtnOutline;
+			outline?: ButtonOutline;
 		};
 		theme?: Theme;
 		size?: Size;

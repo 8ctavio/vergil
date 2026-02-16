@@ -4,7 +4,7 @@ import { vergil } from '#vergil'
 import { useModel, useDefineModel, usePopover } from '#composables'
 import { prune, isObject, isInput, isTabKey, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
 import Icon from '#components/Icon'
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import Badge from '#components/Badge.vue'
 import CheckboxGroup from '#components/form/CheckboxGroup'
 import InputText from '#components/form/InputText.vue'
@@ -133,7 +133,7 @@ watch(isOpen, () => {
 }, { flush: 'sync' })
 
 //-------------------- SELECT BUTTON --------------------
-function handleBtnClick(event: PointerEvent) {
+function handleButtonClick(event: PointerEvent) {
     if (Object.hasOwn((event.target as HTMLElement).dataset, 'value') && isMultiSelect.value) {
         updateSelection({
             value: (event.target as HTMLElement).dataset.value as string,
@@ -391,7 +391,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
             :theme :size :radius :spacing
             @keydown="handleSelectKeydown"
         >
-            <Btn
+            <Button
                 v-bind="$attrs"
                 type="button"
                 :class="['select-button', {
@@ -406,7 +406,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                 :underline
                 :disabled
                 :squared="false"
-                @click="handleBtnClick"
+                @click="handleButtonClick"
                 @keydown="handleSelectKeydown"
             >
                 <div v-if="chips && isMultiSelect && isSelected" class="chips">
@@ -431,7 +431,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
                         <MiniMarkup :str="label"/>
                     </label>
                 </template>
-            </Btn>
+            </Button>
             <template #portal>
                 <InputText v-if="filter" 
                     v-bind="filterInput"
@@ -469,12 +469,12 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
 </template>
 
 <style>
-.select > .select-button.btn {
-    &:hover > .btn-content > .chips > .badge {
+.select > .select-button.button {
+    &:hover > .button-content > .chips > .badge {
         box-shadow: none;
     }
     &.selected {
-        --btn-c-text-1: var(--c-text);
+        --button-c-text-1: var(--c-text);
         & > label {
             font-size: 0.9em;
             font-weight: 450;
@@ -485,7 +485,7 @@ function updateOptions(closeOnUpdated = false, resetSelection = false) {
             transition: transform 150ms, padding 150ms 50ms, font-size 150ms;
         }
     }
-    & > .btn-content {
+    & > .button-content {
         grid-template-columns: 1fr auto;
         align-items: center;
         & > .select-placeholder {

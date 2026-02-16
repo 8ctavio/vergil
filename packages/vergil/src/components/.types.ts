@@ -1,5 +1,5 @@
-export type BtnVariant = 'solid' | 'soft' | 'subtle'
-export type BtnOutline = boolean | 'regular' | 'subtle' | 'strong';
+export type ButtonVariant = 'solid' | 'soft' | 'subtle'
+export type ButtonOutline = boolean | 'regular' | 'subtle' | 'strong';
 
 export type ToggleVariant = 'classic' | 'card' | 'list' | 'toggle';
 

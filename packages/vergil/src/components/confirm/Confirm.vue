@@ -3,7 +3,7 @@ import { useTemplateRef, watch, nextTick } from "vue"
 import { vergil } from "#vergil"
 import { FocusTrap, isEscapeKey, isTabKey, noop } from '#utilities'
 import { confirmModel } from "./index.js"
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import Icon from '#components/Icon'
 import ModalTransition from '#components/.internal/ModalTransition'
 import MiniMarkup from '#components/.internal/MiniMarkup'
@@ -21,20 +21,20 @@ function resolveConfirm(response: boolean) {
 	confirmModel.waitingConfirmation = false
 }
 
-const cancelBtn = useTemplateRef('cancel-btn')
-const acceptBtn = useTemplateRef('accept-btn')
+const cancelButton = useTemplateRef('cancel-button')
+const acceptButton = useTemplateRef('accept-button')
 function handleKeyDown(event: KeyboardEvent) {
 	if (isEscapeKey(event)) {
 		resolveConfirm(false)
 	} else if (isTabKey(event)) {
 		switch(event.target) {
-			case (cancelBtn.value as ComponentPublicInstance).$el:
+			case (cancelButton.value as ComponentPublicInstance).$el:
 				event.preventDefault()
-				;(acceptBtn.value as ComponentPublicInstance).$el.focus()
+				;(acceptButton.value as ComponentPublicInstance).$el.focus()
 				break
-			case (acceptBtn.value as ComponentPublicInstance).$el:
+			case (acceptButton.value as ComponentPublicInstance).$el:
 				event.preventDefault()
-				;(cancelBtn.value as ComponentPublicInstance).$el.focus()
+				;(cancelButton.value as ComponentPublicInstance).$el.focus()
 				break
 		}
 	}
@@ -49,14 +49,14 @@ async function handleFocusOut(event: FocusEvent) {
 }
 function handleFocusIn(event: FocusEvent) {
     if (focusTrap.isActive && ![
-		(cancelBtn.value as ComponentPublicInstance).$el,
-		(acceptBtn.value as ComponentPublicInstance).$el
+		(cancelButton.value as ComponentPublicInstance).$el,
+		(acceptButton.value as ComponentPublicInstance).$el
 	].includes(event.target)) {
         if (focusedBeforeBlur) {
             focusedBeforeBlur.focus()
             focusedBeforeBlur = null
         } else {
-			(cancelBtn.value as ComponentPublicInstance).$el.focus()
+			(cancelButton.value as ComponentPublicInstance).$el.focus()
 		}
     }
 }
@@ -67,7 +67,7 @@ watch(() => confirmModel.show, show => {
 		focusTrap.activate()
 		focusedBeforeTrap = document.activeElement as HTMLElement | null
 		document.addEventListener('focusin', handleFocusIn)
-		nextTick(() => (cancelBtn.value as ComponentPublicInstance).$el.focus())
+		nextTick(() => (cancelButton.value as ComponentPublicInstance).$el.focus())
 	} else {
 		document.removeEventListener('focusin', handleFocusIn)
 		focusedBeforeTrap?.focus({ preventScroll: true })
@@ -86,8 +86,8 @@ watch(() => confirmModel.show, show => {
 				<MiniMarkup :str="confirmModel.content.description"/>
 			</p>
 			<div @keydown="handleKeyDown" @focusout="handleFocusOut">
-				<Btn ref="cancel-btn" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
-				<Btn ref="accept-btn" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
+				<Button ref="cancel-button" variant="subtle" outline="subtle" theme="neutral" :label="confirmModel.content.declineLabel" @click="resolveConfirm(false)"/>
+				<Button ref="accept-button" variant="solid" :theme="confirmModel.content.theme" :label="confirmModel.content.confirmLabel" @click="resolveConfirm(true)"/>
 			</div>
 		</div>
 	</ModalTransition>

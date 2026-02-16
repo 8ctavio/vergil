@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'vue'
-import { Btn, Radio } from '#components'
+import { Button, Radio } from '#components'
 import { usePopover } from '#composables'
 import { ucFirst } from '#utilities/string'
 import { isValidColor } from '#utilities/theme'
@@ -35,7 +35,7 @@ const { Popover, togglePopover } = usePopover({
 
 <template>
 	<Popover class="user-theme-color-picker" @change="userThemeColor = $event.target.value">
-		<Btn
+		<Button
 			variant="subtle"
 			mask="ghost"
 			icon="style"

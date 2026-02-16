@@ -40,7 +40,7 @@ export const modalMeta = shallowReactive({
     focusedBefore: null
 })
 
-export async function closeModal(closeBtn = false) {
+export async function closeModal(closeButton = false) {
     const onClose = modal.value.props?.onClose
     modalMeta.isLeaving = true
     await nextTick()
@@ -49,7 +49,7 @@ export async function closeModal(closeBtn = false) {
         component: null,
         props: null
     }
-    if (closeBtn && isFunction(onClose)) onClose()
+    if (closeButton && isFunction(onClose)) onClose()
 }
 
 /**

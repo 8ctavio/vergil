@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { vergil } from '#vergil'
 import { inferTheme, isEscapeKey, isValidRadius, isValidSize, isValidTheme } from '#utilities'
 import { modalMeta, closeModal } from './index.js'
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import FocusTrap from '#components/.internal/FocusTrap.vue'
 import type { PropType } from 'vue'
 import type { Theme, Size, Radius } from '#utilities'
@@ -52,7 +52,7 @@ onMounted(() => {
             </div>
             <div class="controls right">
                 <slot name="controls-right"/>
-                <Btn icon="close" variant="soft" spacing="compact" @click="() => closeModal(true)" :disabled/>
+                <Button icon="close" variant="soft" spacing="compact" @click="() => closeModal(true)" :disabled/>
             </div>
             <h1>{{ title }}</h1>
         </header>

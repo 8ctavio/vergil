@@ -1,6 +1,6 @@
 //---------- Components ----------
 export { default as Badge } from '../Badge.vue'
-export { default as Btn } from '../Btn.vue'
+export { default as Button } from '../Button.vue'
 export { default as DataList } from '../DataList.vue'
 export { default as Icon } from '../Icon.js'
 export { default as Placeholder } from '../Placeholder.vue'

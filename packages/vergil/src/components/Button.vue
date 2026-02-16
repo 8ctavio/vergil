@@ -35,7 +35,7 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, i
 import Icon from '#components/Icon'
 import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { AnchorHTMLAttributes, PropType } from 'vue'
-import type { BtnVariant, BtnOutline } from '#components'
+import type { ButtonVariant, ButtonOutline } from '#components'
 import type { Exposed } from '#composables'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 
@@ -44,34 +44,34 @@ const props = defineProps({
 
     label: String,
     variant: {
-        type: String as PropType<BtnVariant>,
-        default: () => vergil.config.btn.variant,
-        validator: (v: string) => isValidVariant('Btn', v)
+        type: String as PropType<ButtonVariant>,
+        default: () => vergil.config.button.variant,
+        validator: (v: string) => isValidVariant('Button', v)
     },
     mask: {
         type: String as PropType<'ghost' | 'form-field'>,
-        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.mask,
+        default: (props: { variant: ButtonVariant }) => vergil.config.button[props.variant]?.mask,
         validator: (v: string) => ['ghost', 'form-field'].includes(v)
     },
     outline: {
-        type: [Boolean, String] as PropType<boolean | BtnOutline>,
-        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.outline,
+        type: [Boolean, String] as PropType<boolean | ButtonOutline>,
+        default: (props: { variant: ButtonVariant }) => vergil.config.button[props.variant]?.outline,
         validator: (v: boolean | string) => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
     underline: {
         type: Boolean,
-        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.underline,
+        default: (props: { variant: ButtonVariant }) => vergil.config.button[props.variant]?.underline,
     },
     fill: {
         type: Boolean,
-        default: (props: { variant: BtnVariant }) => vergil.config.btn[props.variant]?.fill,
+        default: (props: { variant: ButtonVariant }) => vergil.config.button[props.variant]?.fill,
     },
     icon: String,
     iconLeft: String,
     iconRight: String,
     squared: {
         type: Boolean,
-        default: (props: Record<string, string>) => vergil.config.btn.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
+        default: (props: Record<string, string>) => vergil.config.button.squared || Boolean(!props.label && (props.icon || props.iconLeft || props.iconRight))
     },
     disabled: Boolean,
     loading: Boolean,
@@ -83,7 +83,7 @@ const props = defineProps({
     descendant: Boolean,
     theme: {
         type: String as PropType<Theme>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.theme ?? vergil.config.global.theme),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.button.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     interactionTheme: {
@@ -92,17 +92,17 @@ const props = defineProps({
     },
     size: {
         type: String as PropType<Size>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.size ?? vergil.config.global.size),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.button.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String as PropType<Radius>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.radius ?? vergil.config.global.radius),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.button.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String as PropType<Spacing>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn.spacing ?? vergil.config.global.spacing),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.button.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
@@ -134,7 +134,7 @@ useDefineExposed([
 <template>
     <component :is="linkTo ? resolveLink() : 'button'"
         v-bind="linkTo && { ...linkOptions, [resolveLink() === 'a' ? 'href' : 'to']: linkTo }"
-        :class="['btn', variant, mask && `masked mask-${mask}`, {
+        :class="['button', variant, mask && `masked mask-${mask}`, {
             underline,
             fill,
             squared,
@@ -149,17 +149,17 @@ useDefineExposed([
         }]"
         :disabled="disabled || loading"
     >
-        <span v-if="mask" class="btn-backdrop"/>
-        <div class="btn-content">
+        <span v-if="mask" class="button-backdrop"/>
+        <div class="button-content">
             <Icon v-if="icon || iconLeft" :code="icon || iconLeft"/>
             <slot>
-                <p v-if="label" class="btn-label">
+                <p v-if="label" class="button-label">
                     <MiniMarkup :str="label"/>
                 </p>
             </slot>
             <Icon v-if="iconRight" :code="iconRight"/>
-            <div v-if="loading" class="btn-loader">
-                <span class="btn-spinner"/>
+            <div v-if="loading" class="button-loader">
+                <span class="button-spinner"/>
             </div>
         </div>
         <slot name="aside"/>
@@ -167,19 +167,19 @@ useDefineExposed([
 </template>
 
 <style>
-:is(button, a).btn {
-    --btn-c-icon: var(--btn-c-icon-1);
-    --btn-c-border: var(--btn-c-border-1);
-    --btn-bw: 0px;
+:is(button, a).button {
+    --button-c-icon: var(--button-c-icon-1);
+    --button-c-border: var(--button-c-border-1);
+    --button-bw: 0px;
 
     font-size: var(--font-size);
     line-height: var(--line-height-text);
     padding: var(--g-gap-md) var(--g-gap-2xl);
     border-radius: var(--g-radius-full, var(--g-radius-md));
-    background-color: var(--btn-c-1);
-    color: var(--btn-c-text-1);
-    box-shadow: inset 0 calc(var(--btn-bw-b, 0px) * -1) var(--btn-c-border-b, transparent),
-                inset 0 0 0 var(--btn-bw) var(--btn-c-border, transparent);
+    background-color: var(--button-c-1);
+    color: var(--button-c-text-1);
+    box-shadow: inset 0 calc(var(--button-bw-b, 0px) * -1) var(--button-c-border-b, transparent),
+                inset 0 0 0 var(--button-bw) var(--button-c-border, transparent);
 
     position: relative;
     border: none;
@@ -190,59 +190,59 @@ useDefineExposed([
 
     &:not(.loading) {
         &:is(:hover, :focus-visible, :active) {
-            --btn-c-icon: var(--btn-c-icon-2);
-            --btn-c-border: var(--btn-c-border-2);
-            color: var(--btn-c-text-2);
+            --button-c-icon: var(--button-c-icon-2);
+            --button-c-border: var(--button-c-border-2);
+            color: var(--button-c-text-2);
 
-            &:is(a.link-underline) > .btn-content > .btn-label {
-                box-shadow: inset 0 -0.8px var(--btn-c-icon-2, var(--btn-c-text-2));
+            &:is(a.link-underline) > .button-content > .button-label {
+                box-shadow: inset 0 -0.8px var(--button-c-icon-2, var(--button-c-text-2));
             }
         }
         &:is(:hover, :focus-visible) {
             &:not(.fill) {
-                background-color: var(--btn-c-2);
+                background-color: var(--button-c-2);
             }
-            &.fill:not(:disabled) > .btn-backdrop {
+            &.fill:not(:disabled) > .button-backdrop {
                 height: 100%;
-                background-color: var(--btn-c-2);
+                background-color: var(--button-c-2);
             }
         }
         &:active {
             &:where(.solid) {
-                --btn-c-border-b: transparent;
+                --button-c-border-b: transparent;
             }
-            &:not(.fill), &.fill:not(:disabled) > .btn-backdrop {
-                background-color: var(--btn-c-3);
+            &:not(.fill), &.fill:not(:disabled) > .button-backdrop {
+                background-color: var(--button-c-3);
             }
         }
         &:disabled {
-            --btn-c-icon: var(--c-disabled-text);
+            --button-c-icon: var(--c-disabled-text);
             cursor: not-allowed;
             color: var(--c-disabled-text);
 
             &:is(.solid, .soft) {
-                --btn-c-border: var(--c-disabled-border-2);
+                --button-c-border: var(--c-disabled-border-2);
                 background-color: var(--c-disabled-2);
             }
             &.subtle, &.mask-form-field {
-                --btn-c-border: var(--c-disabled-border-1);
+                --button-c-border: var(--c-disabled-border-1);
                 background-color: var(--c-disabled-1);
             }
             &.underline {
-                --btn-c-border-b: var(--c-disabled-border-3);
+                --button-c-border-b: var(--c-disabled-border-3);
             }
         }
 
         &.mask-ghost {
-            --btn-c-1: transparent;
-            --btn-c-text-1: var(--c-theme-text-1);
-            --btn-c-icon-1: var(--c-theme-1);
+            --button-c-1: transparent;
+            --button-c-text-1: var(--c-theme-text-1);
+            --button-c-icon-1: var(--c-theme-1);
         }
         &.mask-form-field {
             font-weight: 400;
-            --btn-c-1: var(--c-bg);
-            --btn-c-text-1: var(--c-grey-text-2);
-            --btn-c-icon-1: var(--c-grey-1);
+            --button-c-1: var(--c-bg);
+            --button-c-text-1: var(--c-grey-text-2);
+            --button-c-icon-1: var(--c-grey-1);
         }
     }
     &:focus-visible {
@@ -253,102 +253,102 @@ useDefineExposed([
     }
     &.loading {
         cursor: progress;
-        & > .btn-content {
+        & > .button-content {
             background-color: inherit;
-            & > .btn-loader {
+            & > .button-loader {
                 background-color: inherit;
             }
         }
     }
 
     &.solid {
-        --btn-c-1: var(--c-theme-solid-1);
-        --btn-c-2: var(--c-theme-solid-2);
-        --btn-c-3: var(--c-theme-solid-3);
-        --btn-c-text-1: var(--c-theme-text-4);
-        --btn-c-text-2: var(--c-theme-text-4);
-        --btn-c-icon-1: var(--c-theme-text-3);
-        --btn-c-icon-2: var(--c-theme-text-3);
+        --button-c-1: var(--c-theme-solid-1);
+        --button-c-2: var(--c-theme-solid-2);
+        --button-c-3: var(--c-theme-solid-3);
+        --button-c-text-1: var(--c-theme-text-4);
+        --button-c-text-2: var(--c-theme-text-4);
+        --button-c-icon-1: var(--c-theme-text-3);
+        --button-c-icon-2: var(--c-theme-text-3);
         &.masked {
-            --btn-c-2: var(--c-theme-solid-1);
-            --btn-c-3: var(--c-theme-solid-2);
+            --button-c-2: var(--c-theme-solid-1);
+            --button-c-3: var(--c-theme-solid-2);
         }
-        & > .btn-content .btn-spinner {
+        & > .button-content .button-spinner {
             border-color: rgb(255 255 255 / 0.95);
             border-top-color: rgb(0 0 0 / 0.45);
         }
     }
     &.soft {
-        --btn-c-1: var(--c-theme-soft-2);
-        --btn-c-2: var(--c-theme-soft-3);
-        --btn-c-3: var(--c-theme-soft-4);
+        --button-c-1: var(--c-theme-soft-2);
+        --button-c-2: var(--c-theme-soft-3);
+        --button-c-3: var(--c-theme-soft-4);
         &.masked {
-            --btn-c-2: var(--c-theme-soft-2);
-            --btn-c-3: var(--c-theme-soft-3);
+            --button-c-2: var(--c-theme-soft-2);
+            --button-c-3: var(--c-theme-soft-3);
         }
     }
     &.subtle {
-        --btn-c-1: var(--c-theme-soft-1);
-        --btn-c-2: var(--c-theme-soft-2);
-        --btn-c-3: var(--c-theme-soft-3);
+        --button-c-1: var(--c-theme-soft-1);
+        --button-c-2: var(--c-theme-soft-2);
+        --button-c-3: var(--c-theme-soft-3);
         &.masked {
-            --btn-c-2: var(--c-theme-soft-1);
-            --btn-c-3: var(--c-theme-soft-2);
+            --button-c-2: var(--c-theme-soft-1);
+            --button-c-3: var(--c-theme-soft-2);
         }
     }
     &:is(.soft, .subtle) {
-        --btn-c-text-1: var(--c-theme-text-2);
-        --btn-c-text-2: var(--c-theme-text-2);
-        & > .btn-backdrop {
+        --button-c-text-1: var(--c-theme-text-2);
+        --button-c-text-2: var(--c-theme-text-2);
+        & > .button-backdrop {
             box-shadow: inherit;
         }
-        & .btn-spinner{
+        & .button-spinner{
             border-color: var(--c-theme-border-subtle);
             border-top-color: var(--c-theme-text-2);
         }
     }
 
     &:is(.outline-subtle, .outline-regular, .outline-strong) {
-        --btn-bw: 0.8px;
+        --button-bw: 0.8px;
     }
     &.outline-subtle {
-        --btn-c-border-1: var(--c-theme-border-subtle);
+        --button-c-border-1: var(--c-theme-border-subtle);
         &:where(.soft, .subtle) {
-            --btn-c-border-2: var(--c-theme-border-subtle);
+            --button-c-border-2: var(--c-theme-border-subtle);
         }
         &:where(.mask-form-field) {
-            --btn-c-border-1: var(--c-grey-border-subtle);
+            --button-c-border-1: var(--c-grey-border-subtle);
         }
     }
     &.outline-regular {
-        --btn-c-border-1: var(--c-theme-border-regular);
+        --button-c-border-1: var(--c-theme-border-regular);
         &:where(.soft, .subtle) {
-            --btn-c-border-2: var(--c-theme-border-regular);
+            --button-c-border-2: var(--c-theme-border-regular);
         }
         &:where(.mask-form-field) {
-            --btn-c-border-1: var(--c-grey-border-regular);
+            --button-c-border-1: var(--c-grey-border-regular);
         }
     }
     &.outline-strong {
-        --btn-c-border-1: var(--c-theme-1);
+        --button-c-border-1: var(--c-theme-1);
         &:where(.soft, .subtle) {
-            --btn-c-border-2: var(--c-theme-1);
+            --button-c-border-2: var(--c-theme-1);
         }
         &:where(.mask-form-field) {
-            --btn-c-border-1: var(--c-grey-1);
+            --button-c-border-1: var(--c-grey-1);
         }
     }
     &.underline {
-        --btn-bw-b: var(--component-border-bottom-width);
-        --btn-c-border-b: var(--c-theme-solid-1);
+        --button-bw-b: var(--component-border-bottom-width);
+        --button-c-border-b: var(--c-theme-solid-1);
     }
     &.invalid {
-        --btn-bw: 1px;
-        --btn-c-border-1: var(--c-theme-solid-1);
+        --button-bw: 1px;
+        --button-c-border-1: var(--c-theme-solid-1);
     }
     &.fill {
         transition: background-color 150ms, color 200ms, box-shadow 150ms;
-        & > .btn-content > .icon {
+        & > .button-content > .icon {
             transition: color 200ms;
         }
     }
@@ -356,7 +356,7 @@ useDefineExposed([
         padding: var(--g-gap-md);
     }
 
-    & > .btn-backdrop{
+    & > .button-backdrop{
         position: absolute;
         left: 0;
         bottom: 0;
@@ -366,7 +366,7 @@ useDefineExposed([
         border-radius: inherit;
         transition: height 150ms linear, background-color 150ms ease-in, box-shadow 150ms ease-in;
     }
-    & > .btn-content {
+    & > .button-content {
         font-size: 1em;
         position: relative;
         display: grid;
@@ -378,7 +378,7 @@ useDefineExposed([
             background-color: transparent;
         }
 
-        & > .btn-label {
+        & > .button-label {
             transition: box-shadow 150ms;
         }
 
@@ -386,11 +386,11 @@ useDefineExposed([
             font-size: calc(1em * var(--font-size-scale-icon));
             line-height: var(--line-height-icon);
             aspect-ratio: 1 / 1;
-            color: var(--btn-c-icon, inherit);
+            color: var(--button-c-icon, inherit);
             transition: color 150ms;
         }
 
-        & > .btn-loader {
+        & > .button-loader {
             font-size: 1em;
             position: absolute;
             top: 0;
@@ -401,7 +401,7 @@ useDefineExposed([
             align-items: center;
             writing-mode: vertical-lr;
 
-            & > .btn-spinner {
+            & > .button-spinner {
                 font-size: 1em;
                 height: 100%;
                 margin: calc((100% - (1em * var(--font-size-scale-icon))) / 2) 0;
@@ -417,7 +417,7 @@ useDefineExposed([
     }
 }
 
-.button-group > .btn {
+.button-group > .button {
     &:first-child {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -430,7 +430,7 @@ useDefineExposed([
         border-radius: 0;
     }
     &:not(:first-child) {
-        margin-left: calc(-1 * var(--btn-bw));
+        margin-left: calc(-1 * var(--button-bw));
     }
     &:hover {
         z-index: 1;

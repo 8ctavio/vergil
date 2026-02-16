@@ -4,18 +4,18 @@ import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, i
 import Icon from '#components/Icon'
 import MiniMarkup from '#components/.internal/MiniMarkup'
 import type { PropType } from 'vue'
-import type { BtnVariant, BtnOutline } from '#components'
+import type { ButtonVariant, ButtonOutline } from '#components'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 
 defineProps({
     label: String,
     variant: {
-        type: String as PropType<BtnVariant>,
+        type: String as PropType<ButtonVariant>,
         default: () => vergil.config.pushButton.variant,
-        validator: (v: string) => isValidVariant('Btn', v)
+        validator: (v: string) => isValidVariant('Button', v)
     },
     outline: {
-        type: [Boolean, String] as PropType<boolean | BtnOutline>,
+        type: [Boolean, String] as PropType<boolean | ButtonOutline>,
         default: (props: { variant: 'soft' | 'subtle' }) => vergil.config.pushButton[props.variant]?.outline,
         validator: (v: boolean | string) => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
@@ -72,8 +72,8 @@ defineProps({
             <MiniMarkup :str="label"/>
         </slot>
         <Icon v-if="iconRight" :code="iconRight"/>
-        <div v-if="loading" class="btn-loader">
-            <span class="btn-spinner"></span>
+        <div v-if="loading" class="button-loader">
+            <span class="button-spinner"></span>
         </div>
     </button>
 </template>
@@ -177,7 +177,7 @@ defineProps({
         &:not(:disabled) > .icon {
             color: var(--c-theme-text-3);
         }
-        & .btn-spinner {
+        & .button-spinner {
             border-color: rgb(255 255 255 / 0.95);
             border-top-color: rgb(0 0 0 / 0.45);
         }
@@ -204,7 +204,7 @@ defineProps({
         &.outline-strong {
             --push-button-c-border: var(--c-theme-1);
         }
-        & .btn-spinner {
+        & .button-spinner {
             border-color: var(--c-theme-border-subtle);
             border-top-color: var(--c-theme-text-2);
         }
@@ -220,7 +220,7 @@ defineProps({
         aspect-ratio: 1 / 1;
         transition: color 150ms;
     }
-    & > .btn-loader {
+    & > .button-loader {
         font-size: 1em;
         position: absolute;
         top: 0;
@@ -235,7 +235,7 @@ defineProps({
         border-radius: inherit;
         background-color: inherit;
 
-        & > .btn-spinner {
+        & > .button-spinner {
             font-size: 1em;
             height: 100%;
             margin: calc((100% - (1em * var(--font-size-scale-icon))) / 2) 0;

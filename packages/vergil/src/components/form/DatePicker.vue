@@ -18,7 +18,7 @@ import { computed, shallowRef, useTemplateRef, watch, watchEffect, getCurrentSco
 import { vergil } from '#vergil'
 import { useDefineModel, usePopover } from '#composables'
 import { isFunction, isObject, isValidRadius, isValidSize, isValidSpacing, isValidTheme } from '#utilities'
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import Calendar from '#components/form/Calendar.vue'
 import FormField from '#components/.internal/FormField.vue'
 import MiniMarkup from '#components/.internal/MiniMarkup'
@@ -68,7 +68,7 @@ const props = defineProps({
         type: String,
         default: 'event_busy'
     },
-    btnClear: Object,
+    buttonClear: Object,
 	underline: {
         type: Boolean,
         default: () => vergil.config.datePicker.underline,
@@ -144,7 +144,7 @@ onMounted(() => {
     })
 })
 
-//---------- UPDATE BTN LABEL ----------
+//---------- UPDATE BUTTON LABEL ----------
 const virtualPlaceholder = useTemplateRef('virtual-placeholder')
 const computedPlaceholder = shallowRef(floatLabelEnabled.value ? '' : props.placeholder)
 const timeEnabled = computed(() => Object.hasOwn(attrs, 'time'))
@@ -253,10 +253,10 @@ function handleKeydown(event: KeyboardEvent) {
 		<Popover :class="['date-picker-popover', props.class]"
 			:theme="model.hasErrors ? 'danger' : theme" :size :radius :spacing
 		>
-			<DatePickerWrapper :sideButtonPosition="btnClear?.position" v-slot="{ iconProp }"
+			<DatePickerWrapper :sideButtonPosition="buttonClear?.position" v-slot="{ iconProp }"
 				@keydown="handleKeydown"
 			>
-				<Btn
+				<Button
 					:class="['date-picker-select', {
 						selected: isSelected,
 						invalid: model.hasErrors
@@ -280,16 +280,16 @@ function handleKeydown(event: KeyboardEvent) {
 							<MiniMarkup :str="label"/>
 						</label>
 					</template>
-				</Btn>
-				<Btn
-					v-bind="btnClear"
+				</Button>
+				<Button
+					v-bind="buttonClear"
 					type="button"
 					class="date-picker-clear"
 					descendant
-					:variant="btnClear?.variant ?? 'subtle'"
-					:outline="btnClear?.outline ?? 'subtle'"
+					:variant="buttonClear?.variant ?? 'subtle'"
+					:outline="buttonClear?.outline ?? 'subtle'"
 					:[iconProp]="isSelected ? iconClear : iconCalendar"
-					:disabled="btnClear?.disabled || disabled"
+					:disabled="buttonClear?.disabled || disabled"
 					@click="() => {
 						if(isSelected) {
 							if(Array.isArray(model.value)) {
@@ -330,12 +330,12 @@ function handleKeydown(event: KeyboardEvent) {
 	width: 100%;
 
 	&:has(> .date-picker-clear:first-child) > .date-picker-select {
-		margin-left: calc(var(--btn-bw) * -1);
+		margin-left: calc(var(--button-bw) * -1);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
     &:has(> .date-picker-clear:last-child) > .date-picker-select {
-		margin-right: calc(var(--btn-bw) * -1);
+		margin-right: calc(var(--button-bw) * -1);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
@@ -355,7 +355,7 @@ function handleKeydown(event: KeyboardEvent) {
 		flex-grow: 1;
 
 		&.selected {
-			--btn-c-text-1: var(--c-text);
+			--button-c-text-1: var(--c-text);
 			& > label {
 				font-size: 0.9em;
 				font-weight: 450;
@@ -366,7 +366,7 @@ function handleKeydown(event: KeyboardEvent) {
 				transition: transform 150ms, padding 150ms 50ms, font-size 150ms;
 			}
 		}
-		& > .btn-content {
+		& > .button-content {
 			justify-content: stretch;
 
 			& > .date-picker-placeholder {

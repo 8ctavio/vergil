@@ -132,7 +132,7 @@ const usePositionArrow = arrow => ({
  * 
  * 	<template>
  * 		<Popover class="popover-demo">
- * 			<Btn v-on:click="togglePopover" label="Toggle Popover"/>
+ * 			<Button v-on:click="togglePopover" label="Toggle Popover"/>
  * 			<template #portal>
  * 				<Placeholder/>
  * 			</template>

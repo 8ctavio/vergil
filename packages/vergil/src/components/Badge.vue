@@ -2,7 +2,7 @@
 import { vergil } from '#vergil'
 import { inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme, isValidVariant } from '#utilities'
 import type { PropType } from 'vue'
-import type { BtnVariant } from '#components'
+import type { ButtonVariant } from '#components'
 import type { Theme, Size, Radius, Spacing } from '#utilities'
 import Icon from '#components/Icon'
 import MiniMarkup from '#components/.internal/MiniMarkup'
@@ -13,9 +13,9 @@ defineProps({
         default: ''
     },
     variant: {
-        type: String as PropType<BtnVariant>,
+        type: String as PropType<ButtonVariant>,
         default: () => vergil.config.badge.variant,
-        validator: (v: string) => isValidVariant('Btn', v)
+        validator: (v: string) => isValidVariant('Button', v)
     },
     outline: {
         type: [Boolean, String],

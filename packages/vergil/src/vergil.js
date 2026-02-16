@@ -157,7 +157,7 @@ let template = {
         spacing: undefined,
         squared: undefined
     },
-    btn: {
+    button: {
         variant: 'solid',
         solid: {
             mask: undefined,
@@ -243,7 +243,7 @@ let template = {
         validationCooldown: undefined,
     },
     inputSearch: {
-        btnPosition: 'after',
+        buttonPosition: 'after',
     },
     inputText: {
         underline: false,

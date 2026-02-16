@@ -234,7 +234,7 @@ import {
 	inferTheme, isValidRadius, isValidSize, isValidSpacing, isValidTheme
 } from '#utilities'
 import Icon from '#components/Icon'
-import Btn from '#components/Btn.vue'
+import Button from '#components/Button.vue'
 import InputText from '#components/form/InputText.vue'
 import Slider from '#components/form/Slider.vue'
 import type { PropType } from 'vue'
@@ -1094,7 +1094,7 @@ const themeClass = computed(() => {
 						updateDateTime()
 					}"
 				/>
-				<Btn v-if="timeFormat === '12'"
+				<Button v-if="timeFormat === '12'"
 					type="button"
 					descendant
 					:label="timePeriod"
@@ -1328,7 +1328,7 @@ const themeClass = computed(() => {
 				background-color: var(--c-theme-soft-1);
     			transition: background-color 150ms, box-shadow 150ms, outline 50ms;
 			}
-			& > .btn {
+			& > .button {
 				box-sizing: content-box;
 				width: 2em;
 				padding: var(--g-gap-xs);
