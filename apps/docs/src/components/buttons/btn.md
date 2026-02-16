@@ -521,6 +521,24 @@ Underlines `Btn`'s label on hover when `link-to` is provided.
     </div>
 </Demo>
 
+## Button group
+
+An element with a `button-group` class can be used to group `Btn` components together:
+
+```html
+<div class="button-group">
+    <Btn variant="soft" outline squared theme="neutral" interaction-theme="brand" icon="edit"/>
+    <Btn variant="soft" outline squared theme="neutral" interaction-theme="danger" icon="delete"/>
+</div>
+```
+
+<Demo>
+    <div class="button-group">
+        <Btn variant="soft" outline squared theme="neutral" interaction-theme="brand" icon="edit"/>
+        <Btn variant="soft" outline squared theme="neutral" interaction-theme="danger" icon="delete"/>
+    </div>
+</Demo>
+
 ## Exposed
 
 ### Link instance
