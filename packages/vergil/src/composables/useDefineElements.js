@@ -38,8 +38,8 @@ import { componentInstanceMap, definedElements, _trigger_, _hasComponent_ } from
  * 
  *  <template>
  *  	<!-- Reference exposed elements with `ref` attribute -->
- *  	<div :ref="elements.getRef('root')">
- *  		<input :ref="elements.getRef('input')"/>
+ *  	<div :ref="elements.$ref('root')">
+ *  		<input :ref="elements.$ref('input')"/>
  *  	</div>
  *  </template>
  *  ```

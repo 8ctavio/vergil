@@ -98,7 +98,7 @@ const floatLabelEnabled = computed(() => {
                 <p v-if="prefix">{{ prefix }}</p>
                 <input
                     v-bind="$attrs"
-                    :ref="elements.getRef('input')"
+                    :ref="elements.$ref('input')"
                     :class="`text-${textAlign}`"
                     :type
                     :placeholder

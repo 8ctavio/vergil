@@ -1,6 +1,6 @@
 import type { Ref } from "vue"
 import type { Entangled, ExtendedRef } from "#reactivity"
-import type { Prettify, DescriptorMarked } from "#utilities"
+import type { Prettify, ValueOf, DescriptorMarked } from "#utilities"
 
 export type EntangledProperties<
 	P extends Record<PropertyKey, unknown>,
@@ -48,3 +48,35 @@ export type WithEntangled<
 		ExtractEntangled<P>,
 		Ignore
 	>
+
+export type EntangledUnwrappedPropertyKeys<
+	P extends Record<PropertyKey, unknown>,
+	Ignore extends PropertyKey
+> = ValueOf<{
+	[K in Exclude<keyof P, Ignore>]: P[K] extends Ref
+		? K
+		: P[K] extends DescriptorMarked<infer D>
+			? D extends { value: infer V }
+				? V extends Ref
+					? D extends { unwrap: false }
+						? never
+						: K
+					: never
+				: never
+			: never
+}>
+
+export type EntangledUnwrappedPropertyRefs<
+	P extends Record<PropertyKey, unknown>,
+	K extends keyof P
+> = P[K] extends Ref
+	? P[K]
+	: P[K] extends DescriptorMarked<infer D>
+		? D extends { value: infer V }
+			? V extends Ref
+				? D extends { unwrap: infer U }
+					? U extends false ? undefined : V
+					: V
+				: undefined
+			: undefined
+		: undefined

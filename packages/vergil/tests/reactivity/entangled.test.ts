@@ -192,12 +192,13 @@ test("Retrieve ref object of auto-unwrapped ref properties", () => {
 		baz: 8
 	})
 
-	expect(_entangled.getRef('foo')).toBe(foo)
-	expect(_entangled.getRef('bar')).toBe(bar)
-	expect(_entangled.getRef('baz')).toBe(undefined)
+	expect(_entangled.$ref('foo')).toBe(foo)
+	expect(_entangled.$ref('bar')).toBe(bar)
+	// @ts-expect-error
+	expect(_entangled.$ref('baz')).toBe(undefined)
 })
 
-test("Provide custom `getRef` return value", () => {
+test("Provide custom `$ref` return value", () => {
 	const foo = ref('foo')
 	const fooProxy = readonly(foo)
 	const bar = shallowRef('bar')
@@ -224,8 +225,8 @@ test("Provide custom `getRef` return value", () => {
 	})
 
 	expect(_entangled).toHaveProperty('foo', 'foo')
-	expect(_entangled.getRef('foo')).toBe(fooProxy)
+	expect(_entangled.$ref('foo')).toBe(fooProxy)
 
 	expect(_entangled).toHaveProperty('bar', 'bar')
-	expect(_entangled.getRef('bar')).toBeUndefined()
+	expect(_entangled.$ref('bar')).toBeUndefined()
 })

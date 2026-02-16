@@ -2,6 +2,8 @@ export type Prettify<T> = { [K in keyof T]: T[K] } & {}
 
 export type IsAny<T, True = true, False = false> = 0 extends 1 & T ? True : False
 
+export type ValueOf<T extends object> = T[keyof T]
+
 export type ToCompatible<T, Compatible, UnknownFallback extends Compatible = Compatible> = unknown extends T
 	? (UnknownFallback & unknown)
 	: (T extends Compatible ? T : never) 

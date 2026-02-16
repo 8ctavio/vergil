@@ -175,7 +175,7 @@ function Options({ options }: { options: Props['options'] }) {
     >
         <div
             v-bind="$attrs"
-            :ref="elements.getRef('options')"
+            :ref="elements.$ref('options')"
             :class="['toggle-group-wrapper', variant]"
         >
             <slot>

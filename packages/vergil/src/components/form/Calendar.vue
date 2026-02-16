@@ -969,7 +969,7 @@ const themeClass = computed(() => {
 </script>
 
 <template>
-	<div :ref="elements.getRef('root')"
+	<div :ref="elements.$ref('root')"
 		:class="['calendar', themeClass, {
 			[`size-${size}`]: size,
 			[`radius-${radius}`]: radius,
@@ -1023,7 +1023,7 @@ const themeClass = computed(() => {
 					{{ labels.shortWeekdays[weekday] }}
 				</p>
 			</div>
-			<div :ref="elements.getRef('dates')" class="calendar-dates" tabindex="0" @change="handleChange">
+			<div :ref="elements.$ref('dates')" class="calendar-dates" tabindex="0" @change="handleChange">
 				<label v-for="date of generateDates()"
 					:key="date.value"
 					class="calendar-date calendar-button"

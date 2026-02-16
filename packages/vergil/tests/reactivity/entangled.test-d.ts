@@ -71,7 +71,7 @@ test("Omit ignored properties", () => {
 	}>()
 })
 
-test("Return Ref type with `getRef`", () => {
+test("Return Ref type with `$ref`", () => {
 	const _entangled = entangled({
 		prop1: 0,
 		prop2: ref(0),
@@ -84,9 +84,10 @@ test("Return Ref type with `getRef`", () => {
 		})
 	})
 
-	expectTypeOf(_entangled.getRef('prop1')).toBeUndefined()
-	expectTypeOf(_entangled.getRef('prop2')).toEqualTypeOf<Ref<number>>()
-	expectTypeOf(_entangled.getRef('prop3')).toEqualTypeOf<ShallowRef<number>>()
-	expectTypeOf(_entangled.getRef('prop4')).toEqualTypeOf<Ref<number[]>>()
-	expectTypeOf(_entangled.getRef('prop5')).toEqualTypeOf<ShallowRef<number[]>>()
+	// @ts-expect-error
+	expectTypeOf(_entangled.$ref('prop1')).toBeUndefined()
+	expectTypeOf(_entangled.$ref('prop2')).toEqualTypeOf<Ref<number>>()
+	expectTypeOf(_entangled.$ref('prop3')).toEqualTypeOf<ShallowRef<number>>()
+	expectTypeOf(_entangled.$ref('prop4')).toEqualTypeOf<Ref<number[]>>()
+	expectTypeOf(_entangled.$ref('prop5')).toEqualTypeOf<ShallowRef<number[]>>()
 })

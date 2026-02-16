@@ -127,7 +127,7 @@ const handleChange = model.updateDecorator((event: Event) => {
             <input
                 v-bind="$attrs"
                 type="checkbox"
-                :ref="elements.getRef('input')"
+                :ref="elements.$ref('input')"
                 :value="valueOn"
                 :class="{ highlight }"
                 :disabled

@@ -8,6 +8,9 @@ import { isDescriptor, normalizeRef, pull } from '#utilities'
  *   EntangledDescriptor,
  *   EntangledOptions,
  *   WithEntangled,
+ *   EntangledUnwrappedPropertyKeys,
+ *   EntangledUnwrappedPropertyRefs,
+ *   ExtendedRef,
  *   UnwrapRefOrGetter,
  *   NormalizeRef
  * } from '#reactivity'
@@ -15,7 +18,6 @@ import { isDescriptor, normalizeRef, pull } from '#utilities'
 
 let unwrap = true
 
-/** @implements { Entangled } */
 export class EntangledImpl {
 	static {
 		Object.defineProperty(this.prototype, Symbol.toStringTag, { value: 'Entangled' })
@@ -26,11 +28,33 @@ export class EntangledImpl {
 	}
 
 	/**
-	 * @this { { [key: PropertyKey]: unknown } }
-	 * @param { PropertyKey } key - An auto-unwrapped ref property key.
+	 * Retrieves underlying ref object of auto-unwrapped ref property.
+	 * 
+	 * @template { Record<PropertyKey, unknown> } P
+	 * @template { PropertyKey } I
+	 * @template { EntangledUnwrappedPropertyKeys<P,I> } K
+	 * @overload
+	 * @this { ExtendedRef<any, any, any, P, I> }
+	 * @param { K } key Property key of auto-unwrapped ref
+	 * @returns { EntangledUnwrappedPropertyRefs<P, K> }
+	 */
+	/**
+	 * Retrieves underlying ref object of auto-unwrapped ref property.
+	 * 
+	 * @template { Record<PropertyKey, unknown> } P
+	 * @template { PropertyKey } I
+	 * @template { EntangledUnwrappedPropertyKeys<P,I> } K
+	 * @overload
+	 * @this { Entangled<P, I> }
+	 * @param { K } key Property key of auto-unwrapped ref
+	 * @returns { EntangledUnwrappedPropertyRefs<P, K> }
+	 */
+	/**
+	 * @this { { [key: PropertyKey]: any } }
+	 * @param { PropertyKey } key
 	 * @returns { Ref<unknown> | undefined }
 	 */
-	getRef(key) {
+	$ref(key) {
 		unwrap = false
 		try {
 			const v = this[key]

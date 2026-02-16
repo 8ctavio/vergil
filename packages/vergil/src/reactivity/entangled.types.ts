@@ -1,6 +1,4 @@
-import type { Ref } from "vue"
-import type { EntangledProperties } from "#reactivity"
-import type { DescriptorMarked } from "#utilities"
+import type { EntangledImpl, EntangledProperties } from "#reactivity"
 
 export type EntangledOptions<Ignore extends PropertyKey = PropertyKey> = {
     /**
@@ -35,23 +33,6 @@ export type EntangledDescriptor = PropertyDescriptor & {
 }
 
 export type Entangled<
-    E extends Record<PropertyKey, unknown> = {},
+    P extends Record<PropertyKey, unknown> = {},
     Ignore extends PropertyKey = never
-> = EntangledProperties<E, Ignore> & {
-    getRef<K extends PropertyKey>(key: K): K extends keyof E
-        ? E[K] extends Ref
-            ? E[K]
-            : E[K] extends DescriptorMarked<infer D>
-                ? 'value' extends keyof D
-                    ? D['value'] extends Ref
-                        ? 'unwrap' extends keyof D
-                            ? D['unwrap'] extends false
-                                ? undefined
-                                : D['value'] | undefined
-                            : D['value']
-                        : undefined
-                    : undefined
-                : undefined
-        : Ref<unknown> | undefined
-    getRef(key: PropertyKey): Ref<unknown> | undefined
-}
+> = EntangledImpl & EntangledProperties<P, Ignore>
