@@ -4,8 +4,8 @@ import type { ExtendedRefImpl, ExtendedRefImplOptions, EntangledProperties, Enta
 export type ExtendedRefOptions<
 	T = unknown,
 	U = T,
-	Shallow extends boolean = false,
-	Ignore extends PropertyKey = never
+	Shallow extends boolean = boolean,
+	Ignore extends PropertyKey = PropertyKey
 > = ExtendedRefImplOptions<T, U, Shallow> & EntangledOptions<Ignore>
 
 export type ExtendedRef<

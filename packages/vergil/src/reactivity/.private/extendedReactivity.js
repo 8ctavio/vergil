@@ -11,6 +11,7 @@ import { isDescriptor, normalizeRef, pull } from '#utilities'
  *   EntangledUnwrappedPropertyKeys,
  *   EntangledUnwrappedPropertyRefs,
  *   ExtendedRef,
+ *   ExtendedRefImplOptions,
  *   UnwrapRefOrGetter,
  *   NormalizeRef
  * } from '#reactivity'
@@ -157,16 +158,6 @@ export function defineEntangledProperties(object, properties, options = {}) {
 
 	return object
 }
-
-/**
- * @template { MaybeRefOrGetter } [T = unknown]
- * @template [U = UnwrapRefOrGetter<T>]
- * @template { boolean } [Shallow = false]
- * @typedef { object } ExtendedRefImplOptions
- * @property { Shallow } [shallow]
- * @property { () => UnwrapRefOrGetter<T> } [get]
- * @property { (value: U) => void } [set]
- */
 
 /**
  * Stores a ref object and defines `value` accessor methods to read from and write to that ref's value.

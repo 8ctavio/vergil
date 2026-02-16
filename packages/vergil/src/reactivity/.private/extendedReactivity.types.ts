@@ -1,5 +1,5 @@
-import type { Ref } from "vue"
-import type { Entangled, ExtendedRef } from "#reactivity"
+import type { MaybeRefOrGetter, Ref } from "vue"
+import type { Entangled, ExtendedRef, UnwrapRefOrGetter } from "#reactivity"
 import type { Prettify, ValueOf, DescriptorMarked } from "#utilities"
 
 export type EntangledProperties<
@@ -80,3 +80,23 @@ export type EntangledUnwrappedPropertyRefs<
 				: undefined
 			: undefined
 		: undefined
+
+export type ExtendedRefImplOptions<
+	T extends MaybeRefOrGetter = unknown,
+	U = UnwrapRefOrGetter<T>,
+	Shallow extends boolean = boolean
+> = {
+	/**
+	 * Whether the created extendedRef's underlying ref is shallow.
+	 * @default false
+	 */
+	shallow?: Shallow
+	/**
+	 * Custom extendedRef's `value` getter function.
+	 */
+	get?: () => UnwrapRefOrGetter<T>
+	/**
+	 * Custom extendedRef's `value` setter function.
+	 */
+	set?: (value: U) => void
+}
