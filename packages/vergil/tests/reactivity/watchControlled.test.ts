@@ -97,6 +97,24 @@ suite("Non-Sync Watch", () => {
 		expect(cb).not.toHaveBeenCalled()
 	})
 
+	test("Do not skip paused-watcher scheduled callbacks", async () => {
+		const cb = vi.fn()
+		const { pause, resume } = watchControlled(src, cb, { nonPreemptive: true })
+
+		triggerRef(src)
+		pause()
+		await nextTick()
+		resume()
+		expect(cb).toHaveBeenCalledOnce()
+
+		cb.mockClear()
+		pause()
+		triggerRef(src)
+		resume()
+		await nextTick()
+		expect(cb).not.toHaveBeenCalled()
+	})
+
 	test("Stop effects programatically", async () => {
 		let stop: () => void
 		const cb = vi.fn()
