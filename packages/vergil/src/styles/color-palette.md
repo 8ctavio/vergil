@@ -30,9 +30,9 @@
 
     /* used for strong border and icon (preferably equal to --c-name-solid-1) */
     --c-name-1: #;
-    /* used for soft btn3D border bottom */
+    /* used for soft PushButton border bottom */
     --c-name-2: #;
-    /* used for solid btn3D border bottom */
+    /* used for solid PushButton border bottom */
     --c-name-3: #;
     /* used for ToggleButton 'toggle' variant's background */
     --c-name-4: #;

@@ -60,20 +60,6 @@ export interface VergilConfig {
 		spacing?: Spacing;
 		squared?: boolean;
 	},
-	btn3D: {
-		variant: BtnVariant;
-		soft: {
-			outline?: BtnOutline;
-		};
-		subtle: {
-			outline?: BtnOutline;
-		};
-		theme?: Theme;
-		size?: Size;
-		radius?: Radius;
-		spacing?: Spacing;
-		squared?: boolean;
-	},
 	calendar: {
 		locale: Intl.LocalesArgument;
 		labels?: {
@@ -157,6 +143,20 @@ export interface VergilConfig {
 	popover: {
 		padding: number;
 		delay: number;
+	},
+	pushButton: {
+		variant: BtnVariant;
+		soft: {
+			outline?: BtnOutline;
+		};
+		subtle: {
+			outline?: BtnOutline;
+		};
+		theme?: Theme;
+		size?: Size;
+		radius?: Radius;
+		spacing?: Spacing;
+		squared?: boolean;
 	},
 	radio: {
 		variant: ToggleVariant;

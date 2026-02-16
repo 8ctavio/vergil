@@ -183,20 +183,6 @@ let template = {
         spacing: undefined,
         squared: undefined
     },
-    btn3D: {
-        variant: 'solid',
-        soft: {
-            outline: undefined
-        },
-        subtle: {
-            outline: undefined
-        },
-        theme: withModifier(undefined, inferTheme),
-        size: undefined,
-        radius: undefined,
-        spacing: undefined,
-        squared: undefined
-    },
     calendar: {
         locale: 'en',
         labels: undefined,
@@ -282,6 +268,20 @@ let template = {
     popover: {
         padding: 6,
         delay: 400
+    },
+    pushButton: {
+        variant: 'solid',
+        soft: {
+            outline: undefined
+        },
+        subtle: {
+            outline: undefined
+        },
+        theme: withModifier(undefined, inferTheme),
+        size: undefined,
+        radius: undefined,
+        spacing: undefined,
+        squared: undefined
     },
     radio: {
         variant: 'classic',

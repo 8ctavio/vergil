@@ -11,12 +11,12 @@ defineProps({
     label: String,
     variant: {
         type: String as PropType<BtnVariant>,
-        default: () => vergil.config.btn3D.variant,
+        default: () => vergil.config.pushButton.variant,
         validator: (v: string) => isValidVariant('Btn', v)
     },
     outline: {
         type: [Boolean, String] as PropType<boolean | BtnOutline>,
-        default: (props: { variant: 'soft' | 'subtle' }) => vergil.config.btn3D[props.variant]?.outline,
+        default: (props: { variant: 'soft' | 'subtle' }) => vergil.config.pushButton[props.variant]?.outline,
         validator: (v: boolean | string) => (typeof v === 'boolean') || ['regular', 'subtle', 'strong'].includes(v)
     },
     icon: String,
@@ -24,7 +24,7 @@ defineProps({
     iconRight: String,
     squared: {
         type: Boolean,
-        default: (props: Record<string, string>) => vergil.config.btn3D.squared || Boolean(!props.label && props.icon)
+        default: (props: Record<string, string>) => vergil.config.pushButton.squared || Boolean(!props.label && props.icon)
     },
     disabled: Boolean,
     loading: Boolean,
@@ -32,22 +32,22 @@ defineProps({
     descendant: Boolean,
     theme: {
         type: String as PropType<Theme>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn3D.theme ?? vergil.config.global.theme),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.pushButton.theme ?? vergil.config.global.theme),
         validator: isValidTheme
     },
     size: {
         type: String as PropType<Size>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn3D.size ?? vergil.config.global.size),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.pushButton.size ?? vergil.config.global.size),
         validator: isValidSize
     },
     radius: {
         type: String as PropType<Radius>,
-        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn3D.radius ?? vergil.config.global.radius),
+        default: (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.pushButton.radius ?? vergil.config.global.radius),
         validator: isValidRadius
     },
     spacing: {
         type: String as PropType<Spacing>,
-        default:  (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.btn3D.spacing ?? vergil.config.global.spacing),
+        default:  (props: { descendant?: boolean }) => props.descendant ? undefined : (vergil.config.pushButton.spacing ?? vergil.config.global.spacing),
         validator: isValidSpacing
     }
 })
@@ -55,7 +55,7 @@ defineProps({
 
 <template>
     <button
-        :class="['btn3D', variant, {
+        :class="['push-button', variant, {
             outline,
             squared,
             loading,
@@ -79,28 +79,28 @@ defineProps({
 </template>
 
 <style>
-.btn3D {
-    --btn3D-c-shadow: light-dark(rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.25));
+.push-button {
+    --push-button-c-shadow: light-dark(rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.25));
 
     /*-------- BOX-SHADOW --------*/
-    --btn3D-elv: 5px;
-    --btn3D-elv-hover: 3px;
-    --btn3D-elv-dif: calc(var(--btn3D-elv) - var(--btn3D-elv-hover));
-    --btn3D-front: var(--btn3D-elv);
+    --push-button-elv: 5px;
+    --push-button-elv-hover: 3px;
+    --push-button-elv-dif: calc(var(--push-button-elv) - var(--push-button-elv-hover));
+    --push-button-front: var(--push-button-elv);
 
-    --btn3D-shadow-x: 5px;
-    --btn3D-shadow-y: calc(var(--btn3D-front) + var(--btn3D-shadow-x));
-    --btn3D-outline-width: 2px;
-    --btn3D-outline-offset: 3px;
-    --btn3D-outline-span: calc(var(--btn3D-outline-width) + var(--btn3D-outline-offset));
+    --push-button-shadow-x: 5px;
+    --push-button-shadow-y: calc(var(--push-button-front) + var(--push-button-shadow-x));
+    --push-button-outline-width: 2px;
+    --push-button-outline-offset: 3px;
+    --push-button-outline-span: calc(var(--push-button-outline-width) + var(--push-button-outline-offset));
 
-    --btn3D-shadow-border: inset 0 0 0 var(--btn3D-bw, 0px) var(--btn3D-c-border, transparent);
-    --btn3D-shadow-1: var(--btn3D-shadow-border), 0 var(--btn3D-front) var(--btn3D-c-front);
-    --btn3D-shadow-2: var(--btn3D-shadow-x) var(--btn3D-shadow-y) 1px var(--btn3D-c-shadow);
-    --btn3D-shadow-outline: 0px 0px 0px var(--btn3D-outline-offset) var(--c-bg-alt),
-                            0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-offset) var(--c-bg-alt),
-                            0px 0px 0px var(--btn3D-outline-span) var(--c-theme-outline),
-                            0px var(--btn3D-elv-hover) 0px var(--btn3D-outline-span) var(--c-theme-outline);
+    --push-button-shadow-border: inset 0 0 0 var(--push-button-bw, 0px) var(--push-button-c-border, transparent);
+    --push-button-shadow-1: var(--push-button-shadow-border), 0 var(--push-button-front) var(--push-button-c-front);
+    --push-button-shadow-2: var(--push-button-shadow-x) var(--push-button-shadow-y) 1px var(--push-button-c-shadow);
+    --push-button-shadow-outline: 0px 0px 0px var(--push-button-outline-offset) var(--c-bg-alt),
+                            0px var(--push-button-elv-hover) 0px var(--push-button-outline-offset) var(--c-bg-alt),
+                            0px 0px 0px var(--push-button-outline-span) var(--c-theme-outline),
+                            0px var(--push-button-elv-hover) 0px var(--push-button-outline-span) var(--c-theme-outline);
 
     font-size: var(--font-size);
     line-height: var(--line-height-text);
@@ -115,26 +115,26 @@ defineProps({
     
     border: none;
     font-weight: 500;
-    box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-2);
+    box-shadow: var(--push-button-shadow-1), var(--push-button-shadow-2);
     transition: box-shadow 150ms, transform 150ms;
 
     &::selection {
         background-color: transparent;
     }
     &:is(:hover, :focus-visible):not(:disabled) {
-        --btn3D-front: var(--btn3D-elv-hover);
-        --btn3D-shadow-x: 3px;
-        transform: translateY(var(--btn3D-elv-dif));
+        --push-button-front: var(--push-button-elv-hover);
+        --push-button-shadow-x: 3px;
+        transform: translateY(var(--push-button-elv-dif));
     }
     &:focus-visible {
         outline: none;
-        box-shadow: var(--btn3D-shadow-1), var(--btn3D-shadow-outline);
+        box-shadow: var(--push-button-shadow-1), var(--push-button-shadow-outline);
     }
     &:active:not(.loading) {
-        --btn3D-elv-hover: 0px;
-        --btn3D-shadow-x: 0px;
-        --btn3D-shadow-y: 0px;
-        transform: translateY(var(--btn3D-elv));
+        --push-button-elv-hover: 0px;
+        --push-button-shadow-x: 0px;
+        --push-button-shadow-y: 0px;
+        transform: translateY(var(--push-button-elv));
         transition: box-shadow 100ms, transform 100ms;
     }
     &:disabled:not(.loading) {
@@ -144,24 +144,24 @@ defineProps({
 
         &.solid {
             background-color: var(--c-disabled-2);
-            --btn3D-c-front: var(--c-disabled-border-3);
+            --push-button-c-front: var(--c-disabled-border-3);
         }
         &.soft {
             background-color: var(--c-disabled-1);
-            --btn3D-c-front: var(--c-disabled-border-2);
+            --push-button-c-front: var(--c-disabled-border-2);
         }
         &.subtle {
             background-color: var(--c-disabled-1);
-            --btn3D-c-front: var(--c-disabled-border-3);
+            --push-button-c-front: var(--c-disabled-border-3);
         }
         &.outline-subtle {
-            --btn3D-c-border: var(--c-disabled-border-1);
+            --push-button-c-border: var(--c-disabled-border-1);
         }
         &.outline-regular {
-            --btn3D-c-border: var(--c-disabled-border-2);
+            --push-button-c-border: var(--c-disabled-border-2);
         }
         &.outline-strong {
-            --btn3D-c-border: var(--c-disabled-border-3);
+            --push-button-c-border: var(--c-disabled-border-3);
         }
     }
     &.loading {
@@ -170,7 +170,7 @@ defineProps({
     }
 
     &.solid {
-        --btn3D-c-front: var(--c-theme-3);
+        --push-button-c-front: var(--c-theme-3);
         background-color: var(--c-theme-solid-1);
         color: var(--c-theme-text-4);
 
@@ -183,26 +183,26 @@ defineProps({
         }
     }
     &.soft {
-        --btn3D-c-front: var(--c-theme-2);
+        --push-button-c-front: var(--c-theme-2);
         background-color: var(--c-theme-soft-2);
     }
     &.subtle {
-        --btn3D-c-front: var(--c-theme-solid-1);
+        --push-button-c-front: var(--c-theme-solid-1);
         background-color: var(--c-theme-soft-1);
     }
     &:is(.soft, .subtle) {
         color: var(--c-theme-text-2);
         &.outline {
-            --btn3D-bw: 0.8px;
+            --push-button-bw: 0.8px;
         }
         &.outline-subtle {
-            --btn3D-c-border: var(--c-theme-border-subtle);
+            --push-button-c-border: var(--c-theme-border-subtle);
         }
         &.outline-regular {
-            --btn3D-c-border: var(--c-theme-border-regular);
+            --push-button-c-border: var(--c-theme-border-regular);
         }
         &.outline-strong {
-            --btn3D-c-border: var(--c-theme-1);
+            --push-button-c-border: var(--c-theme-1);
         }
         & .btn-spinner {
             border-color: var(--c-theme-border-subtle);
@@ -250,22 +250,22 @@ defineProps({
     }
 }
 
-.btn3D:where(.size-sm.spacing-compact, .size-xs),
-:where(.size-sm.spacing-compact, .size-xs) .btn3D {
-    --btn3D-elv: 4px;
-    --btn3D-elv-hover: 3px;
-    --btn3D-shadow-x: 3.5px;
+.push-button:where(.size-sm.spacing-compact, .size-xs),
+:where(.size-sm.spacing-compact, .size-xs) .push-button {
+    --push-button-elv: 4px;
+    --push-button-elv-hover: 3px;
+    --push-button-shadow-x: 3.5px;
     &:is(:hover, :focus-visible):not(:disabled) {
-        --btn3D-shadow-x: 2px;
+        --push-button-shadow-x: 2px;
     }
 }
-.btn3D:where(.size-xl),
-:where(.size-xl) .btn3D {
-    --btn3D-elv: 6px;
-    --btn3D-elv-hover: 4px;
-    --btn3D-shadow-x: 6px;
+.push-button:where(.size-xl),
+:where(.size-xl) .push-button {
+    --push-button-elv: 6px;
+    --push-button-elv-hover: 4px;
+    --push-button-shadow-x: 6px;
     &:is(:hover, :focus-visible):not(:disabled) {
-        --btn3D-shadow-x: 4px;
+        --push-button-shadow-x: 4px;
     }
 }
 </style>

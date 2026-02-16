@@ -1,10 +1,10 @@
 //---------- Components ----------
 export { default as Badge } from '../Badge.vue'
 export { default as Btn } from '../Btn.vue'
-export { default as Btn3D } from '../Btn3D.vue'
 export { default as DataList } from '../DataList.vue'
 export { default as Icon } from '../Icon.js'
 export { default as Placeholder } from '../Placeholder.vue'
+export { default as PushButton } from '../PushButton.vue'
 export { default as Modal } from '../modal/Modal.vue'
 export { default as Skeleton } from '../Skeleton.vue'
 export { default as Toast } from '../toast/Toast.vue'
