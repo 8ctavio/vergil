@@ -45,24 +45,24 @@ type WaitForOptions = {
 }
 
 type WaitForMethods_SingleSource<S, F extends boolean = true> = {
-    toFulfill(condition: WatchCallback): Promise<S | undefined>
-    toBe<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>
-    toEqual<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>
-    toBeIn<T extends unknown[]>(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>
-    toContain<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>
-    toBeOfType<T><(value: MaybeRefOrGetter<TypeOfResult>): Promise<S | [S,T] | undefined>
-    toBeTruthy(): Promise<S | undefined>;
-    toMatch<T><(value: MaybeRefOrGetter<RegExp>): Promise<S | [S,T] | undefined>
+    toFulfill(condition: WatchCallback): Promise<S>
+    toBe<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T]>
+    toEqual<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T]>
+    toBeIn<T extends unknown[]>(value: MaybeRefOrGetter<T>): Promise<S | [S,T]>
+    toContain<T><(value: MaybeRefOrGetter<T>): Promise<S | [S,T]>
+    toBeOfType<T><(value: MaybeRefOrGetter<TypeOfResult>): Promise<S | [S,T]>
+    toBeTruthy(): Promise<S>;
+    toMatch<T><(value: MaybeRefOrGetter<RegExp>): Promise<S | [S,T]>
 } & (F extends true ? {
-    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S | [S,T] | undefined>
+    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S | [S,T]>
     get not(): WaitForMethods_SingleSource<S, false>
 } : {})
 
 type WaitForMethods_MultiSource<S, F extends boolean = true> = {
-    toFulfill(condition: WatchCallback): Promise<S[] | undefined>
-    toBeEqual(): Promise<S[] | undefined>
+    toFulfill(condition: WatchCallback): Promise<S[]>
+    toBeEqual(): Promise<S[]>
 } & (F extends true ? {
-    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S[] | (S | T)[] | undefined>
+    toChange<T extends number>(times?: MaybeRefOrGetter<T>): Promise<S[] | (S | T)[]>
     get not(): WaitForMethods_MultiSource<S, false>
 } : {})
 
@@ -71,15 +71,14 @@ type TypeOfResult = "object" | "function" | "undefined" | "boolean" | "number" |
 
 #### Options
 
-- **`timeout`**: Duration of watcher timeout in milliseconds. If set, and condition is not fulfilled after `timeout` milliseconds, the watcher stops.
-- **`signal`**: `AbortSignal` to abort watcher with a corresponding [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
+- **`signal`**: An [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) to abort underlying watcher.
 - For others, see [watch](https://vuejs.org/api/reactivity-core.html#watch).
 
 #### Return value
 
 An object with methods. Each method has an associated condition, and returns a promise that resolves to the `source` value (`toValue(source)`) that fulfills the method's condition. In addition, returned methods (except for `toChange`) can be prefixed with `.not` to negate their condition.
 
-If a provided `AbortSignal` receives an abort request, a method's returned promise rejects with the `signal`'s abort reason (`signal.reason`).
+If a provided `AbortSignal` receives an abort request, a method's returned promise is rejected with the `signal`'s abort reason (`signal.reason`).
 
 Available methods are briefly described below.
 

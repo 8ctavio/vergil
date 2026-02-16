@@ -27,18 +27,17 @@ function watchUntil<T, O extends WatchUntilOptions>(
     source: WatchSource<T>,
     callback: WatchUntilCallback<T,O>,
     options?: O
-): Promise<T | undefined>
+): Promise<T>
 
 // Multiple watch sources
 function watchUntil<T, O extends WatchUntilOptions>(
     source: WatchSource<T>[],
     callback: WatchUntilCallback<T[], O>,
     options?: O
-): Promise<T[] | undefined>
+): Promise<T[]>
 
 type WatchUntilOptions = {
     fulfill?: unknown;
-    timeout?: number;
     signal?: AbortSignal;
     deep?: boolean | number;
     flush?: 'pre' | 'post' | 'sync';
@@ -53,10 +52,9 @@ type WatchUntilCallback<T, O extends WatchUntilOptions> =
 #### Parameters
 
 - **`fulfill`**: The return value required to stop the watcher. Defaults to `true`.
-- **`timeout`**: Duration of watcher timeout in milliseconds. If set and `callback` is not fulfilled after `timeout` milliseconds, the watcher stops.
-- **`signal`**: `AbortSignal` to abort watcher with a corresponding [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
+- **`signal`**: An [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) to abort watcher.
 - For others, see [watch](https://vuejs.org/api/reactivity-core.html#watch).
 
 #### Return value
 
-A promise. Resolves to the `WatchSource` value that fulfilled the callback. If aborted, the promise rejects with the abort signal's abort reason (`signal.reason`).
+A promise. Resolves to the `WatchSource` value that fulfilled the callback. If aborted, the promise is rejected with the abort signal's abort reason (`signal.reason`).
