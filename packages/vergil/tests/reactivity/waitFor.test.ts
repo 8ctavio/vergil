@@ -558,16 +558,16 @@ suite("toMatch", () => {
 			await nextTick()
 			expect(spy).not.toHaveResolved()
 			src.value = 'should match vergil string'
-
 		})
 		await waitForSrc.toMatch(reVergil)
 		expect(spy).toHaveResolved()
 	})
 
 	test("Resolve when source matches reactive regex", async () => {
-		const spy = vi.spyOn(waitForSrc, 'toMatch')
-		const re = shallowRef(reVergil)
 		src.value = ''
+		const re = shallowRef(reVergil)
+		const spy = vi.spyOn(waitForSrc, 'toMatch')
+		spy.mockClear()
 		queueMicrotask(async () => {
 			src.value = 'vue'
 			await nextTick()

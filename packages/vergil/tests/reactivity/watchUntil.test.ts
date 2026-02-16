@@ -2,13 +2,14 @@ import { suite, test, expect, vi, beforeEach } from 'vitest'
 import { shallowRef, nextTick } from 'vue'
 import { watchUntil } from '#reactivity'
 import { noop, getTrue } from '#utilities'
+import type { Mock } from 'vitest'
 
 /**
  * In order to detect that a mocked function's returned
  * promise has been resolved a .then handler is attached.
- * @see https://github.com/vitest-dev/vitest/blob/v4.0.0-beta.10/packages/spy/src/index.ts#L460
+ * @see https://github.com/vitest-dev/vitest/blob/v4.0.18/packages/spy/src/index.ts#L491
  */
-const watchUntilSpy = vi.fn(watchUntil)
+const watchUntilSpy = vi.fn(watchUntil) as Mock<typeof watchUntil> & typeof watchUntil
 beforeEach(() => {
 	watchUntilSpy.mockClear()
 })
@@ -21,7 +22,7 @@ test("Resolve when condition is fulfilled", async () => {
 		src.value = true
 	})
 
-	await watchUntilSpy(src, (v: unknown) => v)
+	await watchUntilSpy(src, v => v)
 	expect(watchUntilSpy).toHaveResolved()
 })
 
@@ -39,7 +40,7 @@ test("Resolve with custom fulfill value", async () => {
 			src.value = fulfill
 		})
 	
-		await watchUntilSpy(src, (v: unknown) => v, { fulfill })
+		await watchUntilSpy(src, v => v, { fulfill })
 		expect(watchUntilSpy).toHaveLastResolvedWith(fulfill)
 	}
 })

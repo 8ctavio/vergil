@@ -16,7 +16,7 @@
 		"docs:dev": "pnpm --filter docs dev",
 		"playground": "pnpm --filter playground dev"
 	},
-	"packageManager": "pnpm@10.27.0",
+	"packageManager": "pnpm@10.29.3",
 	"devDependencies": {
 		"oxlint": "catalog:"
 	}
