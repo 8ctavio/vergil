@@ -1,6 +1,6 @@
 import { test, expect, vi } from "vitest"
 import { isRef, isShallow, ref, shallowRef, customRef, toRef, toValue, toRaw } from "vue"
-import { extendedRef, defineEntangledProperties } from "#reactivity"
+import { extendedRef } from "#reactivity"
 import { markDescriptor } from "#utilities"
 import { noop } from "#utilities"
 
@@ -84,25 +84,17 @@ test("Extend with additional properties", () => {
 		foo: true,
 		bar: markDescriptor({
 			get: () => true
-		})
+		}),
+		baz: shallowRef(true)
 	})
 	
-	expect(extended).toHaveProperty('foo')
-	expect(extended).toHaveProperty('bar')
-	expect(extended).not.toHaveProperty('baz')
-
-	const r = shallowRef(true)
-	defineEntangledProperties(extended, { baz: r })
-
 	expect(extended).toHaveProperty('foo')
 	expect(extended).toHaveProperty('bar')
 	expect(extended).toHaveProperty('baz')
 
 	expect(extended.foo).toBe(true)
 	expect(extended.bar).toBe(true)
-	// @ts-expect-error
 	expect(extended.baz).toBe(true)
-	expect(extended.getRef('baz')).toBe(r)
 })
 
 test("Return already created extendedRef", () => {

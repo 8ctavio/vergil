@@ -1,28 +1,23 @@
 import { test, expect, vi } from "vitest"
 import { ref, shallowRef, readonly, toValue } from "vue"
-import { entangled, defineEntangledProperties } from "#reactivity"
+import { entangled } from "#reactivity"
 import { markDescriptor, noop } from "#utilities"
 
-test("Define/Extend regular properties", () => {
-	const properties = [{
+test("Create object with regular properties", () => {
+	const properties = {
 		foo: 0,
-		bar: {}
-	},{
+		bar: {},
 		baz: () => {},
 		qux: null,
-	}] as const
+	} as const
+	const _entangled = entangled(properties)
 
-	const _entangled = entangled(properties[0])
-	defineEntangledProperties(_entangled, properties[1])
-
-	for (const props of properties) {
-		for (const [key, value] of Object.entries(props)) {
-			expect(_entangled).toHaveProperty(key, value)
-		}
+	for (const [key, value] of Object.entries(properties)) {
+		expect(_entangled).toHaveProperty(key, value)
 	}
 })
 
-test("Define symbol-keyed properties", () => {
+test("Create object with symbol-keyed properties", () => {
 	const foo = Symbol()
 	const bar = Symbol()
 	const properties = {
