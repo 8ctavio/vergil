@@ -5,15 +5,15 @@ outline: [2,3]
 # Form
 
 :::tip
-Before proceeding with `Form`, learn first about the [`useModelGroup`](/composables/useModelGroup) composable.
+Before proceeding with `Form`, learn first about [`ModelGroup`](/composables/ModelGroup).
 :::
 
 <script setup>
 import { shallowRef } from 'vue'
-import { useModelGroup } from 'vergil'
-import { Form, InputText, Checkbox, Btn } from 'vergil/components'
+import { ModelGroup, useExposed } from 'vergil'
+import { Form, InputText, Checkbox, Button } from 'vergil/components'
 
-const form = useModelGroup({
+const form = new ModelGroup({
 	username: {
 		value: '',
 		validator(value, error) {
@@ -33,7 +33,7 @@ async function handleSubmit(event, payload) {
 	}
 }
 
-const demo = useModelGroup({
+const demo = new ModelGroup({
 	check: {
 		value: false,
 		formLabel: 'Checkbox field',
@@ -42,6 +42,18 @@ const demo = useModelGroup({
 		}
 	}
 })
+
+const demoFormError = {
+	exposed: useExposed(),
+	form: new ModelGroup({
+		field: { value: '' }
+	}),
+	handleSubmit(_, payload) {
+		if (payload.field === '') {
+			demoFormError.exposed.setFormError('Field unchanged')
+		}
+	}
+}
 </script>
 
 <style module>
@@ -56,7 +68,7 @@ const demo = useModelGroup({
 	<Form :fields="form" @submit="handleSubmit" :class="$style.form">
 		<InputText v-model="form.username" label="Username" show-errors :disabled="loader"/>
 		<template #submit>
-			<Btn label="Submit" :loading="loader"/>
+			<Button label="Submit" :loading="loader"/>
 		</template>
 	</Form>
 </Demo>
@@ -64,10 +76,10 @@ const demo = useModelGroup({
 ```vue
 <script setup>
 import { shallowRef } from 'vue'
-import { useModelGroup } from '@vrgl/vergil'
-import { Form, InputText, Btn } from '@vrgl/vergil/components'
+import { ModelGroup } from '@vrgl/vergil'
+import { Form, InputText, Button } from '@vrgl/vergil/components'
 
-const form = useModelGroup({
+const form = new ModelGroup({
 	username: {
 		value: '',
 		validator(value, error) {
@@ -92,7 +104,7 @@ async function handleSubmit(event, payload) {
     <Form :fields="form" @submit="handleSubmit">
 		<InputText v-model="form.username" label="Username" show-errors :disabled="loader"/>
 		<template #submit>
-			<Btn label="Submit" :loading="loader"/>
+			<Button label="Submit" :loading="loader"/>
 		</template>
 	</Form>
 </template>
@@ -106,19 +118,21 @@ async function handleSubmit(event, payload) {
 
 ## Description
 
-The `Form` component is a wrapper for a `form` HTML element, and must receive a model group object instance through its `fields` prop.
+The `Form` component is a wrapper for a `form` HTML element, and must receive a `ModelGroup` instance through its `fields` prop.
 
 Whenever a `Form`'s underlying form element is submitted (i.e., its submit event is fired), that `Form`'s model group validation is automatically performed with debouncing.
+
+The `Form` component also manages an internal form-level error which can be set with an exposed [`setFormError`](#setformerror) function.
 
 ## Props
 
 ### Fields <Badge><pre>fields: ModelGroup</pre></Badge> <Badge type="warning"><pre>required</pre></Badge>
 
-A model group object returned by the `useModelGroup` composable.
+A `ModelGroup` instance.
 
 ```vue
 <script setup>
-const form = useModelGroup({
+const form = new ModelGroup({
 	field: { /* ... */ }
 })
 </script>
@@ -136,25 +150,25 @@ The `validation-cooldown` prop is the minimum delay in milliseconds to wait befo
 
 ### Show errors <Badge><pre>show-errors: boolean | string[]</pre></Badge>
 
-Similar to the [`show-errors`](/components/form/introduction#shared-props) prop of some form field components, a `Form`'s `show-errors` prop allows to display the provided model group's errors in a [`Badge`](/components/badge) component placed after the form fields and before the submit button (see [Anatomy](#anatomy)).
+Similar to the [`show-errors`](/components/form/introduction#shared-props) prop of some form field components, a `Form`'s `show-errors` prop allows to display the provided `ModelGroup`'s errors in a [`Badge`](/components/badge) component placed after the form fields and before the submit button (see [Anatomy](#anatomy)).
 
-When `show-errors` is set to `true`, the errors of all model group's nested models will be displayed. In addition, only errors of specific models may be displayed by passing an array of the model group's dot-notation path strings to those models.
+When `show-errors` is set to `true`, the errors of all `ModelGroup`'s nested models will be displayed. In addition, only errors of specific models may be displayed by passing an array of the `ModelGroup`'s dot-notation path strings to those models.
 
 To illustrate, consider the following model group.
 
 ```js
-const form = useModelGroup({
+const form = new ModelGroup({
 	foo: { /* ... */ },
-	bar: useModelGroup.nested({
+	bar: ModelGroup.nested({
 		baz: { /* ... */ },
-		qux: useModelGroup.nested({ /* ... */ }) 
+		qux: ModelGroup.nested({ /* ... */ }) 
 	})
 })
 ```
 
 In order to display only the errors of the `form.foo` and `form.bar.baz` models, `show-errors` may be set to `['foo', 'bar.baz']`.
 
-Furthermore, a `show-errors` array may also include paths to nested model groups as long as they are suffixed by a *wildcard*. Available wildcards are `'.*'` and `'.**'`, which respectively display all *child* and *descendant* models of a nested model group. 
+Furthermore, a `show-errors` array may also include paths to nested model groups as long as they are suffixed with a *wildcard*. Available wildcards are `'.*'` and `'.**'`, which respectively display all *child* and *descendant* models of a nested model group. 
 
 Thus, recalling the previous example, the `show-errors` array `['bar.*']` would display the errors of the `form.bar.baz` model. Similarly, besides `form.bar.baz`, the array `['bar.**']` would also include all nested models of the `form.bar.qux` model group.
 
@@ -162,7 +176,7 @@ Finally, errors are displayed under a heading or label to identify the model (fi
 
 ```vue
 <script setup>
-const form = useModelGroup({
+const form = new ModelGroup({
 	check: {
 		value: false,
 		formLabel: 'Checkbox field',
@@ -177,7 +191,7 @@ const form = useModelGroup({
     <Form :fields="form" show-errors>
 		<Checkbox v-model="form.check" label="Check"/>
 		<template #submit>
-			<Btn label="Submit"/>
+			<Button label="Submit"/>
 		</template>
 	</Form>
 </template>
@@ -187,7 +201,7 @@ const form = useModelGroup({
 	<Form :fields="demo" show-errors :class="$style.form">
 		<Checkbox v-model="demo.check" label="Check"/>
 		<template #submit>
-			<Btn label="Submit"/>
+			<Button label="Submit"/>
 		</template>
 	</Form>
 </Demo>
@@ -227,6 +241,51 @@ function onInvalid(event, payload) {
     <Form @invalid="onInvalid"/>
 </template>
 ```
+
+## Exposed
+
+### `setFormError`
+
+Function to set a form-level error. It receives as a single argument an error message string which is displayed in the `Form`'s error badge. The form error is automatically cleared after some field changes. In addition, the `submit` slot receives a `hasFormError` boolean prop which could be used to disable the submit button while there is a form error.
+
+It is recommended to set form-level errors after the form's payload has been validated; for instance, inside the `submit` event handler.
+
+```vue
+<script setup lang="ts">
+import { ModelGroup, useExposed } from '@vrgl/vergil'
+
+const formExposed = useExposed() as { setFormError: (error: string) => void }
+const form = new ModelGroup({
+	field: {
+		value: ''
+	}
+})
+
+function handleSubmit(event: SubmitEvent, payload: { field: string }) {
+	if (payload.name === '') {
+		formExposed.setFormError('Field unchanged')
+	}
+}
+</script>
+
+<template>
+    <Form :fields="form" @submit="handleSubmit" :exposed="formExposed" show-errors>
+		<InputText v-model="form.field" label="Field"/>
+		<template #submit="{ hasFormError }">
+			<Button label="Submit" :disabled="hasFormError"/>
+		</template>
+	</Form>
+</template>
+```
+
+<Demo>
+    <Form :fields="demoFormError.form" @submit="demoFormError.handleSubmit" :exposed="demoFormError.exposed" show-errors>
+		<InputText v-model="demoFormError.form.field" label="Field"/>
+		<template #submit="{ hasFormError }">
+			<Button label="Submit" :disabled="hasFormError"/>
+		</template>
+	</Form>
+</Demo>
 
 ## Anatomy
 
