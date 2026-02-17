@@ -134,8 +134,13 @@ export default defineConfig({
 					{ text: 'useDebounce', link: '/composables/useDebounce' },
 					{ text: 'useElements', link: '/composables/useElements' },
 					{ text: 'useExposed', link: '/composables/useExposed' },
-					{ text: 'useModel', link: '/composables/useModel' },
-					{ text: 'useModelGroup', link: '/composables/useModelGroup' },
+					{
+						text: 'useModel',
+						link: '/composables/useModel',
+						items: [
+							{ text: 'ModelGroup', link: '/composables/ModelGroup' }
+						]
+					},
 					{ text: 'usePopover', link: '/composables/usePopover' },
 					{ text: 'useWatchers', link: '/composables/useWatchers' },
 					{
