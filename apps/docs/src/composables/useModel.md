@@ -162,15 +162,19 @@ watch(model.errors, () => {
 })
 ```
 
-### `model.error`
+### `model.hasErrors`
 
-The `model.error` property is a readonly accessor property that returns a trackable boolean indicating whether there are validation errors in the `model.errors.value` array.
+The `model.hasErrors` property is a readonly accessor property that returns a trackable boolean indicating whether there are validation errors in the `model.errors.value` array.
 
 ```js
 watchEffect(() => {
     const hasErrors = model.error
 })
 ```
+
+### `model.isValid`
+
+The `model.isValid` property is a readonly accessor property that returns the complement of `model.hasErrors`.
 
 ### `model.validate`
 
@@ -186,7 +190,7 @@ isValid = model.validate()      // validator not executed
 isValid = model.validate(true)  // validator forced to execute
 ```
 
-The `model.validate` second argument is a `trigger` boolean to indicate whether to trigger the `model.errors` ref, and defaults to `true`.
+The `model.validate`'s second argument is a `trigger` boolean to indicate whether to trigger the `model.errors` ref, and defaults to `true`.
 
 ### `model.clear`
 
@@ -199,9 +203,9 @@ const model = useModel(0, {
     }
 })
 model.validate()
-console.log(model.error) // true
+console.log(model.hasErrors) // true
 model.clear()
-console.log(model.error) // false
+console.log(model.hasErrors) // false
 ```
 
 ### `model.exposed`
@@ -271,17 +275,17 @@ Component models are mainly designed to be provided to a single component. Never
 ## Definition
 
 ```ts
-function useModel<T extends MaybeRefOrGetter>(
+function useModel<T, O extends ModelOptions<UnwrapRefOrGetter<T>>>(
     value?: T,
-    options?: ModelOptions<UnwrapRefOrGetter<T>>
-): Model<T | UnwrapRefOrGetter<T>>
+    options?: O
+): Model<ResolveModelRef<T,O>>
 
 interface ModelOptions<T> {
-    validator?: (
+    validator?(
         value: T,
         error: (msg: string) => void,
         checkpoint: () => void
-    ) => void;
+    ): void
     shallow?: boolean
     extendRef?: boolean
     resetValue?: MaybeRefOrGetter<T>
@@ -290,18 +294,16 @@ interface ModelOptions<T> {
     includeElements?: boolean
 }
 
-type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRefOrGetter<T>, {
-    reset(): void;
-    get error(): boolean;
-    errors: DescriptorMarked<{
-        value: ShallowRef<string[]>;
-        unwrap: false;
-    }>;
-    validate(force?: boolean, trigger?: boolean): boolean | undefined;
-    clear(): void;
-    exposed?: Exposed;
-    elements?: Elements;
-}>
+type Model<T extends Ref> = ExtendedRef<T> & {
+    errors: ShallowRef<string[]>
+    get hasErrors(): boolean
+    get isValid(): boolean
+    reset(): void
+    clear(): void
+    validate(force?: boolean, trigger?: boolean): boolean
+    exposed?: Exposed
+    elements?: Elements
+}
 ```
 
 ## Parameters
@@ -314,7 +316,7 @@ type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRefOrGetter<T>, {
         const model = useModel(0, { shallow: true })
         console.log(isShallow(model.ref)) // true
         ```
-    - `extendRef`: If `useModel`'s `value` parameter is a ref, whether to use it as the model's underlying `ExtendedRef.ref` object. When set to `false`, a `value` ref is instead used as a dynamic source of reset values. Defaults to `false`.
+    - `extendRef`: If `useModel`'s `value` parameter is a ref, whether to use it as the model's underlying extendedRef `ref` object. When set to `false`, a `value` ref is instead used as a dynamic source of reset values. Defaults to `false`.
         ```js
         const modelRef = ref(0)
         const model = useModel(modelRef, { extendRef: true })
@@ -326,7 +328,3 @@ type Model<T extends MaybeRefOrGetter> = ExtendedRef<T, UnwrapRefOrGetter<T>, {
         :::tip
         It is recommended to avoid including the `exposed`/`elements` object if it will not be used.
         :::
-
-#### Return value
-
-An extendedRef object.

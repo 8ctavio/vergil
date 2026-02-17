@@ -22,7 +22,7 @@ export interface ModelOptions<
 	/**
 	 * If `useModel`'s `value` parameter is a ref,
 	 * whether to use it as the model's underlying
-	 * `ExtendedRef.ref` object. When set to `false`,
+	 * extendedRef `ref` object. When set to `false`,
 	 * a `value` ref is instead used as a dynamic
 	 * source of reset values. Defaults to `false`.
 	 */
