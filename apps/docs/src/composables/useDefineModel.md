@@ -80,7 +80,7 @@ The `useDefineModel`'s API allows to separately handle internal and external mod
 - **External**: Updates performed anywhere *outside* an FFC's scope; in particular: in ancestor, sibling, or sibling's descendant scopes.
 
 :::tip
-To illustrate, consider the following component tree where all components have access to the same model. The type of update `Reference` would perceive when a given component updates the model value is hinted in parenthesis.
+To illustrate, consider the following component tree where all components have access to the same model. The update type `Reference` would perceive when some component updates the model value is hinted in parenthesis.
 
 <Demo>
 	<Anatomy tag="App (external)">
@@ -99,7 +99,7 @@ To illustrate, consider the following component tree where all components have a
 The following two requirements must be met for FFCs to properly identify model value update types:
 
 1. In order to share an FFC's underlying model with other child FFCs, child components must be provided with the parent component's model wrapper created by `useDefineModel` (see [Nesting models](#nesting-models)).
-2. The `model.update` or `model.updateDecorator` methods included in a FFC's model wrapper must be used to perform local model value updates.
+2. The `model.update` or `model.updateDecorator` methods included in an FFC's model wrapper must be used to perform local model value updates.
 
 :::tip
 In general, an FFC's local model value updates should always be performed with `model.update` or `model.updateDecorator` to ensure proper behavior.
@@ -117,21 +117,21 @@ const eventHandler = model.updateDecorator(event => {
 })
 ```
 
-Then, if these requisites are satisfied, the `model.onInternalUpdate` and `model.onExternalUpdate` methods included in model wrappers can be used to handle internal and external model value updates, respectively. Both of these methods register callbacks to be executed when a corresponding model update is detected. They accept two parameters: the callback function and an `options` object. The configuration options they have in common are `immediate`, `once`, and `flush`, which all share the same possible values and behavior as the corresponding watcher options. Both methods return a function to unregister the provided callback. On the other hand, the arguments received by their registered callbacks are different, and `model.onExternalUpdate` accepts an additional configuration option.
+Then, if these requisites are satisfied, the `model.onInternalUpdate` and `model.onExternalUpdate` methods included in model wrappers can be used to handle internal and external model value updates, respectively. Both of these methods register callbacks to be executed when a corresponding model update is detected. They accept two parameters: the callback function and an `options` object. The configuration options they have in common are `immediate`, `once`, and `flush`, which all share the same possible values and behavior as the corresponding watcher options. Both methods return a function to unregister the provided callback. On the other hand, the arguments received by their registered callbacks are slightly different, and `model.onExternalUpdate` accepts an additional configuration option.
 
-#### `model.onInternalUpdate`
+#### `onInternalUpdate`
 
-Callbacks registered with `model.onInternalUpdate` receive two arguments: the new and old model values.
+Callbacks registered with `onInternalUpdate` have the same signature as regular watch callbacks:
 
 ```js
-model.onInternalUpdate((newModelValue, oldModelValue) => {
+model.onInternalUpdate((newModelValue, oldModelValue, onCleanup) => {
 	/* ... */
 })
 ```
 
-#### `model.onExternalUpdate`
+#### `onExternalUpdate`
 
-Callbacks registered with `model.onExternalUpdate` receive four arguments, the first two being the new and old model values. Since `onExternalUpdate` is implemented with `watch`, the `onCleanup` function is passed as the fourth argument. An additional `isProgrammatic` boolean is passed as the third argument; it indicates whether the model value update was performed *programmatically*.
+Callbacks registered with `onExternalUpdate` receive four arguments, the first two being the new and old model values, while `onCleanup` is passed as the fourth argument. An additional `isProgrammatic` boolean is passed as the third argument; it indicates whether the model value update was performed *programmatically*.
 
 Conceptually, a model value update is considered programmatic if it is performed outside an FFC tree, which corresponds to the scope where an FFC is being consumed rather than implemented. Comparatively, model value updates performed anywhere inside an FFC tree may be considered *interactive* in the sense that they (directly or indirectly) originate from user interaction with the rendered template of FFCs.
 
@@ -209,35 +209,38 @@ When `captureExposed` or `captureElements` are set to `true`, a model wrapper *a
 function useDefineModel<T>(options?: DefineModelOptions): ModelWrapper<T>
 
 interface DefineModelOptions {
-	isCollection?: boolean;
 	includeExposed?: boolean;
 	captureExposed?: boolean;
 	includeElements?: boolean;
 	captureElements?: boolean;
+	maybeObject?: boolean;
 }
 
-type ModelWrapper<T> = {
-	updateDecorator<F extends Function>(fn: F): F;
+type ModelWrapper<T> = Omit<Model<T>, 'exposed' | 'elements'> & {
+	update<F extends Function>(
+		callback: F,
+		thisArg?: unknown,
+		args?: Parameters<F>
+	): ReturnType<F>;
 	update(v: unknown): void;
+	updateDecorator<F extends Function>(fn: F): F;
 	onExternalUpdate(
-		callback: ExternalModelUpdateCallback,
+		callback: ExternalModelUpdateCallback<T>,
 		options?: Omit<WatchOptions, 'deep'> & { onMounted?: boolean }
 	): () => void;
 	onInternalUpdate(
-		callback: InternalModelUpdateCallback,
+		callback: WatchCallback<T>,
 		options?: Omit<WatchOptions, 'deep'>
 	): () => void;
-	exposed: Exposed | null | undefined;
-	elements: Elements | null | undefined;
-	triggerIfShallow(): void;
 	handleValidation(eager?: boolean): void;
-	useDebouncedValidation(minWait: number, options?: { eager?: boolean }): (eager?: boolean) => void;
-} & Omit<Model<T>, 'exposed' | 'elements'>
-
-type InternalModelUpdateCallback<T> = (
-	value: T,
-	oldValue: T | undefined
-) => any;
+	useDebouncedValidation(
+		minWait: number,
+		options?: { eager?: boolean }
+	): (eager?: boolean) => void;
+	triggerIfShallow(): void;
+	exposed?: Exposed;
+	elements?: Elements;
+}
 
 type ExternalModelUpdateCallback<T> = (
 	value: T,
@@ -250,30 +253,24 @@ type ExternalModelUpdateCallback<T> = (
 #### Parameters
 
 - **options**:
-	- **`isCollection`**: Whether the model value may be a collection-like data type (e.g., array, object). Defaults to `false`.
-	- **`includeExposed`/`includeElements`**: Whether to include into the model wrapper an `exposed`/`elements` object. Defaults to `false`.
-	- **`captureExposed`/`captureElements`**: Whether to attach into the model wrapper the `exposed`/`elements` object provided to its associated component (either through a model or the `exposed`/`elements` prop). Defaults to `false`.
+	- **`includeExposed`/`includeElements`**: Whether to include an `exposed`/`elements` object into the model wrapper. Defaults to `false`.
+	- **`captureExposed`/`captureElements`**: Whether to attach to the model wrapper the `exposed`/`elements` object provided to its associated component (either through a model or the `exposed`/`elements` prop). Defaults to `false`.
+	- **`maybeObject`**: Whether the model value could be an object. Defaults to `false`.
 
 #### Return value
 
-An extendedRef object. Additional included methods are:
+A model wrapper object. Additional methods include:
 
-- `onInternalUpdate`
 - `onExternalUpdate`
+- `onInternalUpdate`
 - `update`
 - `updateDecorator`
-- `triggerIfShallow`: Triggers the underlying model's `ref` object if shallow. This utility method helps implement components that support models with underlying shallow refs.
+- `handleValidation`: Validates its associated *validation target* if it has errors. The validation target is the model's eldest [validating model group](/composables/ModelGroup#model-group-validation), or the model itself if no such group exists. In addition, `handleValidation` accepts a single boolean `eager` parameter that defaults to `false`; when set to `true`, the validation target is validated even if it does not have errors. The following is a simplified representation of this method's implementation.
 	```js
-	model.triggerIfShallow()
-	// same as
-	if (isShallow(model.ref)) {
-		triggerRef(model.ref)
-	}
-	```
-- `handleValidation`: Validates its associated *validation target* if it has errors. The validation target is the model if it does not belong to a [model group](/composables/useModelGroup) or its model group ancestors do not have [group validators](/composables/useModelGroup#model-group-validation). Otherwise, the validation target is the model's eldest model group ancestor with a group validator. In addition, `handleValidation` accepts a single boolean `eager` parameter that defaults to `false`; when set to `true`, the validation target is validated even if it does not have errors. The following is an approximation of this method's implementation.
-	```js
-	handleValidation = (eager = false) => {
-		if (eager || validationTarget.error) validationTarget.validate()
+	handleValidation(eager = false) {
+		if (eager || validationTarget.hasErrors) {
+			validationTarget.validate()
+		}
 	}
 	```
 	This utility method helps to handle a component's model validation in response to component interaction.
@@ -281,4 +278,12 @@ An extendedRef object. Additional included methods are:
 	```js
 	const handleDebouncedValidation = model.useDebouncedValidation(300)
 	handleDebouncedValidation() // debounced validation
+	```
+- `triggerIfShallow`: Triggers the underlying model's `ref` object if shallow. This utility method helps implement components that support models with underlying shallow refs.
+	```js
+	model.triggerIfShallow()
+	// same as
+	if (isShallow(model.ref)) {
+		triggerRef(model.ref)
+	}
 	```
