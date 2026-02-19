@@ -9,5 +9,5 @@
 		"emitDeclarationOnly": true,
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.src.tsbuildinfo"
 	},
-	"include": ["src", "src/.entries/*", "src/*/.internal/**/*", "src/*/.private/**/*"]
+	"include": ["src", "src/.entries/*"]
 }

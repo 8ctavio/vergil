@@ -4,6 +4,7 @@
 		"checkJs": true,
 		"module": "esnext",
 		"moduleResolution": "bundler",
+		"customConditions": ["dev"],
 		"target": "esnext",
 		"skipLibCheck": true,
 		"moduleDetection": "force",

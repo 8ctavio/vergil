@@ -1,7 +1,6 @@
 {
-	"extends": "./tsconfig.base.json",
+	"extends": "./tsconfig.tests.json",
 	"compilerOptions": {
-		"noEmit": true
-	},
-	"include": ["tests"]
+		"customConditions": null
+	}
 }
