@@ -26,8 +26,8 @@
 	"files": ["dts/", "src/", "!src/**/*.ts", "!src/styles/color-palette.md"],
 	"exports": {
 		".": {
-			"types": "./dts/index.types.d.ts",
-			"import": "./src/index.js"
+			"types": "./dts/.entries/public.types.d.ts",
+			"import": "./src/.entries/public.js"
 		},
 		"./components": {
 			"types": "./dts/components/.entries/public.types.d.ts",
@@ -37,13 +37,25 @@
 			"types": "./dts/utilities/.entries/public.types.d.ts",
 			"import": "./src/utilities/.entries/public.js"
 		},
-		"./plugins": {
-			"types": "./dts/plugins/index.d.ts",
-			"import": "./src/plugins/index.js"
-		},
 		"./utilities/userTheme": {
 			"types": "./dts/utilities/userTheme/index.d.ts",
 			"import": "./src/utilities/userTheme/index.js"
+		},
+		"./internal": {
+			"types": "./dts/.entries/internal.types.d.ts",
+			"import": "./src/.entries/internal.js"
+		},
+		"./internal/components": {
+			"types": "./dts/components/.entries/internal.types.d.ts",
+			"import": "./src/components/.entries/internal.js"
+		},
+		"./internal/utilities": {
+			"types": "./dts/utilities/.entries/internal.types.d.ts",
+			"import": "./src/utilities/.entries/internal.js"
+		},
+		"./plugins": {
+			"types": "./dts/plugins/index.d.ts",
+			"import": "./src/plugins/index.js"
 		},
 		"./styles": "./src/styles/main.css",
 		"./colors/*": "./src/styles/colors/*.css",
