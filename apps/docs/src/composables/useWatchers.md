@@ -51,7 +51,7 @@ function useWatchers<T>(
 ): WatchControlledHandle & {
     onUpdated(
         callback: WatchCallback<T, T | undefined>,
-        options?: Omit<WatchOptions, 'deep'>
+        options?: Omit<WatchControlledOptions, 'deep'>
     ): () => void;
 }
 
@@ -62,11 +62,15 @@ function useWatchers<T>(
 ): WatchControlledHandle & {
     onUpdated(
         callback: WatchCallback<T[], (T | undefined)[]>,
-        options?: Omit<WatchOptions, 'deep'>
+        options?: Omit<WatchControlledOptions, 'deep'>
     ): () => void;
 }
 
-type WatchControlledHandle = {
+type WatchControlledOptions = WatchOptions & {
+    nonPreemptive?: boolean
+}
+
+interface WatchControlledHandle {
     stop(): void;
     pause(): void;
     resume(): void;
@@ -84,7 +88,7 @@ type WatchControlledHandle = {
 
 An object with the following methods:
 
-- `onUpdated`: Creates a new watcher for `source`. It accepts as arguments the watcher's callback function and options object; the `deep` option is taken from `useWatchers` options. The `onUpdated`'s returned function stops the created watcher.
+- `onUpdated`: Creates a new watcher for `source`. It accepts as arguments the watcher's callback function and options object (see [`watchControlled`](/reactivity/watchControlled#parameters)); the `deep` option is taken from `useWatchers` options. The `onUpdated`'s returned function stops the created watcher.
 - `pause`: Pauses watchers. Source updates do not trigger paused watcher callbacks.
 - `resume`: Resumes watchers.
 - `ignore`: Pauses watchers, runs provided callback, and resumes watchers.

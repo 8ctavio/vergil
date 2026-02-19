@@ -42,17 +42,21 @@ watcher.stop()
 function watchControlled<T>(
     source: WatchSource<T>,
     callback: WatchCallback<T>,
-    options?: WatchOptions;
+    options?: WatchControlledOptions
 ): WatchControlledHandle
 
 // Multiple watch sources
 function watchControlled<T>(
     source: WatchSource<T>[],
     callback: WatchCallback<T[]>,
-    options?: WatchOptions;
+    options?: WatchControlledOptions
 ): WatchControlledHandle
 
-type WatchControlledHandle = {
+type WatchControlledOptions = WatchOptions & {
+    nonPreemptive?: boolean
+}
+
+interface WatchControlledHandle {
     stop(): void;
     pause(): void;
     resume(): void;
@@ -62,11 +66,12 @@ type WatchControlledHandle = {
 
 #### Parameters
 
-Same as a regular watcher.
+- **options**:
+    - **`nonPreemptive`**: Whether to execute the scheduled callback regardless of the watcher's paused state. Defaults to `false`.
 
 #### Return value
 
-A controlled watcher handle object with the following methods:
+An object with the following methods:
 
 - `stop`: Stops watcher.
 - `pause`: Pauses watcher. Source updates do not trigger paused watchers.
