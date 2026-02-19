@@ -71,6 +71,7 @@ export default defineConfig({
 			{ text: 'Configuration', link: '/configuration' },
 			{ text: 'Theme', link: '/theme' },
 			{ text: 'Mini-Markup', link: '/mini-markup' },
+			{ text: 'Internal Exports', link: '/exports' },
 			{
 				text: 'Components',
 				collapsed: true,
