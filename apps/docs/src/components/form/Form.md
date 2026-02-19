@@ -172,7 +172,7 @@ Furthermore, a `show-errors` array may also include paths to nested model groups
 
 Thus, recalling the previous example, the `show-errors` array `['bar.*']` would display the errors of the `form.bar.baz` model. Similarly, besides `form.bar.baz`, the array `['bar.**']` would also include all nested models of the `form.bar.qux` model group.
 
-Finally, errors are displayed under a heading or label to identify the model (field) they belong to. This label may be customized by providing an special `formLabel` property to a [model group's model specification object](/composables/useModelGroup#description).
+Finally, errors are displayed under a heading or label to identify the model (field) they belong to. This label may be customized by providing an special `formLabel` property to a [model group's model specification object](/composables/ModelGroup#description).
 
 ```vue
 <script setup>

@@ -39,7 +39,7 @@ defineEntangledProperties(entangled(), properties, options)
 
 The `properties` parameter is an object whose own key-value pairs *represent* the key and *descriptor* pairs used to define corresponding properties on the entangled object with [`Object.defineProperty`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty).
 
-An entangled property descriptor may be directly provided through a `properties` property value as a descriptor-marked object returned by the [`markDescriptor`](/functions/descriptor#markdescriptor) function. However, for convenience, any other provided property value `x` is inferred as a data descriptor of the form `{ value: x }`.
+An entangled property descriptor may be directly provided through a `properties` property value as a descriptor-marked object returned by the [`markDescriptor`](/utilities#markdescriptor) function. However, for convenience, any other provided property value `x` is inferred as a data descriptor of the form `{ value: x }`.
 
 ```js
 entangled({

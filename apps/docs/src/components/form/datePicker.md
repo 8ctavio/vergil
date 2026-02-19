@@ -167,7 +167,7 @@ n => `${n} Dates Selected`
 
 ### Clear button <Badge type="tip"><pre>button-clear: Record<string, unknown></pre></Badge>
 
-The `button-clear` prop receives an object representing the props of the clear button's underlying [`Button`](/components/buttons/button) component.
+The `button-clear` prop receives an object representing the props of the clear button's underlying [`Button`](/components/button) component.
 
 The `Button`'s `disabled` prop is bound to the `DatePicker`'s. That is, if the `DatePicker` is disabled, the clear button will also get disabled regardless of `buttonClear.disabled`.
 

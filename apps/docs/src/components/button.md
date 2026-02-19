@@ -167,7 +167,7 @@ If a plain `a` element is mounted, `link-to` becomes its `href` attribute. Other
 <Button label="Link" link-to="/path"/>
 ```
 <Demo>
-    <Button label="Link" link-to="/vergil/components/buttons/button#link-to-link-to-routelocationraw"/>
+    <Button label="Link" link-to="/vergil/components/button#link-to-link-to-routelocationraw"/>
 </Demo>
 
 ### Link options <Badge><pre>link-options: AnchorHTMLAttributes | Omit<[RouterLinkProps](https://router.vuejs.org/api/interfaces/RouterLinkProps.html#RouterLinkProps), 'to'> | Omit<[NuxtLinkProps](https://nuxt.com/docs/4.x/api/components/nuxt-link#props), 'to' | 'href'></pre></Badge>
@@ -182,7 +182,7 @@ Additional attributes or props for underlying `a` element, or `RouterLink` or `N
 />
 ```
 <Demo>
-    <Button label="External Link"link-to="/vergil/components/buttons/button#link-to-link-to-routelocationraw"  :link-options="{ target: '_blank' }"/>
+    <Button label="External Link"link-to="/vergil/components/button#link-to-link-to-routelocationraw"  :link-options="{ target: '_blank' }"/>
 </Demo>
 
 ### Link underline <Badge><pre>link-underline: boolean</pre></Badge>
@@ -193,7 +193,7 @@ Underlines `Button`'s label on hover when `link-to` is provided.
 <Button label="Link underline" link-to="/path" link-underline/>
 ```
 <Demo>
-    <Button label="Link underline" link-to="/vergil/components/buttons/button#link-underline-link-underline-boolean" link-underline/>
+    <Button label="Link underline" link-to="/vergil/components/button#link-underline-link-underline-boolean" link-underline/>
 </Demo>
 
 ### Theme <Badge type="tip"><pre>theme: [Theme](/theme#the-theme-prop) = 'brand'</pre></Badge>

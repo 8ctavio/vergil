@@ -126,7 +126,7 @@ Selects `InputText`'s text when focused.
 
 ### Side Buttons <Badge type="tip"><pre>button-before: object</pre></Badge> <Badge type="tip"><pre>button-after: object</pre></Badge>
 
-The `button-before` and `button-after` props receive objects representing the props for [`Button`](/components/buttons/button) components to be displayed before and after the input field area, respectively.
+The `button-before` and `button-after` props receive objects representing the props for [`Button`](/components/button) components to be displayed before and after the input field area, respectively.
 
 The following `Button` props are ignored from the `button-before` and `button-after` props, and are rather taken from the `InputField`'s props:
 
