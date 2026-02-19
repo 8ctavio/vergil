@@ -226,3 +226,19 @@ function defineEntangledProperties<
 #### Return value
 
 The received `object`.
+
+## `isEntangled`
+
+> Assesses whether a value is an entangled object.
+
+```ts
+import { isEntangled } from '@vrgl/vergil'
+```
+
+```ts
+function isEntangled(value: unknown): value is Entangled
+```
+
+#### Return value
+
+`true` if `value` is an entangled object, and `false` otherwise.

@@ -116,18 +116,6 @@ export default defineConfig({
 				]
 			},
 			{
-				text: 'Reactivity',
-				collapsed: true,
-				items: [
-					{ text: 'entangled', link: '/reactivity/entangled' },
-					{ text: 'extendedRef', link: '/reactivity/extendedRef' },
-					{ text: 'resetRef', link: '/reactivity/resetRef' },
-					{ text: 'waitFor', link: '/reactivity/waitFor' },
-					{ text: 'watchControlled', link: '/reactivity/watchControlled' },
-					{ text: 'watchUntil', link: '/reactivity/watchUntil' },
-				]
-			},
-			{
 				text: 'Composables',
 				collapsed: true,
 				items: [
@@ -154,12 +142,22 @@ export default defineConfig({
 				]
 			},
 			{
-				text: 'Functions',
+				text: 'Reactivity',
 				collapsed: true,
 				items: [
-					{ text: 'Descriptor', link: '/functions/descriptor' },
-					{ text: 'Extended reactivity', link: '/functions/extendedReactivity' },
-					{ text: 'Utilities', link: '/functions/utilities' }
+					{ text: 'entangled', link: '/reactivity/entangled' },
+					{ text: 'extendedRef', link: '/reactivity/extendedRef' },
+					{ text: 'resetRef', link: '/reactivity/resetRef' },
+					{ text: 'waitFor', link: '/reactivity/waitFor' },
+					{ text: 'watchControlled', link: '/reactivity/watchControlled' },
+					{ text: 'watchUntil', link: '/reactivity/watchUntil' },
+				]
+			},
+			{
+				text: 'Utilities',
+				link: '/utilities',
+				items: [
+					{ text: 'Internal', link: '/utilities/internal' },
 				]
 			},
 		]

@@ -23,7 +23,7 @@ Vergil's theme defines global styles and css variables to maintain a consistent 
 @import '@vrgl/vergil/styles'
 ```
 
-To customize the theme, [existing css variables](https://github.com/8ctavio/vergil/blob/main/packages/core/styles/main.css) may be overwritten.
+To customize the theme, [existing css variables](https://github.com/8ctavio/vergil/blob/main/packages/vergil/src/styles/main.css) may be overwritten.
 
 Additionally, Vergil components are designed to be themed with different colors. Vergil defines different *themes* for components to change the color palette with which they are styled. Component themes are specified through a `theme` prop.
 
@@ -49,7 +49,7 @@ Every `theme` should have a color palette assigned.
 
 ### Color palettes
 
-Vergil provides several [color palettes](https://github.com/8ctavio/vergil/tree/main/packages/core/styles/colors) that can be assigned to `theme`s. Available color palettes are: `grey`, `emerald`, `dartmouth`, `moss`, `teal`, `sky`, `denim`, `cobalt`, `indigo`, `wine`, `red`, and `yellow`.
+Vergil provides several [color palettes](https://github.com/8ctavio/vergil/blob/main/packages/vergil/src/styles/colors) that can be assigned to `theme`s. Available color palettes are: `grey`, `emerald`, `dartmouth`, `moss`, `teal`, `sky`, `denim`, `cobalt`, `indigo`, `wine`, `red`, and `yellow`.
 
 A color palette may be imported as shown below.
 

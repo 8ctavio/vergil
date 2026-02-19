@@ -160,3 +160,19 @@ type ExtendedRef<
 #### Return value
 
 An extendedRef object.
+
+## `isExtendedRef`
+
+> Assesses whether a value is an extendedRef object.
+
+```ts
+import { isExtendedRef } from '@vrgl/vergil'
+```
+
+```ts
+function isExtendedRef(value: unknown): value is ExtendedRef
+```
+
+#### Return value
+
+`true` if `value` is an extendedRef object, and `false` otherwise.
