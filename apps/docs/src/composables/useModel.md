@@ -338,7 +338,7 @@ import { isModel } from '@vrgl/vergil'
 ```
 
 ```ts
-function isModel(value: unknown, self?: boolean): value is Model
+function isModel(value: unknown): value is Model
 ```
 
 #### Return value

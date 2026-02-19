@@ -13,7 +13,7 @@ Before proceeding with `extendedRef`, learn first about [`entangled`](/reactivit
 ## Usage
 
 ```js
-import { extendedRef, markDescriptor } from '@vrgl/vergil'
+import { extendedRef } from '@vrgl/vergil'
 
 const extended = extendedRef(0, { extra1: 0 })
 
@@ -22,20 +22,6 @@ extended.value = extended.value + 8
 
 // read and write extended properties
 extended.extra1 = extended.extra1 + 1
-
-// create and configure properties
-extended.extend({
-    extra2: 2,
-    extra3: markDescriptor({
-        value: 3,
-        enumerable: false,
-        writable: false
-    }),
-    extra4: markDescriptor({
-        value: ref(4),
-        unwrap: false
-    })
-})
 ```
 
 ## Description
@@ -47,15 +33,15 @@ An extendedRef, however, is not a modified ref object, but an [entangled](/react
 ```js
 const extended = extendedRef()
 
-console.log(isRef(extended))        // false
-console.log(isRef(extended.ref))    // true
+console.log(isRef(extended))     // false
+console.log(isRef(extended.ref)) // true
 
 extended.value = extended.value
 // same as
 extended.ref.value = extended.ref.value
 ```
 
-The `extendedRef` function accepts three parameters: `value`, `extension`, and `options`. The `value` parameter is converted to a ref with [`toRef`](https://vuejs.org/api/reactivity-utilities.html#toref), and becomes the created extendedRef's `ref` property value. On the other hand, `extension` and `options` are used to define extendedRef properties, and correspond to the entangled objects' `extend` method parameters (see [property definition](/reactivity/entangled#property-definition)).
+The `extendedRef` function accepts three parameters: `value`, `extension`, and `options`. The `value` parameter is converted to a ref with [`toRef`](https://vuejs.org/api/reactivity-utilities.html#toref), and becomes the created extendedRef's `ref` property value. On the other hand, `extension` and `options` are used to define extendedRef properties with `defineEntangledProperties` (see [entangled property definition](/reactivity/entangled#property-definition)).
 
 In addition, `get` and `set` properties may be provided to the `extendedRef`'s `options` object in order to define custom getter and setter functions for an extendedRef's `value` property.
 
