@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Modal, Btn3D } from 'vergil/components'
+import { Modal, PushButton } from 'vergil/components'
 
 const emit = defineEmits(['close'])
 
@@ -18,7 +18,7 @@ async function doSomething() {
         <main class="modal-content">
             <p>Use the close button in the top-right corner to close the Modal.</p>
             <p>Otherwise, click the following button to close the Modal after three seconds.</p>
-            <Btn3D label="Continue" spacing="expanded" @click="doSomething" :loading="loader"/>
+            <PushButton label="Continue" spacing="expanded" @click="doSomething" :loading="loader"/>
         </main>
     </Modal>
 </template>
@@ -35,7 +35,7 @@ async function doSomething() {
     row-gap: 20px;
     width: 100%;
     padding: 25px;
-    & > .btn3D {        
+    & > .push-button {        
         width: min(250px, 100%);
     }
 }

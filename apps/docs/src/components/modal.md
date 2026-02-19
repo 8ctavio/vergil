@@ -10,7 +10,7 @@ outline: [2,3]
 
 <script setup>
 import { showModal } from 'vergil'
-import { Btn, Btn3D } from 'vergil/components'
+import { Btn } from 'vergil/components'
 import ModalDemo from '@components/modals/ModalDemo.vue'
 import ModalSwap1 from '@components/modals/ModalSwap1.vue'
 </script>
