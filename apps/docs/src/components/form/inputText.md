@@ -6,16 +6,16 @@ outline: [2,3]
 
 <script setup>
 import { useModel } from 'vergil'
-import { InputText, Btn } from 'vergil/components'
+import { InputText, Button } from 'vergil/components'
 
 const size = useModel('')
 const radius = useModel('')
 const spacing = useModel('')
 
-const btnBeforeProps = {
+const buttonBeforeProps = {
     icon: 'bolt'
 }
-const btnAfterProps = {
+const buttonAfterProps = {
     icon: 'science'
 }
 </script>
@@ -124,36 +124,36 @@ Selects `InputText`'s text when focused.
     <InputText icon-left="person" icon-right="lock"/>
 </Demo>
 
-### Side Buttons <Badge type="tip"><pre>btn-before: object</pre></Badge> <Badge type="tip"><pre>btn-after: object</pre></Badge>
+### Side Buttons <Badge type="tip"><pre>button-before: object</pre></Badge> <Badge type="tip"><pre>button-after: object</pre></Badge>
 
-The `btn-before` and `btn-after` props receive objects representing the props for [`Btn`](/components/buttons/btn) components to be displayed before and after the input field area, respectively.
+The `button-before` and `button-after` props receive objects representing the props for [`Button`](/components/buttons/button) components to be displayed before and after the input field area, respectively.
 
-The following `Btn` props are ignored from the `btn-before` and `btn-after` props, and are rather taken from the `InputField`'s props:
+The following `Button` props are ignored from the `button-before` and `button-after` props, and are rather taken from the `InputField`'s props:
 
 - `theme`
 - `size`
 - `radius`
 - `spacing`
 
-The `Btn` `disabled` prop is bound to the `InputField` `disabled` prop. That is, both `btn-before` and `btn-after` accept a `disabled` prop, but if the `InputField` is disabled, then the side buttons will also get disabled.
+The `Button` `disabled` prop is bound to the `InputField` `disabled` prop. That is, both `button-before` and `button-after` accept a `disabled` prop, but if the `InputField` is disabled, then the side buttons will also get disabled.
 
 ```vue
 <script setup>
-const btnBeforeProps = {
+const buttonBeforeProps = {
     icon: 'bolt'
 }
-const btnAfterProps = {
+const buttonAfterProps = {
     icon: 'science'
 }
 </script>
 
 <template>
-    <InputText :btn-before="btnBeforeProps" :btn-after="btnAfterProps"/>
+    <InputText :button-before="buttonBeforeProps" :button-after="buttonAfterProps"/>
 </template>
 ```
 
 <Demo>
-    <InputText :btn-before="btnBeforeProps" :btn-after="btnAfterProps"/>
+    <InputText :button-before="buttonBeforeProps" :button-after="buttonAfterProps"/>
 </Demo>
 
 ### Float label <Badge type="tip"><pre>float-label: boolean</pre></Badge>
@@ -298,7 +298,7 @@ By default, `InputText`'s is automatically validated when the `keydown` event is
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="input-text-outer">
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
             <Anatomy tag="div" classes="input-text-wrapper">
                 <Anatomy tag="Icon" classes="icon"/>
                 <Anatomy tag="p"/>
@@ -307,7 +307,7 @@ By default, `InputText`'s is automatically validated when the `keydown` event is
                 <Anatomy tag="p"/>
                 <Anatomy tag="Icon" classes="icon"/>
             </Anatomy>
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>
@@ -330,8 +330,8 @@ By default, `InputText`'s is automatically validated when the `keydown` event is
 | `icon` | `string` | |
 | `icon-left` | `string` | |
 | `icon-right` | `string` | |
-| `btn-before` | `object` | |
-| `btn-after` | `object` | |
+| `button-before` | `object` | |
+| `button-after` | `object` | |
 | `spaceEvenly` | `boolean` | |
 | `underline` | `boolean` | |
 | `disabled` | `boolean` | |

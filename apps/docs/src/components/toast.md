@@ -11,14 +11,14 @@ outline: [2,3]
 <script setup>
 import { ref } from 'vue'
 import { toast } from 'vergil'
-import { Toast, Btn, Icon } from 'vergil/components'
+import { Toast, Button, Icon } from 'vergil/components'
 
 const theme = ref('brand')
 console.time('toast-duration')
 </script>
 
 <Demo>
-    <Btn label="Toast" @click="toast('Please remain calm!')"/>
+    <Button label="Toast" @click="toast('Please remain calm!')"/>
 </Demo>
 
 <Demo>
@@ -216,13 +216,13 @@ toast(theme, message[theme])
 ```
 
 <Demo>
-    <Btn label="Brand" @click="toast('brand', 'Welcome!')"/>
-    <Btn label="User" @click="toast('user', 'Welcome!')"/>
-    <Btn label="Ok" @click="toast('ok', 'Success!')"/>
-    <Btn label="Info" @click="toast('info', 'Attention!')"/>
-    <Btn label="Warn" @click="toast('warn', 'Warning!')"/>
-    <Btn label="Danger" @click="toast('danger', 'Error!')"/>
-    <Btn label="Neutral" @click="toast('neutral', 'Notification')"/>
+    <Button label="Brand" @click="toast('brand', 'Welcome!')"/>
+    <Button label="User" @click="toast('user', 'Welcome!')"/>
+    <Button label="Ok" @click="toast('ok', 'Success!')"/>
+    <Button label="Info" @click="toast('info', 'Attention!')"/>
+    <Button label="Warn" @click="toast('warn', 'Warning!')"/>
+    <Button label="Danger" @click="toast('danger', 'Error!')"/>
+    <Button label="Neutral" @click="toast('neutral', 'Notification')"/>
 </Demo>
 
 #### Different positions
@@ -236,12 +236,12 @@ toast({
 
 <Demo>
     <div class="positions">
-        <Btn label="Top-Start" @click="toast({ position: 'top-start', message: 'top-start' })"/>
-        <Btn label="Top" @click="toast({ position: 'top', message: 'top' })"/>
-        <Btn label="Top-End" @click="toast({ position: 'top-end', message: 'top-end' })"/>
-        <Btn label="Bottom-Start" @click="toast({ position: 'bottom-start', message: 'bottom-start' })"/>
-        <Btn label="Bottom" @click="toast({ position: 'bottom', message: 'bottom' })"/>
-        <Btn label="Bottom-End" @click="toast({ position: 'bottom-end', message: 'bottom-end' })"/>
+        <Button label="Top-Start" @click="toast({ position: 'top-start', message: 'top-start' })"/>
+        <Button label="Top" @click="toast({ position: 'top', message: 'top' })"/>
+        <Button label="Top-End" @click="toast({ position: 'top-end', message: 'top-end' })"/>
+        <Button label="Bottom-Start" @click="toast({ position: 'bottom-start', message: 'bottom-start' })"/>
+        <Button label="Bottom" @click="toast({ position: 'bottom', message: 'bottom' })"/>
+        <Button label="Bottom-End" @click="toast({ position: 'bottom-end', message: 'bottom-end' })"/>
     </div>
 </Demo>
 

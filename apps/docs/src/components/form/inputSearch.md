@@ -6,7 +6,7 @@ outline: [2,3]
 
 <script setup>
 import { useExposed, toast } from 'vergil'
-import { InputSearch, Btn } from 'vergil/components'
+import { InputSearch, Button } from 'vergil/components'
 
 const exposed = useExposed()
 async function handleSearch(s) {
@@ -38,7 +38,7 @@ const search = useModel('')
 
 ## Props
 
-All [`InputText`](/components/form/inputText) props are available for `InputSearch`. The `btn-before` and `btn-after` props have restrictions depending on the `btn-position` prop value.
+All [`InputText`](/components/form/inputText) props are available for `InputSearch`. The `button-before` and `button-after` props have restrictions depending on the `button-position` prop value.
 
 ### Search Icon <Badge type="tip"><pre>icon-search: string = 'search'</pre></Badge>
 
@@ -60,9 +60,9 @@ All [`InputText`](/components/form/inputText) props are available for `InputSear
     <InputSearch icon-clear="cancel"/>
 </Demo>
 
-### Btn Position <Badge type="tip"><pre>btn-position: ('before' | 'after') = 'after'</pre></Badge>
+### Button Position <Badge type="tip"><pre>button-position: ('before' | 'after') = 'after'</pre></Badge>
 
-Position of the built-in search button. The prop for the button in the selected position (`btn-before` or `btn-after`) only accepts the following `Btn` props:
+Position of the built-in search button. The prop for the button in the selected position (`button-before` or `button-after`) only accepts the following `Button` props:
 
 - `label`
 - `variant`
@@ -71,14 +71,14 @@ Position of the built-in search button. The prop for the button in the selected 
 - `underline`
 - `fill`
 - `squared`
-- If `btn-position` is `'before'`, `iconLeft`, otherwise `iconRight`.
+- If `button-position` is `'before'`, `iconLeft`, otherwise `iconRight`.
 
 The prop for the other button can be normally passed.
 
 ```vue
 <InputSearch
-    btn-position="before"
-    :btn-before="{
+    button-position="before"
+    :button-before="{
         label: 'Search',
         iconLeft: 'rocket_launch',
         iconRight: 'star', // ignored
@@ -88,8 +88,8 @@ The prop for the other button can be normally passed.
 
 <Demo>
     <InputSearch
-        btn-position="before"
-        :btn-before="{
+        button-position="before"
+        :button-before="{
             label: 'Search',
             iconLeft: 'rocket_launch',
             iconRight: 'star',
@@ -154,13 +154,13 @@ function handleClear() {
 
 <template>
     <InputSearch :exposed/>
-    <Btn @click="handleClear" label="Clear"/>
+    <Button @click="handleClear" label="Clear"/>
 </template>
 ```
 
 <Demo>
     <InputSearch :exposed/>
-    <Btn @click="() => exposed.clear?.()" label="Clear"/>
+    <Button @click="() => exposed.clear?.()" label="Clear"/>
 </Demo>
 
 ## Elements
@@ -179,7 +179,7 @@ function handleClear() {
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="input-text-outer">
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
             <Anatomy tag="div" classes="input-text-wrapper">
                 <Anatomy tag="Icon" classes="icon"/>
                 <Anatomy tag="p"/>
@@ -188,7 +188,7 @@ function handleClear() {
                 <Anatomy tag="p"/>
                 <Anatomy tag="Icon" classes="icon"/>
             </Anatomy>
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>
@@ -202,7 +202,7 @@ function handleClear() {
 | ---- | ---- | ------- |
 | `icon-search` | `string` | `'search'` |
 | `icon-clear` | `string` | `'search_off'` |
-| `btn-position` | `'before' \| 'after'` | `'after'` |
+| `button-position` | `'before' \| 'after'` | `'after'` |
 | `exposed` | `object` | |
 
 ### Configuration options
@@ -211,6 +211,6 @@ function handleClear() {
 
 | `inputSearch.<option>` | type | default | [global](/configuration#global-configuration-options) |
 | ---------------------- | ---- | ------- | :------: |
-| `btnPosition` | `'before' \| 'after'` | `'after'` | |
+| `buttonPosition` | `'before' \| 'after'` | `'after'` | |
 
 Other configuration options are inherited from [`InputText`](/components/form/inputText#configuration-options).

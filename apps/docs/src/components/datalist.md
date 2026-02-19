@@ -7,7 +7,7 @@ outline: [2,3]
 > Component to display list of data.
 
 <script setup>
-import { DataList, Btn } from 'vergil/components'
+import { DataList } from 'vergil/components'
 </script>
 
 ## Basic Usage

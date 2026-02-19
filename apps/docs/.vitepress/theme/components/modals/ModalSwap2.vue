@@ -1,6 +1,6 @@
 <script setup>
 import { showModal } from 'vergil'
-import { Modal, Btn } from 'vergil/components'
+import { Modal, Button } from 'vergil/components'
 import ModalSwap1 from './ModalSwap1.vue'
 
 const emit = defineEmits(['close', 'error'])
@@ -9,7 +9,7 @@ const emit = defineEmits(['close', 'error'])
 <template>
     <Modal title="Modal 2">
         <main class="modal-content">
-            <Btn label="Show Modal 1" @click="showModal(ModalSwap1)"/>
+            <Button label="Show Modal 1" @click="showModal(ModalSwap1)"/>
         </main>
     </Modal>
 </template>

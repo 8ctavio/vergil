@@ -437,7 +437,7 @@ The `disabled-weekdays` prop receives an array of weekday indexes. Calendar date
                 <Anatomy tag="InputText"/>
                 <Anatomy tag="p"/>
                 <Anatomy tag="InputText"/>
-                <Anatomy tag="Btn"/>
+                <Anatomy tag="Button"/>
             </Anatomy>
             <Anatomy tag="Slider"/>
             <Anatomy tag="Slider"/>

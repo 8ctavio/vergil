@@ -10,7 +10,7 @@ outline: [2,3]
 
 <script setup>
 import { confirm, toast } from 'vergil'
-import { Btn } from 'vergil/components'
+import { Button } from 'vergil/components'
 
 const titles = {
     brand: 'Query',
@@ -64,13 +64,13 @@ function example1() {
 </script>
 
 <Demo>
-    <Btn @click="testConfirm('brand')" label="Brand"/>
-    <Btn @click="testConfirm('user')" label="User"/>
-    <Btn @click="testConfirm('ok')" label="Ok"/>
-    <Btn @click="testConfirm('info')" label="Info"/>
-    <Btn @click="testConfirm('warn')" label="Warn"/>
-    <Btn @click="testConfirm('danger')" label="Danger"/>
-    <Btn @click="testConfirm('neutral')" label="Neutral"/>
+    <Button @click="testConfirm('brand')" label="Brand"/>
+    <Button @click="testConfirm('user')" label="User"/>
+    <Button @click="testConfirm('ok')" label="Ok"/>
+    <Button @click="testConfirm('info')" label="Info"/>
+    <Button @click="testConfirm('warn')" label="Warn"/>
+    <Button @click="testConfirm('danger')" label="Danger"/>
+    <Button @click="testConfirm('neutral')" label="Neutral"/>
 </Demo>
 
 ## Description
@@ -198,5 +198,5 @@ await confirm('brand', {
 ```
 
 <Demo>
-    <Btn label="Mayday" @click="example1"/>
+    <Button label="Mayday" @click="example1"/>
 </Demo>

@@ -18,7 +18,7 @@ const formatOptions = {
     month: '2-digit',
     day: '2-digit'
 }
-const btnClearProps = {
+const buttonClearProps = {
     position: 'before',
     variant: 'solid',
     iconLeft: 'rocket_launch',
@@ -165,19 +165,19 @@ n => `${n} Dates Selected`
     <DatePicker placeholder="Select Date" icon-calendar="calendar_add_on" icon-clear="close"/>
 </Demo>
 
-### Clear button <Badge type="tip"><pre>btn-clear: Record<string, unknown></pre></Badge>
+### Clear button <Badge type="tip"><pre>button-clear: Record<string, unknown></pre></Badge>
 
-The `btn-clear` prop receives an object representing the props of the clear button's underlying [`Btn`](/components/buttons/btn) component.
+The `button-clear` prop receives an object representing the props of the clear button's underlying [`Button`](/components/buttons/button) component.
 
-The `Btn`'s `disabled` prop is bound to the `DatePicker`'s. That is, if the `DatePicker` is disabled, the clear button will also get disabled regardless of `btnClear.disabled`.
+The `Button`'s `disabled` prop is bound to the `DatePicker`'s. That is, if the `DatePicker` is disabled, the clear button will also get disabled regardless of `buttonClear.disabled`.
 
-Additionally, a `position` prop can be passed through `btn-clear` to indicate the clear button's position with respect to the `DatePicker`'s main button. The `position` prop possible values are `'after'` and `'before'`, and its default value can be configured through the `sideButtonPosition` [configuration option](#configuration-options).
+Additionally, a `position` prop can be passed through `button-clear` to indicate the clear button's position with respect to the `DatePicker`'s main button. The `position` prop possible values are `'after'` and `'before'`, and its default value can be configured through the `sideButtonPosition` [configuration option](#configuration-options).
 
-Finally, the `Btn` prop used to display the `DatePicker`'s icons changes with `position`. If `position === 'before'`, the `iconRight` prop is reserved for the `DatePicker`'s icons. Otherwise, the `icon` prop is used.
+Finally, the `Button` prop used to display the `DatePicker`'s icons changes with `position`. If `position === 'before'`, the `iconRight` prop is reserved for the `DatePicker`'s icons. Otherwise, the `icon` prop is used.
 
 ```vue
 <script setup>
-const btnClearProps = {
+const buttonClearProps = {
     position: 'before',
     variant: 'solid',
     iconLeft: 'rocket_launch',
@@ -186,12 +186,12 @@ const btnClearProps = {
 </script>
 
 <template>
-    <DatePicker :btn-clear="btnClearProps"/>
+    <DatePicker :button-clear="buttonClearProps"/>
 </template>
 ```
 
 <Demo>
-    <DatePicker :btn-clear="btnClearProps"/>
+    <DatePicker :button-clear="buttonClearProps"/>
 </Demo>
 
 ### Float label <Badge><pre>float-label: boolean</pre></Badge>
@@ -313,7 +313,7 @@ const btnClearProps = {
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="date-picker-wrapper">
-            <Anatomy tag="Btn" classes="btn date-picker-select">
+            <Anatomy tag="Button" classes="button date-picker-select">
                 <Anatomy tag="p" classes="date-picker-placeholder">
                     <Anatomy tag="span"/>
                 </Anatomy>
@@ -321,7 +321,7 @@ const btnClearProps = {
                     <Anatomy tag="label"/>
                 </Anatomy>
             </Anatomy>
-            <Anatomy tag="Btn" classes="btn date-picker-clear"/>
+            <Anatomy tag="Button" classes="button date-picker-clear"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
         <Anatomy tag="Teleport" id="popover-portal">
@@ -346,7 +346,7 @@ const btnClearProps = {
 | `placeholderFallback` | `(n: number) => string` | |
 | `iconCalendar` | `string` | `'calendar_month'` |
 | `iconClear` | `string` | `'event_busy'` |
-| `btnClear` | `Record<string, unknown>` | |
+| `buttonClear` | `Record<string, unknown>` | |
 | `underline` | `boolean` | |
 | `fill` | `boolean` | |
 | `disabled` | `boolean` | |

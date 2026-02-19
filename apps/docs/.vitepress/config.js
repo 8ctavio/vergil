@@ -79,7 +79,7 @@ export default defineConfig({
 					{
 						text: 'Buttons',
 						items: [
-							{ text: 'Btn', link: '/components/buttons/btn' },
+							{ text: 'Button', link: '/components/button' },
 							{ text: 'PushButton', link: '/components/pushButton' }
 						]
 					},

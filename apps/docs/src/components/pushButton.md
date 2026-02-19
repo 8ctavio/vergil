@@ -338,8 +338,8 @@ Spacing refers to a `PushButton`'s default padding and gap (for a given size). C
         <Anatomy tag="Icon" classes="icon"/>
         <Anatomy tag='slot name="default"'/>
         <Anatomy tag="Icon" classes="icon"/>
-        <Anatomy tag="div" classes="btn-loader">
-            <Anatomy tag="span" classes="btn-spinner"/>
+        <Anatomy tag="div" classes="button-loader">
+            <Anatomy tag="span" classes="button-spinner"/>
         </Anatomy>
     </Anatomy>
 </Demo>

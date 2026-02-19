@@ -7,7 +7,7 @@ outline: [2,3]
 <script setup>
 import { onMounted } from 'vue'
 import { useModel, toast } from 'vergil'
-import { InputNumber, InputSearch, Btn } from 'vergil/components'
+import { InputNumber, InputSearch, Button } from 'vergil/components'
 
 const demo1 = useModel(0, { shallow: true })
 const demo2 = useModel(0, { shallow: true })
@@ -177,7 +177,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
         <Anatomy tag="div" classes="input-text-outer">
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
             <Anatomy tag="div" classes="input-text-wrapper">
                 <Anatomy tag="Icon" classes="icon"/>
                 <Anatomy tag="p"/>
@@ -186,7 +186,7 @@ The `fraction` prop controls whether to allow fractional digits, and how many di
                 <Anatomy tag="p"/>
                 <Anatomy tag="Icon" classes="icon"/>
             </Anatomy>
-            <Anatomy tag="Btn" classes="btn"/>
+            <Anatomy tag="Button" classes="button"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-help"/>
     </Anatomy>

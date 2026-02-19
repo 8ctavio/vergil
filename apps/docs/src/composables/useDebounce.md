@@ -8,7 +8,7 @@ outline: [2,3]
 
 <script setup>
 import { useDebounce, toast } from 'vergil'
-import { Btn } from 'vergil/components'
+import { Button } from 'vergil/components'
 
 const debounced = useDebounce(() => {
 	toast('🤖')
@@ -18,7 +18,7 @@ const debounced = useDebounce(() => {
 ## Demo
 
 <Demo>
-	<Btn @click="debounced" label="Debounced Toast"/>
+	<Button @click="debounced" label="Debounced Toast"/>
 </Demo>
 
 ```vue
@@ -31,7 +31,7 @@ const debounced = useDebounce(() => {
 </script>
 
 <template>
-	<Btn @click="debounced" label="Debounced Toast"/>
+	<Button @click="debounced" label="Debounced Toast"/>
 </template>
 ```
 

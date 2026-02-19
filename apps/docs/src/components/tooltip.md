@@ -9,25 +9,25 @@ outline: [2,3]
 ## Basic Usage
 
 <script setup>
-import { Tooltip, Btn } from 'vergil/components'
+import { Tooltip, Button } from 'vergil/components'
 </script>
 
 <Demo>
     <ClientOnly>
         <Tooltip text="Lost item can be claimed on lower levels">
-            <Btn label="Attention Traveler!"/>
+            <Button label="Attention Traveler!"/>
         </Tooltip>
     </ClientOnly>
 </Demo>
 
 ```vue
 <script setup>
-import { Tooltip, Btn } from '@vrgl/vergil/components'
+import { Tooltip, Button } from '@vrgl/vergil/components'
 </script>
 
 <template>
     <Tooltip text="Lost item can be claimed on lower levels">
-        <Btn label="Attention Traveler!"/>
+        <Button label="Attention Traveler!"/>
     </Tooltip>
 </template>
 ```
@@ -40,7 +40,7 @@ All [`Popover`](/composables/usePopover#popover) props are available for `Toolti
 
 ```vue-html
 <Tooltip text="Recon">
-    <Btn label="Lost and Found"/>
+    <Button label="Lost and Found"/>
 </Tooltip>
 ```
 
@@ -50,14 +50,14 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 
 ```vue-html
 <Tooltip text="Tooltip" :delay="0">
-    <Btn label="Toggle Tooltip"/>
+    <Button label="Toggle Tooltip"/>
 </Tooltip>
 ```
 
 <Demo>
     <ClientOnly>
         <Tooltip text="Tooltip" :delay="0">
-            <Btn label="Toggle Tooltip"/>
+            <Button label="Toggle Tooltip"/>
         </Tooltip>
     </ClientOnly>
 </Demo>
@@ -66,20 +66,20 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 
 ```vue-html
 <Tooltip text="Hover Trigger" trigger="hover">
-    <Btn label="Hover Tooltip"/>
+    <Button label="Hover Tooltip"/>
 </Tooltip>
 <Tooltip text="Click Trigger" trigger="click">
-    <Btn label="Click Tooltip"/>
+    <Button label="Click Tooltip"/>
 </Tooltip>
 ```
 
 <Demo>
     <ClientOnly>
         <Tooltip text="Hover Trigger" trigger="hover">
-            <Btn label="Hover Tooltip"/>
+            <Button label="Hover Tooltip"/>
         </Tooltip>
         <Tooltip text="Click Trigger" trigger="click">
-            <Btn label="Click Tooltip"/>
+            <Button label="Click Tooltip"/>
         </Tooltip>
     </ClientOnly>
 </Demo>
@@ -88,14 +88,14 @@ Popover opening delay in milliseconds. If the `trigger` prop is set to `'hover'`
 
 ```vue-html
 <Tooltip text="Tooltip with Arrow" arrow>
-    <Btn label="Arrow"/>
+    <Button label="Arrow"/>
 </Tooltip>
 ```
 
 <Demo>
     <ClientOnly>
         <Tooltip text="Tooltip with Arrow" arrow>
-            <Btn label="Arrow"/>
+            <Button label="Arrow"/>
         </Tooltip>
     </ClientOnly>
 </Demo>
@@ -106,14 +106,14 @@ Distance in `px` of gap between reference element and tooltip.
 
 ```vue-html
 <Tooltip text="Text" placement="bottom" :offset="0">
-    <Btn label="Tooltip"/>
+    <Button label="Tooltip"/>
 </Tooltip>
 ```
 
 <Demo>
     <ClientOnly>
         <Tooltip text="Text" placement="bottom" :offset="0">
-            <Btn label="Tooltip"/>
+            <Button label="Tooltip"/>
         </Tooltip>
     </ClientOnly>
 </Demo>

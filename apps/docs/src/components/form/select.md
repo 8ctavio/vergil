@@ -599,7 +599,7 @@ const options = ['Option']
             <Anatomy tag="span" classes="form-field-hint"/>
         </Anatomy>
         <Anatomy tag="p" classes="form-field-details form-field-description"/>
-        <Anatomy tag="Btn" classes="btn select-button">
+        <Anatomy tag="Button" classes="button select-button">
             <Anatomy tag="p" classes="select-placeholder">
                 <Anatomy tag="span"/>
             </Anatomy>

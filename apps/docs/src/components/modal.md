@@ -10,13 +10,13 @@ outline: [2,3]
 
 <script setup>
 import { showModal } from 'vergil'
-import { Btn } from 'vergil/components'
+import { Button } from 'vergil/components'
 import ModalDemo from '@components/modals/ModalDemo.vue'
 import ModalSwap1 from '@components/modals/ModalSwap1.vue'
 </script>
 
 <Demo>
-    <Btn label="Show Modal" @click="showModal(ModalDemo)"/>
+    <Button label="Show Modal" @click="showModal(ModalDemo)"/>
 </Demo>
 
 ## Usage
@@ -82,7 +82,7 @@ The `Modal` component traps application focus; therefore, modal components shoul
 The `showModal` function can be called inside a modal to replace it for another modal.
 
 <Demo>
-    <Btn label="Show Modal" @click="showModal(ModalSwap1)"/>
+    <Button label="Show Modal" @click="showModal(ModalSwap1)"/>
 </Demo>
 
 ### Modal props and events

@@ -9,7 +9,7 @@ outline: [2,3]
 ## Demo
 
 <script setup>
-import { Btn, Placeholder } from 'vergil/components'
+import { Button, Placeholder } from 'vergil/components'
 import { usePopover } from 'vergil'
 
 const { Popover, togglePopover } = usePopover({ offset: 5 })
@@ -18,7 +18,7 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 <Demo>
 	<ClientOnly>
 		<Popover class="popover-demo">
-			<Btn @click="togglePopover" label="Toggle Popover"/>
+			<Button @click="togglePopover" label="Toggle Popover"/>
 			<template #portal>
 				<Placeholder/>
 			</template>
@@ -44,14 +44,14 @@ const { Popover, togglePopover } = usePopover({ offset: 5 })
 ```vue
 <script setup>
 import { usePopover } from '@vrgl/vergil'
-import { Btn, Placeholder } from '@vrgl/vergil/components'
+import { Button, Placeholder } from '@vrgl/vergil/components'
 
 const { Popover, togglePopover } = usePopover({ offset: 5 })
 </script>
 
 <template>
 	<Popover class="popover-demo">
-		<Btn @click="togglePopover" label="Toggle Popover"/>
+		<Button @click="togglePopover" label="Toggle Popover"/>
 		<template #portal>
 			<Placeholder/>
 		</template>
