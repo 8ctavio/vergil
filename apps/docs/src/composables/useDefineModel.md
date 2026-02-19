@@ -145,41 +145,15 @@ model.onExternalUpdate((newModelValue, oldModelValue, isProgrammatic) => {
 
 Additionally, `onExternalUpdate` accepts an `onMounted` boolean configuration option. When set to true, the callback's registration and immediate execution are deferred until the FFC is mounted.
 
-### Including exposed data
+### Exposed data
 
-Similar to regular models, model wrappers provided to a child FFC may include `exposed` and `elements` properties to consume the child FFC's exposed data and elements, respectively (see [`model.exposed`](/composables/useModel#model-exposed)). Although these properties are absent by default, the `useDefineModel`'s `includeExposed` and `includeElements` boolean options can be used to include corresponding `exposed` and `elements` objects into a model wrapper.
+A model's `exposed` and `elements` objects (see [`model.exposed`](/composables/useModel#model-exposed)) are not made available to a model wrapper by default; their inclusion and behavior in a model wrapper can be configured with `useDefineModel` to address three scenarios: forwarding, sharing, and consuming exposed data.
 
-```vue
-<script setup>
-defineProps(/* ... */)
-const model = useDefineModel({
-	includeExposed: true,
-	includeElements: true
-})
-onMounted(() => {
-	// Nested's exposed data and elements are made available
-	// through model.exposed and model.elements, respectively.
-    console.log(model.exposed.someProperty)
-    console.log(model.elements.someHTMLElement)
-})
-</script>
+#### Forwarding
 
-<template>
-	<Nested :model-value="model"/>
-</template>
-```
+When a component with a [nested model](#nesting-models) does not expose data of its own, it could directly expose its nested component's data instead. For this purpose, a model wrapper can *capture* its component's received `exposed` or `elements` objects and *forward* them to its nested component, which in turn exposes its data into the captured objects.
 
-:::tip
-A model wrapper should only set `includeExposed` or `includeElements` to `true` if it will be provided to a nested FFC whose exposed data or elements are required.
-:::
-
-### Capturing exposed data
-
-In order to support Vergil's API to consume component exposed data (see [`useExposed`](/composables/useExposed#description)), components may expose their data by implementing the [`useDefineExposed`](/composables/useDefineExposed) and [`useDefineElements`](/composables/useDefineElements) composables. These composables expect for a component to receive, via a model or `exposed` and `elements` props, corresponding `exposed` and `elements` objects through which the component's exposed data and elements are respectively made available.
-
-Sometimes, however, an FFC may not expose data of its own, but directly exposes the data of a child FFC instead. For this purpose, a model wrapper may *capture* its FFC's received `exposed` and `elements` objects to "redirect" them to a child FFC, which in turn exposes its data into the captured objects.
-
-A model wrapper can capture `exposed` and `elements` objects by setting the `useDefineModel`'s `captureExposed` and `captureElements` options to `true`. In practice, captured objects are simply attached to corresponding model wrapper's `exposed` and `elements` properties. Thus, a model wrapper may normally access captured objects and be provided to a child FFC.
+To capture `exposed` and `elements` objects the `useDefineModel`'s `captureExposed` and `captureElements` options should respectively be set to `true`. In practice, captured objects are simply attached to the corresponding model wrapper's `exposed` and `elements` properties.
 
 ```vue
 <script setup>
@@ -191,17 +165,64 @@ const model = useDefineModel({
 </script>
 
 <template>
-	<!--
-	Nested's exposed data and elements are made available
-	to captured `exposed` and `elements` objects.
-	-->
-	<Nested :model-value="model"/>
+	<!-- Forward captured objects (if any) to Nested -->
+	<Nested v-model="model"/>
 </template>
 ```
 
-:::tip
-When `captureExposed` or `captureElements` are set to `true`, a model wrapper *attempts* to capture the corresponding objects provided to its FFC; but if none are received, the fallback values used for the model wrapper's `exposed` and `elements` properties are respectively determined by the `includeExposed` and `includeElements`  options: If an *`includeX`* option is set to `true`, the corresponding fallback value is an internally created `exposed` or `elements` object, and `null` otherwise.
-:::
+Although `useDefineModel` "attempts" to capture `exposed` and `elements` objects, if none are received (i.e., no exposed data is requested), the `exposed` and `elements` properties will not be attached to the model wrapper.
+
+#### Sharing
+
+When in addition to forwarding `exposed` and `elements` objects, a component requires access to its nested component's exposed data for implementation purposes, `exposed` and `elements` objects can be *shared* when they are captured, and created for internal use when not provided.
+
+To share captured `exposed` and `elements` objects the `useDefineModel`'s `includeExposed` and `includeElements` options should respectively be set to `true`. These options ensure that when no objects are captured, corresponding objects are created and attached to the model wrapper.
+
+```vue
+<script setup>
+const model = useDefineModel({
+	captureExposed: true,
+	includeExposed: true,
+	captureElements: true,
+	includeElements: true
+})
+onMounted(() => {
+	// Exposed data is always available
+    console.log(model.exposed.someProperty)
+    console.log(model.elements.someHTMLElement)
+})
+</script>
+
+<template>
+	<Nested v-model="model"/>
+</template>
+```
+
+#### Consuming
+
+When capturing/forwarding is not required, `exposed` and `elements` objects can still be defined separately into model wrappers for them to *consume* nested component's exposed data like a regular model would. With this approach, exposed data definition should be handled by the [`useDefineExposed`](/composables/useDefineExposed)  and [`useDefineElements`](/composables/useDefineElements) composables.
+
+To create `exposed` and `elements` objects to consume exposed data only the `useDefineModel`'s `includeExposed` and `includeElements` options should respectively be set to `true`.
+
+```vue
+<script setup>
+defineProps(/* ... */)
+const model = useDefineModel({
+	includeExposed: true,
+	includeElements: true
+})
+onMounted(() => {
+	// Exposed data available internally, but independent
+	// of external `exposed` and `elements` objects.
+    console.log(model.exposed.someProperty)
+    console.log(model.elements.someHTMLElement)
+})
+</script>
+
+<template>
+	<Nested :model-value="model"/>
+</template>
+```
 
 ## Definition
 
