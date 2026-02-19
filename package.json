@@ -14,7 +14,8 @@
 		"test:prod": "pnpm --filter vergil dts && pnpm --filter vergil test:prod",
 		"typecheck": "pnpm --filter vergil typecheck",
 		"docs:dev": "pnpm --filter docs dev",
-		"playground": "pnpm --filter playground dev"
+		"playground:vue": "pnpm --filter playground-vue dev",
+		"playground:nuxt": "pnpm --filter playground-nuxt dev"
 	},
 	"packageManager": "pnpm@10.30.0",
 	"devDependencies": {

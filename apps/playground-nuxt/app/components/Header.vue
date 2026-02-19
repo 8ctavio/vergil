@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { Switch } from 'vergil/components'
 import { ColorPicker } from 'vergil/utilities/userTheme'
 
-const checked = shallowRef(false)
+const checked = import.meta.client && sessionStorage?.getItem('playground-theme') === 'dark'
 onBeforeMount(() => {
-	checked.value = sessionStorage.getItem('playground-theme') === 'dark'
-	if (checked.value) {
+	if (checked) {
 		document.documentElement.classList.add('dark')
 	} else {
 		document.documentElement.classList.remove('dark')
@@ -26,7 +24,9 @@ function toggleTheme() {
 
 <template>
 	<header>
-		<ColorPicker/>
-		<Switch @change="toggleTheme" :checked icon-off="light_mode" icon-on="dark_mode" track="on"/>
+		<ClientOnly>
+			<ColorPicker/>
+			<Switch @change="toggleTheme" :checked icon-off="light_mode" icon-on="dark_mode" track="on"/>
+		</ClientOnly>
 	</header>
 </template>

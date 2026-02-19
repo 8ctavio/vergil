@@ -1,8 +1,11 @@
 export default defineNuxtConfig({
-	devtools: { enabled: true },
+	app: {
+		rootId: 'app'
+    },
 	components: [{
 		path: "@/components",
 		pathPrefix: false
 	}],
-	compatibilityDate: "2025-10-25"
+	devtools: { enabled: true },
+	compatibilityDate: "2025-10-25",
 })

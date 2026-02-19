@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import '@/assets/css/playground.css'
 import { Vergil } from 'vergil/components'
 
-/**
- * WIP
- * @see https://github.com/nuxt/nuxt/issues/33589
- */
+useHead({
+	title: 'Vergil | Nuxt Playground'
+})
 </script>
 
 <template>
     <Vergil confirm toaster modal>
         <Header/>
         <main class="playground">
-            
+
         </main>
     </Vergil>
 </template>

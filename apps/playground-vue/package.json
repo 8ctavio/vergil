@@ -1,5 +1,5 @@
 {
-    "name": "playground",
+    "name": "playground-vue",
     "private": true,
     "type": "module",
     "scripts": {

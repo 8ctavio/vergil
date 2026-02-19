@@ -3,8 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "prepare": "nuxt prepare",
         "dev": "nuxt dev",
+        "dev:prepare": "nuxt prepare",
         "build": "nuxt build",
         "preview": "nuxt preview"
     },
