@@ -7,7 +7,7 @@ outline: [2,3]
 <script setup>
 import { useModel } from 'vergil'
 import { CheckboxGroup, Checkbox } from 'vergil/components'
-import { kebabCase } from 'vergil/utilities'
+import { kebabCase } from 'vergil/internal/utilities'
 
 const planets = {
     earth: 'Earth',
