@@ -159,7 +159,6 @@ export default defineConfig({
 				items: [
 					{ text: 'Descriptor', link: '/functions/descriptor' },
 					{ text: 'Extended reactivity', link: '/functions/extendedReactivity' },
-					{ text: 'Model', link: '/functions/model' },
 					{ text: 'Utilities', link: '/functions/utilities' }
 				]
 			},

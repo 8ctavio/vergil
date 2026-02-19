@@ -306,7 +306,7 @@ type Model<T extends Ref> = ExtendedRef<T> & {
 }
 ```
 
-## Parameters
+### Parameters
 
 - **`value`**: Component model's initial value.
 - **`options`**:
@@ -328,3 +328,19 @@ type Model<T extends Ref> = ExtendedRef<T> & {
         :::tip
         It is recommended to avoid including the `exposed`/`elements` object if it will not be used.
         :::
+
+## `isModel`
+
+> Assesses whether a value is a model.
+
+```ts
+import { isModel } from '@vrgl/vergil'
+```
+
+```ts
+function isModel(value: unknown, self?: boolean): value is Model
+```
+
+#### Return value
+
+`true` if `value` is a component model, and `false` otherwise.
