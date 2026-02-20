@@ -132,7 +132,10 @@ export class ModelGroupImpl {
 							// @ts-expect-error
 							Object.defineProperty(model.errors._value, '_formLabel', { value: formLabel })
 						}
-						Object.defineProperty(this, field, { value: model })
+						Object.defineProperty(this, field, {
+							value: model,
+							enumerable: true
+						})
 					}
 				}
 			}
