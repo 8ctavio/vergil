@@ -1,0 +1,31 @@
+name: Publish Package
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Generate declaration files
+        run: pnpm --filter vergil dts
+      - name: Run tests
+        run: pnpm --filter vergil test:prod
+      - name: Publish
+        run: pnpm --filter vergil publish --access public
