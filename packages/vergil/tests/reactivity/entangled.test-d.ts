@@ -84,7 +84,6 @@ test("Return Ref type with `$ref`", () => {
 		})
 	})
 
-	// @ts-expect-error
 	expectTypeOf(_entangled.$ref('prop1')).toBeUndefined()
 	expectTypeOf(_entangled.$ref('prop2')).toEqualTypeOf<Ref<number>>()
 	expectTypeOf(_entangled.$ref('prop3')).toEqualTypeOf<ShallowRef<number>>()

@@ -194,7 +194,6 @@ test("Retrieve ref object of auto-unwrapped ref properties", () => {
 
 	expect(_entangled.$ref('foo')).toBe(foo)
 	expect(_entangled.$ref('bar')).toBe(bar)
-	// @ts-expect-error
 	expect(_entangled.$ref('baz')).toBe(undefined)
 })
 

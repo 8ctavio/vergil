@@ -64,7 +64,7 @@ export type EntangledUnwrappedPropertyKeys<
 					: never
 				: never
 			: never
-}>
+}> | (string & {})
 
 export type EntangledUnwrappedPropertyRefs<
 	P extends Record<PropertyKey, unknown>,
