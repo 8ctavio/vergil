@@ -35,11 +35,11 @@ export type ModelGroupValidator<F extends ModelGroupFields = ModelGroupFields> =
 
 export type ModelGroupPayload<
 	F extends ModelGroupFields = ModelGroupFields
-> = ModelGroupFields extends F ? Record<string, unknown> : {
+> = {
 	[K in keyof F]
 		: F[K] extends ModelSpec<infer T> ? T
 		: F[K] extends ModelGroupSpec<infer T> ? ModelGroupPayload<T>
-		: never
+		: unknown
 }
 
 export type ExtractModelGroupPayload<T> = T extends ModelGroupImpl<infer F> ? ModelGroupPayload<F> : never
