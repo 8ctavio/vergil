@@ -181,6 +181,7 @@ export class ModelImpl extends ExtendedRefImpl {
 			 * Run ref value getter to initialize _value if it's a customRef
 			 * @see https://github.com/vuejs/core/blob/v3.6.0-beta.5/packages/reactivity/src/ref.ts#L371
 			 */
+			this.errors.value // oxlint-disable-line no-unused-expressions
 			this.ref.value // oxlint-disable-line no-unused-expressions
 
 			protectedModelMap.set(this, {
