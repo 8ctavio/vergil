@@ -9,7 +9,6 @@ packages/vergil/dts
 
 # env files
 .env
-.npmrc
 
 # VitePress
 **/.vitepress/cache

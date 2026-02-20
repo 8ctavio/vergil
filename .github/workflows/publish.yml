@@ -28,4 +28,4 @@ jobs:
       - name: Run tests
         run: pnpm --filter vergil test:prod
       - name: Publish
-        run: pnpm --filter vergil publish --access public
+        run: pnpm --filter vergil publish --no-git-checks --access public
