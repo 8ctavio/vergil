@@ -11,6 +11,7 @@
 	"devDependencies": {
 		"vergil": "workspace:@vrgl/vergil@*",
 		"vitepress": "catalog:",
+		"vitepress-plugin-group-icons": "catalog:",
 		"vue": "catalog:"
 	}
 }

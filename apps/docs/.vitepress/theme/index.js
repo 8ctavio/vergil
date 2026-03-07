@@ -1,5 +1,6 @@
 // https://vitepress.dev/guide/custom-theme
 import DefaultTheme from 'vitepress/theme-without-fonts'
+import 'virtual:group-icons.css'
 const { Layout } = DefaultTheme
 
 import './styles/custom.css'

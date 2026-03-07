@@ -37,8 +37,7 @@ pnpm add vergil@npm:@vrgl/vergil
 
 The Vergil package should be excluded from Vite's dependency pre-bundling.
 
-```ts
-// vite.config.js
+```ts [vite.config.js]
 export default defineConfig({
     optimizeDeps: {
         exclude: ['@vrgl/vergil']

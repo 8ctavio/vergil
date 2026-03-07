@@ -1,31 +1,10 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
+import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { version } from '../../../packages/vergil/package.json'
 
 // https://vitepress.vuejs.org/reference/site-config
 export default defineConfig({
-	vite: {
-		server: {
-			port: 3000
-		},
-		resolve: {
-			alias: {
-				'@components': fileURLToPath(new URL('./theme/components', import.meta.url))
-			}
-		}
-	},
-	vue: {
-		features: {
-			optionsAPI: false
-		}
-	},
-	markdown: {
-		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-		theme: {
-			light: 'github-light',
-			dark: 'vitesse-dark'
-		}
-	},
 	srcDir: "./src",
 	base: '/vergil/',
 	cleanUrls: true,
@@ -162,5 +141,31 @@ export default defineConfig({
 				]
 			},
 		]
+	},
+	markdown: {
+		// https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+		theme: {
+			light: 'github-light',
+			dark: 'vitesse-dark'
+		},
+		config(md) {
+			md.use(groupIconMdPlugin)
+		}
+	},
+	vite: {
+		server: {
+			port: 3000
+		},
+		resolve: {
+			alias: {
+				'@components': fileURLToPath(new URL('./theme/components', import.meta.url))
+			}
+		},
+		plugins: [groupIconVitePlugin()]
+	},
+	vue: {
+		features: {
+			optionsAPI: false
+		}
 	}
 })
