@@ -2,6 +2,13 @@ import type { MaybeRefOrGetter, Ref } from "vue"
 import type { Entangled, ExtendedRef, UnwrapRefOrGetter } from "#reactivity"
 import type { Prettify, ValueOf, DescriptorMarked } from "#utilities"
 
+declare const _entangled_: unique symbol
+
+export type EntangledMark<
+	P extends Record<PropertyKey, unknown>,
+	I extends PropertyKey
+> = { [_entangled_]?: [P,I] }
+
 export type EntangledProperties<
 	P extends Record<PropertyKey, unknown>,
 	Ignore extends PropertyKey
@@ -23,7 +30,7 @@ export type EntangledProperties<
 						: undefined
 					: undefined
 			: P[K]
-}, Ignore>
+} & EntangledMark<P, Ignore> , Ignore> 
 
 type ExtractEntangled<T>
 	= T extends ExtendedRef<never, never, never, infer E> ? E

@@ -89,4 +89,5 @@ test("Return Ref type with `$ref`", () => {
 	expectTypeOf(_entangled.$ref('prop3')).toEqualTypeOf<ShallowRef<number>>()
 	expectTypeOf(_entangled.$ref('prop4')).toEqualTypeOf<Ref<number[]>>()
 	expectTypeOf(_entangled.$ref('prop5')).toEqualTypeOf<ShallowRef<number[]>>()
+	expectTypeOf(_entangled.$ref('prop6')).toBeUndefined()
 })

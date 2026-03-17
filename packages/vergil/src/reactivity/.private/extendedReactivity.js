@@ -4,16 +4,15 @@ import { isDescriptor, normalizeRef, pull } from '#utilities'
 /**
  * @import { Ref, MaybeRef, MaybeRefOrGetter } from 'vue'
  * @import {
- *   Entangled,
+ *   EntangledMark,
  *   EntangledDescriptor,
  *   EntangledOptions,
  *   WithEntangled,
  *   EntangledUnwrappedPropertyKeys,
  *   EntangledUnwrappedPropertyRefs,
- *   ExtendedRef,
  *   ExtendedRefImplOptions,
  *   UnwrapRefOrGetter,
- *   NormalizeRef
+ *   NormalizeRef,
  * } from '#reactivity'
  */
 
@@ -35,18 +34,7 @@ export class EntangledImpl {
 	 * @template { PropertyKey } I
 	 * @template { EntangledUnwrappedPropertyKeys<P,I> } K
 	 * @overload
-	 * @this { ExtendedRef<any, any, any, P, I> }
-	 * @param { K } key Property key of auto-unwrapped ref
-	 * @returns { EntangledUnwrappedPropertyRefs<P, K> }
-	 */
-	/**
-	 * Retrieves underlying ref object of auto-unwrapped ref property.
-	 * 
-	 * @template { Record<PropertyKey, unknown> } P
-	 * @template { PropertyKey } I
-	 * @template { EntangledUnwrappedPropertyKeys<P,I> } K
-	 * @overload
-	 * @this { Entangled<P, I> }
+	 * @this { EntangledMark<P,I> }
 	 * @param { K } key Property key of auto-unwrapped ref
 	 * @returns { EntangledUnwrappedPropertyRefs<P, K> }
 	 */
