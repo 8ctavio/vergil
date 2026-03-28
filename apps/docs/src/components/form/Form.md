@@ -51,6 +51,7 @@ const demoFormError = {
 	handleSubmit(_, payload) {
 		if (payload.field === '') {
 			demoFormError.exposed.setFormError('Field unchanged')
+			return
 		}
 	}
 }
@@ -264,12 +265,13 @@ const form = new ModelGroup({
 function handleSubmit(event: SubmitEvent, payload: { field: string }) {
 	if (payload.name === '') {
 		formExposed.setFormError('Field unchanged')
+		return
 	}
 }
 </script>
 
 <template>
-    <Form :fields="form" @submit="handleSubmit" :exposed="formExposed" show-errors>
+    <Form :fields="form" @submit="handleSubmit" :exposed="formExposed">
 		<InputText v-model="form.field" label="Field"/>
 		<template #submit="{ hasFormError }">
 			<Button label="Submit" :disabled="hasFormError"/>
@@ -279,7 +281,7 @@ function handleSubmit(event: SubmitEvent, payload: { field: string }) {
 ```
 
 <Demo>
-    <Form :fields="demoFormError.form" @submit="demoFormError.handleSubmit" :exposed="demoFormError.exposed" show-errors>
+    <Form :fields="demoFormError.form" @submit="demoFormError.handleSubmit" :exposed="demoFormError.exposed">
 		<InputText v-model="demoFormError.form.field" label="Field"/>
 		<template #submit="{ hasFormError }">
 			<Button label="Submit" :disabled="hasFormError"/>
