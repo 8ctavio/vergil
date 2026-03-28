@@ -527,15 +527,15 @@ An element with a `button-group` class can be used to group `Button` components 
 
 ```html
 <div class="button-group">
-    <Button variant="soft" outline squared theme="neutral" interaction-theme="brand" icon="edit"/>
-    <Button variant="soft" outline squared theme="neutral" interaction-theme="danger" icon="delete"/>
+    <Button variant="soft" outline theme="neutral" interaction-theme="brand" icon="edit"/>
+    <Button variant="soft" outline theme="neutral" interaction-theme="danger" icon="delete"/>
 </div>
 ```
 
 <Demo>
     <div class="button-group">
-        <Button variant="soft" outline squared theme="neutral" interaction-theme="brand" icon="edit"/>
-        <Button variant="soft" outline squared theme="neutral" interaction-theme="danger" icon="delete"/>
+        <Button variant="soft" outline theme="neutral" interaction-theme="brand" icon="edit"/>
+        <Button variant="soft" outline theme="neutral" interaction-theme="danger" icon="delete"/>
     </div>
 </Demo>
 
