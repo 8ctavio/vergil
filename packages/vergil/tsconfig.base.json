@@ -10,7 +10,6 @@
 		"moduleDetection": "force",
 		"erasableSyntaxOnly": true,
 		"verbatimModuleSyntax": true,
-		"strict": true,
 		"noImplicitOverride": true,
 		"noUncheckedIndexedAccess": true,
 	}
