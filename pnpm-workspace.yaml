@@ -35,3 +35,8 @@ overrides:
   '@vrgl/vergil>nuxt': 'catalog:'
   '@vrgl/vergil>vue': 'catalog:'
   '@vrgl/vergil>vue-router': 'catalog:'
+
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  vue-demi: false
