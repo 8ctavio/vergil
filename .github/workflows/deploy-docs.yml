@@ -17,9 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6.0.8
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
