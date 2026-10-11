@@ -17,8 +17,14 @@
 		"playground:vue": "pnpm --filter playground-vue dev",
 		"playground:nuxt": "pnpm --filter playground-nuxt dev"
 	},
-	"packageManager": "pnpm@11.1.2",
 	"devDependencies": {
 		"oxlint": "catalog:"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "^12.11.2",
+      		"onFail": "download"
+		}
 	}
 }

@@ -12,17 +12,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6.0.8
-      - name: Install Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v3
         with:
-          node-version: 24
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
-      - name: Install dependencies
-        run: pnpm ci
+          runtime: node@24
       - name: Generate declaration files
         run: pnpm --filter vergil dts
       - name: Run tests

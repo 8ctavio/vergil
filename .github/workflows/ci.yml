@@ -12,16 +12,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6.0.8
-      - name: Install Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - name: Install pnpm and Node.js
+        uses: pnpm/setup@v3
         with:
-          node-version: 24
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm ci
+          cache: true
+          runtime: node@24
       - name: Lint
         run: pnpm lint
       - name: Generate declaration files
